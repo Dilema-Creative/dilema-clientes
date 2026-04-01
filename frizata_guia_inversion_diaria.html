@@ -418,19 +418,20 @@ const SEMANAS = [
 ];
 
 // META CAMPAIGNS — % sobre el total Meta
-// Correcciones: Broad Advantage tiene 1 solo ad set (Advantage Exc. BBDD)
-// Farming 015-365: % redondeados sin decimales largos
+// Distribución actualizada con datos reales (Windsor.ai)
+// Meta 7d: ASC 13.18x | MaxConv 9.88x | Farming 015-365 8.55x | Intereses 7.24x | Advantage 6.61x | ExCompradores 4.84x
+// ALERTA: BBDD 015a065 frecuencia 103x en 30d (1.103 personas), CPP ARS 1.479k — audiencia quemada, reducido a 10% del ABO
 const META = [
   {
     nombre: 'VM-CV-ASC-MaxVal-HomeOffice',
     tipo: 'ASC', badgeClass: 'b-blue',
-    pct: 0.195, nivel: 'CBO',
+    pct: 0.24, nivel: 'CBO',
     aboSets: null
   },
   {
     nombre: 'VM-CV-CAT-MaxConv-GRAL',
     tipo: 'Conv', badgeClass: 'b-blue',
-    pct: 0.255, nivel: 'CBO',
+    pct: 0.27, nivel: 'CBO',
     aboSets: null
   },
   {
@@ -442,7 +443,7 @@ const META = [
   {
     nombre: 'VM | s0C - Psp | Intereses Padres y Com.',
     tipo: 'Prosp', badgeClass: 'b-amber',
-    pct: 0.135, nivel: 'ABO',
+    pct: 0.17, nivel: 'ABO',
     aboSets: [
       { nombre: 'Int Padres y Com', pctCamp: 0.62 },
       { nombre: 'Int Compras online BSAS_RO', pctCamp: 0.38 },
@@ -451,10 +452,10 @@ const META = [
   {
     nombre: 'VM | s2H - Rmk | Farming 015 a 365',
     tipo: 'Rmk', badgeClass: 'b-teal',
-    pct: 0.145, nivel: 'ABO',
+    pct: 0.15, nivel: 'ABO',
     aboSets: [
-      { nombre: 'BBDD Pu (cambios sin publicar)', pctCamp: 0.31 },
-      { nombre: 'Pu 066a365', pctCamp: 0.69 },
+      { nombre: 'BBDD Pu 015a065 (freq. 103x — reducir urgente)', pctCamp: 0.10 },
+      { nombre: 'Pu 066a365', pctCamp: 0.90 },
     ]
   },
   {
@@ -468,7 +469,7 @@ const META = [
   {
     nombre: 'VM | s0C - Psp | Broad Advantage',
     tipo: 'Prosp', badgeClass: 'b-amber',
-    pct: 0.210, nivel: 'ABO',
+    pct: 0.11, nivel: 'ABO',
     aboSets: [
       { nombre: 'Advantage Exc. BBDD', pctCamp: 1.0 },
     ]
@@ -476,39 +477,17 @@ const META = [
 ];
 
 // GOOGLE CAMPAIGNS — % sobre el total Google
-// Datos de la imagen: 5 campañas
-// Total cuenta: ARS 287,577.71/día (presupuesto base de referencia)
-// Distribución inferida de los presupuestos de la imagen:
-// VM_S_NB_Congelados: 8,625.63 → ~3%
-// VM_S_B_Frizata: 14,376.04 → ~5%
-// VM_PM_Hunting-Alon: 75,000 → ~26%
-// VM_PM_Farming-Alon-Congelados: 175,200 → ~61%
-// VM_D_Rmkt: 14,376.04 → ~5%
-// Total: ~287,577 → cuadra perfecto
+// Distribución actualizada con datos reales últimos 7 días (Windsor.ai)
+// ROAS real: Farming 35x | Branded 150x | Hunting 11.2x | Rmkt 10.6x | NB 4x | Pmax Foco 3.9x
+// 6 campañas activas — se incorpora VM-Pmax-Productos_Foco que no estaba en versión anterior
 const GOOGLE = [
-  {
-    nombre: 'VM_S_NB_Congelados',
-    tipo: 'Search', badgeClass: 'b-gray',
-    pct: 0.030,
-    estado: 'Apto',
-    estadoClass: 'b-teal',
-    nota: 'No brand, búsquedas genéricas de congelados'
-  },
   {
     nombre: 'VM_S_B_Frizata',
     tipo: 'Search', badgeClass: 'b-gray',
-    pct: 0.050,
+    pct: 0.070,
     estado: 'Apto',
     estadoClass: 'b-teal',
-    nota: 'Branded — siempre activo, no bajar'
-  },
-  {
-    nombre: 'VM_PM_Hunting-Alon',
-    tipo: 'PMax', badgeClass: 'b-blue',
-    pct: 0.260,
-    estado: 'Lim. ofertas',
-    estadoClass: 'b-amber',
-    nota: 'Limitada por estrategia de ofertas — revisar ROAS target'
+    nota: 'Branded — ROAS 150x, el mejor de la cuenta. Siempre activo, aumentar presupuesto.'
   },
   {
     nombre: 'VM_PM_Farming-Alon-Congelados',
@@ -516,15 +495,39 @@ const GOOGLE = [
     pct: 0.610,
     estado: 'Lim. ofertas',
     estadoClass: 'b-amber',
-    nota: 'La más pesada. Limitada por ofertas — considerar relajar el ROAS target si hay margen'
+    nota: 'Motor principal — ROAS 35x, 61% del revenue. Considerar relajar ROAS target si hay margen.'
+  },
+  {
+    nombre: 'VM_PM_Hunting-Alon',
+    tipo: 'PMax', badgeClass: 'b-blue',
+    pct: 0.220,
+    estado: 'Lim. ofertas',
+    estadoClass: 'b-amber',
+    nota: 'ROAS 11.2x — reducido de 26% a 22% por bajo rendimiento relativo. Revisar ROAS target.'
   },
   {
     nombre: 'VM_D_Rmkt',
     tipo: 'Display', badgeClass: 'b-coral',
-    pct: 0.050,
+    pct: 0.060,
     estado: 'Lim. presupuesto',
     estadoClass: 'b-coral',
-    nota: 'Limitado por presupuesto (92.8% IS perdido). Aumentar si hay budget disponible.'
+    nota: 'ROAS 10.6x — razonable. Levemente aumentado, buen complemento al funnel de Farming.'
+  },
+  {
+    nombre: 'VM_S_NB_Congelados',
+    tipo: 'Search', badgeClass: 'b-gray',
+    pct: 0.020,
+    estado: 'Apto',
+    estadoClass: 'b-teal',
+    nota: 'ROAS 4x — reducido a mínimo. Bajo rendimiento, solo para mantener presencia genérica.'
+  },
+  {
+    nombre: 'VM-Pmax-Productos_Foco',
+    tipo: 'PMax', badgeClass: 'b-blue',
+    pct: 0.020,
+    estado: 'Bajo rend.',
+    estadoClass: 'b-coral',
+    nota: 'ROAS 3.9x — presupuesto mínimo. Evaluar pausar si no mejora en los próximos 14 días.'
   },
 ];
 
@@ -598,7 +601,7 @@ function render() {
     <div class="metric-card highlight-teal">
       <div class="mc-label">Google (${100 - splitMeta}%)</div>
       <div class="mc-val neutral">${fmt(gTotal)}</div>
-      <div class="mc-sub">5 campañas activas</div>
+      <div class="mc-sub">6 campañas activas</div>
     </div>
     ${prev ? `<div class="metric-card">
       <div class="mc-label">Cambio vs ayer (Meta)</div>
@@ -645,7 +648,7 @@ function render() {
     const campPresup = metaTotal * c.pct;
     c.aboSets.forEach(s => {
       const adSetPresup = campPresup * s.pctCamp;
-      aboRows += `<tr>
+      aboRows += `<tr style="${s.nombre.includes('freq.') ? 'background:#fdecea' : ''}">
         <td>${s.nombre}</td>
         <td style="color:var(--text-muted);font-size:12px;font-family:var(--font-mono)">${c.nombre.length > 38 ? c.nombre.substring(0, 38) + '…' : c.nombre}</td>
         <td><span class="budget-val">${fmt(adSetPresup)}</span></td>
