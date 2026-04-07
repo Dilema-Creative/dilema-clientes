@@ -48,7 +48,6 @@
     min-height: 100vh;
   }
 
-  /* HEADER */
   .site-header {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
@@ -82,10 +81,8 @@
   }
   select:hover { border-color: var(--accent); }
 
-  /* MAIN LAYOUT */
   .main { max-width: 1100px; margin: 0 auto; padding: 28px 24px; }
 
-  /* DAY NAVIGATION */
   .day-nav {
     display: flex;
     gap: 6px;
@@ -113,7 +110,6 @@
   .day-btn.weekend { opacity: .7; }
   .day-btn.weekend.active { opacity: 1; }
 
-  /* METRIC STRIP */
   .metric-strip {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -135,7 +131,6 @@
   .mc-val.neutral { color: var(--text); }
   .mc-sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; font-family: var(--font-mono); }
 
-  /* SECTION HEADER */
   .section-header {
     display: flex;
     align-items: center;
@@ -149,7 +144,6 @@
   .section-title { font-size: 13px; font-weight: 600; letter-spacing: -.01em; }
   .section-total { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-left: auto; }
 
-  /* TABLE */
   .table-wrap {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -204,21 +198,6 @@
   .diff-down { color: var(--coral); }
   .diff-neutral { color: var(--text-faint); }
 
-  /* ABO SUBROWS */
-  .abo-section { margin-bottom: 4px; }
-  .abo-header {
-    font-size: 10px;
-    font-family: var(--font-mono);
-    color: var(--text-faint);
-    text-transform: uppercase;
-    letter-spacing: .05em;
-    padding: 6px 14px 4px;
-    background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-    margin-top: 4px;
-  }
-
-  /* NOTE BOX */
   .note-box {
     display: flex;
     gap: 10px;
@@ -233,7 +212,6 @@
   .note-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
   .note-text { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
 
-  /* FOOTER */
   .footer {
     text-align: center;
     padding: 24px;
@@ -244,7 +222,6 @@
     margin-top: 32px;
   }
 
-  /* RESPONSIVE */
   @media (max-width: 680px) {
     .site-header { padding: 14px 16px; }
     .main { padding: 16px; }
@@ -287,11 +264,9 @@
 </header>
 
 <main class="main">
-
   <div id="dayNav" class="day-nav"></div>
   <div id="metricStrip" class="metric-strip"></div>
 
-  <!-- META -->
   <div class="section-header">
     <div class="section-icon meta">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z" fill="#1877f2"/></svg>
@@ -316,7 +291,6 @@
     </table>
   </div>
 
-  <!-- ABO DETAIL -->
   <div class="section-header" style="margin-top:14px">
     <div class="section-title" style="font-size:12px; color: var(--text-muted);">Desglose ad sets (campañas ABO)</div>
   </div>
@@ -334,7 +308,6 @@
     </table>
   </div>
 
-  <!-- GOOGLE -->
   <div class="section-header">
     <div class="section-icon google">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -368,7 +341,6 @@
     <span class="note-icon">📋</span>
     <span class="note-text" id="noteText"></span>
   </div>
-
 </main>
 
 <footer class="footer">
@@ -376,7 +348,6 @@
 </footer>
 
 <script>
-// ─── DATA ─────────────────────────────────────────────────────────
 const DIAS = [
   {fecha:'mié 01/04', total:800000,  wd:false, nota:'Arranque de mes. Presupuesto base estable. No tocar nada — dejá que el algoritmo arranque el nuevo mes sin interrupciones.'},
   {fecha:'jue 02/04', total:400000,  wd:false, nota:'Día bajo del plan. Bajá todo proporcionalmente. Meta puede quedar en modo bajo sin pausar campañas — nunca pausar, solo reducir presupuesto.'},
@@ -417,10 +388,6 @@ const SEMANAS = [
   [21,22,23,24,25,26,27,28,29],
 ];
 
-// META CAMPAIGNS — % sobre el total Meta
-// Distribución actualizada con datos reales (Windsor.ai)
-// Meta 7d: ASC 13.18x | MaxConv 9.88x | Farming 015-365 8.55x | Intereses 7.24x | Advantage 6.61x | ExCompradores 4.84x
-// ALERTA: BBDD 015a065 frecuencia 103x en 30d (1.103 personas), CPP ARS 1.479k — audiencia quemada, reducido a 10% del ABO
 const META = [
   {
     nombre: 'VM-CV-ASC-MaxVal-HomeOffice',
@@ -454,8 +421,8 @@ const META = [
     tipo: 'Rmk', badgeClass: 'b-teal',
     pct: 0.15, nivel: 'ABO',
     aboSets: [
-      { nombre: 'BBDD Pu 015a065 (freq. 103x — reducir urgente)', pctCamp: 0.10 },
-      { nombre: 'Pu 066a365', pctCamp: 0.90 },
+      { nombre: 'BBDD Pu 015a065', pctCamp: 0.25 },
+      { nombre: 'Pu 066a365', pctCamp: 0.75 },
     ]
   },
   {
@@ -476,10 +443,6 @@ const META = [
   },
 ];
 
-// GOOGLE CAMPAIGNS — % sobre el total Google
-// Distribución actualizada con datos reales últimos 7 días (Windsor.ai)
-// ROAS real: Farming 35x | Branded 150x | Hunting 11.2x | Rmkt 10.6x | NB 4x | Pmax Foco 3.9x
-// 6 campañas activas — se incorpora VM-Pmax-Productos_Foco que no estaba en versión anterior
 const GOOGLE = [
   {
     nombre: 'VM_S_B_Frizata',
@@ -531,48 +494,21 @@ const GOOGLE = [
   },
 ];
 
-// ─── STATE ────────────────────────────────────────────────────────
 let currentWeek = 0;
-let currentDayIdx = 0; // index within the week
+let currentDayIdx = 0;
 let splitMeta = 72;
 
-// ─── HELPERS ─────────────────────────────────────────────────────
 function fmt(n) {
   return new Intl.NumberFormat('es-AR', {
     style: 'currency', currency: 'ARS', maximumFractionDigits: 0
   }).format(Math.round(n));
 }
 
-function fmtPct(p) {
-  return Math.round(p * 100) + '%';
-}
+function fmtPct(p) { return Math.round(p * 100) + '%'; }
+function getDiaIdx() { return SEMANAS[currentWeek][currentDayIdx]; }
+function getDia() { return DIAS[getDiaIdx()]; }
+function getPrevDia() { const di = getDiaIdx(); return di > 0 ? DIAS[di - 1] : null; }
 
-function getDiaIdx() {
-  return SEMANAS[currentWeek][currentDayIdx];
-}
-
-function getDia() {
-  return DIAS[getDiaIdx()];
-}
-
-function getPrevDia() {
-  const di = getDiaIdx();
-  return di > 0 ? DIAS[di - 1] : null;
-}
-
-function diffStr(curr, prev, isGoogle) {
-  if (!prev) return '<span class="diff-val diff-neutral">—</span>';
-  const split = isGoogle ? (1 - splitMeta / 100) : (splitMeta / 100);
-  const cVal = curr * split;
-  const pVal = prev.total * split;
-  const diff = cVal - pVal;
-  if (Math.abs(diff) < 1000) return '<span class="diff-val diff-neutral">= sin cambio</span>';
-  const cls = diff > 0 ? 'diff-up' : 'diff-down';
-  const arrow = diff > 0 ? '↑' : '↓';
-  return `<span class="diff-val ${cls}">${arrow} ${fmt(Math.abs(diff))}</span>`;
-}
-
-// ─── RENDER ──────────────────────────────────────────────────────
 function render() {
   const dia = getDia();
   const prev = getPrevDia();
@@ -581,7 +517,6 @@ function render() {
   const metaTotal = dia.total * metaSplit;
   const gTotal = dia.total * gSplit;
 
-  // Metrics
   const prevMetaTotal = prev ? prev.total * metaSplit : null;
   const metaDiff = prevMetaTotal !== null ? metaTotal - prevMetaTotal : 0;
   const diffClass = metaDiff > 0 ? 'up' : metaDiff < 0 ? 'down' : 'neutral';
@@ -610,18 +545,14 @@ function render() {
     </div>` : ''}
   `;
 
-  // Section totals
   document.getElementById('metaTotal').textContent = fmt(metaTotal) + ' total Meta';
   document.getElementById('googleTotal').textContent = fmt(gTotal) + ' total Google';
 
-  // META TABLE
   const metaBody = document.getElementById('metaBody');
   metaBody.innerHTML = META.map(c => {
     const presup = metaTotal * c.pct;
     const pctDisplay = fmtPct(c.pct);
     const barW = Math.round(c.pct * 200);
-    const d = diffStr(dia.total, prev, false);
-    // compute campaign-level diff
     const prevCampPresup = prev ? prev.total * metaSplit * c.pct : null;
     const campDiff = prevCampPresup !== null ? presup - prevCampPresup : null;
     const campDiffStr = campDiff !== null
@@ -640,7 +571,6 @@ function render() {
     </tr>`;
   }).join('');
 
-  // ABO TABLE
   const aboBody = document.getElementById('aboBody');
   let aboRows = '';
   META.forEach(c => {
@@ -648,7 +578,7 @@ function render() {
     const campPresup = metaTotal * c.pct;
     c.aboSets.forEach(s => {
       const adSetPresup = campPresup * s.pctCamp;
-      aboRows += `<tr style="${s.nombre.includes('freq.') ? 'background:#fdecea' : ''}">
+      aboRows += `<tr>
         <td>${s.nombre}</td>
         <td style="color:var(--text-muted);font-size:12px;font-family:var(--font-mono)">${c.nombre.length > 38 ? c.nombre.substring(0, 38) + '…' : c.nombre}</td>
         <td><span class="budget-val">${fmt(adSetPresup)}</span></td>
@@ -658,7 +588,6 @@ function render() {
   });
   aboBody.innerHTML = aboRows;
 
-  // GOOGLE TABLE
   const googleBody = document.getElementById('googleBody');
   googleBody.innerHTML = GOOGLE.map(c => {
     const presup = gTotal * c.pct;
@@ -682,10 +611,7 @@ function render() {
     </tr>`;
   }).join('');
 
-  // NOTE
   document.getElementById('noteText').textContent = dia.nota;
-
-  // Nav re-render to update active
   renderNav();
 }
 
@@ -700,26 +626,12 @@ function renderNav() {
   }).join('');
 }
 
-function selectDay(j) {
-  currentDayIdx = j;
-  render();
-}
+function selectDay(j) { currentDayIdx = j; render(); }
 
-document.getElementById('splitSel').addEventListener('change', function () {
-  splitMeta = parseInt(this.value);
-  render();
-});
-
-document.getElementById('weekSel').addEventListener('change', function () {
-  currentWeek = parseInt(this.value);
-  currentDayIdx = 0;
-  renderNav();
-  render();
-});
+document.getElementById('splitSel').addEventListener('change', function () { splitMeta = parseInt(this.value); render(); });
+document.getElementById('weekSel').addEventListener('change', function () { currentWeek = parseInt(this.value); currentDayIdx = 0; renderNav(); render(); });
 
 window.selectDay = selectDay;
-
-// INIT
 renderNav();
 render();
 </script>
