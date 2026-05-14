@@ -1,0 +1,759 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frizata — UGC Meta Ads · Abr–May 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#FAF6EE;color:#0E2A47;font-family:'Inter',sans-serif;font-size:14px;line-height:1.5}
+
+/* HEADER */
+.header{background:#0E2A47;color:#FAF6EE;padding:40px 48px 36px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.header h1{font-family:'Fraunces',serif;font-size:30px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
+.header h1 em{font-style:italic;color:#4FA27E}
+.header .sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:#D9CFBC;letter-spacing:1px;text-transform:uppercase}
+.header-right .cliente{font-family:'Fraunces',serif;font-size:18px;color:#4FA27E;margin-bottom:4px;text-align:right}
+.header-right .fecha{font-family:'JetBrains Mono',monospace;font-size:11px;color:#D9CFBC;text-transform:uppercase;letter-spacing:1px;text-align:right}
+
+/* KPI BAR */
+.kpi-bar{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:2px solid #D9CFBC}
+.kpi{padding:20px 28px;border-right:1px solid #D9CFBC;background:#F4EFE6}
+.kpi:last-child{border-right:none}
+.kpi .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#6B6257;margin-bottom:6px}
+.kpi .val{font-family:'Fraunces',serif;font-size:24px;font-weight:700;color:#0E2A47}
+.kpi .val.green{color:#2F7D5E}
+
+/* SECTIONS */
+.section{padding:44px 48px}
+.section+.section{border-top:1px solid #D9CFBC}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#4FA27E;margin-bottom:8px}
+.section-title{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:#0E2A47;margin-bottom:28px}
+.section-title em{font-style:italic;color:#4FA27E}
+
+/* HS KPIS */
+.hs-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:32px}
+.hs-kpi{background:#0E2A47;border-radius:8px;padding:18px 22px}
+.hs-kpi .lbl{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#D9CFBC;margin-bottom:6px}
+.hs-kpi .val{font-family:'Fraunces',serif;font-size:26px;font-weight:700;color:#4FA27E}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;min-width:700px}
+thead tr{background:#0E2A47;color:#FAF6EE}
+thead th{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;padding:12px 14px;text-align:right;white-space:nowrap}
+thead th.left{text-align:left}
+tbody tr{border-bottom:1px solid #D9CFBC}
+tbody tr:hover{background:#F4EFE6}
+tbody td{padding:10px 14px;vertical-align:middle;font-family:'JetBrains Mono',monospace;font-size:12px;text-align:right;color:#0E2A47}
+.td-thumb{width:52px;padding:6px 8px 6px 14px!important;text-align:left!important}
+.td-name{font-family:'Inter',sans-serif!important;font-size:13px;font-weight:500;max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left!important}
+.td-camp{text-align:left!important;min-width:180px}
+.td-camp .adset{font-family:'Inter',sans-serif;font-size:11px;color:#6B6257;margin-top:4px;white-space:nowrap}
+.thumb{width:40px;height:40px;object-fit:cover;object-position:top;border-radius:4px;display:block}
+.no-img{width:40px;height:40px;background:#D9CFBC;border-radius:4px}
+.good{color:#2F7D5E;font-weight:700}
+.mid{color:#6B6257;font-weight:600}
+.bad{color:#b0392e;font-weight:600}
+.badge{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:2px 7px;border-radius:4px;white-space:nowrap;letter-spacing:.5px;display:inline-block}
+
+/* FOOTER */
+.footer{padding:24px 48px;border-top:2px solid #0E2A47;background:#F4EFE6;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.footer span{font-family:'JetBrains Mono',monospace;font-size:10px;color:#6B6257;text-transform:uppercase;letter-spacing:1px}
+.footer .brand{font-family:'Fraunces',serif;font-size:14px;color:#0E2A47;font-weight:700}
+.footer .brand em{color:#4FA27E;font-style:italic}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .header{padding:28px 20px 24px}
+  .header h1{font-size:22px}
+  .header-right .cliente{font-size:14px}
+  .kpi-bar{grid-template-columns:repeat(3,1fr)}
+  .kpi:nth-child(3){border-right:none}
+  .kpi:nth-child(4),.kpi:nth-child(5){border-top:1px solid #D9CFBC}
+  .kpi:nth-child(5){border-right:none}
+  .section{padding:28px 20px}
+  .hs-kpis{grid-template-columns:repeat(2,1fr)}
+  .footer{padding:20px}
+}
+@media(max-width:560px){
+  .header{flex-direction:column;align-items:flex-start}
+  .header-right .cliente,.header-right .fecha{text-align:left}
+  .kpi-bar{grid-template-columns:repeat(2,1fr)}
+  .kpi:nth-child(2){border-right:none}
+  .kpi:nth-child(3),.kpi:nth-child(4),.kpi:nth-child(5){border-top:1px solid #D9CFBC}
+  .kpi:nth-child(4){border-right:none}
+  .kpi .val{font-size:20px}
+  .hs-kpi .val{font-size:20px}
+  .section-title{font-size:18px}
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <div>
+    <h1>UGC Meta Ads — <em>Frizata</em></h1>
+    <div class="sub">Dilema Creative · Análisis de creatividades · 01 Abr – 14 May 2026</div>
+  </div>
+  <div class="header-right">
+    <div class="cliente">Frizata Argentina</div>
+    <div class="fecha">Generado 14/05/2026</div>
+  </div>
+</div>
+
+<div class="kpi-bar">
+  <div class="kpi"><div class="lbl">Spend total UGC</div><div class="val">ARS 10.1M</div></div>
+  <div class="kpi"><div class="lbl">Revenue atribuido</div><div class="val">ARS 103.2M</div></div>
+  <div class="kpi"><div class="lbl">ROAS período</div><div class="val green">10.22x</div></div>
+  <div class="kpi"><div class="lbl">Compras totales</div><div class="val">727</div></div>
+  <div class="kpi"><div class="lbl">UGC activos</div><div class="val">31</div></div>
+</div>
+
+<div class="section">
+  <div class="section-label">Performance · Abr–May 2026</div>
+  <div class="section-title">Todos los UGC del período — <em>ordenados por ROAS</em></div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="left"></th><th class="left">Creatividad</th><th class="left">Campaña / Audiencia</th>
+      <th>Spend</th><th>Compras</th><th>Revenue</th><th>ROAS</th><th>CTR</th><th>Hook %</th><th>Hold %</th>
+    </tr></thead>
+    <tbody><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_HomeOffice-largo-Dic25-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#4FA27E18;color:#4FA27E;border:1px solid #4FA27E44'>Prosp. Intereses</span><div class='adset'>Padres + Compradores · BSAS/ROS/CBA</div></td>
+  <td data-label='Spend'>ARS 18k</td>
+  <td data-label='Compras'>5</td>
+  <td data-label='Revenue'>ARS 696k</td>
+  <td data-label='ROAS' class='good'>39.23x</td>
+  <td data-label='CTR'>4.84%</td>
+  <td data-label='Hook %'>14.2%</td>
+  <td data-label='Hold %'>2%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_HotSale 2</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 252k</td>
+  <td data-label='Compras'>27</td>
+  <td data-label='Revenue'>ARS 4.2M</td>
+  <td data-label='ROAS' class='good'>16.76x</td>
+  <td data-label='CTR'>2.36%</td>
+  <td data-label='Hook %'>10.3%</td>
+  <td data-label='Hold %'>4.1%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZTAxMDAwMGUxMDEwMDAwNjkwMjAwMDA5YTAyMDAwMGMyMDIwMDAwMTAwMzAwMDBmYjAzMDAwMDE1MDQwMDAwNGYwNDAwMDA3NDA0MDAwMGEyMDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEkAAAICAwEAAAAAAAAAAAAAAAQGAwUBAgcAEAACAQIDBgYBAwUAAAAAAAAAAREhMQIDQQQQUWFxkRKBobHB8NEgIjIFE2Lh8f/aAAwDAQACAAMAAAABEgv6LXbL2mt4x+nOehImdRQD64kJ6Tegc502ebVcvoD56W6SveppBiCa93570NWzgZ/oWKEvPLutJPsKshIkozViWIwNiuFxmrrTVOcUuSMUGy2NA//aAAgBAQABBQKWYsTRsq/uYlhMeEzMPgxVHmMg2pwtiwNYcvGYsTZt6h3WG+a/25mY2bNgWLLVH4FiNswLw5TMTh47Zjk2DM/a3OLDiP6jmucszDHbTZc2MWHCR4THinGY8RjcCyjIypEo3ZuSkY8DRmwy5ivs+/Mq2pMWXO6DZ8VTE43Yjwn/2gAIAQMAAT8BMuiM5SrDMNjBEIzISZiQsaVzZ8dJ0ZtGOIfMeKd2z/wRtf8AFdST/9oACAECAAE/ATHVmXRiHcdzDcTPC3YzF4WZS8TZEbs/+TNlu+hEn//aAAgBAQAGPwKxYl6b2v0dSjghl4Qvtt1TFF0VcwYBLluX+JGm7F0ZbgRwKOvIg8PLe93W5KdzmzFier/RU6b6cRfG6u578XUk47l+v//aAAgBAQABPyFEqAS2p8v9bpbTTUpj1Fphe69COIUbU7kEuKCRo6lMj3Znih/CToJv1oOebo1E8xVDTHcoxFtRql0OzuPFxCo1OTp1FSxWFO2rCzfrQhfaJakirrewVjoovWB7Z9Ud6iKxCjhPcWpRy1xuPKrpBtdXQkmi4nSvDJbRNNtNsg4U2/BkzcLURlrcH1hIu1F6CumuMC06uBYekpRFovUS0wJVNRKnUbNJEP62KQUw+zoKxNrQSbTU2VohKeT5FRVIe6SlTCEqoPiT6E2+qZ6EDqaPdAKuebb53EmkNTT75ihR6H//2gAMAwEAAgADAAAAEJws0C77n4K0+l97fP/aAAgBAwABPxBXKOFeslRuWvIoTfAvcZJmax7HMD+omJmX5PMCFcjMnR6CLaiqx04dJT7j+Z7EJkf/2gAIAQIAAT8Q3KwmjFlwLRwguIk0XAiNIPkTniDjEQLBIRh//9oACAEBAAE/EFre8rhFHU+Mr0JdKhHAg7CGnVNDTvxvqewZ5EaPiNVoQpdfyfsV1Z3lt3UI0JuRPlodIjMfNvYTfFtGpNuMMsj9ZJnbKJk/wPKFqq4C9gwHQaGo6CTVTRcn20KAZxAVNu4la/dDrcKa35uTJdEHEYkPKhfkRGsftOIyGZYcLBKIrUPSONOFLump3QgTPYrD0HhA6cuRTK2gl0EiUzzQ6nlAD3DdRTcTkfqXLRdOjewoPFA9aeA8rzmvNCFyxl82HccW5MZazZQ4rb/o+RmloXETLV3SU7o+4c4yh5uo85p6khrhtjQdkyWF2JLSW7QTKi7lC5u8lIj7fuUM/QrcWvT6/A2iwGrZiujuvJ19hE6+Q65JOnTVxDkV0JT7YUFBpHmf/9k=' class='thumb'></td>
+  <td class='td-name'>UGC- Woc</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu180a365</div></td>
+  <td data-label='Spend'>ARS 202k</td>
+  <td data-label='Compras'>20</td>
+  <td data-label='Revenue'>ARS 2.8M</td>
+  <td data-label='ROAS' class='good'>14.01x</td>
+  <td data-label='CTR'>4.76%</td>
+  <td data-label='Hook %'>20.4%</td>
+  <td data-label='Hold %'>8.7%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZDAxMDAwMGQ4MDEwMDAwNWEwMjAwMDBhNTAyMDAwMGMzMDIwMDAwMTYwMzAwMDAwODA0MDAwMDIyMDQwMDAwN2EwNDAwMDA5ODA0MDAwMGQ1MDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEgAAAIDAQEBAAAAAAAAAAAAAAMFAgQGAQAHEAABAwIEBAQGAwEAAAAAAAABABEhMUECAxBREmFxgZGhsfAEIDLB0eETIvEU/9oADAMBAAIAAwAAAAHANjXxHZNc0v536H3F6mQ7foT6NPitwtFZy7e2w72oxpBGZwxTuC1aOZfI4kL2FMZmdWjeJ4egz+kmNXVLVH0oLAYTpMVtkky6LLaiYP/aAAgBAQABBQIrKyjmrARkDDnYcXy5+VwnLznGdigLDnYsKGNAvoQszCxCy8g4kMrAFAWHHxaY0cjBiX/IHzMrFjRym0yKrEHQw6fzHATn8SJdOsgLNLAArhKzAsC4UQvhwOHOxFwVxLH/AGGCE5RK+G+n4gf2wwuJYpXDKNPhvo//2gAIAQMAAT8Bw4HMrFlhfxlMhIGnCN1nQWXw2bhwcXEQHZnn8rMz8tqhzT+rT4BAeaz6LB8Ngx4RjeWZkPhMBZ+v1fpH0Wf9Pdf/2gAIAQIAAT8BJQK4tHYp0SsFFmLCEQsKxlcWmBf/2gAIAQEABj8CX3W4VflLCAq8KjSqnUojR/pCqTpHyAum4mC30OjHT6kxkKC3Z/L8FVGjosqq66aV80/3QLSmtp+0eaa4V/AKX0HTS+hVvNf6gv/aAAgBAQABPyE5CA7Nthk2pcnkT+VTu0wflAM5udN0EAYwUP2sgERcQT1RKmO5GUQAQe6DoZZvPigc0ZQUuPUr4I5NIX/xPMPVOGCQggod4VdE8igIA4LsUEuxoKjaqJv6R+0wFvNW+2gRNAwgnYMWpsg4v7ApuJ1oNPdUCfTM8RIJI9gEINLbc1eG0B0V0YwAdnVkXNn/AAuf5k2HeUmzOCTZAtnv0RRYejq9lREQZ+hUbsBaEzbzb7rs9uqFg4BQxecszeacsqZrHMN6BbbsSURwC71TnOD4J/sERb+kCBogvJGyn2+xWqDp9ybBufVf/9oADAMBAAIAAwAAABB5sz/dhzaHfyYWqKb/2gAIAQMAAT8QBIgy26ebURtSiQghiu3D0TMgahHoB+V2oAveQ6YhQCYsd4b0Igw8wOcC+w6aANGPWyu7liao4iFIIDzzBR6SDYqKQxQgOzgHDwFS6OlF/9oACAECAAE/EIY0GCsIF1K1l7dPLMiPqZWTlto//9oACAEBAAE/EGQbKcA2ik2c2t4IJp4HDhbIwtAmLh30fWOGHZBNUKFPxQP3dyPd5IPe6YR6XsR8US5wEC08nVI0AW8Mp3lWGAuwyF+Loh8LlwkPA3dRsWA5hdBeB3kfNPBJ8juqA9U0bEnWyMEtHcgKjR5gC7WeFX6VOUBi9W6jfIPbsrpp2LCm7JvroDpxuFK86hPF0u+RABgBAc4C5lG/s6EOGR7Qc+wjMkzbD2KIcpLpd9mUtz5A8VPVGp35gKt03lbqhuU9r+KIczckN7ogExhSYVhMY7ygJOvMpBAYECqLEFVJQJEMdB3Moos29tTfYi+yB4JF4t12RoTtR3gZNzIEojIoyFEAGEiYHs22yKKC4Ha4oW8JqBbqtj0UcJjAZydyciLPQnNA8noi4ZwGLfguq2eqaSCX/9k=' class='thumb'></td>
+  <td class='td-name'>UGC_Feb26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu180a365</div></td>
+  <td data-label='Spend'>ARS 537k</td>
+  <td data-label='Compras'>47</td>
+  <td data-label='Revenue'>ARS 6.9M</td>
+  <td data-label='ROAS' class='good'>12.89x</td>
+  <td data-label='CTR'>5.11%</td>
+  <td data-label='Hook %'>14.2%</td>
+  <td data-label='Hold %'>4.5%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE4MzAxMDAwMGRiMDEwMDAwM2EwMjAwMDBiNTAyMDAwMGYyMDIwMDAwM2UwMzAwMDBmZDAzMDAwMDE3MDQwMDAwN2UwNDAwMDBjOTA0MDAwMGMzMDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAE4AAAIDAQEAAAAAAAAAAAAAAAMFAgQGAQAQAAIBAgIFCwQCAQUAAAAAAAABESExAkFRYXGB8AMQEhMgMpGhwdHhBBQisVLxQgUwM5LC/9oADAMBAAIAAwAAAAHbQUjpW3EUoQmfVcaWFzWwyej9DOxNFbZAOyGfK4Csr3FO1QD54vDWKgV8GHiAR8YK7Fonij8bSkyJj53SBSdhNuglcmSlB/Ptv//aAAgBAQABBQKDonROiNdj7zCfeo++PvyWyGfkfTKcHYeLoH3KPuEfR9zsTXmeJrs479cdeh8omJSdWjoI6KOVmMPK4mdJ82Bfi2jrMJ12AfL4TqzoYyo7xz4zkhEH/9oACAEDAAE/AcP02L+IuQxaD7aP8vI5TkeipmRskwcpixdJ/iocd1u2xmJdOkrcn6nKfU4MLadXhv8Asf8AqGD+OLwXufT8ph5TC8SpX8k6w7cVN6/6x/6Hh6zFiluc67tDOoXHSf6g5DE8GLFhw00642ydfi1eHtB//9oACAECAAE/AcX1WD+SH9Rh0j5QWKRIgaSWG9VN/g2ceRg5LG1SiZ9ti0oWGEk6wU4f9HR6MHGQsJ0Ef//aAAgBAQAGPwL/AGLM7rO75nc8x1j5P+Q74m+ztMvAuhdlai53i/ZTM/AuXXNfn/GkF/JH+Pgd3CzDsqXXid5HeMxvBYsd0fNYt2f/2gAIAQEAAT8h7HoSJJGP+o9x/KIa6fDYNsuDcJ151aXmOA2OhtT3vImJLc/tkczQ0Njles7UNMwnnNpxUq1UkEDQ0Oe3x+xPXVBrU8D2+TzN8yNQKJOSi8dr+xqW9R6CGm4a9yNOuBrm6LazgqaoVHcrm1ZkxPmLkmbbYET65l0hODqV3VrdYRyNwj+R+hB7EzS23fJKWIZ0m+yxqD8PdELs6n8lO0f7ElKTSSEjul25FavZvKRm1CsrscrQf//aAAwDAQACAAMAAAAQCvVFx0wVlpZnxXEn/9oACAEDAAE/EE8/G8W+a9xLQ0T2ihFqiIa0vPYIWnwKsmpM1DrYe0n9D4Mms0U+Jk/kChWlaUJ00Z0E7eAC9reCqRJRaUk9op8zg3CGZJzJUr6Bb+MrEbBhcV3KXUpKdc2R6W2Af//aAAgBAgABPxD+xew9ae5+xqCdaB7rTexQzTjQSRKOiHqKaW9yFlsrCu7aLN8Zv0G2YwmnGc6HpFqPhsFCERlT5J44MRE31P4jmf/aAAgBAQABPxByzRmqN9JnrxQY7Ssy97ua1d3uZF+5AlZm4ELbxBlDewi7q9oa0aHg7RLAE2SbOalvZeXMa5wq6xYUkz3Mx+qGRASCGpcNVqJQpdNzTxM2oaCOaem826bYY0riXFRnuBEomqpcEUEzzDEClQF9ULO5RhEcO4Wdv39kK8UTQRMhusHq/NCy+sKWNvw9yGM/GslwsnyHmaBMXvUaBcDDYxzy2NSDPaQWr4n+gRV45k2QYENmYb17DfoaGjghoSusVB/IYT03c4YCtDR+8R3d41dAp11/LxE2reBt2DU21A1NQ1AWZAiIKH69CidxXfDk/9k=' class='thumb'></td>
+  <td class='td-name'>UGC HotSale - Solana</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu 030a180</div></td>
+  <td data-label='Spend'>ARS 84k</td>
+  <td data-label='Compras'>6</td>
+  <td data-label='Revenue'>ARS 995k</td>
+  <td data-label='ROAS' class='good'>11.84x</td>
+  <td data-label='CTR'>4.7%</td>
+  <td data-label='Hook %'>20.9%</td>
+  <td data-label='Hold %'>12%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZjAxMDAwMGQ0MDEwMDAwNTUwMjAwMDA3MTAyMDAwMGEwMDIwMDAwZTUwMjAwMDBhMDAzMDAwMGJhMDMwMDAwZTQwMzAwMDAxNjA0MDAwMDM1MDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEoAAAIDAQEBAAAAAAAAAAAAAAEFAgMEAAYHEAACAQMCBAMGBgMAAAAAAAAAARECITFBUQMQYXESgZEEEyCh4fAUIjAyscFS0fH/2gAMAwEAAgADAAAAAQ2jIA4eUgtZLfSiSfnmmQTiPnawzx14o9X9J8Dvlb9C2LF1lPjd9BrsnR0+ithmAs9uryrEk3tRofUcKcvDHgZZhMrW62J//9oACAEBAAEFAvcFI2VVFLJPFyXLiVHErOHxE37op4R+HZSScRnB4lHi4lD4FfA4njOGIqY+C2VcKT8MjwnA43unTVCq9tKeLzZXUcOnxVVca0ngpMEkHG/e5TVfiKq2mirlB7S4PHIq4OJU1yZ+YqoqY/Z2z8JUyn2Ss9p4NXCf/9oACAEDAAE/AY5RzvsTPc8LeBtackWp50MrZ//aAAgBAgABPwHlJDKq40k8b2KWV8anhfuqg8J4R2K1Xx6n4ndabdlygqRRRE2P/9oACAEBAAY/Ap8N9/1EtX8aVTs7epH+LsJ/Bk/cZLtuME6DZ+VF/gsXZCxyx8CSsKqcacvuPhs+cSYPqWguzQyjQirJ/9oACAEBAAE/IYJruEEjPIylmBl9BL2foNPKAbaMCjuWQKWENYmbDWI7itWMLFxp2SBz1SNvqmKVGsStmYPu+S3YZJuMM1WjuWc5/wBDmlppnothmA7JQjQJbsKUprejYt7epkfJDa5kVAlrOvQcsARE5dBZYRBinhlzCKzGoqRZlhJAnofJG7bPeeXInkRB3JusibJ4H4vWZLAaJPMN2U7h7S+cmHdok1j1DwNDXces36voQHSZTZzZn//aAAwDAQACAAMAAAAQkz6gq4nbV11e0Xq+/9oACAEDAAE/EAlJ6RwtRztJKYFnbYPBSOal0JGUW11FB35N+Zu2EOIZ/9oACAECAAE/EBs6BO0HOkrmehJt7vkLlFNWWW+yV+RSM2rWFuMibskm32dTIvJyO4D/2gAIAQEAAT8QSnR6Ir3xEj1341siIiSTk/mEQaffodV6Mb3bvYDmnMYGxmIgpEtUkUUESur7vA5wu6S9djanmxkm1C06jwRnabiUQJ6Sx3DttK8tzSjNgn1SLUTTdaiZ9r35IGV+1xf28tLfW5rh3Rax+Y0NMpJTCCVXCZB/0FojZ5MbanK6ouuaWSXGcdizAtAp7K/zIzUcbCUlnysty6QC0ZjMmj+w8RMtFsf0OLYW1H+Q0srGB5Cg0FHUScEo0mehcEIFgS5Rwolf8ES2ME7nyDDwxpYZkxOstKTD6Edf0fXcRq0tZft5j93AtJPQfX6GDNgvoEidi6/4pFiydCvkvmKocET94yYC9XW6aakAy2v6QFRIFpmarsf/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_HomeOffice_corto-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 1.5M</td>
+  <td data-label='Compras'>125</td>
+  <td data-label='Revenue'>ARS 17.7M</td>
+  <td data-label='ROAS' class='good'>11.69x</td>
+  <td data-label='CTR'>3.02%</td>
+  <td data-label='Hook %'>9.4%</td>
+  <td data-label='Hold %'>2.8%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YzAxMDAwMGNmMDEwMDAwMjMwMjAwMDA0YzAyMDAwMDgyMDIwMDAwYTkwMjAwMDAzYTAzMDAwMDU0MDMwMDAwOTAwMzAwMDBkMDAzMDAwMGJiMDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEcAAAIDAQEAAAAAAAAAAAAAAAMEAQIFBgAQAAIBAgQEBQQBBQAAAAAAAAABESExAhBBUQNhcZESIIHh8DChsdEEEyJAQsH/2gAMAwEAAgADAAAAAdUmIdZrWS8RsYmItSONGeB1ejo1rnmBRp+Owg6sPkrTKdOohihaoy6/oMY19pAfuOtW2cHrZpYlPFDfVamvhVJy0H9lK//aAAgBAQABBQK2WN+JeA8Jg/tMdzH/ACEjx0WM8SJyxXPCcPAeM8Y8U+TFhR4fIvNAsJbOBnCwyLhoXDRx1CyYzANGDDBjr5GYDFjSPEcOTHTEj//aAAgBAwABPwHHwpqjDix4aLr6mLi4nRu/JZf1U+RBxVbJEmOqzRGX/9oACAECAAE/AcGOKOo+Hi2Y1GXAw+HGtUeFH8jDbJDxQcSMWF8q9s8NkYseHC0n/tYxKKbH/9oACAEBAAY/AsohIuXZuPrlcpBXyPrluWLFv8J/QcbfQa+g5Gsv/9oACAEBAAE/IVLxdfgiiEdgFU2JtcpWmfUVdcQMknUyaaba1sTJWPVHMIb5fdPyQNXLhcgtTZy2I0m2PfuJNF+ehCqleSDV9cmKxXdFrrPp5GlTm5K6jWedPQxZloJeu09h7W8P0YqnL+6FyGrmLJVGrEWxYToVoqU9xQQMbm1SVdBiiNxItholN9xOtT6MqP/aAAwDAQACAAMAAAAQeu3DjS4hNZy/J9OU/9oACAEDAAE/ENiPbR+4lkaU0QmqInXQTuguUH/J0y61tuR+MSpKmTQ11IpwMnJTSttvbOqOY6LDUONj/9oACAECAAE/EGRoNN17CX6htyjqQP8AlJPlJBNLdZPDT2aYi6dNNyKpOaDim77TnUzdL7lIatbPjnuSHuNdj//aAAgBAQABPxCpHL39g5QaoYGmRXSFKSNLouT97YeeeiI0iy/jIj+ke83ZCenEQn9znXclqJ6TkmHrWBXoE9EjEvyLLfjLK9rC8SkYJo37EWwL2+UlFo0u01om/wCCkWGS6+5Aa7j8kEjS6R+/qN0y1DVjh0YyNiZlEdyCVyBn0XcoXRBUaExKxXyTF2yxkWNiZ3RZOzYgXYqqVXb70HRX7Fdl82K+CqV2PWFyHoiRBmpNJYonCIToJFX+xoJNqLzI9TQo02EaLSXQpEapJObqQIQqUsFXaRJsy1p4a3Ry22HNNydSUIh//9k=' class='thumb'></td>
+  <td class='td-name'>UGC_Wrap-15 mins 29-04-26</td>
+  <td class='td-camp'><span class='badge' style='background:#0E2A4718;color:#0E2A47;border:1px solid #0E2A4744'>Prosp. Broad</span><div class='adset'>s0C - Psp - Cv · Advantage Exc. BBDD</div></td>
+  <td data-label='Spend'>ARS 240k</td>
+  <td data-label='Compras'>20</td>
+  <td data-label='Revenue'>ARS 2.7M</td>
+  <td data-label='ROAS' class='good'>11.28x</td>
+  <td data-label='CTR'>3.09%</td>
+  <td data-label='Hook %'>28.5%</td>
+  <td data-label='Hold %'>12%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZTAxMDAwMGRiMDEwMDAwNzkwMjAwMDBhMDAyMDAwMGQxMDIwMDAwMzAwMzAwMDAyNzA0MDAwMDQxMDQwMDAwNzcwNDAwMDBhNDA0MDAwMGU2MDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEkAAAIDAQEBAAAAAAAAAAAAAAQFAgMGAQAHEAACAQMCAwcEAAcAAAAAAAAAARECITEDQVFhcRASE4GRobEEwdHwICIjMDLh8f/aAAwDAQACAAMAAAABfqKUQJT9fWv5JjbTbXY01CFoWLhF+gWilVUl3S4IWKRzzzTfNmvYiC67L+kOfyuEg9gGm7FgUi03ubBa5maHgVO7CFKVKjNFOOd2xol9H//aAAgBAQABBQKqqB1SQVVdlJSzSr7xqVniC1O8T/MnA9dOrw4NNFbGhUWp0U3VTVQUf0lTqNFDKtA8O+o0aac6uo++nUjxK+9T9RUVVtDRprxKu/4RoUzVKS7yKKO89T6fvFei0/pqO6a3+Xi0ULV1HqOnQdT+mSnumtpIZRo990Ud07pp6FVZpaK0l2an0dNR4Phquqqs+l0IMDqk/9oACAEDAAE/AadMVJFitFMsgwVQyjUkai/ZVgpqgp1pNSsqrdR//9oACAECAAE/AXqHek3NOqRtLc73AeClNRBVQqfMy4Mis1cqo7xVpOm6NOmfMp01Sf/aAAgBAQAGPwL+1BOxxFRSuv8ADMnNkUn+PeqZLzVhCRLsZLCsVQS6ZMXMXIZL1PS5GCPclnfdoLu9X7Ar9rYqVsRSrinC27OMW7JLR6k7Dqe3Zhx1/gtYu45nIl9v/9oACAEBAAE/IV9jOF2J4fkTsr2ZbvI1OURr5JZZnkYiZ4kWBfqF2tQZZXrKN/8Ah5hEY3+yImRmw5F8X8j7k8zyamGRvIhM8J4l+UkxyuPJC8kyht2xeLZH0PSwk4la3IsWSeXwGncUehai3J46oz207q234HleOL2gcN+9nyFYEPZJfgSiWFm9+o3XFzdI5THoRKmWNmmHu/6SKd6b4LZBa1116diji+BrMUswBKC6K9/cvAbbE2OAmE/uxGnHF4RhVCCc2OZC2c+AsZA3dyfnBbGNkj5E+Qqhc5YvyL6WePZkv932OMkuzD8uIwh9CHSXnEluxP/aAAwDAQACAAMAAAAQnqSYlQfhsifNjGAv/9oACAEDAAE/EJVdwR52IPqXuQ5yhUKFP+hTz16diK533GpHD7jA4WiSMtoGvIjNm5w4Fk2P/9oACAECAAE/EOGpJcli/Fb0j99zaYY4a2fcsQu7AjQeQGOMBSR7llDdDrx//9oACAEBAAE/EFOYGORJYPwkiFt25w2+SV6vNWv9xQZDRCrEXxtgle2WSDBuPcR0BHBEPJxEoUps5TTbc4yLCh+iLTCY2LQmMiw1wTPZBG64cvYsNJ2Th8C0LxWZmIPLoxxBtbpsM4b+ZnLH3uFPCM+QsnjFtzb8CHc0HmHwckkGfpOg5ej0CLteHeYx8yJHmb/aRt5KJhjkkFiC+y/oDdVpSehCL8oo9LJ5m8CwLssQWDLbipPg+ticGPJg2PkXFsl1WIWR+ohYVtclxmXyI2QyBKbv1nDBL+fNuxBL0vzJMGg27VZPr8Ec3sAX/TgQA+COZ8j7rAGZF3DE26/ycifELdwxyRzdJbpsFWS6vovUQlaYF5O36LVgqCVzz8uCE4LJD3JDyC/o28j4aC7cgvEg+pGLGyOhUv1JX9hzcj//2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_HotSale 4</td>
+  <td class='td-camp'><span class='badge' style='background:#8B5CF618;color:#8B5CF6;border:1px solid #8B5CF644'>Rmk. ExCompradores</span><div class='adset'>Ex Compradores</div></td>
+  <td data-label='Spend'>ARS 61k</td>
+  <td data-label='Compras'>5</td>
+  <td data-label='Revenue'>ARS 684k</td>
+  <td data-label='ROAS' class='good'>11.14x</td>
+  <td data-label='CTR'>2.62%</td>
+  <td data-label='Hook %'>19.6%</td>
+  <td data-label='Hold %'>6.3%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YzAxMDAwMGNlMDEwMDAwM2QwMjAwMDA1MDAyMDAwMDYyMDIwMDAwOWUwMjAwMDA0MzAzMDAwMDVkMDMwMDAwNzcwMzAwMDA4YzAzMDAwMDg2MDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEcAAAIDAQEAAAAAAAAAAAAAAAIFAQMEAAYQAAEDAgUCBQMEAwAAAAAAAAEAESECMQMQQVFxIGESgZHB8AShsSIwMtFA4fH/2gAMAwEAAgADAAAAAVoOktRsmGRyQ09riYX5GuSeXqvb+VrsaOFbQguGJnqMmzGUHlVnWZ3BEFrV8sjmbLz9pD1+C8S2RmLpEc+KY1q60h1//9oACAEBAAEFAlZYMoUpkyIRCAQ8RX01LUgJkyIRC+jw4prJr+nH6acyivpqWGIwxcFvDSjV4U7oorBxgxrRxiBRi1E4mLGHjHDGFjYlRNafJk6rKkrxVUgQnQK8WRnKqtV4jIJ8vEqq0aliVsnX/9oACAEDAAE/Af2BSvDlVm6qX//aAAgBAgABPwHoHQSnyHRSv//aAAgBAQAGPwLI9c0w8Lz6quEz7tsGH9rz6qkzfoFPt/tRk56Ksop8gpoYbum3RH8lp4fx+wwU/wCA6//aAAgBAQABPyECLLQ+pYIGE4Mw3HV7ilx8ZPI7h3JbfRCIwaXtnDmIjvZ7oI3Bdqcta77Jq55THsgTIhBlG22E+qbby7AkyvHcjY0OfyiQw0E0HEg5uy4tvwnN3axafnKEpS/AngxahJ9Ahk27FKBrkacBPcktbBvIblCtlAdAEViQFhDQfv7JwgwPdBPlupWQKAlKLDjKHcZNs4I5zZE+iBEulf/aAAwDAQACAAMAAAAQOYN/3ndlhUnmbA8D/9oACAEDAAE/EG6OMmh9Mu4mLRkHl2yfITr/2gAIAQIAAT8QBzC15Ayhm+/QZAv/2gAIAQEAAT8QPD1P7JxuxA51PZQ6SDicMgHyHMDYwFtbpMgQF5S7cgiwtMBYBLP+Vf6aXkkJeTkuplIecDLoQNp0K55IZiBO4t3mp1PEex3E/UXE9gDUNFAeQnqMBAs90ABRIBGqNGj+3M4PA2Q6lE9gECb7cMRJcWGxdPzdX+QIA2DzzuzJ5UELmI/7siweYYP8HJUL23tteN3+ydSlOMHWUOToOTblWdBZtnU1zx5IA5A2lM68gOJnR91pASTqPcympJn27rVFviymaDfLIugflPuxE38OtpBLwAzVFqfnKlA9d0QCCBK0AeTz/aKQ2n4W/hsyXv/Z' class='thumb'></td>
+  <td class='td-name'>UGC_HomeOffice-Mar26-Vid_v2</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 1.6M</td>
+  <td data-label='Compras'>110</td>
+  <td data-label='Revenue'>ARS 17.2M</td>
+  <td data-label='ROAS' class='good'>11.04x</td>
+  <td data-label='CTR'>2.29%</td>
+  <td data-label='Hook %'>14.3%</td>
+  <td data-label='Hold %'>5.5%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGFhMjAxMDAwMGZjMDEwMDAwYTEwMjAwMDBkNzAyMDAwMDE2MDMwMDAwZTgwMzAwMDA2YzA1MDAwMDg2MDUwMDAwY2UwNTAwMDBmZDA1MDAwMDliMDcwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAG0AAAIDAQEAAAAAAAAAAAAAAAMEAgUGAQAQAAEEAAQFAAcJAAAAAAAAAAEAAgMREiExQQQTUWGBEBQicZGh8BUzQlNygrHR4REAAQMEAQMFAQEAAAAAAAAAAQARITFBUWFxgbHwkaHB0eHxEP/aAAwDAQACAAMAAAAB1RwNygMWagqzphZ3vO6N2rsOwp8ruMcE1WlO0iWnfvFxTU3uQ0BQ0VfuqKXkBMKrH8MsuSteZzQyh5lJawRipa9TbqGbJf3nKsTJ1//aAAgBAQABBQIKk5oKbBSMK5RUatMFq1Jx7mr7Rc0Hjk/iGuME3MROFSv5afK5xlbSasTiGNaRG/A6TNr5ML5JWsfNxBeIIrRjDkyNwXq3NMFA8VcahYUA0mSZtudK9PgpSTUzhpsxG3iWSQCJzowxGZ1tfhUrmtbzQg7CIJTCpJXOQwL1goveU4AqLh7bzC8llISOhWOCVDhQuWXqbkAvnfMgv//aAAgBAwABPwFjLXJr/UYkRWSZppog+/CDSf8AVM3rsong+/ZD0POR7qN+Ha0JR7kZAE59r//aAAgBAgABPwF78KM2f9LmoHFn1UuZOeu3RYcICc8DTzSgeNt/CmjrsFfmvQxtEKVmIa0jB+5CIntWybGMl//aAAgBAQAGPwL0f1mtCt/kuv10R7ensnNGEZ5Yeio5903CCb1tfekAbAaqjrteRWaAvZHO2oajwrpVaF5JpvId6tXeiFtsHU9E4iz0Wm6ty9kKizzdLCg3XEDnsVTnZlYh7XVW6QdMOFZMv9WQ+CrFQHgBa33VN139wQy3+CBcM9PKpuWSxGTPsqdVbWiXEEO1avYOpRTnkUa/nRdjr2XtV79j5WapoHZEnZCtAEXmh/C6/X1S0WWbd2nRfln5Kw4O8oYyGAbK7xdm6IDRo/Csl//aAAgBAQEBPyHYYQcVEEzo5CkDckBAAsYvd2RrA5bSXgyZ9I+sCdIhIoFWgnk2Q16ROR9xlGQCbEv5lEIYlZGwSly19T0QnElJMJyBZ6XXSPAiG4DgSRY+iHrgnL9Cm75HiG7d0LuMqAmg6IvEiLOmCgpcgz7wosEprwS7HrRNEAOEsXg/SoF32OPdPIJLlYbIRADQ5xD+qZik0Oca/EGNTTlPAQD1B3KlkRcCBt6FBKwGiAwJA2oxJoGjhO6ClBhF7QRCRgF7zXhBziz4HgRwmFY0CtBymsEMO+OidpijSA8IzLCAFmLhVrHYT2gA7QVQEVpdyZChmLKz6/ibnBSQMWtKmulKTujBSwI7GKR0U1blliQAMSwfIogTNPY0HbXH4gga007OQTxMwQ8O3pYohbmgcsh1GFmDkmg2oDBcShvBsai15VyaCSS1TnhoBULiCIAp8+6cImoHLMT7IAyD3vbshiA6rgPRkxe3DwA23l0TMZD+w0R3TApGcoWEImL6jqv/2gAMAwEBAgEDAQAAEH5oMkcIMjLLAEToK//aAAgBAwEBPxAnEVKcFG6r3iExpP3WUQEGVz9LAB4P1QaYsAEonIINeh0qxtgsxD1N/wCKmZUnBuTyjl8I7fYUJkSUd2CYC//aAAgBAgEBPxAfLC2uiI5XBNkOkZ/4F7ooJwhWjYvB5+/40Zf/AAg39qVhATbK/9oACAEBAQE/EKB0GreOiCAqxZpTQ9GzB8D1XimOiYBFc/iJTJhQRDh3h2dFESaG7hyqBeTHJGGsI8GzCLY84SA0qZZR69jksAUsFjR3R50DPgUy38TMQOEq0teShr1U7E3d3z8fqpz5iSzpBQLK409U846TwDlZGFlH2IIo9nUgqqHwaVPIm70uVuAarCvYBgjkgbWU9V8IYNth3ihPDBbKFguEPQD4ZbkwGJrUF0Qbs6kOMZm+gGWyopbY7JtBFQHZP5rpxAmnYsSjb5kIrCEXDkNN4spKlt2Cz3At/wBOAbX2dAPUhQELmiYTZC3SyWKtSpwZpjIrNdJwIMIAgPDYMQPNIQQb3ZZmWc6ZYQJS8ORzwfSyCG5KjY+6J7r6U2WJSoB4QiC3X4XoyGPsegpHbA4oPKGQIzy4AN4gnaMQz2VTcFHTcNYVjszUVC7CNAqj9ieLNEwCTzc6QxhXdzCjpQkjpFg4DlAmZ2oOZIazYfR7GyQOAf6XBdnuIhGVzGO6jPH4MwuCyuLfgknAjjF4vhDmG3Kg3oMG1//Z' class='thumb'></td>
+  <td class='td-name'>UGC_HomeOffice-Mar26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 746k</td>
+  <td data-label='Compras'>60</td>
+  <td data-label='Revenue'>ARS 8.2M</td>
+  <td data-label='ROAS' class='good'>10.98x</td>
+  <td data-label='CTR'>2.45%</td>
+  <td data-label='Hook %'>11.3%</td>
+  <td data-label='Hold %'>1.7%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_Feb26-Vid_v2</td>
+  <td class='td-camp'><span class='badge' style='background:#0E2A4718;color:#0E2A47;border:1px solid #0E2A4744'>Prosp. Broad</span><div class='adset'>s0C - Psp - Cv · Advantage Exc. BBDD</div></td>
+  <td data-label='Spend'>ARS 518k</td>
+  <td data-label='Compras'>42</td>
+  <td data-label='Revenue'>ARS 5.3M</td>
+  <td data-label='ROAS' class='good'>10.24x</td>
+  <td data-label='CTR'>3.72%</td>
+  <td data-label='Hook %'>17.6%</td>
+  <td data-label='Hold %'>7.2%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YzAxMDAwMGQyMDEwMDAwNWYwMjAwMDA3ZDAyMDAwMDlkMDIwMDAwZTMwMjAwMDA5NjAzMDAwMGIwMDMwMDAwZGMwMzAwMDBmZTAzMDAwMGU1MDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEcAAAMBAQEBAQAAAAAAAAAAAAIEBQEGAwAHEAACAQEFBwQCAgMAAAAAAAAAAREhAgMQMUEyUWFxgZGxBBKh8CDBItEjM/H/2gAMAwEAAgADAAAAAVXEH8+7QVvT77gBOeWfo0T5fz9JdCbSIOpJcc3lEffNy0jWlAaFaPXMK/jig7z4iBZ3rkJYdh2Yd8sYQakiSateXh9ElWkaH//aAAgBAQABBQK62bB6fZvMvVZ+hf8AkvBXcW7rYs53Tpbyv87hfyX8VbtSXexYzu8rzK+sF2vbadr3WbbLvYsbVm0Xlql7eMurx27d2Xqc3exZzkvHS9PR/wCzYLN8i72bObLbpeHpdq+tye4u9lZ2i0y8y9Nt3rMyxsxDtFu1BeXLa9LS3e2PcrFuv//aAAgBAwABPwFYqWssvwT9qazn8Hi7pyuJbs+1wf/aAAgBAgABPwF4ItR7qPNDx2mnuHhoJDwVuj4Fm1KP/9oACAEBAAY/ArXQeDwqWSaFof3T8XUXNFotfdMGZkz5GLoPmWvumOZnphlqh8y1z/X41w6lrn+Kw6lrn+KwXMeNMJ3CR//aAAgBAQABPyH5fgzNzrwh1EcKlFJqIaeYsxW9/CHPahqK1rI3cXhnzV4ESj14EkWJMq3SSKcurLR8xeGN0mvASmpvRUcquj/oXTXE0gLoKwOpik+Z8V4E7q8B8Ko+dRFtzzGKuAk5EbVG6e8+A8H3OAUEsE1HzG3olRJR4eOkycQNX9ZH1uCGyw2RmfgGkan60Pv8ENjT4IquR9jkdxHJynU1je7+itTUNd0SmvToxEA//9oADAMBAAIAAwAAABB7nHqJK5O3MnDHk33/2gAIAQMAAT8QwOdM9JKzTKXWYnj0FhmQvQ6ry4Cw1Q8TAhKSJum9oNkf9P/aAAgBAgABPxAIhrlrBvioJiPrrgQniAjUSxiVRruCpEf/2gAIAQEAAT8QwwpklPe/J2oo25E2URbmaNY04oUh5DdQqYjvCJczto0uxPPBkwjVNA6XBVWgThkyxkdHO6HQVKl7MlnFPJ1axPATLOJVcNyXEYM0iSopV5jErLkuQb6uoiZvPTre5m/WJFTQ4ZMVLhNHNNCE3EknQmfTBQOM+OwAVPMkBSKCskyq0SxQHCaboCNVRxhfFTtXwHLQrkwD943qIhrmmPWair8VKUk6nWP1D9wEUciZQUtG8ZQqnkjuNZZnouow/Up90isKVyNHcybZVu8+YSY96QLWN5j0D+UPKKfs/9k=' class='thumb'></td>
+  <td class='td-name'>UGC_Almuerzo-Cena 29-04-26</td>
+  <td class='td-camp'><span class='badge' style='background:#4FA27E18;color:#4FA27E;border:1px solid #4FA27E44'>Prosp. Intereses</span><div class='adset'>Padres + Compradores · BSAS/ROS/CBA</div></td>
+  <td data-label='Spend'>ARS 473k</td>
+  <td data-label='Compras'>31</td>
+  <td data-label='Revenue'>ARS 4.8M</td>
+  <td data-label='ROAS' class='good'>10.06x</td>
+  <td data-label='CTR'>6.29%</td>
+  <td data-label='Hook %'>28.2%</td>
+  <td data-label='Hold %'>11.2%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YjAxMDAwMGNmMDEwMDAwMzUwMjAwMDA0YzAyMDAwMDYwMDIwMDAwOTAwMjAwMDAxMTAzMDAwMDJiMDMwMDAwNDUwMzAwMDA1ODAzMDAwMDA5MDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEYAAAICAwEAAAAAAAAAAAAAAAMEAAUBAgYHEAACAQIDBgUEAwAAAAAAAAAAAREQIQJBUQMgMWFxoQQSMIGRscHR8BMi4f/aAAwDAQACAAMAAAAB9BAYOsEAoZAiIGQVY/z0z6LgJ5hddhaQICryArXUpm7v/N+q1LaqlW2EFbdSYHRXHPTPV012is9lfQJQ2m5gEXNxV9Qyf//aAAgBAQABBQJ1Y6M8Ri8uCjo6M8c/6YeDGMdGbfD58OBjHRjptcXlw7La3YxjHTxeK23wPCbHxKxrzDGzE6bXbYljHhh4dozF4lzhbIeIlYDaP+TaMaNozZ4D+qMW1kxYoXhlf//aAAgBAwABPwH0Mez8u5jUjjBzY3NP/9oACAECAAE/AfQWKdzC4FOLlX//2gAIAQEABj8C38T5eh7+g16GJiW+lqefDlkLe/KpakFyxqx9YrbiXZqaDehP7c//2gAIAQEAAT8hDGNUx1ed7HFDodDGOF1Qf4boNjHzsuqJ/e9R0MNnTTu7CFK42+41Rhxs6zS+i/0g7ubk1Q8s4IMesSMUKFCtxOdx6DprXmsn+GdCI3J6Dqbz5aEyPlkZLr5IbfTKfAsTZwmRWX2D07C1YnrF1is0RyINk7Pl9R//2gAMAwEAAgADAAAAEA283iVUQLJDQmDOiv/aAAgBAwABPxD0LS8yNVVZBk1JreBjN8Jp/9oACAECAAE/ENxk71Q8NyBEU//aAAgBAQABPxAPUMN0tUUhdbH1G4HuVhi8NUWXftLJIZ2fFtwPSuGqiXefySHyL5KPqhKXHIFT5cul8DuxuFlHxez6MkpalboOi/qPcOuNed9wtB7nckj4B1CxStIaPg3JdDyL5leBgfengfue5C+5/gvIbRC2lKVKYdRRROuR7jtY6jsGXoL5Wv7iKDvCL3QGZkjg4dSY6uK/cQS2z3gUu224HfMU54fAI0sf27n/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_PapasNoisette-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#4FA27E18;color:#4FA27E;border:1px solid #4FA27E44'>Prosp. Intereses</span><div class='adset'>Padres + Compradores · BSAS/ROS/CBA</div></td>
+  <td data-label='Spend'>ARS 422k</td>
+  <td data-label='Compras'>31</td>
+  <td data-label='Revenue'>ARS 4.1M</td>
+  <td data-label='ROAS' class='mid'>9.71x</td>
+  <td data-label='CTR'>5.1%</td>
+  <td data-label='Hook %'>17.5%</td>
+  <td data-label='Hold %'>7%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_HomeOffice_largo-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 1.1M</td>
+  <td data-label='Compras'>77</td>
+  <td data-label='Revenue'>ARS 10.7M</td>
+  <td data-label='ROAS' class='mid'>9.68x</td>
+  <td data-label='CTR'>2.27%</td>
+  <td data-label='Hook %'>5.3%</td>
+  <td data-label='Hold %'>0.9%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC - HotSale 7</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 353k</td>
+  <td data-label='Compras'>22</td>
+  <td data-label='Revenue'>ARS 3.2M</td>
+  <td data-label='ROAS' class='mid'>9.18x</td>
+  <td data-label='CTR'>1.69%</td>
+  <td data-label='Hook %'>19.8%</td>
+  <td data-label='Hold %'>7.8%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE4MDAxMDAwMGRiMDEwMDAwNGYwMjAwMDA2YjAyMDAwMDg5MDIwMDAwZTIwMjAwMDA5NjAzMDAwMGIwMDMwMDAwZGMwMzAwMDBmYzAzMDAwMGRiMDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEsAAAIDAQEBAAAAAAAAAAAAAAIGAQMEBQAHEAABAgQDBQcCBwAAAAAAAAABABECECExA0FRYXGRsfASMnKBocHRICIEEzNDYoLh/9oADAMBAAIAAwAAAAFwkD9Cmvd5Hg/ptZ0lWvdNTbxJpOqyRTtGfmBY15t2EwSGLl6YJ8sqtkUdaYeOJu+TTgkeZm2cEo+qW57I8ihX2p9qw6uaM+Xu6yV3f//aAAgBAQABBQKX7ihl+bXAg7Bl+4TEFAiojUn7pD9TFxVBaK0cLLDLiUAePFIiUENMQMMcfbgH7ZQd+OD8uLC7sS/Ed3B7soO/iQ9qLDtEsbuiMwiUHexsPsLDtEooTGIYIohLDv8Ai4QFhWjKGN2FhwPH/9oACAEDAAE/AVBnISwy0oQ/rLDNfodkFBhdpf/aAAgBAgABPwFRSjtyliQ9ppRGUdvoMLyjxezkv//aAAgBAQAGPwKUXi+iOHKJQjfOLxI/aZnesJunE4vF7oyK3qE6N8Ti8Xujan8hOFGZ8XuiaZ3qhumZnxe6JXlIqk/7e6LFDdIgKJoX7NZ+fvISfRDEGYqv/9oACAEBAAE/IZPwaJ2zkyebIPknrL02iC4tMHgeaNWAJqx1Vg8uStO5VlKhm9goSJEMALEurG4cl6Qq83+CCy/MECCO3IpnLZk/QQF1T4RWVFhmNE4WsbF030XC4ZTiggiX0LJ2MGbYvQNuSOhQcJCLe0QQRoahWJHAoqdzkiVfVmqps5YoIFHWg5gAu5rtR8JyRIYLkigQSMVQNUNeiCBRemhoEVJRcISHzCxB0Rhc5keC/9oADAMBAAIAAwAAABAro1ts1bNCf7GlleX/2gAIAQMAAT8QdCDVsl8HkAi+xqPJwztT0B/aTWpqtqrkzHEkAALtWu7Vf//aAAgBAgABPxBZJVbUh9zJoeY9aTtFeQRqinO5Q7dF/9oACAEBAAE/EAZVdBUqsWC6tHlyCzVSR8oRvlSgr0Ql1ZnW6lFMNSvtnIRtvy24HwWvzX6CsgXC3Muji5hG5NeQRdRkqTbcRleYBnqraOiRIhAsWNyVWEsiv6mQ1Z5dR35J7BkTx0ceoggJNiZtLvJg8mRcAcyC4AmjmP8AAoAGPNJydX6snRahlSdOy60vRGjqFwPzL/QDCaH0tV1cJB4AieyqT6lEqw3qu7HOnUABvDvR690qBThTWLk6BFiVkxymiJMFXamoGOrJ3oqK4gGtUa6oArKd2Nm9e5f/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC-Dom de pastas 29-04-26</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu 030a180</div></td>
+  <td data-label='Spend'>ARS 36k</td>
+  <td data-label='Compras'>2</td>
+  <td data-label='Revenue'>ARS 314k</td>
+  <td data-label='ROAS' class='mid'>8.67x</td>
+  <td data-label='CTR'>2.25%</td>
+  <td data-label='Hook %'>15.2%</td>
+  <td data-label='Hold %'>6.2%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZjAxMDAwMGQ5MDEwMDAwNWEwMjAwMDA4MTAyMDAwMGE2MDIwMDAwZTgwMjAwMDA5MjAzMDAwMGFjMDMwMDAwZTAwMzAwMDAwOTA0MDAwMGM3MDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEoAAAIDAQEBAAAAAAAAAAAAAAMEAgUGAQAHEAACAQICCAUDBAMAAAAAAAAAARECIQMxBBBBUWFxkaEgMoGx8CJCwQUTM9EScuH/2gAMAwEAAgADAAAAAddCPBEMhYJsr5XQZq8VZy30HA78ZBdD0on1ZxbVw1tSWC50N7ibwBn+QhKJz1L7IMW+kyObgRWAS2Iuh75WwpTT5TIMGjPVq6VNFz//2gAIAQEAAQUCRUUGMYnlV6MXy0VfShmGY5jeXA/ix7GD5acmYRpBpD+nQqpwdK82iOcOnKowWY5pPl/Tf49KomrR8f8AappyqMGoxjSPL+mGk5lOVRhsxHbH8ugOK8fGVb0fNFRSyp2x39OjNmPgStH8xUSVVGK7YVNX7aVrf5f/2gAIAQMAAT8BE7lLuU579X3CzFnqdNxrMp10UzPXoYuHP1LZmj//2gAIAQIAAT8BGvpK1b1HdZxx1faNWHlqVVjaivUipmHi/b0P/9oACAEBAAY/AvBUUf6oZRy8LMM9SkXgZTwPVC9fcXgqGIiJvIvBURwF4quQuRG1C8NR6E00qXHiYqnZN2W3mIk//9oACAEBAAE/IWshtRR45DHn71dFBlOS7kSomUHsh9TIP0R5et3vDEuXCu5fy/yxugMOZCAel3uWIt5cgtOjD9Aa2oynZD2tznuZniIZOPnEvGf/AEcHsXB7HYMyPfcWOX+ROyHsHsQsmHeD14XYS1UZvqxJn2JvsWKB7FzVumMSd/hpilbQmTaXEsRPYnPsSPYsZbEqTKBOBk9olO78EvDS9iE38R1j+j//2gAMAwEAAgADAAAAEFOBBCEK6tua2VLGrv/aAAgBAwABPxBsuTKcCy5ZMnP4gaEocaxnsasyWN5HFZ5PVBAa7aWRTC2nwFrlPIZNf2f/2gAIAQIAAT8QSuWGrlyc34vIncd1JGR7mrKifrm1HywhjK6dS9L1H//aAAgBAQABPxDoiLBcWmegLsca8CrW+exHqn2A93Ak5SLBcLcQc4J3g/BxEMAtaZbfIOkPYtajMPSTOdL7kPgllquQ6UIRKZ43UezJt9DY1yHnDgnWm1SQUZWT2O50patBAncv+dZnqS/JP9/s1Y6D4IvL83YKRdkY60j2n9dxGzLhwYttwvCBdS9YV2L6vN+JPIQmXCpbybQrSoaaRyh31ZHETIjCWUZxvJQOQLKf4OA+DcIK1oZ+eTXH/9k=' class='thumb'></td>
+  <td class='td-name'>UGC_Mar26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#0E2A4718;color:#0E2A47;border:1px solid #0E2A4744'>Prosp. Broad</span><div class='adset'>s0C - Psp - Cv · Advantage Exc. BBDD</div></td>
+  <td data-label='Spend'>ARS 499k</td>
+  <td data-label='Compras'>32</td>
+  <td data-label='Revenue'>ARS 4.2M</td>
+  <td data-label='ROAS' class='mid'>8.47x</td>
+  <td data-label='CTR'>4.52%</td>
+  <td data-label='Hook %'>14%</td>
+  <td data-label='Hold %'>7.1%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE4MzAxMDAwMGRmMDEwMDAwNTAwMjAwMDBhNzAyMDAwMGU0MDIwMDAwMzIwMzAwMDBmZjAzMDAwMDE5MDQwMDAwNjYwNDAwMDA5YjA0MDAwMGM1MDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAE4AAAICAwEAAAAAAAAAAAAAAAQFAwYAAQIHEAACAQMABwYDBwUAAAAAAAAAARECITEQQVFhcYGRAwQSobHhE9HwBRUgIjAywSNCUmLx/9oADAMBAAIAAwAAAAG186J1gsYYZSxpyvizlkLOGseY/pFrniElwZtWmYW9dRFjSiobejskbkmAYVqkMSHcixkAyrm1YSW4m9eecb1fUVes5AgothHzBU8owbD/2gAIAQEAAQUC0SSN/gTKkV3Eh0GDxDqR2HbHa4PGhVUnaQxFZSVPSirQ0dmqho+HFKppFQiqlCudvV8J+IopO0qkjRI/ynfbummsoqVVPeGqaU50VVwLtJpqg7xahfaHwlT3+X2bVWivspHT4SKmf//aAAgBAwABPwE7X7SdDjwTH+3sdn9r+JpfC6Vewhnb1OmurgU9q7YjckhESd9ijtH+VOyyfETxQlvllNo0VfZlPeKnXVW6ZiKY2fM+46FiuqeR2lPhg//aAAgBAgABPwEp7p4v7vL3Ku4/7+XuNCKFKQ6OPUqKnB3ZuuhOYuyH/kWZElHefhUqlJONZ94Vf4ooeT//2gAIAQEABj8C/W/a9CWlWwYFCj9P9uiRH7jM6Eszon8KqFXmmIM8lb1FGwRZ6YIj8tdnsnUzwqrPOwqaaW422P6lvMmmpVfga8Sh7Uf/2gAIAQEAAT8hn0RO0bEF026BTA3EIeS0hETyEVguboTqIbq79hrvOBO2CXJtRBws+IkLIwR6z/Al9fmPqALyDb2GajcXzUa9BLCZJzFEr/rmXOnoOM2WMZXhTxcmt7Gz5iCsCySLnWG8XUGJJcrQvQgwtQrmczjESNcLW9wkc1YGnMPPmQ5c1sU64OU+RuxC6iV7iIwOR2sJz1jJ0WI22dXC0NQ2dBnkFjmWTZb3DoDiU5I12kZMqR4hWb4EkAjUTORasfbqEglnEPJo/9oADAMBAAIAAwAAABCCKULbuKQHI41o2oP/2gAIAQMAAT8Q27hjVYE5cPIyAyl5k9UHIoYyi6TKT1ys7x9pCy5pOYkcTcxB7m31EJppvDV97glqHZGC2IhCWSZmWIXNHY+SS9Tkp//aAAgBAgABPxBi0mako02urREhU7btgXf1MIKXgSgbAXrs90KPQcLvF9Cy4CmW02kHMm4j/9oACAEBAAE/ELoetgrdqcmuO1yY7r3De5JFi0t+pIY8scKmb+mRs7aj1Crcc5EYyJ2NQW4jQ9ZKhu2t1PrB6id0tshyKMlxdUYplayghUiTSWBH5mVmfMX5TdsxsW9v67hw8rLfj36lyDF9iM2Q8bO26MkhO0Ska5YyeRGxrfTJKGHcHPDU3VGSKu42KGNMNh28QoiL8Seo49SPpw4C/ncLWW/lfYXAu7D3XPgbieF9RMWTE9rh6CGss38GukOImHn8jW+b5CEa8lkoZbJ4VrSGsrB6P/iMDrcxfA4yZx0G1/JmmNuoNuNs8JJN/wBZ4SZpDaxccXNK3i4EtbDYJhqNljZFmV9EYzCukEWBGxXFWQSNqpf2FgRcPcscr7i55CAAYd5usg//2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_HotSale 1</td>
+  <td class='td-camp'><span class='badge' style='background:#0E2A4718;color:#0E2A47;border:1px solid #0E2A4744'>Prosp. Broad</span><div class='adset'>s0C - Psp - Cv · Advantage Exc. BBDD</div></td>
+  <td data-label='Spend'>ARS 108k</td>
+  <td data-label='Compras'>6</td>
+  <td data-label='Revenue'>ARS 867k</td>
+  <td data-label='ROAS' class='mid'>8.05x</td>
+  <td data-label='CTR'>3.32%</td>
+  <td data-label='Hook %'>20.7%</td>
+  <td data-label='Hold %'>7.1%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YjAxMDAwMGNmMDEwMDAwMzUwMjAwMDA0YzAyMDAwMDYwMDIwMDAwOTAwMjAwMDAxMTAzMDAwMDJiMDMwMDAwNDUwMzAwMDA1ODAzMDAwMDA5MDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEYAAAICAwEAAAAAAAAAAAAAAAMEAAUBAgYHEAACAQIDBgUEAwAAAAAAAAAAAREQIQJBUQMgMWFxoQQSMIGRscHR8BMi4f/aAAwDAQACAAMAAAAB9BAYOsEAoZAiIGQVY/z0z6LgJ5hddhaQICryArXUpm7v/N+q1LaqlW2EFbdSYHRXHPTPV012is9lfQJQ2m5gEXNxV9Qyf//aAAgBAQABBQJ1Y6M8Ri8uCjo6M8c/6YeDGMdGbfD58OBjHRjptcXlw7La3YxjHTxeK23wPCbHxKxrzDGzE6bXbYljHhh4dozF4lzhbIeIlYDaP+TaMaNozZ4D+qMW1kxYoXhlf//aAAgBAwABPwH0Mez8u5jUjjBzY3NP/9oACAECAAE/AfQWKdzC4FOLlX//2gAIAQEABj8C38T5eh7+g16GJiW+lqefDlkLe/KpakFyxqx9YrbiXZqaDehP7c//2gAIAQEAAT8hDGNUx1ed7HFDodDGOF1Qf4boNjHzsuqJ/e9R0MNnTTu7CFK42+41Rhxs6zS+i/0g7ubk1Q8s4IMesSMUKFCtxOdx6DprXmsn+GdCI3J6Dqbz5aEyPlkZLr5IbfTKfAsTZwmRWX2D07C1YnrF1is0RyINk7Pl9R//2gAMAwEAAgADAAAAEA283iVUQLJDQmDOiv/aAAgBAwABPxD0LS8yNVVZBk1JreBjN8Jp/9oACAECAAE/ENxk71Q8NyBEU//aAAgBAQABPxAPUMN0tUUhdbH1G4HuVhi8NUWXftLJIZ2fFtwPSuGqiXefySHyL5KPqhKXHIFT5cul8DuxuFlHxez6MkpalboOi/qPcOuNed9wtB7nckj4B1CxStIaPg3JdDyL5leBgfengfue5C+5/gvIbRC2lKVKYdRRROuR7jtY6jsGXoL5Wv7iKDvCL3QGZkjg4dSY6uK/cQS2z3gUu224HfMU54fAI0sf27n/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_PapasNoisette-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#8B5CF618;color:#8B5CF6;border:1px solid #8B5CF644'>Rmk. ExCompradores</span><div class='adset'>Ex Compradores</div></td>
+  <td data-label='Spend'>ARS 99k</td>
+  <td data-label='Compras'>5</td>
+  <td data-label='Revenue'>ARS 790k</td>
+  <td data-label='ROAS' class='mid'>8.02x</td>
+  <td data-label='CTR'>2.49%</td>
+  <td data-label='Hook %'>10.3%</td>
+  <td data-label='Hold %'>4%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZTAxMDAwMGRkMDEwMDAwNTYwMjAwMDA3YTAyMDAwMDllMDIwMDAwZjEwMjAwMDBiOTAzMDAwMGQzMDMwMDAwZmIwMzAwMDAxOTA0MDAwMDE3MDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEkAAAEFAQEAAAAAAAAAAAAAAAYAAQMEBQIHEAABAgMFBgUEAwAAAAAAAAABABECITEQQVFhcQOBkaGx8AQSMsHRICJyghPh8f/aAAwDAQACAAMAAAABoFQmUMjQCLA1IH9U8tKpOdmCKGvNkFAqUyR7oiSiaQsUDBI6t1tDNj7ok4uS98XxfbHmccPgA8dTXxW6zYpIMEad8XRp8yCpsJnqQ3NUtdxf/9oACAEBAAEFAoPT4b1rxdIlsWMMQdeHHlUHp8P6vMvGUjUOzl5mUJ+6D07CrrxSiUO1YEzA80UHp2KdeIURkIWQEoZRwenZJ1tjOJQBx/JCFBtlBTZp1tFfBF5UT9wiZQUgRKKvRM3QpCoytmPOI9lFs4oQ6vgiD//aAAgBAwABPwGwkigfkpyLZIWM6832iG2G2CHzKHZEvcRdZ//aAAgBAgABPwE2Bry251L7p5o2EsiHcjCSNkSZFRFlFHTOz//aAAgBAQAGPwL9guNketkJvYKPVTap4L9hadbBNpILcV+1u+yEV/xQoA4FD8rd64rhYJXFD8vp0YNusoofy+EbQtUbIdfhG0WGyHVG0ONEAjZ//9oACAEBAAE/IeyyRocI957rJjTST30RDPNyZT4nOUcuzVDuki6rBbz3K4njgiZ0RJirvvI+U8JMnrywVDT0XuIIbpd3oLZQHF+CaeIJyfom8luiZLkHQKo70ENzvKXGBLkEAwcruQTAXyTjCTdRdlor1l7eKwKZgzdXqPdCVLuLgPcoBoXH+kSgkKk5R5nup5sHJPaqYIlR2I3RPGHVCTZiS4mUdwYo+5kjlqUhCfdjTMEXqeJMOEwZoIm00TuwGma/CYRU4lf/2gAMAwEAAgADAAAAEItjJu3YDMWEFYsc+//aAAgBAwABPxAWUIxh+RUSAvWgEhLDHBboNXQsY86J0E+YVquMQs//2gAIAQIAAT8QQITrYT1FcWgNc12oYfUTByhjGLH/2gAIAQEAAT8QopNAUGImdI5UHQoupgwMyVxihs1tF5ACiJwLUESgw7vNOUgwPcg5D1QCkCvnzc1fLDUB1JBz/bIqi724jY9Oqwnh2Z1ShtC5HYHJCfc0C15IUyQteABkEsRSSJUG2l1KbZoLF8UD7JsBmZncZNq5gxmqQ1UIuXsuQ9FNjoPVCZMHZNHMBe/Mo4xDVC4aYEUeOtQbwDqqUNR9rBDXbFMFc16ouGQojOAquMwLap4Z1fFh0rteUwhFnYJEi8MwcwTiqQJ5im68nIOmu/VWu5eiAmR/hKUwbUFdEYL4I5IObUkqR7mECPvEbs54OLoCqjnbsAv/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC - Hot Sale - 5</td>
+  <td class='td-camp'><span class='badge' style='background:#4FA27E18;color:#4FA27E;border:1px solid #4FA27E44'>Prosp. Intereses</span><div class='adset'>Padres + Compradores · BSAS/ROS/CBA</div></td>
+  <td data-label='Spend'>ARS 40k</td>
+  <td data-label='Compras'>2</td>
+  <td data-label='Revenue'>ARS 281k</td>
+  <td data-label='ROAS' class='mid'>6.97x</td>
+  <td data-label='CTR'>4.03%</td>
+  <td data-label='Hook %'>25.5%</td>
+  <td data-label='Hold %'>12.5%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_Merienda-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu 030a180</div></td>
+  <td data-label='Spend'>ARS 347k</td>
+  <td data-label='Compras'>18</td>
+  <td data-label='Revenue'>ARS 2.4M</td>
+  <td data-label='ROAS' class='mid'>6.9x</td>
+  <td data-label='CTR'>2%</td>
+  <td data-label='Hook %'>16.2%</td>
+  <td data-label='Hold %'>6.1%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_Feb26-Vid_v2</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu180a365</div></td>
+  <td data-label='Spend'>ARS 356k</td>
+  <td data-label='Compras'>23</td>
+  <td data-label='Revenue'>ARS 2.5M</td>
+  <td data-label='ROAS' class='mid'>6.89x</td>
+  <td data-label='CTR'>3.56%</td>
+  <td data-label='Hook %'>14.8%</td>
+  <td data-label='Hold %'>4.7%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_BitsEspinaca-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#8B5CF618;color:#8B5CF6;border:1px solid #8B5CF644'>Rmk. ExCompradores</span><div class='adset'>Ex Compradores</div></td>
+  <td data-label='Spend'>ARS 148k</td>
+  <td data-label='Compras'>5</td>
+  <td data-label='Revenue'>ARS 660k</td>
+  <td data-label='ROAS' class='bad'>4.46x</td>
+  <td data-label='CTR'>3.68%</td>
+  <td data-label='Hook %'>14.1%</td>
+  <td data-label='Hold %'>5.2%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3NTAxMDAwMDk1MDEwMDAwYWIwMTAwMDBiNzAxMDAwMGMzMDEwMDAwZGMwMTAwMDBmZTAxMDAwMDE4MDIwMDAwMjQwMjAwMDAzMDAyMDAwMDVkMDIwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEAAAQADAQAAAAAAAAAAAAAAAAABBAUHEAABAgEJCQEAAAAAAAAAAAABACERAhAxQFBRYXGBAxITMjNBkaHh8P/aAAwDAQACAAMAAAAB5UAAAAAAAAAAAAAvyZ7VrlIH/9oACAEBAAEFArak7IEcILgBS9nuz//aAAgBAwABPwGof//aAAgBAgABPwGof//aAAgBAQAGPwK2o74GC5xSupJXPJOU/wD/2gAIAQEAAT8htqMxV6lvzLSwGhg4vCH3yggSIEhiPfSf/9oADAMBAAIAAwAAABATzyzzzzzzzzzTTSz/2gAIAQMAAT8QqH//2gAIAQIAAT8QqH//2gAIAQEAAT8QtqlFzp9Q7pSxfVyfQiL5JhhRxLmET4UGoBwLnEQog+c//9k=' class='thumb'></td>
+  <td class='td-name'>UGC - HotSale 6</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu 030a180</div></td>
+  <td data-label='Spend'>ARS 37k</td>
+  <td data-label='Compras'>1</td>
+  <td data-label='Revenue'>ARS 156k</td>
+  <td data-label='ROAS' class='bad'>4.22x</td>
+  <td data-label='CTR'>3.17%</td>
+  <td data-label='Hook %'>12%</td>
+  <td data-label='Hold %'>4.5%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC- HotSale 4</td>
+  <td class='td-camp'><span class='badge' style='background:#8B5CF618;color:#8B5CF6;border:1px solid #8B5CF644'>Rmk. ExCompradores</span><div class='adset'>Ex Compradores</div></td>
+  <td data-label='Spend'>ARS 36k</td>
+  <td data-label='Compras'>1</td>
+  <td data-label='Revenue'>ARS 147k</td>
+  <td data-label='ROAS' class='bad'>4.13x</td>
+  <td data-label='CTR'>1.33%</td>
+  <td data-label='Hook %'>18.5%</td>
+  <td data-label='Hold %'>4.1%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZjAxMDAwMGQ2MDEwMDAwNjUwMjAwMDA4OTAyMDAwMGE3MDIwMDAwMDkwMzAwMDBlYjAzMDAwMDA1MDQwMDAwMzAwNDAwMDA0ZjA0MDAwMDZjMDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEoAAAIDAQEBAAAAAAAAAAAAAAMEAQIFBgAHEAABAwIEBAUCBgMAAAAAAAABABEhAjEDEEFRBGFxgRKRobHBIDIFEyIj4fAzUtH/2gAMAwEAAgADAAAAAdrP282PYaK27UoOs4rfmOqGQRALKNr1txAwK0KXWwh2j7QEg7hzQpzQrybDcxkts0jzbOdoWqNTwYtjbGC4MseJlzTW6Lk+n9P/2gAIAQEAAQUCxRlxGL4KeFHhPE4viXBVeLCyusbD/Xx1BpQxP2zift/hWI+HkFi/5fxGp1w2KfBxOJH4RV+rILH4c4h43Cqw1wy4gOuED4mRqZYRpWLSMUfkimmjACwsIUIVZY3CnFOFw35KH3FBVZ0riPtpqk1LFqqavEKGKTUqawsYuqwypqVSK+1Ov//aAAgBAwABPwELDErFyCw7rEvkAG5qyJfKj7gsS6pCxgzMv//aAAgBAgABPwEo+6oyIVVlRbKe2QGVViqCiVhl1//aAAgBAQAGPwJ86TeqrrZVAtFt1QeX0U0g+FwfRAGp1Tewsi+j3Xh/1+jC6VIckyZVDl9FJFXh8L+qmokLllSOecwoTLw5O2buO4RJqE8m+g/SMv0FiqZ1sqeuV0AozCfL/9oACAEBAAE/IXuhOjGIubK3c5iCYtRp1JVikzeHjXZl2ueRKORFmhRyVgSWY3DdHSEbkMihoSaAzb2TzAlliZUmMkewMj5RyuC858KEYDkfY7JkJi0TKJaAfZNu7gesooq8IyE7gEoWIc1zYoCATqMIrG3RQAcsfkyKKHe8zK+e4Eynen+CiMAQgXh33RotAsnyOeQ0IgA0hKmEDBBSRAQILjRC6LzCKA5N5pmI6jIoRT5EKX6j0VxkSBAAy4dwiCWgDD++6BjwQeMhXDO5Qwegl/JCbzPkC0ixRT1Iw5CDk//aAAwDAQACAAMAAAAQyKPSPKZZYwrGJynt/9oACAEDAAE/EEeLktKCu81DrCeUZak+gIdiPdKIXrfZC/YgEh90EmGBC//aAAgBAgABPxDerRkFPBBnnftqV0wgvTe6YGVOeV//2gAIAQEAAT8QbMH8VMWR2Gj+ZXNsTdaiMewTjlIZ6sW60nYZwkCn5ERclDJ7AU5t3WR9t+qsfRBGC509ynCB2xKHmIZm+WXySUWhrZE3LPokzV7qHQ8FKhsFvJN4gHLGi9uaCaANgJuGjfO1HYppfwbI10sitlZ8z5lE2Nc56qCnRzUOGkJEqzI4MkxhhGFLbXp1yiRvq0YQcvTEnXlKeUsBew10QlSGBsCUJyZj/e6IXM9riJRDY5YCRu5UCY12zadPZAFtI9lefUB679114HohETRp7mRnPupDd+qHtX8wlCUmQ27bRt/3zTEEsYe/VGHgKYFr3unQySfQBRaSUJdn/SgI6A8hdWygdQj5CHvAAUIA9iJ7F1Jf/9k=' class='thumb'></td>
+  <td class='td-name'>UGC - Vuelta al cole 29-04-26</td>
+  <td class='td-camp'><span class='badge' style='background:#4FA27E18;color:#4FA27E;border:1px solid #4FA27E44'>Prosp. Intereses</span><div class='adset'>Padres + Compradores · BSAS/ROS/CBA</div></td>
+  <td data-label='Spend'>ARS 187k</td>
+  <td data-label='Compras'>3</td>
+  <td data-label='Revenue'>ARS 425k</td>
+  <td data-label='ROAS' class='bad'>2.27x</td>
+  <td data-label='CTR'>6.57%</td>
+  <td data-label='Hook %'>23%</td>
+  <td data-label='Hold %'>8.3%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_Nat_Duquesa_NuevasPapas-Ene26-Vid_v2</td>
+  <td class='td-camp'><span class='badge' style='background:#5BB4D618;color:#5BB4D6;border:1px solid #5BB4D644'>Prosp. Branding</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 90k</td>
+  <td data-label='Compras'>1</td>
+  <td data-label='Revenue'>ARS 175k</td>
+  <td data-label='ROAS' class='bad'>1.95x</td>
+  <td data-label='CTR'>0.25%</td>
+  <td data-label='Hook %'>4.4%</td>
+  <td data-label='Hold %'>0.4%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_Nat_Duquesa_NuevasPapas-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#5BB4D618;color:#5BB4D6;border:1px solid #5BB4D644'>Prosp. Branding</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 14k</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>0.17%</td>
+  <td data-label='Hook %'>3.2%</td>
+  <td data-label='Hold %'>0.4%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YjAxMDAwMGNmMDEwMDAwMzUwMjAwMDA0YzAyMDAwMDYwMDIwMDAwOTAwMjAwMDAxMTAzMDAwMDJiMDMwMDAwNDUwMzAwMDA1ODAzMDAwMDA5MDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEYAAAICAwEAAAAAAAAAAAAAAAMEAAUBAgYHEAACAQIDBgUEAwAAAAAAAAAAAREQIQJBUQMgMWFxoQQSMIGRscHR8BMi4f/aAAwDAQACAAMAAAAB9BAYOsEAoZAiIGQVY/z0z6LgJ5hddhaQICryArXUpm7v/N+q1LaqlW2EFbdSYHRXHPTPV012is9lfQJQ2m5gEXNxV9Qyf//aAAgBAQABBQJ1Y6M8Ri8uCjo6M8c/6YeDGMdGbfD58OBjHRjptcXlw7La3YxjHTxeK23wPCbHxKxrzDGzE6bXbYljHhh4dozF4lzhbIeIlYDaP+TaMaNozZ4D+qMW1kxYoXhlf//aAAgBAwABPwH0Mez8u5jUjjBzY3NP/9oACAECAAE/AfQWKdzC4FOLlX//2gAIAQEABj8C38T5eh7+g16GJiW+lqefDlkLe/KpakFyxqx9YrbiXZqaDehP7c//2gAIAQEAAT8hDGNUx1ed7HFDodDGOF1Qf4boNjHzsuqJ/e9R0MNnTTu7CFK42+41Rhxs6zS+i/0g7ubk1Q8s4IMesSMUKFCtxOdx6DprXmsn+GdCI3J6Dqbz5aEyPlkZLr5IbfTKfAsTZwmRWX2D07C1YnrF1is0RyINk7Pl9R//2gAMAwEAAgADAAAAEA283iVUQLJDQmDOiv/aAAgBAwABPxD0LS8yNVVZBk1JreBjN8Jp/9oACAECAAE/ENxk71Q8NyBEU//aAAgBAQABPxAPUMN0tUUhdbH1G4HuVhi8NUWXftLJIZ2fFtwPSuGqiXefySHyL5KPqhKXHIFT5cul8DuxuFlHxez6MkpalboOi/qPcOuNed9wtB7nckj4B1CxStIaPg3JdDyL5leBgfengfue5C+5/gvIbRC2lKVKYdRRROuR7jtY6jsGXoL5Wv7iKDvCL3QGZkjg4dSY6uK/cQS2z3gUu224HfMU54fAI0sf27n/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_PapasNoisette-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#0E2A4718;color:#0E2A47;border:1px solid #0E2A4744'>Prosp. Broad</span><div class='adset'>s0C - Psp - Cv · Advantage Exc. BBDD</div></td>
+  <td data-label='Spend'>ARS 612.99</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>7.23%</td>
+  <td data-label='Hook %'>27.6%</td>
+  <td data-label='Hold %'>9.2%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZDAxMDAwMGQ0MDEwMDAwNTYwMjAwMDA4YzAyMDAwMGIyMDIwMDAwMGIwMzAwMDBmODAzMDAwMDEyMDQwMDAwNTcwNDAwMDA3ZDA0MDAwMGNlMDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEgAAAIDAQEAAAAAAAAAAAAAAAMEAQIFBgAQAAECBAQFAgYCAwAAAAAAAAEAEQIhMVEDEEFxEmGBkfChwRMisdHh8QQgMDJC/9oADAMBAAIAAwAAAAHfYc50RmMB9YRr6aB6E0tHHpZZtfnn/NGoZf0nK7jhsy0uUw+T0xMxW2B1QPMnwszoBhFr2uSVlOowZVo6tWrDgxM+kLdJlf8A/9oACAEBAAEFAhlFirFd8IEIFQxkKDGdMCMQl3WJDxAEoHLiRxQIsWF0yJWLD8NCaouBlixcUWHGoMQQqDEGLEI1iPhRPxDjlEsIfLwog4EWA2NDj/yONfxYDAIRlhSJCMLqPBiwzh4To5YkDGIIYjIMUzLiQTLFgdMmXw0MMJkE6//aAAgBAwABPwE4bKCDVlHhlEKGa+IRLhayhjv+ljQ6rCLHdRQuuEmSxZABQlQ4rc0cewRLr//aAAgBAgABPwH4iMROUMRGUUg9VBiPI9Df+gwgC9bck6jDFOny/9oACAEBAAY/AspIFEHKqnk2YU82XlM+J5D/AGy5fTIRWDLi6dEXTiY90XImflUUX/BOmmQfLqcuOEOPuoY+Z1ojDCWhvdT7ZsaH65/LQp4u39WiUjlf/H//2gAIAQEAAT8hFUTckO6mX2TCJSItcZFAJBsG+iPMk6FJtMjuKGoNiESLgGPdaINz0QlqiIN06eofoUc60r9BQEOyBIXIHdECQWgDTnJweRRAXEwUJ5+GoVgKYTe4dEIeauw0YnVInPBsEONBsZuEYHk01DTG4+iMBAIjiojUs0p2THAXB1QGY8CcadN04IsguWsgAg2q2oniDMSWzPmycACVAGR5d0eukZgtOacA81KZTUj0dHemS0YowncDgP2IRKGrhkgg0Tp+GhyDyDjQ69UFEPVXpJmnYgJ+yFybyqhoKamHRWCADkiAKvX/2gAMAwEAAgADAAAAEPLX+7BiLcmB1tkGqf/aAAgBAwABPxAhNpdHoJhU/tWLshmskINq8tkSNbc4/SK9h8dEOQ6yP3Vf0Mm/MUNk49RumLXxzCKDEe5E0BzqjlOZuv/aAAgBAgABPxBjPrbMaB+Mmzsmi548G+TrkZgyI5LSQspshzAv/9oACAEBAAE/EEAgHJYBUA/M+ymS+r7+5er4jUXU2Xo4qOxUi8x2RQWa6xTIZv7JmgmKowHQdVD09EIyzoB3NrZMNsKf3D1QgHPVfXqjICd9q7qnohLdI9kFNO0Fc/oURWaxLtVVEHG7kp24cLH7BUDIUIAHBEwQmiAuR6k+pLfxyBMjY42qAYkuB0j1NUEcAxLibdK9kcjys1QaS6hvsA/Ib9lPAkkg7MBrCM4w7gKFD1wBjczCnROzyOW6lqXRi1RD1Lj0KEBBQdJJ8WDEnoHui37oHgvoUaZqaTEyOm+aF7ITqevITO6rAGyMHGhNio8vYRQaMhEA4MiCiFr4HuAmuyQAVm80UhlvRBgDdgmEDEJ7p0MZoaCpGqI+rdC32MH7VRGZnMSAprew70U5Jn2JpnNZTegtAaoRUS5uKFM1kkg9tkReHsiFHPdvxyX/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_Merienda-Ene26-Vid_v2</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu180a365</div></td>
+  <td data-label='Spend'>ARS 7k</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>5.17%</td>
+  <td data-label='Hook %'>30%</td>
+  <td data-label='Hold %'>11.7%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YjAxMDAwMGNmMDEwMDAwMzUwMjAwMDA0YzAyMDAwMDYwMDIwMDAwOTAwMjAwMDAxMTAzMDAwMDJiMDMwMDAwNDUwMzAwMDA1ODAzMDAwMDA5MDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEYAAAICAwEAAAAAAAAAAAAAAAMEAAUBAgYHEAACAQIDBgUEAwAAAAAAAAAAAREQIQJBUQMgMWFxoQQSMIGRscHR8BMi4f/aAAwDAQACAAMAAAAB9BAYOsEAoZAiIGQVY/z0z6LgJ5hddhaQICryArXUpm7v/N+q1LaqlW2EFbdSYHRXHPTPV012is9lfQJQ2m5gEXNxV9Qyf//aAAgBAQABBQJ1Y6M8Ri8uCjo6M8c/6YeDGMdGbfD58OBjHRjptcXlw7La3YxjHTxeK23wPCbHxKxrzDGzE6bXbYljHhh4dozF4lzhbIeIlYDaP+TaMaNozZ4D+qMW1kxYoXhlf//aAAgBAwABPwH0Mez8u5jUjjBzY3NP/9oACAECAAE/AfQWKdzC4FOLlX//2gAIAQEABj8C38T5eh7+g16GJiW+lqefDlkLe/KpakFyxqx9YrbiXZqaDehP7c//2gAIAQEAAT8hDGNUx1ed7HFDodDGOF1Qf4boNjHzsuqJ/e9R0MNnTTu7CFK42+41Rhxs6zS+i/0g7ubk1Q8s4IMesSMUKFCtxOdx6DprXmsn+GdCI3J6Dqbz5aEyPlkZLr5IbfTKfAsTZwmRWX2D07C1YnrF1is0RyINk7Pl9R//2gAMAwEAAgADAAAAEA283iVUQLJDQmDOiv/aAAgBAwABPxD0LS8yNVVZBk1JreBjN8Jp/9oACAECAAE/ENxk71Q8NyBEU//aAAgBAQABPxAPUMN0tUUhdbH1G4HuVhi8NUWXftLJIZ2fFtwPSuGqiXefySHyL5KPqhKXHIFT5cul8DuxuFlHxez6MkpalboOi/qPcOuNed9wtB7nckj4B1CxStIaPg3JdDyL5leBgfengfue5C+5/gvIbRC2lKVKYdRRROuR7jtY6jsGXoL5Wv7iKDvCL3QGZkjg4dSY6uK/cQS2z3gUu224HfMU54fAI0sf27n/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_PapasNoisette-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu180a365</div></td>
+  <td data-label='Spend'>ARS 6k</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>13.33%</td>
+  <td data-label='Hook %'>37.3%</td>
+  <td data-label='Hold %'>22.3%</td>
+</tr></tbody>
+  </table>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Hot Sale · 11–13 Mayo 2026</div>
+  <div class="section-title">Resultados en <em>3 días de evento</em></div>
+  <div class="hs-kpis">
+    <div class="hs-kpi"><div class="lbl">Spend UGC</div><div class="val">ARS 837k</div></div>
+    <div class="hs-kpi"><div class="lbl">Revenue</div><div class="val">ARS 15.8M</div></div>
+    <div class="hs-kpi"><div class="lbl">ROAS Hot Sale</div><div class="val">18.89x</div></div>
+    <div class="hs-kpi"><div class="lbl">Compras</div><div class="val">110</div></div>
+  </div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr>
+      <th class="left"></th><th class="left">Creatividad</th><th class="left">Campaña / Audiencia</th>
+      <th>Spend</th><th>Compras</th><th>Revenue</th><th>ROAS</th><th>CTR</th><th>Hook %</th><th>Hold %</th>
+    </tr></thead>
+    <tbody><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YzAxMDAwMGNlMDEwMDAwM2QwMjAwMDA1MDAyMDAwMDYyMDIwMDAwOWUwMjAwMDA0MzAzMDAwMDVkMDMwMDAwNzcwMzAwMDA4YzAzMDAwMDg2MDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEcAAAIDAQEAAAAAAAAAAAAAAAIFAQMEAAYQAAEDAgUCBQMEAwAAAAAAAAEAESECMQMQQVFxIGESgZHB8AShsSIwMtFA4fH/2gAMAwEAAgADAAAAAVoOktRsmGRyQ09riYX5GuSeXqvb+VrsaOFbQguGJnqMmzGUHlVnWZ3BEFrV8sjmbLz9pD1+C8S2RmLpEc+KY1q60h1//9oACAEBAAEFAlZYMoUpkyIRCAQ8RX01LUgJkyIRC+jw4prJr+nH6acyivpqWGIwxcFvDSjV4U7oorBxgxrRxiBRi1E4mLGHjHDGFjYlRNafJk6rKkrxVUgQnQK8WRnKqtV4jIJ8vEqq0aliVsnX/9oACAEDAAE/Af2BSvDlVm6qX//aAAgBAgABPwHoHQSnyHRSv//aAAgBAQAGPwLI9c0w8Lz6quEz7tsGH9rz6qkzfoFPt/tRk56Ksop8gpoYbum3RH8lp4fx+wwU/wCA6//aAAgBAQABPyECLLQ+pYIGE4Mw3HV7ilx8ZPI7h3JbfRCIwaXtnDmIjvZ7oI3Bdqcta77Jq55THsgTIhBlG22E+qbby7AkyvHcjY0OfyiQw0E0HEg5uy4tvwnN3axafnKEpS/AngxahJ9Ahk27FKBrkacBPcktbBvIblCtlAdAEViQFhDQfv7JwgwPdBPlupWQKAlKLDjKHcZNs4I5zZE+iBEulf/aAAwDAQACAAMAAAAQOYN/3ndlhUnmbA8D/9oACAEDAAE/EG6OMmh9Mu4mLRkHl2yfITr/2gAIAQIAAT8QBzC15Ayhm+/QZAv/2gAIAQEAAT8QPD1P7JxuxA51PZQ6SDicMgHyHMDYwFtbpMgQF5S7cgiwtMBYBLP+Vf6aXkkJeTkuplIecDLoQNp0K55IZiBO4t3mp1PEex3E/UXE9gDUNFAeQnqMBAs90ABRIBGqNGj+3M4PA2Q6lE9gECb7cMRJcWGxdPzdX+QIA2DzzuzJ5UELmI/7siweYYP8HJUL23tteN3+ydSlOMHWUOToOTblWdBZtnU1zx5IA5A2lM68gOJnR91pASTqPcympJn27rVFviymaDfLIugflPuxE38OtpBLwAzVFqfnKlA9d0QCCBK0AeTz/aKQ2n4W/hsyXv/Z' class='thumb'></td>
+  <td class='td-name'>UGC_HomeOffice-Mar26-Vid_v2</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 125.66</td>
+  <td data-label='Compras'>2</td>
+  <td data-label='Revenue'>ARS 308k</td>
+  <td data-label='ROAS' class='good'>2454.48x</td>
+  <td data-label='CTR'>15.79%</td>
+  <td data-label='Hook %'>20%</td>
+  <td data-label='Hold %'>6.7%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC - HotSale 7</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 464.98</td>
+  <td data-label='Compras'>4</td>
+  <td data-label='Revenue'>ARS 544k</td>
+  <td data-label='ROAS' class='good'>1170.37x</td>
+  <td data-label='CTR'>0%</td>
+  <td data-label='Hook %'>25.6%</td>
+  <td data-label='Hold %'>9.3%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_HomeOffice_largo-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 906.54</td>
+  <td data-label='Compras'>2</td>
+  <td data-label='Revenue'>ARS 323k</td>
+  <td data-label='ROAS' class='good'>356.58x</td>
+  <td data-label='CTR'>5.07%</td>
+  <td data-label='Hook %'>17.8%</td>
+  <td data-label='Hold %'>4.3%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YzAxMDAwMGNmMDEwMDAwMjMwMjAwMDA0YzAyMDAwMDgyMDIwMDAwYTkwMjAwMDAzYTAzMDAwMDU0MDMwMDAwOTAwMzAwMDBkMDAzMDAwMGJiMDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEcAAAIDAQEAAAAAAAAAAAAAAAMEAQIFBgAQAAIBAgQEBQQBBQAAAAAAAAABESExAhBBUQNhcZESIIHh8DChsdEEEyJAQsH/2gAMAwEAAgADAAAAAdUmIdZrWS8RsYmItSONGeB1ejo1rnmBRp+Owg6sPkrTKdOohihaoy6/oMY19pAfuOtW2cHrZpYlPFDfVamvhVJy0H9lK//aAAgBAQABBQK2WN+JeA8Jg/tMdzH/ACEjx0WM8SJyxXPCcPAeM8Y8U+TFhR4fIvNAsJbOBnCwyLhoXDRx1CyYzANGDDBjr5GYDFjSPEcOTHTEj//aAAgBAwABPwHHwpqjDix4aLr6mLi4nRu/JZf1U+RBxVbJEmOqzRGX/9oACAECAAE/AcGOKOo+Hi2Y1GXAw+HGtUeFH8jDbJDxQcSMWF8q9s8NkYseHC0n/tYxKKbH/9oACAEBAAY/AsohIuXZuPrlcpBXyPrluWLFv8J/QcbfQa+g5Gsv/9oACAEBAAE/IVLxdfgiiEdgFU2JtcpWmfUVdcQMknUyaaba1sTJWPVHMIb5fdPyQNXLhcgtTZy2I0m2PfuJNF+ehCqleSDV9cmKxXdFrrPp5GlTm5K6jWedPQxZloJeu09h7W8P0YqnL+6FyGrmLJVGrEWxYToVoqU9xQQMbm1SVdBiiNxItholN9xOtT6MqP/aAAwDAQACAAMAAAAQeu3DjS4hNZy/J9OU/9oACAEDAAE/ENiPbR+4lkaU0QmqInXQTuguUH/J0y61tuR+MSpKmTQ11IpwMnJTSttvbOqOY6LDUONj/9oACAECAAE/EGRoNN17CX6htyjqQP8AlJPlJBNLdZPDT2aYi6dNNyKpOaDim77TnUzdL7lIatbPjnuSHuNdj//aAAgBAQABPxCpHL39g5QaoYGmRXSFKSNLouT97YeeeiI0iy/jIj+ke83ZCenEQn9znXclqJ6TkmHrWBXoE9EjEvyLLfjLK9rC8SkYJo37EWwL2+UlFo0u01om/wCCkWGS6+5Aa7j8kEjS6R+/qN0y1DVjh0YyNiZlEdyCVyBn0XcoXRBUaExKxXyTF2yxkWNiZ3RZOzYgXYqqVXb70HRX7Fdl82K+CqV2PWFyHoiRBmpNJYonCIToJFX+xoJNqLzI9TQo02EaLSXQpEapJObqQIQqUsFXaRJsy1p4a3Ry22HNNydSUIh//9k=' class='thumb'></td>
+  <td class='td-name'>UGC_Wrap-15 mins 29-04-26</td>
+  <td class='td-camp'><span class='badge' style='background:#0E2A4718;color:#0E2A47;border:1px solid #0E2A4744'>Prosp. Broad</span><div class='adset'>s0C - Psp - Cv · Advantage Exc. BBDD</div></td>
+  <td data-label='Spend'>ARS 3k</td>
+  <td data-label='Compras'>4</td>
+  <td data-label='Revenue'>ARS 708k</td>
+  <td data-label='ROAS' class='good'>208.73x</td>
+  <td data-label='CTR'>10.11%</td>
+  <td data-label='Hook %'>54.7%</td>
+  <td data-label='Hold %'>34.6%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_HomeOffice-Mar26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 6k</td>
+  <td data-label='Compras'>10</td>
+  <td data-label='Revenue'>ARS 1.1M</td>
+  <td data-label='ROAS' class='good'>178.51x</td>
+  <td data-label='CTR'>4.03%</td>
+  <td data-label='Hook %'>13.5%</td>
+  <td data-label='Hold %'>2.1%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_HomeOffice-largo-Dic25-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#4FA27E18;color:#4FA27E;border:1px solid #4FA27E44'>Prosp. Intereses</span><div class='adset'>Padres + Compradores · BSAS/ROS/CBA</div></td>
+  <td data-label='Spend'>ARS 2k</td>
+  <td data-label='Compras'>2</td>
+  <td data-label='Revenue'>ARS 244k</td>
+  <td data-label='ROAS' class='good'>112.33x</td>
+  <td data-label='CTR'>15.91%</td>
+  <td data-label='Hook %'>71.5%</td>
+  <td data-label='Hold %'>7.5%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_Feb26-Vid_v2</td>
+  <td class='td-camp'><span class='badge' style='background:#0E2A4718;color:#0E2A47;border:1px solid #0E2A4744'>Prosp. Broad</span><div class='adset'>s0C - Psp - Cv · Advantage Exc. BBDD</div></td>
+  <td data-label='Spend'>ARS 23k</td>
+  <td data-label='Compras'>8</td>
+  <td data-label='Revenue'>ARS 1.1M</td>
+  <td data-label='ROAS' class='good'>46.26x</td>
+  <td data-label='CTR'>16.79%</td>
+  <td data-label='Hook %'>61.1%</td>
+  <td data-label='Hold %'>35.6%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZjAxMDAwMGQ0MDEwMDAwNTUwMjAwMDA3MTAyMDAwMGEwMDIwMDAwZTUwMjAwMDBhMDAzMDAwMGJhMDMwMDAwZTQwMzAwMDAxNjA0MDAwMDM1MDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEoAAAIDAQEBAAAAAAAAAAAAAAEFAgMEAAYHEAACAQMCBAMGBgMAAAAAAAAAARECITFBUQMQYXESgZEEEyCh4fAUIjAyscFS0fH/2gAMAwEAAgADAAAAAQ2jIA4eUgtZLfSiSfnmmQTiPnawzx14o9X9J8Dvlb9C2LF1lPjd9BrsnR0+ithmAs9uryrEk3tRofUcKcvDHgZZhMrW62J//9oACAEBAAEFAvcFI2VVFLJPFyXLiVHErOHxE37op4R+HZSScRnB4lHi4lD4FfA4njOGIqY+C2VcKT8MjwnA43unTVCq9tKeLzZXUcOnxVVca0ngpMEkHG/e5TVfiKq2mirlB7S4PHIq4OJU1yZ+YqoqY/Z2z8JUyn2Ss9p4NXCf/9oACAEDAAE/AY5RzvsTPc8LeBtackWp50MrZ//aAAgBAgABPwHlJDKq40k8b2KWV8anhfuqg8J4R2K1Xx6n4ndabdlygqRRRE2P/9oACAEBAAY/Ap8N9/1EtX8aVTs7epH+LsJ/Bk/cZLtuME6DZ+VF/gsXZCxyx8CSsKqcacvuPhs+cSYPqWguzQyjQirJ/9oACAEBAAE/IYJruEEjPIylmBl9BL2foNPKAbaMCjuWQKWENYmbDWI7itWMLFxp2SBz1SNvqmKVGsStmYPu+S3YZJuMM1WjuWc5/wBDmlppnothmA7JQjQJbsKUprejYt7epkfJDa5kVAlrOvQcsARE5dBZYRBinhlzCKzGoqRZlhJAnofJG7bPeeXInkRB3JusibJ4H4vWZLAaJPMN2U7h7S+cmHdok1j1DwNDXces36voQHSZTZzZn//aAAwDAQACAAMAAAAQkz6gq4nbV11e0Xq+/9oACAEDAAE/EAlJ6RwtRztJKYFnbYPBSOal0JGUW11FB35N+Zu2EOIZ/9oACAECAAE/EBs6BO0HOkrmehJt7vkLlFNWWW+yV+RSM2rWFuMibskm32dTIvJyO4D/2gAIAQEAAT8QSnR6Ir3xEj1341siIiSTk/mEQaffodV6Mb3bvYDmnMYGxmIgpEtUkUUESur7vA5wu6S9djanmxkm1C06jwRnabiUQJ6Sx3DttK8tzSjNgn1SLUTTdaiZ9r35IGV+1xf28tLfW5rh3Rax+Y0NMpJTCCVXCZB/0FojZ5MbanK6ouuaWSXGcdizAtAp7K/zIzUcbCUlnysty6QC0ZjMmj+w8RMtFsf0OLYW1H+Q0srGB5Cg0FHUScEo0mehcEIFgS5Rwolf8ES2ME7nyDDwxpYZkxOstKTD6Edf0fXcRq0tZft5j93AtJPQfX6GDNgvoEidi6/4pFiydCvkvmKocET94yYC9XW6aakAy2v6QFRIFpmarsf/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_HomeOffice_corto-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 27k</td>
+  <td data-label='Compras'>9</td>
+  <td data-label='Revenue'>ARS 1.1M</td>
+  <td data-label='ROAS' class='good'>40.83x</td>
+  <td data-label='CTR'>4.19%</td>
+  <td data-label='Hook %'>18.3%</td>
+  <td data-label='Hold %'>7%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YzAxMDAwMGQyMDEwMDAwNWYwMjAwMDA3ZDAyMDAwMDlkMDIwMDAwZTMwMjAwMDA5NjAzMDAwMGIwMDMwMDAwZGMwMzAwMDBmZTAzMDAwMGU1MDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEcAAAMBAQEBAQAAAAAAAAAAAAIEBQEGAwAHEAACAQEFBwQCAgMAAAAAAAAAAREhAgMQMUEyUWFxgZGxBBKh8CDBItEjM/H/2gAMAwEAAgADAAAAAVXEH8+7QVvT77gBOeWfo0T5fz9JdCbSIOpJcc3lEffNy0jWlAaFaPXMK/jig7z4iBZ3rkJYdh2Yd8sYQakiSateXh9ElWkaH//aAAgBAQABBQK62bB6fZvMvVZ+hf8AkvBXcW7rYs53Tpbyv87hfyX8VbtSXexYzu8rzK+sF2vbadr3WbbLvYsbVm0Xlql7eMurx27d2Xqc3exZzkvHS9PR/wCzYLN8i72bObLbpeHpdq+tye4u9lZ2i0y8y9Nt3rMyxsxDtFu1BeXLa9LS3e2PcrFuv//aAAgBAwABPwFYqWssvwT9qazn8Hi7pyuJbs+1wf/aAAgBAgABPwF4ItR7qPNDx2mnuHhoJDwVuj4Fm1KP/9oACAEBAAY/ArXQeDwqWSaFof3T8XUXNFotfdMGZkz5GLoPmWvumOZnphlqh8y1z/X41w6lrn+Kw6lrn+KwXMeNMJ3CR//aAAgBAQABPyH5fgzNzrwh1EcKlFJqIaeYsxW9/CHPahqK1rI3cXhnzV4ESj14EkWJMq3SSKcurLR8xeGN0mvASmpvRUcquj/oXTXE0gLoKwOpik+Z8V4E7q8B8Ko+dRFtzzGKuAk5EbVG6e8+A8H3OAUEsE1HzG3olRJR4eOkycQNX9ZH1uCGyw2RmfgGkan60Pv8ENjT4IquR9jkdxHJynU1je7+itTUNd0SmvToxEA//9oADAMBAAIAAwAAABB7nHqJK5O3MnDHk33/2gAIAQMAAT8QwOdM9JKzTKXWYnj0FhmQvQ6ry4Cw1Q8TAhKSJum9oNkf9P/aAAgBAgABPxAIhrlrBvioJiPrrgQniAjUSxiVRruCpEf/2gAIAQEAAT8QwwpklPe/J2oo25E2URbmaNY04oUh5DdQqYjvCJczto0uxPPBkwjVNA6XBVWgThkyxkdHO6HQVKl7MlnFPJ1axPATLOJVcNyXEYM0iSopV5jErLkuQb6uoiZvPTre5m/WJFTQ4ZMVLhNHNNCE3EknQmfTBQOM+OwAVPMkBSKCskyq0SxQHCaboCNVRxhfFTtXwHLQrkwD943qIhrmmPWair8VKUk6nWP1D9wEUciZQUtG8ZQqnkjuNZZnouow/Up90isKVyNHcybZVu8+YSY96QLWN5j0D+UPKKfs/9k=' class='thumb'></td>
+  <td class='td-name'>UGC_Almuerzo-Cena 29-04-26</td>
+  <td class='td-camp'><span class='badge' style='background:#4FA27E18;color:#4FA27E;border:1px solid #4FA27E44'>Prosp. Intereses</span><div class='adset'>Padres + Compradores · BSAS/ROS/CBA</div></td>
+  <td data-label='Spend'>ARS 37k</td>
+  <td data-label='Compras'>9</td>
+  <td data-label='Revenue'>ARS 1.3M</td>
+  <td data-label='ROAS' class='good'>36.52x</td>
+  <td data-label='CTR'>13.42%</td>
+  <td data-label='Hook %'>49.1%</td>
+  <td data-label='Hold %'>23.4%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_HotSale 2</td>
+  <td class='td-camp'><span class='badge' style='background:#2F7D5E18;color:#2F7D5E;border:1px solid #2F7D5E44'>ASC MaxVal</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 224k</td>
+  <td data-label='Compras'>24</td>
+  <td data-label='Revenue'>ARS 3.8M</td>
+  <td data-label='ROAS' class='good'>16.88x</td>
+  <td data-label='CTR'>2.22%</td>
+  <td data-label='Hook %'>9.9%</td>
+  <td data-label='Hold %'>3.8%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZTAxMDAwMGUxMDEwMDAwNjkwMjAwMDA5YTAyMDAwMGMyMDIwMDAwMTAwMzAwMDBmYjAzMDAwMDE1MDQwMDAwNGYwNDAwMDA3NDA0MDAwMGEyMDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEkAAAICAwEAAAAAAAAAAAAAAAQGAwUBAgcAEAACAQIDBgYBAwUAAAAAAAAAAREhMQIDQQQQUWFxkRKBobHB8NEgIjIFE2Lh8f/aAAwDAQACAAMAAAABEgv6LXbL2mt4x+nOehImdRQD64kJ6Tegc502ebVcvoD56W6SveppBiCa93570NWzgZ/oWKEvPLutJPsKshIkozViWIwNiuFxmrrTVOcUuSMUGy2NA//aAAgBAQABBQKWYsTRsq/uYlhMeEzMPgxVHmMg2pwtiwNYcvGYsTZt6h3WG+a/25mY2bNgWLLVH4FiNswLw5TMTh47Zjk2DM/a3OLDiP6jmucszDHbTZc2MWHCR4THinGY8RjcCyjIypEo3ZuSkY8DRmwy5ivs+/Mq2pMWXO6DZ8VTE43Yjwn/2gAIAQMAAT8BMuiM5SrDMNjBEIzISZiQsaVzZ8dJ0ZtGOIfMeKd2z/wRtf8AFdST/9oACAECAAE/ATHVmXRiHcdzDcTPC3YzF4WZS8TZEbs/+TNlu+hEn//aAAgBAQAGPwKxYl6b2v0dSjghl4Qvtt1TFF0VcwYBLluX+JGm7F0ZbgRwKOvIg8PLe93W5KdzmzFier/RU6b6cRfG6u578XUk47l+v//aAAgBAQABPyFEqAS2p8v9bpbTTUpj1Fphe69COIUbU7kEuKCRo6lMj3Znih/CToJv1oOebo1E8xVDTHcoxFtRql0OzuPFxCo1OTp1FSxWFO2rCzfrQhfaJakirrewVjoovWB7Z9Ud6iKxCjhPcWpRy1xuPKrpBtdXQkmi4nSvDJbRNNtNsg4U2/BkzcLURlrcH1hIu1F6CumuMC06uBYekpRFovUS0wJVNRKnUbNJEP62KQUw+zoKxNrQSbTU2VohKeT5FRVIe6SlTCEqoPiT6E2+qZ6EDqaPdAKuebb53EmkNTT75ihR6H//2gAMAwEAAgADAAAAEJws0C77n4K0+l97fP/aAAgBAwABPxBXKOFeslRuWvIoTfAvcZJmax7HMD+omJmX5PMCFcjMnR6CLaiqx04dJT7j+Z7EJkf/2gAIAQIAAT8Q3KwmjFlwLRwguIk0XAiNIPkTniDjEQLBIRh//9oACAEBAAE/EFre8rhFHU+Mr0JdKhHAg7CGnVNDTvxvqewZ5EaPiNVoQpdfyfsV1Z3lt3UI0JuRPlodIjMfNvYTfFtGpNuMMsj9ZJnbKJk/wPKFqq4C9gwHQaGo6CTVTRcn20KAZxAVNu4la/dDrcKa35uTJdEHEYkPKhfkRGsftOIyGZYcLBKIrUPSONOFLump3QgTPYrD0HhA6cuRTK2gl0EiUzzQ6nlAD3DdRTcTkfqXLRdOjewoPFA9aeA8rzmvNCFyxl82HccW5MZazZQ4rb/o+RmloXETLV3SU7o+4c4yh5uo85p6khrhtjQdkyWF2JLSW7QTKi7lC5u8lIj7fuUM/QrcWvT6/A2iwGrZiujuvJ19hE6+Q65JOnTVxDkV0JT7YUFBpHmf/9k=' class='thumb'></td>
+  <td class='td-name'>UGC- Woc</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu180a365</div></td>
+  <td data-label='Spend'>ARS 182k</td>
+  <td data-label='Compras'>18</td>
+  <td data-label='Revenue'>ARS 2.6M</td>
+  <td data-label='ROAS' class='good'>14.4x</td>
+  <td data-label='CTR'>4.57%</td>
+  <td data-label='Hook %'>19.9%</td>
+  <td data-label='Hold %'>8.3%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_HotSale 4</td>
+  <td class='td-camp'><span class='badge' style='background:#8B5CF618;color:#8B5CF6;border:1px solid #8B5CF644'>Rmk. ExCompradores</span><div class='adset'>Ex Compradores</div></td>
+  <td data-label='Spend'>ARS 51k</td>
+  <td data-label='Compras'>5</td>
+  <td data-label='Revenue'>ARS 684k</td>
+  <td data-label='ROAS' class='good'>13.49x</td>
+  <td data-label='CTR'>2.58%</td>
+  <td data-label='Hook %'>19.3%</td>
+  <td data-label='Hold %'>5.9%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE4MzAxMDAwMGRiMDEwMDAwM2EwMjAwMDBiNTAyMDAwMGYyMDIwMDAwM2UwMzAwMDBmZDAzMDAwMDE3MDQwMDAwN2UwNDAwMDBjOTA0MDAwMGMzMDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAE4AAAIDAQEAAAAAAAAAAAAAAAMFAgQGAQAQAAIBAgIFCwQCAQUAAAAAAAABESExAkFRYXGB8AMQEhMgMpGhwdHhBBQisVLxQgUwM5LC/9oADAMBAAIAAwAAAAHbQUjpW3EUoQmfVcaWFzWwyej9DOxNFbZAOyGfK4Csr3FO1QD54vDWKgV8GHiAR8YK7Fonij8bSkyJj53SBSdhNuglcmSlB/Ptv//aAAgBAQABBQKDonROiNdj7zCfeo++PvyWyGfkfTKcHYeLoH3KPuEfR9zsTXmeJrs479cdeh8omJSdWjoI6KOVmMPK4mdJ82Bfi2jrMJ12AfL4TqzoYyo7xz4zkhEH/9oACAEDAAE/AcP02L+IuQxaD7aP8vI5TkeipmRskwcpixdJ/iocd1u2xmJdOkrcn6nKfU4MLadXhv8Asf8AqGD+OLwXufT8ph5TC8SpX8k6w7cVN6/6x/6Hh6zFiluc67tDOoXHSf6g5DE8GLFhw00642ydfi1eHtB//9oACAECAAE/AcX1WD+SH9Rh0j5QWKRIgaSWG9VN/g2ceRg5LG1SiZ9ti0oWGEk6wU4f9HR6MHGQsJ0Ef//aAAgBAQAGPwL/AGLM7rO75nc8x1j5P+Q74m+ztMvAuhdlai53i/ZTM/AuXXNfn/GkF/JH+Pgd3CzDsqXXid5HeMxvBYsd0fNYt2f/2gAIAQEAAT8h7HoSJJGP+o9x/KIa6fDYNsuDcJ151aXmOA2OhtT3vImJLc/tkczQ0Njles7UNMwnnNpxUq1UkEDQ0Oe3x+xPXVBrU8D2+TzN8yNQKJOSi8dr+xqW9R6CGm4a9yNOuBrm6LazgqaoVHcrm1ZkxPmLkmbbYET65l0hODqV3VrdYRyNwj+R+hB7EzS23fJKWIZ0m+yxqD8PdELs6n8lO0f7ElKTSSEjul25FavZvKRm1CsrscrQf//aAAwDAQACAAMAAAAQCvVFx0wVlpZnxXEn/9oACAEDAAE/EE8/G8W+a9xLQ0T2ihFqiIa0vPYIWnwKsmpM1DrYe0n9D4Mms0U+Jk/kChWlaUJ00Z0E7eAC9reCqRJRaUk9op8zg3CGZJzJUr6Bb+MrEbBhcV3KXUpKdc2R6W2Af//aAAgBAgABPxD+xew9ae5+xqCdaB7rTexQzTjQSRKOiHqKaW9yFlsrCu7aLN8Zv0G2YwmnGc6HpFqPhsFCERlT5J44MRE31P4jmf/aAAgBAQABPxByzRmqN9JnrxQY7Ssy97ua1d3uZF+5AlZm4ELbxBlDewi7q9oa0aHg7RLAE2SbOalvZeXMa5wq6xYUkz3Mx+qGRASCGpcNVqJQpdNzTxM2oaCOaem826bYY0riXFRnuBEomqpcEUEzzDEClQF9ULO5RhEcO4Wdv39kK8UTQRMhusHq/NCy+sKWNvw9yGM/GslwsnyHmaBMXvUaBcDDYxzy2NSDPaQWr4n+gRV45k2QYENmYb17DfoaGjghoSusVB/IYT03c4YCtDR+8R3d41dAp11/LxE2reBt2DU21A1NQ1AWZAiIKH69CidxXfDk/9k=' class='thumb'></td>
+  <td class='td-name'>UGC HotSale - Solana</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu 030a180</div></td>
+  <td data-label='Spend'>ARS 79k</td>
+  <td data-label='Compras'>4</td>
+  <td data-label='Revenue'>ARS 701k</td>
+  <td data-label='ROAS' class='mid'>8.9x</td>
+  <td data-label='CTR'>4.5%</td>
+  <td data-label='Hook %'>19.9%</td>
+  <td data-label='Hold %'>11.6%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE4MzAxMDAwMGRmMDEwMDAwNTAwMjAwMDBhNzAyMDAwMGU0MDIwMDAwMzIwMzAwMDBmZjAzMDAwMDE5MDQwMDAwNjYwNDAwMDA5YjA0MDAwMGM1MDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAE4AAAICAwEAAAAAAAAAAAAAAAQFAwYAAQIHEAACAQMABwYDBwUAAAAAAAAAARECITEQQVFhcYGRAwQSobHhE9HwBRUgIjAywSNCUmLx/9oADAMBAAIAAwAAAAG186J1gsYYZSxpyvizlkLOGseY/pFrniElwZtWmYW9dRFjSiobejskbkmAYVqkMSHcixkAyrm1YSW4m9eecb1fUVes5AgothHzBU8owbD/2gAIAQEAAQUC0SSN/gTKkV3Eh0GDxDqR2HbHa4PGhVUnaQxFZSVPSirQ0dmqho+HFKppFQiqlCudvV8J+IopO0qkjRI/ynfbummsoqVVPeGqaU50VVwLtJpqg7xahfaHwlT3+X2bVWivspHT4SKmf//aAAgBAwABPwE7X7SdDjwTH+3sdn9r+JpfC6Vewhnb1OmurgU9q7YjckhESd9ijtH+VOyyfETxQlvllNo0VfZlPeKnXVW6ZiKY2fM+46FiuqeR2lPhg//aAAgBAgABPwEp7p4v7vL3Ku4/7+XuNCKFKQ6OPUqKnB3ZuuhOYuyH/kWZElHefhUqlJONZ94Vf4ooeT//2gAIAQEABj8C/W/a9CWlWwYFCj9P9uiRH7jM6Eszon8KqFXmmIM8lb1FGwRZ6YIj8tdnsnUzwqrPOwqaaW422P6lvMmmpVfga8Sh7Uf/2gAIAQEAAT8hn0RO0bEF026BTA3EIeS0hETyEVguboTqIbq79hrvOBO2CXJtRBws+IkLIwR6z/Al9fmPqALyDb2GajcXzUa9BLCZJzFEr/rmXOnoOM2WMZXhTxcmt7Gz5iCsCySLnWG8XUGJJcrQvQgwtQrmczjESNcLW9wkc1YGnMPPmQ5c1sU64OU+RuxC6iV7iIwOR2sJz1jJ0WI22dXC0NQ2dBnkFjmWTZb3DoDiU5I12kZMqR4hWb4EkAjUTORasfbqEglnEPJo/9oADAMBAAIAAwAAABCCKULbuKQHI41o2oP/2gAIAQMAAT8Q27hjVYE5cPIyAyl5k9UHIoYyi6TKT1ys7x9pCy5pOYkcTcxB7m31EJppvDV97glqHZGC2IhCWSZmWIXNHY+SS9Tkp//aAAgBAgABPxBi0mako02urREhU7btgXf1MIKXgSgbAXrs90KPQcLvF9Cy4CmW02kHMm4j/9oACAEBAAE/ELoetgrdqcmuO1yY7r3De5JFi0t+pIY8scKmb+mRs7aj1Crcc5EYyJ2NQW4jQ9ZKhu2t1PrB6id0tshyKMlxdUYplayghUiTSWBH5mVmfMX5TdsxsW9v67hw8rLfj36lyDF9iM2Q8bO26MkhO0Ska5YyeRGxrfTJKGHcHPDU3VGSKu42KGNMNh28QoiL8Seo49SPpw4C/ncLWW/lfYXAu7D3XPgbieF9RMWTE9rh6CGss38GukOImHn8jW+b5CEa8lkoZbJ4VrSGsrB6P/iMDrcxfA4yZx0G1/JmmNuoNuNs8JJN/wBZ4SZpDaxccXNK3i4EtbDYJhqNljZFmV9EYzCukEWBGxXFWQSNqpf2FgRcPcscr7i55CAAYd5usg//2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_HotSale 1</td>
+  <td class='td-camp'><span class='badge' style='background:#0E2A4718;color:#0E2A47;border:1px solid #0E2A4744'>Prosp. Broad</span><div class='adset'>s0C - Psp - Cv · Advantage Exc. BBDD</div></td>
+  <td data-label='Spend'>ARS 96k</td>
+  <td data-label='Compras'>5</td>
+  <td data-label='Revenue'>ARS 716k</td>
+  <td data-label='ROAS' class='mid'>7.48x</td>
+  <td data-label='CTR'>3.23%</td>
+  <td data-label='Hook %'>20.7%</td>
+  <td data-label='Hold %'>7%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZTAxMDAwMGRkMDEwMDAwNTYwMjAwMDA3YTAyMDAwMDllMDIwMDAwZjEwMjAwMDBiOTAzMDAwMGQzMDMwMDAwZmIwMzAwMDAxOTA0MDAwMDE3MDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEkAAAEFAQEAAAAAAAAAAAAAAAYAAQMEBQIHEAABAgMFBgUEAwAAAAAAAAABABECITEQQVFhcQOBkaGx8AQSMsHRICJyghPh8f/aAAwDAQACAAMAAAABoFQmUMjQCLA1IH9U8tKpOdmCKGvNkFAqUyR7oiSiaQsUDBI6t1tDNj7ok4uS98XxfbHmccPgA8dTXxW6zYpIMEad8XRp8yCpsJnqQ3NUtdxf/9oACAEBAAEFAoPT4b1rxdIlsWMMQdeHHlUHp8P6vMvGUjUOzl5mUJ+6D07CrrxSiUO1YEzA80UHp2KdeIURkIWQEoZRwenZJ1tjOJQBx/JCFBtlBTZp1tFfBF5UT9wiZQUgRKKvRM3QpCoytmPOI9lFs4oQ6vgiD//aAAgBAwABPwGwkigfkpyLZIWM6832iG2G2CHzKHZEvcRdZ//aAAgBAgABPwE2Bry251L7p5o2EsiHcjCSNkSZFRFlFHTOz//aAAgBAQAGPwL9guNketkJvYKPVTap4L9hadbBNpILcV+1u+yEV/xQoA4FD8rd64rhYJXFD8vp0YNusoofy+EbQtUbIdfhG0WGyHVG0ONEAjZ//9oACAEBAAE/IeyyRocI957rJjTST30RDPNyZT4nOUcuzVDuki6rBbz3K4njgiZ0RJirvvI+U8JMnrywVDT0XuIIbpd3oLZQHF+CaeIJyfom8luiZLkHQKo70ENzvKXGBLkEAwcruQTAXyTjCTdRdlor1l7eKwKZgzdXqPdCVLuLgPcoBoXH+kSgkKk5R5nup5sHJPaqYIlR2I3RPGHVCTZiS4mUdwYo+5kjlqUhCfdjTMEXqeJMOEwZoIm00TuwGma/CYRU4lf/2gAMAwEAAgADAAAAEItjJu3YDMWEFYsc+//aAAgBAwABPxAWUIxh+RUSAvWgEhLDHBboNXQsY86J0E+YVquMQs//2gAIAQIAAT8QQITrYT1FcWgNc12oYfUTByhjGLH/2gAIAQEAAT8QopNAUGImdI5UHQoupgwMyVxihs1tF5ACiJwLUESgw7vNOUgwPcg5D1QCkCvnzc1fLDUB1JBz/bIqi724jY9Oqwnh2Z1ShtC5HYHJCfc0C15IUyQteABkEsRSSJUG2l1KbZoLF8UD7JsBmZncZNq5gxmqQ1UIuXsuQ9FNjoPVCZMHZNHMBe/Mo4xDVC4aYEUeOtQbwDqqUNR9rBDXbFMFc16ouGQojOAquMwLap4Z1fFh0rteUwhFnYJEi8MwcwTiqQJ5im68nIOmu/VWu5eiAmR/hKUwbUFdEYL4I5IObUkqR7mECPvEbs54OLoCqjnbsAv/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC - Hot Sale - 5</td>
+  <td class='td-camp'><span class='badge' style='background:#4FA27E18;color:#4FA27E;border:1px solid #4FA27E44'>Prosp. Intereses</span><div class='adset'>Padres + Compradores · BSAS/ROS/CBA</div></td>
+  <td data-label='Spend'>ARS 40k</td>
+  <td data-label='Compras'>2</td>
+  <td data-label='Revenue'>ARS 281k</td>
+  <td data-label='ROAS' class='mid'>6.97x</td>
+  <td data-label='CTR'>4.03%</td>
+  <td data-label='Hook %'>25.5%</td>
+  <td data-label='Hold %'>12.5%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3NTAxMDAwMDk1MDEwMDAwYWIwMTAwMDBiNzAxMDAwMGMzMDEwMDAwZGMwMTAwMDBmZTAxMDAwMDE4MDIwMDAwMjQwMjAwMDAzMDAyMDAwMDVkMDIwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEAAAQADAQAAAAAAAAAAAAAAAAABBAUHEAABAgEJCQEAAAAAAAAAAAABACERAhAxQFBRYXGBAxITMjNBkaHh8P/aAAwDAQACAAMAAAAB5UAAAAAAAAAAAAAvyZ7VrlIH/9oACAEBAAEFArak7IEcILgBS9nuz//aAAgBAwABPwGof//aAAgBAgABPwGof//aAAgBAQAGPwK2o74GC5xSupJXPJOU/wD/2gAIAQEAAT8htqMxV6lvzLSwGhg4vCH3yggSIEhiPfSf/9oADAMBAAIAAwAAABATzyzzzzzzzzzTTSz/2gAIAQMAAT8QqH//2gAIAQIAAT8QqH//2gAIAQEAAT8QtqlFzp9Q7pSxfVyfQiL5JhhRxLmET4UGoBwLnEQog+c//9k=' class='thumb'></td>
+  <td class='td-name'>UGC - HotSale 6</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu 030a180</div></td>
+  <td data-label='Spend'>ARS 23k</td>
+  <td data-label='Compras'>1</td>
+  <td data-label='Revenue'>ARS 156k</td>
+  <td data-label='ROAS' class='mid'>6.8x</td>
+  <td data-label='CTR'>3.74%</td>
+  <td data-label='Hook %'>0%</td>
+  <td data-label='Hold %'>0%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC- HotSale 4</td>
+  <td class='td-camp'><span class='badge' style='background:#8B5CF618;color:#8B5CF6;border:1px solid #8B5CF644'>Rmk. ExCompradores</span><div class='adset'>Ex Compradores</div></td>
+  <td data-label='Spend'>ARS 36k</td>
+  <td data-label='Compras'>1</td>
+  <td data-label='Revenue'>ARS 147k</td>
+  <td data-label='ROAS' class='bad'>4.13x</td>
+  <td data-label='CTR'>1.33%</td>
+  <td data-label='Hook %'>18.5%</td>
+  <td data-label='Hold %'>4.1%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE4MDAxMDAwMGRiMDEwMDAwNGYwMjAwMDA2YjAyMDAwMDg5MDIwMDAwZTIwMjAwMDA5NjAzMDAwMGIwMDMwMDAwZGMwMzAwMDBmYzAzMDAwMGRiMDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEsAAAIDAQEBAAAAAAAAAAAAAAIGAQMEBQAHEAABAgQDBQcCBwAAAAAAAAABABECECExA0FRYXGRsfASMnKBocHRICIEEzNDYoLh/9oADAMBAAIAAwAAAAFwkD9Cmvd5Hg/ptZ0lWvdNTbxJpOqyRTtGfmBY15t2EwSGLl6YJ8sqtkUdaYeOJu+TTgkeZm2cEo+qW57I8ihX2p9qw6uaM+Xu6yV3f//aAAgBAQABBQKX7ihl+bXAg7Bl+4TEFAiojUn7pD9TFxVBaK0cLLDLiUAePFIiUENMQMMcfbgH7ZQd+OD8uLC7sS/Ed3B7soO/iQ9qLDtEsbuiMwiUHexsPsLDtEooTGIYIohLDv8Ai4QFhWjKGN2FhwPH/9oACAEDAAE/AVBnISwy0oQ/rLDNfodkFBhdpf/aAAgBAgABPwFRSjtyliQ9ppRGUdvoMLyjxezkv//aAAgBAQAGPwKUXi+iOHKJQjfOLxI/aZnesJunE4vF7oyK3qE6N8Ti8Xujan8hOFGZ8XuiaZ3qhumZnxe6JXlIqk/7e6LFDdIgKJoX7NZ+fvISfRDEGYqv/9oACAEBAAE/IZPwaJ2zkyebIPknrL02iC4tMHgeaNWAJqx1Vg8uStO5VlKhm9goSJEMALEurG4cl6Qq83+CCy/MECCO3IpnLZk/QQF1T4RWVFhmNE4WsbF030XC4ZTiggiX0LJ2MGbYvQNuSOhQcJCLe0QQRoahWJHAoqdzkiVfVmqps5YoIFHWg5gAu5rtR8JyRIYLkigQSMVQNUNeiCBRemhoEVJRcISHzCxB0Rhc5keC/9oADAMBAAIAAwAAABAro1ts1bNCf7GlleX/2gAIAQMAAT8QdCDVsl8HkAi+xqPJwztT0B/aTWpqtqrkzHEkAALtWu7Vf//aAAgBAgABPxBZJVbUh9zJoeY9aTtFeQRqinO5Q7dF/9oACAEBAAE/EAZVdBUqsWC6tHlyCzVSR8oRvlSgr0Ql1ZnW6lFMNSvtnIRtvy24HwWvzX6CsgXC3Muji5hG5NeQRdRkqTbcRleYBnqraOiRIhAsWNyVWEsiv6mQ1Z5dR35J7BkTx0ceoggJNiZtLvJg8mRcAcyC4AmjmP8AAoAGPNJydX6snRahlSdOy60vRGjqFwPzL/QDCaH0tV1cJB4AieyqT6lEqw3qu7HOnUABvDvR690qBThTWLk6BFiVkxymiJMFXamoGOrJ3oqK4gGtUa6oArKd2Nm9e5f/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC-Dom de pastas 29-04-26</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu 030a180</div></td>
+  <td data-label='Spend'>ARS 9.96</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>0%</td>
+  <td data-label='Hook %'>50%</td>
+  <td data-label='Hold %'>0%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_BitsEspinaca-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#8B5CF618;color:#8B5CF6;border:1px solid #8B5CF644'>Rmk. ExCompradores</span><div class='adset'>Ex Compradores</div></td>
+  <td data-label='Spend'>ARS 1.6</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>0%</td>
+  <td data-label='Hook %'>0%</td>
+  <td data-label='Hold %'>0%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3YjAxMDAwMGNmMDEwMDAwMzUwMjAwMDA0YzAyMDAwMDYwMDIwMDAwOTAwMjAwMDAxMTAzMDAwMDJiMDMwMDAwNDUwMzAwMDA1ODAzMDAwMDA5MDQwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEYAAAICAwEAAAAAAAAAAAAAAAMEAAUBAgYHEAACAQIDBgUEAwAAAAAAAAAAAREQIQJBUQMgMWFxoQQSMIGRscHR8BMi4f/aAAwDAQACAAMAAAAB9BAYOsEAoZAiIGQVY/z0z6LgJ5hddhaQICryArXUpm7v/N+q1LaqlW2EFbdSYHRXHPTPV012is9lfQJQ2m5gEXNxV9Qyf//aAAgBAQABBQJ1Y6M8Ri8uCjo6M8c/6YeDGMdGbfD58OBjHRjptcXlw7La3YxjHTxeK23wPCbHxKxrzDGzE6bXbYljHhh4dozF4lzhbIeIlYDaP+TaMaNozZ4D+qMW1kxYoXhlf//aAAgBAwABPwH0Mez8u5jUjjBzY3NP/9oACAECAAE/AfQWKdzC4FOLlX//2gAIAQEABj8C38T5eh7+g16GJiW+lqefDlkLe/KpakFyxqx9YrbiXZqaDehP7c//2gAIAQEAAT8hDGNUx1ed7HFDodDGOF1Qf4boNjHzsuqJ/e9R0MNnTTu7CFK42+41Rhxs6zS+i/0g7ubk1Q8s4IMesSMUKFCtxOdx6DprXmsn+GdCI3J6Dqbz5aEyPlkZLr5IbfTKfAsTZwmRWX2D07C1YnrF1is0RyINk7Pl9R//2gAMAwEAAgADAAAAEA283iVUQLJDQmDOiv/aAAgBAwABPxD0LS8yNVVZBk1JreBjN8Jp/9oACAECAAE/ENxk71Q8NyBEU//aAAgBAQABPxAPUMN0tUUhdbH1G4HuVhi8NUWXftLJIZ2fFtwPSuGqiXefySHyL5KPqhKXHIFT5cul8DuxuFlHxez6MkpalboOi/qPcOuNed9wtB7nckj4B1CxStIaPg3JdDyL5leBgfengfue5C+5/gvIbRC2lKVKYdRRROuR7jtY6jsGXoL5Wv7iKDvCL3QGZkjg4dSY6uK/cQS2z3gUu224HfMU54fAI0sf27n/2Q==' class='thumb'></td>
+  <td class='td-name'>UGC_PapasNoisette-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#8B5CF618;color:#8B5CF6;border:1px solid #8B5CF644'>Rmk. ExCompradores</span><div class='adset'>Ex Compradores</div></td>
+  <td data-label='Spend'>ARS 524.09</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>20.9%</td>
+  <td data-label='Hook %'>59%</td>
+  <td data-label='Hold %'>31.1%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_Nat_Duquesa_NuevasPapas-Ene26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#5BB4D618;color:#5BB4D6;border:1px solid #5BB4D644'>Prosp. Branding</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 709.54</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>0.18%</td>
+  <td data-label='Hook %'>2.7%</td>
+  <td data-label='Hold %'>0.4%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,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' class='thumb'></td>
+  <td class='td-name'>UGC_Nat_Duquesa_NuevasPapas-Ene26-Vid_v2</td>
+  <td class='td-camp'><span class='badge' style='background:#5BB4D618;color:#5BB4D6;border:1px solid #5BB4D644'>Prosp. Branding</span><div class='adset'>Broad</div></td>
+  <td data-label='Spend'>ARS 1k</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>0.17%</td>
+  <td data-label='Hook %'>2.7%</td>
+  <td data-label='Hold %'>0.2%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZjAxMDAwMGQ2MDEwMDAwNjUwMjAwMDA4OTAyMDAwMGE3MDIwMDAwMDkwMzAwMDBlYjAzMDAwMDA1MDQwMDAwMzAwNDAwMDA0ZjA0MDAwMDZjMDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEoAAAIDAQEBAAAAAAAAAAAAAAMEAQIFBgAHEAABAwIEBAUCBgMAAAAAAAABABEhAjEDEEFRBGFxgRKRobHBIDIFEyIj4fAzUtH/2gAMAwEAAgADAAAAAdrP282PYaK27UoOs4rfmOqGQRALKNr1txAwK0KXWwh2j7QEg7hzQpzQrybDcxkts0jzbOdoWqNTwYtjbGC4MseJlzTW6Lk+n9P/2gAIAQEAAQUCxRlxGL4KeFHhPE4viXBVeLCyusbD/Xx1BpQxP2zift/hWI+HkFi/5fxGp1w2KfBxOJH4RV+rILH4c4h43Cqw1wy4gOuED4mRqZYRpWLSMUfkimmjACwsIUIVZY3CnFOFw35KH3FBVZ0riPtpqk1LFqqavEKGKTUqawsYuqwypqVSK+1Ov//aAAgBAwABPwELDErFyCw7rEvkAG5qyJfKj7gsS6pCxgzMv//aAAgBAgABPwEo+6oyIVVlRbKe2QGVViqCiVhl1//aAAgBAQAGPwJ86TeqrrZVAtFt1QeX0U0g+FwfRAGp1Tewsi+j3Xh/1+jC6VIckyZVDl9FJFXh8L+qmokLllSOecwoTLw5O2buO4RJqE8m+g/SMv0FiqZ1sqeuV0AozCfL/9oACAEBAAE/IXuhOjGIubK3c5iCYtRp1JVikzeHjXZl2ueRKORFmhRyVgSWY3DdHSEbkMihoSaAzb2TzAlliZUmMkewMj5RyuC858KEYDkfY7JkJi0TKJaAfZNu7gesooq8IyE7gEoWIc1zYoCATqMIrG3RQAcsfkyKKHe8zK+e4Eynen+CiMAQgXh33RotAsnyOeQ0IgA0hKmEDBBSRAQILjRC6LzCKA5N5pmI6jIoRT5EKX6j0VxkSBAAy4dwiCWgDD++6BjwQeMhXDO5Qwegl/JCbzPkC0ixRT1Iw5CDk//aAAwDAQACAAMAAAAQyKPSPKZZYwrGJynt/9oACAEDAAE/EEeLktKCu81DrCeUZak+gIdiPdKIXrfZC/YgEh90EmGBC//aAAgBAgABPxDerRkFPBBnnftqV0wgvTe6YGVOeV//2gAIAQEAAT8QbMH8VMWR2Gj+ZXNsTdaiMewTjlIZ6sW60nYZwkCn5ERclDJ7AU5t3WR9t+qsfRBGC509ynCB2xKHmIZm+WXySUWhrZE3LPokzV7qHQ8FKhsFvJN4gHLGi9uaCaANgJuGjfO1HYppfwbI10sitlZ8z5lE2Nc56qCnRzUOGkJEqzI4MkxhhGFLbXp1yiRvq0YQcvTEnXlKeUsBew10QlSGBsCUJyZj/e6IXM9riJRDY5YCRu5UCY12zadPZAFtI9lefUB679114HohETRp7mRnPupDd+qHtX8wlCUmQ27bRt/3zTEEsYe/VGHgKYFr3unQySfQBRaSUJdn/SgI6A8hdWygdQj5CHvAAUIA9iJ7F1Jf/9k=' class='thumb'></td>
+  <td class='td-name'>UGC - Vuelta al cole 29-04-26</td>
+  <td class='td-camp'><span class='badge' style='background:#4FA27E18;color:#4FA27E;border:1px solid #4FA27E44'>Prosp. Intereses</span><div class='adset'>Padres + Compradores · BSAS/ROS/CBA</div></td>
+  <td data-label='Spend'>ARS 117.54</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>0%</td>
+  <td data-label='Hook %'>53.3%</td>
+  <td data-label='Hold %'>40%</td>
+</tr><tr>
+  <td class='td-thumb'><img src='data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/7QCEUGhvdG9zaG9wIDMuMAA4QklNBAQAAAAAAGgcAigAYkZCTUQwYTAwMGE3ZDAxMDAwMGQ4MDEwMDAwNWEwMjAwMDBhNTAyMDAwMGMzMDIwMDAwMTYwMzAwMDAwODA0MDAwMDIyMDQwMDAwN2EwNDAwMDA5ODA0MDAwMGQ1MDUwMDAwAP/bAIQABgcHDQkNDAwMDBENDg0REREQEBERExASERIQExMUExUVExQTFBMXFxcTFBUXGRkXFRccGxwXGxkZGx4bHhsbFgEGBgYLCAsKCwsKDQkLCQ0MDAoKDAwPCwwLDAsPEA4NDg4NDhAODQ0KDQ0ODw4QEA4PEAwODBAPEBAPFxkXFxfB/8IAEQgAQABAAwEiAAIRAQMRAf/EAEgAAAIDAQEBAAAAAAAAAAAAAAMFAgQGAQAHEAABAwIEBAQGAwEAAAAAAAABABEhMUECAxBREmFxgZGhsfAEIDLB0eETIvEU/9oADAMBAAIAAwAAAAHANjXxHZNc0v536H3F6mQ7foT6NPitwtFZy7e2w72oxpBGZwxTuC1aOZfI4kL2FMZmdWjeJ4egz+kmNXVLVH0oLAYTpMVtkky6LLaiYP/aAAgBAQABBQIrKyjmrARkDDnYcXy5+VwnLznGdigLDnYsKGNAvoQszCxCy8g4kMrAFAWHHxaY0cjBiX/IHzMrFjRym0yKrEHQw6fzHATn8SJdOsgLNLAArhKzAsC4UQvhwOHOxFwVxLH/AGGCE5RK+G+n4gf2wwuJYpXDKNPhvo//2gAIAQMAAT8Bw4HMrFlhfxlMhIGnCN1nQWXw2bhwcXEQHZnn8rMz8tqhzT+rT4BAeaz6LB8Ngx4RjeWZkPhMBZ+v1fpH0Wf9Pdf/2gAIAQIAAT8BJQK4tHYp0SsFFmLCEQsKxlcWmBf/2gAIAQEABj8CX3W4VflLCAq8KjSqnUojR/pCqTpHyAum4mC30OjHT6kxkKC3Z/L8FVGjosqq66aV80/3QLSmtp+0eaa4V/AKX0HTS+hVvNf6gv/aAAgBAQABPyE5CA7Nthk2pcnkT+VTu0wflAM5udN0EAYwUP2sgERcQT1RKmO5GUQAQe6DoZZvPigc0ZQUuPUr4I5NIX/xPMPVOGCQggod4VdE8igIA4LsUEuxoKjaqJv6R+0wFvNW+2gRNAwgnYMWpsg4v7ApuJ1oNPdUCfTM8RIJI9gEINLbc1eG0B0V0YwAdnVkXNn/AAuf5k2HeUmzOCTZAtnv0RRYejq9lREQZ+hUbsBaEzbzb7rs9uqFg4BQxecszeacsqZrHMN6BbbsSURwC71TnOD4J/sERb+kCBogvJGyn2+xWqDp9ybBufVf/9oADAMBAAIAAwAAABB5sz/dhzaHfyYWqKb/2gAIAQMAAT8QBIgy26ebURtSiQghiu3D0TMgahHoB+V2oAveQ6YhQCYsd4b0Igw8wOcC+w6aANGPWyu7liao4iFIIDzzBR6SDYqKQxQgOzgHDwFS6OlF/9oACAECAAE/EIY0GCsIF1K1l7dPLMiPqZWTlto//9oACAEBAAE/EGQbKcA2ik2c2t4IJp4HDhbIwtAmLh30fWOGHZBNUKFPxQP3dyPd5IPe6YR6XsR8US5wEC08nVI0AW8Mp3lWGAuwyF+Loh8LlwkPA3dRsWA5hdBeB3kfNPBJ8juqA9U0bEnWyMEtHcgKjR5gC7WeFX6VOUBi9W6jfIPbsrpp2LCm7JvroDpxuFK86hPF0u+RABgBAc4C5lG/s6EOGR7Qc+wjMkzbD2KIcpLpd9mUtz5A8VPVGp35gKt03lbqhuU9r+KIczckN7ogExhSYVhMY7ygJOvMpBAYECqLEFVJQJEMdB3Moos29tTfYi+yB4JF4t12RoTtR3gZNzIEojIoyFEAGEiYHs22yKKC4Ha4oW8JqBbqtj0UcJjAZydyciLPQnNA8noi4ZwGLfguq2eqaSCX/9k=' class='thumb'></td>
+  <td class='td-name'>UGC_Feb26-Vid_v1</td>
+  <td class='td-camp'><span class='badge' style='background:#D9770618;color:#D97706;border:1px solid #D9770644'>Rmk. Farming 30-365d</span><div class='adset'>s2H - Rmk - Cv · Pu180a365</div></td>
+  <td data-label='Spend'>ARS 4k</td>
+  <td data-label='Compras'>0</td>
+  <td data-label='Revenue'>ARS 0</td>
+  <td data-label='ROAS' class='bad'>0x</td>
+  <td data-label='CTR'>23.14%</td>
+  <td data-label='Hook %'>76.4%</td>
+  <td data-label='Hold %'>29.1%</td>
+</tr></tbody>
+  </table>
+  </div>
+</div>
+
+<div class="footer">
+  <span>Datos: Meta Ads API v19 · act_2589307181297317</span>
+  <div class="brand">Dilema <em>Creative</em></div>
+  <span>Uso interno · No distribuir</span>
+</div>
+</body>
+</html>
