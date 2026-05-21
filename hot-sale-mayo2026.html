@@ -1,895 +1,1427 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Frizata — Hot Sale Mayo 2026 | Dilema Creative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   :root {
-    --hs: #FF4B6E;
-    --hw: #FF9F1C;
-    --ext: #2EC4B6;
-    --meta: #1877F2;
-    --google: #EA4335;
-    --bg: #0F0F14;
-    --card: #17171F;
-    --border: #2A2A38;
-    --text: #E8E8F0;
-    --muted: #8888A8;
-    --green: #2EC4B6;
+    --ink: #0E2A47;
+    --ink-soft: #1B3A5C;
+    --sage: #4FA27E;
+    --sage-deep: #2F7D5E;
+    --cream: #F4EFE6;
+    --paper: #FAF6EE;
+    --paper-2: #EFE8D9;
+    --black: #14161A;
+    --ash: #6B6257;
+    --line: #D9CFBC;
+    --good: #2F7D5E;
+    --bad: #B23A2B;
+    --star: #5BB4D6;
   }
+
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, sans-serif; font-size: 14px; line-height: 1.5; }
-  a { color: inherit; text-decoration: none; }
+  html, body { background: var(--paper); color: var(--black); }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  .serif { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
+  .mono  { font-family: 'JetBrains Mono', ui-monospace, monospace; }
 
-  /* HEADER */
-  .header { background: linear-gradient(135deg, #1A1A28 0%, #0F0F14 100%); border-bottom: 1px solid var(--border); padding: 32px 40px; }
-  .header-inner { max-width: 1280px; margin: 0 auto; }
-  .logo { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
-  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.5px; }
-  .header h1 span { color: var(--hs); }
-  .header-meta { display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap; }
-  .badge { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; }
-  .badge-hs { background: rgba(255,75,110,0.15); color: var(--hs); border: 1px solid rgba(255,75,110,0.3); }
-  .badge-hw { background: rgba(255,159,28,0.15); color: var(--hw); border: 1px solid rgba(255,159,28,0.3); }
-  .badge-ext { background: rgba(46,196,182,0.15); color: var(--ext); border: 1px solid rgba(46,196,182,0.3); }
-  .badge-total { background: rgba(255,255,255,0.07); color: var(--text); border: 1px solid var(--border); }
+  /* ── HEADER ────────────────────────────────── */
+  .header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 64px 80px 56px;
+    border-bottom: 3px solid var(--sage);
+  }
+  .header .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(244,239,230,0.55);
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(48px, 6vw, 96px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+  }
+  .header h1 em { font-style: italic; color: var(--sage); font-weight: 400; }
+  .header h1 .star { color: var(--star); font-style: normal; font-size: 0.45em; vertical-align: super; }
+  .header-sub {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: rgba(244,239,230,0.7);
+    margin-bottom: 40px;
+    max-width: 600px;
+    line-height: 1.4;
+  }
+  .header-periods {
+    display: flex;
+    gap: 0;
+    border-top: 1px solid rgba(244,239,230,0.15);
+    padding-top: 32px;
+    flex-wrap: wrap;
+  }
+  .period-header-cell {
+    flex: 1;
+    min-width: 180px;
+    padding: 0 28px 0 0;
+    border-right: 1px solid rgba(244,239,230,0.15);
+    margin-right: 28px;
+  }
+  .period-header-cell:last-child { border-right: none; }
+  .phc-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(244,239,230,0.5);
+    margin-bottom: 6px;
+  }
+  .phc-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+  .phc-name em { font-style: italic; color: var(--sage); font-weight: 400; }
+  .phc-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(244,239,230,0.45);
+    letter-spacing: 0.05em;
+  }
 
-  /* LAYOUT */
-  .container { max-width: 1280px; margin: 0 auto; padding: 32px 40px; }
-  .section-title { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  /* ── LAYOUT ─────────────────────────────────── */
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 80px; }
 
-  /* KPI GRID */
-  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 40px; }
-  .kpi-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; position: relative; overflow: hidden; }
-  .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-  .kpi-card.hs::before { background: var(--hs); }
-  .kpi-card.hw::before { background: var(--hw); }
-  .kpi-card.ext::before { background: var(--ext); }
-  .kpi-card.total::before { background: linear-gradient(90deg, var(--hs), var(--hw), var(--ext)); }
-  .kpi-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
-  .kpi-period { font-size: 12px; font-weight: 600; margin-bottom: 12px; }
-  .kpi-period.hs { color: var(--hs); }
-  .kpi-period.hw { color: var(--hw); }
-  .kpi-period.ext { color: var(--ext); }
-  .kpi-period.total { color: var(--text); }
-  .kpi-main { font-size: 26px; font-weight: 700; letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
-  .kpi-sub { font-size: 12px; color: var(--muted); }
-  .kpi-row { display: flex; justify-content: space-between; margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .kpi-mini { text-align: center; }
-  .kpi-mini-val { font-size: 14px; font-weight: 600; }
-  .kpi-mini-label { font-size: 10px; color: var(--muted); }
+  /* ── SECTION SLAB ───────────────────────────── */
+  .slab {
+    padding: 72px 80px;
+    border-bottom: 1px solid var(--line);
+  }
+  .slab.cream { background: var(--cream); }
+  .slab.dark  { background: var(--ink); color: var(--cream); border-bottom-color: rgba(244,239,230,0.1); }
+  .slab.sage  { background: var(--sage-deep); color: var(--cream); border-bottom-color: rgba(244,239,230,0.1); }
 
-  /* PLATFORM SPLIT */
-  .platform-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 40px; }
-  .platform-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-  .platform-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-  .platform-dot { width: 10px; height: 10px; border-radius: 50%; }
-  .platform-dot.meta { background: var(--meta); }
-  .platform-dot.google { background: var(--google); }
-  .platform-name { font-size: 13px; font-weight: 600; }
-  .period-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); }
-  .period-row:last-child { border-bottom: none; }
-  .period-row-label { font-size: 12px; }
-  .period-row-label .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
-  .period-row-vals { display: flex; gap: 20px; text-align: right; }
-  .period-row-val { }
-  .period-row-val .val { font-size: 13px; font-weight: 600; }
-  .period-row-val .lbl { font-size: 10px; color: var(--muted); }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 48px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid currentColor;
+  }
+  .sec-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    opacity: 0.5;
+  }
+  .sec-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    margin: 0;
+  }
+  .sec-head h2 em { font-style: italic; color: var(--sage); font-weight: 400; }
+  .slab.dark .sec-head h2 em  { color: var(--sage); }
+  .slab.sage .sec-head h2 em  { color: #D4F0E1; }
 
-  /* CHARTS */
-  .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-bottom: 40px; }
-  .charts-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 40px; }
-  .chart-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-  .chart-title { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
-  .chart-subtitle { font-size: 11px; color: var(--muted); margin-bottom: 16px; }
-  .chart-wrap { position: relative; }
+  /* ── KPI GRID — RESUMEN POR PERÍODO ─────────── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 56px;
+  }
+  .kpi-cell {
+    padding: 32px 28px;
+    border-right: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .kpi-cell:last-child { border-right: none; }
+  .kpi-cell.accent { background: var(--ink); color: var(--cream); border-right-color: rgba(244,239,230,0.1); }
+  .kpi-period-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .kpi-period-tag .dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .kpi-period-tag.p1 { color: var(--ink); }
+  .kpi-period-tag.p1 .dot { background: var(--ink); }
+  .kpi-period-tag.p2 { color: var(--sage-deep); }
+  .kpi-period-tag.p2 .dot { background: var(--sage); }
+  .kpi-period-tag.p3 { color: var(--ash); }
+  .kpi-period-tag.p3 .dot { background: var(--ash); }
+  .kpi-period-tag.total { color: var(--sage); }
+  .kpi-period-tag.total .dot { background: var(--sage); }
+  .kpi-roas {
+    font-family: 'Fraunces', serif;
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+  .kpi-roas em { font-style: italic; font-weight: 400; }
+  .kpi-roas-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 20px;
+  }
+  .kpi-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .kpi-cell.accent .kpi-stats { border-top-color: rgba(244,239,230,0.15); }
+  .kpi-stat-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .kpi-cell.accent .kpi-stat-val { color: var(--cream); }
+  .kpi-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .kpi-cell.accent .kpi-stat-label { color: rgba(244,239,230,0.45); }
 
-  /* PERIOD LABELS */
-  .period-separator { display: flex; gap: 12px; margin-bottom: 8px; }
-  .period-pill { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
-  .period-pill.hs { background: rgba(255,75,110,0.15); color: var(--hs); }
-  .period-pill.hw { background: rgba(255,159,28,0.15); color: var(--hw); }
-  .period-pill.ext { background: rgba(46,196,182,0.15); color: var(--ext); }
+  /* ── PLATAFORMA TABLE ───────────────────────── */
+  .plat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+  .plat-card {
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .plat-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .plat-header .plat-name {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .plat-header .plat-name em { font-style: italic; color: var(--sage); font-weight: 400; }
+  .plat-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+    border-radius: 2px;
+    background: var(--sage);
+    color: var(--ink);
+    text-transform: uppercase;
+    margin-left: auto;
+  }
+  .plat-row {
+    display: grid;
+    grid-template-columns: 1fr 90px 80px 90px 70px;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--line);
+    align-items: center;
+  }
+  .plat-row:last-child { border-bottom: none; }
+  .plat-row.header-row {
+    background: var(--cream);
+    padding: 10px 24px;
+  }
+  .plat-row.header-row span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ash);
+    text-align: right;
+  }
+  .plat-row.header-row span:first-child { text-align: left; }
+  .plat-row.total-row { background: var(--cream); }
+  .plat-period-name {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .plat-period-name .mini-dot {
+    display: inline-block;
+    width: 5px; height: 5px; border-radius: 50%;
+  }
+  .plat-val {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--black);
+  }
+  .plat-val.roas {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--sage-deep);
+  }
+  .plat-row.total-row .plat-period-name { font-size: 14px; color: var(--ash); }
+  .plat-row.total-row .plat-val.roas { color: var(--ink); font-size: 20px; }
 
-  /* ADS TABLE */
-  .ads-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
-  .ads-table th { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
-  .ads-table td { padding: 10px 12px; border-bottom: 1px solid rgba(42,42,56,0.5); font-size: 12px; vertical-align: middle; }
-  .ads-table tr:hover td { background: rgba(255,255,255,0.02); }
-  .ad-name { font-weight: 500; max-width: 260px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .roas-badge { display: inline-block; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; }
-  .roas-high { background: rgba(46,196,182,0.15); color: var(--ext); }
-  .roas-mid { background: rgba(255,159,28,0.15); color: var(--hw); }
-  .roas-low { background: rgba(255,75,110,0.15); color: var(--hs); }
-  .period-tag { display: inline-block; font-size: 9px; padding: 1px 6px; border-radius: 6px; margin-left: 4px; font-weight: 600; }
-  .pt-hs { background: rgba(255,75,110,0.12); color: var(--hs); }
-  .pt-hw { background: rgba(255,159,28,0.12); color: var(--hw); }
-  .pt-ext { background: rgba(46,196,182,0.12); color: var(--ext); }
+  /* ── CHARTS ─────────────────────────────────── */
+  .chart-grid-2 {
+    display: grid;
+    grid-template-columns: 3fr 2fr;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  .chart-grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+  .chart-card {
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: var(--paper);
+    padding: 28px;
+  }
+  .chart-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 6px;
+  }
+  .chart-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .chart-title em { font-style: italic; color: var(--sage); }
+  .period-legend {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .period-legend-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .period-legend-item .leg-dot {
+    display: inline-block;
+    width: 8px; height: 8px; border-radius: 50%;
+  }
 
-  /* INSIGHTS */
-  .insights-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 40px; }
-  .insight-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-  .insight-icon { font-size: 20px; margin-bottom: 8px; }
-  .insight-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-  .insight-body { font-size: 12px; color: var(--muted); line-height: 1.6; }
-  .insight-body strong { color: var(--text); }
+  /* ── GOOGLE CAMPAIGNS TABLE ──────────────────── */
+  .camps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+  .camp-card {
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .camp-card-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+  }
+  .camp-card-header .camp-period-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 4px;
+  }
+  .camp-card-header .camp-period-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .camp-card-header .camp-period-name em { font-style: italic; color: var(--sage); }
+  .camp-row {
+    display: grid;
+    grid-template-columns: 1fr 60px 50px;
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(217,207,188,0.5);
+    align-items: center;
+  }
+  .camp-row:last-child { border-bottom: none; }
+  .camp-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .camp-roas {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-align: right;
+    color: var(--sage-deep);
+  }
+  .camp-conv {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-align: right;
+    color: var(--ash);
+  }
 
-  /* ROTATION */
-  .rotation-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
-  .rotation-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
-  .rotation-title { font-size: 12px; font-weight: 600; margin-bottom: 12px; }
+  /* ── TOP ADS TABLE ───────────────────────────── */
+  .ads-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 56px;
+  }
+  .ads-table thead tr {
+    background: var(--cream);
+  }
+  .ads-table th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ash);
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .ads-table th:not(:first-child) { text-align: right; }
+  .ads-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid rgba(217,207,188,0.5);
+    vertical-align: middle;
+  }
+  .ads-table tbody tr:hover td { background: var(--cream); }
+  .ad-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    max-width: 280px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .period-tags { display: flex; gap: 4px; margin-top: 3px; flex-wrap: wrap; }
+  .ptag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    padding: 1px 5px;
+    border-radius: 1px;
+    text-transform: uppercase;
+  }
+  .ptag.hs  { background: rgba(14,42,71,0.1); color: var(--ink); }
+  .ptag.hw  { background: rgba(79,162,126,0.15); color: var(--sage-deep); }
+  .ptag.ext { background: rgba(91,180,214,0.15); color: #2D7A9A; }
+  .td-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-align: right;
+    color: var(--ash);
+  }
+  .td-roas {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-align: right;
+  }
+  .roas-hi  { color: var(--sage-deep); }
+  .roas-mid { color: var(--ink); }
+  .roas-lo  { color: var(--ash); }
+
+  /* ── AD ROTATION ─────────────────────────────── */
+  .rotation-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 56px;
+  }
+  .rotation-card {
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: var(--paper);
+    overflow: hidden;
+  }
+  .rotation-header {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--line);
+    background: var(--cream);
+  }
+  .rotation-header .rh-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 4px;
+  }
+  .rotation-header .rh-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .rotation-header .rh-title em { font-style: italic; color: var(--sage); }
   .rotation-list { list-style: none; }
-  .rotation-list li { font-size: 11px; padding: 5px 0; border-bottom: 1px solid rgba(42,42,56,0.5); display: flex; justify-content: space-between; align-items: center; }
+  .rotation-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 24px;
+    border-bottom: 1px solid rgba(217,207,188,0.5);
+    font-family: 'Inter', sans-serif;
+    font-size: 12.5px;
+    color: var(--ink);
+  }
   .rotation-list li:last-child { border-bottom: none; }
 
-  /* FOOTER */
-  .footer { border-top: 1px solid var(--border); padding: 24px 40px; text-align: center; font-size: 11px; color: var(--muted); }
+  /* ── INSIGHTS ────────────────────────────────── */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 56px;
+  }
+  .insight-cell {
+    padding: 32px 28px;
+    border-right: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .insight-cell:nth-child(3n) { border-right: none; }
+  .insight-cell:nth-child(n+4) { border-top: 1px solid var(--line); }
+  .insight-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--sage-deep);
+    margin-bottom: 12px;
+  }
+  .insight-title {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .insight-title em { font-style: italic; color: var(--sage); }
+  .insight-body {
+    font-size: 13.5px;
+    color: var(--ash);
+    line-height: 1.6;
+  }
+  .insight-body b { color: var(--ink); font-weight: 600; }
+  .insight-body .metric {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+    font-weight: 500;
+  }
 
-  @media (max-width: 900px) {
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    .platform-grid, .rotation-grid, .insights-grid { grid-template-columns: 1fr; }
-    .charts-grid { grid-template-columns: 1fr; }
-    .charts-grid-3 { grid-template-columns: 1fr; }
-    .container { padding: 20px; }
-    .header { padding: 24px 20px; }
+  /* ── PULLQUOTE / CIERRE ──────────────────────── */
+  .pullquote {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(36px, 4vw, 60px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+    max-width: 900px;
+  }
+  .pullquote em { font-style: italic; color: var(--sage); }
+
+  /* ── FOOTER ──────────────────────────────────── */
+  footer {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 64px 80px;
+  }
+  footer .wrap {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 40px;
+    align-items: end;
+    border-top: 1px solid rgba(244,239,230,0.15);
+    padding-top: 48px;
+  }
+  footer .sig {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 60px;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+  }
+  footer .sig em { font-style: italic; color: var(--sage); font-weight: 400; }
+  footer .sig .star { color: var(--star); }
+  footer .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    line-height: 1.9;
+  }
+
+  hr.rule { height: 1px; background: currentColor; opacity: 0.12; border: none; margin: 40px 0; }
+
+  @media (max-width: 1100px) {
+    .header, .slab { padding-left: 32px; padding-right: 32px; }
+    .kpi-grid { grid-template-columns: 1fr 1fr; }
+    .kpi-cell { border-bottom: 1px solid var(--line); }
+    .kpi-cell:nth-child(2) { border-right: none; }
+    .plat-grid, .rotation-grid, .chart-grid-2 { grid-template-columns: 1fr; }
+    .chart-grid-3, .camps-grid, .insights-grid { grid-template-columns: 1fr; }
+    footer .wrap { grid-template-columns: 1fr; }
+    footer { padding: 40px 32px; }
+    footer .sig { font-size: 40px; }
   }
 </style>
 </head>
 <body>
 
 <!-- HEADER -->
-<div class="header">
-  <div class="header-inner">
-    <div class="logo">Dilema Creative — Análisis de Campaña</div>
-    <h1>Frizata — <span>Hot Sale Mayo 2026</span></h1>
-    <div class="header-meta">
-      <span class="badge badge-hs">🔥 Hot Sale 11–13 mayo</span>
-      <span class="badge badge-hw">📅 Hot Week 14–17 mayo</span>
-      <span class="badge badge-ext">📌 Extensión 18–20 mayo</span>
-      <span class="badge badge-total">Meta Ads + Google Ads</span>
+<header class="header">
+  <div class="kicker">Dilema Creative · Análisis de campaña · Mayo 2026</div>
+  <h1>Frizata — <em>Hot Sale</em><span class="star">*</span></h1>
+  <p class="header-sub">Resultados reales vía Meta Ads API + Google Ads API. 10 días, tres períodos, dos plataformas.</p>
+  <div class="header-periods">
+    <div class="period-header-cell">
+      <div class="phc-kicker">Período 01</div>
+      <div class="phc-name">Hot <em>Sale</em></div>
+      <div class="phc-date">11 – 13 mayo</div>
+    </div>
+    <div class="period-header-cell">
+      <div class="phc-kicker">Período 02</div>
+      <div class="phc-name">Hot <em>Week</em></div>
+      <div class="phc-date">14 – 17 mayo</div>
+    </div>
+    <div class="period-header-cell">
+      <div class="phc-kicker">Período 03</div>
+      <div class="phc-name"><em>Extensión</em></div>
+      <div class="phc-date">18 – 20 mayo</div>
+    </div>
+    <div class="period-header-cell">
+      <div class="phc-kicker">Total evento</div>
+      <div class="phc-name"><em>10 días</em></div>
+      <div class="phc-date">1.338 conversiones</div>
     </div>
   </div>
-</div>
+</header>
 
-<div class="container">
 
-  <!-- RESUMEN POR PERÍODO -->
-  <div class="section-title">Resumen por período — Combinado Meta + Google</div>
+<!-- 01 · RESUMEN POR PERÍODO -->
+<section class="slab">
+  <div class="sec-head">
+    <span class="num">01 / RESUMEN</span>
+    <h2>El evento, <em>de un vistazo</em>.</h2>
+  </div>
+
   <div class="kpi-grid">
 
-    <div class="kpi-card hs">
-      <div class="kpi-label">Período</div>
-      <div class="kpi-period hs">🔥 Hot Sale — 11 al 13</div>
-      <div class="kpi-main">22.57x</div>
-      <div class="kpi-sub">ROAS combinado</div>
-      <div class="kpi-row">
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">$4.89M</div>
-          <div class="kpi-mini-label">Gasto ARS</div>
+    <!-- Hot Sale -->
+    <div class="kpi-cell">
+      <div class="kpi-period-tag p1">
+        <span class="dot"></span>Hot Sale · 11–13
+      </div>
+      <div class="kpi-roas"><em>22</em>.57×</div>
+      <div class="kpi-roas-label">ROAS combinado</div>
+      <div class="kpi-stats">
+        <div>
+          <div class="kpi-stat-val">$4.89M</div>
+          <div class="kpi-stat-label">Gasto ARS</div>
         </div>
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">771</div>
-          <div class="kpi-mini-label">Conversiones</div>
+        <div>
+          <div class="kpi-stat-val">771</div>
+          <div class="kpi-stat-label">Conversiones</div>
         </div>
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">$110.4M</div>
-          <div class="kpi-mini-label">Valor ARS</div>
+        <div>
+          <div class="kpi-stat-val">$110.4M</div>
+          <div class="kpi-stat-label">Valor ARS</div>
+        </div>
+        <div>
+          <div class="kpi-stat-val">3 días</div>
+          <div class="kpi-stat-label">Duración</div>
         </div>
       </div>
     </div>
 
-    <div class="kpi-card hw">
-      <div class="kpi-label">Período</div>
-      <div class="kpi-period hw">📅 Hot Week — 14 al 17</div>
-      <div class="kpi-main">11.62x</div>
-      <div class="kpi-sub">ROAS combinado</div>
-      <div class="kpi-row">
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">$3.93M</div>
-          <div class="kpi-mini-label">Gasto ARS</div>
-        </div>
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">354</div>
-          <div class="kpi-mini-label">Conversiones</div>
-        </div>
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">$45.6M</div>
-          <div class="kpi-mini-label">Valor ARS</div>
-        </div>
+    <!-- Hot Week -->
+    <div class="kpi-cell">
+      <div class="kpi-period-tag p2">
+        <span class="dot"></span>Hot Week · 14–17
       </div>
-    </div>
-
-    <div class="kpi-card ext">
-      <div class="kpi-label">Período</div>
-      <div class="kpi-period ext">📌 Extensión — 18 al 20</div>
-      <div class="kpi-main">10.06x</div>
-      <div class="kpi-sub">ROAS combinado</div>
-      <div class="kpi-row">
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">$3.13M</div>
-          <div class="kpi-mini-label">Gasto ARS</div>
+      <div class="kpi-roas" style="color:var(--sage-deep)"><em>11</em>.62×</div>
+      <div class="kpi-roas-label">ROAS combinado</div>
+      <div class="kpi-stats">
+        <div>
+          <div class="kpi-stat-val">$3.93M</div>
+          <div class="kpi-stat-label">Gasto ARS</div>
         </div>
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">213</div>
-          <div class="kpi-mini-label">Conversiones</div>
+        <div>
+          <div class="kpi-stat-val">354</div>
+          <div class="kpi-stat-label">Conversiones</div>
         </div>
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">$31.5M</div>
-          <div class="kpi-mini-label">Valor ARS</div>
+        <div>
+          <div class="kpi-stat-val">$45.6M</div>
+          <div class="kpi-stat-label">Valor ARS</div>
+        </div>
+        <div>
+          <div class="kpi-stat-val">4 días</div>
+          <div class="kpi-stat-label">Duración</div>
         </div>
       </div>
     </div>
 
-    <div class="kpi-card total">
-      <div class="kpi-label">Total HS</div>
-      <div class="kpi-period total">⚡ 11 al 20 mayo</div>
-      <div class="kpi-main">15.70x</div>
-      <div class="kpi-sub">ROAS total del evento</div>
-      <div class="kpi-row">
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">$11.95M</div>
-          <div class="kpi-mini-label">Gasto ARS</div>
+    <!-- Extensión -->
+    <div class="kpi-cell">
+      <div class="kpi-period-tag p3">
+        <span class="dot"></span>Extensión · 18–20
+      </div>
+      <div class="kpi-roas" style="color:var(--ash)"><em>10</em>.06×</div>
+      <div class="kpi-roas-label">ROAS combinado</div>
+      <div class="kpi-stats">
+        <div>
+          <div class="kpi-stat-val">$3.13M</div>
+          <div class="kpi-stat-label">Gasto ARS</div>
         </div>
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">1,338</div>
-          <div class="kpi-mini-label">Conversiones</div>
+        <div>
+          <div class="kpi-stat-val">213</div>
+          <div class="kpi-stat-label">Conversiones</div>
         </div>
-        <div class="kpi-mini">
-          <div class="kpi-mini-val">$187.6M</div>
-          <div class="kpi-mini-label">Valor ARS</div>
+        <div>
+          <div class="kpi-stat-val">$31.5M</div>
+          <div class="kpi-stat-label">Valor ARS</div>
         </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- CHARTS PRINCIPALES -->
-  <div class="section-title">Performance diaria — ROAS, Gasto y Conversiones</div>
-  <div class="charts-grid">
-    <div class="chart-card">
-      <div class="chart-title">ROAS diario por plataforma</div>
-      <div class="chart-subtitle">Meta Ads vs Google Ads — 11 al 20 de mayo</div>
-      <div class="chart-wrap">
-        <canvas id="chartROAS" height="220"></canvas>
-      </div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">ROAS por período</div>
-      <div class="chart-subtitle">Comparativa Meta vs Google por etapa</div>
-      <div class="chart-wrap">
-        <canvas id="chartROASperiod" height="220"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <div class="charts-grid-3">
-    <div class="chart-card">
-      <div class="chart-title">Gasto diario combinado (ARS)</div>
-      <div class="chart-subtitle">Meta + Google por día</div>
-      <div class="chart-wrap">
-        <canvas id="chartSpend" height="200"></canvas>
-      </div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Conversiones diarias</div>
-      <div class="chart-subtitle">Compras Meta + Conv Google por día</div>
-      <div class="chart-wrap">
-        <canvas id="chartConv" height="200"></canvas>
-      </div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title">Valor generado diario (ARS)</div>
-      <div class="chart-subtitle">Facturación atribuida por día</div>
-      <div class="chart-wrap">
-        <canvas id="chartValue" height="200"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- PLATAFORMAS SEPARADAS -->
-  <div class="section-title">Desglose por plataforma</div>
-  <div class="platform-grid">
-
-    <div class="platform-card">
-      <div class="platform-header">
-        <div class="platform-dot meta"></div>
-        <div class="platform-name">Meta Ads</div>
-      </div>
-      <div class="period-row">
-        <div class="period-row-label"><span class="dot" style="background:var(--hs)"></span>Hot Sale 11–13</div>
-        <div class="period-row-vals">
-          <div class="period-row-val"><div class="val">$3.84M</div><div class="lbl">Gasto</div></div>
-          <div class="period-row-val"><div class="val">463</div><div class="lbl">Compras</div></div>
-          <div class="period-row-val"><div class="val" style="color:var(--hs)">17.94x</div><div class="lbl">ROAS</div></div>
-          <div class="period-row-val"><div class="val">1.84%</div><div class="lbl">CTR</div></div>
-        </div>
-      </div>
-      <div class="period-row">
-        <div class="period-row-label"><span class="dot" style="background:var(--hw)"></span>Hot Week 14–17</div>
-        <div class="period-row-vals">
-          <div class="period-row-val"><div class="val">$2.89M</div><div class="lbl">Gasto</div></div>
-          <div class="period-row-val"><div class="val">204</div><div class="lbl">Compras</div></div>
-          <div class="period-row-val"><div class="val" style="color:var(--hw)">9.01x</div><div class="lbl">ROAS</div></div>
-          <div class="period-row-val"><div class="val">2.19%</div><div class="lbl">CTR</div></div>
-        </div>
-      </div>
-      <div class="period-row">
-        <div class="period-row-label"><span class="dot" style="background:var(--ext)"></span>Extensión 18–20</div>
-        <div class="period-row-vals">
-          <div class="period-row-val"><div class="val">$2.39M</div><div class="lbl">Gasto</div></div>
-          <div class="period-row-val"><div class="val">135</div><div class="lbl">Compras</div></div>
-          <div class="period-row-val"><div class="val" style="color:var(--ext)">8.12x</div><div class="lbl">ROAS</div></div>
-          <div class="period-row-val"><div class="val">2.49%</div><div class="lbl">CTR</div></div>
-        </div>
-      </div>
-      <div class="period-row" style="background:rgba(255,255,255,0.02); margin: 0 -8px; padding: 8px 8px 0;">
-        <div class="period-row-label" style="font-weight:600">Total Meta HS</div>
-        <div class="period-row-vals">
-          <div class="period-row-val"><div class="val">$9.13M</div><div class="lbl">Gasto</div></div>
-          <div class="period-row-val"><div class="val">802</div><div class="lbl">Compras</div></div>
-          <div class="period-row-val"><div class="val" style="color:var(--meta)">12.54x</div><div class="lbl">ROAS</div></div>
-          <div class="period-row-val"><div class="val">—</div><div class="lbl">CPM $4.4K</div></div>
+        <div>
+          <div class="kpi-stat-val">3 días</div>
+          <div class="kpi-stat-label">Duración</div>
         </div>
       </div>
     </div>
 
-    <div class="platform-card">
-      <div class="platform-header">
-        <div class="platform-dot google"></div>
-        <div class="platform-name">Google Ads</div>
+    <!-- Total -->
+    <div class="kpi-cell accent">
+      <div class="kpi-period-tag total">
+        <span class="dot"></span>Total · 10 días
       </div>
-      <div class="period-row">
-        <div class="period-row-label"><span class="dot" style="background:var(--hs)"></span>Hot Sale 11–13</div>
-        <div class="period-row-vals">
-          <div class="period-row-val"><div class="val">$1.05M</div><div class="lbl">Gasto</div></div>
-          <div class="period-row-val"><div class="val">308</div><div class="lbl">Conv.</div></div>
-          <div class="period-row-val"><div class="val" style="color:var(--hs)">39.57x</div><div class="lbl">ROAS</div></div>
-          <div class="period-row-val"><div class="val">4.11%</div><div class="lbl">CTR</div></div>
+      <div class="kpi-roas" style="color:var(--cream)"><em>15</em>.70×</div>
+      <div class="kpi-roas-label">ROAS total del evento</div>
+      <div class="kpi-stats">
+        <div>
+          <div class="kpi-stat-val">$11.95M</div>
+          <div class="kpi-stat-label">Gasto ARS</div>
         </div>
-      </div>
-      <div class="period-row">
-        <div class="period-row-label"><span class="dot" style="background:var(--hw)"></span>Hot Week 14–17</div>
-        <div class="period-row-vals">
-          <div class="period-row-val"><div class="val">$1.03M</div><div class="lbl">Gasto</div></div>
-          <div class="period-row-val"><div class="val">150</div><div class="lbl">Conv.</div></div>
-          <div class="period-row-val"><div class="val" style="color:var(--hw)">18.92x</div><div class="lbl">ROAS</div></div>
-          <div class="period-row-val"><div class="val">2.40%</div><div class="lbl">CTR</div></div>
+        <div>
+          <div class="kpi-stat-val">1.338</div>
+          <div class="kpi-stat-label">Conversiones</div>
         </div>
-      </div>
-      <div class="period-row">
-        <div class="period-row-label"><span class="dot" style="background:var(--ext)"></span>Extensión 18–20</div>
-        <div class="period-row-vals">
-          <div class="period-row-val"><div class="val">$738K</div><div class="lbl">Gasto</div></div>
-          <div class="period-row-val"><div class="val">78</div><div class="lbl">Conv.</div></div>
-          <div class="period-row-val"><div class="val" style="color:var(--ext)">16.36x</div><div class="lbl">ROAS</div></div>
-          <div class="period-row-val"><div class="val">2.11%</div><div class="lbl">CTR</div></div>
+        <div>
+          <div class="kpi-stat-val">$187.6M</div>
+          <div class="kpi-stat-label">Valor ARS</div>
         </div>
-      </div>
-      <div class="period-row" style="background:rgba(255,255,255,0.02); margin: 0 -8px; padding: 8px 8px 0;">
-        <div class="period-row-label" style="font-weight:600">Total Google HS</div>
-        <div class="period-row-vals">
-          <div class="period-row-val"><div class="val">$2.82M</div><div class="lbl">Gasto</div></div>
-          <div class="period-row-val"><div class="val">536</div><div class="lbl">Conv.</div></div>
-          <div class="period-row-val"><div class="val" style="color:var(--google)">25.92x</div><div class="lbl">ROAS</div></div>
-          <div class="period-row-val"><div class="val">—</div><div class="lbl">Farming 41x</div></div>
+        <div>
+          <div class="kpi-stat-val">2 plat.</div>
+          <div class="kpi-stat-label">Plataformas</div>
         </div>
       </div>
     </div>
 
   </div>
+</section>
 
-  <!-- CAMPAÑAS GOOGLE -->
-  <div class="section-title">Google Ads — Campañas por período</div>
-  <div class="charts-grid-3">
+
+<!-- 02 · GRÁFICAS DIARIAS -->
+<section class="slab cream">
+  <div class="sec-head">
+    <span class="num">02 / PERFORMANCE DIARIA</span>
+    <h2>Cómo <em>se movió</em> el evento, día por día.</h2>
+  </div>
+
+  <div class="chart-grid-2" style="margin-bottom:24px">
     <div class="chart-card">
-      <div class="chart-title" style="color:var(--hs)">🔥 Hot Sale 11–13</div>
-      <div class="chart-subtitle">4 campañas activas</div>
-      <table style="width:100%;font-size:11px;border-collapse:collapse">
-        <tr style="border-bottom:1px solid var(--border)">
-          <th style="text-align:left;color:var(--muted);padding:5px 4px;font-weight:500">Campaña</th>
-          <th style="text-align:right;color:var(--muted);padding:5px 4px;font-weight:500">ROAS</th>
-          <th style="text-align:right;color:var(--muted);padding:5px 4px;font-weight:500">Conv</th>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(42,42,56,0.5)">
-          <td style="padding:6px 4px">Farming PMax</td>
-          <td style="text-align:right;color:var(--green);font-weight:700">41.6x</td>
-          <td style="text-align:right">229</td>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(42,42,56,0.5)">
-          <td style="padding:6px 4px">Hunting PMax</td>
-          <td style="text-align:right;color:var(--green);font-weight:700">38.8x</td>
-          <td style="text-align:right">57</td>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(42,42,56,0.5)">
-          <td style="padding:6px 4px">Brand Search</td>
-          <td style="text-align:right;color:var(--green);font-weight:700">54.4x</td>
-          <td style="text-align:right">16</td>
-        </tr>
-        <tr>
-          <td style="padding:6px 4px">Display Rmkt</td>
-          <td style="text-align:right;color:var(--hw);font-weight:700">10.9x</td>
-          <td style="text-align:right">6</td>
-        </tr>
-      </table>
+      <div class="chart-kicker">Meta Ads vs Google Ads</div>
+      <div class="chart-title">ROAS <em>diario</em> por plataforma</div>
+      <div class="period-legend">
+        <div class="period-legend-item"><span class="leg-dot" style="background:var(--ink)"></span>Hot Sale 11–13</div>
+        <div class="period-legend-item"><span class="leg-dot" style="background:var(--sage)"></span>Hot Week 14–17</div>
+        <div class="period-legend-item"><span class="leg-dot" style="background:var(--star)"></span>Extensión 18–20</div>
+      </div>
+      <canvas id="chartROAS" height="210"></canvas>
     </div>
     <div class="chart-card">
-      <div class="chart-title" style="color:var(--hw)">📅 Hot Week 14–17</div>
-      <div class="chart-subtitle">4 campañas activas</div>
-      <table style="width:100%;font-size:11px;border-collapse:collapse">
-        <tr style="border-bottom:1px solid var(--border)">
-          <th style="text-align:left;color:var(--muted);padding:5px 4px;font-weight:500">Campaña</th>
-          <th style="text-align:right;color:var(--muted);padding:5px 4px;font-weight:500">ROAS</th>
-          <th style="text-align:right;color:var(--muted);padding:5px 4px;font-weight:500">Conv</th>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(42,42,56,0.5)">
-          <td style="padding:6px 4px">Farming PMax</td>
-          <td style="text-align:right;color:var(--hw);font-weight:700">21.2x</td>
-          <td style="text-align:right">112</td>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(42,42,56,0.5)">
-          <td style="padding:6px 4px">Hunting PMax</td>
-          <td style="text-align:right;color:var(--hw);font-weight:700">11.1x</td>
-          <td style="text-align:right">18</td>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(42,42,56,0.5)">
-          <td style="padding:6px 4px">Brand Search</td>
-          <td style="text-align:right;color:var(--hw);font-weight:700">18.8x</td>
-          <td style="text-align:right">14</td>
-        </tr>
-        <tr>
-          <td style="padding:6px 4px">Display Rmkt</td>
-          <td style="text-align:right;color:var(--hw);font-weight:700">14.3x</td>
-          <td style="text-align:right">6</td>
-        </tr>
-      </table>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title" style="color:var(--ext)">📌 Extensión 18–20</div>
-      <div class="chart-subtitle">4 campañas activas</div>
-      <table style="width:100%;font-size:11px;border-collapse:collapse">
-        <tr style="border-bottom:1px solid var(--border)">
-          <th style="text-align:left;color:var(--muted);padding:5px 4px;font-weight:500">Campaña</th>
-          <th style="text-align:right;color:var(--muted);padding:5px 4px;font-weight:500">ROAS</th>
-          <th style="text-align:right;color:var(--muted);padding:5px 4px;font-weight:500">Conv</th>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(42,42,56,0.5)">
-          <td style="padding:6px 4px">Farming PMax</td>
-          <td style="text-align:right;color:var(--ext);font-weight:700">16.8x</td>
-          <td style="text-align:right">54</td>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(42,42,56,0.5)">
-          <td style="padding:6px 4px">Hunting PMax</td>
-          <td style="text-align:right;color:var(--hs);font-weight:700">9.1x</td>
-          <td style="text-align:right">9</td>
-        </tr>
-        <tr style="border-bottom:1px solid rgba(42,42,56,0.5)">
-          <td style="padding:6px 4px">Brand Search</td>
-          <td style="text-align:right;color:var(--green);font-weight:700">32.8x</td>
-          <td style="text-align:right">14</td>
-        </tr>
-        <tr>
-          <td style="padding:6px 4px">Display Rmkt</td>
-          <td style="text-align:right;color:var(--hs);font-weight:700">3.5x</td>
-          <td style="text-align:right">1</td>
-        </tr>
-      </table>
+      <div class="chart-kicker">Por etapa del evento</div>
+      <div class="chart-title">ROAS por <em>período</em></div>
+      <canvas id="chartROASperiod" height="210"></canvas>
     </div>
   </div>
 
-  <!-- TOP ADS META -->
-  <div class="section-title">Meta Ads — Top anuncios por valor total generado (todo el HS)</div>
+  <div class="chart-grid-3">
+    <div class="chart-card">
+      <div class="chart-kicker">Meta + Google</div>
+      <div class="chart-title">Gasto <em>diario</em> (ARS)</div>
+      <canvas id="chartSpend" height="190"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-kicker">Compras + Conversiones</div>
+      <div class="chart-title">Conversiones <em>diarias</em></div>
+      <canvas id="chartConv" height="190"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-kicker">Facturación atribuida</div>
+      <div class="chart-title">Valor <em>diario</em> (ARS)</div>
+      <canvas id="chartValue" height="190"></canvas>
+    </div>
+  </div>
+</section>
+
+
+<!-- 03 · PLATAFORMAS -->
+<section class="slab">
+  <div class="sec-head">
+    <span class="num">03 / PLATAFORMAS</span>
+    <h2>Meta vs <em>Google</em>: cada uno en su rol.</h2>
+  </div>
+
+  <div class="plat-grid">
+
+    <!-- META -->
+    <div class="plat-card">
+      <div class="plat-header">
+        <div class="plat-name">Meta <em>Ads</em></div>
+        <div class="plat-badge">12.54× Total</div>
+      </div>
+      <div class="plat-row header-row">
+        <span>Período</span>
+        <span>Gasto</span>
+        <span>Compras</span>
+        <span>ROAS</span>
+        <span>CTR</span>
+      </div>
+      <div class="plat-row">
+        <div class="plat-period-name"><span class="mini-dot" style="background:var(--ink)"></span>Hot Sale 11–13</div>
+        <div class="plat-val">$3.84M</div>
+        <div class="plat-val">463</div>
+        <div class="plat-val roas">17.94×</div>
+        <div class="plat-val">1.84%</div>
+      </div>
+      <div class="plat-row">
+        <div class="plat-period-name"><span class="mini-dot" style="background:var(--sage)"></span>Hot Week 14–17</div>
+        <div class="plat-val">$2.89M</div>
+        <div class="plat-val">204</div>
+        <div class="plat-val roas">9.01×</div>
+        <div class="plat-val">2.19%</div>
+      </div>
+      <div class="plat-row">
+        <div class="plat-period-name"><span class="mini-dot" style="background:var(--star)"></span>Extensión 18–20</div>
+        <div class="plat-val">$2.39M</div>
+        <div class="plat-val">135</div>
+        <div class="plat-val roas">8.12×</div>
+        <div class="plat-val">2.49%</div>
+      </div>
+      <div class="plat-row total-row">
+        <div class="plat-period-name">Total Meta</div>
+        <div class="plat-val">$9.13M</div>
+        <div class="plat-val">802</div>
+        <div class="plat-val roas">12.54×</div>
+        <div class="plat-val">—</div>
+      </div>
+    </div>
+
+    <!-- GOOGLE -->
+    <div class="plat-card">
+      <div class="plat-header">
+        <div class="plat-name">Google <em>Ads</em></div>
+        <div class="plat-badge">25.92× Total</div>
+      </div>
+      <div class="plat-row header-row">
+        <span>Período</span>
+        <span>Gasto</span>
+        <span>Conv.</span>
+        <span>ROAS</span>
+        <span>CTR</span>
+      </div>
+      <div class="plat-row">
+        <div class="plat-period-name"><span class="mini-dot" style="background:var(--ink)"></span>Hot Sale 11–13</div>
+        <div class="plat-val">$1.05M</div>
+        <div class="plat-val">308</div>
+        <div class="plat-val roas">39.57×</div>
+        <div class="plat-val">4.11%</div>
+      </div>
+      <div class="plat-row">
+        <div class="plat-period-name"><span class="mini-dot" style="background:var(--sage)"></span>Hot Week 14–17</div>
+        <div class="plat-val">$1.03M</div>
+        <div class="plat-val">150</div>
+        <div class="plat-val roas">18.92×</div>
+        <div class="plat-val">2.40%</div>
+      </div>
+      <div class="plat-row">
+        <div class="plat-period-name"><span class="mini-dot" style="background:var(--star)"></span>Extensión 18–20</div>
+        <div class="plat-val">$738K</div>
+        <div class="plat-val">78</div>
+        <div class="plat-val roas">16.36×</div>
+        <div class="plat-val">2.11%</div>
+      </div>
+      <div class="plat-row total-row">
+        <div class="plat-period-name">Total Google</div>
+        <div class="plat-val">$2.82M</div>
+        <div class="plat-val">536</div>
+        <div class="plat-val roas">25.92×</div>
+        <div class="plat-val">—</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- 04 · GOOGLE CAMPAIGNS -->
+<section class="slab cream">
+  <div class="sec-head">
+    <span class="num">04 / GOOGLE ADS</span>
+    <h2>Farming <em>PMax</em> como motor del evento.</h2>
+  </div>
+
+  <div class="camps-grid">
+    <div class="camp-card">
+      <div class="camp-card-header">
+        <div class="camp-period-label">Período 01</div>
+        <div class="camp-period-name">Hot <em>Sale</em> 11–13</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Farming PMax</div>
+        <div class="camp-roas">41.6×</div>
+        <div class="camp-conv">229 c</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Hunting PMax</div>
+        <div class="camp-roas">38.8×</div>
+        <div class="camp-conv">57 c</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Brand Search</div>
+        <div class="camp-roas">54.4×</div>
+        <div class="camp-conv">16 c</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Display Rmkt</div>
+        <div class="camp-roas" style="color:var(--ash)">10.9×</div>
+        <div class="camp-conv">6 c</div>
+      </div>
+    </div>
+    <div class="camp-card">
+      <div class="camp-card-header">
+        <div class="camp-period-label">Período 02</div>
+        <div class="camp-period-name">Hot <em>Week</em> 14–17</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Farming PMax</div>
+        <div class="camp-roas">21.2×</div>
+        <div class="camp-conv">112 c</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Hunting PMax</div>
+        <div class="camp-roas">11.1×</div>
+        <div class="camp-conv">18 c</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Brand Search</div>
+        <div class="camp-roas">18.8×</div>
+        <div class="camp-conv">14 c</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Display Rmkt</div>
+        <div class="camp-roas">14.3×</div>
+        <div class="camp-conv">6 c</div>
+      </div>
+    </div>
+    <div class="camp-card">
+      <div class="camp-card-header">
+        <div class="camp-period-label">Período 03</div>
+        <div class="camp-period-name"><em>Extensión</em> 18–20</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Farming PMax</div>
+        <div class="camp-roas">16.8×</div>
+        <div class="camp-conv">54 c</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Hunting PMax</div>
+        <div class="camp-roas" style="color:var(--ash)">9.1×</div>
+        <div class="camp-conv">9 c</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Brand Search</div>
+        <div class="camp-roas">32.8×</div>
+        <div class="camp-conv">14 c</div>
+      </div>
+      <div class="camp-row">
+        <div class="camp-name">Display Rmkt</div>
+        <div class="camp-roas" style="color:var(--bad)">3.5×</div>
+        <div class="camp-conv">1 c</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 05 · TOP ADS META -->
+<section class="slab">
+  <div class="sec-head">
+    <span class="num">05 / META ADS</span>
+    <h2>Los anuncios que <em>generaron</em> el resultado.</h2>
+  </div>
+
   <table class="ads-table">
     <thead>
       <tr>
         <th>Anuncio</th>
-        <th>Períodos activo</th>
-        <th style="text-align:right">Gasto</th>
+        <th style="text-align:right">Gasto ARS</th>
         <th style="text-align:right">Compras</th>
-        <th style="text-align:right">Valor</th>
+        <th style="text-align:right">Valor ARS</th>
         <th style="text-align:right">ROAS</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td><div class="ad-name">AlwaysOn-Oct25-Car_v1</div></td>
-        <td><span class="period-tag pt-hs">HS</span><span class="period-tag pt-hw">HW</span><span class="period-tag pt-ext">EXT</span></td>
-        <td style="text-align:right">$2,482,121</td>
-        <td style="text-align:right">205</td>
-        <td style="text-align:right">$30,761,690</td>
-        <td style="text-align:right"><span class="roas-badge roas-mid">12.4x</span></td>
+        <td>
+          <div class="ad-name">AlwaysOn-Oct25-Car_v1</div>
+          <div class="period-tags"><span class="ptag hs">HS</span><span class="ptag hw">HW</span><span class="ptag ext">EXT</span></div>
+        </td>
+        <td class="td-mono">$2,482,121</td>
+        <td class="td-mono">205</td>
+        <td class="td-mono">$30,761,690</td>
+        <td class="td-roas roas-mid">12.4×</td>
       </tr>
       <tr>
-        <td><div class="ad-name">Post Simple - Extensión (v1)</div></td>
-        <td><span class="period-tag pt-hs">HS</span><span class="period-tag pt-hw">HW</span><span class="period-tag pt-ext">EXT</span></td>
-        <td style="text-align:right">$1,057,342</td>
-        <td style="text-align:right">85</td>
-        <td style="text-align:right">$12,672,550</td>
-        <td style="text-align:right"><span class="roas-badge roas-mid">12.0x</span></td>
+        <td>
+          <div class="ad-name">Post Simple — Extensión</div>
+          <div class="period-tags"><span class="ptag hs">HS</span><span class="ptag hw">HW</span><span class="ptag ext">EXT</span></div>
+        </td>
+        <td class="td-mono">$1,057,342</td>
+        <td class="td-mono">85</td>
+        <td class="td-mono">$12,672,550</td>
+        <td class="td-roas roas-mid">12.0×</td>
       </tr>
       <tr>
-        <td><div class="ad-name">UGC_HotSale 2</div></td>
-        <td><span class="period-tag pt-hs">HS</span><span class="period-tag pt-hw">HW</span><span class="period-tag pt-ext">EXT</span></td>
-        <td style="text-align:right">$497,359</td>
-        <td style="text-align:right">53</td>
-        <td style="text-align:right">$7,875,840</td>
-        <td style="text-align:right"><span class="roas-badge roas-mid">15.8x</span></td>
+        <td>
+          <div class="ad-name">UGC_HotSale 2</div>
+          <div class="period-tags"><span class="ptag hs">HS</span><span class="ptag hw">HW</span><span class="ptag ext">EXT</span></div>
+        </td>
+        <td class="td-mono">$497,359</td>
+        <td class="td-mono">53</td>
+        <td class="td-mono">$7,875,840</td>
+        <td class="td-roas roas-hi">15.8×</td>
       </tr>
       <tr>
-        <td><div class="ad-name">UGC- Woc</div></td>
-        <td><span class="period-tag pt-hs">HS</span><span class="period-tag pt-hw">HW</span><span class="period-tag pt-ext">EXT</span></td>
-        <td style="text-align:right">$351,339</td>
-        <td style="text-align:right">40</td>
-        <td style="text-align:right">$5,569,820</td>
-        <td style="text-align:right"><span class="roas-badge roas-high">15.8x</span></td>
+        <td>
+          <div class="ad-name">UGC — Woc</div>
+          <div class="period-tags"><span class="ptag hs">HS</span><span class="ptag hw">HW</span><span class="ptag ext">EXT</span></div>
+        </td>
+        <td class="td-mono">$351,339</td>
+        <td class="td-mono">40</td>
+        <td class="td-mono">$5,569,820</td>
+        <td class="td-roas roas-hi">15.8×</td>
       </tr>
       <tr>
-        <td><div class="ad-name">UGC_HotSale 1</div></td>
-        <td><span class="period-tag pt-hs">HS</span><span class="period-tag pt-hw">HW</span><span class="period-tag pt-ext">EXT</span></td>
-        <td style="text-align:right">$319,143</td>
-        <td style="text-align:right">35</td>
-        <td style="text-align:right">$4,546,880</td>
-        <td style="text-align:right"><span class="roas-badge roas-mid">14.2x</span></td>
+        <td>
+          <div class="ad-name">UGC_HotSale 1</div>
+          <div class="period-tags"><span class="ptag hs">HS</span><span class="ptag hw">HW</span><span class="ptag ext">EXT</span></div>
+        </td>
+        <td class="td-mono">$319,143</td>
+        <td class="td-mono">35</td>
+        <td class="td-mono">$4,546,880</td>
+        <td class="td-roas roas-hi">14.2×</td>
       </tr>
       <tr>
-        <td><div class="ad-name">Post Simple - Extensión 030a180 (BoF star)</div></td>
-        <td><span class="period-tag pt-hs">HS</span></td>
-        <td style="text-align:right">$60,011</td>
-        <td style="text-align:right">19</td>
-        <td style="text-align:right">$3,078,590</td>
-        <td style="text-align:right"><span class="roas-badge roas-high">51.3x</span></td>
+        <td>
+          <div class="ad-name">Post Simple — Extensión (030a180) · BoF star</div>
+          <div class="period-tags"><span class="ptag hs">HS</span></div>
+        </td>
+        <td class="td-mono">$60,011</td>
+        <td class="td-mono">19</td>
+        <td class="td-mono">$3,078,590</td>
+        <td class="td-roas roas-hi">51.3×</td>
       </tr>
       <tr>
-        <td><div class="ad-name">Post Simple - Horas 20-05-26</div></td>
-        <td><span class="period-tag pt-hs">HS</span><span class="period-tag pt-hw">HW</span><span class="period-tag pt-ext">EXT</span></td>
-        <td style="text-align:right">$221,375</td>
-        <td style="text-align:right">24</td>
-        <td style="text-align:right">$3,657,240</td>
-        <td style="text-align:right"><span class="roas-badge roas-high">16.5x</span></td>
+        <td>
+          <div class="ad-name">Post Simple — Horas 20-05-26</div>
+          <div class="period-tags"><span class="ptag hs">HS</span><span class="ptag hw">HW</span><span class="ptag ext">EXT</span></div>
+        </td>
+        <td class="td-mono">$221,375</td>
+        <td class="td-mono">24</td>
+        <td class="td-mono">$3,657,240</td>
+        <td class="td-roas roas-hi">16.5×</td>
       </tr>
       <tr>
-        <td><div class="ad-name">UGC_HomeOffice_corto-Ene26</div></td>
-        <td><span class="period-tag pt-hs">HS</span><span class="period-tag pt-hw">HW</span><span class="period-tag pt-ext">EXT</span></td>
-        <td style="text-align:right">$394,190</td>
-        <td style="text-align:right">29</td>
-        <td style="text-align:right">$4,462,520</td>
-        <td style="text-align:right"><span class="roas-badge roas-mid">11.3x</span></td>
+        <td>
+          <div class="ad-name">UGC_HomeOffice_corto-Ene26</div>
+          <div class="period-tags"><span class="ptag hs">HS</span><span class="ptag hw">HW</span><span class="ptag ext">EXT</span></div>
+        </td>
+        <td class="td-mono">$394,190</td>
+        <td class="td-mono">29</td>
+        <td class="td-mono">$4,462,520</td>
+        <td class="td-roas roas-mid">11.3×</td>
       </tr>
       <tr>
-        <td><div class="ad-name">Reel - Viandas - 06-04-26</div></td>
-        <td><span class="period-tag pt-hs">HS</span><span class="period-tag pt-hw">HW</span><span class="period-tag pt-ext">EXT</span></td>
-        <td style="text-align:right">$68,055</td>
-        <td style="text-align:right">19</td>
-        <td style="text-align:right">$2,649,150</td>
-        <td style="text-align:right"><span class="roas-badge roas-high">38.9x</span></td>
+        <td>
+          <div class="ad-name">Reel — Viandas 06-04-26</div>
+          <div class="period-tags"><span class="ptag hs">HS</span><span class="ptag hw">HW</span><span class="ptag ext">EXT</span></div>
+        </td>
+        <td class="td-mono">$68,055</td>
+        <td class="td-mono">19</td>
+        <td class="td-mono">$2,649,150</td>
+        <td class="td-roas roas-hi">38.9×</td>
       </tr>
       <tr>
-        <td><div class="ad-name">UGC_Almuerzo-Cena 29-04-26</div></td>
-        <td><span class="period-tag pt-hs">HS</span><span class="period-tag pt-hw">HW</span><span class="period-tag pt-ext">EXT</span></td>
-        <td style="text-align:right">$48,071</td>
-        <td style="text-align:right">11</td>
-        <td style="text-align:right">$1,623,070</td>
-        <td style="text-align:right"><span class="roas-badge roas-high">33.8x</span></td>
+        <td>
+          <div class="ad-name">UGC_Almuerzo-Cena 29-04-26</div>
+          <div class="period-tags"><span class="ptag hs">HS</span><span class="ptag hw">HW</span><span class="ptag ext">EXT</span></div>
+        </td>
+        <td class="td-mono">$48,071</td>
+        <td class="td-mono">11</td>
+        <td class="td-mono">$1,623,070</td>
+        <td class="td-roas roas-hi">33.8×</td>
       </tr>
     </tbody>
   </table>
+</section>
 
-  <!-- AD ROTATION -->
-  <div class="section-title">Rotación de anuncios durante el Hot Sale</div>
+
+<!-- 06 · ROTACIÓN -->
+<section class="slab cream">
+  <div class="sec-head">
+    <span class="num">06 / ROTACIÓN DE ADS</span>
+    <h2>Qué entró, qué salió, <em>cuándo</em>.</h2>
+  </div>
+
   <div class="rotation-grid">
     <div class="rotation-card">
-      <div class="rotation-title" style="color:var(--hs)">🔥 Ads lanzados específicamente para HS (pausados después)</div>
+      <div class="rotation-header">
+        <div class="rh-kicker">Solo activos en Hot Sale 11–13</div>
+        <div class="rh-title">Lanzados para el HS, <em>pausados después</em></div>
+      </div>
       <ul class="rotation-list">
-        <li><span>Post Simple - HotSale v2</span><span class="period-tag pt-hs">Solo HS</span></li>
-        <li><span>UGC - Hot Sale - 5</span><span class="period-tag pt-hs">Solo HS</span></li>
-        <li><span>UGC- HotSale 4 (ExComp)</span><span class="period-tag pt-hs">Solo HS</span></li>
-        <li><span>Post Simple - HotSale 30% (v2)</span><span class="period-tag pt-hs">Solo HS</span></li>
-        <li><span>UGC_HomeOffice-Mar26-Vid_v2</span><span class="period-tag pt-hs">Solo HS</span></li>
-        <li><span>Post Simple - Meme 06-05 (v2)</span><span class="period-tag pt-hs">Solo HS</span></li>
-        <li><span>Post Simple - HotSale -30% (ExComp)</span><span class="period-tag pt-hs">Solo HS→HW</span></li>
-        <li><span>Reel - HotSale</span><span class="period-tag pt-hs">Solo HS→HW</span></li>
-        <li><span>UGC HotSale - Solana</span><span class="period-tag pt-hs">Solo HS→HW</span></li>
+        <li><span>Post Simple - HotSale v2</span><span class="ptag hs">Solo HS</span></li>
+        <li><span>UGC - Hot Sale - 5</span><span class="ptag hs">Solo HS</span></li>
+        <li><span>UGC- HotSale 4 (ExComp)</span><span class="ptag hs">Solo HS</span></li>
+        <li><span>Post Simple - HotSale 30% (v2)</span><span class="ptag hs">Solo HS</span></li>
+        <li><span>UGC_HomeOffice-Mar26-Vid_v2</span><span class="ptag hs">Solo HS</span></li>
+        <li><span>Post Simple - Meme 06-05 (v2)</span><span class="ptag hs">Solo HS</span></li>
+        <li><span>Reel - HotSale</span><span class="ptag hs" style="background:rgba(79,162,126,0.12);color:var(--sage-deep)">HS → HW</span></li>
+        <li><span>UGC HotSale - Solana</span><span class="ptag hs" style="background:rgba(79,162,126,0.12);color:var(--sage-deep)">HS → HW</span></li>
+        <li><span>Post Simple - HotSale -30% (ExComp)</span><span class="ptag hs" style="background:rgba(79,162,126,0.12);color:var(--sage-deep)">HS → HW</span></li>
       </ul>
     </div>
     <div class="rotation-card">
-      <div class="rotation-title" style="color:var(--ext)">📌 Ads que aparecieron en Extensión (nuevos o reactivados)</div>
+      <div class="rotation-header">
+        <div class="rh-kicker">Solo activos en Extensión 18–20</div>
+        <div class="rh-title">Nuevos o <em>reactivados</em> en la extensión</div>
+      </div>
       <ul class="rotation-list">
-        <li><span>Noisettes_NuevasPapas Img_v3</span><span class="period-tag pt-ext">Solo EXT</span></li>
-        <li><span>Chocoberries-Ene26-Img_v2</span><span class="period-tag pt-ext">Solo EXT</span></li>
-        <li><span>UGC_Mar26-Vid_v1 (Broad)</span><span class="period-tag pt-ext">Solo EXT</span></li>
-        <li><span>VueltaRutina-Feb26-Img_v1</span><span class="period-tag pt-ext">Solo EXT</span></li>
-        <li><span>UGC_Aesthetic_Desayuno</span><span class="period-tag pt-ext">Solo EXT</span></li>
-        <li><span>UGC_Naty-Almuerzo-Ene26</span><span class="period-tag pt-ext">Solo EXT</span></li>
-        <li><span>UGC_Merienda-Ene26-Vid_v1</span><span class="period-tag pt-ext">Solo EXT</span></li>
-        <li><span>UGC_BitsEspinaca (ExComp)</span><span class="period-tag pt-ext">Solo EXT</span></li>
-        <li><span>Que hay adentro - estatico Copia</span><span class="period-tag pt-ext">Solo EXT</span></li>
-        <li><span>Viandas-Mar26-vid_v1 (Padres)</span><span class="period-tag pt-ext">Solo EXT</span></li>
+        <li><span>Noisettes_NuevasPapas Img_v3</span><span class="ptag ext">Solo EXT</span></li>
+        <li><span>Chocoberries-Ene26-Img_v2</span><span class="ptag ext">Solo EXT</span></li>
+        <li><span>UGC_Mar26-Vid_v1 (Broad)</span><span class="ptag ext">Solo EXT</span></li>
+        <li><span>VueltaRutina-Feb26-Img_v1</span><span class="ptag ext">Solo EXT</span></li>
+        <li><span>UGC_Aesthetic_Desayuno</span><span class="ptag ext">Solo EXT</span></li>
+        <li><span>UGC_Naty-Almuerzo-Ene26</span><span class="ptag ext">Solo EXT</span></li>
+        <li><span>UGC_Merienda-Ene26-Vid_v1</span><span class="ptag ext">Solo EXT</span></li>
+        <li><span>UGC_BitsEspinaca (ExComp)</span><span class="ptag ext">Solo EXT</span></li>
+        <li><span>Que hay adentro — estatico Copia</span><span class="ptag ext">Solo EXT</span></li>
       </ul>
     </div>
   </div>
+</section>
 
-  <!-- INSIGHTS -->
-  <div class="section-title">Análisis e insights clave</div>
-  <div class="insights-grid">
-    <div class="insight-card">
-      <div class="insight-icon">🔥</div>
-      <div class="insight-title">El 11/5 fue el día más fuerte</div>
-      <div class="insight-body">Meta arrancó con ROAS <strong>20.9x</strong> el primer día — el más alto del evento. Google brilló aún más con <strong>59.4x</strong>. El pico de demanda concentrado generó <strong>305 conversiones totales</strong> en un solo día con $44.4M en valor. La urgencia del inicio del HS convirtió mejor que cualquier otro momento.</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-icon">📉</div>
-      <div class="insight-title">16/5 — el peor día del evento</div>
-      <div class="insight-body">Meta cayó a <strong>5.4x ROAS</strong> con solo 22 compras. Google también bajó a <strong>14.2x</strong>. Total: solo 42 conversiones con $4.87M de gasto. Probable fatiga de audiencia en el medio de la Hot Week + mix de creativos menos potentes. Se recuperó fuerte el 17/5 (<strong>10.5x Meta, 17.7x Google</strong>).</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-icon">⚡</div>
-      <div class="insight-title">Google mantiene ROAS alto durante todo el HS</div>
-      <div class="insight-body">Google nunca bajó de <strong>10x ROAS</strong> en todo el período (mínimo 10.8x el día 20). Farming PMax con <strong>41.6x en HS_FUERTE</strong> fue el motor más potente de todo el evento. En la extensión, Brand Search subió a <strong>32.8x</strong> — señal de que la demanda generada por Meta terminó buscando en Google.</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-icon">🎯</div>
-      <div class="insight-title">AlwaysOn-Oct25 sigue siendo el pilar de Meta</div>
-      <div class="insight-body">El carrusel AlwaysOn (activo desde octubre 2025) fue el ad con más gasto del HS: <strong>$2.48M invertidos, 205 compras, 12.4x ROAS</strong>. Corrió los 10 días sin interrupciones. 7 meses activo y sigue siendo el estructural. Andromeda lo usa como BoF — CPM más bajo, conversión directa.</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-icon">🏆</div>
-      <div class="insight-title">El BoF de remarketing fue el ROAS más alto</div>
-      <div class="insight-body">El "Post Simple - Extensión" en Pu030a180 registró <strong>51.3x ROAS</strong> con $60K invertidos en HS_FUERTE. La audiencia caliente (030 a 180 días) convertía automáticamente ante la oferta de HS. Mismo patrón: "UGC_HomeOffice-Mar26-Vid_v1" con <strong>178.5x ROAS</strong> con mínima inversión — BoF puro.</div>
-    </div>
-    <div class="insight-card">
-      <div class="insight-icon">🔄</div>
-      <div class="insight-title">Rotación efectiva: 9 ads HS-only + 13 ads de extensión</div>
-      <div class="insight-body">Se lanzaron creativos específicos para el HS que se pausaron después (UGC HotSale 1-7, Reels de oferta). En la extensión se introdujeron <strong>13 nuevos ads</strong> con contenido evergreen (Noisettes, Aesthetic, Merienda). El refresh fue necesario — la base always-on mantuvo el performance mientras los HS-specific capturaban la demanda puntual.</div>
-    </div>
+
+<!-- 07 · INSIGHTS -->
+<section class="slab">
+  <div class="sec-head">
+    <span class="num">07 / CONCLUSIONES</span>
+    <h2>Lo que <em>aprendió</em> la cuenta.</h2>
   </div>
 
-</div>
+  <div class="insights-grid">
+    <div class="insight-cell">
+      <div class="insight-num">01 / PICO</div>
+      <div class="insight-title">El 11/5 fue el día <em>más fuerte</em>.</div>
+      <div class="insight-body">Meta abrió con <span class="metric">20.9× ROAS</span> y Google llegó a <span class="metric">59.4×</span>. <b>305 conversiones totales</b> en un solo día. La urgencia del primer día del HS convierte mejor que cualquier otro momento del evento.</div>
+    </div>
+    <div class="insight-cell">
+      <div class="insight-num">02 / BACHE</div>
+      <div class="insight-title">El 16/5 fue el <em>peor día</em>.</div>
+      <div class="insight-body">Meta bajó a <span class="metric">5.4× ROAS</span>, solo 22 compras. <b>Probable fatiga de audiencia</b> en el medio de la Hot Week. Se recuperó fuerte el 17/5 con <span class="metric">10.5×</span> — señal de rotación creativa efectiva.</div>
+    </div>
+    <div class="insight-cell">
+      <div class="insight-num">03 / GOOGLE</div>
+      <div class="insight-title">Google no bajó de <em>10×</em> en ningún día.</div>
+      <div class="insight-body">Mínimo <span class="metric">10.8×</span> el día 20. Farming PMax con <span class="metric">41.6×</span> en HS_FUERTE fue el motor más potente. En la extensión, Brand Search subió a <span class="metric">32.8×</span> — <b>la demanda de Meta terminó buscando en Google</b>.</div>
+    </div>
+    <div class="insight-cell">
+      <div class="insight-num">04 / PILAR</div>
+      <div class="insight-title">AlwaysOn lleva 7 meses <em>sin pausarse</em>.</div>
+      <div class="insight-body">El carrusel Oct25: <span class="metric">$2.48M invertidos</span>, 205 compras, <span class="metric">12.4× ROAS</span>. Andromeda lo usa como BoF — CPM bajo, conversión directa. <b>Es el estructural de la cuenta</b>, no se toca.</div>
+    </div>
+    <div class="insight-cell">
+      <div class="insight-num">05 / BOF</div>
+      <div class="insight-title">El remarketing 030a180 fue el <em>ROAS más alto</em>.</div>
+      <div class="insight-body">"Post Simple - Extensión" en Pu030a180: <span class="metric">51.3× ROAS</span> con <span class="metric">$60K</span> invertidos. La audiencia caliente convertía sola ante la oferta. Mismo patrón: <b>UGC_HomeOffice-Mar26 con 178.5× con mínima inversión</b> — BoF puro.</div>
+    </div>
+    <div class="insight-cell">
+      <div class="insight-num">06 / ROTACIÓN</div>
+      <div class="insight-title">9 ads HS-only + 13 ads <em>de extensión</em>.</div>
+      <div class="insight-body">La rotación fue efectiva. Los creativos específicos de HS se pausaron. En la extensión se introdujeron <span class="metric">13 ads nuevos</span> con contenido evergreen. <b>La base always-on sostuvo el performance mientras los HS-specific capturaban la demanda puntual</b>.</div>
+    </div>
+  </div>
+</section>
 
-<div class="footer">
-  Dilema Creative — Análisis Hot Sale Frizata Mayo 2026 — Datos reales vía Meta Ads API + Google Ads API
-</div>
+
+<!-- 08 · CIERRE -->
+<section class="slab dark">
+  <div class="sec-head">
+    <span class="num">08 / VEREDICTO</span>
+    <h2>Resultado antes <em>que relato</em>.</h2>
+  </div>
+
+  <p class="pullquote" style="margin-bottom:48px">
+    "<em>$187.6M</em> en valor generado<br>con <em>$11.95M</em> de inversión.<br>ROAS total del evento: <em>15.70×</em>.<span style="color:var(--star)">*</span>"
+  </p>
+
+  <hr class="rule">
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;margin-top:40px">
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(244,239,230,0.45);margin-bottom:10px">Próximo paso</div>
+      <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:500;letter-spacing:-0.01em;margin-bottom:8px">Reactivar los <em>always-on</em> pausados.</div>
+      <div style="font-size:13px;color:rgba(244,239,230,0.65);line-height:1.6">UGC_Mar26-Vid_v1, Reel Chocoberries, Reel A un clic — todos con buen historial pre-HS. Reintroducir gradual, 20% por semana.</div>
+    </div>
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(244,239,230,0.45);margin-bottom:10px">A monitorear</div>
+      <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:500;letter-spacing:-0.01em;margin-bottom:8px">ROAS post-HS en la <em>primera semana</em>.</div>
+      <div style="font-size:13px;color:rgba(244,239,230,0.65);line-height:1.6">El rebote post-evento suele durar 5–7 días. Mantener presupuesto estable, no cortar. La audiencia calentada durante el HS sigue en el sistema.</div>
+    </div>
+    <div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(244,239,230,0.45);margin-bottom:10px">Para el próximo HS</div>
+      <div style="font-family:'Fraunces',serif;font-size:18px;font-weight:500;letter-spacing:-0.01em;margin-bottom:8px">Más presupuesto en <em>el día 1</em>.</div>
+      <div style="font-size:13px;color:rgba(244,239,230,0.65);line-height:1.6">El 11/5 fue el día más eficiente del evento. El presupuesto que se gastó el 16–17 con 5–6× ROAS hubiese rendido 2× más el día 11. Concentrar más en la apertura.</div>
+    </div>
+  </div>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <div class="sig">Dilema <em>creative</em><span class="star">*</span></div>
+    <div class="meta">
+      Reporte Hot Sale<br>
+      Frizata · Mayo 2026<br>
+      Dilema Creative
+    </div>
+    <div class="meta">
+      Meta Ads API<br>
+      Google Ads API<br>
+      Datos reales
+    </div>
+  </div>
+</footer>
+
 
 <script>
 const DATES = ['11/5','12/5','13/5','14/5','15/5','16/5','17/5','18/5','19/5','20/5'];
-const FULL_DATES = ['2026-05-11','2026-05-12','2026-05-13','2026-05-14','2026-05-15','2026-05-16','2026-05-17','2026-05-18','2026-05-19','2026-05-20'];
+const INK  = '#0E2A47';
+const SAGE = '#4FA27E';
+const SAGE_DEEP = '#2F7D5E';
+const STAR = '#5BB4D6';
+const ASH  = '#6B6257';
+const LINE = '#D9CFBC';
 
-const META_ROAS = [20.9,14.8,18.0,9.2,9.3,5.4,10.5,7.9,6.7,9.9];
+const META_ROAS   = [20.9,14.8,18.0,9.2,9.3,5.4,10.5,7.9,6.7,9.9];
 const GOOGLE_ROAS = [59.4,40.2,28.3,16.4,27.2,14.2,17.7,19.5,20.9,10.8];
-
-const META_SPEND = [1356120,1308781,1179900,869311,717205,451908,855185,808700,837178,746614];
-const GOOGLE_SPEND = [268726,288324,490675,311221,240077,172627,310439,280898,163662,294233];
-
-const META_CONV = [189,138,136,61,51,22,70,48,39,48];
+const META_SPEND  = [1356,1309,1180,869,717,452,855,809,837,747];
+const GOOGLE_SPEND= [269,288,491,311,240,173,310,281,164,294];
+const META_CONV   = [189,138,136,61,51,22,70,48,39,48];
 const GOOGLE_CONV = [116,87,104,39,48,20,43,35,21,22];
-
-const META_VALUE = [28383430,19365010,21223080,7999460,6674610,2428930,8968230,6410110,5627960,7386320];
-const GOOGLE_VALUE = [15969736,11595259,13893817,5092880,6527284,2446266,5508770,5475777,3418948,3190283];
-
-// Period background colors
-const getBgColor = (dates) => dates.map(d => {
-  if (d <= '2026-05-13') return 'rgba(255,75,110,0.08)';
-  if (d <= '2026-05-17') return 'rgba(255,159,28,0.08)';
-  return 'rgba(46,196,182,0.08)';
-});
-
-const chartDefaults = {
-  responsive: true,
-  maintainAspectRatio: false,
-  plugins: {
-    legend: { labels: { color: '#8888A8', font: { size: 11 }, boxWidth: 12, padding: 16 } }
-  },
-  scales: {
-    x: { grid: { color: 'rgba(42,42,56,0.6)' }, ticks: { color: '#8888A8', font: { size: 10 } } },
-    y: { grid: { color: 'rgba(42,42,56,0.6)' }, ticks: { color: '#8888A8', font: { size: 10 } } }
-  }
-};
+const META_VAL    = [28.4,19.4,21.2,8.0,6.7,2.4,9.0,6.4,5.6,7.4];
+const GOOGLE_VAL  = [16.0,11.6,13.9,5.1,6.5,2.4,5.5,5.5,3.4,3.2];
 
 // Period background plugin
-const periodBgPlugin = {
+Chart.register({
   id: 'periodBg',
   beforeDraw(chart) {
-    const {ctx, chartArea: {left,right,top,bottom}, scales: {x}} = chart;
-    if (!x) return;
-    const periods = [{start:0,end:2,color:'rgba(255,75,110,0.06)'},{start:3,end:6,color:'rgba(255,159,28,0.06)'},{start:7,end:9,color:'rgba(46,196,182,0.06)'}];
+    const {ctx, chartArea: ca, scales: {x}} = chart;
+    if (!x || !ca) return;
+    const w = x.getPixelForValue(1) - x.getPixelForValue(0);
+    const periods = [
+      {s:0,e:2,c:'rgba(14,42,71,0.06)'},
+      {s:3,e:6,c:'rgba(79,162,126,0.06)'},
+      {s:7,e:9,c:'rgba(91,180,214,0.06)'}
+    ];
     ctx.save();
     periods.forEach(p => {
-      const x0 = x.getPixelForValue(p.start) - (x.getPixelForValue(1)-x.getPixelForValue(0))/2;
-      const x1 = x.getPixelForValue(p.end) + (x.getPixelForValue(1)-x.getPixelForValue(0))/2;
-      ctx.fillStyle = p.color;
-      ctx.fillRect(Math.max(left,x0), top, Math.min(right,x1)-Math.max(left,x0), bottom-top);
+      const x0 = x.getPixelForValue(p.s) - w/2;
+      const x1 = x.getPixelForValue(p.e) + w/2;
+      ctx.fillStyle = p.c;
+      ctx.fillRect(Math.max(ca.left,x0), ca.top, Math.min(ca.right,x1)-Math.max(ca.left,x0), ca.bottom-ca.top);
     });
     ctx.restore();
   }
+});
+
+const baseOpts = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { labels: { color: ASH, font: { family: "'JetBrains Mono'", size: 10 }, boxWidth: 10, padding: 14 } }
+  },
+  scales: {
+    x: { grid: { color: 'rgba(217,207,188,0.4)' }, ticks: { color: ASH, font: { family: "'JetBrains Mono'", size: 10 }, letter_spacing: '.05em' } },
+    y: { grid: { color: 'rgba(217,207,188,0.4)' }, ticks: { color: ASH, font: { family: "'JetBrains Mono'", size: 10 } } }
+  }
 };
 
-Chart.register(periodBgPlugin);
-
-// ROAS CHART
-new Chart(document.getElementById('chartROAS'), {
+// ROAS line
+new Chart('chartROAS', {
   type: 'line',
   data: {
     labels: DATES,
     datasets: [
-      {
-        label: 'Meta ROAS',
-        data: META_ROAS,
-        borderColor: '#1877F2',
-        backgroundColor: 'rgba(24,119,242,0.1)',
-        borderWidth: 2.5,
-        fill: true,
-        tension: 0.3,
-        pointBackgroundColor: '#1877F2',
-        pointRadius: 4,
-        pointHoverRadius: 6
-      },
-      {
-        label: 'Google ROAS',
-        data: GOOGLE_ROAS,
-        borderColor: '#EA4335',
-        backgroundColor: 'rgba(234,67,53,0.08)',
-        borderWidth: 2.5,
-        fill: true,
-        tension: 0.3,
-        pointBackgroundColor: '#EA4335',
-        pointRadius: 4,
-        pointHoverRadius: 6
-      }
+      { label: 'Meta', data: META_ROAS, borderColor: INK, backgroundColor: 'rgba(14,42,71,0.08)', borderWidth: 2, fill: true, tension: 0.3, pointBackgroundColor: INK, pointRadius: 4, pointHoverRadius: 6 },
+      { label: 'Google', data: GOOGLE_ROAS, borderColor: SAGE_DEEP, backgroundColor: 'rgba(47,125,94,0.07)', borderWidth: 2, fill: true, tension: 0.3, pointBackgroundColor: SAGE_DEEP, pointRadius: 4, pointHoverRadius: 6 }
     ]
   },
-  options: {
-    ...chartDefaults,
-    plugins: {
-      ...chartDefaults.plugins,
-      tooltip: {
-        callbacks: {
-          label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}x`
-        }
-      }
-    },
-    scales: {
-      ...chartDefaults.scales,
-      y: {
-        ...chartDefaults.scales.y,
-        ticks: { ...chartDefaults.scales.y.ticks, callback: v => v + 'x' }
-      }
-    }
-  }
+  options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => v+'×' } } }, plugins: { ...baseOpts.plugins, tooltip: { callbacks: { label: c => ` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}×` } } } }
 });
 
-// ROAS POR PERÍODO
-new Chart(document.getElementById('chartROASperiod'), {
+// ROAS per period grouped bar
+new Chart('chartROASperiod', {
   type: 'bar',
   data: {
-    labels: ['Hot Sale\n11-13', 'Hot Week\n14-17', 'Extensión\n18-20'],
+    labels: ['Hot Sale\n11–13','Hot Week\n14–17','Extensión\n18–20'],
     datasets: [
-      {
-        label: 'Meta',
-        data: [17.94, 9.01, 8.12],
-        backgroundColor: ['rgba(24,119,242,0.7)','rgba(24,119,242,0.7)','rgba(24,119,242,0.7)'],
-        borderRadius: 6
-      },
-      {
-        label: 'Google',
-        data: [39.57, 18.92, 16.36],
-        backgroundColor: ['rgba(234,67,53,0.7)','rgba(234,67,53,0.7)','rgba(234,67,53,0.7)'],
-        borderRadius: 6
-      },
-      {
-        label: 'Combinado',
-        data: [22.57, 11.62, 10.06],
-        backgroundColor: ['rgba(255,255,255,0.2)','rgba(255,255,255,0.2)','rgba(255,255,255,0.2)'],
-        borderRadius: 6
-      }
+      { label: 'Meta', data: [17.94,9.01,8.12], backgroundColor: INK, borderRadius: 2 },
+      { label: 'Google', data: [39.57,18.92,16.36], backgroundColor: SAGE, borderRadius: 2 },
+      { label: 'Combinado', data: [22.57,11.62,10.06], backgroundColor: 'rgba(91,180,214,0.6)', borderRadius: 2 }
     ]
   },
-  options: {
-    ...chartDefaults,
-    plugins: {
-      ...chartDefaults.plugins,
-      tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toFixed(1)}x` } }
-    },
-    scales: {
-      ...chartDefaults.scales,
-      y: { ...chartDefaults.scales.y, ticks: { ...chartDefaults.scales.y.ticks, callback: v => v + 'x' } }
-    }
-  }
+  options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, ticks: { ...baseOpts.scales.y.ticks, callback: v => v+'×' } } } }
 });
 
-// SPEND CHART
-new Chart(document.getElementById('chartSpend'), {
+// Spend stacked
+new Chart('chartSpend', {
   type: 'bar',
   data: {
     labels: DATES,
     datasets: [
-      {
-        label: 'Meta',
-        data: META_SPEND.map(v => Math.round(v/1000)),
-        backgroundColor: 'rgba(24,119,242,0.75)',
-        stack: 'spend',
-        borderRadius: 4
-      },
-      {
-        label: 'Google',
-        data: GOOGLE_SPEND.map(v => Math.round(v/1000)),
-        backgroundColor: 'rgba(234,67,53,0.75)',
-        stack: 'spend',
-        borderRadius: 4
-      }
+      { label: 'Meta', data: META_SPEND, backgroundColor: INK, stack: 's', borderRadius: 2 },
+      { label: 'Google', data: GOOGLE_SPEND, backgroundColor: SAGE, stack: 's', borderRadius: 2 }
     ]
   },
-  options: {
-    ...chartDefaults,
-    scales: {
-      ...chartDefaults.scales,
-      x: { ...chartDefaults.scales.x, stacked: true },
-      y: { ...chartDefaults.scales.y, stacked: true, ticks: { ...chartDefaults.scales.y.ticks, callback: v => '$' + v + 'K' } }
-    }
-  }
+  options: { ...baseOpts, scales: { ...baseOpts.scales, x: { ...baseOpts.scales.x, stacked: true }, y: { ...baseOpts.scales.y, stacked: true, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'K' } } } }
 });
 
-// CONV CHART
-new Chart(document.getElementById('chartConv'), {
+// Conv stacked
+new Chart('chartConv', {
   type: 'bar',
   data: {
     labels: DATES,
     datasets: [
-      {
-        label: 'Meta compras',
-        data: META_CONV,
-        backgroundColor: 'rgba(24,119,242,0.75)',
-        stack: 'conv',
-        borderRadius: 4
-      },
-      {
-        label: 'Google conv',
-        data: GOOGLE_CONV,
-        backgroundColor: 'rgba(234,67,53,0.75)',
-        stack: 'conv',
-        borderRadius: 4
-      }
+      { label: 'Meta', data: META_CONV, backgroundColor: INK, stack: 's', borderRadius: 2 },
+      { label: 'Google', data: GOOGLE_CONV, backgroundColor: SAGE, stack: 's', borderRadius: 2 }
     ]
   },
-  options: {
-    ...chartDefaults,
-    scales: {
-      ...chartDefaults.scales,
-      x: { ...chartDefaults.scales.x, stacked: true },
-      y: { ...chartDefaults.scales.y, stacked: true }
-    }
-  }
+  options: { ...baseOpts, scales: { ...baseOpts.scales, x: { ...baseOpts.scales.x, stacked: true }, y: { ...baseOpts.scales.y, stacked: true } } }
 });
 
-// VALUE CHART
-new Chart(document.getElementById('chartValue'), {
+// Value stacked
+new Chart('chartValue', {
   type: 'bar',
   data: {
     labels: DATES,
     datasets: [
-      {
-        label: 'Meta',
-        data: META_VALUE.map(v => Math.round(v/1000000)),
-        backgroundColor: 'rgba(24,119,242,0.75)',
-        stack: 'val',
-        borderRadius: 4
-      },
-      {
-        label: 'Google',
-        data: GOOGLE_VALUE.map(v => Math.round(v/1000000)),
-        backgroundColor: 'rgba(234,67,53,0.75)',
-        stack: 'val',
-        borderRadius: 4
-      }
+      { label: 'Meta', data: META_VAL, backgroundColor: INK, stack: 's', borderRadius: 2 },
+      { label: 'Google', data: GOOGLE_VAL, backgroundColor: SAGE, stack: 's', borderRadius: 2 }
     ]
   },
-  options: {
-    ...chartDefaults,
-    scales: {
-      ...chartDefaults.scales,
-      x: { ...chartDefaults.scales.x, stacked: true },
-      y: { ...chartDefaults.scales.y, stacked: true, ticks: { ...chartDefaults.scales.y.ticks, callback: v => '$' + v + 'M' } }
-    }
-  }
+  options: { ...baseOpts, scales: { ...baseOpts.scales, x: { ...baseOpts.scales.x, stacked: true }, y: { ...baseOpts.scales.y, stacked: true, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } }
 });
 </script>
 </body>
