@@ -659,6 +659,20 @@
 
   hr.rule { height: 1px; background: currentColor; opacity: 0.12; border: none; margin: 40px 0; }
 
+  /* ── EXPORT BUTTON ───────────────────────────── */
+  .btn-export {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 22px;
+    background: var(--sage); color: var(--ink);
+    border: none; border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    cursor: pointer; transition: background .2s; white-space: nowrap;
+    margin-top: 32px;
+  }
+  .btn-export:hover { background: var(--sage-deep); color: var(--cream); }
+
   @media (max-width: 1100px) {
     .header, .slab { padding-left: 32px; padding-right: 32px; }
     .kpi-grid { grid-template-columns: 1fr 1fr; }
@@ -679,6 +693,7 @@
   <div class="kicker">Dilema Creative · Análisis de campaña · Mayo 2026</div>
   <h1>Frizata — <em>Hot Sale</em><span class="star">*</span></h1>
   <p class="header-sub">Resultados reales vía Meta Ads API + Google Ads API. 10 días, tres períodos, dos plataformas.</p>
+  <button class="btn-export" onclick="exportToExcel()">↓ Exportar a Excel</button>
   <div class="header-periods">
     <div class="period-header-cell">
       <div class="phc-kicker">Período 01</div>
@@ -1455,6 +1470,80 @@ new Chart('chartValue', {
   },
   options: { ...baseOpts, scales: { ...baseOpts.scales, x: { ...baseOpts.scales.x, stacked: true }, y: { ...baseOpts.scales.y, stacked: true, ticks: { ...baseOpts.scales.y.ticks, callback: v => '$'+v+'M' } } } }
 });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>
+function exportToExcel() {
+  const wb = XLSX.utils.book_new();
+
+  // ── SHEET 1: RESUMEN DEL EVENTO ────────────────
+  const resumen = [
+    ['Período', 'Fechas', 'ROAS Combinado', 'Gasto ARS', 'Conversiones', 'Valor ARS'],
+    ['Hot Sale',  '11–13 mayo', 22.57, 4890000,  771,  110400000],
+    ['Hot Week',  '14–17 mayo', 11.62, 3930000,  354,   45600000],
+    ['Extensión', '18–20 mayo', 10.06, 3130000,  213,   31500000],
+    ['TOTAL',     '10 días',    15.70, 11950000, 1338,  187600000],
+    [],
+    ['Plataforma', 'ROAS Total', 'Gasto ARS', 'Conversiones'],
+    ['Meta Ads',   12.54, 9130000, 802],
+    ['Google Ads', 25.92, 2820000, 536],
+  ];
+  const ws1 = XLSX.utils.aoa_to_sheet(resumen);
+  ws1['!cols'] = [{wch:14},{wch:14},{wch:18},{wch:16},{wch:16},{wch:16}];
+  XLSX.utils.book_append_sheet(wb, ws1, 'Resumen evento');
+
+  // ── SHEET 2: META ADS — ANUNCIOS ───────────────
+  const metaHeaders = ['Tipo', 'Anuncio', 'Períodos', 'Gasto ARS', 'Compras', 'Valor ARS', 'ROAS'];
+  const metaRows = [metaHeaders];
+
+  const parseMoney  = s => parseInt((s || '0').replace(/[^0-9]/g, '')) || 0;
+  const parseROAS   = s => parseFloat((s || '0').replace('×','').trim()) || 0;
+
+  // Tabla permanentes
+  document.querySelectorAll('.ads-table').forEach((tbl, tblIdx) => {
+    const tipo = tblIdx === 0 ? 'Permanente' : 'Evento Hot Sale';
+    tbl.querySelectorAll('tbody tr').forEach(row => {
+      const name    = row.querySelector('.ad-name')?.textContent?.trim() || '';
+      const periods = Array.from(row.querySelectorAll('.ptag')).map(t => t.textContent.trim()).join(' / ');
+      const tds     = row.querySelectorAll('td.td-mono');
+      const roasEl  = row.querySelector('td.td-roas');
+      if (!name) return;
+      metaRows.push([
+        tipo, name, periods,
+        parseMoney(tds[0]?.textContent),
+        parseInt(tds[1]?.textContent) || 0,
+        parseMoney(tds[2]?.textContent),
+        parseROAS(roasEl?.textContent),
+      ]);
+    });
+  });
+
+  const ws2 = XLSX.utils.aoa_to_sheet(metaRows);
+  ws2['!cols'] = [{wch:16},{wch:38},{wch:18},{wch:14},{wch:10},{wch:14},{wch:8}];
+  XLSX.utils.book_append_sheet(wb, ws2, 'Meta Ads — Anuncios');
+
+  // ── SHEET 3: GOOGLE ADS — CAMPAÑAS ─────────────
+  const gHeaders = ['Período', 'Campaña', 'ROAS', 'Conversiones'];
+  const gRows = [gHeaders];
+
+  document.querySelectorAll('.camp-card').forEach(card => {
+    const periodo = card.querySelector('.camp-period-name')?.textContent?.replace(/\s+/g,' ').trim() || '';
+    card.querySelectorAll('.camp-row').forEach(row => {
+      const name = row.querySelector('.camp-name')?.textContent?.trim() || '';
+      const roas = parseROAS(row.querySelector('.camp-roas')?.textContent || '0');
+      const conv = parseInt((row.querySelector('.camp-conv')?.textContent || '0').replace(/[^0-9]/g,'')) || 0;
+      if (!name) return;
+      gRows.push([periodo, name, roas, conv]);
+    });
+  });
+
+  const ws3 = XLSX.utils.aoa_to_sheet(gRows);
+  ws3['!cols'] = [{wch:18},{wch:18},{wch:10},{wch:14}];
+  XLSX.utils.book_append_sheet(wb, ws3, 'Google Ads — Campañas');
+
+  XLSX.writeFile(wb, 'Frizata_HotSale_Mayo2026.xlsx');
+}
 </script>
 </body>
 </html>
