@@ -200,15 +200,70 @@
   .footer-export { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink); background: var(--sage); border: none; padding: 10px 18px; border-radius: 3px; cursor: pointer; font-weight: 600; }
   .footer-export:hover { background: var(--cream); }
 
+  /* Tablas con scroll horizontal */
+  .table-wrap, .obj-block { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .cmp-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+  .cmp-table-wrap .cmp-table { border: none; border-radius: 0; }
+
   @media (max-width: 900px) {
-    nav { padding: 0 20px; } .nav-links { display: none; }
-    section, .hero { padding: 48px 24px; }
-    footer { padding: 32px 24px; flex-direction: column; gap: 16px; text-align: center; }
-    .hero-stats, .metrics-row { grid-template-columns: 1fr 1fr; }
-    .charts-grid, .top-ads-grid, .funnel-row, .focus-actions { grid-template-columns: 1fr; }
-    .roas-block { grid-template-columns: 1fr; padding: 32px; }
-    .roas-number { font-size: 64px; }
-    .adset-header { grid-template-columns: 1fr; gap: 4px; }
+    nav { padding: 0 16px; height: 52px; }
+    .nav-links { display: none; }
+    .nav-brand { font-size: 16px; }
+    .nav-export { padding: 5px 10px; font-size: 9px; }
+    .nav-tag { display: none; }
+    .hero { padding: 56px 20px 48px; }
+    .hero h1 { font-size: 56px; line-height: 0.92; }
+    .hero-sub { font-size: 17px; margin-bottom: 32px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .hero-stat { padding: 16px 18px; }
+    .hero-stat .v { font-size: 22px; }
+    section { padding: 48px 20px; }
+    .sec-head { flex-direction: column; gap: 8px; margin-bottom: 32px; align-items: flex-start; }
+    .sec-head h2 { font-size: 32px; line-height: 1; }
+    .section-lede { font-size: 17px; margin-bottom: 24px; }
+    .metrics-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .metric-card { padding: 14px 12px; }
+    .metric-card .value { font-size: 20px; }
+    .metric-card .label { font-size: 8.5px; }
+    .metric-card .sub { font-size: 10px; }
+    .charts-grid, .top-ads-grid, .funnel-row, .focus-actions { grid-template-columns: 1fr; gap: 12px; }
+    .funnel-cell { padding: 14px; }
+    .funnel-cell .now { font-size: 22px; }
+    .roas-block { grid-template-columns: 1fr; padding: 28px 22px; gap: 20px; }
+    .roas-block::after { display: none; }
+    .roas-number { font-size: 56px; }
+    .roas-desc { font-size: 17px; }
+    .focus-block { padding: 24px 20px; }
+    .focus-head { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .focus-head h3 { font-size: 22px; }
+    .focus-action { padding: 14px 16px; }
+    .obj-table th, .obj-table td { padding: 10px 8px; font-size: 11.5px; }
+    .obj-table td:first-child { font-size: 12px; }
+    .cmp-table th, .cmp-table td { padding: 9px 8px; font-size: 11.5px; }
+    .adset-header { grid-template-columns: 1fr; gap: 4px; padding: 10px 12px; }
+    .adset-header .as-met { text-align: left; }
+    .adset-block th, .adset-block td { padding: 8px 6px; font-size: 11px; }
+    .drill-inner { padding: 0 8px 12px 8px; }
+    .ad-cell-td { max-width: 220px; }
+    .ad-thumb { width: 36px; height: 36px; }
+    .drill-table th, .drill-table td { padding: 10px 8px; font-size: 11.5px; }
+    .camp-row td:first-child { padding-left: 28px; }
+    .drill-arrow { left: 10px; }
+    .camp-name { font-size: 12px; }
+    .camp-type { font-size: 8.5px; }
+    .camp-table th, .camp-table td { padding: 10px 8px; font-size: 11.5px; }
+    .platform-tabs { width: 100%; box-sizing: border-box; }
+    .tab-btn { padding: 8px 12px; font-size: 10px; flex: 1; }
+    footer { padding: 28px 20px; flex-direction: column; gap: 16px; text-align: center; }
+    .footer-brand { font-size: 18px; }
+    canvas { max-width: 100%; }
+  }
+
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 44px; }
+    .hero-stats { grid-template-columns: 1fr; }
+    .metrics-row { grid-template-columns: 1fr; }
+    .sec-head h2 { font-size: 26px; }
   }
 </style>
 </head>
@@ -268,8 +323,8 @@
   <p class="section-lede">La pregunta del mes: ¿mejoramos o empeoramos vs el mes anterior? Acá la respuesta con datos de Meta API, Google Ads API y Google Analytics 4.</p>
   <p style="margin-bottom:24px; font-size:13px; color:var(--ash); font-family:'JetBrains Mono',monospace; letter-spacing:0.04em; background:var(--paper-2); border-left:3px solid var(--warn); padding:12px 16px; border-radius:0 4px 4px 0;">Nota: Mayo incluye Hot Sale (11 al 20). Es esperable que la mayoría de los números absolutos sean más altos que Abril por ese evento. Lo importante de esta comparación es ver dónde crecimos por encima del efecto Hot Sale y dónde no.</p>
 
-  <div class="cmp-table" style="margin-bottom:20px;">
-    <table style="width:100%; border-collapse:collapse;">
+  <div class="cmp-table-wrap" style="margin-bottom:20px;">
+    <table class="cmp-table" style="width:100%; border-collapse:collapse; border:none; border-radius:0;">
       <thead><tr><th>Métrica</th><th>Abril 2026</th><th>Mayo 2026</th><th>Variación</th></tr></thead>
       <tbody>
         <tr class="cmp-section"><td colspan="4">Pauta · Meta Ads</td></tr>
