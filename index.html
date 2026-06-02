@@ -10,14 +10,16 @@
 <style>
   :root { --ink:#0E2A47; --sage:#4FA27E; --paper:#FAF6EE; --paper-2:#EFE8D9; --ash:#6B6257; --line:#D9CFBC; }
   * { box-sizing:border-box; margin:0; padding:0; }
-  body { font-family:'Inter',system-ui,sans-serif; background:var(--paper); color:#14161A; padding:48px 32px; }
-  .wrap { max-width:960px; margin:0 auto; }
-  h1 { font-family:'Fraunces',serif; font-weight:500; font-size:56px; letter-spacing:-0.03em; color:var(--ink); margin-bottom:8px; }
+  body { font-family:'Inter',system-ui,sans-serif; background:var(--paper); color:#14161A; padding:48px 32px; line-height:1.5; }
+  .wrap { max-width:980px; margin:0 auto; }
+  h1 { font-family:'Fraunces',serif; font-weight:500; font-size:56px; letter-spacing:-0.03em; color:var(--ink); margin-bottom:8px; line-height:0.95; }
   h1 em { font-style:italic; color:var(--sage); }
-  .sub { font-family:'Fraunces',serif; font-style:italic; font-size:18px; color:var(--ash); margin-bottom:40px; }
+  .sub { font-family:'Fraunces',serif; font-style:italic; font-size:18px; color:var(--ash); margin-bottom:40px; max-width:680px; }
   .kicker { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--ash); margin-bottom:14px; }
   .client { background:#fff; border:1px solid var(--line); border-radius:8px; padding:24px 28px; margin-bottom:18px; }
-  .client h2 { font-family:'Fraunces',serif; font-weight:500; font-size:24px; color:var(--ink); margin-bottom:14px; letter-spacing:-0.02em; }
+  .client h2 { font-family:'Fraunces',serif; font-weight:500; font-size:24px; color:var(--ink); margin-bottom:4px; letter-spacing:-0.02em; display:flex; align-items:baseline; gap:12px; }
+  .client h2 .tag { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.14em; color:var(--ash); background:var(--paper-2); padding:3px 8px; border-radius:3px; text-transform:uppercase; font-weight:normal; }
+  .client .blurb { font-size:13px; color:var(--ash); margin-bottom:10px; }
   .grp { font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ash); margin:14px 0 6px; }
   ul { list-style:none; }
   li { padding:8px 0; border-bottom:1px dashed var(--line); display:flex; justify-content:space-between; gap:12px; align-items:baseline; }
@@ -26,16 +28,26 @@
   a:hover { color:var(--sage); }
   .date { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ash); white-space:nowrap; }
   footer { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--ash); letter-spacing:0.1em; text-align:center; margin-top:40px; padding-top:24px; border-top:1px solid var(--line); }
+  @media (max-width:600px) {
+    body { padding:32px 18px; }
+    h1 { font-size:42px; }
+    .sub { font-size:16px; margin-bottom:28px; }
+    .client { padding:20px 18px; }
+    .client h2 { font-size:21px; flex-wrap:wrap; gap:8px; }
+    a { font-size:13.5px; }
+    .date { font-size:10px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="kicker">Dilema Creative · Material para clientes</div>
   <h1>Reportes &amp; <em>propuestas.</em></h1>
-  <p class="sub">Material en vivo. Organizado por cliente, ordenado por fecha.</p>
+  <p class="sub">Material en vivo. Organizado por cliente, ordenado por fecha. Cada link abre el documento directo en el navegador.</p>
 
   <div class="client">
-    <h2>Frizata</h2>
+    <h2>Frizata <span class="tag">Meta + Google</span></h2>
+    <p class="blurb">Ecommerce de alimentos congelados. Reportes mensuales, análisis UGC y planificación de inversión.</p>
     <div class="grp">Reportes mensuales</div>
     <ul>
       <li><a href="clientes/frizata/reportes/frizata-reporte-mayo-2026.html">Reporte Mayo 2026</a><span class="date">Jun 2026</span></li>
@@ -52,38 +64,57 @@
   </div>
 
   <div class="client">
-    <h2>Friotex</h2>
+    <h2>Friotex <span class="tag">Meta + Google</span></h2>
+    <p class="blurb">B2B industrial. Abatidores, secaderos y equipamiento. Push de leads y Hot Sale.</p>
+    <div class="grp">Reportes mensuales</div>
     <ul>
       <li><a href="clientes/friotex/reportes/friotex-reporte-mayo-2026.html">Reporte Mayo 2026</a><span class="date">Jun 2026</span></li>
     </ul>
   </div>
 
   <div class="client">
-    <h2>DOS Argentina</h2>
+    <h2>Insumos Magna <span class="tag">Meta Ads</span></h2>
+    <p class="blurb">Electrodomésticos y accesorios. Ventas a WhatsApp por producto.</p>
+    <div class="grp">Reportes mensuales</div>
+    <ul>
+      <li><a href="clientes/magna/reportes/magna-reporte-mayo-2026.html">Reporte Mayo 2026</a><span class="date">Jun 2026</span></li>
+    </ul>
+  </div>
+
+  <div class="client">
+    <h2>DOS Argentina <span class="tag">Google + Email</span></h2>
+    <p class="blurb">B2B industrial. Estrategia de email marketing y campañas de Google.</p>
+    <div class="grp">Estrategias</div>
     <ul>
       <li><a href="clientes/dos-argentina/estrategias/dos-estrategia-email-mayo-junio-2026.html">Estrategia Email Mayo–Junio 2026</a><span class="date">May 2026</span></li>
     </ul>
   </div>
 
   <div class="client">
-    <h2>Canem</h2>
+    <h2>Piksort <span class="tag">Meta + Google + Email</span></h2>
+    <p class="blurb">Marca personal y propuestas estratégicas.</p>
+    <div class="grp">Propuestas</div>
+    <ul>
+      <li><a href="clientes/piksort/propuestas/piksort-propuesta-alfonso-firenze.html">Propuesta marca personal · Alfonso Firenze</a><span class="date">May 2026</span></li>
+    </ul>
+  </div>
+
+  <div class="client">
+    <h2>Canem <span class="tag">Prospect</span></h2>
+    <p class="blurb">Accesorios premium para perros. Propuesta de Meta Ads en evaluación.</p>
+    <div class="grp">Propuestas</div>
     <ul>
       <li><a href="clientes/canem/propuestas/canem-propuesta-meta-ads.html">Propuesta Meta Ads</a><span class="date">May 2026</span></li>
     </ul>
   </div>
 
   <div class="client">
-    <h2>A Leather Concept</h2>
+    <h2>A Leather Concept <span class="tag">Prospect</span></h2>
+    <p class="blurb">Mochilas de cuero personalizadas. Propuesta y guías de contenido en desarrollo.</p>
+    <div class="grp">Propuestas &amp; guías</div>
     <ul>
       <li><a href="clientes/a-leather-concept/propuestas/a-leather-propuesta.html">Propuesta</a><span class="date">May 2026</span></li>
       <li><a href="clientes/a-leather-concept/guias/a-leather-guia-pilares-y-hooks.html">Guía 01 · Pilares y hooks</a><span class="date">May 2026</span></li>
-    </ul>
-  </div>
-
-  <div class="client">
-    <h2>Piksort</h2>
-    <ul>
-      <li><a href="clientes/piksort/propuestas/piksort-propuesta-alfonso-firenze.html">Propuesta marca personal · Alfonso Firenze</a><span class="date">May 2026</span></li>
     </ul>
   </div>
 
