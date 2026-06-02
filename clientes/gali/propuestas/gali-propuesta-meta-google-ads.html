@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gali · Propuesta Meta Ads + Google Ads</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1B1410;
+    --ink-soft: #2C211A;
+    --amber: #D08A2B;
+    --amber-deep: #A66A1F;
+    --cream: #F4EFE6;
+    --paper: #FAF6EE;
+    --paper-2: #EFE8D9;
+    --white: #ffffff;
+    --text: #14161A;
+    --ash: #6B6257;
+    --line: #D9CFBC;
+    --star: #5BB4D6;
+    --bad: #B23A2B;
+    --good: #2F7D5E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(27, 20, 16, 0.97);
+    backdrop-filter: blur(12px);
+    padding: 0 48px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(208,138,43,0.2);
+  }
+  .nav-logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+  }
+  .nav-logo em { font-style: italic; color: var(--amber); font-weight: 500; }
+  .nav-logo sup { color: var(--star); font-size: 0.6em; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: rgba(244,239,230,0.5);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--amber); }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding: 140px 60px 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -60px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(208,138,43,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(208,138,43,0.4), transparent);
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(208,138,43,0.1);
+    border: 1px solid rgba(208,138,43,0.25);
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 32px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--amber);
+    border-radius: 50%;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(44px, 6vw, 76px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    max-width: 880px;
+    margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--amber);
+    font-weight: 400;
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: rgba(244,239,230,0.55);
+    max-width: 600px;
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero-pill {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 7px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(244,239,230,0.6);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* SECTIONS */
+  section { padding: 80px 60px; }
+  section.alt { background: var(--cream); }
+  section.dark { background: var(--ink); color: var(--cream); }
+
+  .section-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber-deep);
+    margin-bottom: 14px;
+  }
+  section.dark .section-kicker { color: var(--amber); }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    max-width: 760px;
+    margin-bottom: 16px;
+  }
+  .section-title em { font-style: italic; color: var(--amber-deep); }
+  section.dark .section-title { color: var(--cream); }
+  section.dark .section-title em { color: var(--amber); }
+
+  .section-desc {
+    font-size: 16px;
+    color: var(--ash);
+    max-width: 640px;
+    margin-bottom: 52px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  section.dark .section-desc { color: rgba(244,239,230,0.55); }
+
+  /* DIAGNÓSTICO */
+  .diag-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--line);
+    margin-bottom: 24px;
+  }
+  .diag-col { padding: 32px; }
+  .diag-col:first-child { border-right: 1px solid var(--line); background: #F1F6EE; }
+  .diag-col:last-child { background: #FAEDEA; }
+  .diag-col-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .diag-col:first-child .diag-col-head { color: var(--good); }
+  .diag-col:last-child .diag-col-head { color: var(--bad); }
+  .diag-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .diag-list li {
+    font-size: 14.5px;
+    color: var(--text);
+    padding-left: 22px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .diag-col:first-child .diag-list li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--good); font-weight: 700;
+  }
+  .diag-col:last-child .diag-list li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--bad); font-weight: 700;
+  }
+
+  /* TWO CHANNELS BLOCK */
+  .channels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .channel {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 32px;
+    position: relative;
+  }
+  .channel::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--amber);
+  }
+  .channel-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber-deep);
+    margin-bottom: 12px;
+  }
+  .channel-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .channel-goal {
+    font-size: 14px;
+    color: var(--ash);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .channel-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .channel-list li {
+    font-size: 13.5px;
+    color: var(--ash);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .channel-list li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--amber-deep); font-weight: 700; font-size: 13px;
+  }
+
+  /* PHASES */
+  .phases { display: flex; flex-direction: column; gap: 0; position: relative; }
+  .phases::before {
+    content: '';
+    position: absolute;
+    left: 27px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--amber) 0%, rgba(208,138,43,0.1) 100%);
+  }
+  .phase {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .phase:last-child { border-bottom: none; }
+  .phase-num {
+    width: 56px; height: 56px;
+    background: var(--cream);
+    border: 2px solid var(--amber);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--amber-deep);
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .phase-week {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--amber-deep);
+    margin-bottom: 6px;
+  }
+  .phase-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .phase-desc {
+    font-size: 15px;
+    color: var(--ash);
+    margin-bottom: 16px;
+    line-height: 1.65;
+    max-width: 720px;
+  }
+  .phase-items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .phase-item {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  /* NEEDS GRID */
+  .needs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .need-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px;
+  }
+  .need-icon { font-size: 22px; margin-bottom: 10px; }
+  .need-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .need-desc { font-size: 13px; color: var(--ash); line-height: 1.55; }
+
+  /* INCLUDED */
+  .included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .included-col {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 28px;
+  }
+  .included-col-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .col-badge {
+    background: var(--ink);
+    color: var(--amber);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+  .col-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .included-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .included-list li {
+    font-size: 14px;
+    color: var(--ash);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .included-list li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--amber-deep); font-weight: 700; font-size: 13px;
+  }
+
+  /* OPT GRID */
+  .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .opt-card {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 28px;
+    background: var(--white);
+  }
+  .opt-icon { font-size: 22px; margin-bottom: 14px; }
+  .opt-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .opt-desc { font-size: 14px; color: var(--ash); line-height: 1.65; }
+
+  /* PRICING */
+  .pricing-wrap {
+    max-width: 560px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .pricing-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 36px;
+    position: relative;
+  }
+  .pricing-card.featured { border-color: var(--amber); background: rgba(208,138,43,0.07); }
+  .pricing-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 11px;
+    color: rgba(244,239,230,0.5);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .pricing-price {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 56px;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .pricing-price span {
+    font-size: 22px;
+    font-weight: 400;
+    color: rgba(244,239,230,0.4);
+    letter-spacing: -0.01em;
+  }
+  .pricing-note {
+    font-size: 13px;
+    color: rgba(244,239,230,0.4);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+  .pricing-divider { height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 24px; }
+  .pricing-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .pricing-list li {
+    font-size: 14px;
+    color: rgba(244,239,230,0.65);
+    padding-left: 22px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .pricing-list li::before { content: '✓'; position: absolute; left: 0; color: var(--amber); font-weight: 700; }
+  .invest-note {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 22px;
+    font-size: 14px;
+    color: rgba(244,239,230,0.55);
+    line-height: 1.7;
+  }
+  .invest-note strong { color: rgba(244,239,230,0.85); }
+
+  /* CLOSING */
+  .closing {
+    background: var(--ink);
+    padding: 100px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .closing::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse, rgba(208,138,43,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .closing h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(34px, 5vw, 58px);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .closing h2 em { font-style: italic; color: var(--amber); font-weight: 400; }
+  .closing p {
+    font-size: 16px;
+    color: rgba(244,239,230,0.45);
+    max-width: 500px;
+    margin: 0 auto 48px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* ── TABLET ── */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    nav { padding: 0 32px; }
+    .hero { padding: 120px 40px 80px; }
+    .hero h1 { font-size: 56px; }
+    section { padding: 64px 40px; }
+    .channels { grid-template-columns: 1fr; gap: 16px; }
+    .included-grid { grid-template-columns: 1fr; gap: 16px; }
+    .opt-grid { grid-template-columns: 1fr 1fr; }
+    .closing { padding: 80px 40px; }
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; height: 52px; }
+    .nav-links { display: none; }
+    .nav-logo { font-size: 14px; }
+
+    .hero { padding: 88px 24px 64px; }
+    .hero-eyebrow { font-size: 9.5px; padding: 5px 11px; margin-bottom: 24px; }
+    .hero h1 { font-size: 38px; letter-spacing: -0.025em; margin-bottom: 18px; }
+    .hero-sub { font-size: 15px; margin-bottom: 32px; }
+    .hero-pill { font-size: 9.5px; padding: 6px 12px; }
+
+    section { padding: 56px 24px; }
+    .section-kicker { font-size: 9.5px; }
+    .section-title { font-size: 30px; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .section-desc { font-size: 15px; margin-bottom: 36px; }
+
+    .diag-grid { grid-template-columns: 1fr; }
+    .diag-col { padding: 24px; }
+    .diag-col:first-child { border-right: none; border-bottom: 1px solid var(--line); }
+    .diag-list li { font-size: 14px; }
+
+    .channels { grid-template-columns: 1fr; gap: 14px; }
+    .channel { padding: 24px; }
+    .channel-title { font-size: 20px; }
+
+    .phases::before { left: 19px; }
+    .phase { grid-template-columns: 40px 1fr; gap: 16px; padding: 24px 0; }
+    .phase-num { width: 40px; height: 40px; font-size: 12px; }
+    .phase-title { font-size: 18px; }
+    .phase-desc { font-size: 14px; }
+    .phase-item { font-size: 11px; padding: 4px 10px; }
+
+    .needs-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .need-card { padding: 18px; }
+    .need-icon { font-size: 20px; margin-bottom: 8px; }
+    .need-title { font-size: 14px; }
+    .need-desc { font-size: 12.5px; }
+
+    .included-grid { grid-template-columns: 1fr; gap: 14px; }
+    .included-col { padding: 22px; }
+    .included-col-header { margin-bottom: 16px; padding-bottom: 12px; }
+    .col-badge { font-size: 9.5px; }
+    .col-title { font-size: 14px; }
+    .included-list li { font-size: 13px; }
+    .included-list[style] { grid-template-columns: 1fr !important; }
+
+    .opt-grid { grid-template-columns: 1fr; gap: 12px; }
+    .opt-card { padding: 22px; }
+    .opt-title { font-size: 17px; }
+    .opt-desc { font-size: 13.5px; }
+
+    .pricing-wrap { max-width: 100%; }
+    .pricing-card { padding: 28px 24px; }
+    .pricing-price { font-size: 44px; }
+    .pricing-price span { font-size: 18px; }
+    .pricing-list li { font-size: 13px; }
+    .invest-note { font-size: 13px; padding: 18px; }
+
+    .closing { padding: 72px 24px 64px; }
+    .closing h2 { font-size: 32px; }
+    .closing p { font-size: 15px; }
+  }
+
+  @media (max-width: 420px) {
+    .hero h1 { font-size: 32px; }
+    .needs-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 27px; }
+    .pricing-price { font-size: 38px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Propuesta <em>Gali</em></div>
+  <div class="nav-links">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#objetivos">Objetivos</a>
+    <a href="#metodologia">Metodología</a>
+    <a href="#incluye">Qué incluye</a>
+    <a href="#inversion">Inversión</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Gali · Propuesta Meta + Google Ads 2026</div>
+  <h1>El local <em>funciona</em>.<br>Que más gente lo<br><em>descubra</em> ahora.</h1>
+  <p class="hero-sub">Plan concreto para dos cosas: más ventas por delivery (Rappi, PedidosYa, MP Delivery) y más gente entrando al local de Versalles. Meta para captar demanda en la zona, Google para aparecer cuando alguien la busca.</p>
+</div>
+
+<!-- DIAGNÓSTICO -->
+<section id="diagnostico">
+  <div class="section-kicker">00 · Diagnóstico inicial</div>
+  <h2 class="section-title">Lo que vemos<br>desde <em>afuera</em>.</h2>
+  <p class="section-desc">Antes de proponer nada, leemos a Gali como la leerían los potenciales clientes. Esto es lo que encontramos al analizar el Instagram, el Linktree y la presencia digital actual.</p>
+
+  <div class="diag-grid">
+    <div class="diag-col">
+      <div class="diag-col-head">Lo que funciona</div>
+      <ul class="diag-list">
+        <li>55 mil seguidores en Instagram con engagement muy por encima del promedio del rubro</li>
+        <li>Promos ancla con cadencia fija: birra libre los miércoles y tacos libres funcionan como motor de tráfico recurrente</li>
+        <li>Uso real de UGC y creadores de contenido del rubro (Alan Bracco, Berenice Hortal, Kys Wine Events)</li>
+        <li>Calendario gastronómico aprovechado: menú patrio el 25 de mayo, día de la hamburguesa, Feria de Vinos</li>
+        <li>Tres apps de delivery activas (Rappi, PedidosYa, MP Delivery) con presencia visible</li>
+        <li>Eventos premium tipo Feria de Vinos para subir ticket promedio y diversificar público</li>
+      </ul>
+    </div>
+    <div class="diag-col">
+      <div class="diag-col-head">Lo que falta construir</div>
+      <ul class="diag-list">
+        <li>Sin pauta activa en Meta: el alcance depende 100% del orgánico, frágil cuando el algoritmo cambia</li>
+        <li>Sin presencia en Google Ads ni perfil de Google Business optimizado para Maps y búsquedas locales</li>
+        <li>El menú vive en Google Drive: experiencia rota en mobile, sin pixel, imposible hacer retargeting</li>
+        <li>No hay sistema de captura de WhatsApp o email para activar audiencia propia</li>
+        <li>Sin reservas online (TheFork, CoverManager o flujo WhatsApp) — se pierde data y conversión</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- OBJETIVOS -->
+<section class="alt" id="objetivos">
+  <div class="section-kicker">01 · Objetivos por canal</div>
+  <h2 class="section-title">Dos canales,<br>dos <em>objetivos</em>.</h2>
+  <p class="section-desc">Meta y Google no compiten, se complementan. Meta genera demanda en la zona y empuja delivery. Google captura intención existente y posiciona a Gali cuando alguien busca dónde comer cerca.</p>
+
+  <div class="channels">
+    <div class="channel">
+      <div class="channel-tag">Canal 01</div>
+      <div class="channel-title">Meta Ads</div>
+      <div class="channel-goal">Aumentar ventas por las tres apps de delivery y traer gente nueva al local. Trabaja sobre demanda latente: gente que aún no sabe que Gali existe pero está dentro del radio.</div>
+      <ul class="channel-list">
+        <li>Geo-segmentación radio 3 a 5 km del local</li>
+        <li>Campañas de tráfico hacia Rappi, PedidosYa y MP Delivery</li>
+        <li>Campañas de mensajes para reservas y consultas vía WhatsApp</li>
+        <li>Retargeting a quienes engagearon con posts y reels</li>
+        <li>Promos cíclicas amplificadas: birra libre, tacos libres, eventos</li>
+      </ul>
+    </div>
+    <div class="channel">
+      <div class="channel-tag">Canal 02</div>
+      <div class="channel-title">Google Ads + Maps</div>
+      <div class="channel-goal">Aparecer cuando alguien busca activamente. Capturar la intención del usuario que ya quiere ir a comer y elegir un lugar cerca. Posicionar a Gali en el top del Maps de Versalles, Liniers y zona oeste.</div>
+      <ul class="channel-list">
+        <li>Perfil de Google Business Profile completo y optimizado</li>
+        <li>Performance Max local apuntando al negocio físico</li>
+        <li>Search con keywords: "bar Versalles", "cerveza artesanal Liniers", "burgers oeste CABA"</li>
+        <li>Campañas de llamadas y direcciones desde Maps</li>
+        <li>Reseñas, fotos y respuestas como insumo de SEO local</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGÍA -->
+<section id="metodologia">
+  <div class="section-kicker">02 · Metodología</div>
+  <h2 class="section-title">Cómo trabajamos,<br><em>paso a paso</em>.</h2>
+  <p class="section-desc">No lanzamos campañas el día uno. Primero ordenamos los activos digitales, configuramos bien el tracking y armamos la estructura correcta. Después aceleramos con datos reales.</p>
+
+  <div class="phases">
+
+    <div class="phase">
+      <div class="phase-num">1</div>
+      <div class="phase-body">
+        <div class="phase-week">Semana 1</div>
+        <div class="phase-title">Auditoría y ordenamiento de activos</div>
+        <div class="phase-desc">Revisamos Instagram, TikTok, Linktree, perfil de Google Business actual (si existe), las tres apps de delivery y la presencia en Maps. Mapeamos audiencias clave para Gali en la zona: vecinos de Versalles, Liniers, Floresta, Devoto. Detectamos huecos y oportunidades concretas.</div>
+        <div class="phase-items">
+          <span class="phase-item">Instagram + TikTok</span>
+          <span class="phase-item">Linktree</span>
+          <span class="phase-item">Google Business Profile</span>
+          <span class="phase-item">Rappi · PedidosYa · MP</span>
+          <span class="phase-item">Maps · zona influencia</span>
+          <span class="phase-item">Competencia local</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">2</div>
+      <div class="phase-body">
+        <div class="phase-week">Semana 1 a 2</div>
+        <div class="phase-title">Setup técnico Meta + Google</div>
+        <div class="phase-desc">Configuramos toda la base de medición. Pixel de Meta + CAPI, GA4 con eventos de delivery y reservas, perfil de Google Business optimizado con fotos, horarios, menú y posts. Reemplazamos el menú de Google Drive por una landing simple con pixel y tracking. Sin esto, cualquier pauta trabaja a ciegas.</div>
+        <div class="phase-items">
+          <span class="phase-item">Meta Pixel + CAPI</span>
+          <span class="phase-item">GA4 + Tag Manager</span>
+          <span class="phase-item">Google Business Profile</span>
+          <span class="phase-item">Landing menú simple</span>
+          <span class="phase-item">UTMs por canal</span>
+          <span class="phase-item">Linktree reordenado</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">3</div>
+      <div class="phase-body">
+        <div class="phase-week">Semana 2</div>
+        <div class="phase-title">Estructura de campañas</div>
+        <div class="phase-desc">Armamos la arquitectura por canal y objetivo. En Meta: tráfico a delivery, mensajes para reservas y retargeting de engaged. En Google: Performance Max local, Search por intención y campañas de llamadas. Brief creativo aprovechando el contenido que Gali ya tiene en Instagram.</div>
+        <div class="phase-items">
+          <span class="phase-item">Meta · Tráfico delivery</span>
+          <span class="phase-item">Meta · Mensajes WhatsApp</span>
+          <span class="phase-item">Meta · Retargeting engaged</span>
+          <span class="phase-item">Google · Performance Max Local</span>
+          <span class="phase-item">Google · Search keywords</span>
+          <span class="phase-item">Brief creatividades</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">4</div>
+      <div class="phase-body">
+        <div class="phase-week">Semana 3 en adelante</div>
+        <div class="phase-title">Lanzamiento y aprendizaje</div>
+        <div class="phase-desc">Lanzamos con presupuesto controlado en ambos canales. Las primeras semanas los algoritmos se calibran, los datos se acumulan y empezamos a identificar qué campañas, audiencias y horarios convierten mejor. El primer mes es de aprendizaje, lo aclaramos antes para que no haya sorpresas.</div>
+        <div class="phase-items">
+          <span class="phase-item">Launch Meta</span>
+          <span class="phase-item">Launch Google</span>
+          <span class="phase-item">Monitoreo diario</span>
+          <span class="phase-item">Ajustes de puja</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">5</div>
+      <div class="phase-body">
+        <div class="phase-week">Mes 1 en adelante · Ritmo continuo</div>
+        <div class="phase-title">Optimización semanal + Reporte quincenal</div>
+        <div class="phase-desc">Cada semana: ajustes de puja, rotación de creativos, revisión de audiencias, análisis de qué horarios y promociones traccionan más. Cada 15 días: reporte claro con resultados por canal, CPA, costo por orden de delivery y conversiones en Maps. Más una interpretación de qué ajustamos para la siguiente quincena.</div>
+        <div class="phase-items">
+          <span class="phase-item">Revisión semanal</span>
+          <span class="phase-item">Reporte quincenal</span>
+          <span class="phase-item">Call mensual</span>
+          <span class="phase-item">Refresh de creatividades</span>
+          <span class="phase-item">Sugerencias de contenido</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- QUÉ NECESITAMOS -->
+<section class="alt" id="necesitamos">
+  <div class="section-kicker">03 · Qué necesitamos de su lado</div>
+  <h2 class="section-title">Lo que precisamos<br><em>para arrancar</em>.</h2>
+  <p class="section-desc">No es mucho, pero sí es necesario. Con estos activos podemos configurar todo bien desde el primer día y arrancar sin trabarnos en accesos.</p>
+
+  <div class="needs-grid">
+    <div class="need-card">
+      <div class="need-icon">🔑</div>
+      <div class="need-title">Acceso al Business Manager Meta</div>
+      <div class="need-desc">Acceso de administrador al BM y a la página de Instagram. Si no tienen BM configurado, lo armamos juntos en la primera semana.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">🗺️</div>
+      <div class="need-title">Acceso al Google Business Profile</div>
+      <div class="need-desc">Para optimizar la ficha, subir fotos, gestionar reseñas y conectarlo a Google Ads. Si la ficha no está verificada, también lo resolvemos nosotros.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">📊</div>
+      <div class="need-title">Datos de delivery</div>
+      <div class="need-desc">Ticket promedio por app, % de ventas por canal y horarios pico. Con eso calibramos el ROAS objetivo y dónde priorizar inversión.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">🖼️</div>
+      <div class="need-title">Material visual</div>
+      <div class="need-desc">Fotos y videos del local, las hamburguesas, los tacos, la birra y los eventos. Lo que está en Instagram ya sirve de base. Lo que falta, lo briefeamos juntos.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">💬</div>
+      <div class="need-title">WhatsApp Business activo</div>
+      <div class="need-desc">Para las campañas de mensajes y reservas. Si no está configurado, lo armamos como parte del setup.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">🎯</div>
+      <div class="need-title">Estimado de tickets en el local</div>
+      <div class="need-desc">Cuánta gente entra hoy un día promedio, un sábado, un miércoles de birra libre. No necesitamos números exactos, pero sí un orden de magnitud para medir crecimiento real.</div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ INCLUYE -->
+<section id="incluye">
+  <div class="section-kicker">04 · Qué incluye el servicio</div>
+  <h2 class="section-title">Meta + Google,<br><em>todo cubierto</em>.</h2>
+  <p class="section-desc">Cubrimos los dos canales con la profundidad que cada uno necesita. Setup técnico, estructura completa de campañas y optimización continua sobre ambos.</p>
+
+  <div class="included-grid">
+    <div class="included-col">
+      <div class="included-col-header">
+        <div class="col-badge">Meta Ads</div>
+        <div class="col-title">Delivery + tráfico al local</div>
+      </div>
+      <ul class="included-list">
+        <li>Configuración de Business Manager y cuenta publicitaria</li>
+        <li>Meta Pixel + CAPI con eventos clave</li>
+        <li>Geo-segmentación radio 3 a 5 km del local</li>
+        <li>Campañas de tráfico a las 3 apps de delivery</li>
+        <li>Campañas de mensajes para reservas vía WhatsApp</li>
+        <li>Retargeting a quienes vieron posts y reels</li>
+        <li>Brief y rotación de creatividades por promoción</li>
+      </ul>
+    </div>
+    <div class="included-col">
+      <div class="included-col-header">
+        <div class="col-badge">Google Ads</div>
+        <div class="col-title">Maps + búsqueda local</div>
+      </div>
+      <ul class="included-list">
+        <li>Google Business Profile completo y optimizado</li>
+        <li>Configuración de Google Ads + conversiones</li>
+        <li>Performance Max Local apuntando al negocio físico</li>
+        <li>Campañas Search por intención (bar, cerveza, burgers + zona)</li>
+        <li>Campañas de llamadas y direcciones desde Maps</li>
+        <li>Gestión de fotos, posts y publicaciones en la ficha</li>
+        <li>Sugerencias para responder reseñas como insumo SEO</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="included-col" style="background: var(--white);">
+    <div class="included-col-header">
+      <div class="col-badge" style="background: var(--amber-deep); color: white;">Siempre incluido</div>
+      <div class="col-title">Gestión, reportes y comunicación</div>
+    </div>
+    <ul class="included-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <li>Optimización semanal de todas las campañas activas</li>
+      <li>Reporte quincenal por canal con CPA y resultados</li>
+      <li>Call mensual de estrategia y próximos pasos</li>
+      <li>Landing simple para reemplazar el menú en Drive</li>
+      <li>Reordenamiento del Linktree priorizando conversión</li>
+      <li>Sugerencias de contenido orgánico para Instagram y TikTok</li>
+      <li>Refresh de creatividades cuando la frecuencia sube</li>
+      <li>Recomendaciones fuera del contrato si las vemos</li>
+    </ul>
+  </div>
+</section>
+
+<!-- RITMO DE TRABAJO -->
+<section class="alt" id="ritmo">
+  <div class="section-kicker">05 · Ritmo de trabajo</div>
+  <h2 class="section-title">No se arma<br>y se <em>olvida</em>.</h2>
+  <p class="section-desc">El trabajo real empieza después del lanzamiento. La optimización continua sobre los dos canales es lo que separa una campaña promedio de un sistema que escala mes a mes.</p>
+
+  <div class="opt-grid">
+    <div class="opt-card">
+      <div class="opt-icon">⚙️</div>
+      <div class="opt-title">Optimización semanal</div>
+      <div class="opt-desc">Cada semana revisamos CPA, costo por orden de delivery, frecuencia y performance por creativo y por keyword. Pausamos lo que no convierte, escalamos lo que sí. Las campañas se refinan con datos reales, no con intuición.</div>
+    </div>
+    <div class="opt-card">
+      <div class="opt-icon">📊</div>
+      <div class="opt-title">Reporte quincenal</div>
+      <div class="opt-desc">Cada 15 días, reporte claro por canal: tráfico a delivery, conversiones en Maps, llamadas, mensajes generados y top creativos. No solo números, también la interpretación de qué pasó y qué ajustamos para la siguiente quincena.</div>
+    </div>
+    <div class="opt-card">
+      <div class="opt-icon">📞</div>
+      <div class="opt-title">Call mensual</div>
+      <div class="opt-desc">Una call por mes para revisar resultados juntos, entender qué promociones traccionaron más, qué eventos vienen y actualizar la estrategia. Vos decidís, nosotros traemos contexto y datos.</div>
+    </div>
+    <div class="opt-card">
+      <div class="opt-icon">💡</div>
+      <div class="opt-title">Sugerencias continuas</div>
+      <div class="opt-desc">Si vemos algo que mejoraría los resultados aunque no esté en el contrato, lo decimos. Cambios en la landing, nuevas creatividades, oportunidades en TikTok, ideas de captura. Es parte de cómo trabajamos.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INVERSIÓN -->
+<section class="dark" id="inversion">
+  <div class="section-kicker">06 · Inversión</div>
+  <h2 class="section-title">Fee de gestión.<br><em>Claro y directo</em>.</h2>
+  <p class="section-desc">El fee cubre todo lo que describimos arriba: configuración, estructura, optimización semanal, reportes y comunicación. La inversión en plataforma, lo que le pagás directamente a Meta y a Google, va aparte y la definimos juntos.</p>
+
+  <div class="pricing-wrap">
+    <div class="pricing-card featured">
+      <div class="pricing-name">Paquete completo · Meta + Google Ads</div>
+      <div class="pricing-price">USD 500<span>/mes</span></div>
+      <div class="pricing-note">Los dos canales gestionados en simultáneo. Setup completo incluido en el primer mes.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Setup técnico completo Meta (Pixel, BM, CAPI)</li>
+        <li>Setup técnico completo Google (GBP, Ads, conversiones)</li>
+        <li>Estructura Meta: delivery + mensajes + retargeting</li>
+        <li>Estructura Google: Performance Max Local + Search + Maps</li>
+        <li>Landing simple para reemplazar el menú en Drive</li>
+        <li>Optimización semanal sobre ambos canales</li>
+        <li>Reporte quincenal y call mensual de estrategia</li>
+        <li>Sugerencias continuas de contenido y mejoras</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-name">Canal único · Meta Ads o Google Ads</div>
+      <div class="pricing-price">USD 300<span>/mes</span></div>
+      <div class="pricing-note">Si preferís arrancar por uno solo. Mismo nivel de gestión, un solo canal.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Setup técnico completo del canal elegido</li>
+        <li>Estructura de campañas según objetivo</li>
+        <li>Optimización semanal</li>
+        <li>Reporte quincenal y call mensual</li>
+        <li>Sugerencias continuas de contenido y mejoras</li>
+      </ul>
+    </div>
+
+    <div class="invest-note">
+      <strong>Inversión en plataforma (aparte del fee):</strong> es lo que Meta y Google cobran directamente por mostrar los anuncios. Para un bar local en zona oeste de CABA, lo definimos juntos en función del objetivo de delivery y el flujo de gente al local. Un punto de partida razonable para tener datos reales en el primer mes suele estar entre <strong>200.000 y 400.000 ARS totales</strong>, repartidos entre los dos canales. Lo ajustamos según lo que tenga sentido para el negocio de Gali.
+    </div>
+  </div>
+</section>
+
+<!-- CIERRE -->
+<div class="closing">
+  <h2>El bar está<br>lleno los miércoles.<br>El resto de la semana<br><em>lo amplificamos</em><br>nosotros.</h2>
+  <p>Gali ya tiene la propuesta, la gente y la onda. Lo que falta es que eso llegue a las personas correctas, en el momento correcto, en la app correcta o en el Maps correcto.</p>
+</div>
+
+</body>
+</html>
