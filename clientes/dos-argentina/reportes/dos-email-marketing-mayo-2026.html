@@ -1,0 +1,1130 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DOS Argentina — Análisis Email Marketing · Mar–May 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:       #0E2A47;
+    --ink-soft:  #1B3A5C;
+    --sage:      #4FA27E;
+    --sage-deep: #2F7D5E;
+    --cream:     #F4EFE6;
+    --paper:     #FAF6EE;
+    --paper-2:   #EFE8D9;
+    --black:     #14161A;
+    --ash:       #6B6257;
+    --line:      #D9CFBC;
+    --good:      #2F7D5E;
+    --bad:       #B23A2B;
+    --star:      #5BB4D6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--black);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .serif { font-family: 'Fraunces', Georgia, serif; }
+  .mono  { font-family: 'JetBrains Mono', monospace; }
+
+  /* ── PAGE WRAPPER ── */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    padding: 64px 0 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    page-break-after: always;
+  }
+
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .wordmark {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .wordmark em { font-style: italic; color: var(--sage); font-weight: 600; }
+  .wordmark sup { color: var(--star); font-size: 0.6em; vertical-align: super; }
+
+  .cover-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ash);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  .cover-title {
+    padding: 60px 0 40px;
+  }
+
+  .cover-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    margin-bottom: 20px;
+  }
+
+  .cover-title h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 72px;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+  }
+  .cover-title h1 em { font-style: italic; color: var(--sage); font-weight: 400; }
+
+  .cover-sub {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-style: italic;
+    color: var(--ash);
+    margin-top: 24px;
+    line-height: 1.4;
+    max-width: 640px;
+  }
+
+  .cover-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 32px;
+  }
+  .stat-cell {
+    padding-right: 24px;
+    border-right: 1px solid var(--line);
+    margin-right: 24px;
+  }
+  .stat-cell:last-child { border-right: none; margin-right: 0; }
+  .stat-cell .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 6px;
+  }
+  .stat-cell .v {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-cell .v em { font-style: italic; color: var(--sage); }
+  .stat-cell .desc {
+    font-size: 12px;
+    color: var(--ash);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .sec-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--sage-deep);
+    white-space: nowrap;
+  }
+  .sec-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  .sec-head h2 em { font-style: italic; color: var(--sage); }
+
+  .lede {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--ash);
+    max-width: 680px;
+    margin-bottom: 36px;
+    line-height: 1.45;
+  }
+
+  /* ── TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+  }
+  .data-table thead tr {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .data-table thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .data-table thead th:not(:first-child) { text-align: right; }
+
+  .data-table tbody tr {
+    border-bottom: 1px solid var(--line);
+    transition: background .1s;
+  }
+  .data-table tbody tr:hover { background: var(--paper-2); }
+  .data-table tbody tr.highlight { background: #EBF4EF; }
+
+  .data-table td {
+    padding: 12px 14px;
+    vertical-align: middle;
+    font-size: 13.5px;
+  }
+  .data-table td:not(:first-child) {
+    text-align: right;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--ink);
+  }
+  .data-table td:first-child { color: var(--black); font-weight: 500; }
+
+  .data-table .vertical-name {
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .data-table .vertical-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--ash);
+    letter-spacing: 0.05em;
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  .pill {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 2px 7px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .pill-good { background: #D4EDE2; color: var(--sage-deep); }
+  .pill-warn { background: #FAE6D1; color: #9B5E1A; }
+  .pill-new  { background: #D8EEF7; color: #1A6A8A; }
+
+  .bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+  .bar-bg {
+    width: 60px;
+    height: 5px;
+    background: var(--paper-2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--sage);
+  }
+  .bar-fill.ink { background: var(--ink); }
+
+  /* ── INSIGHT CARDS ── */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 32px;
+  }
+
+  .insight-card {
+    padding: 28px;
+    border-left: 4px solid var(--line);
+    background: var(--paper);
+  }
+  .insight-card.top { border-left-color: var(--sage-deep); background: #F1F7F3; }
+  .insight-card.low { border-left-color: var(--bad); background: #FAF0EE; }
+
+  .insight-card .ic-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .insight-card.top .ic-tag { color: var(--sage-deep); }
+  .insight-card.low .ic-tag { color: var(--bad); }
+
+  .insight-card .ic-stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 14px;
+  }
+  .insight-card .ic-stat .s-val {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .insight-card .ic-stat .s-val em { font-style: italic; color: var(--sage); }
+  .insight-card .ic-stat .s-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-top: 4px;
+  }
+
+  .insight-card .ic-subject {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    line-height: 1.35;
+    color: var(--ink);
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed var(--line);
+  }
+
+  .insight-card .ic-why {
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.5;
+  }
+  .insight-card .ic-why strong { color: var(--ink); font-weight: 600; }
+
+  /* ── ANGLE RULE ── */
+  .angle-block {
+    margin-top: 40px;
+    padding: 32px;
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .angle-block .ab-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 16px;
+  }
+  .angle-block .ab-rule {
+    font-family: 'Fraunces', serif;
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+  }
+  .angle-block .ab-rule em { font-style: italic; color: var(--sage); }
+  .angle-block .ab-sub {
+    margin-top: 14px;
+    font-size: 13.5px;
+    color: rgba(244,239,230,0.7);
+    max-width: 680px;
+    line-height: 1.5;
+  }
+
+  /* ── BOUNCE SECTION ── */
+  .bounce-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .bounce-card {
+    padding: 28px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+  }
+  .bounce-card.dirty { border-color: #E8C4BB; background: #FDF5F3; }
+  .bounce-card.clean { border-color: #B8DECE; background: #F2F9F5; }
+
+  .bounce-card .bc-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .bounce-card.dirty .bc-kicker { color: var(--bad); }
+  .bounce-card.clean .bc-kicker { color: var(--sage-deep); }
+
+  .bounce-card .bc-num {
+    font-family: 'Fraunces', serif;
+    font-size: 52px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .bounce-card .bc-label {
+    font-size: 13px;
+    color: var(--ash);
+    margin-top: 4px;
+  }
+  .bounce-card .bc-detail {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+    font-size: 13px;
+    color: var(--ash);
+    line-height: 1.5;
+  }
+  .bounce-card .bc-detail strong { color: var(--ink); font-weight: 600; }
+
+  .bounce-note {
+    margin-top: 20px;
+    padding: 20px 24px;
+    background: var(--paper-2);
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .bounce-note .bn-icon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--sage-deep);
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .bounce-note .bn-text {
+    font-size: 13.5px;
+    color: var(--ash);
+    line-height: 1.55;
+  }
+  .bounce-note .bn-text strong { color: var(--ink); }
+
+  /* ── RETARGETING ── */
+  .retarget-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 32px;
+  }
+  .retarget-table thead tr {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .retarget-table thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 11px 16px;
+    text-align: left;
+    font-weight: 500;
+  }
+  .retarget-table tbody tr { border-bottom: 1px solid var(--line); }
+  .retarget-table tbody tr:hover { background: var(--paper-2); }
+  .retarget-table td {
+    padding: 14px 16px;
+    vertical-align: top;
+    font-size: 13.5px;
+    color: var(--black);
+  }
+  .retarget-table td:first-child { font-weight: 600; color: var(--ink); min-width: 150px; }
+  .retarget-table td .action-text { line-height: 1.5; }
+  .retarget-table .clickers-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .retarget-table .clickers-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-top: 2px;
+  }
+
+  .hot-leads {
+    margin-top: 40px;
+    padding: 32px;
+    border: 1px solid var(--sage);
+    background: #EBF5EF;
+  }
+  .hot-leads .hl-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    margin-bottom: 16px;
+  }
+  .hot-leads h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin-bottom: 20px;
+  }
+  .hot-leads h3 em { font-style: italic; color: var(--sage-deep); }
+  .hot-lead-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px dashed #B8DECE;
+    align-items: baseline;
+  }
+  .hot-lead-item:last-child { border-bottom: none; }
+  .hot-lead-item .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    background: var(--sage-deep);
+    color: var(--cream);
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .hot-lead-item .lead-info { font-size: 14px; color: var(--ink); line-height: 1.5; }
+  .hot-lead-item .lead-info .company { font-weight: 600; }
+  .hot-lead-item .lead-info .contacts { font-size: 12px; color: var(--ash); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+
+  /* ── FOOTER ── */
+  .report-footer {
+    margin-top: 72px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .report-footer .sig {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .report-footer .sig em { font-style: italic; color: var(--sage); font-weight: 600; }
+  .report-footer .sig sup { color: var(--star); font-size: 0.6em; }
+  .report-footer .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ash);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ── RESPONSIVE MOBILE ── */
+  @media (max-width: 700px) {
+    .page { padding: 0 20px 60px; }
+
+    /* Cover */
+    .cover { padding: 40px 0 48px; }
+    .cover-title h1 { font-size: 48px; }
+    .cover-sub { font-size: 18px; }
+    .cover-stats {
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      row-gap: 24px;
+    }
+    .stat-cell {
+      border-right: none;
+      margin-right: 0;
+      padding-right: 0;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .stat-cell:last-child { border-bottom: none; padding-bottom: 0; }
+    .stat-cell .v { font-size: 26px; }
+    .wordmark { font-size: 18px; }
+    .cover-meta { font-size: 9px; }
+
+    /* Section heads */
+    .sec-head { flex-direction: column; gap: 6px; }
+    .sec-head h2 { font-size: 28px; }
+    .lede { font-size: 17px; }
+
+    /* Tables: scroll horizontal */
+    .data-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .data-table { min-width: 560px; }
+    .retarget-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .retarget-table { min-width: 560px; }
+
+    /* Insight grid */
+    .insight-grid { grid-template-columns: 1fr; }
+    .insight-card .ic-stat .s-val { font-size: 28px; }
+
+    /* Angle block */
+    .angle-block { padding: 24px 20px; }
+    .angle-block .ab-rule { font-size: 20px; }
+
+    /* Bounce grid */
+    .bounce-grid { grid-template-columns: 1fr; }
+    .bounce-card .bc-num { font-size: 42px; }
+
+    /* Hot leads */
+    .hot-lead-item { grid-template-columns: 1fr; gap: 8px; }
+    .hot-leads { padding: 24px 20px; }
+    .hot-leads h3 { font-size: 20px; }
+
+    /* Footer */
+    .report-footer { flex-direction: column; gap: 20px; align-items: flex-start; }
+    .report-footer .sig { font-size: 26px; }
+
+    /* Bounce note */
+    .bounce-note { flex-direction: column; gap: 8px; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    @page {
+      size: A4;
+      margin: 20mm 16mm;
+    }
+    html, body { background: #fff; font-size: 13px; }
+    .page { padding: 0; max-width: 100%; }
+    .cover { min-height: auto; padding: 0 0 40px; page-break-after: always; }
+    .cover-title h1 { font-size: 56px; }
+    .sec-head h2 { font-size: 32px; }
+    .section { padding: 48px 0 40px; }
+    .insight-grid { page-break-inside: avoid; }
+    .bounce-grid { page-break-inside: avoid; }
+    .hot-leads { page-break-inside: avoid; }
+    .angle-block { page-break-inside: avoid; }
+    .data-table tbody tr:hover { background: transparent; }
+    .retarget-table tbody tr:hover { background: transparent; }
+    a { color: inherit; text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ══════ COVER ══════ -->
+  <div class="cover">
+    <div class="cover-top">
+      <div class="wordmark">Dilema <em>creative</em><sup>*</sup></div>
+      <div class="cover-meta">
+        Reporte interno<br>
+        Mayo 2026
+      </div>
+    </div>
+
+    <div class="cover-title">
+      <div class="cover-kicker">DOS Argentina · Email Marketing</div>
+      <h1>Email que<br><em>abre,</em> lee<br>y <em>hace click.</em></h1>
+      <p class="cover-sub">Análisis completo de la campaña por verticales: qué asuntos funcionaron, por qué, qué listas limpiamos y cómo seguimos calentando los 95 contactos que ya respondieron.</p>
+    </div>
+
+    <div class="cover-stats">
+      <div class="stat-cell">
+        <div class="k">Enviados</div>
+        <div class="v">682</div>
+        <div class="desc">9 verticales<br>Mar–May 2026</div>
+      </div>
+      <div class="stat-cell">
+        <div class="k">Clickers únicos</div>
+        <div class="v"><em>~95</em></div>
+        <div class="desc">Contactos que<br>interactuaron</div>
+      </div>
+      <div class="stat-cell">
+        <div class="k">CTR promedio</div>
+        <div class="v">16.6<em>%</em></div>
+        <div class="desc">Referencia industria<br>B2B: 2–5%</div>
+      </div>
+      <div class="stat-cell">
+        <div class="k">CTOR promedio</div>
+        <div class="v">48<em>%</em></div>
+        <div class="desc">De quienes abrieron,<br>casi 1 de cada 2 clickeó</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════ 01 · RESULTADOS ══════ -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="num">01 / RESULTADOS</span>
+      <h2>Campaña por <em>campaña</em>.</h2>
+    </div>
+
+    <p class="lede">Nueve verticales enviados en diez semanas. Los números confirman que el sector y el ángulo del asunto importan más que el tamaño de la lista.</p>
+
+    <div class="data-table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Vertical</th>
+          <th>Enviados</th>
+          <th>Apertura</th>
+          <th>CTR</th>
+          <th>CTOR</th>
+          <th>Clickers</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="highlight">
+          <td>
+            <div class="vertical-name">Ind. Manufacturera</div>
+            <div class="vertical-date">15 ABR</div>
+          </td>
+          <td>137</td>
+          <td>
+            <div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:36%"></div></div>36%</div>
+          </td>
+          <td><strong>20%</strong></td>
+          <td><strong>58%</strong></td>
+          <td><strong>28</strong></td>
+          <td><span class="pill pill-good">Mejor</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vertical-name">Alimentos y Bebidas</div>
+            <div class="vertical-date">08 ABR</div>
+          </td>
+          <td>113</td>
+          <td>
+            <div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:35%"></div></div>35%</div>
+          </td>
+          <td>15%</td>
+          <td>44%</td>
+          <td>17</td>
+          <td><span class="pill pill-good">Muy bueno</span></td>
+        </tr>
+        <tr class="highlight">
+          <td>
+            <div class="vertical-name">Logística</div>
+            <div class="vertical-date">01 ABR</div>
+          </td>
+          <td>78</td>
+          <td>
+            <div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:32%"></div></div>32%</div>
+          </td>
+          <td><strong>19%</strong></td>
+          <td><strong>58%</strong></td>
+          <td>14</td>
+          <td><span class="pill pill-good">Mejor</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vertical-name">Agro y Campo</div>
+            <div class="vertical-date">25 MAR</div>
+          </td>
+          <td>82</td>
+          <td>
+            <div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:36%"></div></div>36%</div>
+          </td>
+          <td>19%</td>
+          <td>53%</td>
+          <td>13 únicos</td>
+          <td><span class="pill pill-good">Muy bueno</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vertical-name">Salud</div>
+            <div class="vertical-date">20 MAR</div>
+          </td>
+          <td>81</td>
+          <td>
+            <div class="bar-wrap"><div class="bar-bg"><div class="bar-fill ink" style="width:55%"></div></div><strong>55%</strong></div>
+          </td>
+          <td>19%</td>
+          <td>34%</td>
+          <td>12</td>
+          <td><span class="pill pill-warn">Lista limpiada</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vertical-name">Gastronomía y Hotelería</div>
+            <div class="vertical-date">29 ABR</div>
+          </td>
+          <td>35</td>
+          <td>
+            <div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:44%"></div></div>44%</div>
+          </td>
+          <td>18%</td>
+          <td>40%</td>
+          <td>6</td>
+          <td><span class="pill pill-good">Bueno</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vertical-name">Construcción</div>
+            <div class="vertical-date">06 MAY</div>
+          </td>
+          <td>49</td>
+          <td>
+            <div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:36%"></div></div>36%</div>
+          </td>
+          <td>17%</td>
+          <td>46%</td>
+          <td>6</td>
+          <td><span class="pill pill-warn">Lista limpiada</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vertical-name">Servicios Generales</div>
+            <div class="vertical-date">22 ABR</div>
+          </td>
+          <td>52</td>
+          <td>
+            <div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:33%"></div></div>33%</div>
+          </td>
+          <td>13%</td>
+          <td>37%</td>
+          <td>6</td>
+          <td><span class="pill pill-warn">A revisar</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="vertical-name">Com. Mayorista B2B</div>
+            <div class="vertical-date">13 MAY</div>
+          </td>
+          <td>31</td>
+          <td>
+            <div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:16%"></div></div>16%</div>
+          </td>
+          <td>9.7%</td>
+          <td><strong>60%</strong></td>
+          <td>3</td>
+          <td><span class="pill pill-new">Reciente</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p style="margin-top:14px;font-size:12px;color:var(--ash);font-family:'JetBrains Mono',monospace;letter-spacing:0.05em;">
+      Referencia sector B2B: apertura promedio 21% · CTR promedio 2.5% · CTOR promedio 12%. Fuente: Mailchimp Benchmarks 2025.
+    </p>
+  </div>
+
+
+  <!-- ══════ 02 · ASUNTOS ══════ -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="num">02 / INSIGHTS DE ASUNTOS</span>
+      <h2>Qué asuntos <em>abren</em><br>y cuáles <em>convierten</em>.</h2>
+    </div>
+
+    <p class="lede">La apertura dice cuántos entraron. El CTOR dice quién realmente quería leer. Los mejores asuntos ganaron en ambos.</p>
+
+    <div class="insight-grid">
+
+      <div class="insight-card top">
+        <div class="ic-tag">Ángulo 01 · Urgencia operativa</div>
+        <div class="ic-stats">
+          <div class="ic-stat"><div class="s-val">20<em>%</em></div><div class="s-label">CTR</div></div>
+          <div class="ic-stat"><div class="s-val">58<em>%</em></div><div class="s-label">CTOR</div></div>
+        </div>
+        <div class="ic-subject">"…cuando la producción no puede esperar, el personal tampoco"</div>
+        <div class="ic-why"><strong>Por qué funciona:</strong> conecta el problema de personal directamente con el impacto en operaciones. El lector no es RRHH abstracto — es quien sufre la parada de línea.</div>
+      </div>
+
+      <div class="insight-card top">
+        <div class="ic-tag">Ángulo 02 · Dificultad del sector como hecho</div>
+        <div class="ic-stats">
+          <div class="ic-stat"><div class="s-val">19<em>%</em></div><div class="s-label">CTR</div></div>
+          <div class="ic-stat"><div class="s-val">58<em>%</em></div><div class="s-label">CTOR</div></div>
+        </div>
+        <div class="ic-subject">"…el sector donde conseguir personal es más difícil que operar"</div>
+        <div class="ic-why"><strong>Por qué funciona:</strong> valida lo que el lector ya siente antes de pedirle nada. No vende, diagnostica. Eso genera confianza suficiente para el click.</div>
+      </div>
+
+      <div class="insight-card top">
+        <div class="ic-tag">Ángulo 03 · Costo económico concreto</div>
+        <div class="ic-stats">
+          <div class="ic-stat"><div class="s-val">17<em>%</em></div><div class="s-label">CTR</div></div>
+          <div class="ic-stat"><div class="s-val">46<em>%</em></div><div class="s-label">CTOR</div></div>
+        </div>
+        <div class="ic-subject">"Obra paralizada por falta de personal: un costo que se puede evitar"</div>
+        <div class="ic-why"><strong>Por qué funciona:</strong> nombra la consecuencia económica (no el problema de RRHH) y agrega esperanza ("se puede evitar"). Formula el problema y la promesa en un asunto.</div>
+      </div>
+
+      <div class="insight-card top">
+        <div class="ic-tag">Ángulo 04 · Tiempo como presión</div>
+        <div class="ic-stats">
+          <div class="ic-stat"><div class="s-val">9.7<em>%</em></div><div class="s-label">CTR</div></div>
+          <div class="ic-stat"><div class="s-val">60<em>%</em></div><div class="s-label">CTOR</div></div>
+        </div>
+        <div class="ic-subject">"Su equipo de ventas y logística no puede esperar 60 días para cubrir una vacante"</div>
+        <div class="ic-why"><strong>Por qué funciona:</strong> el número "60 días" hace la urgencia concreta y creíble. Menor apertura por lista pequeña, pero el CTOR más alto de toda la campaña.</div>
+      </div>
+
+      <div class="insight-card low">
+        <div class="ic-tag">Lo que no funcionó</div>
+        <div class="ic-stats">
+          <div class="ic-stat"><div class="s-val">13<em>%</em></div><div class="s-label">CTR</div></div>
+          <div class="ic-stat"><div class="s-val">37<em>%</em></div><div class="s-label">CTOR</div></div>
+        </div>
+        <div class="ic-subject">"Su área de RRHH no puede cubrirlo todo, y no tiene por qué"</div>
+        <div class="ic-why"><strong>Por qué no funciona:</strong> habla del área de RRHH como si fuera ella el problema. El decisor que tiene el dolor real es el gerente de operaciones o el dueño, no el encargado de personal.</div>
+      </div>
+
+      <div class="insight-card" style="padding:28px;background:var(--paper-2);border-left:4px solid var(--line)">
+        <div class="ic-tag" style="color:var(--ash);">Pregunta de gestión · Resultado intermedio</div>
+        <div class="ic-stats">
+          <div class="ic-stat"><div class="s-val">18<em>%</em></div><div class="s-label">CTR</div></div>
+          <div class="ic-stat"><div class="s-val">40<em>%</em></div><div class="s-label">CTOR</div></div>
+        </div>
+        <div class="ic-subject">"La rotación no para. ¿Cómo lo está manejando su equipo?"</div>
+        <div class="ic-why"><strong>Resultado:</strong> funciona, pero menos que la afirmación directa. La pregunta abre conversación; la afirmación genera identificación inmediata. Usar combinadas en secuencias.</div>
+      </div>
+
+    </div>
+
+    <div class="angle-block">
+      <div class="ab-kicker">Regla que surge de los datos</div>
+      <p class="ab-rule">Los asuntos que hablan del impacto en la <em>operación</em> convierten entre 1.5x y 2x más que los que hablan del problema de <em>RRHH en abstracto</em>.</p>
+      <p class="ab-sub">El lector que hace click es quien siente el costo en producción, en obra o en ventas. No quien administra personal. Los próximos asuntos deben hablarle a ese perfil.</p>
+    </div>
+  </div>
+
+
+  <!-- ══════ 03 · LISTAS ══════ -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="num">03 / LISTAS</span>
+      <h2>Limpieza <em>completa</em>.<br>Bases listas para seguir.</h2>
+    </div>
+
+    <p class="lede">Durante la campaña detectamos rebotes en todas las listas. Ya removimos todos los contactos inválidos. Las bases quedan más chicas pero más sanas.</p>
+
+    <div class="bounce-grid">
+
+      <div class="bounce-card dirty">
+        <div class="bc-kicker">Lista más afectada · Construcción</div>
+        <div class="bc-num">27<span style="font-size:28px;color:var(--ash)">%</span></div>
+        <div class="bc-label">tasa de rebote sobre 49 enviados</div>
+        <div class="bc-detail">
+          <strong>~13 contactos removidos.</strong> Lista con muchas casillas corporativas desactualizadas. Probable causa: bases recopiladas de fuentes públicas (licitaciones, directorios de obra) que no se validan regularmente. Lista depurada y lista para el próximo envío.
+        </div>
+      </div>
+
+      <div class="bounce-card dirty">
+        <div class="bc-kicker">Lista afectada · Salud</div>
+        <div class="bc-num">21<span style="font-size:28px;color:var(--ash)">%</span></div>
+        <div class="bc-label">tasa de rebote sobre 81 enviados</div>
+        <div class="bc-detail">
+          <strong>~17 contactos removidos.</strong> El sector salud tiene alta rotación de personal interno, especialmente en áreas de RRHH y administración. Las casillas quedan activas pero cambian de titular con frecuencia. Lista depurada.
+        </div>
+      </div>
+
+      <div class="bounce-card clean">
+        <div class="bc-kicker">Resto de listas</div>
+        <div class="bc-num" style="color:var(--sage-deep)">30+</div>
+        <div class="bc-label">contactos removidos en total</div>
+        <div class="bc-detail">
+          Manufacturera, Logística, Agro, Alimentos y resto de verticales presentaron tasas de rebote por debajo del 5%, dentro del rango normal. <strong>Limpieza menor aplicada en todos los casos.</strong>
+        </div>
+      </div>
+
+      <div class="bounce-card clean">
+        <div class="bc-kicker">Estado actual</div>
+        <div class="bc-num" style="color:var(--sage-deep)">✓</div>
+        <div class="bc-label">todas las listas están limpias</div>
+        <div class="bc-detail">
+          Las bases depuradas mejoran la <strong>reputación del dominio</strong> en servidores de correo y aumentan la entregabilidad de futuros envíos. Menos contactos inválidos = menos riesgo de caer en spam para toda la lista.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="bounce-note">
+      <div class="bn-icon">→ PRÓXIMO PASO</div>
+      <div class="bn-text">
+        Para Salud y Construcción recomendamos <strong>validar las nuevas incorporaciones con una herramienta de verificación de emails</strong> antes del próximo envío. Esto evita acumular rebotes en listas que se nutren de fuentes públicas o directorios físicos.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════ 04 · RETARGETING ══════ -->
+  <div class="section">
+    <div class="sec-head">
+      <span class="num">04 / PLAN DE RETARGETING</span>
+      <h2>Los 95 que respondieron<br>ya son <em>leads tibios</em>.</h2>
+    </div>
+
+    <p class="lede">Hicieron click pero no tomaron contacto. El próximo email ya no es una campaña masiva: es un seguimiento personalizado por vertical, con un ángulo distinto al primero.</p>
+
+    <div class="retarget-table-wrap">
+    <table class="retarget-table">
+      <thead>
+        <tr>
+          <th>Vertical</th>
+          <th>Clickers</th>
+          <th>Próximo ángulo</th>
+          <th>Formato sugerido</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ind. Manufacturera</td>
+          <td>
+            <div class="clickers-count">28</div>
+            <div class="clickers-label">contactos</div>
+          </td>
+          <td class="action-text">Caso de éxito en industria similar + métricas reales de cobertura. Mostrar cuánto tardó DOS en cubrir un perfil técnico vs. el promedio del sector.</td>
+          <td><span class="pill pill-good">Email personalizado</span></td>
+        </tr>
+        <tr>
+          <td>Alimentos y Bebidas</td>
+          <td>
+            <div class="clickers-count">17</div>
+            <div class="clickers-label">contactos</div>
+          </td>
+          <td class="action-text">Estacionalidad y pico de temporada. El ángulo: "la cosecha/temporada no espera a que cubras la vacante". Urgencia de calendario.</td>
+          <td><span class="pill pill-good">Email sectorial</span></td>
+        </tr>
+        <tr>
+          <td>Logística</td>
+          <td>
+            <div class="clickers-count">14</div>
+            <div class="clickers-label">contactos</div>
+          </td>
+          <td class="action-text">Tiempo de incorporación. Foco en cuántos días tarda DOS en presentar candidatos aptos para operaciones de logística de alto volumen.</td>
+          <td><span class="pill pill-good">Email con dato concreto</span></td>
+        </tr>
+        <tr>
+          <td>Agro y Campo</td>
+          <td>
+            <div class="clickers-count">13</div>
+            <div class="clickers-label">únicos</div>
+          </td>
+          <td class="action-text">Seguimiento directo para los más calientes (Mastellone × 3 clicks). Para el resto, email con foco en perfiles rurales y técnicos de campo, difíciles de conseguir en el mercado.</td>
+          <td><span class="pill pill-warn">Email + contacto directo</span></td>
+        </tr>
+        <tr>
+          <td>Salud</td>
+          <td>
+            <div class="clickers-count">12</div>
+            <div class="clickers-label">contactos</div>
+          </td>
+          <td class="action-text">Nueva campaña post-limpieza con asunto más operativo. Cambiar el eje de "desafíos de RRHH" a "continuidad de atención": el paciente no puede esperar que cubran una vacante.</td>
+          <td><span class="pill pill-good">Nueva campaña</span></td>
+        </tr>
+        <tr>
+          <td>Gastronomía · Construcción · Servicios</td>
+          <td>
+            <div class="clickers-count">18</div>
+            <div class="clickers-label">combinados</div>
+          </td>
+          <td class="action-text">Email de seguimiento único, cada uno con contexto de su sector. Gastronomía: rotación de temporada. Construcción: continuidad de obra. Servicios: foco en perfiles difíciles de conseguir.</td>
+          <td><span class="pill pill-good">Email por vertical</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="hot-leads">
+      <div class="hl-kicker">Prioridad máxima · Contacto directo recomendado</div>
+      <h3>Tres empresas que mostraron <em>señal doble</em>.</h3>
+
+      <div class="hot-lead-item">
+        <div class="badge">3 CLICKS</div>
+        <div class="lead-info">
+          <div class="company">Mastellone Hermanos</div>
+          <div class="contacts">nmerino@mastellone.com.ar · Vertical: Agro y Campo</div>
+          El contacto más caliente de toda la campaña. Tres interacciones en el mismo email indican interés real y activo. Recomendamos contacto directo esta semana.
+        </div>
+      </div>
+
+      <div class="hot-lead-item">
+        <div class="badge">2 CONTACTOS</div>
+        <div class="lead-info">
+          <div class="company">Chandon Argentina (LVMH)</div>
+          <div class="contacts">mgurruchaga@chandon.com.ar · fsandes@chandon.com.ar · Vertical: Alimentos y Bebidas</div>
+          Dos personas distintas de la misma empresa hicieron click. Señal de que el tema está en agenda internamente. El seguimiento tiene más peso cuando hay dos interlocutores posibles.
+        </div>
+      </div>
+
+      <div class="hot-lead-item">
+        <div class="badge">2 CONTACTOS</div>
+        <div class="lead-info">
+          <div class="company">La Rural (Palermo)</div>
+          <div class="contacts">rrhh@larural.com.ar · recursoshumanos@larural.com.ar · Vertical: Gastronomía y Hotelería</div>
+          Igual situación: dos casillas distintas del mismo organismo abrieron y clickearon. Alta probabilidad de que haya una necesidad concreta en curso.
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══════ FOOTER ══════ -->
+  <div class="report-footer">
+    <div class="sig">Dilema <em>creative</em><sup>*</sup></div>
+    <div class="meta">
+      equipo@dilemacreative.ar<br>
+      Mayo 2026
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
