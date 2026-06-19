@@ -1,0 +1,549 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DOS Argentina · Servicios vigentes y recomendaciones Cleanart — Junio 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:       #0E2A47;
+    --ink-soft:  #1B3A5C;
+    --sage:      #4FA27E;
+    --sage-deep: #2F7D5E;
+    --cream:     #F4EFE6;
+    --paper:     #FAF6EE;
+    --paper-2:   #EFE8D9;
+    --black:     #14161A;
+    --ash:       #6B6257;
+    --line:      #D9CFBC;
+    --star:      #5BB4D6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--paper);
+    color: var(--black);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .serif { font-family: 'Fraunces', Georgia, serif; }
+  .mono  { font-family: 'JetBrains Mono', monospace; }
+
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+
+  /* COVER */
+  .cover {
+    min-height: 92vh;
+    padding: 64px 0 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .wordmark {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .wordmark em { font-style: italic; color: var(--sage); font-weight: 600; }
+  .wordmark sup { color: var(--star); font-size: 0.6em; vertical-align: super; }
+
+  .cover-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ash);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  .cover-title { padding: 60px 0 40px; }
+
+  .cover-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    margin-bottom: 20px;
+  }
+
+  .cover-title h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 64px;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+  }
+  .cover-title h1 em { font-style: italic; color: var(--sage); font-weight: 400; }
+
+  .cover-sub {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-style: italic;
+    color: var(--ash);
+    margin-top: 24px;
+    line-height: 1.4;
+    max-width: 640px;
+  }
+
+  .cover-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 32px;
+  }
+  .stat-cell {
+    padding-right: 24px;
+    border-right: 1px solid var(--line);
+    margin-right: 24px;
+  }
+  .stat-cell:last-child { border-right: none; margin-right: 0; }
+  .stat-cell .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ash);
+    margin-bottom: 8px;
+  }
+  .stat-cell .v {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .stat-cell .v em { font-style: italic; color: var(--sage); }
+  .stat-cell .desc {
+    font-size: 12px;
+    color: var(--ash);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  /* SECTION */
+  .section {
+    padding: 72px 0 56px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section:last-child { border-bottom: none; }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .sec-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--sage-deep);
+    white-space: nowrap;
+  }
+  .sec-head h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 38px;
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  .sec-head h2 em { font-style: italic; color: var(--sage); }
+
+  .lede {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-style: italic;
+    color: var(--ash);
+    max-width: 720px;
+    margin-bottom: 32px;
+    line-height: 1.45;
+  }
+
+  /* SERVICE CARDS */
+  .service-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .service-card {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .card-head {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: stretch;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 16px 22px;
+    gap: 24px;
+  }
+  .card-head.ink-soft { background: var(--ink-soft); }
+  .card-head.sage     { background: var(--sage-deep); }
+
+  .card-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: white;
+    align-self: center;
+  }
+
+  .price-block {
+    text-align: right;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255,255,255,0.18);
+  }
+  .price-block .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+  .price-block .value {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: white;
+    line-height: 1;
+  }
+  .price-block .value em { font-style: normal; color: var(--cream); opacity: 0.55; font-size: 13px; }
+  .price-block .value.dash { opacity: 0.5; font-size: 22px; }
+
+  .card-body {
+    padding: 22px 26px 24px;
+  }
+  .card-body .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .card-body p {
+    font-size: 15px;
+    color: var(--black);
+    line-height: 1.6;
+  }
+  .card-body p + p { margin-top: 10px; }
+  .card-body p strong { color: var(--ink); font-weight: 600; }
+
+  /* TOTAL ROW */
+  .total-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: center;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 18px 26px;
+    margin-top: 24px;
+    gap: 24px;
+  }
+  .total-row .total-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+  .total-row .total-val {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+  }
+  .total-row .total-val em { font-style: normal; color: var(--ash); opacity: 0.7; font-size: 13px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.1em; }
+
+  /* RULE BOX */
+  .rule-box {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 28px 32px;
+    border-radius: 4px;
+    margin: 32px 0 8px;
+  }
+  .rule-box .rule-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage);
+    margin-bottom: 10px;
+  }
+  .rule-box p {
+    font-family: 'Fraunces', serif;
+    font-size: 21px;
+    font-style: italic;
+    line-height: 1.4;
+    color: white;
+  }
+  .rule-box p em { color: var(--sage); font-style: normal; }
+
+  /* FOOTER */
+  .footer {
+    padding: 60px 0 0;
+    text-align: center;
+  }
+  .footer .signature {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--ash);
+    margin-bottom: 12px;
+  }
+  .footer .signature em { color: var(--sage); font-style: normal; }
+  .footer .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ash);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 720px) {
+    .page { padding: 0 22px 60px; }
+    .cover-title h1 { font-size: 42px; }
+    .cover-stats { grid-template-columns: 1fr; gap: 18px; }
+    .stat-cell { border-right: none; border-bottom: 1px solid var(--line); padding-bottom: 18px; margin-right: 0; padding-right: 0; }
+    .stat-cell:last-child { border-bottom: none; }
+    .sec-head h2 { font-size: 28px; }
+    .card-head { grid-template-columns: 1fr; gap: 14px; padding: 16px 18px; }
+    .price-block { text-align: left; border-left: none; border-top: 1px solid rgba(255,255,255,0.18); padding-top: 12px; padding-left: 0; }
+    .total-row { grid-template-columns: 1fr; gap: 12px; }
+    .total-row .total-val { border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- COVER -->
+  <section class="cover">
+    <div class="cover-top">
+      <div class="wordmark">Dilema <em>Creative</em><sup>*</sup></div>
+      <div class="cover-meta">
+        DOS Argentina<br>
+        Reunión mensual · Junio 2026
+      </div>
+    </div>
+
+    <div class="cover-title">
+      <div class="cover-kicker">Servicios vigentes · Recomendaciones Cleanart</div>
+      <h1>Qué estamos <em>haciendo</em>,<br>y qué arrancamos<br>con <em>Cleanart</em>.</h1>
+      <p class="cover-sub">Resumen del cuadro de servicios que pasamos por la reunión. Detalle por canal, inversión sugerida y por qué cada herramienta está donde está.</p>
+    </div>
+
+    <div class="cover-stats">
+      <div class="stat-cell">
+        <div class="k">Servicios DOS</div>
+        <div class="v">3 <em>canales</em></div>
+        <div class="desc">LinkedIn, Google Ads y Email Marketing</div>
+      </div>
+      <div class="stat-cell">
+        <div class="k">Fee total DOS</div>
+        <div class="v">USD <em>550</em></div>
+        <div class="desc">Mensual, agrupado por canal</div>
+      </div>
+      <div class="stat-cell">
+        <div class="k">Cleanart</div>
+        <div class="v">2 <em>canales</em></div>
+        <div class="desc">Google Ads y Meta Ads desde cero</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN 1: DOS -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="num">01 / SERVICIOS</span>
+      <h2>DOS Argentina <em>vigentes</em></h2>
+    </div>
+
+    <p class="lede">Tres canales activos hoy. Cada uno hace un trabajo distinto: LinkedIn construye marca, Google captura demanda existente, Email mantiene caliente la base.</p>
+
+    <div class="service-grid">
+
+      <!-- LinkedIn -->
+      <article class="service-card">
+        <div class="card-head ink-soft">
+          <div class="card-name">Contenido LinkedIn</div>
+          <div class="price-block">
+            <div class="label">Fee mensual</div>
+            <div class="value">USD 125</div>
+          </div>
+          <div class="price-block">
+            <div class="label">Inversión plataforma</div>
+            <div class="value dash">—</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="label">Por qué está</span>
+          <p><strong>Indispensable.</strong> Construye marca, posiciona a DOS como referente del sector y da autoridad frente a decisores B2B. No tiene costo de plataforma porque es orgánico: el trabajo es 100% contenido.</p>
+        </div>
+      </article>
+
+      <!-- Google Ads -->
+      <article class="service-card">
+        <div class="card-head">
+          <div class="card-name">Google Ads</div>
+          <div class="price-block">
+            <div class="label">Fee mensual</div>
+            <div class="value">USD 300</div>
+          </div>
+          <div class="price-block">
+            <div class="label">Inversión plataforma</div>
+            <div class="value">$450.000 <em>aprox / mes</em></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="label">Por qué está</span>
+          <p><strong>Como plataforma es fundamental: te encuentran cuando te buscan.</strong> Es el canal que captura intención activa, lo más cerca de la conversión que existe.</p>
+          <p>El presupuesto de $450.000 es lo estipulado mensualmente, pero <strong>gasta más despacio</strong> por la cantidad de palabras negativas que sumamos a diario. Tenemos el problema permanente de búsqueda laboral (gente buscando empleo en DOS, no clientes), y filtrar eso es trabajo continuo.</p>
+          <p>Como plataforma <strong>tiene que estar siempre prendida</strong>, aunque consuma despacio. El día que la apagamos, perdemos a quien hoy está buscando proveedor.</p>
+        </div>
+      </article>
+
+      <!-- Email Marketing -->
+      <article class="service-card">
+        <div class="card-head sage">
+          <div class="card-name">Email Marketing</div>
+          <div class="price-block">
+            <div class="label">Fee mensual</div>
+            <div class="value">USD 125</div>
+          </div>
+          <div class="price-block">
+            <div class="label">Inversión plataforma</div>
+            <div class="value">$50.000 <em>/ mes</em></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="label">Por qué está</span>
+          <p><strong>Buena herramienta para comunicar tendencias, novedades y hacer seguimiento a leads que vienen de otras plataformas</strong> (Meta Ads, por ejemplo, cuando se active).</p>
+          <p>Como herramienta en general <strong>la calificó con un 8</strong>. Es la menos indispensable de las tres, pero la base ya existe y el costo total es bajo.</p>
+          <p>Sí la probaría fuerte en <strong>Cleanart</strong>: viendo que en DOS la lista está un poco más quemada, en una base nueva el canal puede rendir mucho mejor desde el arranque.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- TOTAL ROW -->
+    <div class="total-row">
+      <div class="total-label">Total mensual DOS Argentina</div>
+      <div class="total-val">USD 550 <em>· fee</em></div>
+      <div class="total-val">$500.000 <em>· inversión plataforma</em></div>
+    </div>
+
+  </section>
+
+  <!-- SECCIÓN 2: CLEANART -->
+  <section class="section">
+    <div class="sec-head">
+      <span class="num">02 / RECOMENDACIÓN</span>
+      <h2>Cleanart, <em>desde cero</em></h2>
+    </div>
+
+    <p class="lede">Dos canales para arrancar Cleanart. La misma lógica que probó funcionar en DOS: capturar demanda existente con Google y construir demanda nueva con Meta.</p>
+
+    <div class="service-grid">
+
+      <!-- Google Cleanart -->
+      <article class="service-card">
+        <div class="card-head">
+          <div class="card-name">Google Ads · Cleanart</div>
+          <div class="price-block">
+            <div class="label">Rol</div>
+            <div class="value">Captura</div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="label">Por qué arrancar acá</span>
+          <p><strong>Fundamental, como en DOS: que te encuentren cuando te buscan.</strong> Es el primer canal que tiene que estar prendido porque captura a quien hoy ya está buscando el servicio. Sin Google, esa demanda se la lleva otro.</p>
+        </div>
+      </article>
+
+      <!-- Meta Cleanart -->
+      <article class="service-card">
+        <div class="card-head sage">
+          <div class="card-name">Meta Ads · Cleanart</div>
+          <div class="price-block">
+            <div class="label">Rol</div>
+            <div class="value">Generación de demanda</div>
+          </div>
+          <div class="price-block">
+            <div class="label">Inversión plataforma</div>
+            <div class="value">$12.000 <em>/ día aprox</em></div>
+          </div>
+        </div>
+        <div class="card-body">
+          <span class="label">Por qué arrancar acá</span>
+          <p><strong>Con la campaña de formularios, contenido específico y filtrando desde ahí, generás mucha demanda.</strong> Es el complemento perfecto a Google: mientras Google captura a quien ya está buscando, Meta crea la búsqueda en quien todavía no sabe que necesita el servicio.</p>
+          <p>Para arrancar, <strong>$12.000 pesos diarios aprox</strong>. Con ese piso ya tenemos volumen suficiente para que la campaña aprenda y empezar a filtrar leads de calidad.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- REGLA -->
+    <div class="rule-box">
+      <div class="rule-label">La idea</div>
+      <p>En DOS la base está más quemada, en Cleanart arrancamos limpio. <em>Es la oportunidad ideal</em> para probar Email desde el inicio y armar la combinación Google + Meta + Email como sistema integrado, no como canales sueltos.</p>
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <section class="footer">
+    <p class="signature">Cualquier duda nos hablamos. <em>Vamos.</em></p>
+    <p class="meta">Dilema Creative · Junio 2026</p>
+  </section>
+
+</div>
+
+</body>
+</html>
