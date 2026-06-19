@@ -344,18 +344,108 @@
     color: var(--ash);
   }
 
-  /* RESPONSIVE */
-  @media (max-width: 720px) {
-    .page { padding: 0 22px 60px; }
-    .cover-title h1 { font-size: 42px; }
-    .cover-stats { grid-template-columns: 1fr; gap: 18px; }
-    .stat-cell { border-right: none; border-bottom: 1px solid var(--line); padding-bottom: 18px; margin-right: 0; padding-right: 0; }
-    .stat-cell:last-child { border-bottom: none; }
-    .sec-head h2 { font-size: 28px; }
-    .card-head { grid-template-columns: 1fr; gap: 14px; padding: 16px 18px; }
-    .price-block { text-align: left; border-left: none; border-top: 1px solid rgba(255,255,255,0.18); padding-top: 12px; padding-left: 0; }
-    .total-row { grid-template-columns: 1fr; gap: 12px; }
-    .total-row .total-val { border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 12px; }
+  /* RESPONSIVE — TABLET */
+  @media (max-width: 860px) {
+    .page { padding: 0 32px 60px; }
+    .cover { min-height: auto; padding: 48px 0 48px; }
+    .cover-title { padding: 48px 0 36px; }
+    .cover-title h1 { font-size: 52px; }
+    .cover-sub { font-size: 18px; }
+    .section { padding: 56px 0 44px; }
+    .sec-head h2 { font-size: 32px; }
+    .lede { font-size: 17px; }
+  }
+
+  /* RESPONSIVE — MOBILE */
+  @media (max-width: 600px) {
+    html, body { font-size: 14.5px; }
+    .page { padding: 0 18px 48px; }
+
+    /* Cover */
+    .cover { padding: 32px 0 36px; }
+    .cover-top { flex-direction: column; gap: 16px; align-items: flex-start; }
+    .cover-meta { text-align: left; font-size: 10px; }
+    .wordmark { font-size: 20px; }
+    .cover-title { padding: 36px 0 28px; }
+    .cover-kicker { font-size: 10px; margin-bottom: 14px; }
+    .cover-title h1 { font-size: 38px; line-height: 1; }
+    .cover-sub { font-size: 16px; margin-top: 18px; }
+
+    /* Stats */
+    .cover-stats { grid-template-columns: 1fr; gap: 0; padding-top: 24px; }
+    .stat-cell {
+      border-right: none;
+      border-bottom: 1px solid var(--line);
+      padding: 18px 0;
+      margin-right: 0;
+      padding-right: 0;
+    }
+    .stat-cell:first-child { padding-top: 4px; }
+    .stat-cell:last-child { border-bottom: none; padding-bottom: 4px; }
+    .stat-cell .v { font-size: 26px; }
+
+    /* Section */
+    .section { padding: 44px 0 32px; }
+    .sec-head { gap: 12px; margin-bottom: 24px; padding-bottom: 12px; flex-wrap: wrap; }
+    .sec-head .num { font-size: 10px; width: 100%; }
+    .sec-head h2 { font-size: 26px; line-height: 1.05; }
+    .lede { font-size: 16px; margin-bottom: 24px; line-height: 1.5; }
+
+    /* Service cards */
+    .service-grid { gap: 14px; }
+    .card-head {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 18px 18px 16px;
+    }
+    .card-name { font-size: 19px; }
+    .price-block {
+      text-align: left;
+      border-left: none;
+      border-top: 1px solid rgba(255,255,255,0.18);
+      padding-top: 12px;
+      padding-left: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .price-block .label { margin-bottom: 0; }
+    .price-block .value { font-size: 18px; }
+    .price-block .value.dash { font-size: 18px; }
+    .card-body { padding: 18px 20px 20px; }
+    .card-body p { font-size: 14.5px; line-height: 1.55; }
+
+    /* Total row */
+    .total-row {
+      grid-template-columns: 1fr;
+      gap: 14px;
+      padding: 18px 20px;
+      margin-top: 18px;
+    }
+    .total-row .total-val {
+      border-left: none;
+      border-top: 1px solid var(--line);
+      padding-left: 0;
+      padding-top: 14px;
+      font-size: 19px;
+    }
+
+    /* Rule box */
+    .rule-box { padding: 22px 22px; margin: 24px 0 4px; }
+    .rule-box p { font-size: 17px; line-height: 1.45; }
+
+    /* Footer */
+    .footer { padding: 40px 0 0; }
+    .footer .meta { font-size: 9.5px; }
+  }
+
+  /* RESPONSIVE — SMALL MOBILE */
+  @media (max-width: 380px) {
+    .cover-title h1 { font-size: 32px; }
+    .sec-head h2 { font-size: 22px; }
+    .card-name { font-size: 17px; }
+    .price-block .value { font-size: 16px; }
   }
 </style>
 </head>
@@ -539,7 +629,6 @@
 
   <!-- FOOTER -->
   <section class="footer">
-    <p class="signature">Cualquier duda nos hablamos. <em>Vamos.</em></p>
     <p class="meta">Dilema Creative · Junio 2026</p>
   </section>
 
