@@ -1,0 +1,1277 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arcolandia × Dilema Creative · Propuesta de Marketing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0E2A47;
+  --ink-soft: #1B3A5C;
+  --green: #4FA27E;
+  --green-deep: #2F7D5E;
+  --cream: #F4EFE6;
+  --paper: #FAF6EE;
+  --paper-2: #EFE8D9;
+  --black: #14161A;
+  --ash: #6B6257;
+  --line: #D9CFBC;
+  --star: #5BB4D6;
+  --hero-bg: #0a1a10;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  background: var(--paper);
+  color: var(--black);
+  -webkit-font-smoothing: antialiased;
+}
+
+.serif { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* NAV */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  height: 56px;
+  gap: 16px;
+}
+.nav-logo {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.nav-logo em { font-style: italic; color: var(--green); }
+.nav-logo sup { color: var(--star); font-size: 12px; }
+.nav-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+}
+.nav-links a {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(244,239,230,0.6);
+  text-decoration: none;
+  transition: color .2s;
+}
+.nav-links a:hover { color: var(--green); }
+.nav-cta {
+  background: var(--green);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 8px 18px;
+  border-radius: 3px;
+  white-space: nowrap;
+  transition: background .2s;
+}
+.nav-cta:hover { background: var(--green-deep); }
+
+/* HERO */
+.hero {
+  background: var(--hero-bg);
+  color: var(--cream);
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 64px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(79,162,126,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 28px;
+}
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: clamp(42px, 7vw, 86px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  max-width: 880px;
+  margin-bottom: 28px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--green);
+}
+.hero-sub {
+  font-size: 18px;
+  line-height: 1.6;
+  color: rgba(244,239,230,0.7);
+  max-width: 620px;
+  margin-bottom: 48px;
+}
+.hero-stats {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.hero-stat-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--green);
+  display: block;
+}
+.hero-stat-label {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: rgba(244,239,230,0.5);
+  text-transform: uppercase;
+}
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 64px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244,239,230,0.3);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-scroll::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: rgba(244,239,230,0.2);
+}
+
+/* SECTIONS */
+section { padding: 80px 64px; }
+section + section { border-top: 1px solid var(--line); }
+
+.section-kicker {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 20px;
+  max-width: 760px;
+}
+.section-title em { font-style: italic; color: var(--green); }
+.section-lead {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ash);
+  max-width: 660px;
+  margin-bottom: 48px;
+}
+
+/* DIAGNOSIS */
+.diagnosis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.diagnosis-item {
+  background: var(--paper);
+  padding: 28px 28px 32px;
+}
+.diagnosis-item .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.diagnosis-item h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--ink);
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.diagnosis-item p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--ash);
+}
+
+/* CHANNELS */
+.channels-stack { display: flex; flex-direction: column; gap: 2px; }
+
+.channel-block {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.channel-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 20px;
+  padding: 28px 32px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.channel-header:hover { background: var(--paper-2); }
+.channel-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.ch-google { background: #e8f0fe; }
+.ch-meta { background: #e7f0fd; }
+.ch-email { background: #fdecd4; }
+.channel-title-wrap {}
+.channel-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 4px;
+}
+.channel-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.channel-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  color: var(--ash);
+  white-space: nowrap;
+}
+.channel-tag.future {
+  border-style: dashed;
+  color: var(--green-deep);
+}
+.channel-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+.channel-price.placeholder {
+  color: var(--ash);
+  font-style: italic;
+  border-style: dashed;
+}
+.channel-body {
+  padding: 0 32px 32px;
+  display: none;
+}
+.channel-body.open { display: block; }
+.channel-body p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #444;
+  margin-bottom: 24px;
+}
+.channel-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.ch-col-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  margin-bottom: 10px;
+}
+.ch-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.ch-list li {
+  font-size: 13px;
+  color: #444;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+.ch-list li::before {
+  content: '·';
+  position: absolute;
+  left: 4px;
+  top: -2px;
+  color: var(--green);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+}
+.kw-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.kw-table th {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ash);
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+}
+.kw-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(217,207,188,0.4);
+  color: #333;
+  vertical-align: top;
+}
+.kw-table tr:last-child td { border-bottom: none; }
+.kw-table .intent {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+.intent-high { background: #d1fae5; color: #065f46; }
+.intent-med { background: #fef3c7; color: #92400e; }
+.intent-aware { background: #e0e7ff; color: #3730a3; }
+.channel-note {
+  display: flex;
+  gap: 12px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--green);
+  border-radius: 4px;
+  padding: 14px 16px;
+  font-size: 13px;
+  color: var(--ash);
+  margin-top: 20px;
+}
+.channel-note strong { color: var(--ink); }
+
+/* FUNNEL */
+.funnel-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+.funnel-stages { display: flex; flex-direction: column; gap: 3px; }
+.funnel-stage {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 18px 20px;
+  position: relative;
+}
+.funnel-stage::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 5px 0 0 5px;
+}
+.fs-top::before { background: var(--star); }
+.fs-mid::before { background: var(--green); }
+.fs-bot::before { background: var(--ink); }
+.fs-loy::before { background: #b8860b; }
+.fs-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ash);
+  margin-bottom: 4px;
+}
+.fs-action {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--ink);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.fs-desc {
+  font-size: 13px;
+  color: var(--ash);
+  line-height: 1.5;
+}
+.funnel-channels-map {
+  background: var(--ink);
+  border-radius: 6px;
+  padding: 28px;
+  color: var(--cream);
+}
+.fcm-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 20px;
+}
+.fcm-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(244,239,230,0.08);
+}
+.fcm-row:last-child { border-bottom: none; }
+.fcm-stage-name {
+  font-size: 12px;
+  color: rgba(244,239,230,0.5);
+  min-width: 60px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.fcm-channels {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.fcm-ch {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(244,239,230,0.15);
+  color: rgba(244,239,230,0.75);
+  white-space: nowrap;
+}
+.fcm-ch.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #fff;
+}
+.fcm-ch.future {
+  border-style: dashed;
+  color: rgba(244,239,230,0.45);
+}
+
+/* INVERSION */
+.invest-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+.invest-wrap {
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.invest-header {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ash);
+  padding: 18px 28px;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--line);
+}
+.invest-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 28px;
+  border-bottom: 1px solid var(--line);
+}
+.invest-row:last-child { border-bottom: none; }
+.invest-row.subtotal {
+  background: var(--paper);
+  margin-top: auto;
+}
+.invest-row.subtotal .invest-price {
+  font-size: 20px;
+  color: var(--ink);
+}
+.invest-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.invest-desc {
+  font-size: 13px;
+  color: var(--ash);
+  margin-top: 4px;
+}
+.invest-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.invest-tag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: rgba(79,162,126,0.12);
+  color: var(--green-deep);
+  border: 1px solid rgba(79,162,126,0.25);
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+/* PACKAGE CARD */
+.package-card {
+  background: var(--ink);
+  color: var(--cream);
+  border-radius: 8px;
+  padding: 32px 32px 28px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+.package-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 100% 0%, rgba(79,162,126,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.package-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 14px;
+  position: relative;
+}
+.package-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 30px;
+  letter-spacing: -0.025em;
+  color: var(--cream);
+  margin-bottom: 12px;
+  line-height: 1.1;
+  position: relative;
+}
+.package-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(244,239,230,0.65);
+  margin-bottom: 22px;
+  position: relative;
+}
+.package-list {
+  list-style: none;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+.package-list li {
+  font-size: 13px;
+  color: rgba(244,239,230,0.75);
+  padding-left: 18px;
+  position: relative;
+  line-height: 1.5;
+}
+.package-list li::before {
+  content: '+';
+  position: absolute;
+  left: 0;
+  color: var(--green);
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+}
+.package-price-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 22px;
+  border-top: 1px solid rgba(244,239,230,0.12);
+  margin-top: auto;
+  position: relative;
+  flex-wrap: wrap;
+}
+.package-original {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: rgba(244,239,230,0.4);
+  text-decoration: line-through;
+  margin-bottom: 4px;
+}
+.package-final {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--green);
+  letter-spacing: -0.01em;
+}
+.package-save {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: rgba(79,162,126,0.15);
+  border: 1px solid rgba(79,162,126,0.3);
+  padding: 6px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+/* FUTURE BLOCK */
+.future-block {
+  margin-top: 56px;
+  padding: 36px 36px 38px;
+  background: var(--cream);
+  border: 1px dashed var(--green);
+  border-radius: 8px;
+  max-width: 860px;
+}
+.future-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  margin-bottom: 14px;
+}
+.future-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+  margin-bottom: 14px;
+}
+.future-desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ash);
+}
+
+/* WHY DILEMA */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.why-item {
+  background: var(--paper);
+  padding: 28px;
+}
+.why-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+.why-item h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.why-item p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ash);
+}
+
+/* CLOSING */
+.closing {
+  background: var(--hero-bg);
+  color: var(--cream);
+  padding: 100px 64px;
+  text-align: center;
+  border-top: none;
+}
+.closing h2 {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: clamp(36px, 5vw, 64px);
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+.closing h2 em { font-style: italic; color: var(--green); }
+.closing p {
+  font-size: 17px;
+  color: rgba(244,239,230,0.6);
+  margin-bottom: 40px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.65;
+}
+.closing-btn {
+  display: inline-block;
+  background: var(--green);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 40px;
+  border-radius: 4px;
+  transition: background .2s;
+}
+.closing-btn:hover { background: var(--green-deep); }
+.closing-contact {
+  margin-top: 40px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: rgba(244,239,230,0.3);
+}
+.closing-contact a {
+  color: var(--green);
+  text-decoration: none;
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+  .funnel-wrap { grid-template-columns: 1fr; }
+  .invest-grid { grid-template-columns: 1fr; gap: 20px; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 0 20px; height: 52px; }
+  .nav-links { display: none; }
+  .nav-logo { font-size: 16px; }
+
+  .hero { padding: 56px 22px 56px; min-height: 78vh; }
+  .hero-scroll { left: 22px; bottom: 22px; }
+  .hero-stats { gap: 24px; }
+  .hero-stat-val { font-size: 24px; }
+
+  section { padding: 56px 22px; }
+
+  .channel-block { border-radius: 5px; }
+  .channel-header { padding: 18px 18px; grid-template-columns: auto 1fr; gap: 14px; }
+  .channel-tag, .channel-price { display: none; }
+  .channel-name { font-size: 19px; }
+  .channel-label { font-size: 9px; }
+  .channel-body { padding: 0 18px 22px; }
+  .channel-body p { font-size: 14px; }
+  .channel-cols { grid-template-columns: 1fr; gap: 8px; }
+  .channel-icon { width: 38px; height: 38px; font-size: 17px; }
+
+  .funnel-wrap { gap: 22px; }
+  .funnel-channels-map { padding: 22px; }
+  .fcm-row { flex-direction: column; align-items: flex-start; gap: 8px; padding: 12px 0; }
+  .fcm-channels { justify-content: flex-start; }
+
+  .closing { padding: 72px 22px; }
+  .closing p { font-size: 16px; }
+
+  .kw-table { font-size: 12px; }
+  .kw-table th, .kw-table td { padding: 7px 8px; }
+
+  .invest-row { grid-template-columns: 1fr; gap: 6px; padding: 18px 22px; }
+  .invest-header { padding: 14px 22px; }
+  .invest-name { font-size: 17px; }
+  .invest-price { font-size: 16px; }
+  .invest-row.subtotal .invest-price { font-size: 18px; }
+  .package-card { padding: 24px 22px 22px; }
+  .package-title { font-size: 24px; }
+  .package-final { font-size: 24px; }
+  .package-original { font-size: 12px; }
+  .package-save { font-size: 10px; padding: 5px 10px; }
+
+  .future-block { margin-top: 36px; padding: 26px 22px 28px; border-radius: 6px; }
+  .future-title { font-size: 20px; }
+  .future-desc { font-size: 14px; }
+
+  .diagnosis-item { padding: 22px 22px 26px; }
+  .diagnosis-item h3 { font-size: 18px; }
+
+  .why-item { padding: 22px; }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 34px; }
+  .hero-sub { font-size: 15px; margin-bottom: 36px; }
+  .hero-kicker { font-size: 10px; margin-bottom: 22px; }
+  .section-title { font-size: 26px; }
+  .section-lead { font-size: 15px; margin-bottom: 36px; }
+  .diagnosis-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .closing h2 { font-size: 30px; }
+  .closing-contact { font-size: 11px !important; word-break: break-word; }
+  .closing-contact a { display: inline-block; margin: 4px 2px; }
+  .package-price-row { gap: 12px; }
+}
+
+/* TOGGLE ARROW */
+.ch-arrow {
+  font-size: 18px;
+  color: var(--green);
+  transition: transform .25s;
+  font-family: monospace;
+}
+.ch-arrow.open { transform: rotate(180deg); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Dilema<em>creative</em><sup>*</sup></div>
+  <ul class="nav-links">
+    <li><a href="#diagnostico">Diagnóstico</a></li>
+    <li><a href="#canales">Canales</a></li>
+    <li><a href="#funnel">Funnel</a></li>
+    <li><a href="#inversion">Inversión</a></li>
+    <li><a href="#nosotros">Por qué Dilema</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-kicker">Propuesta de Marketing · Arcolandia × Dilema Creative · 2026</div>
+  <h1>De Instagram a una <em>tienda que vende sola.</em></h1>
+  <p class="hero-sub">Arcolandia ya tiene marca, productos y una Tienda Nube andando. Lo que falta es un sistema pago que ponga los productos delante de la persona correcta y la lleve hasta la compra, sin depender del alcance orgánico de Instagram.</p>
+  <div class="hero-stats">
+    <div>
+      <span class="hero-stat-val">2</span>
+      <span class="hero-stat-label">Canales paid activos</span>
+    </div>
+    <div>
+      <span class="hero-stat-val">D2C</span>
+      <span class="hero-stat-label">Ecommerce Tienda Nube</span>
+    </div>
+    <div>
+      <span class="hero-stat-val">360°</span>
+      <span class="hero-stat-label">Awareness + venta</span>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll para explorar</div>
+</section>
+
+<!-- DIAGNOSTICO -->
+<section id="diagnostico">
+  <div class="section-kicker">01 · Dónde estamos parados</div>
+  <h2 class="section-title">Arcolandia tiene producto y tienda. Lo que falta es un <em>motor de demanda.</em></h2>
+  <p class="section-lead">Antes de hablar de pauta, esto es lo que vemos hoy. Y lo que venimos a resolver.</p>
+
+  <div class="diagnosis-grid">
+    <div class="diagnosis-item">
+      <div class="num">01</div>
+      <h3>Tráfico que depende de Instagram orgánico</h3>
+      <p>El feed y las stories traen visitas, pero el alcance orgánico tiene techo y es inestable. Una semana funciona, la otra cae sin razón aparente. La marca queda atada a lo que el algoritmo decida regalar ese día.</p>
+    </div>
+    <div class="diagnosis-item">
+      <div class="num">02</div>
+      <h3>Invisible cuando hay intención de compra</h3>
+      <p>Cuando alguien busca en Google la categoría de producto que Arcolandia vende, la tienda no aparece. Ese tráfico, el más cercano a una compra, hoy se está yendo a competidores que pautan en Search y Shopping.</p>
+    </div>
+    <div class="diagnosis-item">
+      <div class="num">03</div>
+      <h3>Visitantes que entran una sola vez y se pierden</h3>
+      <p>Sin Pixel ni catálogo trabajando en Meta, cada persona que entra a la tienda y no compra es plata tirada. No hay retargeting que la traiga de vuelta con el producto exacto que miró.</p>
+    </div>
+    <div class="diagnosis-item">
+      <div class="num">04</div>
+      <h3>Carritos abandonados sin recuperación</h3>
+      <p>Tienda Nube guarda todos los carritos que no se cierran, y hoy se están perdiendo. Sin un sistema de email automático, esa intención de compra se enfría en horas y no vuelve.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CANALES -->
+<section id="canales">
+  <div class="section-kicker">02 · El plan</div>
+  <h2 class="section-title">Dos canales, una <em>misma máquina de ventas.</em></h2>
+  <p class="section-lead">Google Ads y Meta Ads arrancan juntos desde el día uno. Cada uno cumple un rol distinto y se potencian entre sí: Google captura la intención de compra ya existente, Meta genera demanda y persigue al visitante que no cerró.</p>
+
+  <div class="channels-stack">
+
+    <!-- GOOGLE ADS -->
+    <div class="channel-block">
+      <div class="channel-header" onclick="toggleChannel(this)">
+        <div class="channel-icon ch-google">🔍</div>
+        <div class="channel-title-wrap">
+          <div class="channel-label">Capturar intención de compra</div>
+          <div class="channel-name">Google Ads</div>
+        </div>
+        <div class="channel-tag">Search · Shopping · PMax</div>
+      </div>
+      <div class="channel-body open">
+        <p>Hay gente que ya quiere comprar el producto que Arcolandia vende y lo está googleando ahora mismo. Google Ads pone la tienda delante de esa persona en el momento exacto, antes de que llegue a un competidor. Es el tráfico de mayor intención que se puede comprar online: alguien que escribió la categoría o el nombre del producto y está a un clic de pagar.</p>
+        <div class="channel-cols">
+          <div>
+            <div class="ch-col-title">Qué vamos a correr</div>
+            <ul class="ch-list">
+              <li>Performance Max con feed conectado a Tienda Nube para que cada producto se anuncie automáticamente en Shopping, YouTube, Discover y Display</li>
+              <li>Search con keywords de categoría y marca para captar la búsqueda con intención más alta</li>
+              <li>Campaña de marca para defender el nombre Arcolandia cuando lo buscan directo</li>
+              <li>Remarketing dinámico a quienes visitaron productos y no compraron</li>
+            </ul>
+          </div>
+          <div>
+            <div class="ch-col-title">Qué se mide</div>
+            <ul class="ch-list">
+              <li>ROAS (retorno por cada peso invertido en pauta)</li>
+              <li>CPA (costo por compra real, no por clic)</li>
+              <li>Ingresos atribuidos a cada campaña</li>
+              <li>Productos top vendedores por canal</li>
+            </ul>
+          </div>
+        </div>
+        <div class="ch-col-title" style="margin-bottom:12px;">Tipos de búsqueda que vamos a capturar</div>
+        <table class="kw-table">
+          <thead>
+            <tr>
+              <th>Cluster de keyword</th>
+              <th>Intención</th>
+              <th>Por qué importa</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>nombre de marca: arcolandia</td>
+              <td><span class="intent intent-high">Alta</span></td>
+              <td>Defensa de marca, costo bajo, conversión alta</td>
+            </tr>
+            <tr>
+              <td>categoría de producto + comprar online</td>
+              <td><span class="intent intent-high">Alta</span></td>
+              <td>Usuario listo para pagar, comparando opciones</td>
+            </tr>
+            <tr>
+              <td>producto específico + variante o medida</td>
+              <td><span class="intent intent-high">Alta</span></td>
+              <td>Búsqueda de catálogo, match exacto con feed</td>
+            </tr>
+            <tr>
+              <td>categoría + Argentina o ciudad</td>
+              <td><span class="intent intent-med">Media</span></td>
+              <td>Geo-intent, usuario buscando proveedor cercano</td>
+            </tr>
+            <tr>
+              <td>producto + regalo, ideas, mejores</td>
+              <td><span class="intent intent-aware">Awareness</span></td>
+              <td>Volumen alto, costo bajo, alimenta el remarketing</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="channel-note">
+          <strong>Nota técnica:</strong>&nbsp; Tienda Nube conecta con Google Merchant Center vía feed automático. Eso permite que Performance Max use el catálogo en tiempo real, con stock y precio actualizados. Configuración incluida en el onboarding.
+        </div>
+      </div>
+    </div>
+
+    <!-- META ADS -->
+    <div class="channel-block">
+      <div class="channel-header" onclick="toggleChannel(this)">
+        <div class="channel-icon ch-meta">📱</div>
+        <div class="channel-title-wrap">
+          <div class="channel-label">Generar demanda y recuperar visitas</div>
+          <div class="channel-name">Meta Ads (Instagram y Facebook)</div>
+        </div>
+        <div class="channel-tag">IG · Facebook · Catálogo</div>
+      </div>
+      <div class="channel-body open">
+        <p>Mucha gente no se levanta buscando lo que Arcolandia vende, pero ve un producto en el feed y lo quiere. Meta es el canal que crea esa demanda: interrumpe el scroll con el producto, en buena imagen, con el precio claro. Y cuando alguien entra a la tienda y no compra, el catálogo dinámico lo persigue con el mismo producto que miró hasta que vuelve a cerrar.</p>
+        <div class="channel-cols">
+          <div>
+            <div class="ch-col-title">Estructura de campañas</div>
+            <ul class="ch-list">
+              <li>Advantage+ Shopping con catálogo de Tienda Nube: Meta decide qué producto mostrarle a quién, basado en señales reales</li>
+              <li>Conversiones a tienda con creativos por colección o línea de producto</li>
+              <li>DPA (Dynamic Product Ads) para retargeting: cada visitante ve el producto exacto que miró</li>
+              <li>Awareness con video para audiencias frías que aún no conocen la marca</li>
+            </ul>
+          </div>
+          <div>
+            <div class="ch-col-title">Segmentación</div>
+            <ul class="ch-list">
+              <li>Lookalikes basados en compradores reales de los últimos 90 días</li>
+              <li>Audiencias por intereses afines al producto y categoría</li>
+              <li>Retargeting de visitantes a la tienda y a productos específicos</li>
+              <li>Custom audience de seguidores de Instagram y engagement</li>
+            </ul>
+          </div>
+        </div>
+        <div class="channel-note">
+          <strong>Nota sobre creativos:</strong>&nbsp; en ecommerce, el creativo es el 80% de la performance. Trabajamos con foto producto bien iluminada, video corto mostrando uso, carruseles por colección y placas con beneficio claro. Si el equipo Arcolandia produce contenido propio, lo adaptamos. Si no, definimos briefs concretos por pieza.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FUNNEL -->
+<section id="funnel">
+  <div class="section-kicker">03 · Cómo se conecta</div>
+  <h2 class="section-title">Del primer scroll a la <em>compra cerrada.</em></h2>
+  <p class="section-lead">Google y Meta no compiten, se complementan. Cada canal tapa un agujero distinto en el recorrido del comprador y los dos alimentan el mismo objetivo: vender más en la tienda.</p>
+
+  <div class="funnel-wrap">
+    <div class="funnel-stages">
+      <div class="funnel-stage fs-top">
+        <div>
+          <div class="fs-label">Top of funnel</div>
+          <div class="fs-action">Descubrimiento</div>
+          <div class="fs-desc">Alguien ve un producto Arcolandia en Instagram, en una historia, o lo encuentra googleando una idea de regalo. Es la primera vez que cruza la marca: el objetivo no es vender, es que recuerde el nombre.</div>
+        </div>
+      </div>
+      <div class="funnel-stage fs-mid">
+        <div>
+          <div class="fs-label">Middle of funnel</div>
+          <div class="fs-action">Consideración</div>
+          <div class="fs-desc">Esa persona entra a la tienda, revisa un producto, agrega al carrito y se va. El retargeting de Meta la persigue con el producto exacto que miró, mientras Search defiende la búsqueda directa de marca.</div>
+        </div>
+      </div>
+      <div class="funnel-stage fs-bot">
+        <div>
+          <div class="fs-label">Bottom of funnel</div>
+          <div class="fs-action">Compra</div>
+          <div class="fs-desc">Shopping y Advantage+ cierran la venta de quien ya está listo. La búsqueda directa en Google convierte al máximo CPA. El catálogo dinámico en Meta termina de empujar el carrito abandonado.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="funnel-channels-map">
+      <div class="fcm-title">Rol del canal por etapa</div>
+      <div class="fcm-row">
+        <span class="fcm-stage-name">ToF</span>
+        <div class="fcm-channels">
+          <span class="fcm-ch active">Meta Awareness</span>
+          <span class="fcm-ch active">Google Display</span>
+        </div>
+      </div>
+      <div class="fcm-row">
+        <span class="fcm-stage-name">MoF</span>
+        <div class="fcm-channels">
+          <span class="fcm-ch active">Meta Conversiones</span>
+          <span class="fcm-ch active">Search Categoría</span>
+        </div>
+      </div>
+      <div class="fcm-row">
+        <span class="fcm-stage-name">BoF</span>
+        <div class="fcm-channels">
+          <span class="fcm-ch active">Google Shopping</span>
+          <span class="fcm-ch active">Search Marca</span>
+          <span class="fcm-ch active">Meta DPA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVERSION -->
+<section id="inversion">
+  <div class="section-kicker">04 · Inversión</div>
+  <h2 class="section-title">Estructura clara y <em>modular.</em></h2>
+  <p class="section-lead">Cada servicio se contrata por separado o como paquete promocional con un ahorro mensual.</p>
+
+  <div class="invest-grid">
+    <div class="invest-wrap">
+      <div class="invest-header">Servicios individuales</div>
+      <div class="invest-row">
+        <div>
+          <div class="invest-name">Google Ads</div>
+          <div class="invest-desc">Performance Max, Search, Shopping, remarketing dinámico, optimización y reporte mensual</div>
+        </div>
+        <div class="invest-price">USD 300 / mes</div>
+      </div>
+      <div class="invest-row">
+        <div>
+          <div class="invest-name">Meta Ads <span style="font-size:13px; color:var(--ash); font-weight:400;">(Instagram y Facebook)</span></div>
+          <div class="invest-desc">Advantage+ Shopping, conversiones, retargeting de catálogo, awareness y reporte mensual</div>
+        </div>
+        <div class="invest-price">USD 300 / mes</div>
+      </div>
+      <div class="invest-row subtotal">
+        <div>
+          <div class="invest-name">Suma de servicios sueltos</div>
+          <div class="invest-desc">Google + Meta, contratados por separado</div>
+        </div>
+        <div class="invest-price">USD 600 / mes</div>
+      </div>
+    </div>
+
+    <div class="package-card">
+      <div class="package-badge">Paquete promocional</div>
+      <div class="package-title">Google + Meta</div>
+      <div class="package-desc">Gestión completa de adquisición paga en Google Ads y Meta Ads (Instagram y Facebook), en un único fee mensual.</div>
+      <ul class="package-list">
+        <li>Performance Max con feed de Tienda Nube conectado</li>
+        <li>Advantage+ Shopping y catálogo dinámico en Meta</li>
+        <li>Retargeting cruzado entre canales</li>
+        <li>Reporte mensual unificado de ROAS y ventas</li>
+      </ul>
+      <div class="package-price-row">
+        <div>
+          <div class="package-original">USD 600 / mes</div>
+          <div class="package-final">USD 500 / mes</div>
+        </div>
+        <div class="package-save">Ahorro USD 100 / mes</div>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:13px; color:var(--ash); margin-top:28px; max-width:680px;">
+    La inversión publicitaria (el presupuesto que se carga directamente en cada plataforma para que las campañas corran) se define por separado y queda 100% en la cuenta de Arcolandia. Recomendamos un piso de USD 300 por canal por mes para que el algoritmo tenga volumen real de datos y la optimización funcione.
+  </p>
+
+  <div class="future-block">
+    <div class="future-tag">Próximo paso natural · A futuro</div>
+    <h3 class="future-title">Email Marketing, cuando la tienda tenga tráfico para justificarlo.</h3>
+    <p class="future-desc">Una vez que Google y Meta empiezan a traer visitas reales y carritos consistentes, el siguiente paso lógico es automatizar el email: recuperación de carritos abandonados, bienvenida, post-compra y reactivación de clientes inactivos, todo conectado directo con Tienda Nube. No lo metemos en esta propuesta porque hoy no tiene volumen para amortizarlo. Lo evaluamos juntos al mes 2 o 3, con data real.</p>
+  </div>
+</section>
+
+<!-- POR QUE DILEMA -->
+<section id="nosotros">
+  <div class="section-kicker">05 · Por qué Dilema</div>
+  <h2 class="section-title">Una agencia <em>chica, enfocada y dueña de cada cuenta.</em></h2>
+  <p class="section-lead">Pocos clientes, atención de dueño, decisiones basadas en data y no en presentaciones lindas. Ese es el modelo.</p>
+
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-num">01</div>
+      <h3>Performance, no estética</h3>
+      <p>Lo que medimos es ROAS, CPA y ventas atribuidas. Una campaña linda que no factura no nos sirve. Una campaña fea que vende, sí. Después la mejoramos.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-num">02</div>
+      <h3>Ecommerce de verdad</h3>
+      <p>Trabajamos con tiendas reales: catálogos, feeds, Pixel, eventos de compra, recuperación de carritos. No es ecommerce de slide, es la cocina del backoffice.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-num">03</div>
+      <h3>Decimos lo que vemos</h3>
+      <p>Si un canal no funciona, lo decimos. Si vemos una oportunidad fuera de lo contratado, la traemos. Si hay que cortar inversión un mes, también. Ese es el compromiso desde el día uno.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-num">04</div>
+      <h3>Pocos clientes, atención real</h3>
+      <p>No escalamos apilando cuentas. Cada cliente trabaja con un equipo que conoce su producto, su competencia y su tienda como propia.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing" id="contacto">
+  <div class="section-kicker" style="color: var(--green); margin-bottom: 20px;">06 · Próximo paso</div>
+  <h2>Hagamos que la tienda <em>venda sin depender del feed.</em></h2>
+  <p>Esta propuesta está armada en base al producto de Arcolandia, a la estructura de Tienda Nube y a la oportunidad de capturar la demanda que hoy se está yendo a competidores. Lista para ejecutar cuando ustedes lo estén.</p>
+  <div class="closing-contact" style="font-size:14px; color: rgba(244,239,230,0.55); margin-top: 0;">
+    <a href="mailto:equipo@dilemacreative.ar" style="color: var(--green);">equipo@dilemacreative.ar</a> &nbsp;·&nbsp;
+    <a href="https://www.instagram.com/dilema.creative" target="_blank">@dilema.creative</a> &nbsp;·&nbsp;
+    <a href="https://dilemacreative.ar" target="_blank">dilemacreative.ar</a>
+  </div>
+</section>
+
+<script>
+function toggleChannel(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.ch-arrow');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if (arrow) arrow.classList.toggle('open', !isOpen);
+}
+</script>
+
+</body>
+</html>
