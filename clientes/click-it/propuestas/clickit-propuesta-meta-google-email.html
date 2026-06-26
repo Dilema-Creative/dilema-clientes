@@ -49,9 +49,32 @@
     font-size: 16px;
     color: var(--cream);
     letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
   .nav-logo em { font-style: italic; color: var(--blue); font-weight: 500; }
   .nav-logo sup { color: var(--gold); font-size: 0.6em; }
+  .nav-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+  }
+  .nav-brand em { font-style: italic; color: var(--blue); font-weight: 500; }
+  .nav-divider {
+    width: 1px; height: 18px;
+    background: rgba(245,240,232,0.18);
+  }
+  .nav-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: rgba(245,240,232,0.55);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
   .nav-links { display: flex; gap: 28px; }
   .nav-links a {
     font-family: 'JetBrains Mono', monospace;
@@ -86,6 +109,34 @@
     bottom: 0; left: 0; right: 0;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(45,127,249,0.4), transparent);
+  }
+  .hero-mark {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .hero-mark-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+  }
+  .hero-mark-brand em {
+    font-style: italic;
+    color: var(--blue);
+    font-weight: 500;
+  }
+  .hero-mark-line {
+    width: 40px; height: 1px;
+    background: rgba(245,240,232,0.25);
+  }
+  .hero-mark-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(245,240,232,0.5);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
   }
   .hero-eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
@@ -712,6 +763,76 @@
     line-height: 1.7;
   }
 
+  /* FOOTER */
+  footer {
+    background: #060610;
+    color: rgba(245,240,232,0.6);
+    padding: 60px 60px 36px;
+    border-top: 1px solid rgba(45,127,249,0.15);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    margin-bottom: 40px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .footer-brand em { font-style: italic; color: var(--blue); font-weight: 500; }
+  .footer-tagline {
+    font-size: 14px;
+    color: rgba(245,240,232,0.5);
+    max-width: 360px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+    text-align: right;
+  }
+  .footer-contact-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+    margin-bottom: 4px;
+  }
+  .footer-contact a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .footer-contact a:hover { color: var(--blue); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(245,240,232,0.35);
+    letter-spacing: 0.08em;
+  }
+  .footer-meta span { color: var(--blue); }
+
   /* TABLET */
   @media (max-width: 1024px) and (min-width: 769px) {
     nav { padding: 0 32px; }
@@ -795,6 +916,20 @@
     .closing { padding: 72px 24px 64px; }
     .closing h2 { font-size: 32px; }
     .closing p { font-size: 15px; }
+
+    .nav-divider, .nav-sub { display: none; }
+    .hero-mark { gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+    .hero-mark-brand { font-size: 16px; }
+    .hero-mark-line { width: 24px; }
+    .hero-mark-tag { font-size: 10px; }
+
+    footer { padding: 48px 24px 28px; }
+    .footer-top { grid-template-columns: 1fr; gap: 28px; margin-bottom: 28px; padding-bottom: 24px; }
+    .footer-contact { align-items: flex-start; text-align: left; }
+    .footer-brand { font-size: 22px; }
+    .footer-tagline { font-size: 13px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .footer-meta { font-size: 10px; }
   }
 
   @media (max-width: 420px) {
@@ -808,7 +943,11 @@
 <body>
 
 <nav>
-  <div class="nav-logo">Propuesta <em>Click It</em></div>
+  <div class="nav-logo">
+    <div class="nav-brand">Dilema <em>Creative</em></div>
+    <div class="nav-divider"></div>
+    <div class="nav-sub">Propuesta Click It</div>
+  </div>
   <div class="nav-links">
     <a href="#diagnostico">Diagnóstico</a>
     <a href="#canales">Canales</a>
@@ -820,6 +959,11 @@
 
 <!-- HERO -->
 <div class="hero">
+  <div class="hero-mark">
+    <span class="hero-mark-brand">Dilema <em>Creative</em></span>
+    <span class="hero-mark-line"></span>
+    <span class="hero-mark-tag">para Click It</span>
+  </div>
   <div class="hero-eyebrow">Click It · Propuesta 2026</div>
   <h1>Hoy venden por <em>Mercado Libre</em>.<br>El paso siguiente es vender<br>como una <em>marca propia</em>.</h1>
   <p class="hero-sub">Click It tiene el producto, la tienda armada y el inicio de una marca. Lo que falta es generar demanda fuera del marketplace: gente que los busque por nombre, gente nueva que los descubra y clientes que vuelvan. Esto se hace con tres canales que trabajan juntos.</p>
@@ -1376,6 +1520,26 @@
   <h2>El producto <em>vende</em><br>en Mercado Libre.<br>Ahora hay que hacer<br>que vendan <em>como marca</em>.</h2>
   <p>Click It ya tiene los productos, la tienda y el inicio de una identidad. Lo que falta es la maquinaria para que esa marca crezca con tráfico propio, base de clientes propia y reglas de juego propias. Es el momento de salir del marketplace y sumarlo como un canal más, no el único.</p>
 </div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Dilema <em>Creative</em></div>
+      <div class="footer-tagline">Agencia de marketing digital especializada en Meta Ads, Google Ads, Mercado Ads y Email Marketing. Pocos clientes, máximo servicio.</div>
+    </div>
+    <div class="footer-contact">
+      <div class="footer-contact-label">Contacto</div>
+      <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a>
+      <a href="https://dilemacreative.ar" target="_blank">dilemacreative.ar</a>
+      <a href="https://instagram.com/dilemacreative" target="_blank">@dilemacreative</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-meta">Dilema Creative <span>·</span> 2026 <span>·</span> Propuesta para Click It</div>
+    <div class="footer-meta">Buenos Aires <span>·</span> Argentina</div>
+  </div>
+</footer>
 
 </body>
 </html>
