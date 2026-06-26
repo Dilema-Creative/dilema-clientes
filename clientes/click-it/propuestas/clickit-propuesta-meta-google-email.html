@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Click It · Propuesta Meta + Google + Email Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0A12;
+    --ink-soft: #181828;
+    --blue: #2D7FF9;
+    --blue-deep: #1B5BC4;
+    --gold: #F2B647;
+    --cream: #F5F0E8;
+    --paper: #FBF7F0;
+    --paper-2: #EFE8D9;
+    --white: #ffffff;
+    --text: #14161A;
+    --ash: #6B6257;
+    --line: #D9CFBC;
+    --bad: #B23A2B;
+    --good: #2F7D5E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10, 10, 18, 0.97);
+    backdrop-filter: blur(12px);
+    padding: 0 48px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(45,127,249,0.2);
+  }
+  .nav-logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+  }
+  .nav-logo em { font-style: italic; color: var(--blue); font-weight: 500; }
+  .nav-logo sup { color: var(--gold); font-size: 0.6em; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: rgba(245,240,232,0.5);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--blue); }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding: 140px 60px 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -60px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(45,127,249,0.16) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(45,127,249,0.4), transparent);
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(45,127,249,0.12);
+    border: 1px solid rgba(45,127,249,0.28);
+    border-radius: 4px;
+    padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue);
+    margin-bottom: 32px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--blue);
+    border-radius: 50%;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(44px, 6vw, 76px);
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    max-width: 880px;
+    margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--blue);
+    font-weight: 400;
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: rgba(245,240,232,0.6);
+    max-width: 640px;
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero-pill {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 7px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(245,240,232,0.65);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* SECTIONS */
+  section { padding: 80px 60px; }
+  section.alt { background: var(--cream); }
+  section.dark { background: var(--ink); color: var(--cream); }
+
+  .section-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+    margin-bottom: 14px;
+  }
+  section.dark .section-kicker { color: var(--blue); }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    max-width: 760px;
+    margin-bottom: 16px;
+  }
+  .section-title em { font-style: italic; color: var(--blue-deep); }
+  section.dark .section-title { color: var(--cream); }
+  section.dark .section-title em { color: var(--blue); }
+
+  .section-desc {
+    font-size: 16px;
+    color: var(--ash);
+    max-width: 680px;
+    margin-bottom: 52px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  section.dark .section-desc { color: rgba(245,240,232,0.6); }
+
+  /* DIAGNÓSTICO */
+  .diag-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--line);
+    margin-bottom: 24px;
+  }
+  .diag-col { padding: 32px; }
+  .diag-col:first-child { border-right: 1px solid var(--line); background: #F1F6EE; }
+  .diag-col:last-child { background: #FAEDEA; }
+  .diag-col-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .diag-col:first-child .diag-col-head { color: var(--good); }
+  .diag-col:last-child .diag-col-head { color: var(--bad); }
+  .diag-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .diag-list li {
+    font-size: 14.5px;
+    color: var(--text);
+    padding-left: 22px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .diag-col:first-child .diag-list li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--good); font-weight: 700;
+  }
+  .diag-col:last-child .diag-list li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--bad); font-weight: 700;
+  }
+
+  /* THREE CHANNELS BLOCK */
+  .channels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+  }
+  .channel {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 32px;
+    position: relative;
+  }
+  .channel::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--blue);
+  }
+  .channel:nth-child(2)::before { background: var(--gold); }
+  .channel:nth-child(3)::before { background: var(--blue-deep); }
+  .channel-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+    margin-bottom: 12px;
+  }
+  .channel-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .channel-goal {
+    font-size: 14px;
+    color: var(--ash);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .channel-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .channel-list li {
+    font-size: 13.5px;
+    color: var(--ash);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .channel-list li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--blue-deep); font-weight: 700; font-size: 13px;
+  }
+
+  /* PHASES */
+  .phases { display: flex; flex-direction: column; gap: 0; position: relative; }
+  .phases::before {
+    content: '';
+    position: absolute;
+    left: 27px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--blue) 0%, rgba(45,127,249,0.1) 100%);
+  }
+  .phase {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .phase:last-child { border-bottom: none; }
+  .phase-num {
+    width: 56px; height: 56px;
+    background: var(--cream);
+    border: 2px solid var(--blue);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--blue-deep);
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .phase-week {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+    margin-bottom: 6px;
+  }
+  .phase-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .phase-desc {
+    font-size: 15px;
+    color: var(--ash);
+    margin-bottom: 16px;
+    line-height: 1.65;
+    max-width: 720px;
+  }
+  .phase-items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .phase-item {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 4px 12px;
+    font-size: 12px;
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.04em;
+  }
+
+  /* TIENDA NUBE OPT */
+  .tn-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .tn-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 28px;
+    position: relative;
+  }
+  .tn-card-head {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .tn-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--ink);
+    color: var(--blue);
+    padding: 4px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.08em;
+  }
+  .tn-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+  }
+  .tn-issue {
+    font-size: 14px;
+    color: var(--bad);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .tn-issue strong { color: var(--bad); font-weight: 600; }
+  .tn-fix {
+    font-size: 14px;
+    color: var(--ash);
+    line-height: 1.65;
+    border-top: 1px dashed var(--line);
+    padding-top: 12px;
+  }
+  .tn-fix strong { color: var(--good); font-weight: 600; }
+
+  /* NEEDS GRID */
+  .needs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .need-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 22px;
+  }
+  .need-icon { font-size: 22px; margin-bottom: 10px; }
+  .need-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .need-desc { font-size: 13px; color: var(--ash); line-height: 1.55; }
+
+  /* INCLUDED */
+  .included-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .included-col {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 28px;
+  }
+  .included-col-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .col-badge {
+    background: var(--ink);
+    color: var(--blue);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+  }
+  .col-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .included-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .included-list li {
+    font-size: 14px;
+    color: var(--ash);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .included-list li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--blue-deep); font-weight: 700; font-size: 13px;
+  }
+
+  /* PORTAL CALLOUT */
+  .portal-box {
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 6px;
+    padding: 36px;
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 32px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .portal-box::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -40px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(45,127,249,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .portal-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .portal-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 28px;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    margin-bottom: 14px;
+    position: relative;
+  }
+  .portal-title em { font-style: italic; color: var(--blue); }
+  .portal-desc {
+    font-size: 14.5px;
+    color: rgba(245,240,232,0.7);
+    line-height: 1.7;
+    margin-bottom: 18px;
+    position: relative;
+  }
+  .portal-points {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+  }
+  .portal-points li {
+    font-size: 13.5px;
+    color: rgba(245,240,232,0.75);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .portal-points li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--blue); font-weight: 700;
+  }
+  .portal-mock {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(45,127,249,0.2);
+    border-radius: 6px;
+    padding: 18px;
+    position: relative;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(245,240,232,0.6);
+  }
+  .portal-mock-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .portal-mock-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--good);
+    margin-right: 6px;
+  }
+  .portal-mock-rows { display: flex; flex-direction: column; gap: 8px; }
+  .portal-mock-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0;
+  }
+  .portal-mock-row span:last-child {
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  /* OPT GRID */
+  .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .opt-card {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 28px;
+    background: var(--white);
+  }
+  .opt-icon { font-size: 22px; margin-bottom: 14px; }
+  .opt-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 18px;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .opt-desc { font-size: 14px; color: var(--ash); line-height: 1.65; }
+
+  /* PRICING */
+  .pricing-wrap {
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 18px;
+  }
+  .pricing-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 32px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .pricing-card.featured {
+    border-color: var(--blue);
+    background: rgba(45,127,249,0.08);
+  }
+  .pricing-card.featured::before {
+    content: 'Recomendado';
+    position: absolute;
+    top: -12px; left: 24px;
+    background: var(--blue);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 3px;
+  }
+  .pricing-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 10.5px;
+    color: rgba(245,240,232,0.5);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .pricing-price {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 48px;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .pricing-price span {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(245,240,232,0.4);
+    letter-spacing: -0.01em;
+  }
+  .pricing-note {
+    font-size: 13px;
+    color: rgba(245,240,232,0.45);
+    margin-bottom: 22px;
+    font-style: italic;
+    min-height: 38px;
+  }
+  .pricing-divider { height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 20px; }
+  .pricing-list { list-style: none; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+  .pricing-list li {
+    font-size: 13.5px;
+    color: rgba(245,240,232,0.7);
+    padding-left: 22px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .pricing-list li::before { content: '✓'; position: absolute; left: 0; color: var(--blue); font-weight: 700; }
+  .invest-note {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 22px;
+    font-size: 14px;
+    color: rgba(245,240,232,0.6);
+    line-height: 1.7;
+    max-width: 980px;
+    margin: 24px auto 0;
+  }
+  .invest-note strong { color: rgba(245,240,232,0.9); }
+
+  /* CLOSING */
+  .closing {
+    background: var(--ink);
+    padding: 100px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .closing::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 700px; height: 400px;
+    background: radial-gradient(ellipse, rgba(45,127,249,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .closing h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(34px, 5vw, 58px);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    color: var(--cream);
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .closing h2 em { font-style: italic; color: var(--blue); font-weight: 400; }
+  .closing p {
+    font-size: 16px;
+    color: rgba(245,240,232,0.5);
+    max-width: 560px;
+    margin: 0 auto 48px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* TABLET */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    nav { padding: 0 32px; }
+    .hero { padding: 120px 40px 80px; }
+    .hero h1 { font-size: 56px; }
+    section { padding: 64px 40px; }
+    .channels { grid-template-columns: 1fr; gap: 16px; }
+    .included-grid { grid-template-columns: 1fr; gap: 16px; }
+    .opt-grid { grid-template-columns: 1fr 1fr; }
+    .pricing-wrap { grid-template-columns: 1fr; gap: 20px; max-width: 560px; }
+    .portal-box { grid-template-columns: 1fr; gap: 24px; }
+    .closing { padding: 80px 40px; }
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; height: 52px; }
+    .nav-links { display: none; }
+    .nav-logo { font-size: 14px; }
+
+    .hero { padding: 88px 24px 64px; }
+    .hero-eyebrow { font-size: 9.5px; padding: 5px 11px; margin-bottom: 24px; }
+    .hero h1 { font-size: 38px; letter-spacing: -0.025em; margin-bottom: 18px; }
+    .hero-sub { font-size: 15px; margin-bottom: 32px; }
+    .hero-pill { font-size: 9.5px; padding: 6px 12px; }
+
+    section { padding: 56px 24px; }
+    .section-kicker { font-size: 9.5px; }
+    .section-title { font-size: 30px; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .section-desc { font-size: 15px; margin-bottom: 36px; }
+
+    .diag-grid { grid-template-columns: 1fr; }
+    .diag-col { padding: 24px; }
+    .diag-col:first-child { border-right: none; border-bottom: 1px solid var(--line); }
+    .diag-list li { font-size: 14px; }
+
+    .channels { grid-template-columns: 1fr; gap: 14px; }
+    .channel { padding: 24px; }
+    .channel-title { font-size: 20px; }
+
+    .phases::before { left: 19px; }
+    .phase { grid-template-columns: 40px 1fr; gap: 16px; padding: 24px 0; }
+    .phase-num { width: 40px; height: 40px; font-size: 12px; }
+    .phase-title { font-size: 18px; }
+    .phase-desc { font-size: 14px; }
+    .phase-item { font-size: 11px; padding: 4px 10px; }
+
+    .tn-grid { grid-template-columns: 1fr; gap: 14px; }
+    .tn-card { padding: 22px; }
+    .tn-title { font-size: 16px; }
+
+    .needs-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .need-card { padding: 18px; }
+    .need-icon { font-size: 20px; margin-bottom: 8px; }
+    .need-title { font-size: 14px; }
+    .need-desc { font-size: 12.5px; }
+
+    .included-grid { grid-template-columns: 1fr; gap: 14px; }
+    .included-col { padding: 22px; }
+    .included-col-header { margin-bottom: 16px; padding-bottom: 12px; }
+    .col-badge { font-size: 9.5px; }
+    .col-title { font-size: 14px; }
+    .included-list li { font-size: 13px; }
+
+    .portal-box { grid-template-columns: 1fr; padding: 24px; }
+    .portal-title { font-size: 22px; }
+    .portal-desc { font-size: 13.5px; }
+
+    .opt-grid { grid-template-columns: 1fr; gap: 12px; }
+    .opt-card { padding: 22px; }
+    .opt-title { font-size: 17px; }
+    .opt-desc { font-size: 13.5px; }
+
+    .pricing-wrap { grid-template-columns: 1fr; gap: 16px; }
+    .pricing-card { padding: 26px 22px; }
+    .pricing-price { font-size: 38px; }
+    .pricing-price span { font-size: 16px; }
+    .pricing-list li { font-size: 13px; }
+    .invest-note { font-size: 13px; padding: 18px; }
+
+    .closing { padding: 72px 24px 64px; }
+    .closing h2 { font-size: 32px; }
+    .closing p { font-size: 15px; }
+  }
+
+  @media (max-width: 420px) {
+    .hero h1 { font-size: 32px; }
+    .needs-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 27px; }
+    .pricing-price { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Propuesta <em>Click It</em></div>
+  <div class="nav-links">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#canales">Canales</a>
+    <a href="#tienda">Tienda</a>
+    <a href="#incluye">Qué incluye</a>
+    <a href="#inversion">Inversión</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Click It · Propuesta 2026</div>
+  <h1>Hoy venden por <em>Mercado Libre</em>.<br>El paso siguiente es vender<br>como una <em>marca propia</em>.</h1>
+  <p class="hero-sub">Click It tiene el producto, la tienda armada y el inicio de una marca. Lo que falta es generar demanda fuera del marketplace: gente que los busque por nombre, gente nueva que los descubra y clientes que vuelvan. Esto se hace con tres canales que trabajan juntos.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">Google Ads</span>
+    <span class="hero-pill">Meta Ads</span>
+    <span class="hero-pill">Email Marketing</span>
+    <span class="hero-pill">Optimización Tiendanube</span>
+  </div>
+</div>
+
+<!-- DIAGNÓSTICO -->
+<section id="diagnostico">
+  <div class="section-kicker">00 · Diagnóstico inicial</div>
+  <h2 class="section-title">Lo que vemos<br>desde <em>afuera</em>.</h2>
+  <p class="section-desc">Antes de proponer nada, leemos a Click It como la leería un cliente potencial. Esto es lo que encontramos al analizar la tienda Tiendanube, el Instagram y la presencia digital actual.</p>
+
+  <div class="diag-grid">
+    <div class="diag-col">
+      <div class="diag-col-head">Lo que funciona</div>
+      <ul class="diag-list">
+        <li>Catálogo nicho con productos prácticos y testeados: soporte celular para moto, trípode con luz, adaptador CarPlay, localizador bluetooth</li>
+        <li>Tiendanube armada y operativa, con dominio propio funcionando</li>
+        <li>Bio y posicionamiento claro: "productos simples, prácticos y testeados"</li>
+        <li>Pasarela de pago activa con 3 cuotas sin interés y 10% off por transferencia</li>
+        <li>Envío gratis a todo CABA ya configurado</li>
+        <li>WhatsApp visible como canal de contacto</li>
+        <li>Operación funcionando hoy en Mercado Libre, lo que significa que el producto valida y los procesos están aceitados</li>
+      </ul>
+    </div>
+    <div class="diag-col">
+      <div class="diag-col-head">Lo que falta construir</div>
+      <ul class="diag-list">
+        <li>Sin pauta activa en Meta ni en Google: el tráfico a la tienda depende 100% del Instagram orgánico (70 seguidores) y del SEO genérico</li>
+        <li>Sin email marketing ni captura de base propia: cada visita que no compra hoy se pierde para siempre</li>
+        <li>Tiendanube sin las palancas clave de conversión activadas (top bar, combos, promos visibles, popup de captura)</li>
+        <li>3 de 6 productos del catálogo aparecen sin stock, lo que rompe la experiencia al recorrer la tienda</li>
+        <li>Demanda activa en Google sin capturar: alguien busca "soporte celular moto" hoy y los encuentra a la competencia</li>
+        <li>Toda la venta concentrada en Mercado Libre: comisión alta, sin data del comprador y sin construir marca</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 3 CANALES -->
+<section class="alt" id="canales">
+  <div class="section-kicker">01 · Tres canales que se complementan</div>
+  <h2 class="section-title">Cada canal cumple<br>un <em>rol distinto</em>.</h2>
+  <p class="section-desc">No proponemos canales sueltos. Google captura la demanda que ya existe, Meta construye la marca y la base de clientes nueva, y Email Marketing recupera y reactiva. Trabajan juntos sobre la misma operación.</p>
+
+  <div class="channels">
+    <div class="channel">
+      <div class="channel-tag">Canal 01</div>
+      <div class="channel-title">Google Ads</div>
+      <div class="channel-goal">Capturar la demanda activa. Hoy hay personas buscando estos productos en Google. Aparecer ahí con Shopping y Search es la vía más directa para sumar ventas con CPA bajo desde el primer mes.</div>
+      <ul class="channel-list">
+        <li>Google Shopping con feed conectado a Tiendanube</li>
+        <li>Search por intención: "soporte celular moto", "trípode con luz", "adaptador CarPlay"</li>
+        <li>Performance Max apuntando a la tienda</li>
+        <li>Campañas de marca para no perder tráfico que ya los busca</li>
+        <li>Remarketing dinámico de productos vistos</li>
+      </ul>
+    </div>
+    <div class="channel">
+      <div class="channel-tag">Canal 02</div>
+      <div class="channel-title">Meta Ads</div>
+      <div class="channel-goal">Trabaja sobre dos frentes que no se mezclan: construir comunidad y marca, y testear ángulos de venta directa. Los 70 seguidores actuales se vuelven 5.000 y la pauta encuentra qué ángulo convierte mejor.</div>
+      <ul class="channel-list">
+        <li>Campaña de tráfico al perfil con contenido específico para sumar seguidores reales</li>
+        <li>Campaña de ventas testeando ángulos: beneficios, dolores, comparación, uso real</li>
+        <li>Catalog ads con feed de Tiendanube</li>
+        <li>Retargeting a visitas que no compraron</li>
+        <li>Lookalike sobre base de compradores y suscriptores</li>
+      </ul>
+    </div>
+    <div class="channel">
+      <div class="channel-tag">Canal 03</div>
+      <div class="channel-title">Email Marketing</div>
+      <div class="channel-goal">El canal con mejor ROI cuando la base se construye bien. Cada visita que llega a la tienda y no compra es una oportunidad de capturarla y recuperarla. Funciona automatizado en segundo plano.</div>
+      <ul class="channel-list">
+        <li>Popup de captura con descuento de bienvenida</li>
+        <li>Automatización de carrito abandonado (recuperación 8 a 15%)</li>
+        <li>Bienvenida con secuencia de 3 emails sobre marca y productos</li>
+        <li>Newsletter quincenal con lanzamientos y promos</li>
+        <li>Reactivación de inactivos cada 60 días</li>
+        <li>Post-compra: cross-sell y review request</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- TIENDANUBE OPT -->
+<section id="tienda">
+  <div class="section-kicker">02 · Optimización Tiendanube</div>
+  <h2 class="section-title">La tienda <em>convierte</em><br>antes que la pauta.</h2>
+  <p class="section-desc">Antes de poner plata en pauta, hay palancas de la tienda que mueven la conversión sin gastar un peso extra. Comparamos Click It con Moscú Showroom, un caso de Tiendanube que sí tiene estas palancas activadas. Estas son las oportunidades concretas que detectamos.</p>
+
+  <div class="tn-grid">
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">01</span>
+        <div class="tn-title">Top bar de promos siempre visible</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> Las promos (10% off por transferencia, envío gratis CABA, 3 cuotas sin interés) están escondidas en el detalle del producto y en el footer. El visitante que entra al home no las ve.</div>
+      <div class="tn-fix"><strong>Lo que activamos:</strong> Banner superior rotativo y fijo con las tres promos, como hace Moscú. El visitante las ve en cada página y eso baja la fricción para comprar.</div>
+    </div>
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">02</span>
+        <div class="tn-title">Subir el descuento por transferencia</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> 10% off por transferencia. Moscú y la mayoría del ecommerce argentino están en 15%. Una diferencia chica que define si el visitante elige pagar por transfer o se va.</div>
+      <div class="tn-fix"><strong>Lo que activamos:</strong> Subir a 15% (cubre comisión que igual ahorrás respecto a tarjeta), mostrar el precio con transferencia tachado en cada producto del listado, no solo en el detalle.</div>
+    </div>
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">03</span>
+        <div class="tn-title">Combos y bundles</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> No existen combos. Cada producto se vende suelto. El ticket promedio queda en lo que vale un solo gadget.</div>
+      <div class="tn-fix"><strong>Lo que activamos:</strong> Combos como "Pack creador de contenido" (trípode con luz + soporte celular) o "Pack auto" (CarPlay + soporte). Sube el ticket promedio entre 30 y 50% y mejora el ROAS de cualquier campaña.</div>
+    </div>
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">04</span>
+        <div class="tn-title">Popup de captura al entrar</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> No hay popup, no hay newsletter signup, no hay forma de capturar al visitante. Si no compra en esa visita, se pierde.</div>
+      <div class="tn-fix"><strong>Lo que activamos:</strong> Popup con 10% off extra a cambio del email. Construye la base de email marketing desde el primer día de tráfico pago. Sin esto, la pauta paga el mismo cliente dos veces.</div>
+    </div>
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">05</span>
+        <div class="tn-title">Flujo de carrito mejorado</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> Al agregar al carrito el visitante se queda en el detalle del producto, con un texto chico que dice "Ver carrito". Mucha gente no entiende qué pasó y abandona.</div>
+      <div class="tn-fix"><strong>Lo que activamos:</strong> Cart drawer lateral con resumen del carrito y CTA grande "Ir al checkout", como en las tiendas que mejor convierten. Acorta el camino entre agregar y comprar.</div>
+    </div>
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">06</span>
+        <div class="tn-title">Secciones del home</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> El home tiene una sola sección "Destacados" con 5 productos, 3 de ellos sin stock. Da la sensación de catálogo vacío.</div>
+      <div class="tn-fix"><strong>Lo que activamos:</strong> Tres secciones tipo Moscú: "Nuevos", "Más vendidos" y "Combos". Los sin stock al final con etiqueta clara. La tienda se siente activa y con movimiento.</div>
+    </div>
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">07</span>
+        <div class="tn-title">Reseñas y prueba social</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> No hay reseñas visibles en la tienda. La venta de Mercado Libre tiene reputación, pero esa confianza no se traslada al dominio propio.</div>
+      <div class="tn-fix"><strong>Lo que activamos:</strong> App de reviews integrada con post-compra automático por email, importar reseñas de Mercado Libre como prueba social en cada ficha.</div>
+    </div>
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">08</span>
+        <div class="tn-title">Páginas de marca</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> La tienda tiene Inicio, Productos y Contacto. Sin "Quiénes somos", sin política de devolución visible, sin envíos. Faltan señales de marca confiable.</div>
+      <div class="tn-fix"><strong>Lo que activamos:</strong> Página "Quiénes somos" con la historia de Click It, FAQ, política de cambios y devoluciones, y página de envíos. Suma confianza para el cliente que llega por primera vez.</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- METODOLOGÍA -->
+<section class="alt" id="metodologia">
+  <div class="section-kicker">03 · Metodología</div>
+  <h2 class="section-title">Cómo trabajamos,<br><em>paso a paso</em>.</h2>
+  <p class="section-desc">No lanzamos campañas el día uno. Primero dejamos la tienda lista para convertir, configuramos el tracking y armamos la estructura correcta. Después aceleramos con datos reales.</p>
+
+  <div class="phases">
+
+    <div class="phase">
+      <div class="phase-num">1</div>
+      <div class="phase-body">
+        <div class="phase-week">Semana 1</div>
+        <div class="phase-title">Auditoría y ordenamiento de activos</div>
+        <div class="phase-desc">Revisamos Tiendanube, Instagram, Mercado Libre, dominio, métodos de pago, envíos y catálogo completo. Identificamos qué productos son cabecera, cuáles arman combos, y cuáles tienen mejor margen para empujar primero en pauta.</div>
+        <div class="phase-items">
+          <span class="phase-item">Tiendanube</span>
+          <span class="phase-item">Instagram</span>
+          <span class="phase-item">Mercado Libre</span>
+          <span class="phase-item">Catálogo</span>
+          <span class="phase-item">Competencia</span>
+          <span class="phase-item">Márgenes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">2</div>
+      <div class="phase-body">
+        <div class="phase-week">Semana 1 a 2</div>
+        <div class="phase-title">Setup técnico y optimización Tiendanube</div>
+        <div class="phase-desc">Pixel de Meta + CAPI, GA4 con eventos de compra, feed de productos para Google Merchant Center, conexión con la herramienta de email marketing (Mailchimp, Perfit o Klaviyo según volumen). En paralelo, las 8 mejoras de la tienda que listamos arriba.</div>
+        <div class="phase-items">
+          <span class="phase-item">Meta Pixel + CAPI</span>
+          <span class="phase-item">GA4 + Tag Manager</span>
+          <span class="phase-item">Google Merchant Center</span>
+          <span class="phase-item">Feed de productos</span>
+          <span class="phase-item">Email tool integrado</span>
+          <span class="phase-item">Top bar + popup</span>
+          <span class="phase-item">Combos</span>
+          <span class="phase-item">Reseñas + páginas</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">3</div>
+      <div class="phase-body">
+        <div class="phase-week">Semana 2 a 3</div>
+        <div class="phase-title">Estructura de campañas y automatizaciones</div>
+        <div class="phase-desc">Armamos la arquitectura por canal y objetivo. En Google: Shopping, Search, Performance Max y Marca. En Meta: tráfico al perfil, ventas testeando ángulos, catalog y retargeting. En Email: bienvenida, carrito abandonado, post-compra y reactivación. Brief creativo con los productos cabecera.</div>
+        <div class="phase-items">
+          <span class="phase-item">Google · 4 campañas</span>
+          <span class="phase-item">Meta · 4 campañas</span>
+          <span class="phase-item">3 automatizaciones email</span>
+          <span class="phase-item">Brief creatividades</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">4</div>
+      <div class="phase-body">
+        <div class="phase-week">Semana 3 en adelante</div>
+        <div class="phase-title">Lanzamiento y aprendizaje</div>
+        <div class="phase-desc">Lanzamos con presupuesto controlado en los tres canales. Las primeras semanas los algoritmos calibran y empezamos a identificar qué campañas, ángulos y productos traccionan mejor. El primer mes es de aprendizaje, lo aclaramos antes para que no haya sorpresas con el ROAS inicial.</div>
+        <div class="phase-items">
+          <span class="phase-item">Launch Google</span>
+          <span class="phase-item">Launch Meta</span>
+          <span class="phase-item">Email activo</span>
+          <span class="phase-item">Monitoreo diario</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-num">5</div>
+      <div class="phase-body">
+        <div class="phase-week">Mes 1 en adelante · Ritmo continuo</div>
+        <div class="phase-title">Optimización semanal + Reporte mensual</div>
+        <div class="phase-desc">Cada semana: ajustes de puja, rotación de creativos, revisión de audiencias, análisis de qué ángulos y productos convierten más. Cada mes: reporte claro con resultados por canal, CPA, ROAS y ticket promedio. Más una reunión para revisar qué venimos haciendo, qué viene en el mes y dónde reasignar inversión.</div>
+        <div class="phase-items">
+          <span class="phase-item">Revisión semanal</span>
+          <span class="phase-item">Reporte mensual</span>
+          <span class="phase-item">Reunión mensual</span>
+          <span class="phase-item">Refresh creativos</span>
+          <span class="phase-item">Test continuo de ángulos</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- QUÉ INCLUYE -->
+<section id="incluye">
+  <div class="section-kicker">04 · Qué incluye el servicio</div>
+  <h2 class="section-title">Todo lo que <em>entra</em><br>cuando trabajamos juntos.</h2>
+  <p class="section-desc">Cubrimos los tres canales con la profundidad que cada uno necesita. Setup técnico, estructura completa, optimización continua, reportes y reunión mensual. Más el portal de cliente con datos en vivo.</p>
+
+  <div class="included-grid">
+    <div class="included-col">
+      <div class="included-col-header">
+        <div class="col-badge">Google Ads</div>
+        <div class="col-title">Demanda activa</div>
+      </div>
+      <ul class="included-list">
+        <li>Setup completo de Google Ads + Merchant Center</li>
+        <li>Feed de productos conectado a Tiendanube</li>
+        <li>Configuración de conversiones</li>
+        <li>Shopping + Search + Performance Max + Marca</li>
+        <li>Remarketing dinámico</li>
+        <li>Optimización semanal de pujas y keywords</li>
+        <li>Negativas y refinamiento continuo</li>
+      </ul>
+    </div>
+    <div class="included-col">
+      <div class="included-col-header">
+        <div class="col-badge">Meta Ads</div>
+        <div class="col-title">Marca + ventas</div>
+      </div>
+      <ul class="included-list">
+        <li>Setup completo de BM, Pixel y CAPI</li>
+        <li>Catálogo conectado a Tiendanube</li>
+        <li>Campaña de tráfico al perfil para crecer</li>
+        <li>Campaña de ventas con test de ángulos</li>
+        <li>Catalog Ads + retargeting de carrito</li>
+        <li>Lookalikes sobre base propia</li>
+        <li>Brief y rotación de creatividades</li>
+      </ul>
+    </div>
+    <div class="included-col">
+      <div class="included-col-header">
+        <div class="col-badge">Email Marketing</div>
+        <div class="col-title">Recuperación + fidelización</div>
+      </div>
+      <ul class="included-list">
+        <li>Conexión con herramienta (Mailchimp / Perfit / Klaviyo)</li>
+        <li>Popup de captura en la tienda</li>
+        <li>Automatización de carrito abandonado</li>
+        <li>Secuencia de bienvenida</li>
+        <li>Newsletter quincenal con copy y diseño</li>
+        <li>Post-compra: review request y cross-sell</li>
+        <li>Reactivación de inactivos</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PORTAL DE CLIENTE -->
+  <div class="portal-box">
+    <div>
+      <div class="portal-tag">Bonus · Portal de cliente</div>
+      <div class="portal-title">Datos en vivo de las campañas,<br><em>sin esperar al reporte</em>.</div>
+      <div class="portal-desc">Cuando trabajamos con un cliente lo damos de alta en nuestro portal interno. Ahí ven en vivo las métricas de las campañas, sin tener que esperar al reporte de fin de mes ni pedir capturas por WhatsApp. El mismo dato que vemos nosotros lo ve Click It.</div>
+      <ul class="portal-points">
+        <li>Inversión, ROAS y CPA del mes en curso</li>
+        <li>Comparativa contra mes anterior</li>
+        <li>Métricas por campaña y por canal</li>
+        <li>Datos de email marketing integrados</li>
+        <li>Acceso desde web o celular</li>
+      </ul>
+    </div>
+    <div class="portal-mock">
+      <div class="portal-mock-bar">
+        <div><span class="portal-mock-dot"></span>portal.dilemacreative.ar</div>
+        <div>live</div>
+      </div>
+      <div class="portal-mock-rows">
+        <div class="portal-mock-row"><span>Inversión mes</span><span>ARS 480k</span></div>
+        <div class="portal-mock-row"><span>Ventas atribuidas</span><span>ARS 2.1M</span></div>
+        <div class="portal-mock-row"><span>ROAS</span><span>4.37x</span></div>
+        <div class="portal-mock-row"><span>CPA promedio</span><span>ARS 3.2k</span></div>
+        <div class="portal-mock-row"><span>Email · CTR</span><span>3.8%</span></div>
+        <div class="portal-mock-row"><span>Carrito recup.</span><span>11.4%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIEMPRE INCLUIDO -->
+  <div class="included-col" style="background: var(--white); margin-top: 30px;">
+    <div class="included-col-header">
+      <div class="col-badge" style="background: var(--blue-deep); color: white;">Siempre incluido</div>
+      <div class="col-title">Gestión, reportes y comunicación</div>
+    </div>
+    <ul class="included-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <li>Optimización semanal de todas las campañas activas</li>
+      <li>Reporte mensual con resultados, lectura y próximos pasos</li>
+      <li>Reunión mensual de estrategia por Meet</li>
+      <li>Portal de cliente con datos en vivo (24/7)</li>
+      <li>WhatsApp directo para consultas o ajustes urgentes</li>
+      <li>Sugerencias de mejoras aunque no estén en el contrato</li>
+      <li>Refresh de creatividades cuando la frecuencia sube</li>
+      <li>Acompañamiento en lanzamientos de nuevos productos</li>
+    </ul>
+  </div>
+</section>
+
+<!-- QUÉ NECESITAMOS -->
+<section class="alt" id="necesitamos">
+  <div class="section-kicker">05 · Qué necesitamos de su lado</div>
+  <h2 class="section-title">Lo que precisamos<br><em>para arrancar</em>.</h2>
+  <p class="section-desc">No es mucho, pero sí es necesario. Con estos activos podemos configurar todo desde el primer día y arrancar sin trabarnos en accesos.</p>
+
+  <div class="needs-grid">
+    <div class="need-card">
+      <div class="need-icon">🔑</div>
+      <div class="need-title">Acceso Tiendanube</div>
+      <div class="need-desc">Usuario con permisos para editar tienda, instalar apps y configurar tracking. Sin esto no podemos optimizar la tienda ni conectar el feed.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">📊</div>
+      <div class="need-title">Acceso Google Ads / Merchant</div>
+      <div class="need-desc">Si existen las cuentas, acceso de administrador. Si no, las creamos nosotros vinculadas al dominio.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">📱</div>
+      <div class="need-title">Business Manager Meta</div>
+      <div class="need-desc">Acceso al BM y a la cuenta publicitaria. Si no hay BM, lo armamos en la primera semana y vinculamos el perfil de Instagram.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">📈</div>
+      <div class="need-title">Datos de Mercado Libre</div>
+      <div class="need-desc">Productos top en ventas, ticket promedio, márgenes y temporalidad. Nos ayuda a priorizar qué empujar primero fuera del marketplace.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">🖼️</div>
+      <div class="need-title">Material visual</div>
+      <div class="need-desc">Fotos y videos de productos en uso, no solo de catálogo. Lo que falte lo briefeamos para que se produzca con foco en pauta.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">💬</div>
+      <div class="need-title">WhatsApp Business</div>
+      <div class="need-desc">Activo y atendido. Lo conectamos a campañas de consulta y al post-venta de carrito abandonado.</div>
+    </div>
+  </div>
+</section>
+
+<!-- RITMO -->
+<section id="ritmo">
+  <div class="section-kicker">06 · Ritmo de trabajo</div>
+  <h2 class="section-title">No se arma<br>y se <em>olvida</em>.</h2>
+  <p class="section-desc">El trabajo real empieza después del lanzamiento. La optimización continua sobre los tres canales es lo que separa una campaña promedio de un sistema que escala mes a mes.</p>
+
+  <div class="opt-grid">
+    <div class="opt-card">
+      <div class="opt-icon">⚙️</div>
+      <div class="opt-title">Optimización semanal</div>
+      <div class="opt-desc">Cada semana revisamos ROAS, CPA, frecuencia, ángulos creativos y palabras clave. Pausamos lo que no convierte, escalamos lo que sí. Las decisiones se toman con datos, no con intuición.</div>
+    </div>
+    <div class="opt-card">
+      <div class="opt-icon">📊</div>
+      <div class="opt-title">Reporte mensual</div>
+      <div class="opt-desc">Cada mes, reporte claro por canal: inversión, ventas atribuidas, ROAS, CPA, ticket promedio, top productos y top creativos. No solo números, también la interpretación de qué pasó y qué ajustamos.</div>
+    </div>
+    <div class="opt-card">
+      <div class="opt-icon">📞</div>
+      <div class="opt-title">Reunión mensual</div>
+      <div class="opt-desc">Una reunión por mes para revisar resultados juntos, entender qué traccionó más, qué lanzamientos vienen y actualizar la estrategia. Vos decidís, nosotros traemos datos y contexto.</div>
+    </div>
+    <div class="opt-card">
+      <div class="opt-icon">💡</div>
+      <div class="opt-title">Sugerencias continuas</div>
+      <div class="opt-desc">Si vemos algo que mejoraría los resultados aunque no esté en el contrato, lo decimos. Cambios en la tienda, nuevas creatividades, oportunidades en TikTok, ideas de captura. Es parte de cómo trabajamos.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INVERSIÓN -->
+<section class="dark" id="inversion">
+  <div class="section-kicker">07 · Inversión</div>
+  <h2 class="section-title">Tres formas<br>de <em>arrancar</em>.</h2>
+  <p class="section-desc">Tres paquetes según con qué nivel de inversión quieren empezar. El fee cubre lo que describimos arriba: setup, estructura, optimización semanal, reportes y portal de cliente. La inversión en plataforma (lo que se le paga a Meta, Google y Email Marketing) va aparte y se define juntos.</p>
+
+  <div class="pricing-wrap">
+
+    <div class="pricing-card">
+      <div class="pricing-name">Canal único</div>
+      <div class="pricing-price">USD 300<span>/mes</span></div>
+      <div class="pricing-note">Arrancar por un solo canal (Meta o Google). Mismo nivel de gestión, un solo frente.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Setup técnico completo del canal elegido</li>
+        <li>Estructura de campañas según objetivo</li>
+        <li>Optimización semanal</li>
+        <li>Reporte mensual + reunión mensual</li>
+        <li>Portal de cliente con datos en vivo</li>
+        <li>Sugerencias continuas</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="pricing-name">Paquete Integral · Recomendado</div>
+      <div class="pricing-price">USD 700<span>/mes</span></div>
+      <div class="pricing-note">Los tres canales gestionados en simultáneo + optimización Tiendanube incluida en el setup.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Setup completo Google + Meta + Email</li>
+        <li>Las 8 mejoras de Tiendanube incluidas</li>
+        <li>Estructura completa de campañas en los 3 canales</li>
+        <li>4 automatizaciones de email funcionando</li>
+        <li>Newsletter quincenal con copy y diseño</li>
+        <li>Optimización semanal sobre todo</li>
+        <li>Reporte mensual + reunión + portal</li>
+        <li>Brief de creatividades + acompañamiento</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-name">Captación demanda</div>
+      <div class="pricing-price">USD 500<span>/mes</span></div>
+      <div class="pricing-note">Meta + Google trabajando juntos. Sin email marketing en esta etapa.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Setup completo Meta + Google</li>
+        <li>Estructura de campañas en ambos canales</li>
+        <li>Catalog Ads + Shopping</li>
+        <li>Optimización semanal sobre ambos</li>
+        <li>Reporte mensual + reunión mensual</li>
+        <li>Portal de cliente con datos en vivo</li>
+        <li>Brief de creatividades</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="invest-note">
+    <strong>Inversión en plataforma (aparte del fee):</strong> es lo que Meta y Google cobran directamente por mostrar los anuncios, más el costo de la herramienta de email marketing. Para una marca nueva con catálogo enfocado como Click It, un punto de partida razonable para tener datos reales en el primer mes está entre <strong>ARS 600.000 y 1.200.000 totales</strong>, repartidos entre los canales. Lo definimos juntos en función del objetivo de facturación. Email marketing arranca desde USD 15 a USD 30 al mes en herramienta según volumen de contactos.
+  </div>
+</section>
+
+<!-- CIERRE -->
+<div class="closing">
+  <h2>El producto <em>vende</em><br>en Mercado Libre.<br>Ahora hay que hacer<br>que vendan <em>como marca</em>.</h2>
+  <p>Click It ya tiene los productos, la tienda y el inicio de una identidad. Lo que falta es la maquinaria para que esa marca crezca con tráfico propio, base de clientes propia y reglas de juego propias. Es el momento de salir del marketplace y sumarlo como un canal más, no el único.</p>
+</div>
+
+</body>
+</html>
