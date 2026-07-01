@@ -350,40 +350,53 @@ const SEMANAS = [
   [28,29,30],
 ];
 
-// Meta - Julio 2026. Estructura post-audit 29/06: Branding e Interaccion fuera (sin spend real).
-// Distribucion 28/23/3/15/16/15 (total 100%). El 2% que ocupaba Branding en junio se redistribuyo a MaxConv-GRAL y ASC.
+// Meta - Julio 2026. Fuente real: Google Sheet 11nVgOLFf1K8D3LCo8m5x72Mh9KmopYe3IERW-VaHmHg,
+// tab "Distribucion" (leida por el workflow n8n "Frizata - Budget Diario Meta (Auto)", id fURXnkYgn8qNCi5Y).
+// Los pesos NO tienen que sumar 100: el codigo del workflow los normaliza solo sobre lo que queda
+// despues de restar el override fijo de Hunting (ver huntingOverrideFor). Branding e Interaccion
+// no tienen fila en el sheet (sin spend real hace semanas).
+const HUNTING_NAME = 'DC | Psp - Adv+';
+
+function huntingOverrideFor(idx, metaTotalDelDia){
+  // dow: 0=Dom,1=Lun,2=Mar,3=Mie,4=Jue,5=Vie,6=Sab. Julio 2026 dia 1 = miercoles (dow 3).
+  const dow=(3+idx)%7;
+  if(dow===6) return {amount:80000, label:'Sabado fijo $80.000'};
+  if(dow===0){
+    const minH=100000,maxH=144000,minM=400000,maxM=800000;
+    const r=Math.max(0,Math.min(1,(metaTotalDelDia-minM)/(maxM-minM)));
+    const amt=Math.round(minH+(maxH-minH)*r);
+    return {amount:amt, label:'Domingo dinamico $'+amt.toLocaleString('es-AR')};
+  }
+  return {amount:135000, label:'Lun-Vie fijo $135.000'};
+}
+
 const META = [
-  { nombre:'DC | CV-CAT-MaxConv-GRAL',          tipo:'Conv',  badgeClass:'b-blue',  pct:0.28, nivel:'CBO', aboSets:null },
-  { nombre:'DC | CV-ASC-MaxVal-HomeOffice',     tipo:'ASC',   badgeClass:'b-blue',  pct:0.23, nivel:'CBO', aboSets:null },
-  { nombre:'DC | s3X - Rmk - Cv | Farming ExCompradores', tipo:'Rmk', badgeClass:'b-teal', pct:0.03, nivel:'CBO', aboSets:null },
+  { nombre:'DC | CV-CAT-MaxConv-GRAL',          tipo:'Conv',  badgeClass:'b-blue',  weight:27, nivel:'CBO', aboSets:null },
+  { nombre:'DC | CV-ASC-MaxVal-HomeOffice',     tipo:'ASC',   badgeClass:'b-blue',  weight:22, nivel:'CBO', aboSets:null },
+  { nombre:'DC | s3X - Rmk - Cv | Farming ExCompradores', tipo:'Rmk', badgeClass:'b-teal', weight:3, nivel:'CBO', aboSets:null },
   {
     nombre:'DC | s2H - Rmk - Cv | Farming 030 a 365',
-    tipo:'Rmk', badgeClass:'b-teal', pct:0.15, nivel:'ABO',
+    tipo:'Rmk', badgeClass:'b-teal', weight:15, nivel:'ABO',
     aboSets:[
-      { nombre:'Pu 030 a 180',  pctCamp:0.60 },
-      { nombre:'Pu 180 a 365',  pctCamp:0.40 },
+      { nombre:'DC | s2H - Rmk - Cv | Pu 030a180',  pctCamp:0.57 },
+      { nombre:'DC | s2H - Rmk - Cv | Pu180a365',   pctCamp:0.43 },
     ]
   },
   {
-    nombre:'DC | Psp - Adv+ (Hunting)',
-    tipo:'Hunt', badgeClass:'b-amber', pct:0.16, nivel:'ABO',
+    nombre:'DC | s0C - Psp - Cv | Interests | Padres y Compradores Online | BSAS_ROS_CBA',
+    tipo:'Prosp', badgeClass:'b-amber', weight:15, nivel:'ABO',
     aboSets:[
-      { nombre:'Advantage Exc. BBDD',  pctCamp:1.0 },
-    ]
-  },
-  {
-    nombre:'DC | s0C - Psp - Cv | Interests | Padres y Compradores Online',
-    tipo:'Prosp', badgeClass:'b-amber', pct:0.15, nivel:'ABO',
-    aboSets:[
-      { nombre:'Int Padres - BSAS_ROS_CBA',             pctCamp:0.62 },
-      { nombre:'Int Compras online - BSAS_ROS_CBA',     pctCamp:0.38 },
+      { nombre:'DC | s0C - Psp - Cv | Int Padres - BSAS_ROS_CBA',         pctCamp:0.43 },
+      { nombre:'DC | s0C - Psp - Cv | Int Compras online - BSAS_ROS_CBA', pctCamp:0.57 },
     ]
   },
 ];
 
+const SHEET_SUM = META.reduce((s,c)=>s+c.weight,0); // 82 (peso relativo, no %, ver comentario arriba)
+
 // ABO groups para colores
-// Campanas ABO: Farming 030-365 (idx 3), Hunting Adv+ (idx 4), Padres (idx 5)
-const ABO_COLOR_MAP = { 3: 0, 4: 2, 5: 4 };
+// Campanas ABO: Farming 030-365 (idx 3), Padres (idx 4). Hunting es CBO con override fijo, no usa el sheet.
+const ABO_COLOR_MAP = { 3: 0, 4: 2 };
 
 // Google - sin cambios de estructura vs junio. Farming 65%, Hunting 20%, Search Branded 10%, Display 5%
 // SPLIT_GOOGLE bajado a 0.22 desde julio (script v10) para alinear con sheet "N8N - Budget"
@@ -473,6 +486,7 @@ function diffStr(campDiff){
 function render(){
   const dia=getDia();
   const prev=getPrevDia();
+  const diaIdx=getDiaIdx();
   const metaSplit=splitMeta/100;
   const gSplit=1-metaSplit;
   const metaTotal=dia.total*metaSplit;
@@ -516,7 +530,6 @@ function render(){
     </div>`:''}
   `;
 
-  const diaIdx=getDiaIdx();
   const dayOfMonth=diaIdx+1;
   const farmBoost=dayOfMonth<=7?10:20;
   const huntBoost=dia.total>=900000?8:0;
@@ -540,30 +553,50 @@ function render(){
   document.getElementById('metaTotal').textContent=fmt(metaTotal)+' total Meta';
   document.getElementById('googleTotal').textContent=fmt(gTotal)+' total Google base';
 
-  document.getElementById('metaBody').innerHTML=META.map(c=>{
-    const presup=metaTotal*c.pct;
-    const prevPresup=prev?prev.total*metaSplit*c.pct:null;
+  // Hunting: override fijo por dia de semana (bypass del sheet), igual que el codigo del workflow n8n.
+  const hunting=huntingOverrideFor(diaIdx,metaTotal);
+  const baseBudget=metaTotal-hunting.amount;
+  const prevMetaTotal=prev?prev.total*metaSplit:null;
+  const prevHunting=prev?huntingOverrideFor(diaIdx-1,prevMetaTotal):null;
+  const prevBase=prev?(prevMetaTotal-prevHunting.amount):null;
+
+  const huntingPct=(hunting.amount/metaTotal*100);
+  const huntingDiff=prevHunting?hunting.amount-prevHunting.amount:null;
+  let metaRows=`<tr>
+    <td><div class="camp-name">${HUNTING_NAME}<small>${hunting.label} - override, no sigue el % del sheet</small></div></td>
+    <td><span class="badge b-amber">Hunt</span></td>
+    <td><div class="bar-wrap"><span class="pct-val">${huntingPct.toFixed(1)}%</span><div class="bar" style="width:${Math.round(huntingPct*2)}px"></div></div></td>
+    <td><span class="budget-val">${fmt(hunting.amount)}</span></td>
+    <td><span class="badge b-blue">CBO</span></td>
+    <td>${diffStr(huntingDiff)}</td>
+  </tr>`;
+
+  metaRows+=META.map(c=>{
+    const presup=baseBudget*c.weight/SHEET_SUM;
+    const prevPresup=prevBase!==null?prevBase*c.weight/SHEET_SUM:null;
     const cd=prevPresup!==null?presup-prevPresup:null;
+    const pctEff=presup/metaTotal*100;
     return `<tr>
       <td><div class="camp-name">${c.nombre}</div></td>
       <td><span class="badge ${c.badgeClass}">${c.tipo}</span></td>
-      <td><div class="bar-wrap"><span class="pct-val">${fmtPct(c.pct)}</span><div class="bar" style="width:${Math.round(c.pct*200)}px"></div></div></td>
+      <td><div class="bar-wrap"><span class="pct-val">${pctEff.toFixed(1)}%</span><div class="bar" style="width:${Math.round(pctEff*2)}px"></div></div></td>
       <td><span class="budget-val">${fmt(presup)}</span></td>
       <td><span class="badge ${c.nivel==='CBO'?'b-blue':'b-gray'}">${c.nivel}</span></td>
       <td>${diffStr(cd)}</td>
     </tr>`;
   }).join('');
+  document.getElementById('metaBody').innerHTML=metaRows;
 
   let aboRows='';
   META.forEach((c,campIdx)=>{
     if(!c.aboSets) return;
-    const campPresup=metaTotal*c.pct;
+    const campPresup=baseBudget*c.weight/SHEET_SUM;
+    const prevCampPresup=prevBase!==null?prevBase*c.weight/SHEET_SUM:null;
     const colorGroup=ABO_COLOR_MAP[campIdx];
     const tagClass=`abo-camp-tag-${colorGroup}`;
     const campShort=c.nombre.length>36?c.nombre.substring(0,36)+'...':c.nombre;
     c.aboSets.forEach((s,si)=>{
       const adSetPresup=campPresup*s.pctCamp;
-      const prevCampPresup=prev?prev.total*metaSplit*c.pct:null;
       const prevAdSet=prevCampPresup!==null?prevCampPresup*s.pctCamp:null;
       const rowShade=si%2===0?colorGroup:colorGroup+1;
       aboRows+=`<tr class="abo-row-${rowShade}">
