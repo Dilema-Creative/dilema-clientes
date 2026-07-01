@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frizata — Guía de Inversión Diaria · Julio 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f4f0;
+    --surface: #ffffff;
+    --surface2: #f0efe9;
+    --border: #e2e0d8;
+    --border-strong: #c8c6bc;
+    --text: #1a1917;
+    --text-muted: #6b6860;
+    --text-faint: #9e9c96;
+    --accent: #1a56db;
+    --accent-light: #e8effe;
+    --accent-border: #b8ccf8;
+    --teal: #0e7c64;
+    --teal-light: #e6f5f0;
+    --teal-border: #9dd4c6;
+    --amber: #92580a;
+    --amber-light: #fef3e2;
+    --amber-border: #f6cc88;
+    --coral: #a3280e;
+    --coral-light: #fdecea;
+    --coral-border: #f4b8b0;
+    --gray-light: #f0efe9;
+    --gray-border: #d4d2cc;
+    --meta-color: #1877f2;
+    --meta-light: #eaf1fe;
+    --google-color: #4285f4;
+    --google-light: #e8f0fe;
+    --special: #6d28d9;
+    --special-light: #f1ebff;
+    --special-border: #c8b3f3;
+    --font-display: 'Syne', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-display); min-height: 100vh; }
+
+  .special-banner { background: var(--special); color: #fff; text-align: center; padding: 8px 16px; font-family: var(--font-mono); font-size: 12px; font-weight: 500; letter-spacing: .04em; display: none; }
+  .special-banner.visible { display: block; }
+
+  .site-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; position: sticky; top: 0; z-index: 100; }
+  .logo-area { display: flex; align-items: center; gap: 12px; }
+  .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  .logo-text { font-size: 15px; font-weight: 600; letter-spacing: -.02em; }
+  .logo-sub { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); margin-top: 1px; }
+  .header-controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .ctrl-wrap { display: flex; flex-direction: column; gap: 3px; }
+  .ctrl-label { font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: .06em; font-family: var(--font-mono); }
+  select { font-family: var(--font-mono); font-size: 12px; padding: 6px 10px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); cursor: pointer; outline: none; }
+  select:hover { border-color: var(--accent); }
+
+  .main { max-width: 1100px; margin: 0 auto; padding: 28px 24px; }
+
+  .month-overview { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 20px; }
+  .month-overview-title { font-size: 11px; font-family: var(--font-mono); color: var(--text-faint); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 10px; }
+  .budget-bars { display: flex; align-items: flex-end; gap: 3px; height: 48px; }
+  .bbar { flex: 1; border-radius: 2px 2px 0 0; background: var(--accent); opacity: 0.35; cursor: pointer; transition: opacity .15s; }
+  .bbar:hover { opacity: 0.65; }
+  .bbar.active { opacity: 1; }
+  .bbar.special-bar { background: var(--special); opacity: 0.5; }
+  .bbar.special-bar.active { opacity: 1; }
+  .bbar.weekend-bar { opacity: 0.2; }
+  .bbar.weekend-bar.active { opacity: 0.5; }
+  .bar-labels { display: flex; gap: 3px; margin-top: 4px; }
+  .bbar-label { flex: 1; text-align: center; font-family: var(--font-mono); font-size: 8px; color: var(--text-faint); cursor: pointer; }
+  .bbar-label.special-label { color: var(--special); font-weight: 500; }
+  .bbar-label.active-label { color: var(--accent); font-weight: 500; }
+
+  .special-alert { display: none; align-items: flex-start; gap: 12px; background: var(--special-light); border: 1px solid var(--special-border); border-left: 3px solid var(--special); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 20px; }
+  .special-alert.visible { display: flex; }
+  .special-alert-icon { font-size: 20px; flex-shrink: 0; }
+  .special-alert-title { font-size: 13px; font-weight: 600; color: var(--special); margin-bottom: 4px; }
+  .special-alert-text { font-size: 12px; color: var(--text-muted); line-height: 1.6; font-family: var(--font-mono); }
+
+  .day-nav { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 24px; padding: 14px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+  .day-btn { font-family: var(--font-mono); font-size: 11px; padding: 6px 11px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: transparent; color: var(--text-muted); cursor: pointer; transition: all .15s; line-height: 1; position: relative; }
+  .day-btn:hover { border-color: var(--accent-border); color: var(--accent); background: var(--accent-light); }
+  .day-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-light); font-weight: 500; }
+  .day-btn.weekend { opacity: .7; }
+  .day-btn.weekend.active { opacity: 1; }
+  .day-btn.special-day { border-color: var(--special-border); background: var(--special-light); color: var(--special); font-weight: 500; }
+  .day-btn.special-day:hover, .day-btn.special-day.active { border-color: var(--special); background: var(--special-light); color: var(--special); }
+  .day-btn.special-day::after { content: '*'; font-size: 13px; font-weight: 700; position: absolute; top: -4px; right: -2px; color: var(--special); }
+
+  .metric-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+  .metric-card.highlight { border-color: var(--accent-border); background: var(--accent-light); }
+  .metric-card.highlight-teal { border-color: var(--teal-border); background: var(--teal-light); }
+  .metric-card.highlight-special { border-color: var(--special-border); background: var(--special-light); }
+  .mc-label { font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: .06em; font-family: var(--font-mono); margin-bottom: 6px; }
+  .mc-val { font-size: 22px; font-weight: 700; letter-spacing: -.03em; }
+  .mc-val.up { color: var(--teal); }
+  .mc-val.down { color: var(--coral); }
+  .mc-val.neutral { color: var(--text); }
+  .mc-val.special { color: var(--special); }
+  .mc-sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; font-family: var(--font-mono); }
+
+  .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; margin-top: 22px; }
+  .section-icon { width: 28px; height: 28px; border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .section-icon.meta { background: var(--meta-light); }
+  .section-icon.google { background: var(--google-light); }
+  .section-title { font-size: 13px; font-weight: 600; letter-spacing: -.01em; }
+  .section-total { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); margin-left: auto; }
+
+  .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 8px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: var(--surface2); color: var(--text-faint); font-family: var(--font-mono); font-size: 10px; font-weight: 500; padding: 8px 14px; text-align: left; text-transform: uppercase; letter-spacing: .05em; border-bottom: 1px solid var(--border); }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+  .camp-name { font-weight: 500; font-size: 13px; max-width: 280px; }
+  .camp-name small { display: block; font-size: 11px; color: var(--text-faint); font-family: var(--font-mono); font-weight: 400; margin-top: 2px; }
+
+  .badge { display: inline-block; font-family: var(--font-mono); font-size: 10px; padding: 2px 7px; border-radius: 4px; font-weight: 500; white-space: nowrap; }
+  .b-blue { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); }
+  .b-teal { background: var(--teal-light); color: var(--teal); border: 1px solid var(--teal-border); }
+  .b-amber { background: var(--amber-light); color: var(--amber); border: 1px solid var(--amber-border); }
+  .b-gray { background: var(--gray-light); color: var(--text-muted); border: 1px solid var(--gray-border); }
+  .b-coral { background: var(--coral-light); color: var(--coral); border: 1px solid var(--coral-border); }
+
+  .budget-val { font-family: var(--font-mono); font-weight: 500; font-size: 13px; }
+  .pct-val { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); }
+  .bar-wrap { display: flex; align-items: center; gap: 8px; }
+  .bar { height: 4px; border-radius: 2px; background: var(--accent); opacity: .5; min-width: 4px; }
+  .bar.google { background: var(--google-color); }
+  .diff-val { font-family: var(--font-mono); font-size: 12px; }
+  .diff-up { color: var(--teal); }
+  .diff-down { color: var(--coral); }
+  .diff-neutral { color: var(--text-faint); }
+
+  /* ABO color bands */
+  .abo-row-0 td:first-child { border-left: 3px solid #6c8ebf; }
+  .abo-row-1 td:first-child { border-left: 3px solid #6c8ebf; }
+  .abo-row-2 td:first-child { border-left: 3px solid #82b366; }
+  .abo-row-3 td:first-child { border-left: 3px solid #82b366; }
+  .abo-row-4 td:first-child { border-left: 3px solid #d6ae6b; }
+  .abo-color-0 { background: rgba(108,142,191,0.08); }
+  .abo-color-1 { background: rgba(108,142,191,0.04); }
+  .abo-color-2 { background: rgba(130,179,102,0.08); }
+  .abo-color-3 { background: rgba(130,179,102,0.04); }
+  .abo-color-4 { background: rgba(214,174,107,0.08); }
+  .abo-camp-tag-0 { font-size: 10px; display: inline-block; padding: 1px 6px; border-radius: 3px; background: rgba(108,142,191,0.15); color: #3a5f8a; font-family: var(--font-mono); }
+  .abo-camp-tag-2 { font-size: 10px; display: inline-block; padding: 1px 6px; border-radius: 3px; background: rgba(130,179,102,0.15); color: #3d6b28; font-family: var(--font-mono); }
+  .abo-camp-tag-4 { font-size: 10px; display: inline-block; padding: 1px 6px; border-radius: 3px; background: rgba(214,174,107,0.15); color: #7a5a1a; font-family: var(--font-mono); }
+
+  .note-box { display: flex; gap: 10px; align-items: flex-start; background: var(--surface); border: 1px solid var(--amber-border); border-left: 3px solid var(--amber); border-radius: var(--radius); padding: 12px 16px; margin-top: 20px; }
+  .note-box.special-note { border-color: var(--special-border); border-left-color: var(--special); background: var(--special-light); }
+  .note-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+  .note-text { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  .footer { text-align: center; padding: 24px; font-family: var(--font-mono); font-size: 11px; color: var(--text-faint); border-top: 1px solid var(--border); margin-top: 32px; }
+
+  @media (max-width: 680px) {
+    .site-header { padding: 14px 16px; }
+    .main { padding: 16px; }
+    .mc-val { font-size: 18px; }
+    table { font-size: 12px; }
+    th, td { padding: 8px 10px; }
+    .camp-name { max-width: 160px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="specialBanner" class="special-banner">Julio 2026 — pacing semanal activo, control de desvío mensual acordado con José</div>
+
+<header class="site-header">
+  <div class="logo-area">
+    <div class="logo-dot"></div>
+    <div>
+      <div class="logo-text">Frizata — Guía de Inversión Diaria</div>
+      <div class="logo-sub">Dilema Creative · Julio 2026 · Total mes $31.000.000</div>
+    </div>
+  </div>
+  <div class="header-controls">
+    <div class="ctrl-wrap">
+      <span class="ctrl-label">Split Meta / Google</span>
+      <select id="splitSel">
+        <option value="75">75% Meta / 25% Google</option>
+        <option value="78" selected>78% Meta / 22% Google</option>
+        <option value="80">80% Meta / 20% Google</option>
+      </select>
+    </div>
+    <div class="ctrl-wrap">
+      <span class="ctrl-label">Semana</span>
+      <select id="weekSel">
+        <option value="0">Semana 1 — 1 al 7 jul</option>
+        <option value="1">Semana 2 — 8 al 14 jul</option>
+        <option value="2">Semana 3 — 15 al 21 jul</option>
+        <option value="3">Semana 4 — 22 al 28 jul</option>
+        <option value="4">Semana 5 — 29 al 31 jul</option>
+      </select>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <div class="month-overview">
+    <div class="month-overview-title">Visión general julio — click para navegar · días marcados = cambios estructurales</div>
+    <div class="budget-bars" id="budgetBars"></div>
+    <div class="bar-labels" id="barLabels"></div>
+  </div>
+
+  <div id="specialAlert" class="special-alert">
+    <div class="special-alert-icon">!</div>
+    <div class="special-alert-body">
+      <div class="special-alert-title" id="specialAlertTitle">Día con cambio estructural</div>
+      <div class="special-alert-text" id="specialAlertText"></div>
+    </div>
+  </div>
+
+  <div id="dayNav" class="day-nav"></div>
+  <div id="metricStrip" class="metric-strip"></div>
+
+  <div class="section-header">
+    <div class="section-icon meta">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z" fill="#1877f2"/></svg>
+    </div>
+    <div class="section-title">Meta Ads</div>
+    <div class="section-total" id="metaTotal">—</div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:34%">Campaña</th>
+          <th style="width:9%">Tipo</th>
+          <th style="width:9%">% Meta</th>
+          <th style="width:18%">Presupuesto sugerido</th>
+          <th style="width:8%">Nivel</th>
+          <th style="width:22%">vs día anterior</th>
+        </tr>
+      </thead>
+      <tbody id="metaBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-header" style="margin-top:14px">
+    <div class="section-title" style="font-size:12px; color: var(--text-muted);">Desglose ad sets (campañas ABO)</div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:34%">Ad set</th>
+          <th style="width:30%">Campaña</th>
+          <th style="width:20%">Presupuesto ad set</th>
+          <th style="width:16%">% de la campaña</th>
+        </tr>
+      </thead>
+      <tbody id="aboBody"></tbody>
+    </table>
+  </div>
+
+  <div class="section-header">
+    <div class="section-icon google">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+      </svg>
+    </div>
+    <div class="section-title">Google Ads</div>
+    <div class="section-total" id="googleTotal">—</div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th style="width:34%">Campaña</th>
+          <th style="width:9%">Tipo</th>
+          <th style="width:9%">% Google</th>
+          <th style="width:18%">Presupuesto sugerido</th>
+          <th style="width:8%">Estado</th>
+          <th style="width:22%">vs día anterior</th>
+        </tr>
+      </thead>
+      <tbody id="googleBody"></tbody>
+    </table>
+  </div>
+
+  <div id="noteBox" class="note-box">
+    <span class="note-icon">·</span>
+    <span class="note-text" id="noteText"></span>
+  </div>
+  <div id="googleBoostInfo" style="background:var(--google-light);border:1px solid #c9dafc;border-radius:6px;padding:10px 14px;margin-top:10px;font-family:var(--font-mono);font-size:11px;color:#1e5dc4;"></div>
+</main>
+
+<footer class="footer">
+  Dilema Creative · uso interno · Julio 2026 · Script Google v10 · Workflow Meta n8n Railway (fURXnkYgn8qNCi5Y)
+</footer>
+
+<script>
+// Julio 2026: dia 1 = miercoles 1/7
+// dow: 0=Dom,1=Lun,2=Mar,3=Mie,4=Jue,5=Vie,6=Sab
+// Plan diario tomado del script Google Ads v10 (foto Frizata 30/06). Total mes: $31.000.000
+// Dias especiales: 01/07 (arranque + pacing), 04/07 (test cap sabado), 09/07 (deadline rotacion AlwaysOn), 31/07 (cierre mes)
+const SPECIAL_DAYS_IDX = [0, 3, 8, 30];
+
+const DIAS = [
+  {fecha:'mie 01/07', total:1200000, wd:false, special:1, nota:'Arranque de julio. Plan pactado con Jose: $31M mes vs $28.9M de junio, pero con control de desvio. Pacing semanal activo: el acumulado se corrige dia a dia dentro de un margen de +/-15%, sin apagar nunca la pauta. Estructura Meta: 6 campanas activas (Branding e Interaccion quedaron fuera, sin spend real hace semanas). Confirmar que los 3 ads nuevos subidos el 30/06 (Hunting, ASC, ExCompradores) estan corriendo bien.'},
+  {fecha:'jue 02/07', total:1000000, wd:false, special:0, nota:'Segundo dia fuerte de la semana. AlwaysOn-Oct25 sigue con frecuencia alta (4.19 al cierre de junio) - vigilar que no siga subiendo mientras se prepara la rotacion.'},
+  {fecha:'vie 03/07', total:900000,  wd:false, special:0, nota:'Cierre laboral de la semana. Los viernes vienen rindiendo bien en eficiencia (10.11x el 26/06 con bajo spend). No forzar volumen, dejar que el algoritmo capture lo que hay.'},
+  {fecha:'sab 04/07', total:600000,  wd:true,  special:2, nota:'Primer sabado de julio con testeo de recorte. Los ultimos dos sabados de junio dieron ROAS 3.78x y 8.70x (este ultimo con cupon especial del Mundial, no representativo) - el sabado es estructuralmente flojo en Frizata. Bajar el peso de Hunting y Padres este dia, priorizar AlwaysOn y ASC que sostienen mejor el fin de semana.'},
+  {fecha:'dom 05/07', total:900000,  wd:true,  special:0, nota:'Domingo con presupuesto normal. Patron de recompra dominical - Farming 030-365 suele responder bien aca.'},
+  {fecha:'lun 06/07', total:1200000, wd:false, special:0, nota:'Arranca la columna fuerte de la semana (lun-mar-mie). Historicamente estos 3 dias concentran ~48 compras/dia de forma consistente, conviene que el grueso del spend no se recorte aca.'},
+  {fecha:'mar 07/07', total:1200000, wd:false, special:0, nota:'Segundo dia de la columna fuerte. Cierre semana 1: acumulado esperado $7.0M. Chequear gasto real acumulado vs plan y aplicar correccion de pacing si el desvio supera el 10%.'},
+  {fecha:'mie 08/07', total:1200000, wd:false, special:0, nota:'Tercer dia de la columna fuerte, $1.2M. Revisar frecuencia de AlwaysOn - si ya supero 4.5, la rotacion de variantes pasa a prioridad maxima hoy mismo, no esperar al dia 9.'},
+  {fecha:'jue 09/07', total:900000,  wd:false, special:3, nota:'Fecha limite del brief de rotacion AlwaysOn-Oct25 (10 dias desde el audit del 29/06). Confirmar que las 6-8 variantes del carrusel estan en banco y subirlas hoy. Es el ad que mas spend concentra semana a semana ($1.5M+) y no tiene backup.'},
+  {fecha:'vie 10/07', total:900000,  wd:false, special:0, nota:'Dia normal. Monitorear banco creativo de Hunting - los ads del Mundial ya se estan enfriando, sin reemplazo la campana se queda sin combustible.'},
+  {fecha:'sab 11/07', total:600000,  wd:true,  special:0, nota:'Segundo sabado con cap reducido. Comparar ROAS vs el 04/07 para confirmar si el ajuste mejoro la eficiencia del dia.'},
+  {fecha:'dom 12/07', total:900000,  wd:true,  special:0, nota:'Domingo sin eventos especiales conocidos, dia de recompra estandar.'},
+  {fecha:'lun 13/07', total:1200000, wd:false, special:0, nota:'Arranca columna fuerte semana 2. Verificar que las variantes de AlwaysOn subidas el 09/07 ya tengan data (4 dias de aprendizaje).'},
+  {fecha:'mar 14/07', total:1200000, wd:false, special:0, nota:'Cierre semana 2. Acumulado esperado $13.9M. Segundo chequeo de pacing - con dos semanas de historial ya se puede proyectar si el mes cierra dentro del margen acordado con Jose.'},
+  {fecha:'mie 15/07', total:1200000, wd:false, special:0, nota:'Mitad de mes. Reportar a Jose el avance vs plan si el desvio acumulado supera el 15%.'},
+  {fecha:'jue 16/07', total:1000000, wd:false, special:0, nota:'Revisar performance de Hunting Adv+ con las variantes nuevas - objetivo es sostener el ROAS arriba de 4x mientras se recupera volumen.'},
+  {fecha:'vie 17/07', total:900000,  wd:false, special:0, nota:'Cierre laboral normal.'},
+  {fecha:'sab 18/07', total:600000,  wd:true,  special:0, nota:'Tercer sabado con cap reducido. Si el ROAS bajo se sigue repitiendo pese al recorte, evaluar bajar aun mas o directamente pausar Hunting y Padres los sabados.'},
+  {fecha:'dom 19/07', total:900000,  wd:true,  special:0, nota:'Domingo, recompra estandar.'},
+  {fecha:'lun 20/07', total:1200000, wd:false, special:0, nota:'Arranca columna fuerte semana 3.'},
+  {fecha:'mar 21/07', total:1200000, wd:false, special:0, nota:'Cierre semana 3. Acumulado esperado $20.9M. Tercer chequeo de pacing.'},
+  {fecha:'mie 22/07', total:1200000, wd:false, special:0, nota:'Recta final del mes. Sin cambios estructurales previstos salvo que la data de Hunting o AlwaysOn indique lo contrario.'},
+  {fecha:'jue 23/07', total:1000000, wd:false, special:0, nota:'Monitorear frecuencia general de la cuenta - en junio escalo a 5.02 combinado (por overlap de audiencias, no alarma real si cada ad set esta sano).'},
+  {fecha:'vie 24/07', total:900000,  wd:false, special:0, nota:'Cierre laboral.'},
+  {fecha:'sab 25/07', total:600000,  wd:true,  special:0, nota:'Cuarto sabado con cap reducido. Con 3 sabados de historial ya hay data suficiente para decidir si el recorte queda fijo en agosto.'},
+  {fecha:'dom 26/07', total:900000,  wd:true,  special:0, nota:'Domingo, recompra estandar.'},
+  {fecha:'lun 27/07', total:1200000, wd:false, special:0, nota:'Arranca columna fuerte semana 4, ultimos dias fuertes del mes.'},
+  {fecha:'mar 28/07', total:1200000, wd:false, special:0, nota:'Cierre semana 4. Acumulado esperado $27.9M. Cuarto chequeo de pacing, quedan 3 dias de mes para corregir cualquier desvio.'},
+  {fecha:'mie 29/07', total:1200000, wd:false, special:0, nota:'Antepenultimo dia del mes. Dejar correr, sin cambios de ultimo momento salvo emergencia.'},
+  {fecha:'jue 30/07', total:1000000, wd:false, special:0, nota:'Penultimo dia del mes.'},
+  {fecha:'vie 31/07', total:900000,  wd:false, special:4, nota:'Cierre del mes. Verificar acumulado final vs $31M planificado - el compromiso con Jose es un desvio de pauta acotado, sin cortes de campana en ningun momento del mes. Preparar el reporte de julio con foco en: recuperacion de Hunting con banco nuevo, estado de rotacion AlwaysOn, y cumplimiento del pacing semanal.'},
+];
+
+const SEMANAS = [
+  [0,1,2,3,4,5,6],
+  [7,8,9,10,11,12,13],
+  [14,15,16,17,18,19,20],
+  [21,22,23,24,25,26,27],
+  [28,29,30],
+];
+
+// Meta - Julio 2026. Estructura post-audit 29/06: Branding e Interaccion fuera (sin spend real).
+// Distribucion 28/23/3/15/16/15 (total 100%). El 2% que ocupaba Branding en junio se redistribuyo a MaxConv-GRAL y ASC.
+const META = [
+  { nombre:'DC | CV-CAT-MaxConv-GRAL',          tipo:'Conv',  badgeClass:'b-blue',  pct:0.28, nivel:'CBO', aboSets:null },
+  { nombre:'DC | CV-ASC-MaxVal-HomeOffice',     tipo:'ASC',   badgeClass:'b-blue',  pct:0.23, nivel:'CBO', aboSets:null },
+  { nombre:'DC | s3X - Rmk - Cv | Farming ExCompradores', tipo:'Rmk', badgeClass:'b-teal', pct:0.03, nivel:'CBO', aboSets:null },
+  {
+    nombre:'DC | s2H - Rmk - Cv | Farming 030 a 365',
+    tipo:'Rmk', badgeClass:'b-teal', pct:0.15, nivel:'ABO',
+    aboSets:[
+      { nombre:'Pu 030 a 180',  pctCamp:0.60 },
+      { nombre:'Pu 180 a 365',  pctCamp:0.40 },
+    ]
+  },
+  {
+    nombre:'DC | Psp - Adv+ (Hunting)',
+    tipo:'Hunt', badgeClass:'b-amber', pct:0.16, nivel:'ABO',
+    aboSets:[
+      { nombre:'Advantage Exc. BBDD',  pctCamp:1.0 },
+    ]
+  },
+  {
+    nombre:'DC | s0C - Psp - Cv | Interests | Padres y Compradores Online',
+    tipo:'Prosp', badgeClass:'b-amber', pct:0.15, nivel:'ABO',
+    aboSets:[
+      { nombre:'Int Padres - BSAS_ROS_CBA',             pctCamp:0.62 },
+      { nombre:'Int Compras online - BSAS_ROS_CBA',     pctCamp:0.38 },
+    ]
+  },
+];
+
+// ABO groups para colores
+// Campanas ABO: Farming 030-365 (idx 3), Hunting Adv+ (idx 4), Padres (idx 5)
+const ABO_COLOR_MAP = { 3: 0, 4: 2, 5: 4 };
+
+// Google - sin cambios de estructura vs junio. Farming 65%, Hunting 20%, Search Branded 10%, Display 5%
+// SPLIT_GOOGLE bajado a 0.22 desde julio (script v10) para alinear con sheet "N8N - Budget"
+const GOOGLE = [
+  {
+    nombre:'DC_PM_Farming-Alon-Congelados',
+    tipo:'PMax', badgeClass:'b-blue', pct:0.65,
+    estado:'Motor principal', estadoClass:'b-teal',
+    nota:'ROAS ~35x - motor principal. 65% del presupuesto Google. Boost automatico +10%/+20% segun semana del mes (script v10).'
+  },
+  {
+    nombre:'DC_PM_Hunting-Alon',
+    tipo:'PMax', badgeClass:'b-blue', pct:0.20,
+    estado:'Lim. politica', estadoClass:'b-amber',
+    nota:'Limitado por politica en algunos grupos de recursos. 20% del presupuesto + boost automatico +8% en dias fuertes (>= $900k). Revisar restricciones pendientes.'
+  },
+  {
+    nombre:'DC_S_B_Frizata',
+    tipo:'Search', badgeClass:'b-gray', pct:0.10,
+    estado:'Apto', estadoClass:'b-teal',
+    nota:'Branded - siempre activo. 10% base + boost fijo automatico ($8k/$9k/$10k segun nivel de gasto del dia). Nunca recortar.'
+  },
+  {
+    nombre:'DC_D_Rmkt',
+    tipo:'Display', badgeClass:'b-coral', pct:0.05,
+    estado:'Lim. presupuesto', estadoClass:'b-coral',
+    nota:'ROAS bajo - 5% del presupuesto, mantiene presencia de remarketing pero sin boost ni escalado.'
+  },
+];
+
+const SPECIAL_MSGS = {
+  1:'Arranque de julio + pacing semanal activo. Estructura Meta con 6 campanas (Branding e Interaccion fuera). Plan diario tomado del script Google v10, total mes $31M.',
+  2:'Test de cap reducido en sabado. Bajar peso de Hunting y Padres, priorizar AlwaysOn y ASC que sostienen mejor el fin de semana.',
+  3:'Deadline rotacion AlwaysOn-Oct25. Confirmar 6-8 variantes del carrusel en banco y subirlas hoy.',
+  4:'Cierre del mes. Verificar acumulado final vs $31M y preparar reporte de julio.'
+};
+
+const SPECIAL_TITLES = {
+  1:'Dia 1 - Arranque de julio + pacing activo',
+  2:'Dia 4 - Test de cap reducido en sabado',
+  3:'Dia 9 - Deadline rotacion AlwaysOn',
+  4:'Dia 31 - Cierre del mes'
+};
+
+let currentWeek = 0;
+let currentDayIdx = 0;
+let splitMeta = 78;
+
+function fmt(n) {
+  return new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(Math.round(n));
+}
+function fmtPct(p){ return Math.round(p*100)+'%'; }
+function getDiaIdx(){ return SEMANAS[currentWeek][currentDayIdx]; }
+function getDia(){ return DIAS[getDiaIdx()]; }
+function getPrevDia(){ const di=getDiaIdx(); return di>0?DIAS[di-1]:null; }
+
+function renderOverview(){
+  const maxB=Math.max(...DIAS.map(d=>d.total));
+  const currentDi=getDiaIdx();
+  document.getElementById('budgetBars').innerHTML=DIAS.map((d,i)=>{
+    const h=Math.round((d.total/maxB)*48);
+    let cls='bbar';
+    if(d.special) cls+=' special-bar';
+    else if(d.wd) cls+=' weekend-bar';
+    if(i===currentDi) cls+=' active';
+    let sw=-1,si=-1;
+    SEMANAS.forEach((sem,wi)=>sem.forEach((di2,j)=>{ if(di2===i){sw=wi;si=j;} }));
+    return `<div class="${cls}" style="height:${h}px" onclick="jumpToDay(${sw},${si})" title="${d.fecha} - ${fmt(d.total)}"></div>`;
+  }).join('');
+  document.getElementById('barLabels').innerHTML=DIAS.map((d,i)=>{
+    const day=i+1;
+    let cls='bbar-label';
+    if(d.special) cls+=' special-label';
+    if(i===currentDi) cls+=' active-label';
+    let sw=-1,si=-1;
+    SEMANAS.forEach((sem,wi)=>sem.forEach((di2,j)=>{ if(di2===i){sw=wi;si=j;} }));
+    return `<div class="${cls}" onclick="jumpToDay(${sw},${si})">${day}</div>`;
+  }).join('');
+}
+
+function diffStr(campDiff){
+  if(campDiff===null) return '<span class="diff-val diff-neutral">-</span>';
+  if(Math.abs(campDiff)<500) return '<span class="diff-val diff-neutral">= sin cambio</span>';
+  return `<span class="diff-val ${campDiff>0?'diff-up':'diff-down'}">${campDiff>0?'↑':'↓'} ${fmt(Math.abs(campDiff))}</span>`;
+}
+
+function render(){
+  const dia=getDia();
+  const prev=getPrevDia();
+  const metaSplit=splitMeta/100;
+  const gSplit=1-metaSplit;
+  const metaTotal=dia.total*metaSplit;
+  const gTotal=dia.total*gSplit;
+  const prevMeta=prev?prev.total*metaSplit:null;
+  const metaDiff=prevMeta!==null?metaTotal-prevMeta:0;
+
+  const banner=document.getElementById('specialBanner');
+  const alert=document.getElementById('specialAlert');
+  if(dia.special){
+    banner.classList.add('visible');
+    alert.classList.add('visible');
+    document.getElementById('specialAlertTitle').textContent=SPECIAL_TITLES[dia.special]||'Dia con cambio estructural';
+    document.getElementById('specialAlertText').textContent=SPECIAL_MSGS[dia.special]||'';
+  } else {
+    banner.classList.remove('visible');
+    alert.classList.remove('visible');
+  }
+
+  const isSp=dia.special;
+  document.getElementById('metricStrip').innerHTML=`
+    <div class="metric-card${isSp?' highlight-special':''}">
+      <div class="mc-label">${isSp?'Dia especial &middot; ':''}Total del dia</div>
+      <div class="mc-val ${isSp?'special':'neutral'}">${fmt(dia.total)}</div>
+      <div class="mc-sub">${dia.fecha}</div>
+    </div>
+    <div class="metric-card highlight">
+      <div class="mc-label">Meta (${splitMeta}%)</div>
+      <div class="mc-val neutral">${fmt(metaTotal)}</div>
+      <div class="mc-sub">6 campanas activas</div>
+    </div>
+    <div class="metric-card highlight-teal">
+      <div class="mc-label">Google (${100-splitMeta}%)</div>
+      <div class="mc-val neutral">${fmt(gTotal)}</div>
+      <div class="mc-sub">4 campanas activas (base)</div>
+    </div>
+    ${prev?`<div class="metric-card">
+      <div class="mc-label">Cambio vs ayer (Meta)</div>
+      <div class="mc-val ${metaDiff>0?'up':metaDiff<0?'down':'neutral'}">${metaDiff===0?'=':(metaDiff>0?'↑':'↓')+' '+fmt(Math.abs(metaDiff))}</div>
+      <div class="mc-sub">desde ${fmt(prevMeta)}</div>
+    </div>`:''}
+  `;
+
+  const diaIdx=getDiaIdx();
+  const dayOfMonth=diaIdx+1;
+  const farmBoost=dayOfMonth<=7?10:20;
+  const huntBoost=dia.total>=900000?8:0;
+  const brandBoostFijo=dia.total<700000?8000:(dia.total<1000000?9000:10000);
+  const farmingBase=gTotal*0.65;
+  const huntingBase=gTotal*0.20;
+  const searchBBase=gTotal*0.10;
+  const displayBase=gTotal*0.05;
+  const farmingFinal=farmingBase*(1+farmBoost/100);
+  const huntingFinal=huntingBase*(1+huntBoost/100);
+  const searchBFinal=searchBBase+brandBoostFijo;
+  const gTotalReal=farmingFinal+huntingFinal+searchBFinal+displayBase;
+  const pctReal=((gTotalReal/dia.total)*100).toFixed(1);
+  document.getElementById('googleBoostInfo').innerHTML=
+    `<strong style="color:var(--google-color);">Script Google v10 aplicara boosts hoy:</strong> `+
+    `Farming +${farmBoost}% (${dayOfMonth<=7?'semana 1':'semana 2+'}) &rarr; ${fmt(farmingFinal)} &middot; `+
+    `Hunting ${huntBoost>0?'+'+huntBoost+'% (dia >= $900k) &rarr; '+fmt(huntingFinal):'sin boost (dia < $900k) &rarr; '+fmt(huntingBase)} &middot; `+
+    `Search Brand +${fmt(brandBoostFijo)} fijo &rarr; ${fmt(searchBFinal)}. `+
+    `Total Google real &asymp; ${fmt(gTotalReal)} (${pctReal}% del dia, base era ${100-splitMeta}%).`;
+
+  document.getElementById('metaTotal').textContent=fmt(metaTotal)+' total Meta';
+  document.getElementById('googleTotal').textContent=fmt(gTotal)+' total Google base';
+
+  document.getElementById('metaBody').innerHTML=META.map(c=>{
+    const presup=metaTotal*c.pct;
+    const prevPresup=prev?prev.total*metaSplit*c.pct:null;
+    const cd=prevPresup!==null?presup-prevPresup:null;
+    return `<tr>
+      <td><div class="camp-name">${c.nombre}</div></td>
+      <td><span class="badge ${c.badgeClass}">${c.tipo}</span></td>
+      <td><div class="bar-wrap"><span class="pct-val">${fmtPct(c.pct)}</span><div class="bar" style="width:${Math.round(c.pct*200)}px"></div></div></td>
+      <td><span class="budget-val">${fmt(presup)}</span></td>
+      <td><span class="badge ${c.nivel==='CBO'?'b-blue':'b-gray'}">${c.nivel}</span></td>
+      <td>${diffStr(cd)}</td>
+    </tr>`;
+  }).join('');
+
+  let aboRows='';
+  META.forEach((c,campIdx)=>{
+    if(!c.aboSets) return;
+    const campPresup=metaTotal*c.pct;
+    const colorGroup=ABO_COLOR_MAP[campIdx];
+    const tagClass=`abo-camp-tag-${colorGroup}`;
+    const campShort=c.nombre.length>36?c.nombre.substring(0,36)+'...':c.nombre;
+    c.aboSets.forEach((s,si)=>{
+      const adSetPresup=campPresup*s.pctCamp;
+      const prevCampPresup=prev?prev.total*metaSplit*c.pct:null;
+      const prevAdSet=prevCampPresup!==null?prevCampPresup*s.pctCamp:null;
+      const rowShade=si%2===0?colorGroup:colorGroup+1;
+      aboRows+=`<tr class="abo-row-${rowShade}">
+        <td style="border-left:3px solid ${colorGroup===0?'#6c8ebf':colorGroup===2?'#82b366':'#d6ae6b'}">${s.nombre}</td>
+        <td><span class="${tagClass}">${campShort}</span></td>
+        <td><span class="budget-val">${fmt(adSetPresup)}</span></td>
+        <td><span class="pct-val">${Math.round(s.pctCamp*100)}%</span></td>
+      </tr>`;
+    });
+  });
+  document.getElementById('aboBody').innerHTML=aboRows;
+
+  document.getElementById('googleBody').innerHTML=GOOGLE.map(c=>{
+    const presup=gTotal*c.pct;
+    const prevPresup=prev?prev.total*gSplit*c.pct:null;
+    const cd=prevPresup!==null?presup-prevPresup:null;
+    return `<tr>
+      <td><div class="camp-name">${c.nombre}<small>${c.nota}</small></div></td>
+      <td><span class="badge ${c.badgeClass}">${c.tipo}</span></td>
+      <td><div class="bar-wrap"><span class="pct-val">${fmtPct(c.pct)}</span><div class="bar google" style="width:${Math.round(c.pct*200)}px"></div></div></td>
+      <td><span class="budget-val">${fmt(presup)}</span></td>
+      <td><span class="badge ${c.estadoClass}">${c.estado}</span></td>
+      <td>${diffStr(cd)}</td>
+    </tr>`;
+  }).join('');
+
+  const noteBox=document.getElementById('noteBox');
+  if(dia.special){
+    noteBox.classList.add('special-note');
+    document.querySelector('#noteBox .note-icon').textContent='!';
+  } else {
+    noteBox.classList.remove('special-note');
+    document.querySelector('#noteBox .note-icon').textContent='.';
+  }
+  document.getElementById('noteText').textContent=dia.nota;
+
+  renderNav();
+  renderOverview();
+}
+
+function renderNav(){
+  const idxs=SEMANAS[currentWeek];
+  document.getElementById('dayNav').innerHTML=idxs.map((di,j)=>{
+    const d=DIAS[di];
+    let cls='day-btn';
+    if(j===currentDayIdx) cls+=' active';
+    if(d.wd) cls+=' weekend';
+    if(d.special) cls+=' special-day';
+    return `<button class="${cls}" onclick="selectDay(${j})">${d.fecha}</button>`;
+  }).join('');
+}
+
+function selectDay(j){ currentDayIdx=j; render(); }
+function jumpToDay(week,dayIdx){
+  currentWeek=week; currentDayIdx=dayIdx;
+  document.getElementById('weekSel').value=String(week);
+  render();
+}
+
+document.getElementById('splitSel').addEventListener('change',function(){splitMeta=parseInt(this.value);render();});
+document.getElementById('weekSel').addEventListener('change',function(){currentWeek=parseInt(this.value);currentDayIdx=0;renderNav();render();});
+
+window.selectDay=selectDay;
+window.jumpToDay=jumpToDay;
+renderNav();
+render();
+</script>
+</body>
+</html>
