@@ -171,30 +171,30 @@
 </head>
 <body>
 
-<div id="specialBanner" class="special-banner">Julio 2026 — pacing semanal activo, control de desvío mensual acordado con José</div>
+<div id="specialBanner" class="special-banner">Julio 2026 — plan reajustado el 14/07: $31M → $27.6M · split 81/19 desde el 14 · pacing semanal activo</div>
 
 <header class="site-header">
   <div class="logo-area">
     <div class="logo-dot"></div>
     <div>
       <div class="logo-text">Frizata — Guía de Inversión Diaria</div>
-      <div class="logo-sub">Dilema Creative · Julio 2026 · Total mes $31.000.000</div>
+      <div class="logo-sub">Dilema Creative · Julio 2026 · Total mes $27.600.000 (reajustado 14/07, plan original $31M)</div>
     </div>
   </div>
   <div class="header-controls">
     <div class="ctrl-wrap">
       <span class="ctrl-label">Split Meta / Google</span>
       <select id="splitSel">
-        <option value="75">75% Meta / 25% Google</option>
-        <option value="78" selected>78% Meta / 22% Google</option>
-        <option value="80">80% Meta / 20% Google</option>
+        <option value="auto" selected>Plan vigente (78/22 → 81/19 desde el 14)</option>
+        <option value="78">78% Meta / 22% Google</option>
+        <option value="81">81% Meta / 19% Google</option>
       </select>
     </div>
     <div class="ctrl-wrap">
       <span class="ctrl-label">Semana</span>
       <select id="weekSel">
         <option value="0">Semana 1 — 1 al 7 jul</option>
-        <option value="1">Semana 2 — 8 al 14 jul</option>
+        <option value="1" selected>Semana 2 — 8 al 14 jul</option>
         <option value="2">Semana 3 — 15 al 21 jul</option>
         <option value="3">Semana 4 — 22 al 28 jul</option>
         <option value="4">Semana 5 — 29 al 31 jul</option>
@@ -298,15 +298,18 @@
 </main>
 
 <footer class="footer">
-  Dilema Creative · uso interno · Julio 2026 · Script Google v10 · Workflow Meta n8n Railway (fURXnkYgn8qNCi5Y)
+  Dilema Creative · uso interno · Julio 2026 (reajustado 14/07: $27.6M) · Script Google v11 · Workflow Meta n8n Railway (fURXnkYgn8qNCi5Y)
 </footer>
 
 <script>
 // Julio 2026: dia 1 = miercoles 1/7
 // dow: 0=Dom,1=Lun,2=Mar,3=Mie,4=Jue,5=Vie,6=Sab
-// Plan diario tomado del script Google Ads v10 (foto Frizata 30/06). Total mes: $31.000.000
-// Dias especiales: 01/07 (arranque + pacing), 04/07 (test cap sabado), 09/07 (deadline rotacion AlwaysOn), 31/07 (cierre mes)
-const SPECIAL_DAYS_IDX = [0, 3, 8, 30];
+// Plan diario: dias 1-13 plan original ($31M, script v10). Dias 14-31 REAJUSTADOS (pedido Jose 14/07):
+// mes baja a $27.6M, semanas 13-19 y 20-26 a $5.6M/$5.5M, ultimos 5 dias $5.0M, split 78/22 -> 81/19,
+// boosts Google de Farming y Hunting apagados (script v11).
+// Dias especiales: 01/07 (arranque + pacing), 04/07 (test cap sabado), 09/07 (deadline rotacion AlwaysOn),
+// 14/07 (reajuste de plan), 27/07 (arranque tramo final), 31/07 (cierre mes)
+const SPECIAL_DAYS_IDX = [0, 3, 8, 13, 26, 30];
 
 const DIAS = [
   {fecha:'mie 01/07', total:1200000, wd:false, special:1, nota:'Arranque de julio. Plan pactado con Jose: $31M mes vs $28.9M de junio, pero con control de desvio. Pacing semanal activo: el acumulado se corrige dia a dia dentro de un margen de +/-15%, sin apagar nunca la pauta. Estructura Meta: 6 campanas activas (Branding e Interaccion quedaron fuera, sin spend real hace semanas). Confirmar que los 3 ads nuevos subidos el 30/06 (Hunting, ASC, ExCompradores) estan corriendo bien.'},
@@ -322,24 +325,24 @@ const DIAS = [
   {fecha:'sab 11/07', total:600000,  wd:true,  special:0, nota:'Segundo sabado con cap reducido. Comparar ROAS vs el 04/07 para confirmar si el ajuste mejoro la eficiencia del dia.'},
   {fecha:'dom 12/07', total:900000,  wd:true,  special:0, nota:'Domingo sin eventos especiales conocidos, dia de recompra estandar.'},
   {fecha:'lun 13/07', total:1200000, wd:false, special:0, nota:'Arranca columna fuerte semana 2. Verificar que las variantes de AlwaysOn subidas el 09/07 ya tengan data (4 dias de aprendizaje).'},
-  {fecha:'mar 14/07', total:1200000, wd:false, special:0, nota:'Cierre semana 2. Acumulado esperado $13.9M. Segundo chequeo de pacing - con dos semanas de historial ya se puede proyectar si el mes cierra dentro del margen acordado con Jose.'},
-  {fecha:'mie 15/07', total:1200000, wd:false, special:0, nota:'Mitad de mes. Reportar a Jose el avance vs plan si el desvio acumulado supera el 15%.'},
-  {fecha:'jue 16/07', total:1000000, wd:false, special:0, nota:'Revisar performance de Hunting Adv+ con las variantes nuevas - objetivo es sostener el ROAS arriba de 4x mientras se recupera volumen.'},
-  {fecha:'vie 17/07', total:900000,  wd:false, special:0, nota:'Cierre laboral normal.'},
-  {fecha:'sab 18/07', total:600000,  wd:true,  special:0, nota:'Tercer sabado con cap reducido. Si el ROAS bajo se sigue repitiendo pese al recorte, evaluar bajar aun mas o directamente pausar Hunting y Padres los sabados.'},
-  {fecha:'dom 19/07', total:900000,  wd:true,  special:0, nota:'Domingo, recompra estandar.'},
-  {fecha:'lun 20/07', total:1200000, wd:false, special:0, nota:'Arranca columna fuerte semana 3.'},
-  {fecha:'mar 21/07', total:1200000, wd:false, special:0, nota:'Cierre semana 3. Acumulado esperado $20.9M. Tercer chequeo de pacing.'},
-  {fecha:'mie 22/07', total:1200000, wd:false, special:0, nota:'Recta final del mes. Sin cambios estructurales previstos salvo que la data de Hunting o AlwaysOn indique lo contrario.'},
-  {fecha:'jue 23/07', total:1000000, wd:false, special:0, nota:'Monitorear frecuencia general de la cuenta - en junio escalo a 5.02 combinado (por overlap de audiencias, no alarma real si cada ad set esta sano).'},
-  {fecha:'vie 24/07', total:900000,  wd:false, special:0, nota:'Cierre laboral.'},
-  {fecha:'sab 25/07', total:600000,  wd:true,  special:0, nota:'Cuarto sabado con cap reducido. Con 3 sabados de historial ya hay data suficiente para decidir si el recorte queda fijo en agosto.'},
-  {fecha:'dom 26/07', total:900000,  wd:true,  special:0, nota:'Domingo, recompra estandar.'},
-  {fecha:'lun 27/07', total:1200000, wd:false, special:0, nota:'Arranca columna fuerte semana 4, ultimos dias fuertes del mes.'},
-  {fecha:'mar 28/07', total:1200000, wd:false, special:0, nota:'Cierre semana 4. Acumulado esperado $27.9M. Cuarto chequeo de pacing, quedan 3 dias de mes para corregir cualquier desvio.'},
-  {fecha:'mie 29/07', total:1200000, wd:false, special:0, nota:'Antepenultimo dia del mes. Dejar correr, sin cambios de ultimo momento salvo emergencia.'},
-  {fecha:'jue 30/07', total:1000000, wd:false, special:0, nota:'Penultimo dia del mes.'},
-  {fecha:'vie 31/07', total:900000,  wd:false, special:4, nota:'Cierre del mes. Verificar acumulado final vs $31M planificado - el compromiso con Jose es un desvio de pauta acotado, sin cortes de campana en ningun momento del mes. Preparar el reporte de julio con foco en: recuperacion de Hunting con banco nuevo, estado de rotacion AlwaysOn, y cumplimiento del pacing semanal.'},
+  {fecha:'mar 14/07', total:950000,  wd:false, special:5, nota:'REAJUSTE DE PLAN (pedido de Jose): venta acumulada -7% y ACOS 8.5% vs objetivo 8/8.1%. El mes baja de $31M a $27.6M. Esta semana (futbol) y la proxima (cuarta + vacaciones) cierran en $5.6M y $5.5M; los ultimos 5 dias ($5.0M) quedan con la mayor intensidad diaria del tramo final. Split pasa de 78/22 a 81/19: Google se limita proporcionalmente mas que Meta (boosts de Farming y Hunting apagados, script v11). Budgets de hoy aplicados por API el mismo 14/07.'},
+  {fecha:'mie 15/07', total:950000,  wd:false, special:0, nota:'Segundo dia de la columna fuerte al nuevo pace ($950k). Semana de futbol: demanda floja, no forzar volumen. Acumulado esperado $14.6M.'},
+  {fecha:'jue 16/07', total:750000,  wd:false, special:0, nota:'Dia medio recortado. Primer jueves con el pacing corrigiendo contra el nuevo plan semanal ($4.5M Meta): va a descontar lo que lunes y martes corrieron al pace viejo. Acumulado esperado $15.35M.'},
+  {fecha:'vie 17/07', total:650000,  wd:false, special:0, nota:'Cierre laboral a pace reducido.'},
+  {fecha:'sab 18/07', total:450000,  wd:true,  special:0, nota:'Sabado con el cap mas bajo del mes ($450k). Hunting Meta queda fijo en $80k igual que siempre.'},
+  {fecha:'dom 19/07', total:650000,  wd:true,  special:0, nota:'Domingo reducido. Cierre de la semana del futbol: acumulado esperado $17.1M (semana $5.6M).'},
+  {fecha:'lun 20/07', total:950000,  wd:false, special:0, nota:'Arranca la semana mas floja del mes: cuarta categoria + vacaciones de invierno. Columna fuerte al pace recortado.'},
+  {fecha:'mar 21/07', total:950000,  wd:false, special:0, nota:'Segundo dia fuerte de la semana de vacaciones. Acumulado esperado $19.0M.'},
+  {fecha:'mie 22/07', total:950000,  wd:false, special:0, nota:'Tercer dia fuerte. Sin cambios estructurales previstos salvo que la data de Hunting o AlwaysOn indique lo contrario.'},
+  {fecha:'jue 23/07', total:800000,  wd:false, special:0, nota:'Dia medio. Monitorear frecuencia general de la cuenta - en junio escalo a 5.02 combinado (overlap de audiencias, no alarma real si cada ad set esta sano).'},
+  {fecha:'vie 24/07', total:700000,  wd:false, special:0, nota:'Cierre laboral.'},
+  {fecha:'sab 25/07', total:450000,  wd:true,  special:0, nota:'Sabado minimo ($450k), igual que el 18.'},
+  {fecha:'dom 26/07', total:700000,  wd:true,  special:0, nota:'Domingo. Cierre de la semana de vacaciones: acumulado esperado $22.6M (semana $5.5M). Desde manana arranca el tramo final con el fuego guardado.'},
+  {fecha:'lun 27/07', total:1100000, wd:false, special:6, nota:'Arranca el tramo final: 5 dias habiles post-vacaciones con $5.0M ($1M/dia promedio, +27% de intensidad vs las dos semanas flojas). Es el fuego guardado del reajuste del 14/07.'},
+  {fecha:'mar 28/07', total:1100000, wd:false, special:0, nota:'Segundo dia del tramo final. Acumulado esperado $24.8M. Ultimo chequeo de pacing con margen real para corregir.'},
+  {fecha:'mie 29/07', total:1050000, wd:false, special:0, nota:'Tercer dia del tramo final. Dejar correr, sin cambios de ultimo momento salvo emergencia.'},
+  {fecha:'jue 30/07', total:950000,  wd:false, special:0, nota:'Penultimo dia del mes. Acumulado esperado $26.8M.'},
+  {fecha:'vie 31/07', total:800000,  wd:false, special:4, nota:'Cierre del mes. Verificar acumulado final vs $27.6M reajustado (objetivo: ACOS 8/8.1% con venta terminando ~-10%). Preparar reporte de julio con foco en: efecto del reajuste del 14/07, cumplimiento del pacing semanal, y performance de Google post-recorte de boosts.'},
 ];
 
 const SEMANAS = [
@@ -398,26 +401,26 @@ const SHEET_SUM = META.reduce((s,c)=>s+c.weight,0); // 82 (peso relativo, no %, 
 // Campanas ABO: Farming 030-365 (idx 3), Padres (idx 4). Hunting es CBO con override fijo, no usa el sheet.
 const ABO_COLOR_MAP = { 3: 0, 4: 2 };
 
-// Google - sin cambios de estructura vs junio. Farming 65%, Hunting 20%, Search Branded 10%, Display 5%
-// SPLIT_GOOGLE bajado a 0.22 desde julio (script v10) para alinear con sheet "N8N - Budget"
+// Google - estructura 65/20/10/5 sin cambios. SPLIT_GOOGLE: 0.22 hasta el 13/07 (v10),
+// 0.19 desde el 14/07 (v11, reajuste). Boosts de Farming y Hunting apagados desde el 14/07.
 const GOOGLE = [
   {
     nombre:'DC_PM_Farming-Alon-Congelados',
     tipo:'PMax', badgeClass:'b-blue', pct:0.65,
     estado:'Motor principal', estadoClass:'b-teal',
-    nota:'ROAS ~35x - motor principal. 65% del presupuesto Google. Boost automatico +10%/+20% segun semana del mes (script v10).'
+    nota:'ROAS ~35x - motor principal. 65% del presupuesto Google. Boost +10/+20% APAGADO desde el 14/07 (v11): consumia mucho con conversiones en baja.'
   },
   {
     nombre:'DC_PM_Hunting-Alon',
     tipo:'PMax', badgeClass:'b-blue', pct:0.20,
     estado:'Lim. politica', estadoClass:'b-amber',
-    nota:'Limitado por politica en algunos grupos de recursos. 20% del presupuesto + boost automatico +8% en dias fuertes (>= $900k). Revisar restricciones pendientes.'
+    nota:'Limitado por politica en algunos grupos de recursos. 20% del presupuesto. Boost +8% en dias fuertes APAGADO desde el 14/07 (v11).'
   },
   {
     nombre:'DC_S_B_Frizata',
     tipo:'Search', badgeClass:'b-gray', pct:0.10,
     estado:'Apto', estadoClass:'b-teal',
-    nota:'Branded - siempre activo. 10% base + boost fijo automatico ($8k/$9k/$10k segun nivel de gasto del dia). Nunca recortar.'
+    nota:'Branded - siempre activo. 10% base + boost fijo automatico ($8k/$9k/$10k segun nivel de gasto del dia). Unico boost que sigue vivo en v11 (defensa de IS vs competidor). Nunca recortar.'
   },
   {
     nombre:'DC_D_Rmkt',
@@ -428,22 +431,32 @@ const GOOGLE = [
 ];
 
 const SPECIAL_MSGS = {
-  1:'Arranque de julio + pacing semanal activo. Estructura Meta con 6 campanas (Branding e Interaccion fuera). Plan diario tomado del script Google v10, total mes $31M.',
+  1:'Arranque de julio + pacing semanal activo. Estructura Meta con 6 campanas (Branding e Interaccion fuera). Plan original $31M (reajustado el 14/07).',
   2:'Test de cap reducido en sabado. Bajar peso de Hunting y Padres, priorizar AlwaysOn y ASC que sostienen mejor el fin de semana.',
   3:'Deadline rotacion AlwaysOn-Oct25. Confirmar 6-8 variantes del carrusel en banco y subirlas hoy.',
-  4:'Cierre del mes. Verificar acumulado final vs $31M y preparar reporte de julio.'
+  4:'Cierre del mes. Verificar acumulado final vs $27.6M reajustado y preparar reporte de julio.',
+  5:'Reajuste de plan pedido por Jose: mes $31M -> $27.6M, semanas flojas (futbol + vacaciones) a $5.6M/$5.5M, ultimos 5 dias $5.0M. Split 81/19 desde hoy, boosts de Google apagados (script v11).',
+  6:'Arranque del tramo final: 5 dias habiles post-vacaciones con $1M/dia promedio, +27% de intensidad vs las dos semanas flojas.'
 };
 
 const SPECIAL_TITLES = {
   1:'Dia 1 - Arranque de julio + pacing activo',
   2:'Dia 4 - Test de cap reducido en sabado',
   3:'Dia 9 - Deadline rotacion AlwaysOn',
-  4:'Dia 31 - Cierre del mes'
+  4:'Dia 31 - Cierre del mes',
+  5:'Dia 14 - Reajuste de plan ($31M -> $27.6M)',
+  6:'Dia 27 - Arranque del tramo final'
 };
 
-let currentWeek = 0;
-let currentDayIdx = 0;
-let splitMeta = 78;
+let currentWeek = 1;
+let currentDayIdx = 6;
+let splitMeta = 'auto';
+
+// Split del plan vigente: 78/22 hasta el 13/07 (idx 12), 81/19 desde el 14/07 (reajuste)
+function splitFor(idx){
+  if(splitMeta === 'auto') return idx <= 12 ? 0.78 : 0.81;
+  return parseInt(splitMeta) / 100;
+}
 
 function fmt(n) {
   return new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(Math.round(n));
@@ -487,12 +500,14 @@ function render(){
   const dia=getDia();
   const prev=getPrevDia();
   const diaIdx=getDiaIdx();
-  const metaSplit=splitMeta/100;
+  const metaSplit=splitFor(diaIdx);
   const gSplit=1-metaSplit;
+  const prevSplit=prev?splitFor(diaIdx-1):null;
   const metaTotal=dia.total*metaSplit;
   const gTotal=dia.total*gSplit;
-  const prevMeta=prev?prev.total*metaSplit:null;
+  const prevMeta=prev?prev.total*prevSplit:null;
   const metaDiff=prevMeta!==null?metaTotal-prevMeta:0;
+  const splitLabelMeta=Math.round(metaSplit*100);
 
   const banner=document.getElementById('specialBanner');
   const alert=document.getElementById('specialAlert');
@@ -514,12 +529,12 @@ function render(){
       <div class="mc-sub">${dia.fecha}</div>
     </div>
     <div class="metric-card highlight">
-      <div class="mc-label">Meta (${splitMeta}%)</div>
+      <div class="mc-label">Meta (${splitLabelMeta}%)</div>
       <div class="mc-val neutral">${fmt(metaTotal)}</div>
       <div class="mc-sub">6 campanas activas</div>
     </div>
     <div class="metric-card highlight-teal">
-      <div class="mc-label">Google (${100-splitMeta}%)</div>
+      <div class="mc-label">Google (${100-splitLabelMeta}%)</div>
       <div class="mc-val neutral">${fmt(gTotal)}</div>
       <div class="mc-sub">4 campanas activas (base)</div>
     </div>
@@ -531,8 +546,9 @@ function render(){
   `;
 
   const dayOfMonth=diaIdx+1;
-  const farmBoost=dayOfMonth<=7?10:20;
-  const huntBoost=dia.total>=900000?8:0;
+  const boostsOff=dayOfMonth>=14; // reajuste 14/07: script v11 apaga boosts de Farming y Hunting
+  const farmBoost=boostsOff?0:(dayOfMonth<=7?10:20);
+  const huntBoost=boostsOff?0:(dia.total>=900000?8:0);
   const brandBoostFijo=dia.total<700000?8000:(dia.total<1000000?9000:10000);
   const farmingBase=gTotal*0.65;
   const huntingBase=gTotal*0.20;
@@ -544,11 +560,17 @@ function render(){
   const gTotalReal=farmingFinal+huntingFinal+searchBFinal+displayBase;
   const pctReal=((gTotalReal/dia.total)*100).toFixed(1);
   document.getElementById('googleBoostInfo').innerHTML=
+    (boostsOff?
+    `<strong style="color:var(--google-color);">Script Google v11 (reajuste 14/07):</strong> `+
+    `boosts de Farming y Hunting apagados &middot; Farming ${fmt(farmingFinal)} &middot; Hunting ${fmt(huntingFinal)} &middot; `+
+    `Search Brand +${fmt(brandBoostFijo)} fijo (unico boost vivo) &rarr; ${fmt(searchBFinal)}. `
+    :
     `<strong style="color:var(--google-color);">Script Google v10 aplicara boosts hoy:</strong> `+
     `Farming +${farmBoost}% (${dayOfMonth<=7?'semana 1':'semana 2+'}) &rarr; ${fmt(farmingFinal)} &middot; `+
     `Hunting ${huntBoost>0?'+'+huntBoost+'% (dia >= $900k) &rarr; '+fmt(huntingFinal):'sin boost (dia < $900k) &rarr; '+fmt(huntingBase)} &middot; `+
-    `Search Brand +${fmt(brandBoostFijo)} fijo &rarr; ${fmt(searchBFinal)}. `+
-    `Total Google real &asymp; ${fmt(gTotalReal)} (${pctReal}% del dia, base era ${100-splitMeta}%).`;
+    `Search Brand +${fmt(brandBoostFijo)} fijo &rarr; ${fmt(searchBFinal)}. `
+    )+
+    `Total Google real &asymp; ${fmt(gTotalReal)} (${pctReal}% del dia, base ${100-splitLabelMeta}%).`;
 
   document.getElementById('metaTotal').textContent=fmt(metaTotal)+' total Meta';
   document.getElementById('googleTotal').textContent=fmt(gTotal)+' total Google base';
@@ -556,7 +578,7 @@ function render(){
   // Hunting: override fijo por dia de semana (bypass del sheet), igual que el codigo del workflow n8n.
   const hunting=huntingOverrideFor(diaIdx,metaTotal);
   const baseBudget=metaTotal-hunting.amount;
-  const prevMetaTotal=prev?prev.total*metaSplit:null;
+  const prevMetaTotal=prev?prev.total*prevSplit:null;
   const prevHunting=prev?huntingOverrideFor(diaIdx-1,prevMetaTotal):null;
   const prevBase=prev?(prevMetaTotal-prevHunting.amount):null;
 
@@ -611,7 +633,7 @@ function render(){
 
   document.getElementById('googleBody').innerHTML=GOOGLE.map(c=>{
     const presup=gTotal*c.pct;
-    const prevPresup=prev?prev.total*gSplit*c.pct:null;
+    const prevPresup=prev?prev.total*(1-prevSplit)*c.pct:null;
     const cd=prevPresup!==null?presup-prevPresup:null;
     return `<tr>
       <td><div class="camp-name">${c.nombre}<small>${c.nota}</small></div></td>
@@ -656,7 +678,7 @@ function jumpToDay(week,dayIdx){
   render();
 }
 
-document.getElementById('splitSel').addEventListener('change',function(){splitMeta=parseInt(this.value);render();});
+document.getElementById('splitSel').addEventListener('change',function(){splitMeta=this.value;render();});
 document.getElementById('weekSel').addEventListener('change',function(){currentWeek=parseInt(this.value);currentDayIdx=0;renderNav();render();});
 
 window.selectDay=selectDay;
