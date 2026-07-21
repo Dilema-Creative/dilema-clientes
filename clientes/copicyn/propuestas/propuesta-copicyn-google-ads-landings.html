@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copicyn · Propuesta Google Ads + Landing Pages</title>
+<meta name="description" content="Propuesta de Dilema Creative para Copicyn: campañas de Google Ads, 5 landing pages orientadas a conversión y reconstrucción mobile del sitio.">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0C1738;
+    --navy-soft: #12205E;
+    --blue: #314394;
+    --blue-mid: #32528D;
+    --blue-soft: #5A81B3;
+    --blue-pale: #74A0C9;
+    --sky: #6BBBE0;
+    --yellow: #FFD447;
+    --green: #75C5B1;
+    --green-deep: #44A39B;
+    --paper: #F7F9FC;
+    --paper-2: #ECF1F7;
+    --white: #FFFFFF;
+    --text: #16192B;
+    --ash: #5F6880;
+    --line: #D8E1EC;
+    --bad: #C0433A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(12, 23, 56, 0.97);
+    backdrop-filter: blur(12px);
+    padding: 0 48px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(107,187,224,0.22);
+  }
+  .nav-brand {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; font-size: 15px;
+    color: #fff; letter-spacing: -0.01em;
+  }
+  .nav-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .nav-left { display: flex; align-items: center; gap: 14px; }
+  .nav-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.2); }
+  .nav-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 26px; }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: rgba(255,255,255,0.5);
+    text-decoration: none; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--sky); }
+
+  /* ---------- LAYOUT ---------- */
+  section { padding: 100px 60px; }
+  section.alt { background: var(--paper-2); }
+  section.dark { background: var(--navy); color: #fff; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 18px;
+  }
+  .dark .kicker { color: var(--sky); }
+
+  .section-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4.2vw, 44px);
+    line-height: 1.15; letter-spacing: -0.02em;
+    margin-bottom: 22px;
+  }
+  .section-title em { font-style: normal; color: var(--blue); }
+  .dark .section-title em { color: var(--sky); }
+
+  .lead {
+    font-size: clamp(15px, 2vw, 17.5px);
+    color: var(--ash); max-width: 720px; margin-bottom: 48px;
+  }
+  .dark .lead { color: rgba(255,255,255,0.72); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background: var(--navy);
+    padding: 150px 60px 100px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute;
+    top: -140px; right: -80px;
+    width: 620px; height: 620px;
+    background: radial-gradient(circle, rgba(107,187,224,0.20) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(107,187,224,0.45), transparent);
+  }
+  .hero-mark {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 30px; position: relative; flex-wrap: wrap;
+  }
+  .hero-mark-brand {
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: 15px; color: #fff;
+  }
+  .hero-mark-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .hero-mark-line { width: 26px; height: 1px; background: rgba(255,255,255,0.3); }
+  .hero-mark-for {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+  .hero h1 {
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: clamp(32px, 6vw, 62px);
+    line-height: 1.08; letter-spacing: -0.03em;
+    color: #fff; margin-bottom: 30px; position: relative;
+  }
+  .hero h1 em { font-style: normal; color: var(--sky); }
+  .hero-sub {
+    font-size: clamp(15px, 2.2vw, 18px);
+    color: rgba(255,255,255,0.72);
+    max-width: 640px; position: relative; margin-bottom: 44px;
+  }
+  .hero-meta {
+    display: flex; gap: 44px; flex-wrap: wrap;
+    padding-top: 34px; border-top: 1px solid rgba(255,255,255,0.13);
+    position: relative;
+  }
+  .hero-meta-item .hm-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45); margin-bottom: 6px;
+  }
+  .hero-meta-item .hm-value {
+    font-family: 'Poppins', sans-serif; font-weight: 600;
+    font-size: 15px; color: #fff;
+  }
+
+  /* ---------- CARDS ---------- */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+  .card {
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 14px; padding: 30px;
+  }
+  .card-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--blue-soft); letter-spacing: 0.12em; margin-bottom: 14px;
+  }
+  .card h3 {
+    font-family: 'Poppins', sans-serif; font-weight: 600;
+    font-size: 18px; margin-bottom: 10px; letter-spacing: -0.01em;
+  }
+  .card p { font-size: 14.5px; color: var(--ash); }
+
+  /* ---------- FINDINGS ---------- */
+  .find { border-left: 3px solid var(--bad); background: var(--white);
+    border-radius: 0 12px 12px 0; padding: 24px 28px; margin-bottom: 14px;
+    border-top: 1px solid var(--line); border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line); }
+  .find-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+  .find-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--bad); background: rgba(192,67,58,0.09);
+    padding: 3px 9px; border-radius: 4px; white-space: nowrap;
+  }
+  .find h3 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -0.01em; }
+  .find p { font-size: 14.5px; color: var(--ash); }
+  .find .metric {
+    font-family: 'JetBrains Mono', monospace; font-weight: 500;
+    color: var(--bad);
+  }
+
+  /* ---------- TABLE ---------- */
+  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; min-width: 520px; background: var(--white); border-radius: 12px; overflow: hidden; }
+  th {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--blue); text-align: left; padding: 15px 18px;
+    background: var(--paper-2); border-bottom: 1px solid var(--line); font-weight: 500;
+  }
+  td { padding: 15px 18px; font-size: 14.5px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  td strong { font-family: 'Poppins', sans-serif; font-weight: 600; }
+  td .muted { color: var(--ash); font-size: 13.5px; }
+
+  /* ---------- LANDINGS ---------- */
+  .lp { background: var(--white); border: 1px solid var(--line); border-radius: 14px;
+    padding: 26px 28px; display: grid; grid-template-columns: 44px 1fr; gap: 20px;
+    margin-bottom: 14px; align-items: start; }
+  .lp-num {
+    font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 22px;
+    color: var(--white); background: var(--blue);
+    width: 44px; height: 44px; border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .lp h3 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 18px; margin-bottom: 6px; letter-spacing: -0.01em; }
+  .lp p { font-size: 14.5px; color: var(--ash); margin-bottom: 12px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.06em; color: var(--blue-mid);
+    background: var(--paper-2); border: 1px solid var(--line);
+    padding: 4px 10px; border-radius: 20px;
+  }
+
+  /* ---------- STEPS ---------- */
+  .step { display: grid; grid-template-columns: 100px 1fr; gap: 26px;
+    padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .step:last-child { border-bottom: none; }
+  .step-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-soft);
+    padding-top: 4px;
+  }
+  .step h3 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 19px; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .step p { font-size: 14.5px; color: var(--ash); }
+
+  /* ---------- INCLUDE LIST ---------- */
+  .inc-group { margin-bottom: 34px; }
+  .inc-group h3 {
+    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 17px;
+    margin-bottom: 14px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--line); letter-spacing: -0.01em;
+  }
+  .inc-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px 26px; }
+  .inc-list li { font-size: 14.5px; color: var(--ash); padding-left: 20px; position: relative; }
+  .inc-list li::before {
+    content: ''; position: absolute; left: 0; top: 9px;
+    width: 7px; height: 7px; border-radius: 2px; background: var(--green-deep);
+  }
+
+  /* ---------- PRICING ---------- */
+  .price-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-bottom: 22px; }
+  .price-card {
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 16px; padding: 34px 30px; position: relative;
+  }
+  .price-card.featured { border-color: var(--sky); background: rgba(107,187,224,0.09); }
+  .price-badge {
+    position: absolute; top: 18px; right: 20px;
+    font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--navy); background: var(--sky);
+    padding: 4px 10px; border-radius: 20px; font-weight: 500;
+  }
+  .price-type {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--sky); margin-bottom: 14px;
+  }
+  .price-card h3 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 21px; color: #fff; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .price-card > p { font-size: 14px; color: rgba(255,255,255,0.62); margin-bottom: 24px; }
+  .price-num {
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: 40px; color: #fff; letter-spacing: -0.03em; line-height: 1;
+  }
+  .price-num span { font-size: 15px; font-weight: 400; color: rgba(255,255,255,0.6); letter-spacing: 0; }
+  .price-lines { list-style: none; margin-top: 24px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.13); }
+  .price-lines li {
+    font-size: 14px; color: rgba(255,255,255,0.75);
+    display: flex; justify-content: space-between; gap: 16px; padding: 7px 0;
+  }
+  .price-lines li span:last-child {
+    font-family: 'JetBrains Mono', monospace; font-size: 13px;
+    color: #fff; white-space: nowrap;
+  }
+  .note {
+    background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 12px; padding: 24px 28px; font-size: 14.5px;
+    color: rgba(255,255,255,0.75);
+  }
+  .note strong { color: #fff; font-family: 'Poppins', sans-serif; font-weight: 600; }
+
+  /* ---------- CALLOUT ---------- */
+  .callout {
+    background: var(--white); border: 1px solid var(--line);
+    border-left: 3px solid var(--green-deep);
+    border-radius: 0 12px 12px 0; padding: 26px 30px; margin-top: 30px;
+  }
+  .callout h3 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 17px; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .callout p { font-size: 14.5px; color: var(--ash); }
+  .dark .callout { background: rgba(255,255,255,0.045); border-color: rgba(255,255,255,0.13); border-left-color: var(--sky); }
+  .dark .callout h3 { color: #fff; }
+  .dark .callout p { color: rgba(255,255,255,0.72); }
+
+  /* ---------- FUTURE ---------- */
+  .future-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--blue); background: rgba(49,67,148,0.08);
+    border: 1px solid rgba(49,67,148,0.2);
+    padding: 5px 12px; border-radius: 20px; margin-bottom: 18px;
+  }
+
+  /* ---------- CLOSING ---------- */
+  .closing { background: var(--navy); padding: 110px 60px; text-align: center; }
+  .closing h2 {
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: clamp(26px, 4.5vw, 46px); line-height: 1.15;
+    color: #fff; letter-spacing: -0.025em; max-width: 860px; margin: 0 auto;
+  }
+  .closing h2 em { font-style: normal; color: var(--sky); }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    background: #070E22; padding: 48px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px; flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .foot-brand { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 17px; color: #fff; }
+  .foot-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .foot-tag { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .foot-contact {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: rgba(255,255,255,0.5); text-align: right; line-height: 1.9;
+  }
+  .foot-contact a { color: rgba(255,255,255,0.68); text-decoration: none; }
+  .foot-contact a:hover { color: var(--sky); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    nav { padding: 0 22px; }
+    .nav-links { display: none; }
+    section, .hero, .closing { padding-left: 24px; padding-right: 24px; }
+    section { padding-top: 68px; padding-bottom: 68px; }
+    .hero { padding-top: 120px; padding-bottom: 72px; }
+    .closing { padding-top: 80px; padding-bottom: 80px; }
+    .grid-2, .grid-3, .price-grid, .inc-list { grid-template-columns: 1fr; }
+    .step { grid-template-columns: 1fr; gap: 10px; }
+    .hero-meta { gap: 26px; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .foot-contact { text-align: left; }
+  }
+  @media (max-width: 480px) {
+    .lp { grid-template-columns: 1fr; }
+    .lp-num { width: 38px; height: 38px; font-size: 18px; border-radius: 9px; }
+    .price-card { padding: 26px 22px; }
+    .price-num { font-size: 34px; }
+    .find { padding: 20px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <span class="nav-brand">Dilema <em>Creative</em></span>
+    <span class="nav-divider"></span>
+    <span class="nav-sub">Propuesta Copicyn</span>
+  </div>
+  <div class="nav-links">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#google">Google Ads</a>
+    <a href="#landings">Landings</a>
+    <a href="#sitio">Sitio</a>
+    <a href="#inversion">Inversión</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-mark">
+      <span class="hero-mark-brand">Dilema <em>Creative</em></span>
+      <span class="hero-mark-line"></span>
+      <span class="hero-mark-for">para Copicyn</span>
+    </div>
+    <h1>El trabajo ya lo<br>tienen resuelto.<br>Falta que los <em>encuentren</em>.</h1>
+    <p class="hero-sub">
+      Copicyn produce bien y hace años. El problema no está en la imprenta, está en el camino
+      que lleva hasta ella: hoy quien busca lo que ustedes hacen encuentra a otro. Esta propuesta
+      cubre las tres cosas que ese camino necesita: campañas en Google, páginas que conviertan
+      la visita en consulta, y un sitio que funcione en el celular.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hm-label">Alcance</div>
+        <div class="hm-value">Google Ads + 5 Landings + Sitio</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hm-label">Segunda etapa</div>
+        <div class="hm-value">Redes y contenidos</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hm-label">Fecha</div>
+        <div class="hm-value">Julio 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DIAGNÓSTICO ============ -->
+<section id="diagnostico">
+  <div class="wrap">
+    <div class="kicker">01 · Punto de partida</div>
+    <h2 class="section-title">Lo que encontramos<br>al revisar el <em>sitio</em>.</h2>
+    <p class="lead">
+      Antes de escribir esta propuesta auditamos copicyn.com.ar entero: las tres páginas, la hoja
+      de estilos completa, el JavaScript y el peso de cada archivo, uno por uno. No es una impresión
+      general, son hallazgos verificables. Los ponemos primero porque explican por qué la pauta,
+      sola, no alcanzaría.
+    </p>
+
+    <div class="find">
+      <div class="find-head">
+        <span class="find-tag">Crítico</span>
+        <h3>La home pesa alrededor de 74 MB</h3>
+      </div>
+      <p>
+        Entre imágenes y video. Una sola imagen, la de stickers, pesa <span class="metric">10 MB</span>;
+        el primer video del inicio, <span class="metric">22 MB</span>. Una web de referencia pesa entre
+        1 y 2 MB. Con datos móviles en el microcentro, la página no llega a cargar antes de que la
+        persona se vaya. Y Google penaliza la velocidad: con una página lenta, cada clic de publicidad
+        cuesta más caro por el mismo lugar en los resultados.
+      </p>
+    </div>
+
+    <div class="find">
+      <div class="find-head">
+        <span class="find-tag">Crítico</span>
+        <h3>El video de la portada está roto ahora mismo</h3>
+      </div>
+      <p>
+        El sitio pide el archivo <span class="metric">videos/hero-video.mp4</span>, que no existe en el
+        servidor. Los que sí existen son otros tres, que recién carga el JavaScript unos segundos
+        después. Mientras tanto, lo primero que ve cualquier visitante es un rectángulo negro. Si el
+        JavaScript falla, queda negro.
+      </p>
+    </div>
+
+    <div class="find">
+      <div class="find-head">
+        <span class="find-tag">Crítico</span>
+        <h3>No hay ninguna herramienta de medición instalada</h3>
+      </div>
+      <p>
+        Ni Google Analytics, ni Google Tag Manager, ni etiqueta de Google Ads. Verificado en las tres
+        páginas. Hoy es imposible saber cuánta gente entra, de dónde viene o qué mira. Invertir en
+        publicidad sobre esto sería comprar a ciegas: no habría forma de saber qué anuncio trajo qué
+        consulta.
+      </p>
+    </div>
+
+    <div class="find">
+      <div class="find-head">
+        <span class="find-tag">Mobile</span>
+        <h3>El sitio no está adaptado al celular</h3>
+      </div>
+      <p>
+        En más de mil doscientas líneas de estilos hay solo dos reglas para pantallas chicas, y las dos
+        aplican únicamente a la altura del mapa de la página de contacto. No hay menú hamburguesa. En
+        la sección de impresión responsable, la imagen ocupa el 60% del ancho de la pantalla y al texto
+        le quedan unos pocos centímetros. El carrusel de servicios no responde al dedo: no se puede
+        pasar deslizando, solo esperar.
+      </p>
+    </div>
+
+    <div class="find">
+      <div class="find-head">
+        <span class="find-tag">Leads</span>
+        <h3>El formulario no sirve para cotizar</h3>
+      </div>
+      <p>
+        Tiene tres campos: nombre, correo y mensaje. <strong>No pide teléfono</strong>, en un rubro donde
+        se cotiza por WhatsApp. No pregunta qué necesita, ni cuánta cantidad, ni para cuándo, así que
+        la consulta llega sin información para responder. Está montado sobre un servicio gratuito con
+        tope de 50 envíos por mes, y no hay página de gracias, que es exactamente lo que Google Ads
+        necesita para registrar una consulta como resultado.
+      </p>
+    </div>
+
+    <div class="find">
+      <div class="find-head">
+        <span class="find-tag">Google</span>
+        <h3>Google no termina de entender qué venden</h3>
+      </div>
+      <p>
+        El título de la página de inicio es solamente "COPICYN", sin descripción. No hay archivo
+        robots.txt ni mapa del sitio. El sitio está en español pero declarado como inglés en el código.
+        No tiene datos estructurados de negocio local, que es justamente lo que Google usa para mostrar
+        una gráfica de barrio a quien busca cerca. Compartido por WhatsApp, el enlace sale sin imagen
+        ni descripción.
+      </p>
+    </div>
+
+    <div class="callout">
+      <h3>Por qué esto es una buena noticia</h3>
+      <p>
+        Ninguno de estos puntos es un problema de fondo del negocio. Son cosas que se arreglan, y que
+        hoy están frenando resultados que ya deberían estar sucediendo. El tráfico que llegue a un
+        sitio corregido va a rendir bastante más que el mismo tráfico llegando al sitio actual. Por eso
+        la propuesta ordena así: primero se arregla el destino, después se le manda gente.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPORTUNIDAD ============ -->
+<section class="alt" id="oportunidad">
+  <div class="wrap">
+    <div class="kicker">02 · Dónde está la oportunidad</div>
+    <h2 class="section-title">Dos clientes distintos<br>buscan de forma <em>distinta</em>.</h2>
+    <p class="lead">
+      En Google no existe "la gente que busca imprenta". Existen dos comportamientos separados, con
+      palabras distintas, urgencias distintas y tickets distintos. La cuenta se arma respetando esa
+      diferencia, porque mezclarlos es la forma más rápida de gastar mal el presupuesto.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-num">A</div>
+        <h3>El que necesita hoy</h3>
+        <p>
+          Trabaja o pasa por el microcentro y busca desde el celular: tarjetas urgentes, anillado,
+          impresiones, un ploteo para mañana. Decide en minutos y elige por cercanía, precio y
+          rapidez de respuesta. Volumen alto, ticket bajo. Acá se compite en un radio de pocas
+          cuadras, y la posición en el mapa de Google pesa tanto como el anuncio.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">B</div>
+        <h3>El que compra para una empresa</h3>
+        <p>
+          Compra folletería institucional, señalética, material para un evento o una feria, calendarios
+          de fin de año. Busca con términos más específicos, compara proveedores, pide presupuesto por
+          escrito y vuelve cada año. Volumen bajo, ticket alto y recurrente. Acá no gana el más barato,
+          gana el que responde mejor y da más seguridad.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>El activo que hoy no están capitalizando: el FSC</h3>
+      <p>
+        Copicyn trabaja con papeles certificados FSC y lo comunica en la web. Revisamos a los
+        competidores directos de la zona y ninguno lo está usando como argumento comercial en
+        publicidad. A quien encarga cien tarjetas no le mueve la aguja. A quien compra material para
+        una empresa que reporta sostenibilidad le importa mucho, y muchas veces se lo exigen por
+        política interna. Es un diferencial real, ya existente, que hoy no está apareciendo en ninguna
+        búsqueda. Lo vamos a trabajar como eje propio dentro de las campañas dirigidas a empresas.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GOOGLE ADS ============ -->
+<section id="google">
+  <div class="wrap">
+    <div class="kicker">03 · Campañas de Google Ads</div>
+    <h2 class="section-title">Una cuenta ordenada<br>por <em>intención de búsqueda</em>.</h2>
+    <p class="lead">
+      La cuenta arranca de cero, sin historial. Eso condiciona las decisiones técnicas del comienzo:
+      hay que darle a Google datos limpios antes de pedirle que optimice. La estructura es la
+      siguiente.
+    </p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Campaña</th>
+            <th>Para qué</th>
+            <th>Cómo se arma</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Marca</strong></td>
+            <td class="muted">Que quien busca "Copicyn" los encuentre a ustedes y no a un competidor pujando por su nombre.</td>
+            <td class="muted">Presupuesto chico, coincidencia exacta. Es la campaña más barata y la más rentable de la cuenta.</td>
+          </tr>
+          <tr>
+            <td><strong>Alta intención</strong></td>
+            <td class="muted">Capturar a quien ya sabe qué necesita y está eligiendo a quién pedirle presupuesto.</td>
+            <td class="muted">Un grupo de anuncios por familia de servicio, espejando las cinco landings. Coincidencia exacta y de frase.</td>
+          </tr>
+          <tr>
+            <td><strong>Proximidad</strong></td>
+            <td class="muted">Aparecer ante quien busca desde el celular a pocas cuadras del local.</td>
+            <td class="muted">Geolocalizada al microcentro, con horario comercial y llamada directa en el anuncio.</td>
+          </tr>
+          <tr>
+            <td><strong>Empresas / FSC</strong></td>
+            <td class="muted">Llegar a quien compra para una empresa, con el argumento de certificación e impresión responsable.</td>
+            <td class="muted">Términos específicos de compra corporativa. Presupuesto acotado al principio, se escala si responde.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid-3" style="margin-top: 34px;">
+      <div class="card">
+        <div class="card-num">Pujas</div>
+        <h3>Sin objetivos forzados al inicio</h3>
+        <p>
+          Se arranca en "maximizar conversiones", sin fijarle a Google un costo objetivo. En una cuenta
+          nueva, ponerle una meta agresiva desde el día uno le impide aprender y termina frenando la
+          campaña entera.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Palabras</div>
+        <h3>Exactas primero, amplias después</h3>
+        <p>
+          Al comienzo, coincidencia exacta y de frase para controlar en qué se gasta. Con historial
+          suficiente se abre a coincidencia amplia, que hoy es mucho más precisa que hace unos años.
+          Lista de palabras negativas desde el día uno.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Alcance</div>
+        <h3>Performance Max, todavía no</h3>
+        <p>
+          Es la campaña automática que corre en todos los canales de Google. Sin historial de
+          conversiones se come el presupuesto sin rumbo. Se evalúa recién cuando la cuenta tenga datos
+          propios. Preferimos decirlo antes y no venderlo de entrada.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>La consulta principal se mide en WhatsApp, no en el formulario</h3>
+      <p>
+        En este rubro casi nadie completa un formulario largo: escribe por WhatsApp. Por eso el clic al
+        WhatsApp y el clic al teléfono se configuran como conversiones medidas, igual que el envío del
+        formulario. Hoy esos clics no se registran en ningún lado, así que aunque el sitio ya esté
+        generando consultas, no hay forma de saber cuántas ni de dónde vienen. Ese es el primer número
+        que vamos a poder mostrar.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LANDINGS ============ -->
+<section class="alt" id="landings">
+  <div class="wrap">
+    <div class="kicker">04 · Landing pages</div>
+    <h2 class="section-title">Cinco páginas<br>del mismo <em>sistema</em>.</h2>
+    <p class="lead">
+      Mandar toda la publicidad a la página de inicio es el error más caro que se puede cometer en
+      Google Ads: la persona busca algo puntual, aterriza en un lugar genérico y se va. Cada familia de
+      servicio tiene su propia página, y cada página tiene su propio grupo de anuncios. Búsqueda,
+      anuncio y página alineados: eso es lo que mejora la calificación de calidad de Google y baja el
+      costo por clic.
+    </p>
+
+    <div class="lp">
+      <div class="lp-num">1</div>
+      <div>
+        <h3>Tarjetas y papelería comercial</h3>
+        <p>Tarjetas personales, papelería institucional, sobres y membretes. Consulta frecuente y recurrente, con alta competencia en búsqueda.</p>
+        <div class="tags"><span class="tag">tarjetas personales</span><span class="tag">papelería institucional</span><span class="tag">laminado mate</span><span class="tag">350gr</span></div>
+      </div>
+    </div>
+
+    <div class="lp">
+      <div class="lp-num">2</div>
+      <div>
+        <h3>Folletería y material promocional</h3>
+        <p>Flyers, pancartas, calendarios y posavasos. Asociada a campañas puntuales y a temporada de fin de año.</p>
+        <div class="tags"><span class="tag">flyers</span><span class="tag">folletos</span><span class="tag">calendarios</span><span class="tag">posavasos</span></div>
+      </div>
+    </div>
+
+    <div class="lp">
+      <div class="lp-num">3</div>
+      <div>
+        <h3>Gran formato y ploteos</h3>
+        <p>Ploteos hasta 90cm, señalética y material para eventos y ferias. Ticket más alto y decisión más pensada.</p>
+        <div class="tags"><span class="tag">ploteos</span><span class="tag">gran formato</span><span class="tag">señalética</span><span class="tag">eventos</span></div>
+      </div>
+    </div>
+
+    <div class="lp">
+      <div class="lp-num">4</div>
+      <div>
+        <h3>Stickers y etiquetas adhesivas</h3>
+        <p>Stickers y adhesivos por cantidad. Demanda fuerte de marcas chicas, gastronomía y venta online.</p>
+        <div class="tags"><span class="tag">stickers</span><span class="tag">etiquetas</span><span class="tag">adhesivos</span><span class="tag">packaging</span></div>
+      </div>
+    </div>
+
+    <div class="lp">
+      <div class="lp-num">5</div>
+      <div>
+        <h3>Documentación y servicios de oficina</h3>
+        <p>Impresiones, digitalizaciones y encuadernados. Es la puerta de entrada del cliente de proximidad y la que más volumen mueve.</p>
+        <div class="tags"><span class="tag">impresiones</span><span class="tag">digitalización</span><span class="tag">anillado</span><span class="tag">encuadernado</span></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>Un sistema, no cinco piezas sueltas</h3>
+      <p>
+        Las cinco comparten el mismo diseño, la misma estructura de bloques y el mismo formulario:
+        cambia el contenido, no el armado. Eso las hace ver como una familia coherente con la identidad
+        de Copicyn, y permite sumar una sexta o una séptima más adelante sin rehacer nada. La
+        definición final de las cinco familias se cierra en la reunión de arranque: si la experiencia
+        de ustedes indica que conviene abrir una y unir otras dos, se ajusta ahí.
+      </p>
+    </div>
+
+    <div class="callout">
+      <h3>Qué lleva cada página</h3>
+      <p>
+        Encabezado alineado a lo que la persona buscó, explicación concreta del servicio con
+        materiales y terminaciones, respuesta a las dudas que frenan la consulta, formulario con los
+        campos que hacen falta para cotizar de verdad (incluido el teléfono, el tipo de trabajo y la
+        cantidad), botón de WhatsApp siempre visible, página de gracias y medición completa de cada
+        acción.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SITIO ============ -->
+<section id="sitio">
+  <div class="wrap">
+    <div class="kicker">05 · El sitio actual</div>
+    <h2 class="section-title">No es adaptarlo.<br>Es <em>reconstruirlo</em>.</h2>
+    <p class="lead">
+      El pedido original habla de adaptar el sitio al celular. Después de auditarlo tenemos que ser
+      honestos: eso solo no alcanza, y lo preferimos decir ahora y no a mitad de camino. La estructura
+      de estilos actual no tiene base responsive sobre la cual apoyarse, y arreglarla por parches sale
+      más caro que hacerla bien. El contenido, la identidad y las imágenes se conservan. Lo que se
+      rehace es cómo están construidas.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-num">01</div>
+        <h3>Peso y velocidad</h3>
+        <p>
+          Compresión y reemplazo de todas las imágenes a formatos modernos, carga diferida, y video de
+          portada comprimido con imagen de respaldo. Objetivo: bajar la home de unos 74 MB a menos
+          de 2 MB.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <h3>Mobile de verdad</h3>
+        <p>
+          Estructura reescrita pensando primero en el celular. Menú adaptado, tipografías que escalan,
+          secciones que se apilan bien y carrusel de servicios que responde al dedo.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">03</div>
+        <h3>Errores corregidos</h3>
+        <p>
+          Video de portada arreglado, enlaces rotos, idioma del sitio declarado correctamente y
+          estructura de código ordenada.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">04</div>
+        <h3>Base para Google</h3>
+        <p>
+          Títulos y descripciones por página, mapa del sitio y robots.txt, datos estructurados de
+          negocio local, y vista previa correcta al compartir por WhatsApp o redes.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>Ficha de Google del negocio</h3>
+      <p>
+        Para una gráfica de microcentro, la ficha de Google Maps puede traer tanto contacto como la
+        publicidad, y no cuesta nada. Dentro del trabajo revisamos que esté reclamada, verificada y
+        completa: categoría correcta, horarios, fotos, servicios y enlaces a las landings. Es de lo
+        primero que se toca.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ METODOLOGÍA ============ -->
+<section class="alt" id="metodologia">
+  <div class="wrap">
+    <div class="kicker">06 · Cómo trabajamos</div>
+    <h2 class="section-title">El orden importa<br>más que la <em>velocidad</em>.</h2>
+    <p class="lead">
+      No prendemos campañas sobre un destino que no mide ni convierte. Esta es la secuencia, y cada
+      etapa habilita la siguiente.
+    </p>
+
+    <div class="step">
+      <div class="step-label">Arranque</div>
+      <div>
+        <h3>Entender el negocio antes de tocar nada</h3>
+        <p>
+          Reunión de arranque para cerrar las cinco familias de servicio, entender qué trabajos dejan
+          más margen, cuál es la capacidad real de producción y quién responde las consultas. De ahí
+          sale la prioridad y la recomendación de inversión, no de una plantilla.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Medición</div>
+      <div>
+        <h3>Instalar la capa que hoy no existe</h3>
+        <p>
+          Google Analytics, Gestor de Etiquetas, etiqueta de Google Ads y conversiones configuradas:
+          envío de formulario, clic a WhatsApp y clic al teléfono. Sin esto nada de lo que sigue se
+          puede evaluar.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Destino</div>
+      <div>
+        <h3>Construir las landings y reconstruir el sitio</h3>
+        <p>
+          Las cinco páginas y la reconstrucción del sitio actual, con todo medido desde el primer día.
+          Probado en celular, tablet y computadora antes de publicar.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Búsqueda</div>
+      <div>
+        <h3>Investigación de palabras clave</h3>
+        <p>
+          Volumen real y costo estimado por término, agrupados por familia y por intención. Se
+          separa lo que conviene pagar de lo que conviene trabajar de forma orgánica, y se arma la
+          lista de palabras negativas antes de gastar el primer peso.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Salida</div>
+      <div>
+        <h3>Lanzamiento y período de aprendizaje</h3>
+        <p>
+          Campañas al aire con presupuesto controlado. Las primeras semanas el sistema aprende: se
+          revisan a diario los términos de búsqueda reales, se suman negativas y se ajusta el copy.
+          No se toca el presupuesto todos los días, porque cada cambio grande reinicia el aprendizaje.
+        </p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Continuo</div>
+      <div>
+        <h3>Optimización y reporte</h3>
+        <p>
+          Ajuste de pujas, anuncios y páginas según lo que muestren los datos. Reporte periódico con
+          métricas, lectura de resultados y recomendaciones concretas para el mes siguiente.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUÉ INCLUYE ============ -->
+<section id="incluye">
+  <div class="wrap">
+    <div class="kicker">07 · Alcance</div>
+    <h2 class="section-title">Todo lo que <em>entra</em><br>cuando trabajamos juntos.</h2>
+
+    <div class="inc-group">
+      <h3>Google Ads</h3>
+      <ul class="inc-list">
+        <li>Diseño de la estrategia de campañas</li>
+        <li>Investigación y selección de palabras clave</li>
+        <li>Creación y configuración de la cuenta</li>
+        <li>Redacción de anuncios y extensiones</li>
+        <li>Lista de palabras negativas y depuración semanal</li>
+        <li>Gestión y optimización continua de pujas</li>
+        <li>Recomendación de presupuesto mensual de pauta</li>
+        <li>Revisión de la ficha de Google del negocio</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>Medición</h3>
+      <ul class="inc-list">
+        <li>Google Analytics 4 instalado y configurado</li>
+        <li>Gestor de Etiquetas de Google</li>
+        <li>Etiqueta de conversión de Google Ads</li>
+        <li>Conversión por envío de formulario</li>
+        <li>Conversión por clic a WhatsApp</li>
+        <li>Conversión por clic al teléfono</li>
+        <li>Conversiones mejoradas activadas</li>
+        <li>Etiquetado de campañas para atribución</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>Landing pages</h3>
+      <ul class="inc-list">
+        <li>5 páginas orientadas a conversión</li>
+        <li>Diseño alineado a la identidad de Copicyn</li>
+        <li>Redacción de todo el contenido</li>
+        <li>Formulario con campos de calificación</li>
+        <li>Botón de WhatsApp permanente</li>
+        <li>Página de gracias por página</li>
+        <li>Adaptadas a celular, tablet y escritorio</li>
+        <li>Publicación y puesta en línea</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>Sitio actual</h3>
+      <ul class="inc-list">
+        <li>Reconstrucción con enfoque mobile</li>
+        <li>Compresión y optimización de imágenes y video</li>
+        <li>Corrección del video de portada y enlaces rotos</li>
+        <li>Navegación adaptada a celular</li>
+        <li>Carrusel de servicios con soporte táctil</li>
+        <li>Títulos, descripciones y datos estructurados</li>
+        <li>Mapa del sitio y robots.txt</li>
+        <li>Vista previa correcta al compartir</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>Seguimiento</h3>
+      <ul class="inc-list">
+        <li>Reporte periódico con métricas y análisis</li>
+        <li>Recomendaciones concretas de mejora</li>
+        <li>Portal de cliente a medida</li>
+        <li>Canal directo para consultas del día a día</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <h3>El portal de cliente</h3>
+      <p>
+        Cada cliente de Dilema tiene su propio acceso a un portal donde ve el estado de sus campañas
+        sin depender de que le mandemos un archivo. Qué métricas se muestran se define con ustedes,
+        según lo que realmente sirva para tomar decisiones en el negocio.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LO QUE PRECISAMOS ============ -->
+<section class="alt" id="necesitamos">
+  <div class="wrap">
+    <div class="kicker">08 · De su lado</div>
+    <h2 class="section-title">Lo que precisamos<br>para <em>arrancar</em>.</h2>
+    <p class="lead">
+      Nada de esto es complejo, pero sin estas cosas el trabajo se frena. Conviene tenerlas listas
+      antes de la reunión de arranque.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-num">01</div>
+        <h3>Accesos</h3>
+        <p>
+          Dominio y hosting, ficha de Google del negocio si ya existe, y cuenta de Google Ads si
+          alguna vez se creó una. Si no existen, las creamos nosotros a nombre de ustedes.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <h3>Material de marca</h3>
+        <p>
+          Logo en calidad original, tipografías y colores institucionales. Y sobre todo fotos propias
+          de trabajos terminados y del local: es lo que mejor convierte y lo que ningún competidor
+          puede copiar.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">03</div>
+        <h3>Información comercial</h3>
+        <p>
+          Qué trabajos dejan más margen, cuál es la capacidad de producción mensual, si entregan fuera
+          del microcentro, y si el papel FSC tiene certificación propia o documentación que se le pueda
+          entregar al cliente.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">04</div>
+        <h3>Un referente y una respuesta rápida</h3>
+        <p>
+          Una persona que valide contenidos y responda dudas. Y un compromiso de responder las
+          consultas que lleguen en el día: una campaña bien armada no compensa una consulta contestada
+          cuarenta y ocho horas después.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SEGUNDA ETAPA ============ -->
+<section id="etapa2">
+  <div class="wrap">
+    <div class="future-badge">Segunda etapa · a futuro</div>
+    <h2 class="section-title">Redes y contenidos,<br>cuando la base ya <em>mida</em>.</h2>
+    <p class="lead">
+      Coincidimos con el planteo de dejar la gestión de redes para una segunda etapa, y queremos
+      explicar por qué nos parece el orden correcto y no solo una cuestión de presupuesto.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-num">Por qué después</div>
+        <h3>Google contesta una demanda que ya existe</h3>
+        <p>
+          Quien busca "imprenta en microcentro" ya decidió que necesita imprimir. Las redes trabajan
+          antes de esa decisión, sobre alguien que todavía no está buscando. Es un trabajo más lento y
+          más difícil de medir, y rinde mucho más cuando abajo ya hay un destino que convierte y un
+          sistema que registra qué funciona.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Qué se gana</div>
+        <h3>La etapa 1 deja todo listo</h3>
+        <p>
+          Al terminar la primera etapa vamos a saber qué servicios traccionan, con qué palabras los
+          buscan y qué mensajes convierten. Eso deja de ser una hipótesis y pasa a ser dato: el
+          contenido de redes se arma sobre eso en lugar de adivinar.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>Lo que vemos hoy en sus redes</h3>
+      <p>
+        En Instagram tienen 489 seguidores y siguen a 908 cuentas, con las historias destacadas ya
+        ordenadas por servicio, que es buena materia prima para reordenar el perfil. En LinkedIn no
+        existe página de empresa: hay un perfil personal usado como si lo fuera, algo que conviene
+        corregir antes de invertir un peso ahí, porque una página de empresa es gratuita y además
+        refuerza cómo Google entiende al negocio.
+      </p>
+    </div>
+
+    <div class="callout">
+      <h3>Nuestra recomendación de canales</h3>
+      <p>
+        Instagram como canal principal, mostrando producción real: máquinas trabajando, trabajos
+        terminados, materiales y terminaciones. Es el contenido que mejor funciona en gráfica y el
+        único que la competencia no puede copiar. LinkedIn en segundo lugar, enfocado a compra
+        corporativa y al eje de impresión responsable. La pauta en Meta se suma cuando haya contenido
+        propio validado, no antes. El alcance y la inversión de esta etapa se cotizan por separado
+        cuando llegue el momento.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RITMO ============ -->
+<section class="alt" id="ritmo">
+  <div class="wrap">
+    <div class="kicker">09 · Ritmo de trabajo</div>
+    <h2 class="section-title">No se arma<br>y se <em>olvida</em>.</h2>
+    <p class="lead">
+      Una cuenta de Google Ads sin mantenimiento se degrada sola: aparecen búsquedas irrelevantes que
+      consumen presupuesto, la competencia mueve sus pujas y los anuncios se gastan. El fee mensual es
+      justamente ese trabajo.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-num">Semanal</div>
+        <h3>Revisión de términos</h3>
+        <p>
+          Lectura de las búsquedas reales que activaron los anuncios, incorporación de palabras
+          negativas y detección de términos nuevos que valga la pena sumar.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Continuo</div>
+        <h3>Ajuste de campañas</h3>
+        <p>
+          Pujas, presupuestos entre campañas, rotación de anuncios y correcciones en las páginas
+          cuando los datos muestran dónde se cae la consulta.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Periódico</div>
+        <h3>Reporte y decisiones</h3>
+        <p>
+          Informe con métricas, lectura de qué pasó y por qué, y recomendaciones concretas para el
+          período siguiente. Más el portal disponible para consultar cuando quieran.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INVERSIÓN ============ -->
+<section class="dark" id="inversion">
+  <div class="wrap">
+    <div class="kicker">10 · Inversión</div>
+    <h2 class="section-title">Una construcción<br>y una <em>gestión</em>.</h2>
+    <p class="lead">
+      Están separadas a propósito. Una es el activo que se construye una vez y queda como propiedad de
+      Copicyn. La otra es el trabajo mensual de hacerlo rendir.
+    </p>
+
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="price-type">Pago único</div>
+        <h3>Construcción</h3>
+        <p>Las cinco landing pages, la reconstrucción del sitio y toda la capa de medición.</p>
+        <div class="price-num">USD 1.300</div>
+        <ul class="price-lines">
+          <li><span>5 landing pages a conversión</span><span>900</span></li>
+          <li><span>Reconstrucción del sitio + medición</span><span>400</span></li>
+        </ul>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-badge">Mensual</div>
+        <div class="price-type">Recurrente</div>
+        <h3>Gestión de Google Ads</h3>
+        <p>Campañas, optimización continua, reportes y portal de cliente.</p>
+        <div class="price-num">USD 350 <span>/ mes</span></div>
+        <ul class="price-lines">
+          <li><span>Gestión y optimización de campañas</span><span>incluido</span></li>
+          <li><span>Reportes y recomendaciones</span><span>incluido</span></li>
+          <li><span>Portal de cliente a medida</span><span>incluido</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note" style="margin-bottom: 16px;">
+      <strong>La construcción se abona en dos pagos:</strong> la mitad al arrancar y la mitad
+      al entregar y publicar. El fee mensual empieza a correr con las campañas al aire.
+    </div>
+
+    <div class="note" style="margin-bottom: 16px;">
+      <strong>La inversión en pauta va aparte y se paga directo a Google.</strong> No la incluimos
+      como cifra en esta propuesta a propósito: recomendar un presupuesto antes de conocer el margen
+      por tipo de trabajo, la capacidad de producción mensual y si entregan fuera del microcentro
+      sería tirar un número al aire. La recomendación concreta sale de la reunión de arranque, con
+      volumen real de búsqueda y costo por clic estimado del rubro sobre la mesa.
+    </div>
+
+    <div class="note">
+      <strong>Lo que se construye queda de Copicyn.</strong> Las landings, la cuenta de Google Ads, las
+      mediciones y el sitio quedan a nombre de ustedes, con sus accesos, pase lo que pase con la
+      relación comercial. No trabajamos con activos rehenes.
+    </div>
+
+    <div class="callout">
+      <h3>Qué no incluye</h3>
+      <p>
+        Producción fotográfica y de video, diseño de piezas gráficas para redes, gestión de redes
+        sociales y pauta en Meta corresponden a la segunda etapa y se cotizan aparte. La inversión
+        publicitaria en Google también es aparte, como se aclara arriba.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section class="closing">
+  <div class="wrap">
+    <h2>Copicyn ya sabe <em>imprimir</em>.<br>Lo que falta es que,<br>cuando alguien busque,<br>aparezcan <em>ustedes</em>.</h2>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="foot-brand">Dilema <em>Creative</em></div>
+    <div class="foot-tag">Estrategia integral para empresas que quieren crecer en digital.</div>
+  </div>
+  <div class="foot-contact">
+    <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a><br>
+    <a href="https://www.instagram.com/dilema.creative/" target="_blank" rel="noopener">@dilema.creative</a><br>
+    <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+  </div>
+</footer>
+
+</body>
+</html>
