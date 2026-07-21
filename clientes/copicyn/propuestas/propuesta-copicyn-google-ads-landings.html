@@ -264,6 +264,7 @@
     background: rgba(255,255,255,0.045);
     border: 1px solid rgba(255,255,255,0.14);
     border-radius: 16px; padding: 34px 30px; position: relative;
+    display: flex; flex-direction: column;
   }
   .price-card.featured { border-color: var(--sky); background: rgba(107,187,224,0.09); }
   .price-badge {
@@ -279,13 +280,16 @@
     color: var(--sky); margin-bottom: 14px;
   }
   .price-card h3 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 21px; color: #fff; margin-bottom: 8px; letter-spacing: -0.01em; }
-  .price-card > p { font-size: 14px; color: rgba(255,255,255,0.62); margin-bottom: 24px; }
+  .price-card > p {
+    font-size: 14px; color: rgba(255,255,255,0.62); margin-bottom: 24px;
+    min-height: 3.3em; /* reserva 2 líneas para que los precios queden a la misma altura */
+  }
   .price-num {
     font-family: 'Poppins', sans-serif; font-weight: 700;
     font-size: 40px; color: #fff; letter-spacing: -0.03em; line-height: 1;
   }
   .price-num span { font-size: 15px; font-weight: 400; color: rgba(255,255,255,0.6); letter-spacing: 0; }
-  .price-lines { list-style: none; margin-top: 24px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.13); }
+  .price-lines { list-style: none; margin-top: 24px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.13); width: 100%; }
   .price-lines li {
     font-size: 14px; color: rgba(255,255,255,0.75);
     display: flex; justify-content: space-between; gap: 16px; padding: 7px 0;
