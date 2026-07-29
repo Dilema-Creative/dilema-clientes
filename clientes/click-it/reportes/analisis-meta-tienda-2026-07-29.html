@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Click It — Meta Ads + Tienda · 17 al 28 de julio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0E2A47; --green:#4FA27E; --sage:#2F7D5E; --paper:#FAF6EE;
+    --cream:#F4EFE6; --star:#5BB4D6; --ash:#6B6257; --line:#D9CFBC;
+    --red:#B4553F;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--paper); color:var(--navy);
+    line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:820px; margin:0 auto; padding:0 22px 80px}
+  .kicker{
+    font-family:'JetBrains Mono',monospace; font-size:11px;
+    text-transform:uppercase; letter-spacing:.16em; color:var(--ash);
+  }
+  h1{font-family:'Fraunces',serif; font-weight:500; line-height:1.08; letter-spacing:-.01em}
+  h2{font-family:'Fraunces',serif; font-weight:500; font-size:26px; letter-spacing:-.01em}
+  h3{font-family:'Fraunces',serif; font-weight:500; font-size:19px}
+  em{font-style:italic; color:var(--sage)}
+
+  /* Header */
+  header{
+    background:var(--navy); color:var(--paper);
+    padding:44px 0 40px; margin-bottom:44px;
+  }
+  header .wrap{padding-bottom:0}
+  .brand{
+    font-family:'Fraunces',serif; font-size:15px; font-weight:500;
+    color:var(--paper); margin-bottom:30px; display:flex; align-items:center; gap:6px;
+  }
+  .brand span{color:var(--green)}
+  .brand .ast{color:var(--star)}
+  header h1{color:var(--paper); font-size:38px; margin:8px 0 14px}
+  header .sub{color:#B9C6D4; font-size:15px; max-width:560px}
+  header .kicker{color:var(--star)}
+
+  /* Stat tiles */
+  .stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:14px;
+    margin:0 0 20px;
+  }
+  .tile{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:18px 16px;
+  }
+  .tile .num{
+    font-family:'Fraunces',serif; font-size:27px; font-weight:600;
+    color:var(--navy); line-height:1; letter-spacing:-.02em;
+  }
+  .tile .lbl{
+    font-family:'JetBrains Mono',monospace; font-size:10px;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--ash); margin-top:9px;
+  }
+  .tile.hl{background:var(--navy); border-color:var(--navy)}
+  .tile.hl .num{color:#fff}
+  .tile.hl .lbl{color:var(--star)}
+
+  .callout{
+    background:var(--cream); border-left:3px solid var(--green);
+    border-radius:8px; padding:15px 18px; font-size:14.5px; color:var(--sage);
+    margin:6px 0 0;
+  }
+  .callout strong{color:var(--navy)}
+
+  /* Mini embudo */
+  .funnel{
+    display:flex; align-items:stretch; gap:0; margin-top:16px;
+    background:#fff; border:1px solid var(--line); border-radius:12px; overflow:hidden;
+  }
+  .fstep{flex:1; text-align:center; padding:16px 10px}
+  .fstep .fnum{
+    font-family:'Fraunces',serif; font-size:24px; font-weight:600;
+    color:var(--navy); line-height:1; display:block; letter-spacing:-.02em;
+  }
+  .fstep .flbl{
+    font-family:'JetBrains Mono',monospace; font-size:9.5px; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--ash); margin-top:8px; display:block;
+  }
+  .fstep.end .fnum{color:var(--sage)}
+  .farrow{
+    display:flex; align-items:center; color:var(--line); font-size:18px;
+    padding:0 2px;
+  }
+
+  section{margin-top:48px}
+  .step-head{display:flex; align-items:baseline; gap:14px; margin-bottom:6px}
+  .step-num{
+    font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600;
+    color:#fff; background:var(--green); border-radius:6px;
+    padding:4px 9px; letter-spacing:.05em; white-space:nowrap;
+  }
+  .step-desc{color:var(--ash); font-size:14.5px; margin:10px 0 22px}
+
+  /* Table */
+  table{width:100%; border-collapse:collapse; margin:16px 0 8px; font-size:14px}
+  th{
+    font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--ash); text-align:left; font-weight:500;
+    padding:8px 10px; border-bottom:2px solid var(--line);
+  }
+  th.n,td.n{text-align:right; font-variant-numeric:tabular-nums}
+  td{padding:11px 10px; border-bottom:1px solid var(--line); vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  .adname{font-weight:600; color:var(--navy)}
+  .role{color:var(--ash); font-size:13px}
+  .mono{font-family:'JetBrains Mono',monospace; font-weight:500}
+  .win{color:var(--sage); font-weight:600}
+  .mid{color:#9A7B2E; font-weight:600}
+  .low{color:var(--red); font-weight:600}
+  .tag{
+    display:inline-block; font-family:'JetBrains Mono',monospace; font-size:9.5px;
+    text-transform:uppercase; letter-spacing:.06em; padding:2px 7px; border-radius:20px;
+    background:var(--cream); color:var(--ash); margin-left:6px; vertical-align:middle;
+  }
+
+  .lectura{
+    background:#fff; border:1px solid var(--line); border-radius:12px;
+    padding:20px 22px; margin-top:22px;
+  }
+  .lectura p{font-size:15px}
+  .lectura .lead{font-family:'Fraunces',serif; font-size:17px; margin-bottom:8px}
+
+  ul.clean{list-style:none; margin-top:14px}
+  ul.clean li{
+    position:relative; padding:12px 0 12px 30px; border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  ul.clean li:last-child{border-bottom:none}
+  ul.clean li::before{
+    content:""; position:absolute; left:4px; top:18px; width:8px; height:8px;
+    border-radius:50%; background:var(--green);
+  }
+  ul.clean li b{color:var(--navy)}
+  ul.clean li .muted{color:var(--ash)}
+
+  .fix-list{counter-reset:fix; list-style:none; margin-top:18px}
+  .fix-list li{
+    position:relative; padding:16px 0 16px 46px; border-bottom:1px solid var(--line);
+    font-size:14.5px;
+  }
+  .fix-list li:last-child{border-bottom:none}
+  .fix-list li::before{
+    counter-increment:fix; content:counter(fix);
+    position:absolute; left:0; top:15px;
+    font-family:'JetBrains Mono',monospace; font-size:12px; font-weight:600;
+    width:28px; height:28px; border-radius:50%; background:var(--navy); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .fix-list li b{color:var(--navy)}
+
+  .closer{
+    background:var(--navy); color:var(--paper); border-radius:14px;
+    padding:28px 30px; margin-top:44px;
+  }
+  .closer .kicker{color:var(--star)}
+  .closer p{font-family:'Fraunces',serif; font-size:20px; line-height:1.4; margin-top:10px}
+  .closer p em{color:#9FD4B9}
+
+  footer{
+    margin-top:40px; padding-top:22px; border-top:1px solid var(--line);
+    font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--ash);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;
+  }
+  footer b{color:var(--sage)}
+
+  @media(max-width:640px){
+    .wrap{padding:0 16px 60px}
+    header{padding:34px 0 30px}
+    header h1{font-size:28px}
+    header .sub{font-size:14px}
+    h2{font-size:22px}
+    .stats{grid-template-columns:repeat(2,1fr); gap:10px}
+    .tile{padding:15px 13px}
+    .tile .num{font-size:23px}
+    .funnel{border-radius:10px}
+    .fstep{padding:14px 6px}
+    .fstep .fnum{font-size:21px}
+    .fstep .flbl{font-size:8.5px; letter-spacing:.05em}
+    table{font-size:13px}
+    th,td{padding:9px 7px}
+    th:nth-child(4),td:nth-child(4){display:none}
+    .lectura{padding:17px 18px}
+    .step-head{flex-direction:column; gap:8px}
+    .closer{padding:24px 22px}
+    .closer p{font-size:18px}
+    footer{flex-direction:column; gap:5px}
+  }
+  @media(max-width:380px){
+    header h1{font-size:25px}
+    .tile .num{font-size:20px}
+    .fstep .fnum{font-size:19px}
+    .fstep .flbl{font-size:8px}
+    .farrow{font-size:15px}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">Dilema <span>creative</span><span class="ast">*</span></div>
+    <div class="kicker">Click It · Meta Ads + Tienda</div>
+    <h1>Cómo venimos y qué sigue</h1>
+    <p class="sub">Resumen de la campaña y las primeras optimizaciones para la tienda. Período del 17 al 28 de julio de 2026.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- RESULTADO -->
+  <div class="kicker" style="margin-bottom:14px">Resultado del período</div>
+  <div class="stats">
+    <div class="tile"><div class="num">$290 mil</div><div class="lbl">Invertido</div></div>
+    <div class="tile"><div class="num">7</div><div class="lbl">Ventas</div></div>
+    <div class="tile"><div class="num">$1,5 M</div><div class="lbl">Facturado</div></div>
+    <div class="tile hl"><div class="num">5,2x</div><div class="lbl">Retorno (ROAS)</div></div>
+  </div>
+  <div class="callout">
+    La cuenta empezó a vender de forma sostenida desde el 21/07, y <strong>ayer cerró el mejor día: 2 ventas por $555.000</strong>. Por cada $1 invertido en el período volvieron $5,2.
+  </div>
+
+  <div class="funnel">
+    <div class="fstep"><span class="fnum">58</span><span class="flbl">Carritos</span></div>
+    <div class="farrow">&rarr;</div>
+    <div class="fstep"><span class="fnum">14</span><span class="flbl">Inicios de pago</span></div>
+    <div class="farrow">&rarr;</div>
+    <div class="fstep end"><span class="fnum">7</span><span class="flbl">Ventas</span></div>
+  </div>
+
+  <!-- PASO 1 -->
+  <section>
+    <div class="step-head">
+      <span class="step-num">PASO 1</span>
+      <h2>Los anuncios que traen gente a la tienda</h2>
+    </div>
+    <p class="step-desc">Qué formatos están funcionando y qué conviene sumar.</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Anuncio</th>
+          <th class="n">CTR al sitio</th>
+          <th class="n">Retorno</th>
+          <th>Rol</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="adname">Reel Ottocast</span></td>
+          <td class="n mono win">3,4%</td>
+          <td class="n mono win">4,3x</td>
+          <td class="role">El motor: 5 de las 7 ventas</td>
+        </tr>
+        <tr>
+          <td><span class="adname">Reel UGC</span></td>
+          <td class="n mono">2,7%</td>
+          <td class="n mono win">42x</td>
+          <td class="role">El más eficiente, poca inversión</td>
+        </tr>
+        <tr>
+          <td><span class="adname">Reel Gimbal</span> <span class="tag">pausado</span></td>
+          <td class="n mono win">5,0%</td>
+          <td class="n mono mid">2,8x</td>
+          <td class="role">Gran gancho, pero no cerraba ventas</td>
+        </tr>
+        <tr>
+          <td><span class="adname">Posteos estáticos</span></td>
+          <td class="n mono low">2,2%</td>
+          <td class="n mono low">0</td>
+          <td class="role">No rinden</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="lectura">
+      <p class="lead">Lo que vemos</p>
+      <p>Los <b>Reels en video</b> (estilo real, con la publicación que ya tiene likes y comentarios) son los que traen tráfico de calidad. Los <b>posteos estáticos no funcionan</b>. El Gimbal enganchaba muy bien pero mandaba gente que miraba y no compraba, por eso se pausó. El <em>Reel de Ottocast es el que factura.</em></p>
+    </div>
+
+    <h3 style="margin-top:28px">Qué anuncios sumar para complementar</h3>
+    <p class="step-desc" style="margin-bottom:4px">Hoy el mix es casi todo de descubrimiento. Faltan anuncios de <b>cierre</b>, para el que ya vio el producto y necesita el empujón final.</p>
+    <ul class="clean">
+      <li><b>Oferta clara dentro del anuncio:</b> <span class="muted">envío gratis, 3 cuotas sin interés y el regalo de la Luz LED, bien visibles en el creativo.</span></li>
+      <li><b>Formato imagen y carrusel de oferta:</b> <span class="muted">las placas tipo las que pasamos, no solo Reel. Suma variedad para que el algoritmo tenga con qué trabajar.</span></li>
+      <li><b>Más variedad de conceptos:</b> <span class="muted">hoy hay pocos y básicamente uno vende. Ideal sumar demo en uso, antes/después, unboxing y una reseña o testimonio en video.</span></li>
+    </ul>
+  </section>
+
+  <!-- PASO 2 -->
+  <section>
+    <div class="step-head">
+      <span class="step-num">PASO 2</span>
+      <h2>La tienda: primeras optimizaciones</h2>
+    </div>
+    <p class="step-desc">Los anuncios ya traen gente de calidad. Estas son las <b>primeras mejoras</b> sobre la tienda, simples y rápidas, para que el que entra no se vaya. Después seguimos con el resto.</p>
+
+    <ol class="fix-list">
+      <li><b>El video del banner en celular.</b> Tiene subtítulos automáticos por encima que no quedan del todo bien. Con una versión limpia, sin esos subtítulos quemados, mejora bastante. Es lo primero que ve el que llega desde el anuncio.</li>
+      <li><b>Las fotos de producto.</b> Al entrar se ven con estilos distintos entre sí y hay poca variedad. Unificar el estilo y sumar más fotos por producto (en uso, detalle, la pantalla dividida funcionando, el packaging) da sensación de marca más sólida.</li>
+      <li><b>Reseñas de clientes.</b> Estaría bueno tener activa la opción de reseñas en la tienda y empezar a pedirlas a quienes ya compraron. Es de lo que más ayuda a que el que duda se decida, sobre todo siendo una marca nueva.</li>
+      <li><b>Detalles en mobile.</b> Que el botón de "Agregar al carrito" se vea sin scrollear tanto, y que el cartel de cookies no tape la parte de abajo de la pantalla.</li>
+    </ol>
+  </section>
+
+  <!-- CIERRE -->
+  <div class="closer">
+    <div class="kicker">En una línea</div>
+    <p>Los anuncios y el tráfico ya andan (5,2x de retorno y 2 ventas ayer). Ahora toca <em>sumar anuncios de oferta clara para cerrar más</em>, y darle a la tienda un poco más de confianza para que el que entra termine comprando.</p>
+  </div>
+
+  <footer>
+    <span>Dilema Creative · Click It</span>
+    <span>Meta Ads · <b>17 al 28 jul 2026</b></span>
+  </footer>
+
+</div>
+</body>
+</html>
