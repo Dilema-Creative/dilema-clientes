@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Taxi Transfers · Reporte de Gestión · Dilema Creative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --ink: #0E2A47; --ink-soft: #1B3A5C; --sage: #4FA27E; --sage-deep: #2F7D5E;
+    --cream: #F4EFE6; --paper: #FAF6EE; --paper-2: #EFE8D9; --black: #14161A;
+    --ash: #6B6257; --line: #D9CFBC; --good: #2F7D5E; --bad: #B23A2B;
+    --star: #5BB4D6; --warn: #C97B2B;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--paper); color: var(--black); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav { position: sticky; top: 0; z-index: 100; background: var(--ink); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 56px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .nav-brand { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--cream); letter-spacing: -0.02em; }
+  .nav-brand em { font-style: italic; color: var(--sage); }
+  .nav-links { display: flex; gap: 6px; list-style: none; }
+  .nav-links a { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(244,239,230,0.55); text-decoration: none; padding: 6px 12px; border-radius: 3px; transition: all .15s; }
+  .nav-links a:hover { color: var(--cream); background: rgba(255,255,255,0.06); }
+  .nav-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); padding: 4px 10px; border: 1px solid var(--sage); border-radius: 3px; }
+
+  .hero { background: var(--paper); padding: 76px 80px 60px; border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -120px; right: -120px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(79,162,126,0.08) 0%, transparent 70%); pointer-events: none; }
+  .hero-kicker { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ash); margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+  .hero-kicker::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: var(--line); }
+  .hero h1 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(48px, 7vw, 96px); line-height: 0.92; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 24px; }
+  .hero h1 em { font-style: italic; color: var(--sage); }
+  .hero-sub { font-family: 'Fraunces', serif; font-size: clamp(17px, 2vw, 22px); font-style: italic; color: var(--ash); max-width: 780px; line-height: 1.45; margin-bottom: 44px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; max-width: 1000px; }
+  .hero-stat { background: var(--paper); padding: 20px 24px; }
+  .hero-stat .k { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash); margin-bottom: 6px; }
+  .hero-stat .v { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 600; color: var(--ink); letter-spacing: -0.02em; line-height: 1; }
+  .hero-stat .v.good { color: var(--good); }
+  .hero-stat .delta { font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-top: 5px; color: var(--ash); }
+
+  section { padding: 68px 80px; border-bottom: 1px solid var(--line); }
+  section.dark { background: var(--ink); color: var(--cream); border-bottom-color: rgba(255,255,255,0.08); }
+  section.cream { background: var(--cream); }
+  .sec-head { display: flex; align-items: baseline; gap: 20px; margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid currentColor; }
+  .sec-head .num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; opacity: 0.5; }
+  .sec-head h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(28px, 4vw, 46px); line-height: 0.98; letter-spacing: -0.025em; }
+  .sec-head h2 em { font-style: italic; color: var(--sage); }
+  .section-lede { font-family: 'Fraunces', serif; font-size: 19px; font-style: italic; color: var(--ash); max-width: 780px; line-height: 1.45; margin-bottom: 40px; }
+  section.dark .section-lede { color: rgba(244,239,230,0.72); }
+
+  .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 28px; }
+  .metric-card { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 20px 18px; position: relative; overflow: hidden; }
+  section.dark .metric-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+  .metric-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--line); }
+  .metric-card.accent-green::before { background: var(--sage); }
+  .metric-card.accent-blue::before { background: var(--star); }
+  .metric-card.accent-ink::before { background: var(--ink-soft); }
+  .metrics-row.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .metric-card .label { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash); margin-bottom: 8px; }
+  section.dark .metric-card .label { color: rgba(244,239,230,0.55); }
+  .metric-card .value { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); line-height: 1; }
+  section.dark .metric-card .value { color: var(--cream); }
+  .metric-card .value.good { color: var(--good); }
+  .metric-card .sub { font-size: 11px; color: var(--ash); margin-top: 6px; font-family: 'JetBrains Mono', monospace; }
+  section.dark .metric-card .sub { color: rgba(244,239,230,0.5); }
+
+  .table-wrap { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .camp-table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 620px; }
+  .camp-table th { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash); text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); background: var(--paper-2); }
+  .camp-table td { padding: 13px 14px; border-bottom: 1px solid var(--line); color: var(--black); vertical-align: middle; }
+  .camp-table tr:last-child td { border-bottom: none; }
+  .camp-table tr.total td { background: var(--paper-2); font-weight: 600; }
+  .camp-table td.name { font-weight: 600; color: var(--ink); }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .num-good { color: var(--good); font-weight: 700; }
+
+  .badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; }
+  .badge.green { background: rgba(79,162,126,0.14); color: var(--good); }
+  .badge.grey { background: var(--paper-2); color: var(--ash); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .panel { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 28px; }
+  .panel.before { border-top: 3px solid var(--line); }
+  .panel.after { border-top: 3px solid var(--sage); }
+  .panel h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 4px; }
+  .panel .pk { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ash); margin-bottom: 18px; }
+  .panel ul { list-style: none; }
+  .panel li { padding: 10px 0; border-top: 1px dashed var(--line); font-size: 13.5px; color: var(--ink-soft); display: flex; gap: 10px; }
+  .panel li:first-child { border-top: none; }
+  .panel li .dot { flex: none; width: 6px; height: 6px; border-radius: 50%; margin-top: 8px; }
+  .panel.before .dot { background: var(--ash); }
+  .panel.after .dot { background: var(--sage); }
+
+  .chart-wrap { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 22px 24px; }
+  .chart-title { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash); margin-bottom: 14px; }
+  .charts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .chart-box { position: relative; height: 260px; }
+
+  .callout { background: var(--ink); border-radius: 8px; padding: 34px 44px; margin-top: 28px; position: relative; overflow: hidden; }
+  .callout .clabel { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(244,239,230,0.5); margin-bottom: 12px; }
+  .callout .cdesc { font-family: 'Fraunces', serif; font-size: 19px; font-style: italic; line-height: 1.5; color: var(--cream); max-width: 720px; }
+  .callout .cdesc strong { font-style: normal; color: var(--sage); }
+
+  .lede-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 8px; }
+  .lc { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 24px; }
+  .lc .lcn { font-family: 'Fraunces', serif; font-size: 40px; font-weight: 600; color: var(--sage-deep); letter-spacing: -0.03em; line-height: 1; }
+  .lc .lct { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ash); margin-top: 8px; }
+  .lc .lcd { font-size: 12.5px; color: var(--ink-soft); margin-top: 10px; }
+
+  .terms { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .term { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 7px 12px; background: var(--paper); border: 1px solid var(--line); border-radius: 20px; color: var(--ink-soft); }
+  .term b { color: var(--sage-deep); }
+
+  .rec-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 8px; }
+  .rec { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 24px 26px; }
+  .rec .rn { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--sage); letter-spacing: 0.1em; }
+  .rec h4 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 500; color: var(--cream); margin: 8px 0 8px; letter-spacing: -0.01em; }
+  .rec p { font-size: 13.5px; color: rgba(244,239,230,0.72); line-height: 1.55; }
+
+  footer { background: var(--ink); color: rgba(244,239,230,0.6); padding: 48px 80px; font-size: 12px; }
+  footer .fbrand { font-family: 'Fraunces', serif; font-size: 22px; color: var(--cream); font-weight: 600; }
+  footer .fbrand em { font-style: italic; color: var(--sage); }
+  footer .fnote { margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; color: rgba(244,239,230,0.4); max-width: 720px; line-height: 1.7; }
+
+  @media (max-width: 860px) {
+    nav { padding: 0 20px; } .nav-links { display: none; }
+    .hero { padding: 48px 22px 40px; } section { padding: 48px 22px; }
+    footer { padding: 40px 22px; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .metrics-row, .metrics-row.cols-3 { grid-template-columns: repeat(2, 1fr); }
+    .split, .charts-grid, .lede-cards, .rec-grid { grid-template-columns: 1fr; }
+    .sec-head { flex-direction: column; gap: 6px; }
+    .callout { padding: 26px 24px; }
+    .panel, .lc, .rec { padding: 22px; }
+  }
+  @media (max-width: 520px) {
+    .hero { padding: 40px 18px 34px; } section { padding: 40px 18px; }
+    footer { padding: 34px 18px; }
+    .hero-stats, .metrics-row, .metrics-row.cols-3, .lede-cards { grid-template-columns: 1fr; }
+    .chart-box { height: 220px; }
+    .hero-sub, .section-lede { font-size: 16px; }
+    body { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Dilema <em>Creative</em></div>
+  <ul class="nav-links">
+    <li><a href="#partida">El período</a></li>
+    <li><a href="#enfoque">El enfoque</a></li>
+    <li><a href="#evolucion">Evolución</a></li>
+    <li><a href="#leads">Leads</a></li>
+    <li><a href="#recos">Recomendaciones</a></li>
+  </ul>
+  <div class="nav-tag">Google Ads</div>
+</nav>
+
+<header class="hero">
+  <div class="hero-kicker">Taxi Transfers · Reporte de gestión</div>
+  <h1>Un mes y medio<br>de <em>gestión enfocada</em>.</h1>
+  <p class="hero-sub">El trabajo realizado sobre la cuenta de Google Ads entre el 16 de junio y el 31 de julio de 2026: concentrar la inversión en búsquedas de alta intención y dejar la medición de contactos ordenada.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="k">Inversión gestionada</div><div class="v">$399.520</div><div class="delta">46 días · Búsqueda</div></div>
+    <div class="hero-stat"><div class="k">Leads generados</div><div class="v good">165</div><div class="delta">WhatsApp, formulario y mail</div></div>
+    <div class="hero-stat"><div class="k">CTR promedio</div><div class="v good">8,3%</div><div class="delta">búsquedas de alta intención</div></div>
+    <div class="hero-stat"><div class="k">CPC promedio</div><div class="v">$822</div><div class="delta">$734 en la última quincena</div></div>
+  </div>
+</header>
+
+<!-- 01 -->
+<section id="partida" class="cream">
+  <div class="sec-head"><span class="num">01</span><h2>El <em>período</em></h2></div>
+  <p class="section-lede">Un trabajo puntual de un mes y medio, con un objetivo claro: enfocar la cuenta y ordenar cómo se mide.</p>
+  <p style="max-width:840px; color:var(--ink-soft); margin-bottom:26px;">Hasta el 16 de junio, Taxi Transfers venía manejando las campañas por su cuenta, con una configuración más amplia: varias campañas en paralelo, incluida una de Display, y un presupuesto diario más alto. Además, la medición de conversiones no estaba configurada para reflejar los contactos reales del negocio, por lo que esos datos históricos no sirven como base comparable. Con ese punto de partida, el trabajo del período se concentró en dos cosas: llevar la inversión a donde hay intención de compra y dejar la medición limpia para saber, de verdad, cuántos leads llegan.</p>
+
+  <div class="metrics-row cols-3">
+    <div class="metric-card accent-ink">
+      <div class="label">Cómo venía · inversión</div>
+      <div class="value">$14.126</div>
+      <div class="sub">/ día · configuración amplia</div>
+    </div>
+    <div class="metric-card accent-ink">
+      <div class="label">Cómo venía · campañas</div>
+      <div class="value" style="font-size:20px; line-height:1.2;">3 activas<br>incluida Display</div>
+      <div class="sub">alcance amplio, menos foco</div>
+    </div>
+    <div class="metric-card accent-ink">
+      <div class="label">Cómo venía · medición</div>
+      <div class="value" style="font-size:19px; line-height:1.2;">Sin ordenar<br>para medir leads</div>
+      <div class="sub">datos no comparables</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 -->
+<section id="enfoque">
+  <div class="sec-head"><span class="num">02</span><h2>El <em>enfoque</em> que aplicamos</h2></div>
+  <p class="section-lede">Priorizar intención sobre volumen, y medir bien cada contacto.</p>
+
+  <div class="split">
+    <div class="panel before">
+      <h3>Cómo venía la cuenta</h3>
+      <div class="pk">Configuración amplia</div>
+      <ul>
+        <li><span class="dot"></span><span>Varias campañas en paralelo, una de ellas de <b>Display</b>, que da alcance masivo pero poco calificado para un servicio de traslados puntuales.</span></li>
+        <li><span class="dot"></span><span>Mucha exposición con <b>CTR de 2,2%</b>: gran cantidad de impresiones, pero pocas personas realmente interesadas haciendo clic.</span></li>
+        <li><span class="dot"></span><span><b>$14.126 por día</b> de inversión promedio.</span></li>
+        <li><span class="dot"></span><span>La medición de conversiones no estaba lista para contar contactos reales.</span></li>
+      </ul>
+    </div>
+    <div class="panel after">
+      <h3>Durante nuestra gestión</h3>
+      <div class="pk">16 Jun → 31 Jul 2026 · 46 días</div>
+      <ul>
+        <li><span class="dot"></span><span><b>Una sola campaña de Búsqueda</b> enfocada en intención de compra: quien busca activamente un traslado al aeropuerto.</span></li>
+        <li><span class="dot"></span><span><b>CTR de 8,3%</b>, casi <b>4x</b> más alto: menos impresiones, pero a las personas correctas.</span></li>
+        <li><span class="dot"></span><span><b>$8.685 por día</b>, con la inversión más concentrada.</span></li>
+        <li><span class="dot"></span><span>Medición ordenada: <b>165 leads reales</b> (WhatsApp, formulario y mail).</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="table-wrap" style="margin-top:24px;">
+    <table class="camp-table">
+      <thead><tr><th>Indicador</th><th>Cómo venía</th><th>Durante la gestión</th><th></th></tr></thead>
+      <tbody>
+        <tr><td class="name">Inversión / día</td><td class="mono">$14.126</td><td class="mono">$8.685</td><td><span class="badge grey">más concentrada</span></td></tr>
+        <tr><td class="name">CTR</td><td class="mono">2,2%</td><td class="mono num-good">8,3%</td><td><span class="badge green">tráfico más relevante</span></td></tr>
+        <tr><td class="name">Estructura</td><td class="mono">3 campañas + Display</td><td class="mono">1 Búsqueda enfocada</td><td><span class="badge green">foco en intención</span></td></tr>
+        <tr><td class="name">Medición de leads</td><td class="mono">Sin ordenar</td><td class="mono num-good">Limpia</td><td><span class="badge green">datos confiables</span></td></tr>
+        <tr class="total"><td class="name">Leads medibles</td><td class="mono">No comparables</td><td class="mono num-good">165 en 46 días</td><td><span class="badge green">contactos reales</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:12px; color:var(--ash); margin-top:12px; font-family:'JetBrains Mono',monospace;">Nota: el CPC pasó de $420 a $822 porque el tráfico es de mayor intención. Antes se pagaban clics más baratos pero más amplios (Display y búsquedas generales); ahora se paga por personas que buscan exactamente el servicio, y eso se traduce en contactos reales.</p>
+</section>
+
+<!-- 03 -->
+<section id="evolucion" class="cream">
+  <div class="sec-head"><span class="num">03</span><h2>Evolución dentro del <em>período</em></h2></div>
+  <p class="section-lede">La cuenta mejoró quincena a quincena, a medida que fuimos afinando keywords, anuncios y pujas.</p>
+
+  <div class="table-wrap">
+    <table class="camp-table">
+      <thead><tr><th>Quincena</th><th>Inversión</th><th>Clics</th><th>Leads</th><th>CTR</th><th>CPC</th><th>CPA</th></tr></thead>
+      <tbody>
+        <tr><td class="name">16 → 30 jun <span class="badge grey">arranque</span></td><td class="mono">$117.767</td><td class="mono">101</td><td class="mono">42</td><td class="mono">7,2%</td><td class="mono">$1.166</td><td class="mono">$2.804</td></tr>
+        <tr><td class="name">1 → 15 jul</td><td class="mono">$116.551</td><td class="mono">160</td><td class="mono">50</td><td class="mono">8,1%</td><td class="mono num-good">$728</td><td class="mono">$2.331</td></tr>
+        <tr><td class="name">16 → 31 jul</td><td class="mono">$165.202</td><td class="mono num-good">225</td><td class="mono num-good">73</td><td class="mono num-good">9,1%</td><td class="mono num-good">$734</td><td class="mono num-good">$2.263</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="charts-grid" style="margin-top:24px;">
+    <div class="chart-wrap"><div class="chart-title">CTR por quincena · relevancia del tráfico</div><div class="chart-box"><canvas id="ctrChart"></canvas></div></div>
+    <div class="chart-wrap"><div class="chart-title">CPC por quincena · costo por clic</div><div class="chart-box"><canvas id="cpcChart"></canvas></div></div>
+  </div>
+  <p style="max-width:840px; color:var(--ink-soft); margin-top:24px;">El CPC bajó <b>37%</b> entre la primera y la segunda quincena y se mantuvo estable, mientras el CTR siguió subiendo hasta <b>9,1%</b>. En la última quincena la cuenta consiguió <b>225 clics y 73 leads</b>, más del doble que en el arranque, sin subir el costo por contacto.</p>
+</section>
+
+<!-- 04 -->
+<section id="leads">
+  <div class="sec-head"><span class="num">04</span><h2>De dónde vienen los <em>leads</em></h2></div>
+  <p class="section-lede">165 contactos en el mes y medio, todos originados en búsquedas de alta intención.</p>
+
+  <div class="lede-cards">
+    <div class="lc"><div class="lcn">155</div><div class="lct">WhatsApp</div><div class="lcd">El canal principal: la mayoría del interés se convierte en una conversación directa por WhatsApp.</div></div>
+    <div class="lc"><div class="lcn">6</div><div class="lct">Mail</div><div class="lcd">Consultas por correo, en general reservas planificadas con anticipación.</div></div>
+    <div class="lc"><div class="lcn">4</div><div class="lct">Formulario web</div><div class="lcd">Contactos que dejan sus datos directamente en el sitio.</div></div>
+  </div>
+
+  <p style="max-width:840px; color:var(--ink-soft); margin-top:32px; margin-bottom:8px;">Todo el tráfico proviene de personas que buscan exactamente el servicio. Algunos de los términos reales que trajeron contactos en el período:</p>
+  <div class="terms">
+    <span class="term">traslados a ezeiza <b>· 6 leads</b></span>
+    <span class="term">taxi buenos aires <b>· 7 leads</b></span>
+    <span class="term">transfer a ezeiza <b>· 3 leads</b></span>
+    <span class="term">traslado aeroparque ezeiza <b>· 3 leads</b></span>
+    <span class="term">transfer buenos aires <b>· 3 leads</b></span>
+    <span class="term">taxis buenos aires <b>· 2 leads</b></span>
+    <span class="term">transfer ezeiza</span>
+    <span class="term">taxi para 5 personas buenos aires</span>
+  </div>
+</section>
+
+<!-- 05 -->
+<section id="recos" class="dark">
+  <div class="sec-head"><span class="num">05</span><h2>Recomendaciones para <em>adelante</em></h2></div>
+  <p class="section-lede">El trabajo fue por este período puntual. Dejamos la cuenta ordenada y estas recomendaciones para que siga rindiendo, alineadas con lo que sugiere el equipo que sigue la cuenta.</p>
+
+  <div class="metrics-row">
+    <div class="metric-card accent-green"><div class="label">Impresiones perdidas por presupuesto</div><div class="value good">13,7%</div><div class="sub">bajó desde 39,5% al inicio</div></div>
+    <div class="metric-card accent-blue"><div class="label">Impresiones perdidas por posición</div><div class="value">75,1%</div><div class="sub">competencia en la subasta</div></div>
+    <div class="metric-card accent-blue"><div class="label">CPC actual</div><div class="value">$734</div><div class="sub">tráfico de alta intención</div></div>
+    <div class="metric-card accent-green"><div class="label">Conversión</div><div class="value" style="font-size:20px;">Sobre el promedio</div><div class="sub">de la plataforma</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="clabel">Contexto de la subasta</div>
+    <div class="cdesc">En estas búsquedas compiten plataformas como <strong>Booking</strong> y grandes operadores turísticos con presupuestos muy altos, lo que empuja el costo por clic hacia arriba y hace que en algunos momentos la campaña pierda participación. Aun así, la cuenta viene <strong>convirtiendo por encima del promedio</strong> de la plataforma con el presupuesto actual.</div>
+  </div>
+
+  <div class="rec-grid">
+    <div class="rec"><div class="rn">→ 01</div><h4>Presupuesto para escalar volumen</h4><p>La referencia de Google es de unos 15 clics para generar una conversión. Para acercarse a ese volumen de forma sostenida, la sugerencia es un presupuesto en torno a $27.000/día. No garantiza una conversión diaria fija: es una estimación sobre promedios de la plataforma.</p></div>
+    <div class="rec"><div class="rn">→ 02</div><h4>No migrar a Performance Max</h4><p>Para un servicio tan específico, abrir a múltiples canales (YouTube, Gmail, Display) traería tráfico poco calificado. La recomendación es sostener la campaña de Búsqueda pura.</p></div>
+    <div class="rec"><div class="rn">→ 03</div><h4>Seguir ganando posición</h4><p>Buena parte de las oportunidades hoy se pierden por posición frente a competidores más grandes. Trabajar Quality Score, la landing y las pujas ayuda a recuperar parte de ese terreno sin depender solo del presupuesto.</p></div>
+    <div class="rec"><div class="rn">→ 04</div><h4>Mantener la medición ordenada</h4><p>Conservar el seguimiento de contactos limpio (WhatsApp, formulario y mail) permite tomar decisiones sobre datos reales y evaluar cada peso invertido.</p></div>
+  </div>
+</section>
+
+<footer>
+  <div class="fbrand">Dilema <em>Creative</em></div>
+  <div class="fnote">
+    Reporte de gestión · Taxi Transfers · Google Ads · 16 jun → 31 jul 2026.<br>
+    Datos extraídos directamente de la API de Google Ads (cuenta 696-822-1403). Métricas de conversión: acciones de WhatsApp, formulario y mail configuradas en la cuenta.<br>
+    Documento confidencial preparado para Taxi Transfers.
+  </div>
+</footer>
+
+<script>
+  const mono = "'JetBrains Mono', monospace";
+  Chart.defaults.font.family = mono;
+  Chart.defaults.font.size = 10;
+  const ink = '#0E2A47', sage = '#4FA27E', ash = '#6B6257', warn='#C97B2B';
+
+  new Chart(document.getElementById('ctrChart'), {
+    type: 'line',
+    data: {
+      labels: ['16-30 jun', '1-15 jul', '16-31 jul'],
+      datasets: [{
+        data: [7.2, 8.1, 9.1],
+        borderColor: sage, backgroundColor: 'rgba(79,162,126,0.12)',
+        pointBackgroundColor: sage, pointRadius: 5, tension: 0.3, fill: true, borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => c.parsed.y + '% CTR' } } },
+      scales: {
+        y: { beginAtZero: true, ticks: { color: ash, callback: v => v + '%' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { ticks: { color: ash }, grid: { display: false } }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('cpcChart'), {
+    type: 'bar',
+    data: {
+      labels: ['16-30 jun', '1-15 jul', '16-31 jul'],
+      datasets: [{
+        data: [1166, 728, 734],
+        backgroundColor: [ warn, sage, sage ], borderRadius: 4, barPercentage: 0.6
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => '$' + c.parsed.y.toLocaleString('es-AR') + ' CPC' } } },
+      scales: {
+        y: { beginAtZero: true, ticks: { color: ash, callback: v => '$' + v.toLocaleString('es-AR') }, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { ticks: { color: ash }, grid: { display: false } }
+      }
+    }
+  });
+</script>
+</body>
+</html>
