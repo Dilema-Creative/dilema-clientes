@@ -1,0 +1,131 @@
+<meta charset="utf-8">
+<title>Frizata · Complemento al análisis de adquisición</title>
+<style>
+  :root{--ink:#1a1a1a;--mut:#6b6b6b;--line:#e5e2dc;--bg:#faf8f4;--card:#fff;
+        --bad:#c0392b;--warn:#c77d1a;--good:#1f7a4d;--accent:#0f4c81}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,Segoe UI,Inter,Roboto,sans-serif;padding:0 0 80px}
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px}
+  header{background:#12332b;color:#f4efe6;padding:34px 0 30px;margin-bottom:8px}
+  h1{font-size:25px;margin:0 0 6px;letter-spacing:-.3px}
+  .sub{color:#cbd8cf;font-size:14px;margin:0}
+  h2{font-size:20px;margin:38px 0 6px;border-bottom:2px solid var(--line);padding-bottom:6px}
+  h3{font-size:16px;margin:22px 0 4px}
+  p{margin:8px 0}.lead{font-size:16px;color:#333}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:13px;background:var(--card)}
+  th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line)}
+  th:first-child,td:first-child{text-align:left}
+  thead th{background:#f0ece4;font-weight:600;border-bottom:2px solid #d8d2c7}
+  tr.hl td{background:#fff6ee;font-weight:600}
+  tr.ant td{background:#eef4f1}
+  .tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;color:#fff}
+  .t-bad{background:var(--bad)}.t-warn{background:var(--warn)}.t-good{background:var(--good)}.t-ant{background:#4a7c6c}
+  .box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);padding:14px 16px;margin:16px 0;border-radius:4px}
+  .box.key{border-left-color:var(--bad)}.box.good{border-left-color:var(--good)}.box.plan{border-left-color:var(--good);background:#f4f9f5}
+  .box h4{margin:0 0 6px;font-size:15px}
+  .kpi{display:flex;gap:14px;flex-wrap:wrap;margin:14px 0}
+  .kpi div{flex:1;min-width:150px;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:12px 14px}
+  .kpi .n{font-size:22px;font-weight:700}.kpi .l{font-size:12px;color:var(--mut)}
+  .up{color:var(--bad)}.dn{color:var(--good)}
+  .small{font-size:12px;color:var(--mut)}
+  ul{margin:8px 0 8px 4px;padding-left:20px}li{margin:4px 0}
+  code{background:#efece5;padding:1px 5px;border-radius:3px;font-size:12px}
+  .funnel{display:flex;flex-direction:column;gap:6px;margin:14px 0}
+  .funnel div{padding:10px 14px;border-radius:6px;color:#fff}
+  .f1{background:#0f4c81;margin:0 0}.f2{background:#2e7d9a;margin:0 40px}.f3{background:#1f7a4d;margin:0 80px}
+  .funnel b{font-weight:700}
+</style>
+
+<header><div class="wrap">
+  <h1>Frizata · Complemento al análisis de adquisición — Meta + Google</h1>
+  <p class="sub">Sobre datos crudos de las dos cuentas · comparación trimestre ene–mar vs abr–ago 2026</p>
+</div></header>
+
+<div class="wrap">
+
+<p class="lead">Tomamos la descomposición de órdenes y la bajamos a ver contra la data cruda de Meta y Google. Coincidimos con el eje —<strong>lo que se rompió es la adquisición, no la retención</strong>— y aportamos dos cosas: (1) el mecanismo concreto detrás del CAC que se duplicó, y (2) una respuesta a la pregunta de instrumentación que dejaron abierta (¿el CAC subió por CPM o por conversión?). Va como complemento, no como refutación.</p>
+
+<h2>1 · La causa raíz: la cuenta no tiene embudo de adquisición, solo cosecha</h2>
+
+<div class="box key">
+  <h4>El hallazgo estructural</h4>
+  <p>Clasificamos el 100% del gasto de Meta por su función real. El resultado: <strong>prácticamente no existe top of funnel de adquisición.</strong></p>
+  <ul>
+    <li>El <strong>~1%</strong> que técnicamente es "frío" es una campaña de <em>reconocimiento/branding</em> — genera awareness, <strong>no está pensada para vender ni traer clientes nuevos</strong>. No es adquisición.</li>
+    <li>El <strong>75–80%</strong> corre por campañas de conversión (catálogo, Advantage+, MaxVal) que <strong>no excluyen a quienes ya compraron</strong>.</li>
+    <li>El <strong>~20%</strong> restante es remarketing directo sobre la base.</li>
+  </ul>
+  <p>Es decir: casi todo el presupuesto es <strong>medio y fondo de embudo apuntando a gente que ya conoce Frizata</strong>. Cuando el algoritmo busca la conversión más barata, la encuentra en la base instalada, no en el cliente nuevo. El sistema está diseñado para <em>ordeñar</em>, no para <em>llenar</em>. Mientras la base fue fresca y el CPM barato, esto se leyó como crecimiento. Cuando la base se satura y sube el CPM, <strong>no hay motor que traiga gente nueva</strong> — y la adquisición es lo primero que cae. Es exactamente el patrón que muestran: Hunting se derrumba, Farming aguanta.</p>
+</div>
+
+<table>
+<thead><tr><th>Función real del gasto Meta</th><th colspan="2">ene–mar</th><th colspan="2">abr–ago (s/mayo)</th></tr>
+<tr><th></th><th>% gasto</th><th>ROAS</th><th>% gasto</th><th>ROAS</th></tr></thead>
+<tbody>
+<tr class="hl"><td>Reconocimiento/branding (no vende)</td><td>1%</td><td>—</td><td>1%</td><td>—</td></tr>
+<tr><td>Conversión sobre base + frío mezclado</td><td>75%</td><td>10,0x</td><td>80%</td><td>7,6x</td></tr>
+<tr><td>Remarketing / Farming</td><td>24%</td><td>6,8x</td><td>19%</td><td>7,5x</td></tr>
+<tr><td><b>Adquisición fría orientada a venta</b></td><td colspan="2"><b>~0%</b></td><td colspan="2"><b>~0%</b></td></tr>
+</tbody></table>
+<p class="small">Esta estructura viene de antes, no es un cambio reciente: <strong>ninguna de las dos gestiones tuvo un embudo de adquisición real</strong>. Conecta directo con su H4 (marca / top of mind) y con su pregunta de cierre: el D2C creció como <em>negocio de base instalada</em> mientras el CAC estuvo barato. Para volver a ser un negocio de adquisición, hay que construir el embudo que hoy no está.</p>
+
+<h2>2 · El CAC se duplicó por costo de medios, no por caída de conversión</h2>
+<p>Su pregunta de instrumentación —"no sabés si el CAC se duplicó por CPM o por conversión"— la podemos responder con la data de pauta:</p>
+
+<div class="kpi">
+  <div><div class="n up">+60%</div><div class="l">CPM · costo x mil impresiones (ene $3.013 → jul $4.820)</div></div>
+  <div><div class="n dn">+2,1→2,2%</div><div class="l">CTR (subió, el creativo engancha)</div></div>
+  <div><div class="n up">+49%</div><div class="l">CPR bucket conversión ($12.202→$18.160)</div></div>
+</div>
+<p><strong>El CTR no cayó, subió.</strong> O sea el problema no es que el creativo convierta peor: es que <strong>cada mil impresiones cuestan cada vez más caras</strong> (CPM = costo por mil impresiones), y encima se le muestra a un público que se recalienta porque la estructura reimpacta a la base. La respuesta a su H1 es: <strong>es CPM (costo de medios) + saturación de audiencia, no colapso de conversión.</strong> Esto parte la discusión: la palanca no es "mejorar la landing/oferta", es <strong>bajar el costo de impactar gente nueva</strong> — y eso solo se logra metiendo audiencias frescas en el sistema.</p>
+
+<table>
+<thead><tr><th>Mes</th><th>Spend</th><th>Compras</th><th>ROAS</th><th>CPR</th><th>CPM</th><th>CTR</th></tr></thead>
+<tbody>
+<tr class="ant"><td>Ene <span class="tag t-ant">ant</span></td><td>17.310.952</td><td>1.473</td><td>9,76</td><td>11.752</td><td>3.013</td><td>1,69%</td></tr>
+<tr class="ant"><td>Feb <span class="tag t-ant">ant</span></td><td>18.541.619</td><td>1.354</td><td>9,01</td><td>13.694</td><td>3.031</td><td>1,99%</td></tr>
+<tr class="ant"><td>Mar <span class="tag t-ant">ant</span></td><td>21.056.385</td><td>1.439</td><td>8,79</td><td>14.633</td><td>2.962</td><td>2,24%</td></tr>
+<tr><td>Abr</td><td>19.293.247</td><td>1.252</td><td>8,57</td><td>15.410</td><td>3.246</td><td>2,07%</td></tr>
+<tr><td>May · Hot Sale</td><td>22.711.919</td><td>1.590</td><td>10,01</td><td>14.284</td><td>3.782</td><td>2,42%</td></tr>
+<tr class="hl"><td>Jun</td><td>24.603.367</td><td>1.189</td><td>6,97</td><td>20.692</td><td>3.942</td><td>2,11%</td></tr>
+<tr class="hl"><td>Jul</td><td>22.688.894</td><td>1.065</td><td>6,65</td><td>21.304</td><td>4.820</td><td>2,19%</td></tr>
+</tbody></table>
+<p class="small">El CPM +60% es en parte mercado (presión estacional/macro sobre toda la subasta de Meta en Argentina) y en parte saturación propia por la estructura cosechadora. Compras 1.473 (ene) → 1.065 (jul), –28%.</p>
+
+<h2>3 · El mensaje se angostó</h2>
+<p>Sobre comunicar siempre lo mismo: la variedad de <em>ángulos y ocasiones</em> del creativo se redujo. El trimestre anterior rotaba entradas distintas al producto (cumpleaños, descuento, vuelta a la rutina, merienda, postre, viandas, home office). En el período reciente el mensaje se concentró en pocos ejes, con peso muy alto de un ángulo estacional puntual. En una estructura que ya reimpacta a la base, <strong>menos diversidad de mensaje acelera la saturación</strong>: le decís lo mismo a la misma gente. Sube frecuencia efectiva y CPM. Es la contracara creativa del problema estructural del punto 1.</p>
+
+<h2>4 · Google — mismo patrón, más suave</h2>
+<table>
+<thead><tr><th>Período</th><th>Cost</th><th>Conv</th><th>ROAS*</th><th>CPA</th></tr></thead>
+<tbody>
+<tr class="ant"><td>ene–mar</td><td>16.891.387</td><td>4.781</td><td>34,4x</td><td>3.533</td></tr>
+<tr><td>abr–ago (s/mayo)</td><td>19.030.250</td><td>3.712</td><td>27,2x</td><td class="up">5.127</td></tr>
+</tbody></table>
+<p class="small">CPA enero $3.186 → julio $6.329 (<span class="up">+99%</span>). *ROAS en atribución de Google (PMax + marca), no comparable 1:1 con Meta; vale la tendencia.</p>
+<p>Google sigue siendo el canal más eficiente, pero se erosiona igual: Performance Max también optimiza hacia la conversión más barata (marca + base). La captación realmente nueva (búsqueda genérica no-marca) es la más cara y la que menos se sostuvo. Mismo diagnóstico que Meta: <strong>falta alimentar la parte alta del embudo</strong>.</p>
+<p><strong>Sobre la volatilidad diaria:</strong> es real y la estamos puliendo de nuestro lado (estabilización de pacing y de la estrategia de puja para que la entrega no oscile tanto día a día). No es un tema para "mirar de lejos", es un ajuste operativo en curso. La tendencia de fondo a corregir sigue siendo el CPA mensual.</p>
+
+<h2>5 · Hacia dónde apunta — construir el embudo que falta</h2>
+<p>La conclusión no es bajar precio (la data no lo sostiene como causa). Es <strong>reconstruir el top of funnel</strong> para dejar de depender de que las campañas de conversión "encuentren" clientes nuevos entre la base. Estructura propuesta, ya en marcha de nuestro lado:</p>
+
+<div class="funnel">
+  <div class="f1"><b>TOFU (crear demanda — hoy ~0%):</b> campañas de Alcance, Video Views e Interacción con creativo que habla del problema/ocasión, no del precio. Traen gente nueva barata y generan audiencias de "vieron el video / interactuaron".</div>
+  <div class="f2"><b>MOFU (considerar):</b> Tráfico hacia el sitio sobre esos públicos tibios recién generados. Los mueve de "me enteré" a "estoy mirando".</div>
+  <div class="f3"><b>BOFU (vender):</b> las campañas de conversión actuales, pero <b>excluyendo compradores</b>, para que trabajen sobre pool fresco en vez de recalentar la base.</div>
+</div>
+
+<div class="box plan">
+  <h4>Por qué esto ataca el problema de raíz</h4>
+  <ul>
+    <li><strong>Baja el CPM:</strong> audiencias frescas = menor frecuencia = CPM (costo por mil impresiones) más bajo. Ataca el motor real del CAC (que vimos que es CPM, no conversión).</li>
+    <li><strong>Reabastece a Farming:</strong> como Farming es un rezago de Hunting, llenar el TOFU hoy es lo que frena la caída proyectada de órdenes de los próximos meses.</li>
+    <li><strong>Es su H4 hecha acción:</strong> generar demanda propia en vez de alquilarle todo el volumen a Meta al precio que Meta decida.</li>
+  </ul>
+  <p class="small">Nota de método, alineada con su punto sobre presupuestar pauta como % fijo de ventas: el TOFU <strong>no muestra ROAS inmediato</strong> (crea demanda, no vende en el clic). Medirlo por ROAS y cortarlo es lo que mantiene el embudo vacío. Hay que financiarlo como inversión de adquisición, con su propia métrica (costo por audiencia nueva / video view), separado de la regla de ROAS.</p>
+</div>
+
+<p class="small" style="margin-top:30px;border-top:1px solid var(--line);padding-top:12px">
+Dilema Creative · datos crudos Meta Graph API v21 y Google Ads API v23 · generado 06/08/2026.</p>
+
+</div>
