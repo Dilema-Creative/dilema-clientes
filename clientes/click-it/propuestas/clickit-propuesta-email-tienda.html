@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Click It · Propuesta Email Marketing + Optimización de tienda</title>
+<title>Click It · Optimización de tienda + Email Marketing</title>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -121,14 +121,14 @@
   }
   .hero h1 {
     font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: clamp(38px, 6vw, 76px);
-    line-height: 1.0; letter-spacing: -0.03em;
+    font-size: clamp(38px, 6vw, 72px);
+    line-height: 1.02; letter-spacing: -0.03em;
     color: var(--cream); max-width: 900px; margin-bottom: 24px;
   }
   .hero h1 em { font-style: italic; color: var(--blue); font-weight: 400; }
   .hero-sub {
     font-size: 17px; color: rgba(245,240,232,0.6);
-    max-width: 660px; font-weight: 300; line-height: 1.7; margin-bottom: 48px;
+    max-width: 640px; font-weight: 300; line-height: 1.7; margin-bottom: 48px;
   }
   .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
   .hero-pill {
@@ -154,7 +154,7 @@
   section.dark .section-kicker { color: var(--blue); }
   .section-title {
     font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: clamp(30px, 4vw, 52px);
+    font-size: clamp(30px, 4vw, 50px);
     line-height: 1.05; letter-spacing: -0.025em;
     color: var(--ink); max-width: 780px; margin-bottom: 16px;
   }
@@ -163,56 +163,65 @@
   section.dark .section-title em { color: var(--blue); }
   .section-desc {
     font-size: 16px; color: var(--ash);
-    max-width: 720px; margin-bottom: 52px;
+    max-width: 720px; margin-bottom: 48px;
     font-weight: 300; line-height: 1.7;
   }
   section.dark .section-desc { color: rgba(245,240,232,0.6); }
   .section-desc strong { color: var(--ink); font-weight: 600; }
   section.dark .section-desc strong { color: var(--cream); }
 
-  /* STATS */
-  .stats-row {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px; margin-bottom: 28px;
+  /* TIENDA CARDS */
+  .tn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .tn-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 6px; padding: 30px;
+    position: relative;
   }
-  .stat-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px; padding: 26px 24px;
-    position: relative; overflow: hidden;
+  .tn-card::before {
+    content: ''; position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: var(--blue); border-radius: 6px 6px 0 0;
   }
-  .stat-card.hi { border-color: rgba(45,127,249,0.45); background: rgba(45,127,249,0.08); }
-  .stat-label {
+  .tn-card:nth-child(2)::before { background: var(--gold); }
+  .tn-card:nth-child(3)::before { background: var(--blue-deep); }
+  .tn-card:nth-child(4)::before { background: var(--good); }
+  .tn-card-head {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 16px; padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .tn-num {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; font-weight: 500;
-    letter-spacing: 0.12em; text-transform: uppercase;
-    color: rgba(245,240,232,0.45); margin-bottom: 12px;
+    font-size: 11px; font-weight: 700;
+    background: var(--ink); color: var(--blue);
+    padding: 4px 10px; border-radius: 3px; letter-spacing: 0.08em;
+    flex-shrink: 0;
   }
-  .stat-value {
+  .tn-title {
     font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: 38px; line-height: 1; letter-spacing: -0.03em;
-    color: var(--cream); margin-bottom: 8px;
+    font-size: 19px; color: var(--ink); letter-spacing: -0.015em;
+    line-height: 1.25;
   }
-  .stat-card.hi .stat-value { color: var(--blue); }
-  .stat-foot { font-size: 12.5px; color: rgba(245,240,232,0.5); line-height: 1.5; }
-  .stats-note {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: rgba(245,240,232,0.35);
-    letter-spacing: 0.04em; line-height: 1.7;
+  .tn-issue { font-size: 14.5px; color: var(--bad); line-height: 1.65; margin-bottom: 14px; }
+  .tn-issue strong { color: var(--bad); font-weight: 600; }
+  .tn-fix {
+    font-size: 14.5px; color: var(--ash); line-height: 1.7;
+    border-top: 1px dashed var(--line); padding-top: 14px;
   }
+  .tn-fix strong { color: var(--good); font-weight: 600; }
 
   /* FUNNEL */
   .funnel {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px; margin-bottom: 8px;
+    gap: 10px; margin-bottom: 10px;
   }
   .fstep {
     background: var(--white);
     border: 1px solid var(--line);
     border-radius: 5px; padding: 22px 18px;
-    text-align: center; position: relative;
+    text-align: center;
   }
   .fstep.leak { border-color: var(--bad); background: #FAEDEA; }
   .fstep.win { border-color: var(--good); background: #F1F6EE; }
@@ -239,7 +248,7 @@
   .funnel-legend {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px; color: var(--ash);
-    letter-spacing: 0.04em; margin-bottom: 32px;
+    letter-spacing: 0.04em; margin-bottom: 30px; line-height: 1.7;
   }
 
   /* LOSS BOX */
@@ -302,69 +311,10 @@
     border-top: 1px dashed var(--line); padding-top: 12px;
   }
 
-  /* TIENDA CARDS */
-  .tn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .tn-card {
-    background: var(--white);
-    border: 1px solid var(--line);
-    border-radius: 6px; padding: 28px;
-    position: relative;
-  }
-  .tn-card-head {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 14px; padding-bottom: 14px;
-    border-bottom: 1px solid var(--line);
-    flex-wrap: wrap;
-  }
-  .tn-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; font-weight: 700;
-    background: var(--ink); color: var(--blue);
-    padding: 4px 10px; border-radius: 3px; letter-spacing: 0.08em;
-  }
-  .tn-title {
-    font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: 18px; color: var(--ink); letter-spacing: -0.015em;
-    flex: 1; min-width: 160px; line-height: 1.25;
-  }
-  .prio {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px; font-weight: 700;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 4px 9px; border-radius: 3px;
-  }
-  .prio.alta { background: #FAEDEA; color: var(--bad); border: 1px solid rgba(178,58,43,0.3); }
-  .prio.media { background: #FDF4E3; color: #9A6A12; border: 1px solid rgba(242,182,71,0.45); }
-  .tn-issue { font-size: 14px; color: var(--bad); line-height: 1.6; margin-bottom: 12px; }
-  .tn-issue strong { color: var(--bad); font-weight: 600; }
-  .tn-fix {
-    font-size: 14px; color: var(--ash); line-height: 1.65;
-    border-top: 1px dashed var(--line); padding-top: 12px;
-  }
-  .tn-fix strong { color: var(--good); font-weight: 600; }
-
-  /* NEEDS */
-  .needs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 16px;
-  }
-  .need-card {
-    background: var(--white); border: 1px solid var(--line);
-    border-radius: 4px; padding: 22px;
-  }
-  .need-icon { font-size: 22px; margin-bottom: 10px; }
-  .need-title {
-    font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: 16px; color: var(--ink);
-    margin-bottom: 6px; letter-spacing: -0.01em;
-  }
-  .need-desc { font-size: 13px; color: var(--ash); line-height: 1.55; }
-
   /* INCLUDED */
   .included-col {
     background: var(--white); border: 1px solid var(--line);
-    border-radius: 4px; padding: 28px;
+    border-radius: 4px; padding: 30px;
   }
   .included-col-header {
     display: flex; align-items: center; gap: 10px;
@@ -392,92 +342,90 @@
     color: var(--blue-deep); font-weight: 700; font-size: 13px;
   }
 
-  /* PRICING */
-  .pricing-wrap {
-    max-width: 760px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
+  /* NEEDS */
+  .needs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
   }
-  .pricing-card {
+  .need-card {
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 4px; padding: 22px;
+  }
+  .need-icon { font-size: 22px; margin-bottom: 10px; }
+  .need-title {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 16px; color: var(--ink);
+    margin-bottom: 6px; letter-spacing: -0.01em;
+  }
+  .need-desc { font-size: 13px; color: var(--ash); line-height: 1.55; }
+
+  /* PRICING */
+  .price-table {
+    max-width: 860px; margin: 0 auto 24px;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px; padding: 32px;
-    position: relative; display: flex; flex-direction: column;
+    border-radius: 6px; overflow: hidden;
   }
-  .pricing-card.featured { border-color: var(--blue); background: rgba(45,127,249,0.08); }
-  .pricing-card.featured::before {
-    content: 'Recomendado';
-    position: absolute; top: -12px; left: 24px;
-    background: var(--blue); color: var(--ink);
+  .price-row {
+    display: grid; grid-template-columns: 1fr auto;
+    gap: 24px; align-items: center;
+    padding: 22px 30px;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+  .price-row:last-child { border-bottom: none; }
+  .price-row.total {
+    background: rgba(45,127,249,0.1);
+    border-top: 1px solid rgba(45,127,249,0.35);
+  }
+  .price-row.strike .price-concept-name,
+  .price-row.strike .price-amount { color: rgba(245,240,232,0.4); }
+  .price-concept-name {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 19px; color: var(--cream);
+    letter-spacing: -0.015em; margin-bottom: 4px;
+  }
+  .price-concept-desc {
+    font-size: 13.5px; color: rgba(245,240,232,0.5); line-height: 1.55;
+  }
+  .price-amount {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 30px; letter-spacing: -0.03em;
+    color: var(--cream); white-space: nowrap;
+  }
+  .price-amount s { color: rgba(245,240,232,0.3); font-size: 22px; }
+  .price-amount span {
+    font-size: 14px; font-weight: 400;
+    color: rgba(245,240,232,0.4); letter-spacing: 0;
+  }
+  .price-row.total .price-amount { color: var(--blue); font-size: 40px; }
+  .price-row.total .price-concept-name { font-size: 22px; }
+  .price-tag {
+    display: inline-block;
     font-family: 'JetBrains Mono', monospace;
     font-size: 9.5px; font-weight: 700;
     letter-spacing: 0.12em; text-transform: uppercase;
-    padding: 5px 10px; border-radius: 3px;
+    color: var(--gold); border: 1px solid rgba(242,182,71,0.4);
+    background: rgba(242,182,71,0.08);
+    padding: 3px 9px; border-radius: 3px; margin-bottom: 8px;
   }
-  .pricing-name {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700; font-size: 10.5px;
-    color: rgba(245,240,232,0.5);
-    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px;
+  .price-detail {
+    max-width: 860px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 18px;
   }
-  .pricing-price {
-    font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: 46px; letter-spacing: -0.03em;
-    color: var(--cream); line-height: 1; margin-bottom: 6px;
-  }
-  .pricing-price span {
-    font-size: 18px; font-weight: 400;
-    color: rgba(245,240,232,0.4); letter-spacing: -0.01em;
-  }
-  .pricing-was {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11.5px; letter-spacing: 0.06em;
-    color: var(--gold); margin-bottom: 12px;
-  }
-  .pricing-was s { color: rgba(245,240,232,0.35); }
-  .pricing-note {
-    font-size: 13px; color: rgba(245,240,232,0.45);
-    margin-bottom: 22px; font-style: italic; min-height: 38px;
-  }
-  .pricing-divider { height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 20px; }
-  .pricing-list { list-style: none; display: flex; flex-direction: column; gap: 9px; flex: 1; }
-  .pricing-list li {
-    font-size: 13.5px; color: rgba(245,240,232,0.7);
-    padding-left: 22px; position: relative; line-height: 1.5;
-  }
-  .pricing-list li::before { content: '✓'; position: absolute; left: 0; color: var(--blue); font-weight: 700; }
-  .invest-note {
+  .price-note {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 4px; padding: 22px;
-    font-size: 14px; color: rgba(245,240,232,0.6);
-    line-height: 1.7; max-width: 760px; margin: 24px auto 0;
+    font-size: 14px; color: rgba(245,240,232,0.6); line-height: 1.7;
   }
-  .invest-note strong { color: rgba(245,240,232,0.9); }
-
-  /* CLOSING */
-  .closing {
-    background: var(--ink); padding: 100px 60px;
-    text-align: center; position: relative; overflow: hidden;
+  .price-note-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 10px;
   }
-  .closing::before {
-    content: ''; position: absolute;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 700px; height: 400px;
-    background: radial-gradient(ellipse, rgba(45,127,249,0.1) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .closing h2 {
-    font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: clamp(30px, 5vw, 58px);
-    letter-spacing: -0.03em; line-height: 1.05;
-    color: var(--cream); margin-bottom: 20px; position: relative;
-  }
-  .closing h2 em { font-style: italic; color: var(--blue); font-weight: 400; }
-  .closing p {
-    font-size: 16px; color: rgba(245,240,232,0.5);
-    max-width: 600px; margin: 0 auto 48px;
-    font-weight: 300; line-height: 1.7; position: relative;
-  }
+  .price-note strong { color: rgba(245,240,232,0.9); font-weight: 600; }
 
   /* FOOTER */
   footer {
@@ -530,12 +478,10 @@
     nav { padding: 0 32px; }
     .hero { padding: 120px 40px 80px; }
     section { padding: 64px 40px; }
-    .stats-row { grid-template-columns: 1fr 1fr; }
     .flows { grid-template-columns: 1fr 1fr; }
     .funnel { grid-template-columns: 1fr 1fr 1fr; }
     .loss-box { grid-template-columns: 1fr; gap: 24px; }
     .loss-sep { width: 100%; height: 1px; min-height: 1px; }
-    .closing { padding: 80px 40px; }
   }
 
   /* MOBILE */
@@ -558,21 +504,19 @@
     section { padding: 52px 22px; }
     .section-kicker { font-size: 9.5px; }
     .section-title { font-size: 27px; letter-spacing: -0.02em; margin-bottom: 12px; }
-    .section-desc { font-size: 15px; margin-bottom: 34px; }
+    .section-desc { font-size: 15px; margin-bottom: 32px; }
 
-    .stats-row { grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 22px; }
-    .stat-card { padding: 20px 16px; }
-    .stat-label { font-size: 9px; margin-bottom: 9px; }
-    .stat-value { font-size: 29px; }
-    .stat-foot { font-size: 11.5px; }
-    .stats-note { font-size: 10.5px; }
+    .tn-grid { grid-template-columns: 1fr; gap: 14px; }
+    .tn-card { padding: 24px; }
+    .tn-title { font-size: 17px; }
+    .tn-issue, .tn-fix { font-size: 13.5px; }
 
     .funnel { grid-template-columns: 1fr 1fr; gap: 10px; }
     .fstep { padding: 18px 12px; }
     .fstep-num { font-size: 26px; }
     .fstep-label { font-size: 9px; }
     .fstep-rate { font-size: 11.5px; margin-top: 10px; padding-top: 8px; }
-    .funnel-legend { font-size: 10.5px; margin-bottom: 26px; }
+    .funnel-legend { font-size: 10.5px; margin-bottom: 24px; }
 
     .loss-box { grid-template-columns: 1fr; gap: 20px; padding: 26px 22px; }
     .loss-sep { width: 100%; height: 1px; min-height: 1px; }
@@ -584,17 +528,6 @@
     .flow-title { font-size: 19px; }
     .flow-desc { font-size: 13.5px; }
 
-    .tn-grid { grid-template-columns: 1fr; gap: 14px; }
-    .tn-card { padding: 22px; }
-    .tn-title { font-size: 16.5px; min-width: 0; }
-    .tn-issue, .tn-fix { font-size: 13.5px; }
-
-    .needs-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-    .need-card { padding: 18px; }
-    .need-icon { font-size: 20px; margin-bottom: 8px; }
-    .need-title { font-size: 14px; }
-    .need-desc { font-size: 12.5px; }
-
     .included-col { padding: 22px; }
     .included-col-header { margin-bottom: 16px; padding-bottom: 12px; }
     .col-badge { font-size: 9.5px; }
@@ -602,17 +535,23 @@
     .included-list { grid-template-columns: 1fr; }
     .included-list li { font-size: 13px; }
 
-    .pricing-wrap { grid-template-columns: 1fr; gap: 22px; }
-    .pricing-card { padding: 26px 22px; }
-    .pricing-price { font-size: 38px; }
-    .pricing-price span { font-size: 16px; }
-    .pricing-list li { font-size: 13px; }
-    .pricing-note { min-height: 0; }
-    .invest-note { font-size: 13px; padding: 18px; }
+    .needs-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .need-card { padding: 18px; }
+    .need-icon { font-size: 20px; margin-bottom: 8px; }
+    .need-title { font-size: 14px; }
+    .need-desc { font-size: 12.5px; }
 
-    .closing { padding: 66px 22px 60px; }
-    .closing h2 { font-size: 29px; }
-    .closing p { font-size: 15px; margin-bottom: 0; }
+    .price-row {
+      grid-template-columns: 1fr; gap: 12px;
+      padding: 20px 22px;
+    }
+    .price-concept-name { font-size: 17px; }
+    .price-concept-desc { font-size: 13px; }
+    .price-amount { font-size: 26px; }
+    .price-row.total .price-amount { font-size: 34px; }
+    .price-row.total .price-concept-name { font-size: 19px; }
+    .price-detail { grid-template-columns: 1fr; gap: 14px; }
+    .price-note { font-size: 13px; padding: 18px; }
 
     footer { padding: 44px 22px 26px; }
     .footer-top { grid-template-columns: 1fr; gap: 26px; margin-bottom: 26px; padding-bottom: 22px; }
@@ -627,9 +566,7 @@
     .hero h1 { font-size: 29px; }
     .section-title { font-size: 25px; }
     .needs-grid { grid-template-columns: 1fr; }
-    .stats-row { grid-template-columns: 1fr; }
     .funnel { grid-template-columns: 1fr; }
-    .pricing-price { font-size: 34px; }
   }
 </style>
 </head>
@@ -642,10 +579,10 @@
     <div class="nav-sub">Propuesta Click It</div>
   </div>
   <div class="nav-links">
-    <a href="#resultados">Resultados</a>
-    <a href="#fuga">La fuga</a>
-    <a href="#email">Email</a>
     <a href="#tienda">Tienda</a>
+    <a href="#email">Email</a>
+    <a href="#incluye">Qué incluye</a>
+    <a href="#necesitamos">Qué necesitamos</a>
     <a href="#inversion">Inversión</a>
   </div>
 </nav>
@@ -657,52 +594,68 @@
     <span class="hero-mark-line"></span>
     <span class="hero-mark-tag">para Click It</span>
   </div>
-  <div class="hero-eyebrow">Agosto 2026 · Segunda etapa</div>
-  <h1>El motor ya <em>vende</em>.<br>Ahora vamos a buscar<br>lo que se <em>escapa</em>.</h1>
-  <p class="hero-sub">En el primer mes de campañas, Meta devolvió 7,68 veces cada peso invertido. Pero por cada persona que compró hubo tres que llegaron hasta el carrito y se fueron. Hoy no hay nada que las traiga de vuelta. Esta propuesta cubre las dos piezas que faltan: el email marketing que recupera esas ventas y las mejoras de tienda que destraban el resto.</p>
+  <div class="hero-eyebrow">Agosto 2026</div>
+  <h1>Optimización de tienda<br>y <em>email marketing</em>.</h1>
+  <p class="hero-sub">Dos frentes de trabajo para sumar a las campañas que ya están corriendo: mejoras concretas en la tienda para que más visitas terminen en compra, y un sistema de emails que recupera a la gente que llega hasta el carrito y no compra.</p>
   <div class="hero-pills">
-    <span class="hero-pill">Email Marketing</span>
-    <span class="hero-pill">Recupero de carritos</span>
     <span class="hero-pill">Optimización de tienda</span>
+    <span class="hero-pill">Recupero de carritos</span>
+    <span class="hero-pill">Email Marketing</span>
   </div>
 </div>
 
-<!-- RESULTADOS -->
-<section class="dark" id="resultados">
-  <div class="section-kicker">00 · Punto de partida</div>
-  <h2 class="section-title">De dónde<br><em>venimos</em>.</h2>
-  <p class="section-desc">Primer mes completo de gestión de Meta Ads. Estos son los números reales de la cuenta, del 17 de julio al 18 de agosto. Sirven de contexto: todo lo que proponemos acá se apoya sobre un canal que ya funciona.</p>
+<!-- TIENDA -->
+<section id="tienda">
+  <div class="section-kicker">01 · Optimización de tienda</div>
+  <h2 class="section-title">Cuatro cambios en la tienda<br>que <em>mueven la conversión</em>.</h2>
+  <p class="section-desc">De cada 100 personas que entran a la tienda desde un anuncio, sólo 3,6 llegan a agregar un producto al carrito. En un ecommerce sano ese número está entre 8 y 12. Estos son los cuatro puntos que detectamos con mayor efecto sobre esa cifra. <strong>No forman parte del fee</strong>, son recomendaciones para ejecutar internamente.</p>
 
-  <div class="stats-row">
-    <div class="stat-card hi">
-      <div class="stat-label">Retorno</div>
-      <div class="stat-value">7,68x</div>
-      <div class="stat-foot">Por cada peso invertido en pauta volvieron $7,68 en facturación</div>
+  <div class="tn-grid">
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">01</span>
+        <div class="tn-title">Aviso al agregar al carrito</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> cuando alguien toca "Agregar al carrito" no aparece ninguna confirmación visible. No hay cartel que avise que el producto se sumó ni nada que invite a seguir con la compra. Mucha gente no sabe si funcionó y abandona ahí mismo.</div>
+      <div class="tn-fix"><strong>Recomendación:</strong> activar el panel lateral de carrito de Tiendanube, para que al agregar se despliegue un aviso con el producto, el subtotal y un botón grande para ir a pagar. Acorta el camino entre agregar y comprar, que es justo donde hoy se pierde la mayor parte de la gente.</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-label">Facturación</div>
-      <div class="stat-value">$8,3M</div>
-      <div class="stat-foot">Ventas atribuidas a las campañas en el período</div>
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">02</span>
+        <div class="tn-title">Tarjetas MODO y promociones bancarias</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> el checkout ofrece tarjeta, transferencia y Mercado Pago. MODO no está aprovechado, y es donde viven las promociones y las cuotas subsidiadas por los bancos.</div>
+      <div class="tn-fix"><strong>Recomendación:</strong> activar MODO y mostrarlo como medio de pago destacado. En un ticket de $180.000 la financiación es muchas veces lo que define la compra, y esas cuotas las paga el banco, no Click It. Conviene que se vea en la ficha del producto y no recién en el último paso.</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-label">Ventas</div>
-      <div class="stat-value">44</div>
-      <div class="stat-foot">Ticket promedio de $188.769</div>
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">03</span>
+        <div class="tn-title">Video en la galería del producto</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> la ficha del Ottocast tiene 8 fotos y ningún video. Es un producto que se entiende mucho mejor en movimiento: cómo se ve la imagen en la pantalla del auto, cómo se instala, qué muestra realmente.</div>
+      <div class="tn-fix"><strong>Recomendación:</strong> sumar a la galería el mismo video que hoy está vendiendo en los anuncios. Es material que ya está producido y ya está probado, sólo hay que cargarlo. Lo mismo para el resto de los productos que tengan video.</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-label">Costo por venta</div>
-      <div class="stat-value">$24.592</div>
-      <div class="stat-foot">Por debajo del punto de equilibrio calculado sobre sus márgenes</div>
+
+    <div class="tn-card">
+      <div class="tn-card-head">
+        <span class="tn-num">04</span>
+        <div class="tn-title">Cupón de bienvenida para visitantes nuevos</div>
+      </div>
+      <div class="tn-issue"><strong>Hoy:</strong> no hay nada que capture al que entra por primera vez. Si esa persona no compra en la visita, se va sin dejar ningún dato y hay que volver a pagarle a Meta para traerla de nuevo.</div>
+      <div class="tn-fix"><strong>Recomendación:</strong> ventana de bienvenida con un descuento para la primera compra a cambio del email, con la opción de suscribirse a las novedades. Empuja la compra en el momento y a la vez construye la base de contactos sobre la que trabaja todo el punto siguiente.</div>
     </div>
+
   </div>
-  <p class="stats-note">Período 17/07 al 18/08/2026 · Fuente: API de Meta Ads · Inversión en pauta $1.082.058</p>
 </section>
 
-<!-- LA FUGA -->
-<section id="fuga">
-  <div class="section-kicker">01 · Dónde está la oportunidad</div>
-  <h2 class="section-title">Tres de cada cuatro<br>personas que llenan el carrito<br><em>no terminan comprando</em>.</h2>
-  <p class="section-desc">Este es el recorrido completo de la gente que llegó desde los anuncios. Cada escalón muestra cuántos pasaron y qué porcentaje siguió al siguiente paso. <strong>El checkout funciona bien.</strong> El problema está antes, y sobre todo en lo que pasa después de que alguien se va sin comprar: hoy no pasa nada.</p>
+<!-- EMAIL -->
+<section class="alt" id="email">
+  <div class="section-kicker">02 · Email Marketing</div>
+  <h2 class="section-title">Lo que hoy se pierde<br>después del <em>carrito</em>.</h2>
+  <p class="section-desc">Este es el recorrido de la gente que llegó a la tienda desde los anuncios entre el 17 de julio y el 18 de agosto. El checkout funciona: seis de cada diez que empiezan a pagar terminan comprando. El problema está en lo que pasa cuando alguien se va antes, porque hoy no pasa nada.</p>
 
   <div class="funnel">
     <div class="fstep">
@@ -728,208 +681,103 @@
     <div class="fstep win">
       <div class="fstep-num">44</div>
       <div class="fstep-label">Compraron</div>
-      <div class="fstep-rate"><b>$8,3M</b> facturados</div>
+      <div class="fstep-rate"><b>25%</b> de los carritos</div>
     </div>
   </div>
-  <p class="funnel-legend">Rojo = donde se pierde gente que ya demostró intención de compra.</p>
+  <p class="funnel-legend">Datos de la cuenta de Meta Ads, 17/07 al 18/08/2026. En rojo, donde se pierde gente que ya mostró intención de compra.</p>
 
   <div class="loss-box">
     <div class="loss-item">
       <div class="loss-num">135</div>
-      <div class="loss-txt">personas <strong>llenaron el carrito y se fueron</strong> sin comprar. Ya conocen el producto, ya vieron el precio y les interesó lo suficiente como para agregarlo.</div>
+      <div class="loss-txt">personas <strong>llenaron el carrito y se fueron</strong> sin comprar. Ya conocen el producto y ya vieron el precio.</div>
     </div>
     <div class="loss-sep"></div>
     <div class="loss-item">
       <div class="loss-num">28</div>
-      <div class="loss-txt">de esas personas <strong>llegaron a cargar los datos de pago</strong> y no terminaron. Es lo más cerca que se puede estar de comprar sin comprar.</div>
+      <div class="loss-txt">de ellas <strong>llegaron a cargar los datos de pago</strong> y no terminaron. Es lo más cerca que se puede estar de comprar sin comprar.</div>
     </div>
     <div class="loss-sep"></div>
     <div class="loss-item">
       <div class="loss-num">$816k</div>
-      <div class="loss-txt">es lo que costó en publicidad traer a esas 135 personas. <strong>Esa inversión ya está hecha y pagada.</strong> Hoy no hay ningún mecanismo que las vuelva a contactar.</div>
+      <div class="loss-txt">costó en publicidad traer a esas 135 personas. <strong>Esa inversión ya está hecha.</strong> Hoy no hay nada que las vuelva a contactar.</div>
     </div>
   </div>
-</section>
 
-<!-- EMAIL -->
-<section class="alt" id="email">
-  <div class="section-kicker">02 · Email Marketing</div>
-  <h2 class="section-title">Ir a buscar a la gente<br>que <em>ya está</em> interesada.</h2>
-  <p class="section-desc">El email es el único canal donde no se paga por volver a hablarle a alguien. La persona ya entró, ya eligió el producto y ya dejó su mail en el checkout: recuperarla no cuesta pauta nueva. <strong>Un flujo de carrito abandonado bien armado recupera entre el 5% y el 10% de esos carritos.</strong> Sobre los 135 del último mes son entre 7 y 13 ventas adicionales, o sea entre $1,3 y $2,5 millones de facturación, sin sumar un peso de inversión publicitaria.</p>
+  <h3 class="section-title" style="font-size: clamp(26px, 3vw, 36px); margin: 60px 0 14px;">Los flujos que <em>armamos</em>.</h3>
+  <p class="section-desc" style="margin-bottom: 36px;">Se configuran una vez y quedan corriendo solos. <strong>Un flujo de carrito abandonado recupera entre el 5% y el 10% de esos carritos:</strong> sobre los 135 del último mes son entre 7 y 13 ventas más, sin sumar un peso de inversión publicitaria.</p>
 
   <div class="flows">
 
     <div class="flow">
-      <div class="flow-tag">Flujo 01 · Prioridad</div>
+      <div class="flow-tag">Flujo 01</div>
       <div class="flow-title">Carrito y pago abandonado</div>
-      <div class="flow-desc">Secuencia automática para quien agregó al carrito o arrancó el checkout y no terminó. Se dispara sola, con el producto que dejó, y va escalando el argumento en cada envío hasta cerrar la venta o soltarla.</div>
+      <div class="flow-desc">Secuencia automática para quien agregó al carrito o arrancó el checkout y no terminó. Se dispara sola, con el producto que quedó pendiente, y escala el argumento en cada envío hasta cerrar la venta.</div>
       <div class="flow-kpi">KPI · Tasa de recupero y facturación atribuida</div>
     </div>
 
     <div class="flow">
       <div class="flow-tag">Flujo 02</div>
-      <div class="flow-title">Captura de visitantes nuevos</div>
-      <div class="flow-desc">Cupón de bienvenida para el que entra por primera vez a cambio de su email. Hoy, el que no compra en esa visita se pierde para siempre. Con esto se construye una base propia desde el primer día, que se puede usar sin pagarle a ninguna plataforma.</div>
-      <div class="flow-kpi">KPI · Suscriptores nuevos y costo por suscriptor</div>
+      <div class="flow-title">Captura y bienvenida</div>
+      <div class="flow-desc">Conectado con el cupón de la tienda. Al suscriptor nuevo le llega el descuento, quién es Click It, por qué confiar en la marca y qué productos hay. Es el momento de mayor atención de toda la relación.</div>
+      <div class="flow-kpi">KPI · Suscriptores y conversión a primera compra</div>
     </div>
 
     <div class="flow">
       <div class="flow-tag">Flujo 03</div>
-      <div class="flow-title">Bienvenida</div>
-      <div class="flow-desc">Secuencia para el suscriptor nuevo: quién es Click It, por qué se puede confiar en la marca, qué productos hay y cómo usar el cupón. Es el momento de mayor atención de toda la relación y hoy está vacío.</div>
-      <div class="flow-kpi">KPI · Conversión de suscriptor a primera compra</div>
+      <div class="flow-title">Post-compra</div>
+      <div class="flow-desc">Al que ya compró: confirmación, consejos de uso del producto y seguimiento. Baja las consultas repetidas por WhatsApp y prepara el terreno para que vuelva a comprar.</div>
+      <div class="flow-kpi">KPI · Recompra y consultas evitadas</div>
     </div>
 
     <div class="flow">
       <div class="flow-tag">Flujo 04</div>
-      <div class="flow-title">Post-compra y reseñas</div>
-      <div class="flow-desc">Al que ya compró: confirmación, consejos de uso y pedido de reseña en el momento justo. Alimenta directamente la prueba social que hoy le falta a la tienda y baja las consultas repetidas por WhatsApp.</div>
-      <div class="flow-kpi">KPI · Reseñas obtenidas y recompra</div>
-    </div>
-
-    <div class="flow">
-      <div class="flow-tag">Flujo 05</div>
       <div class="flow-title">Newsletter</div>
-      <div class="flow-desc">Envío periódico a toda la base con novedades, producto destacado y promociones. Es lo que mantiene viva la marca entre compra y compra, y lo que hace que un lanzamiento nuevo venda desde el día uno.</div>
+      <div class="flow-desc">Envío periódico a toda la base con novedades, producto destacado y promociones. Mantiene viva la marca entre compra y compra, y hace que un lanzamiento nuevo venda desde el primer día.</div>
       <div class="flow-kpi">KPI · Facturación por envío</div>
     </div>
 
     <div class="flow">
-      <div class="flow-tag">Flujo 06</div>
+      <div class="flow-tag">Flujo 05</div>
       <div class="flow-title">Reactivación</div>
       <div class="flow-desc">Campaña dirigida a quienes compraron o se suscribieron hace tiempo y no volvieron. Una base sin trabajar se enfría y deja de rendir: esto la recupera antes de que eso pase.</div>
       <div class="flow-kpi">KPI · Ventas sobre base inactiva</div>
     </div>
 
-  </div>
-
-  <div class="included-col" style="margin-top: 30px;">
-    <div class="included-col-header">
-      <div class="col-badge">Incluido en el fee</div>
-      <div class="col-title">Todo lo que va de nuestro lado</div>
+    <div class="flow">
+      <div class="flow-tag">Flujo 06</div>
+      <div class="flow-title">Campañas puntuales</div>
+      <div class="flow-desc">Envíos armados para fechas y momentos concretos: lanzamientos, liquidación de stock, promociones por temporada. Se coordinan con lo que esté corriendo en Meta para que los dos canales empujen lo mismo.</div>
+      <div class="flow-kpi">KPI · Facturación por campaña</div>
     </div>
-    <ul class="included-list">
-      <li>Configuración de la herramienta y conexión con la tienda</li>
-      <li>Autenticación del dominio para que los envíos lleguen a la bandeja principal</li>
-      <li>Armado y puesta en marcha de todos los flujos automáticos</li>
-      <li>Redacción y diseño de cada email, con la identidad de Click It</li>
-      <li>Segmentación de la base según comportamiento de compra</li>
-      <li>Newsletter periódica con copy y diseño incluidos</li>
-      <li>Seguimiento de métricas y ajuste continuo de asuntos y contenidos</li>
-      <li>Reporte mensual con la facturación atribuida al canal</li>
-      <li>Email sumado al portal de cliente, junto a los datos de Meta</li>
-    </ul>
+
   </div>
 </section>
 
-<!-- TIENDA -->
-<section id="tienda">
-  <div class="section-kicker">03 · Optimización de tienda</div>
-  <h2 class="section-title">Lo que hay que arreglar<br>para que todo lo demás<br><em>rinda más</em>.</h2>
-  <p class="section-desc">De cada 100 personas que entran a la tienda desde un anuncio, sólo 3,6 agregan al carrito. En un ecommerce sano ese número está entre 8 y 12. Duplicarlo significa duplicar las ventas con la misma inversión publicitaria, y hace rendir más al email, a Meta y a cualquier canal que sumemos después. <strong>Estas mejoras no forman parte del fee</strong>, son las recomendaciones que dejamos por escrito para que las ejecuten internamente. Están ordenadas por impacto sobre la venta.</p>
+<!-- QUÉ INCLUYE -->
+<section id="incluye">
+  <div class="section-kicker">03 · Qué incluye</div>
+  <h2 class="section-title">Todo lo que va<br>de <em>nuestro lado</em>.</h2>
+  <p class="section-desc">El servicio cubre el armado completo y la gestión mes a mes. No hace falta que nadie de Click It escriba, diseñe ni configure nada.</p>
 
-  <div class="tn-grid">
-
-    <div class="tn-card">
-      <div class="tn-card-head">
-        <span class="tn-num">01</span>
-        <div class="tn-title">El nombre del producto no coincide con el anuncio</div>
-        <span class="prio alta">Alta</span>
-      </div>
-      <div class="tn-issue"><strong>Hoy:</strong> el anuncio promete "cámara para ver al bebé en el auto" y el título que se ve en la ficha dice "Otto cast cabine care", con la marca mal escrita y separada. El título interno de la página sí está bien redactado, pero el visitante ve el otro. La persona hace clic esperando una cosa y aterriza en algo que no la nombra.</div>
-      <div class="tn-fix"><strong>Recomendación:</strong> renombrar el producto en Tiendanube a algo que repita la promesa del anuncio, del estilo "Cámara para bebé en el auto con CarPlay · Ottocast Cabin Care". Es un cambio de dos minutos y es el que más rápido puede mover la conversión.</div>
+  <div class="included-col">
+    <div class="included-col-header">
+      <div class="col-badge">Incluido en el fee</div>
+      <div class="col-title">Email Marketing, gestión mensual</div>
     </div>
-
-    <div class="tn-card">
-      <div class="tn-card-head">
-        <span class="tn-num">02</span>
-        <div class="tn-title">Cupón de bienvenida para el visitante nuevo</div>
-        <span class="prio alta">Alta</span>
-      </div>
-      <div class="tn-issue"><strong>Hoy:</strong> no hay nada que capture al visitante que entra por primera vez. Si no compra en esa visita, se va sin dejar rastro y hay que volver a pagarle a Meta para traerlo de nuevo.</div>
-      <div class="tn-fix"><strong>Recomendación:</strong> ventana de bienvenida con un descuento para la primera compra a cambio del email, con opción de suscribirse a las novedades. Cumple dos funciones a la vez: empuja la compra en el momento y alimenta la base de email marketing. <strong>Es la pieza que conecta la tienda con el punto anterior de esta propuesta.</strong></div>
-    </div>
-
-    <div class="tn-card">
-      <div class="tn-card-head">
-        <span class="tn-num">03</span>
-        <div class="tn-title">Aviso al agregar al carrito</div>
-        <span class="prio alta">Alta</span>
-      </div>
-      <div class="tn-issue"><strong>Hoy:</strong> cuando alguien toca "Agregar al carrito" no pasa nada visible. No aparece ningún cartel que confirme que el producto se sumó ni que invite a seguir. Mucha gente no entiende si funcionó y abandona ahí mismo.</div>
-      <div class="tn-fix"><strong>Recomendación:</strong> activar el panel lateral de carrito de Tiendanube, para que al agregar se despliegue una confirmación con el producto, el subtotal y un botón grande para finalizar la compra. Acorta el camino entre agregar y pagar, que es justo donde hoy se pierde el 60% de la gente.</div>
-    </div>
-
-    <div class="tn-card">
-      <div class="tn-card-head">
-        <span class="tn-num">04</span>
-        <div class="tn-title">Sin reseñas ni prueba social</div>
-        <span class="prio alta">Alta</span>
-      </div>
-      <div class="tn-issue"><strong>Hoy:</strong> la tienda no muestra ninguna reseña. Para una marca joven y un producto de $180.000 que se compra por primera vez desde un anuncio, la falta de opiniones de otros compradores es probablemente el mayor freno.</div>
-      <div class="tn-fix"><strong>Recomendación:</strong> instalar una aplicación de reseñas y cargar las primeras pidiéndoselas por WhatsApp a los compradores que ya tienen. Con 5 a 8 opiniones visibles en la ficha alcanza para cambiar la percepción. El flujo de post-compra del email se encarga de que sigan entrando solas.</div>
-    </div>
-
-    <div class="tn-card">
-      <div class="tn-card-head">
-        <span class="tn-num">05</span>
-        <div class="tn-title">Video en la galería del producto</div>
-        <span class="prio alta">Alta</span>
-      </div>
-      <div class="tn-issue"><strong>Hoy:</strong> la ficha del Ottocast tiene 8 fotos y ningún video. Es una cámara que se entiende diez veces mejor en movimiento: cómo se ve la imagen en la pantalla del auto, cómo se instala, qué muestra de verdad.</div>
-      <div class="tn-fix"><strong>Recomendación:</strong> sumar a la galería el mismo video que hoy está vendiendo en los anuncios. Es contenido que ya está producido y ya está probado, sólo hay que subirlo. Lo mismo para el resto de los productos que tengan material.</div>
-    </div>
-
-    <div class="tn-card">
-      <div class="tn-card-head">
-        <span class="tn-num">06</span>
-        <div class="tn-title">Tarjetas MODO y promociones bancarias</div>
-        <span class="prio media">Media</span>
-      </div>
-      <div class="tn-issue"><strong>Hoy:</strong> el checkout ofrece tarjeta, transferencia y Mercado Pago. MODO no está aprovechado, y es donde viven las promos y las cuotas subsidiadas por los bancos.</div>
-      <div class="tn-fix"><strong>Recomendación:</strong> activar y mostrar MODO como medio de pago destacado. Para un ticket de $180.000 la financiación bancaria es muchas veces lo que define la compra, y esas cuotas las paga el banco, no Click It. Conviene que se vea en la ficha del producto, no recién en el último paso.</div>
-    </div>
-
-    <div class="tn-card">
-      <div class="tn-card-head">
-        <span class="tn-num">07</span>
-        <div class="tn-title">El botón de compra queda tapado en el celular</div>
-        <span class="prio media">Media</span>
-      </div>
-      <div class="tn-issue"><strong>Hoy:</strong> casi todo el tráfico de los anuncios entra desde el celular. Ahí el nombre del producto recién aparece a mitad de pantalla, el botón de comprar queda al borde de lo visible y el cartel de cookies flota fijo justo encima de esa zona hasta que se lo cierra.</div>
-      <div class="tn-fix"><strong>Recomendación:</strong> dejar el botón de compra fijo en la parte inferior de la pantalla mientras se navega la ficha, y achicar el encabezado para que el producto y el precio se vean apenas se entra. El visitante tiene que poder comprar sin buscar dónde.</div>
-    </div>
-
-    <div class="tn-card">
-      <div class="tn-card-head">
-        <span class="tn-num">08</span>
-        <div class="tn-title">La página principal tiene secciones sin terminar</div>
-        <span class="prio media">Media</span>
-      </div>
-      <div class="tn-issue"><strong>Hoy:</strong> el bloque de videos del inicio muestra los textos de ejemplo de la plantilla, "Clip 01 — descripción breve" repetido en los cinco, y un contador que marca "5 / -2". A quien entra por primera vez le da la sensación de tienda a medio hacer, justo cuando está decidiendo si dejar $180.000.</div>
-      <div class="tn-fix"><strong>Recomendación:</strong> completar esos textos con el nombre real de cada video, o directamente quitar la sección hasta tenerla lista. Una sección menos es mejor que una sección sin terminar.</div>
-    </div>
-
-    <div class="tn-card">
-      <div class="tn-card-head">
-        <span class="tn-num">09</span>
-        <div class="tn-title">La promesa de envío se contradice a sí misma</div>
-        <span class="prio media">Media</span>
-      </div>
-      <div class="tn-issue"><strong>Hoy:</strong> la barra superior anuncia "envío gratis a todo el país" y unos bloques más abajo, en la misma página de inicio, dice "envío gratis todo CABA". Son dos promesas distintas conviviendo en la misma pantalla. El que vive en el interior no sabe cuál le aplica y esa duda frena la compra o genera una consulta por WhatsApp que había que evitar.</div>
-      <div class="tn-fix"><strong>Recomendación:</strong> unificar el mensaje en toda la tienda con la condición real, y si hay un mínimo de compra decirlo en la misma frase. Una sola promesa, repetida igual en todos lados.</div>
-    </div>
-
-    <div class="tn-card">
-      <div class="tn-card-head">
-        <span class="tn-num">10</span>
-        <div class="tn-title">Secciones y prolijidad del catálogo</div>
-        <span class="prio media">Media</span>
-      </div>
-      <div class="tn-issue"><strong>Hoy:</strong> el inicio tiene una sola sección, "Destacados". Las fotos del listado tienen proporciones distintas entre sí, algunas cuadradas y otras verticales, y quedan desparejas. Hay además detalles de redacción sueltos, como la categoría escrita sin tilde.</div>
-      <div class="tn-fix"><strong>Recomendación:</strong> sumar secciones que le den movimiento al inicio, del tipo "Más vendidos" y "Combos", unificar las fotos del listado a un mismo formato y repasar los textos de categorías. Son detalles chicos que juntos definen si la tienda se percibe como una marca establecida.</div>
-    </div>
-
+    <ul class="included-list">
+      <li>Configuración de la herramienta y conexión con Tiendanube</li>
+      <li>Autenticación del dominio para que los envíos lleguen a la bandeja principal</li>
+      <li>Armado y puesta en marcha de los flujos automáticos</li>
+      <li>Redacción y diseño de cada email con la identidad de Click It</li>
+      <li>Segmentación de la base según comportamiento de compra</li>
+      <li>Newsletter periódica con copy y diseño incluidos</li>
+      <li>Coordinación de los envíos con lo que está corriendo en Meta</li>
+      <li>Seguimiento y ajuste continuo de asuntos, contenidos y frecuencia</li>
+      <li>Limpieza de contactos inactivos y cuidado de la reputación de envío</li>
+      <li>Email sumado al portal de cliente, junto a los datos de Meta</li>
+      <li>Reporte mensual con la facturación atribuida al canal</li>
+      <li>Recomendaciones de tienda a medida que aparezcan</li>
+    </ul>
   </div>
 </section>
 
@@ -937,13 +785,13 @@
 <section class="alt" id="necesitamos">
   <div class="section-kicker">04 · Qué necesitamos de su lado</div>
   <h2 class="section-title">Lo que precisamos<br><em>para arrancar</em>.</h2>
-  <p class="section-desc">Poco y concreto. Con esto configuramos todo y los flujos quedan corriendo solos.</p>
+  <p class="section-desc">Poco y concreto. Con esto configuramos todo y los flujos quedan corriendo.</p>
 
   <div class="needs-grid">
     <div class="need-card">
       <div class="need-icon">🔑</div>
       <div class="need-title">Acceso a Tiendanube</div>
-      <div class="need-desc">Para conectar la herramienta de email, sincronizar los contactos y que los carritos abandonados disparen solos.</div>
+      <div class="need-desc">Para conectar la herramienta de email, sincronizar contactos y que los carritos abandonados disparen solos.</div>
     </div>
     <div class="need-card">
       <div class="need-icon">🌐</div>
@@ -968,7 +816,7 @@
     <div class="need-card">
       <div class="need-icon">🛠️</div>
       <div class="need-title">Quién ejecuta la tienda</div>
-      <div class="need-desc">Saber si las mejoras de tienda las hacen internamente o con alguien externo, para coordinar y priorizar.</div>
+      <div class="need-desc">Saber si las mejoras de tienda las hacen internamente o con alguien externo, para coordinar tiempos.</div>
     </div>
   </div>
 </section>
@@ -976,58 +824,57 @@
 <!-- INVERSIÓN -->
 <section class="dark" id="inversion">
   <div class="section-kicker">05 · Inversión</div>
-  <h2 class="section-title">Cómo <em>sumarlo</em><br>a lo que ya está andando.</h2>
-  <p class="section-desc">El email marketing como servicio suelto tiene un valor de USD 150 por mes. Como Click It ya tiene Meta Ads activo con nosotros y los dos canales se trabajan de forma cruzada, lo sumamos a un valor preferencial. La inversión en la herramienta de email va aparte del fee, igual que la pauta de Meta.</p>
+  <h2 class="section-title">El valor del servicio<br>y lo que <em>les queda a ustedes</em>.</h2>
+  <p class="section-desc">El email marketing como servicio suelto tiene un valor de <strong>USD 150 por mes</strong>. Como Click It ya tiene Meta Ads activo con nosotros y los dos canales se trabajan cruzados, lo sumamos a <strong>USD 100 por mes</strong>. Así queda la cuenta final.</p>
 
-  <div class="pricing-wrap">
+  <div class="price-table">
 
-    <div class="pricing-card">
-      <div class="pricing-name">Email Marketing · Se suma al plan actual</div>
-      <div class="pricing-price">USD 100<span>/mes</span></div>
-      <div class="pricing-was"><s>USD 150</s> &nbsp;·&nbsp; valor preferencial por tener Meta activo</div>
-      <div class="pricing-note">Se suma a los USD 350 de Meta Ads que ya están en curso.</div>
-      <div class="pricing-divider"></div>
-      <ul class="pricing-list">
-        <li>Los 6 flujos automáticos descriptos</li>
-        <li>Configuración y autenticación del dominio</li>
-        <li>Copy y diseño de todos los envíos</li>
-        <li>Newsletter periódica</li>
-        <li>Segmentación de la base</li>
-        <li>Email sumado al portal de cliente</li>
-        <li>Reporte mensual con facturación atribuida</li>
-      </ul>
+    <div class="price-row">
+      <div>
+        <div class="price-concept-name">Meta Ads</div>
+        <div class="price-concept-desc">Lo que ya está en curso hoy. No cambia.</div>
+      </div>
+      <div class="price-amount">USD 350<span>/mes</span></div>
     </div>
 
-    <div class="pricing-card featured">
-      <div class="pricing-name">Paquete Meta + Email</div>
-      <div class="pricing-price">USD 450<span>/mes</span></div>
-      <div class="pricing-was">Los dos canales trabajando juntos</div>
-      <div class="pricing-note">Es el mismo total, presentado como un solo paquete integrado.</div>
-      <div class="pricing-divider"></div>
-      <ul class="pricing-list">
-        <li>Todo lo de Meta Ads, como viene funcionando</li>
-        <li>Todo lo de Email Marketing</li>
-        <li>Estrategia cruzada entre los dos canales</li>
-        <li>Quien no compra en Meta entra al circuito de email</li>
-        <li>Quien compra por email sale de las audiencias de pauta</li>
-        <li>Optimización semanal sobre ambos</li>
-        <li>Reporte mensual, reunión y portal unificados</li>
-        <li>Recomendaciones de tienda incluidas</li>
-      </ul>
+    <div class="price-row strike">
+      <div>
+        <div class="price-concept-name">Email Marketing · valor de lista</div>
+        <div class="price-concept-desc">Lo que vale el servicio contratado por separado.</div>
+      </div>
+      <div class="price-amount"><s>USD 150</s><span>/mes</span></div>
+    </div>
+
+    <div class="price-row">
+      <div>
+        <span class="price-tag">Precio para Click It</span>
+        <div class="price-concept-name">Email Marketing · sumado a Meta</div>
+        <div class="price-concept-desc">USD 50 menos por mes, por tener los dos canales con nosotros. Se mantiene mientras Meta siga activo.</div>
+      </div>
+      <div class="price-amount">USD 100<span>/mes</span></div>
+    </div>
+
+    <div class="price-row total">
+      <div>
+        <div class="price-concept-name">Total mensual · Meta + Email</div>
+        <div class="price-concept-desc">Por separado los dos servicios suman USD 500 por mes.</div>
+      </div>
+      <div class="price-amount">USD 450<span>/mes</span></div>
     </div>
 
   </div>
 
-  <div class="invest-note">
-    <strong>Qué va aparte del fee:</strong> la inversión en pauta que se le paga directamente a Meta, y el costo de la herramienta de email marketing, que depende del tamaño de la base de contactos y arranca bajo mientras la base se está construyendo. <strong>Las mejoras de tienda del punto 03 no están incluidas en el fee:</strong> son recomendaciones para ejecutar internamente. Si prefieren que las hagamos nosotros, lo cotizamos aparte como un trabajo puntual, no como un abono mensual.
+  <div class="price-detail">
+    <div class="price-note">
+      <div class="price-note-title">Qué va aparte del fee</div>
+      La inversión en pauta que se le paga directamente a Meta, y el costo de la herramienta de email marketing, que depende del tamaño de la base de contactos y arranca bajo mientras esa base se está construyendo. <strong>Son costos de plataforma, no honorarios nuestros.</strong>
+    </div>
+    <div class="price-note">
+      <div class="price-note-title">Sobre las mejoras de tienda</div>
+      Los cuatro puntos del apartado 01 <strong>no están incluidos en el fee</strong>: son recomendaciones para que las ejecuten internamente o con quien les maneje la tienda. Si prefieren que las hagamos nosotros, lo cotizamos aparte como un trabajo puntual y no como un abono mensual.
+    </div>
   </div>
 </section>
-
-<!-- CIERRE -->
-<div class="closing">
-  <h2>La parte cara<br>ya está <em>pagada</em>.</h2>
-  <p>Traer a alguien nuevo a la tienda cuesta plata todos los meses. Volver a hablarle a quien ya estuvo, no. Hoy hay 135 personas que eligieron el producto, lo pusieron en el carrito y se fueron, y ninguna recibió jamás un mensaje. Esta es la parte del sistema que falta.</p>
-</div>
 
 <!-- FOOTER -->
 <footer>
