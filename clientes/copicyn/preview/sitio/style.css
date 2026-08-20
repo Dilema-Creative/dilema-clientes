@@ -1274,6 +1274,10 @@ img { max-width: 100%; }
   .services-hero, .contact-hero { width: 100%; }
   .carousel-container { max-width: 100%; }
 
+  /* en mobile no dependemos del JS de scroll: la seccion se ve siempre
+     (en iOS el fade-in a veces no dispara y quedaba un bloque blanco) */
+  .fade-in-on-scroll { opacity: 1; transform: none; }
+
   /* hero */
   .hero-content { left: 6%; right: 6%; max-width: none; }
   .hero-subtitle { font-size: 1.05rem; }
@@ -1355,9 +1359,14 @@ img { max-width: 100%; }
   .services-hero-icons, .contact-hero-icons { gap: 1.2rem; }
   .services-hero-icons i, .contact-hero-icons i { font-size: 1.2rem; }
 
-  /* services.html cards */
-  .service-item { min-width: 260px; max-width: 280px; }
-  #services-catalog { padding: 48px .5rem; }
+  /* services.html: en mobile apilamos las tarjetas (el carrusel cortaba
+     la tarjeta del costado). Anulamos el transform del JS y las mostramos completas. */
+  #services-catalog { padding: 48px 1rem; }
+  .services-carousel-container { overflow: visible; padding: 0; }
+  .services-grid { flex-direction: column; transform: none !important; gap: 1.5rem; }
+  .service-item { min-width: 0; max-width: 100%; width: 100%; }
+  .service-item img { height: 190px; }
+  .services-controls { display: none; }
 
   /* contacto.html */
   #contact-region { padding-top: 48px; padding-bottom: 56px; }
