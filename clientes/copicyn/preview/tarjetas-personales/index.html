@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     GTM / GOOGLE ADS / GA4 — PEGAR CUANDO ESTÉ LA CUENTA
+     Acá va el snippet de Google Tag Manager (o gtag directo).
+     La conversión de Google Ads dispara en gracias.html, no acá.
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- ═══ SEO PRIMARY ═══ -->
+<title>Tarjetas personales y corporativas en CABA | Copicyn</title>
+<meta name="description" content="Tarjetas personales y corporativas impresas en CABA: 300 tarjetas listas en una hora. Impresión a medida en el microcentro. Pedí tu presupuesto por WhatsApp.">
+<meta name="keywords" content="tarjetas personales CABA, tarjetas de presentación, tarjetas corporativas, tarjetas personales urgentes, imprenta tarjetas Buenos Aires, tarjetas en el día, gráfica CABA">
+<meta name="author" content="Copicyn">
+<meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+<link rel="canonical" href="https://copicyn.com.ar/tarjetas-personales/">
+
+<!-- ═══ GEO ═══ -->
+<meta name="geo.region" content="AR-C">
+<meta name="geo.placename" content="Ciudad Autónoma de Buenos Aires">
+<meta name="geo.position" content="-34.59897;-58.37394">
+<meta name="ICBM" content="-34.59897, -58.37394">
+
+<!-- ═══ OPEN GRAPH ═══ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://copicyn.com.ar/tarjetas-personales/">
+<meta property="og:title" content="Tarjetas personales y corporativas en CABA | Copicyn">
+<meta property="og:description" content="300 tarjetas listas en una hora. Impresión a medida en el microcentro. Pedí tu presupuesto por WhatsApp.">
+<meta property="og:image" content="https://copicyn.com.ar/tarjetas-personales/assets/og-tarjetas.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="es_AR">
+<meta property="og:site_name" content="Copicyn">
+
+<!-- ═══ TWITTER CARD ═══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tarjetas personales y corporativas en CABA | Copicyn">
+<meta name="twitter:description" content="300 tarjetas listas en una hora. Impresión a medida en el microcentro. Pedí tu presupuesto por WhatsApp.">
+<meta name="twitter:image" content="https://copicyn.com.ar/tarjetas-personales/assets/og-tarjetas.jpg">
+
+<!-- ═══ FAVICON + THEME ═══ -->
+<link rel="icon" href="assets/favicon-sticker.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/apple-touch-sticker.png">
+<meta name="theme-color" content="#211E5E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#211E5E; --blue:#234F6C; --blue2:#2e385f; --mid:#5a81b3; --mid2:#74a0c9;
+  --teal:#44a39b; --teal2:#75c5b1; --sky:#6bbbe0; --action:#314394;
+  --ink:#20223a; --muted:#5b6178; --paper:#ffffff; --mist:#f4f7fb; --line:#e6ecf5;
+  --wa:#25d366;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;color:var(--ink);background:var(--paper);line-height:1.6;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;text-size-adjust:100%;overflow-x:hidden}
+h1,h2,h3,.display{font-family:'Poppins',sans-serif;overflow-wrap:break-word}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.kicker{font-family:'Poppins';font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;color:var(--teal)}
+.btn{display:inline-flex;align-items:center;gap:.6rem;font-family:'Poppins';font-weight:700;font-size:1.02rem;padding:.95rem 1.8rem;border-radius:14px;transition:.2s;cursor:pointer;border:none}
+.btn svg{width:20px;height:20px}
+.btn-wa{background:var(--teal);color:#fff;box-shadow:0 10px 24px rgba(68,163,155,.32)}
+.btn-wa:hover{background:#3a8f88;transform:translateY(-2px)}
+.btn-form{background:var(--action);color:#fff;box-shadow:0 10px 24px rgba(49,67,148,.28)}
+.btn-form:hover{background:#26327a;transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--navy);border:2px solid var(--line)}
+.btn-ghost:hover{border-color:var(--mid2);color:var(--action)}
+.icon-btn{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:11px;background:var(--mist);color:var(--blue);transition:.2s}
+.icon-btn:hover{background:var(--teal);color:#fff;transform:translateY(-2px)}
+.icon-btn svg{width:20px;height:20px}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+.logo{height:38px;width:auto}
+.logo-link{position:relative;display:inline-flex;align-items:center}
+.logo-dot{position:absolute;left:49%;top:13%;width:6px;height:6px;border-radius:50%;background:linear-gradient(90deg,#3b48ff,#3b48ff,#5bfff7,#f07fff,#ffd447,#ffd447,#21c472,#01013d,#030314);background-size:600% 600%;animation:gradientShift 8s ease-in-out infinite;z-index:2}
+@keyframes gradientShift{0%{background-position:0% 50%}33%{background-position:50% 100%}66%{background-position:100% 50%}100%{background-position:0% 50%}}
+.nav .btn{padding:.6rem 1.2rem;font-size:.92rem}
+.nav-links{display:flex;gap:.6rem;align-items:center}
+.nav-links a{font-family:'Poppins';font-weight:600;font-size:.9rem;color:var(--blue);padding:.5rem 1.2rem;border-radius:999px;border:1.5px solid var(--line);transition:background .18s,color .18s,border-color .18s,box-shadow .18s}
+.nav-links a:hover{color:var(--navy);background:rgba(68,163,155,.1);border-color:var(--teal);box-shadow:0 4px 12px rgba(68,163,155,.18)}
+@media(max-width:920px){.nav-links{display:none}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;text-align:center;padding:88px 0 64px}
+/* SIN FOTO: fondo de marca. Cuando lleguen las fotos, reemplazar el background
+   por: url('assets/hero-tarjetas.jpg') center/cover no-repeat; + filter:blur(8px);opacity:.9;transform:scale(1.12) */
+.hero-bg{position:absolute;inset:0;z-index:0;background:
+  radial-gradient(circle at 18% 18%,rgba(107,187,224,.34),transparent 55%),
+  radial-gradient(circle at 82% 26%,rgba(68,163,155,.28),transparent 52%),
+  linear-gradient(160deg,#f7f9fc 0%,#e6edf7 100%)}
+.hero-veil{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(244,247,251,.3),rgba(255,255,255,.46))}
+.hero .wrap{position:relative;z-index:1}
+.hero h1{font-weight:800;font-size:clamp(2.2rem,6vw,4.1rem);line-height:1.04;letter-spacing:-.02em;color:var(--navy);margin:.5rem auto 1.1rem;max-width:15ch;text-transform:uppercase}
+.hero .sub{font-size:1.22rem;color:var(--muted);max-width:56ch;margin:0 auto 2rem}
+.hero .sub b{color:var(--blue)}
+.hero-cta{display:flex;gap:.9rem;justify-content:center;flex-wrap:wrap}
+.hero-photo{position:relative;z-index:1;margin:56px auto 0;max-width:760px;border-radius:26px;overflow:hidden;box-shadow:0 30px 70px rgba(33,30,94,.18);border:1px solid var(--line)}
+.hero-photo img{width:100%;height:auto}
+.hero-photo.ph-frame{aspect-ratio:16/9}
+
+/* placeholder de foto — reemplazar por <img> cuando lleguen las fotos reales */
+.ph-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.55rem;text-align:center;padding:16px;color:#8fa2bf;
+  background:linear-gradient(135deg,#eef3fa 0%,#dfe8f5 100%);
+  box-shadow:inset 0 0 0 1.5px #c9d7ea}
+.ph-empty svg{width:34px;height:34px;opacity:.7}
+.ph-empty span{font-family:'Poppins';font-weight:600;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+
+/* section */
+section.blk{padding:88px 0}
+.blk.mist{background:var(--mist)}
+.head{max-width:60ch;margin-bottom:44px}
+.head h2{font-weight:800;font-size:clamp(1.9rem,4.5vw,2.9rem);color:var(--navy);text-transform:uppercase;letter-spacing:-.01em;margin:.4rem 0 .7rem}
+.head h2::after{content:"";display:block;width:60px;height:4px;border-radius:3px;background:linear-gradient(90deg,var(--teal),var(--mid2));margin-top:16px}
+.head p{color:var(--muted);font-size:1.12rem}
+
+/* usos: 2 columnas (personal / corporativo) */
+.uses{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.use{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 1px 2px rgba(33,30,94,.05),0 12px 30px rgba(33,30,94,.06);transition:transform .25s,box-shadow .25s,border-color .25s;display:flex;flex-direction:column}
+.use:hover{transform:translateY(-6px);box-shadow:0 28px 54px rgba(33,30,94,.16);border-color:var(--mid2)}
+.use .ph{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--mist)}
+.use .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.1s ease}
+.use .ph img.is-on{opacity:1}
+.use .body{padding:30px;display:flex;flex-direction:column;flex:1}
+.use .tag{display:inline-block;align-self:flex-start;font-family:'Poppins';font-weight:600;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);background:rgba(68,163,155,.12);padding:.25rem .6rem;border-radius:7px;margin-bottom:.8rem}
+.use h3{font-weight:700;font-size:1.42rem;color:var(--navy);margin-bottom:.5rem}
+.use p{color:var(--muted);font-size:1rem}
+
+/* franja del diferencial */
+.claim{background:linear-gradient(120deg,var(--navy),var(--blue2) 55%,var(--blue));color:#fff;padding:48px 0}
+.claim .wrap{display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap}
+.claim .big{font-family:'Poppins';font-weight:800;font-size:clamp(1.6rem,3.8vw,2.4rem);line-height:1.12;text-transform:uppercase;letter-spacing:-.01em}
+.claim .big em{font-style:normal;color:var(--teal2)}
+.claim p{color:#c3cfe6;font-size:1rem;margin-top:.5rem;max-width:52ch}
+
+/* proceso: 3 pasos numerados */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.step{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px 30px 30px;box-shadow:0 1px 2px rgba(33,30,94,.05),0 14px 34px rgba(33,30,94,.07);transition:transform .25s,box-shadow .25s,border-color .25s}
+.step:hover{transform:translateY(-6px);box-shadow:0 26px 52px rgba(33,30,94,.16);border-color:var(--mid2)}
+.step .num{position:absolute;top:22px;right:26px;font-family:'Poppins';font-weight:800;font-size:2.6rem;line-height:1;color:#eef2fa}
+.step .ic{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--blue),var(--navy));display:flex;align-items:center;justify-content:center;color:#fff;margin-bottom:18px;box-shadow:0 10px 22px rgba(35,79,108,.34)}
+.step .ic svg{width:27px;height:27px}
+.step h3{font-weight:700;font-size:1.2rem;color:var(--navy);margin-bottom:.45rem;letter-spacing:-.01em}
+.step p{color:var(--muted);font-size:.98rem}
+
+/* por que */
+#porque{background:linear-gradient(180deg,#ffffff 0%,#e9eff8 100%)}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feat{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px 30px;box-shadow:0 1px 2px rgba(33,30,94,.05),0 14px 34px rgba(33,30,94,.07);transition:transform .25s,box-shadow .25s,border-color .25s}
+.feat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--teal),var(--mid));transition:width .25s}
+.feat:hover{transform:translateY(-6px);box-shadow:0 26px 52px rgba(33,30,94,.16);border-color:transparent}
+.feat:hover::before{width:6px}
+.feat>*{position:relative;z-index:1}
+.feat .ic{width:56px;height:56px;border-radius:16px;background:linear-gradient(135deg,var(--blue),var(--navy));display:flex;align-items:center;justify-content:center;color:#fff;margin-bottom:18px;box-shadow:0 10px 22px rgba(35,79,108,.34)}
+.feat .ic svg{width:27px;height:27px}
+.feat h3{font-weight:700;font-size:1.2rem;color:var(--navy);margin-bottom:.45rem;letter-spacing:-.01em}
+.feat p{color:var(--muted);font-size:.98rem}
+
+/* form + local */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.formcard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:38px;box-shadow:0 24px 60px rgba(33,30,94,.10)}
+.formcard h2{font-weight:800;font-size:1.9rem;color:var(--navy);text-transform:uppercase;margin-bottom:.4rem}
+.formcard .lead{color:var(--muted);margin-bottom:1.6rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-weight:600;font-size:.9rem;color:var(--blue);margin-bottom:.35rem}
+.field input,.field select,.field textarea{width:100%;font-family:inherit;font-size:1rem;padding:.85rem 1rem;border:1.5px solid var(--line);border-radius:12px;background:var(--mist);transition:.15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--teal);background:#fff}
+.field textarea{min-height:88px;resize:vertical}
+.formcard .btn-wa{width:100%;justify-content:center;margin-top:.6rem}
+.orwa{text-align:center;margin-top:1rem;color:var(--muted);font-size:.92rem}
+.orwa a{color:var(--teal);font-weight:600}
+
+.local h2{font-weight:800;font-size:1.9rem;color:var(--navy);text-transform:uppercase;margin-bottom:.9rem}
+.formcard h2::after,.local h2::after{content:"";display:block;width:52px;height:4px;border-radius:3px;background:linear-gradient(90deg,var(--teal),var(--mid2));margin-top:14px}
+.formcard h2::after{margin-bottom:2px}
+.local .photo{border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:0 20px 44px rgba(33,30,94,.14);margin-bottom:20px}
+.local .photo img{width:100%;height:300px;object-fit:cover;object-position:center 45%}
+.contact-list{list-style:none;display:grid;gap:.5rem}
+.contact-list li{display:flex;gap:.7rem;align-items:center;color:var(--ink);font-size:1.02rem;line-height:1.3}
+.contact-list .lab{color:var(--muted);min-width:86px;font-size:.9rem}
+.contact-list a{color:var(--blue);font-weight:600}
+.socials{display:flex;gap:.7rem;margin-top:1.4rem}
+.mapwrap{border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:0 16px 36px rgba(33,30,94,.12);margin-top:22px}
+.mapwrap iframe{width:100%;height:300px;border:0;display:block}
+
+/* footer */
+footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px}
+.foot .logo{height:26px;filter:brightness(0) invert(1)}
+.foot .logo-link{position:relative;display:inline-block;margin-bottom:14px}
+.foot .logo-dot{left:48.4%;top:11.6%;width:4.5px;height:4.5px}
+.foot p{font-size:.94rem;line-height:1.7}
+.foot .mail{overflow-wrap:anywhere;word-break:break-word}
+.foot h4{font-family:'Poppins';font-weight:600;color:#fff;font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:.9rem}
+.foot a{color:#cdd6ee;display:block;margin-bottom:.5rem;font-size:.94rem}
+.foot a:hover{color:#fff}
+.foot .socials{gap:.8rem}
+.foot .socials .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:13px;background:var(--action);color:#fff}
+.foot .socials .icon-btn svg{width:22px;height:22px}
+.foot .socials .icon-btn:hover{background:var(--teal);transform:translateY(-2px)}
+.copy{border-top:1px solid rgba(255,255,255,.12);margin-top:40px;padding-top:22px;text-align:center;font-size:.84rem;color:#9aa6cc}
+.copy .madeby{display:inline-block;margin-top:8px;font-size:.8rem;color:#8090bb}
+.copy .madeby a{color:#b9c4e6;font-weight:600}
+.copy .madeby a:hover{color:#fff}
+
+/* floating wa */
+.fab{position:fixed;right:22px;bottom:22px;z-index:60;width:60px;height:60px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(68,163,155,.45);transition:.2s}
+.fab:hover{transform:scale(1.08)}
+.fab svg{width:32px;height:32px}
+
+@media(max-width:860px){
+  .uses{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .feats{grid-template-columns:1fr 1fr}
+  .split{grid-template-columns:1fr;gap:36px}
+  .foot{grid-template-columns:1fr 1fr;gap:20px 28px}
+  .foot>div:first-child{grid-column:1/-1}
+  section.blk{padding:60px 0}
+  .hero{padding:56px 0 44px}
+  .claim .wrap{flex-direction:column;align-items:flex-start;gap:18px}
+}
+@media(max-width:480px){
+  .nav{height:64px}
+  .logo{height:30px}
+  .logo-dot{left:48.5%;top:12%;width:5px;height:5px}
+  .nav .btn{padding:.5rem .85rem;font-size:.82rem}
+  .hero{padding:40px 0 34px}
+  .hero h1{font-size:1.9rem;margin:.5rem auto .9rem;max-width:100%}
+  .hero .sub{font-size:1.02rem;margin-bottom:1.5rem}
+  .hero-cta{flex-direction:column}
+  .hero-cta .btn{width:100%;justify-content:center;text-align:center}
+  .hero-photo{margin-top:34px;border-radius:16px}
+  .head{margin-bottom:30px}
+  .head h2{font-size:1.65rem}
+  .head p{font-size:1rem}
+  .head h2::after{width:48px;height:3px;margin-top:12px}
+  .use .body{padding:22px 20px}
+  .use h3{font-size:1.2rem}
+  .use p{font-size:.92rem}
+  .claim{padding:34px 0}
+  .claim .btn{width:100%;justify-content:center}
+  .steps{gap:16px}
+  .step{padding:26px 22px 22px}
+  .step .ic{width:46px;height:46px;margin-bottom:14px}
+  .step .num{font-size:2.1rem;top:18px;right:20px}
+  .step h3{font-size:1.08rem}
+  .step p{font-size:.92rem}
+  .feats{gap:14px}
+  .feat{padding:22px 20px}
+  .feat .ic{width:44px;height:44px;margin-bottom:12px}
+  .feat h3{font-size:1.02rem}
+  .feat p{font-size:.9rem}
+  .formcard{padding:24px}
+  .formcard h2,.local h2{font-size:1.5rem}
+  section.blk{padding:46px 0}
+  /* footer parejo e intencional */
+  .foot{grid-template-columns:1fr;gap:26px}
+  .foot p,.foot a{font-size:.92rem}
+  .mapwrap iframe{height:240px}
+}
+</style>
+</head>
+<body>
+
+<svg style="display:none"><symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.9c0 1.76.46 3.45 1.33 4.95L2 22l5.3-1.39c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.9-4.45 9.9-9.9C21.94 6.45 17.5 2 12.04 2m0 18.02c-1.48 0-2.93-.4-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.16 8.16 0 0 1 2.41 5.82c0 4.54-3.69 8.23-8.24 8.23m4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.24-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.13-.14.17-.24.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43l-.48-.01c-.16 0-.43.06-.66.31-.22.24-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.25 3.75.59.26 1.06.41 1.42.52.6.19 1.14.16 1.57.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28"/></symbol><symbol id="bolt" viewBox="0 0 24 24"><path fill="currentColor" d="M13 2 4 14h6l-1 8 9-12h-6z"/></symbol><symbol id="award" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a5.5 5.5 0 0 0-3 10.1V13l1.8 1.1a2.5 2.5 0 0 0 2.4 0L15 13v-.9A5.5 5.5 0 0 0 12 2m0 2a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7M9 14.9l-2 7.1 5-2.6 5 2.6-2-7.1-1.2.7a3.5 3.5 0 0 1-3.6 0z"/></symbol><symbol id="chat" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h16a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H9l-4 4v-4H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1m3.2 6a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6m4.8 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6m4.8 0a1.3 1.3 0 1 0 0 2.6 1.3 1.3 0 0 0 0-2.6"/></symbol><symbol id="star" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.5 14.6 9l6.9.4-5.3 4.4 1.8 6.7L12 16.9 6 20.5l1.8-6.7L2.5 9.4 9.4 9z"/></symbol><symbol id="shield" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2 4 5v6c0 5 3.4 8.4 8 10 4.6-1.6 8-5 8-10V5zm-1.3 12.9-3.3-3.3 1.4-1.4 1.9 1.9 4.3-4.3 1.4 1.4z"/></symbol><symbol id="truck" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v1h3.3a1 1 0 0 1 .8.4l2.5 3.3a1 1 0 0 1 .2.6V16a1 1 0 0 1-1 1h-1.1a2.5 2.5 0 0 1-4.8 0H9.9a2.5 2.5 0 0 1-4.8 0H4a1 1 0 0 1-1-1zm13 4h3.9L18 7.5V7h-2zM7.5 15a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3"/></symbol><symbol id="img" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2m0 2v9.6l4.3-4.3a1 1 0 0 1 1.4 0l3.1 3.1 2.4-2.4a1 1 0 0 1 1.4 0L20 14.9V6zm4.4 12H20v-.3l-3.1-3.1-2.4 2.4a1 1 0 0 1-1.4 0L10 13.9zM8 7.5a1.6 1.6 0 1 1 0 3.2 1.6 1.6 0 0 1 0-3.2"/></symbol></svg>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo-link"><img class="logo" src="assets/logo.png" alt="Copicyn"><span class="logo-dot"></span></a>
+    <nav class="nav-links">
+      <a href="#usos">Usos</a>
+      <a href="#proceso">Cómo trabajamos</a>
+      <a href="#presupuesto">Presupuesto</a>
+    </nav>
+    <a class="btn btn-wa" href="https://wa.me/5491138311287" target="_blank"><svg><use href="#wa"/></svg> WhatsApp</a>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-veil"></div>
+  <div class="wrap">
+    <span class="kicker">Gráfica integral · CABA</span>
+    <h1>Tarjetas personales y corporativas</h1>
+    <p class="sub"><b>300 tarjetas en una hora.</b> Nos pasás el archivo y las retirás por nuestro local en el microcentro, el mismo día.</p>
+    <div class="hero-cta">
+      <a class="btn btn-wa" href="https://wa.me/5491138311287" target="_blank"><svg><use href="#wa"/></svg> Pedí tu presupuesto</a>
+      <a class="btn btn-ghost" href="#usos">Ver más ↓</a>
+    </div>
+    <!-- FOTO HERO: reemplazar el div .ph-empty por
+         <img src="assets/hero-tarjetas.jpg" alt="Tarjetas personales impresas por Copicyn"> -->
+    <div class="hero-photo ph-frame">
+      <div class="ph-empty"><svg><use href="#img"/></svg><span>Foto de tarjetas</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- USOS: 2 columnas, personal vs corporativo (la distinción real del producto) -->
+<section class="blk mist" id="usos">
+  <div class="wrap">
+    <div class="head">
+      <h2>Personales o corporativas</h2>
+      <p>Es la misma calidad de impresión; cambia para quién son. Contanos cuál es tu caso y lo resolvemos.</p>
+    </div>
+    <div class="uses">
+      <div class="use">
+        <!-- FOTO: reemplazar .ph-empty por 2 <img> (crossfade automático):
+             <img class="is-on" src="assets/uso-personales.jpg" alt="Tarjetas personales impresas">
+             <img src="assets/uso-personales-2.jpg" alt="Tarjetas personales en mano">
+             y agregar el atributo data-slider al div .ph -->
+        <div class="ph">
+          <div class="ph-empty"><svg><use href="#img"/></svg><span>Tarjetas personales</span></div>
+        </div>
+        <div class="body">
+          <span class="tag">Para vos</span>
+          <h3>Tarjetas personales</h3>
+          <p>Para profesionales, oficios y emprendedores. Con tus datos, tu logo y la cantidad que necesites. Siempre listas para la próxima reunión, feria o entrega.</p>
+        </div>
+      </div>
+      <div class="use">
+        <div class="ph">
+          <div class="ph-empty"><svg><use href="#img"/></svg><span>Tarjetas corporativas</span></div>
+        </div>
+        <div class="body">
+          <span class="tag">Para tu equipo</span>
+          <h3>Tarjetas corporativas</h3>
+          <p>Una misma línea de marca con los datos de cada persona. Coordinamos las tiradas por lote para que toda la empresa quede uniforme, sin diferencias entre una tarjeta y otra.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FRANJA DIFERENCIAL: velocidad -->
+<section class="claim">
+  <div class="wrap">
+    <div>
+      <div class="big">300 tarjetas <em>en una hora</em></div>
+      <p>Imprimimos en el local, en 25 de Mayo 759, con equipamiento propio. No hay tercerización ni esperas de días.</p>
+    </div>
+    <a class="btn btn-wa" href="https://wa.me/5491138311287" target="_blank"><svg><use href="#wa"/></svg> Mandar el archivo</a>
+  </div>
+</section>
+
+<!-- PROCESO: 3 pasos que dan lógica al diferencial de velocidad -->
+<section class="blk" id="proceso">
+  <div class="wrap">
+    <div class="head">
+      <h2>Cómo trabajamos</h2>
+      <p>Tres pasos y las tenés en la mano. Sin cuentas, sin formularios largos, sin idas y vueltas.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="num">1</span>
+        <div class="ic"><svg><use href="#chat"/></svg></div>
+        <h3>Mandás el archivo</h3>
+        <p>Nos pasás el diseño por WhatsApp o mail (PDF, imagen o el archivo editable). Si no lo tenés armado, te ayudamos.</p>
+      </div>
+      <div class="step">
+        <span class="num">2</span>
+        <div class="ic"><svg><use href="#bolt"/></svg></div>
+        <h3>Imprimimos en una hora</h3>
+        <p>Hasta 300 tarjetas listas en el día, con nuestro equipamiento en el local. Te confirmamos precio y plazo al toque.</p>
+      </div>
+      <div class="step">
+        <span class="num">3</span>
+        <div class="ic"><svg><use href="#truck"/></svg></div>
+        <h3>Las retirás</h3>
+        <p>Pasás a buscarlas por 25 de Mayo 759, o coordinamos el envío sin cargo si estás dentro de 1,5 km del local.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk mist" id="porque">
+  <div class="wrap">
+    <div class="head"><h2>Por qué Copicyn</h2><p>Más de 30 años imprimiendo en el corazón de CABA, con soluciones gráficas integrales para empresas y particulares.</p></div>
+    <div class="feats">
+      <div class="feat"><div class="ic"><svg><use href="#bolt"/></svg></div><h3>Rapidez</h3><p>300 tarjetas en una hora. Producción en el día, sin esperas eternas.</p></div>
+      <div class="feat"><div class="ic"><svg><use href="#award"/></svg></div><h3>Más de 30 años de experiencia</h3><p>Trayectoria en el rubro gráfico, con soluciones integrales para empresas y particulares.</p></div>
+      <div class="feat"><div class="ic"><svg><use href="#chat"/></svg></div><h3>Atención personalizada</h3><p>Te asesoramos según lo que necesitás, con un equipo profesional dedicado a tu proyecto.</p></div>
+      <div class="feat"><div class="ic"><svg><use href="#star"/></svg></div><h3>Tecnología de punta</h3><p>Equipamiento de última generación, único a nivel nacional.</p></div>
+      <div class="feat"><div class="ic"><svg><use href="#shield"/></svg></div><h3>Calidad y compromiso</h3><p>Materiales de primera línea y terminaciones prolijas en cada trabajo.</p></div>
+      <div class="feat"><div class="ic"><svg><use href="#truck"/></svg></div><h3>Entrega sin cargo</h3><p>Entregamos sin cargo en un radio de 1,5 km de nuestro local. Para distancias mayores, coordinamos el envío según destino.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="blk">
+  <div class="wrap split">
+    <div class="formcard" id="presupuesto">
+      <h2>Pedí tu presupuesto</h2>
+      <p class="lead">Contanos qué necesitás y te respondemos con precio y plazo el mismo día hábil.</p>
+      <form action="gracias.html" method="GET" onsubmit="window.location.href='gracias.html';return false;">
+        <!-- honeypot anti-spam: invisible para humanos, los bots lo completan -->
+        <div style="position:absolute;left:-9999px" aria-hidden="true"><label>No completar</label><input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+        <div class="field"><label for="f-nombre">Nombre</label><input id="f-nombre" name="nombre" type="text" placeholder="Tu nombre"></div>
+        <div class="field"><label for="f-tel">Teléfono *</label><input id="f-tel" name="telefono" type="tel" required placeholder="11 ..."></div>
+        <div class="field"><label for="f-email">Email</label><input id="f-email" name="email" type="email" placeholder="tu@email.com"></div>
+        <div class="field"><label for="f-tipo">¿Qué necesitás?</label><select id="f-tipo" name="tipo">
+          <optgroup label="Tipo">
+            <option>Tarjetas personales</option>
+            <option>Tarjetas corporativas</option>
+            <option>Las necesito hoy (urgente)</option>
+          </optgroup>
+          <optgroup label="¿No sabés cuál?">
+            <option>Necesito asesoramiento</option>
+          </optgroup>
+        </select></div>
+        <div class="field"><label for="f-msg">Cantidad o mensaje</label><textarea id="f-msg" name="mensaje" placeholder="Ej: 500 tarjetas doble faz con logo"></textarea></div>
+        <button type="submit" class="btn btn-form">Pedir presupuesto</button>
+      </form>
+      <p class="orwa">¿Preferís hablar? <a href="https://wa.me/5491138311287" target="_blank">Escribinos por WhatsApp</a></p>
+    </div>
+    <div class="local" id="local">
+      <h2>Nuestro local</h2>
+      <div class="photo"><img src="assets/local-v2.jpg" alt="Local de Copicyn en 25 de Mayo 759, CABA"></div>
+      <ul class="contact-list">
+        <li><span class="lab">WhatsApp</span> <a href="https://wa.me/5491138311287" target="_blank">11 3831 1287</a></li>
+        <li><span class="lab">Teléfono</span> <a href="tel:+541143115454" style="white-space:nowrap">(011)&nbsp;4311-5454</a></li>
+        <li><span class="lab">Email</span> <a href="mailto:trabajos@copicyn.com.ar">trabajos@copicyn.com.ar</a></li>
+      </ul>
+      <div class="mapwrap"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.2052882298735!2d-58.37394272292883!3d-34.59897007295614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a33534b276bb79%3A0xc1e0ed69f7da33f7!2sCopicyn%20-%20Grafica%20Integral!5e0!3m2!1sen!2sar!4v1753699799973!5m2!1sen!2sar" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación de Copicyn - 25 de Mayo 759, CABA" allowfullscreen></iframe></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a href="#top" class="logo-link foot-logo"><img class="logo" src="assets/logo.png" alt="Copicyn"><span class="logo-dot"></span></a>
+      <p>Gráfica integral en CABA. Tarjetas personales y corporativas impresas a medida, listas en el día.</p>
+      <div class="socials" style="margin-top:1rem">
+        <a class="icon-btn" href="https://www.instagram.com/copicyn_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        <a class="icon-btn" href="https://www.linkedin.com/company/copicyn/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5M3 9h4v12H3zM10 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.29-.02-2.95-1.8-2.95-1.8 0-2.08 1.4-2.08 2.85V21h-4z"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <p style="line-height:1.3"><span style="white-space:nowrap;overflow-wrap:normal">(011)&nbsp;4311&#8209;5454</span><br><span class="mail">trabajos@copicyn.com.ar</span><span style="display:block;margin-top:1.9rem">25 de Mayo 759, CABA</span></p>
+    </div>
+    <div>
+      <h4>Tarjetas</h4>
+      <a href="#usos">Personales</a>
+      <a href="#usos">Corporativas</a>
+      <a href="#proceso">Cómo trabajamos</a>
+      <a href="#presupuesto">Pedir presupuesto</a>
+    </div>
+  </div>
+  <div class="copy">© 2026 Copicyn · Gráfica integral · 25 de Mayo 759, CABA<br><span class="madeby">Sitio web por <a href="https://dilemacreative.ar" target="_blank" rel="noopener">Dilema Creative</a></span></div>
+</footer>
+
+<a class="fab" href="https://wa.me/5491138311287" target="_blank" aria-label="Escribinos por WhatsApp"><svg><use href="#wa"/></svg></a>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "LocalBusiness",
+      "@id": "https://copicyn.com.ar/#business",
+      "name": "Copicyn",
+      "description": "Gráfica integral en CABA con más de 30 años de trayectoria. Tarjetas personales y corporativas impresas a medida, con entrega en el día.",
+      "url": "https://copicyn.com.ar",
+      "image": "https://copicyn.com.ar/tarjetas-personales/assets/og-tarjetas.jpg",
+      "logo": "https://copicyn.com.ar/tarjetas-personales/assets/apple-touch-sticker.png",
+      "telephone": "+541143115454",
+      "email": "trabajos@copicyn.com.ar",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "25 de Mayo 759",
+        "addressLocality": "Ciudad Autónoma de Buenos Aires",
+        "addressRegion": "CABA",
+        "postalCode": "C1002",
+        "addressCountry": "AR"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -34.59897,
+        "longitude": -58.37394
+      },
+      "hasMap": "https://maps.app.goo.gl/?q=Copicyn+25+de+Mayo+759+CABA",
+      "areaServed": {
+        "@type": "City",
+        "name": "Ciudad Autónoma de Buenos Aires"
+      },
+      "knowsAbout": [
+        "Tarjetas personales",
+        "Tarjetas corporativas",
+        "Impresión gráfica",
+        "Tarjetas de presentación",
+        "Gráfica integral"
+      ],
+      "sameAs": [
+        "https://www.instagram.com/copicyn_/",
+        "https://www.linkedin.com/company/copicyn/"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Tarjetas personales y corporativas",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Tarjetas personales",
+              "description": "Tarjetas de presentación para profesionales, oficios y emprendedores. Impresas a medida con tus datos y tu logo, en la cantidad que necesites."
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Tarjetas corporativas",
+              "description": "Tarjetas para equipos de trabajo: una misma línea de marca con los datos de cada persona, coordinadas por lote."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://copicyn.com.ar/tarjetas-personales/#webpage",
+      "url": "https://copicyn.com.ar/tarjetas-personales/",
+      "name": "Tarjetas personales y corporativas en CABA | Copicyn",
+      "description": "Tarjetas personales y corporativas impresas en CABA: 300 tarjetas listas en una hora. Impresión a medida en el microcentro.",
+      "inLanguage": "es-AR",
+      "isPartOf": {"@id": "https://copicyn.com.ar/#business"},
+      "about": {"@id": "https://copicyn.com.ar/#business"},
+      "primaryImageOfPage": "https://copicyn.com.ar/tarjetas-personales/assets/og-tarjetas.jpg"
+    }
+  ]
+}
+</script>
+
+<script>
+// Rotación de las fotos (crossfade). Se activa sola cuando un .ph tenga
+// el atributo data-slider y 2 <img> adentro (hoy hay placeholders).
+// Si el visitante tiene "reducir movimiento" activado, el cambio es instantáneo.
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var sliders = document.querySelectorAll('[data-slider]');
+  sliders.forEach(function(ph, i){
+    var imgs = ph.querySelectorAll('img');
+    if(imgs.length < 2) return;
+    if(reduce){ imgs.forEach(function(im){ im.style.transition = 'none'; }); }
+    var cur = 0;
+    setTimeout(function(){
+      setInterval(function(){
+        imgs[cur].classList.remove('is-on');
+        cur = (cur + 1) % imgs.length;
+        imgs[cur].classList.add('is-on');
+      }, 4500);
+    }, i * 1500);
+  });
+})();
+</script>
+</body>
+</html>

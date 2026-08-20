@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://copicyn.com.ar/sitemap.xml

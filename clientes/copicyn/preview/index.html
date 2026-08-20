@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Copicyn · Preview para revisión</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#211E5E; --navy2:#234F6C; --mid:#5a81b3; --teal:#44a39b; --teal2:#75c5b1;
+    --ink:#1a1c2b; --muted:#5b6072; --line:#e5e8f0; --bg:#f5f7fb; --card:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px;margin:0 auto;padding:clamp(2rem,6vw,4.5rem) 1.25rem 4rem}
+  .kicker{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);font-weight:600}
+  h1{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2rem,5.5vw,3rem);line-height:1.08;margin:.5rem 0 .8rem;color:var(--navy)}
+  .lead{color:var(--muted);font-size:1.05rem;max-width:60ch}
+  .note{margin-top:1.4rem;padding:.9rem 1.1rem;background:#fff;border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:10px;font-size:.92rem;color:var(--muted)}
+  .grid{display:grid;grid-template-columns:1fr;gap:1.1rem;margin-top:2.4rem}
+  @media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:transform .18s,box-shadow .18s,border-color .18s;box-shadow:0 1px 2px rgba(33,30,94,.04)}
+  .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px rgba(33,30,94,.12);border-color:var(--mid)}
+  .card.full{grid-column:1/-1}
+  .tag{align-self:flex-start;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--navy);padding:.28rem .6rem;border-radius:999px;font-weight:600}
+  .tag.new{background:var(--teal)}
+  .card h2{font-family:'Fraunces',serif;font-weight:600;font-size:1.4rem;margin:.9rem 0 .35rem;color:var(--navy)}
+  .card p{color:var(--muted);font-size:.94rem;flex:1}
+  .go{margin-top:1.1rem;font-weight:600;color:var(--navy2);font-size:.92rem;display:inline-flex;align-items:center;gap:.4rem}
+  .go::after{content:"\2192";transition:transform .18s}
+  .card:hover .go::after{transform:translateX(4px)}
+  footer{margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+  footer b{color:var(--navy)}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <span class="kicker">Copicyn · Gráfica integral</span>
+    <h1>Preview para revisión</h1>
+    <p class="lead">Estas son las dos landings nuevas y la versión optimizada del sitio actual, para que las revises en la compu y en el celular antes de publicarlas.</p>
+    <div class="note">Es un enlace de prueba: las imágenes, el mapa y el diseño se ven tal como quedarán. El formulario de las landings acá no envía mail (en la web final sí funciona); tocando el botón te lleva a la pantalla de "gracias" para que veas el flujo completo.</div>
+
+    <div class="grid">
+      <a class="card" href="tarjetas-personales/">
+        <span class="tag new">Landing nueva</span>
+        <h2>Tarjetas personales y corporativas</h2>
+        <p>Diferencial de velocidad: 300 tarjetas en una hora. Usos personales y para empresas, y el paso a paso de cómo trabajan.</p>
+        <span class="go">Abrir landing</span>
+      </a>
+
+      <a class="card" href="cuadernos-agendas/">
+        <span class="tag new">Landing nueva</span>
+        <h2>Cuadernos y agendas</h2>
+        <p>Cuadernos de anillo y rayados, y agendas con vista semanal. Personalizables con la marca de cada empresa.</p>
+        <span class="go">Abrir landing</span>
+      </a>
+
+      <a class="card full" href="sitio/">
+        <span class="tag">Sitio optimizado</span>
+        <h2>Sitio actual, optimizado</h2>
+        <p>La misma web de siempre, ahora responsive al 100%, mucho más liviana y rápida (de 116 MB a 5,9 MB) y con SEO al día. Mismo diseño, mismo contenido: carga y funciona bien en el celular.</p>
+        <span class="go">Abrir sitio</span>
+      </a>
+    </div>
+
+    <footer>
+      <span>Preview privado · no indexable</span>
+      <span>Hecho por <b>Dilema Creative</b></span>
+    </footer>
+  </main>
+</body>
+</html>
