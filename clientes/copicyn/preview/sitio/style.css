@@ -1351,22 +1351,18 @@ img { max-width: 100%; }
   /* ubicación / mapas */
   .map-container { width: 100%; max-width: 340px; height: 300px; }
 
-  /* services.html hero */
-  .services-hero, .contact-hero { min-height: 46vh; }
-  .services-hero-content, .contact-hero-content { margin-top: 16vh; padding: 0 1rem; }
+  /* services.html hero: alto automatico + padding para que NO se corten los
+     iconos de abajo (antes overflow:hidden + margin-top:16vh los recortaba) */
+  .services-hero, .contact-hero { min-height: auto; overflow: visible; padding: 100px 1rem 40px; }
+  .services-hero-content, .contact-hero-content { margin-top: 0; padding: 0 1rem; }
   .services-hero h1, .contact-hero h1 { font-size: 2.4rem; }
   .services-hero p, .contact-hero p { font-size: 1rem; padding: 0 1rem; }
   .services-hero-icons, .contact-hero-icons { gap: 1.2rem; }
   .services-hero-icons i, .contact-hero-icons i { font-size: 1.2rem; }
 
-  /* services.html: en mobile apilamos las tarjetas (el carrusel cortaba
-     la tarjeta del costado). Anulamos el transform del JS y las mostramos completas. */
-  #services-catalog { padding: 48px 1rem; }
-  .services-carousel-container { overflow: visible; padding: 0; }
-  .services-grid { flex-direction: column; transform: none !important; gap: 1.5rem; }
-  .service-item { min-width: 0; max-width: 100%; width: 100%; }
-  .service-item img { height: 190px; }
-  .services-controls { display: none; }
+  /* services.html: carrusel deslizante como el original (optimizado) */
+  .service-item { min-width: 260px; max-width: 280px; }
+  #services-catalog { padding: 48px .5rem; }
 
   /* contacto.html */
   #contact-region { padding-top: 48px; padding-bottom: 56px; }
