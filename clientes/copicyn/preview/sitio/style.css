@@ -1067,6 +1067,8 @@ footer p{
     overflow: hidden;
     transition: transform 0.3s, box-shadow 0.3s;
     flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .service-item:hover {
@@ -1107,6 +1109,9 @@ footer p{
 .service-info {
     padding: 1.5rem;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .service-info h3 {
@@ -1156,7 +1161,7 @@ footer p{
     text-decoration: none;
     transition: background 0.2s, transform 0.2s;
     width: fit-content;
-    margin: 0 auto;
+    margin: auto auto 0 auto; /* centrado y pegado al fondo → alineado entre tarjetas */
 }
 
 .service-cta:hover {
@@ -1319,11 +1324,13 @@ img { max-width: 100%; }
 
 /* ---------- MOBILE (≤ 600px) ---------- */
 @media (max-width: 600px) {
-  header { padding: .6rem .8rem; }
-  .logo { max-width: 118px; }
-  .logo-dot { left: 3.6rem; top: .2rem; width: 7px; height: 7px; }
-  header nav { gap: .3rem; }
-  header nav a { padding: 0 8px; font-size: .95rem; }
+  header { padding: .6rem .7rem; }
+  /* banda sutil arriba: separa el logo/nav del contenido del hero (antes "parecia todo lo mismo") */
+  header:not(.opaque) { background: linear-gradient(180deg, rgba(20,18,60,.60), rgba(20,18,60,0)); }
+  .logo { max-width: 96px; }
+  .logo-dot { left: 2.9rem; top: .16rem; width: 6px; height: 6px; }
+  header nav { gap: .15rem; }
+  header nav a { padding: 0 6px; font-size: .8rem; }
 
   /* hero: título legible y centrado */
   .hero { padding: 15px; }
