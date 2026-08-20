@@ -132,6 +132,8 @@ html, body {
     margin: 0;
     padding: 0;
     height: 100%;
+    overflow-x: hidden;
+    max-width: 100%;
 }
 
 body {
@@ -300,10 +302,13 @@ nav {
 
 .hero-subtitle {
     font-family: 'LEMONMILK-Medium';
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #cfe0f0;
+    margin-bottom: 0.9rem;
     margin-top: 0;
-    opacity: 0.9;
+    opacity: 0.95;
 }
 
 .hero-title {
@@ -332,6 +337,31 @@ nav {
     background: #314394;
     color: #fff;
     transform: translateY(-2px) scale(1.04);
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* que el CTA funcione igual como <a> o como <button> */
+a.hero-cta-btn {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
+
+.hero-cta-ghost {
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255,255,255,0.75);
+    box-shadow: none;
+}
+.hero-cta-ghost:hover {
+    background: rgba(255,255,255,0.14);
+    color: #fff;
 }
 
 
@@ -1234,9 +1264,19 @@ img { max-width: 100%; }
   header nav a { padding: 0 12px; font-size: 1.05rem; }
   .logo-dot { left: 4.6rem; top: .25rem; width: 9px; height: 9px; }
 
+  /* contenedores full-width con padding: que no desborden */
+  header, .hero, .carousel-container, .services-carousel-container, #services-catalog,
+  .introduction-graphic, .introduction, .introduction-graphic-image-area,
+  .services-hero, .contact-hero, #contact-region, #location-contact, .location-contact-flex,
+  .contact-form input, .contact-form textarea {
+    box-sizing: border-box; max-width: 100%;
+  }
+  .services-hero, .contact-hero { width: 100%; }
+  .carousel-container { max-width: 100%; }
+
   /* hero */
   .hero-content { left: 6%; right: 6%; max-width: none; }
-  .hero-subtitle { font-size: 2rem; }
+  .hero-subtitle { font-size: 1.05rem; }
   .hero-title { font-size: 3.4rem; }
 
   /* introducción: apila imagen + texto */
@@ -1284,8 +1324,9 @@ img { max-width: 100%; }
   /* hero: título legible y centrado */
   .hero { padding: 15px; }
   .hero-content { left: 5%; right: 5%; text-align: center; top: 46%; }
-  .hero-subtitle { font-size: 1.35rem; margin-bottom: .3rem; }
+  .hero-subtitle { font-size: .92rem; margin-bottom: .6rem; letter-spacing: .14em; }
   .hero-title { font-size: 2.1rem; margin-bottom: 1.2rem; line-height: 1.12; }
+  .hero-actions { justify-content: center; gap: .7rem; }
   .hero-cta-btn { font-size: 1rem; padding: .8rem 1.6rem; }
 
   /* introducción */
