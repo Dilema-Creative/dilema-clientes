@@ -52,7 +52,7 @@
   a{color:var(--accent-ink)}
   .app{display:grid;grid-template-columns:244px 1fr;min-height:100vh}
   .side{background:var(--surface);border-right:1px solid var(--line);
-    display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}
+    display:flex;flex-direction:column;position:sticky;top:0;height:100vh;height:100dvh;overflow-y:auto}
   .brand{padding:17px 16px 15px;display:flex;gap:11px;align-items:center;border-bottom:1px solid var(--line)}
   .brand img{height:34px;width:auto;flex:none}
   .brand .bt{line-height:1.15}
@@ -204,18 +204,89 @@
   .kv{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px}
   .kv:last-child{border-bottom:0}
   .kv .k{color:var(--ink-soft)}
-  .mobtoggle{display:none}
+  .scrim{display:none}
+  .topbar .tt{min-width:0}
+  .topbar .tt h1,.topbar .tt .sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bottombar{display:none}
+  .fbtn{display:none}
+  .mlist{display:flex;flex-direction:column}
+  .mrow{display:flex;gap:12px;align-items:center;padding:13px 15px;border:0;border-bottom:1px solid var(--line);background:none;text-align:left;width:100%;font-family:inherit;font-size:inherit;color:inherit}
+  .mrow:last-child{border-bottom:0}
+  button.mrow:active{background:var(--surface-2)}
+  .mrow .ml{flex:1;min-width:0}
+  .mrow .mc{font-weight:620;font-size:13.5px;color:var(--ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .mrow .md{font-size:11.5px;color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+  .mrow .mm{font-size:11px;color:var(--ink-faint);margin-top:3px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+  .mrow .mr{flex:none;text-align:right;max-width:46%}
+  .mrow .ma{font-weight:700;font-size:14.5px;letter-spacing:-.01em;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .mrow .ma.pos{color:var(--pos)}
+  .mrow .ma.neg{color:var(--ink)}
+  .mrow .ms{font-size:10.5px;color:var(--ink-faint);margin-top:2px;display:flex;gap:6px;justify-content:flex-end;align-items:center}
+  .msub{background:var(--surface-2);border-bottom:1px solid var(--line);padding:6px 15px 12px}
   @media(max-width:880px){
     .app{grid-template-columns:1fr}
-    .side{position:fixed;left:0;top:0;z-index:60;width:244px;transform:translateX(-100%);transition:.2s}
-    .side.open{transform:none}
-    .mobtoggle{display:inline-flex}
+    .side{position:fixed;left:0;top:0;z-index:70;width:min(300px,86vw);transform:translateX(-100%);transition:.2s;visibility:hidden}
+    .side.open{transform:none;visibility:visible;box-shadow:24px 0 60px -24px rgba(0,0,0,.45)}
+    .scrim.show{display:block;position:fixed;inset:0;background:rgba(10,22,34,.45);z-index:65}
     .grid2{grid-template-columns:1fr}
+    select,input,textarea{font-size:16px}
+    .toolbar select,.toolbar input,.toolbar .btn{height:40px}
+    .toolbar .flabel{height:auto}
+    .search svg{top:12px}
+    .topbar{backdrop-filter:none;background:var(--paper)}
+    .bottombar{display:flex;flex-direction:row;gap:0;position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--surface);border-top:1px solid var(--line);padding:5px 6px calc(5px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px -12px rgba(13,32,48,.25)}
+    .bb-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;border:0;background:none;color:var(--ink-faint);font-size:10px;font-weight:620;padding:5px 2px 3px;border-radius:10px;letter-spacing:.01em}
+    .bb-item svg{width:22px;height:22px}
+    .bb-item.active{color:var(--accent-ink)}
+    .view{padding-bottom:96px}
+    #btn-nuevo{position:fixed;right:16px;bottom:calc(74px + env(safe-area-inset-bottom));z-index:49;width:54px;height:54px;border-radius:50%;justify-content:center;padding:0;box-shadow:0 8px 22px -6px rgba(10,44,72,.55)}
+    #btn-nuevo .bn-txt{display:none}
+    #btn-nuevo svg{width:22px;height:22px}
+  }
+  @media(max-width:640px){
+    .demobar{position:static;font-size:11.5px;padding:7px 12px}
+    .topbar{padding:11px 14px;gap:10px}
+    .topbar h1{font-size:17px}
+    .topbar .tt .sub{font-size:11.5px}
+    .rolepick span{display:none}
+    .view{padding:14px 12px 96px}
+    .tiles{grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:16px}
+    .tile{padding:13px 14px;border-radius:12px}
+    .tile .val{font-size:19px;margin-top:7px}
+    .tile .meta{font-size:10.5px}
+    .tile.total{grid-column:1/-1;order:-1;padding:17px 16px}
+    .tile.total .val{font-size:26px}
+    .cajagrid{grid-template-columns:repeat(2,1fr);gap:8px;padding:12px 13px}
+    .card{border-radius:12px}
+    .card-head{padding:12px 14px;flex-wrap:wrap;gap:8px 10px}
+    .panel-head{padding:13px 16px}
+    .panel-body{padding:16px 15px 22px}
+    th,td{padding:9px 10px}
+    .search{flex:1 1 auto;max-width:none;min-width:0}
+    .filters{width:100%;gap:8px}
+    .actions{margin-left:0;width:100%}
+    .actions .btn{flex:1;justify-content:center}
+    .fbtn{display:inline-flex;flex:none}
+    .toolbar:not(.fx) .filters>:not(.search):not(.fbtn):not(.keep){display:none}
+    .toolbar:not(.fx) .filters>.search.imp{display:none}
+    .toolbar{gap:8px;margin-bottom:13px}
+    #maes-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+    #maes-tabs .btn{flex:none;white-space:nowrap}
+    .banner{padding:11px 13px;font-size:12px;border-radius:12px}
+    .overlay{align-items:flex-end;justify-content:center}
+    .panel{width:100%;height:auto;max-height:92dvh;border-left:0;border-top:1px solid var(--line);border-radius:18px 18px 0 0;transform:translateY(40px)}
+    .overlay.open .panel{transform:none}
+    .overlay.center-mode{align-items:flex-end;padding:0}
+    .panel.center{margin:0;width:100%;max-height:92dvh;border-radius:18px 18px 0 0;border:0;border-top:1px solid var(--line)}
+    .overlay.center-mode .panel{transform:translateY(40px)}
+    .overlay.center-mode.open .panel{transform:none}
+    .row2{grid-template-columns:1fr;gap:0}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
 <div class="demobar"><span class="dbtag">Maqueta</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg><div>Version de prueba para revisar y corregir. Proba cargar datos, navegar y anotar que falta. Lo que cargues vive <b>solo mientras tengas esta pestaña abierta</b> y se borra al cerrarla. No es el sistema final.</div></div>
+<div class="scrim" id="scrim" onclick="closeSide()"></div>
 <div class="app">
   <aside class="side" id="side">
     <div class="brand">
@@ -226,19 +297,17 @@
   </aside>
   <div class="main">
     <header class="topbar">
-      <button class="btn ghost sm mobtoggle" onclick="document.getElementById('side').classList.toggle('open')" aria-label="Menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-      </button>
-      <div><h1 id="page-title">Inicio</h1><div class="sub" id="page-sub">Resumen de tesoreria</div></div>
+      <div class="tt"><h1 id="page-title">Inicio</h1><div class="sub" id="page-sub">Resumen de tesoreria</div></div>
       <div class="spacer"></div>
       <div class="rolepick"><span>Ver como</span>
         <select id="role-select" onchange="setRole(this.value)" title="Cambiar de usuario para ver los permisos"></select></div>
       <button class="btn primary" id="btn-nuevo" onclick="openMovimiento()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Nuevo movimiento</button>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg><span class="bn-txt">Nuevo movimiento</span></button>
     </header>
     <main id="views"></main>
   </div>
 </div>
+<nav class="bottombar" id="bottombar"></nav>
 <div class="overlay" id="overlay"><div class="panel" id="panel"></div></div>
 <div class="toast" id="toast"></div>
 
@@ -260,6 +329,22 @@ const setHTML=(el,h)=>{if(el)el['inner'+'HTML']=h;};
 const soloDig=s=>String(s==null?'':s).replace(/[^\d]/g,'');
 function enRango(f,d1,d2){if(d1&&(!f||f<d1))return false;if(d2&&(!f||f>d2))return false;return true;}
 function impMatch(monto,q){q=soloDig(q);if(!q)return true;return soloDig(Math.round(Math.abs(monto||0))).indexOf(q)>=0;}
+const IS_MOBILE=()=>window.matchMedia('(max-width:640px)').matches;
+function mrow(l1,l2,meta,right,onclick){const tag=onclick?'button':'div';
+  return '<'+tag+(onclick?' type="button" onclick="'+onclick+'"':'')+' class="mrow">'+
+    '<div class="ml"><div class="mc">'+l1+'</div>'+(l2?'<div class="md">'+l2+'</div>':'')+(meta?'<div class="mm">'+meta+'</div>':'')+'</div>'+
+    '<div class="mr">'+right+'</div></'+tag+'>';}
+function listaMov(rows,editable){return '<div class="mlist">'+rows.map(m=>{const nom=nombrePorCodigo(m.codigo);
+  const meta=[fdate(m.fecha),m.rubro?esc(m.rubro):'<span class="chip warn" style="font-size:10px;padding:1px 6px">sin rubro</span>',nom?esc(nom):''].filter(Boolean).join(' &middot; ');
+  const right='<div class="ma '+(m.signo==='ingreso'?'pos':'neg')+'">'+(m.signo==='ingreso'?'+':'-')+money(m.monto).replace('-','')+'</div>'+
+    '<div class="ms">'+m.medio+(m.concil?' &middot; conciliado':'')+(m.ret?' &middot; RET '+money(m.ret):'')+'</div>';
+  return mrow(esc(m.concepto),m.detalle?esc(m.detalle):'',meta,right,editable?'openMovimiento(\''+m.id+'\')':null);}).join('')+'</div>';}
+function injectFbtns(){if(!IS_MOBILE())return;
+  [].forEach.call(document.querySelectorAll('.view .toolbar .filters'),f=>{
+    const ocultos=[].filter.call(f.children,c=>!c.classList.contains('search')&&!c.classList.contains('fbtn')&&!c.classList.contains('keep'));
+    if(ocultos.length&&!f.querySelector('.fbtn')){const b=document.createElement('button');b.type='button';b.className='btn sm fbtn';
+      setHTML(b,'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filtros');
+      b.onclick=function(){this.closest('.toolbar').classList.toggle('fx');};f.appendChild(b);}});}
 
 const ROLES={
   Vero :{nombre:'Vero',  desc:'Acceso total, crea maestros', all:true, ladob:true},
@@ -344,7 +429,6 @@ const NAV=[
   {id:'maestros',label:'Maestros',icon:'M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z'},
   {id:'reportes',label:'Reportes',icon:'M4 20V10M10 20V4M16 20v-7M22 20H2'},
   {id:'ladob',label:'Lado B',icon:'M4 7h16v13H4z M4 7l4-4h8l4 4 M12 11v5'},
-  {id:'seguridad',label:'Seguridad',icon:'M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z M9 12l2 2 4-4'},
   {id:'micaja',label:'Mi caja chica',icon:'M21 12a2 2 0 010 4H8l-4-4 4-4h13a2 2 0 010 4zM7 12h.01'}
 ];
 let current='inicio';
@@ -360,9 +444,25 @@ function buildNav(){const av=allowedViews();
     if(n.id==='cheques')badge='<span class="nav-badge num">'+S.cheques.filter(c=>c.estado==='En cartera').length+'</span>';
     return '<button class="nav-item '+(current===n.id?'active':'')+'" onclick="go(\''+n.id+'\')">'+
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="'+n.icon+'"/></svg>'+
-      '<span>'+n.label+'</span>'+badge+'</button>';}).join(''));}
+      '<span>'+n.label+'</span>'+badge+'</button>';}).join('')+
+    '<button class="btn ghost sm" style="margin-top:14px" onclick="resetDemo()">Reiniciar demo</button>');}
+const BB_DEF=[['inicio','Inicio','M3 12l9-8 9 8M5 10v10h14V10'],
+  ['movimientos','Movs','M4 6h16M4 12h16M4 18h10'],
+  ['facturas','Facturas','M6 2l1.5 4h9L18 2M4 6h16l-1.5 12H5.5z'],
+  ['obras','Obras','M3 21h18M6 21V9l6-4 6 4v12M10 21v-5h4v5'],
+  ['micaja','Mi caja','M21 12a2 2 0 010 4H8l-4-4 4-4h13a2 2 0 010 4zM7 12h.01']];
+function buildBottomBar(){const el=document.getElementById('bottombar');if(!el)return;const av=allowedViews();
+  const items=BB_DEF.filter(b=>av.indexOf(b[0])>=0).slice(0,4);
+  let h=items.map(b=>'<button type="button" class="bb-item'+(current===b[0]?' active':'')+'" onclick="go(\''+b[0]+'\')">'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="'+b[2]+'"/></svg>'+b[1]+'</button>').join('');
+  if(av.length>items.length)h+='<button type="button" class="bb-item'+(items.some(b=>b[0]===current)?'':' active')+'" onclick="toggleSide()">'+
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></svg>Menu</button>';
+  setHTML(el,h);}
 function verCaja(id){const c=S.cajaschicas.find(x=>x.id===id);current='ctascorrientes';render();const i=document.getElementById('cc-obra');if(i&&c){i.value=c.codigo;renderCC();}}
-function go(id){current=id;document.getElementById('side').classList.remove('open');render();}
+function toggleSide(){const s=document.getElementById('side');const open=!s.classList.contains('open');
+  s.classList.toggle('open',open);document.getElementById('scrim').classList.toggle('show',open);}
+function closeSide(){document.getElementById('side').classList.remove('open');document.getElementById('scrim').classList.remove('show');}
+function go(id){current=id;closeSide();render();}
 function setRole(r){S.role=r;save();const av=allowedViews();if(av.indexOf(current)<0)current=av[0]||'inicio';
   document.getElementById('btn-nuevo').style.display=ROLES[r].all?'':'none';render();toast('Ahora ves el sistema como '+r);}
 
@@ -372,14 +472,13 @@ const TITLES={inicio:['Inicio','Resumen de tesoreria al dia'],movimientos:['Movi
   personal:['Personal y jornales','Padron y pago de quincenas'],maestros:['Maestros','Todo lo que cargas una vez y reutilizas'],
   reportes:['Reportes','Consultas, graficos y exportacion'],
   ladob:['Lado B','Registro paralelo - solo Vero y Maxi'],
-  seguridad:['Seguridad','Como protegemos tu informacion financiera'],
   micaja:['Mi caja chica','Ingresos, egresos y saldo de tu caja']};
-function render(){buildNav();const t=TITLES[current]||['',''];
+function render(){buildNav();buildBottomBar();const t=TITLES[current]||['',''];
   document.getElementById('page-title').textContent=t[0];
   document.getElementById('page-sub').textContent=t[1];
   document.getElementById('role-select').value=S.role;
   document.getElementById('btn-nuevo').style.display=(current==='movimientos'&&ROLES[S.role].all)?'':'none';
-  setHTML(document.getElementById('views'),'<section class="view">'+VIEWS[current]()+'</section>');save();
+  setHTML(document.getElementById('views'),'<section class="view">'+VIEWS[current]()+'</section>');injectFbtns();save();
   if(current==='inicio')renderInicio();
   if(current==='movimientos')renderMovTable();
   if(current==='gastos')renderGastosTable();
@@ -444,8 +543,8 @@ const VIEWS={
       .map(g=>'<optgroup label="'+g[0]+'">'+g[1].map(x=>'<option value="'+esc(x.codigo)+'">'+esc(x.nombre)+' - '+esc(x.codigo)+'</option>').join('')+'</optgroup>').join('');
     return '<div class="toolbar">'+
       '<div class="filters">'+
-        '<select id="cc-sel" onchange="renderCC()" style="min-width:260px;flex:1 1 260px"><option value="">Elegi una cuenta...</option>'+opts+'</select>'+
-        '<input id="cc-obra" placeholder="...o codigo de obra (ej. 4369)" oninput="renderCC()" style="flex:1 1 180px;min-width:170px">'+
+        '<select id="cc-sel" class="keep" onchange="renderCC()" style="min-width:260px;flex:1 1 260px"><option value="">Elegi una cuenta...</option>'+opts+'</select>'+
+        '<input id="cc-obra" class="keep" placeholder="...o codigo de obra (ej. 4369)" oninput="renderCC()" style="flex:1 1 180px;min-width:170px">'+
         '<label class="flabel">Desde <input type="date" id="cc-desde" onchange="renderCC()"></label>'+
         '<label class="flabel">Hasta <input type="date" id="cc-hasta" onchange="renderCC()"></label>'+
         '<div class="search imp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>'+
@@ -456,12 +555,16 @@ const VIEWS={
   },
   cheques:function(){const ro=ROLES[S.role].readonly;
     return '<div class="toolbar" style="justify-content:flex-end">'+(ro?'':'<div class="actions"><button class="btn primary sm" onclick="openCheque()">+ Cargar cheque</button></div>')+'</div>'+
-    '<div class="card"><div class="tbl-wrap"><table><thead><tr><th>Recibido</th><th>Origen</th><th>Banco</th><th>Numero</th><th class="r">Importe</th><th>Vence</th><th>Destino</th><th>Estado</th></tr></thead><tbody>'+
+    '<div class="card">'+(IS_MOBILE()?'<div class="mlist">'+S.cheques.map(c=>
+      mrow(esc(c.origen),esc(c.banco)+' &middot; N '+esc(c.numero),
+        'Recibido '+fdate(c.recibido)+(c.vto?' &middot; vence '+fdate(c.vto):'')+(c.destino?' &middot; a '+esc(c.destino):''),
+        '<div class="ma">'+money(c.importe)+'</div><div class="ms"><span class="chip '+(c.estado==='En cartera'?'warn':'pos')+'">'+c.estado+'</span></div>')).join('')+'</div>'
+    :'<div class="tbl-wrap"><table><thead><tr><th>Recibido</th><th>Origen</th><th>Banco</th><th>Numero</th><th class="r">Importe</th><th>Vence</th><th>Destino</th><th>Estado</th></tr></thead><tbody>'+
     S.cheques.map(c=>'<tr><td class="num muted">'+fdate(c.recibido)+'</td><td>'+esc(c.origen)+'</td><td>'+esc(c.banco)+'</td>'+
       '<td><span class="codebox">'+esc(c.numero)+'</span></td><td class="r num">'+money(c.importe)+'</td>'+
       '<td class="num muted">'+(c.vto?fdate(c.vto):'-')+'</td>'+
       '<td>'+(c.destino?esc(c.destino)+(c.egreso?'<div class="muted" style="font-size:11.5px">salio '+fdate(c.egreso)+'</div>':''):'<span class="muted">-</span>')+'</td>'+
-      '<td><span class="chip '+(c.estado==='En cartera'?'warn':'pos')+'">'+c.estado+'</span></td></tr>').join('')+'</tbody></table></div></div>';
+      '<td><span class="chip '+(c.estado==='En cartera'?'warn':'pos')+'">'+c.estado+'</span></td></tr>').join('')+'</tbody></table></div>')+'</div>';
   },
   facturas:function(){
     const ivaDeb=S.ventas.reduce((a,v)=>a+(v.iva||0),0);
@@ -494,11 +597,15 @@ const VIEWS={
       '<div class="tile total"><div class="lbl">Saldo</div><div class="val num">'+money(ing-egr)+'</div></div></div>'+
     '<div class="card"><div class="card-head"><h2>Registro Lado B</h2><div class="sub">'+S.ladob.length+' movimientos</div><div class="spacer"></div>'+
       (ro?'':'<button class="btn primary sm" onclick="openLadoB()">+ Registrar</button>')+'</div>'+
-      (S.ladob.length?'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th class="r">Ingreso</th><th class="r">Egreso</th>'+(ro?'':'<th></th>')+'</tr></thead><tbody>'+
+      (S.ladob.length?(IS_MOBILE()?'<div class="mlist">'+S.ladob.slice().sort((a,b)=>(a.fecha<b.fecha?1:-1)).map(x=>
+        mrow(esc(x.concepto),'',fdate(x.fecha),
+          '<div class="ma '+(x.signo==='ingreso'?'pos':'neg')+'">'+(x.signo==='ingreso'?'+':'-')+money(x.monto).replace('-','')+'</div>'+
+          (ro?'':'<div class="ms"><button class="btn ghost sm danger" onclick="delLadoB(\''+x.id+'\')">Borrar</button></div>'))).join('')+'</div>'
+      :'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th class="r">Ingreso</th><th class="r">Egreso</th>'+(ro?'':'<th></th>')+'</tr></thead><tbody>'+
       S.ladob.slice().sort((a,b)=>(a.fecha<b.fecha?1:-1)).map(x=>'<tr><td class="num muted">'+fdate(x.fecha)+'</td><td>'+esc(x.concepto)+'</td>'+
         '<td class="r num amt pos">'+(x.signo==='ingreso'?money(x.monto):'<span class="muted">-</span>')+'</td>'+
         '<td class="r num amt neg">'+(x.signo==='egreso'?money(x.monto):'<span class="muted">-</span>')+'</td>'+
-        (ro?'':'<td class="r"><button class="btn ghost sm danger" onclick="delLadoB(\''+x.id+'\')">x</button></td>')+'</tr>').join('')+'</tbody></table></div>'
+        (ro?'':'<td class="r"><button class="btn ghost sm danger" onclick="delLadoB(\''+x.id+'\')">x</button></td>')+'</tr>').join('')+'</tbody></table></div>')
       :'<div class="empty">Sin registros. Toca "Registrar" para empezar.</div>')+'</div>';
   },
   micaja:function(){const cod=ROLES[S.role].caja;const caja=S.cajaschicas.find(c=>c.codigo===cod)||{nombre:'Mi caja',codigo:cod,responsable:S.role};
@@ -511,10 +618,10 @@ const VIEWS={
       '<div class="tile"><div class="lbl"><span class="dot" style="background:var(--neg)"></span>Salidas</div><div class="val num neg">'+money(egr)+'</div></div>'+
       '<div class="tile total"><div class="lbl">Saldo de la caja</div><div class="val num">'+money(ing-egr)+'</div><div class="meta">codigo '+esc(cod)+'</div></div></div>'+
     '<div class="card"><div class="card-head"><h2>Movimientos de mi caja</h2><div class="sub">'+movs.length+' movimientos</div></div>'+
-      (movs.length?'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th class="r">Entrada</th><th class="r">Salida</th></tr></thead><tbody>'+
+      (movs.length?(IS_MOBILE()?listaMov(movs):'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th class="r">Entrada</th><th class="r">Salida</th></tr></thead><tbody>'+
       movs.map(m=>'<tr><td class="num muted">'+fdate(m.fecha)+'</td><td>'+esc(m.concepto)+(m.detalle?'<div class="muted" style="font-size:11.5px">'+esc(m.detalle)+'</div>':'')+'</td>'+
         '<td class="r num amt pos">'+(m.signo==='ingreso'?money(m.monto):'<span class="muted">-</span>')+'</td>'+
-        '<td class="r num amt neg">'+(m.signo==='egreso'?money(m.monto):'<span class="muted">-</span>')+'</td></tr>').join('')+'</tbody></table></div>'
+        '<td class="r num amt neg">'+(m.signo==='egreso'?money(m.monto):'<span class="muted">-</span>')+'</td></tr>').join('')+'</tbody></table></div>')
       :'<div class="empty">Todavia no hay movimientos en tu caja.</div>')+'</div>';
   },
   conciliacion:function(){
@@ -563,24 +670,6 @@ const VIEWS={
     rubros.map(x=>'<tr><td><button class="chip rubro" style="border:0;cursor:pointer" onclick="verRubro('+S.rubros.indexOf(x.r)+')" title="Ver estos movimientos">'+esc(x.r)+'</button></td>'+
       '<td class="r num muted">'+S.movimientos.filter(m=>m.rubro===x.r).length+'</td>'+
       '<td class="r num amt '+(x.t>=0?'pos':'neg')+'">'+money(x.t)+'</td></tr>').join('')+'</tbody></table></div></div>';
-  },
-  seguridad:function(){
-    const items=[
-      ['Cada uno ve solo lo suyo','Los permisos son por persona. Vero, Maxi y Sole ven y editan todo; Vivi entra unicamente a Ventas y Cobranzas. Nadie ve mas de lo que le toca. Probalo con el selector "Ver como" de arriba a la derecha.','M17 20v-2a4 4 0 00-3-3.87M9 20v-2a4 4 0 013-3.87M12 7a3 3 0 100-6 3 3 0 000 6M6 21a3 3 0 100-6 3 3 0 000 6'],
-      ['Entrada con usuario y clave','Cada persona entra con su usuario y su clave. Se puede sumar doble factor: un codigo que llega al celular. Sin credenciales validas, no se entra.','M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z M9 12l2 2 4-4'],
-      ['Todo viaja cifrado','La conexion es segura (HTTPS). Los datos que van y vienen entre tu compu y el sistema estan cifrados: nadie los puede leer en el camino.','M6 10V7a6 6 0 0112 0v3 M5 10h14v10H5z M12 14v3'],
-      ['Guardado bajo llave','La base de datos esta encriptada (AES-256). Los numeros quedan guardados cifrados: ni siquiera quien administra los servidores los lee en claro.','M4 7h16v13H4z M4 7l4-4h8l4 4 M12 12v3'],
-      ['Queda todo registrado','El sistema anota quien cargo, edito o borro cada movimiento y cuando. Nada se toca sin dejar rastro: si algo cambia, se sabe quien fue.','M9 12h6M9 16h6M9 8h2 M6 2h9l5 5v15H6z M15 2v5h5'],
-      ['Copias de seguridad automaticas','Se hace un backup todos los dias. Si algo se borra por error o se rompe, se puede volver atras a como estaba. No se pierde nada.','M21 12a9 9 0 11-3-6.7 M21 3v5h-5'],
-      ['Tus datos son tuyos','Podes exportar todo a Excel o CSV cuando quieras. La informacion es tuya: no se vende, no se comparte, no se usa para otra cosa.','M12 3v12m0 0l-4-4m4 4l4-4M4 21h16'],
-      ['Acceso privado','El sistema no es publico. Solo entra tu equipo, con sus cuentas. Se puede cerrar sesion sola por inactividad y bloquear intentos de fuerza bruta.','M18 8h1a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2v-9a2 2 0 012-2h1 M8 8V6a4 4 0 118 0v2'],
-    ];
-    return '<div class="banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg>'+
-      '<div>Tu informacion financiera es lo mas sensible que hay. El sistema esta pensado para protegerla en serio, no de palabra. Esto es lo que hace por vos.</div></div>'+
-      '<div class="secgrid">'+items.map(it=>'<div class="seccard"><div class="secico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9">'+it[2].split(' M').map((p,i)=>'<path d="'+(i?'M':'')+p+'"/>').join('')+'</svg></div>'+
-        '<div class="sectxt"><h3>'+it[0]+'</h3><p>'+it[1]+'</p></div></div>').join('')+'</div>'+
-      '<div class="banner warnbar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>'+
-      '<div><b>Sobre esta maqueta:</b> es una version de prueba para que la recorran y nos digan que corregir. Los datos que carguen viven <b>solo en su navegador mientras tengan la pestaña abierta</b> y se borran al cerrarla: no se suben a ningun lado ni los ve nadie mas. Las protecciones de arriba (cifrado, backups, doble factor, registro) son las del sistema final, ya funcionando en la nube.</div></div>';
   }
 };
 function byRubroBars(d1,d2){
@@ -644,12 +733,12 @@ function renderInicio(){const el=document.getElementById('inicio-body');if(!el)r
       '<div class="cajanota">Entregado menos rendido desde el arranque. El saldo es total; el conteo de movimientos es del periodo elegido.</div></div>'+
     '<div class="grid2"><div class="card"><div class="card-head"><h2>Ultimos movimientos</h2><div class="sub">'+rotulo+'</div><div class="spacer"></div>'+
       '<button class="btn sm ghost" onclick="go(\'movimientos\')">Ver todos</button></div>'+
-      (recientes.length?'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th>Medio</th><th class="r">Monto</th></tr></thead><tbody>'+
+      (recientes.length?(IS_MOBILE()?listaMov(recientes):'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th>Medio</th><th class="r">Monto</th></tr></thead><tbody>'+
       recientes.map(m=>'<tr><td class="num muted">'+fdate(m.fecha)+'</td>'+
         '<td>'+esc(m.concepto)+(m.detalle?'<div class="muted" style="font-size:11.5px">'+esc(m.detalle)+'</div>':'')+'</td>'+
         '<td><span class="chip medio">'+m.medio+'</span></td>'+
         '<td class="r num amt '+(m.signo==='ingreso'?'pos':'neg')+'">'+(m.signo==='ingreso'?'+':'-')+money(m.monto).replace('-','')+'</td></tr>').join('')+
-      '</tbody></table></div>':'<div class="empty">Sin movimientos en el periodo.</div>')+'</div>'+
+      '</tbody></table></div>'):'<div class="empty">Sin movimientos en el periodo.</div>')+'</div>'+
     '<div class="card"><div class="card-head"><h2>En que se fue la plata</h2><div class="sub">egresos '+rotulo+'</div></div>'+
       '<div class="panel-body">'+byRubroBars(d1,d2)+'</div></div></div>');
 }
@@ -714,6 +803,11 @@ function renderGastosTable(){const rows=gastosFiltrados();const total=rows.reduc
       '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">'+chips+'</div>');}
   const el=document.getElementById('ga-table');if(!el)return;
   if(!rows.length){setHTML(el,'<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h10"/></svg><div>No hay gastos con ese filtro.</div></div>');return;}
+  if(IS_MOBILE()){const ro=ROLES[S.role].readonly;
+    setHTML(el,'<div class="mlist">'+rows.map(m=>{const nom=nombrePorCodigo(m.codigo);
+      return mrow(esc(m.concepto),m.detalle?esc(m.detalle):'',fdate(m.fecha)+' &middot; '+esc(catGasto(m))+(nom?' &middot; '+esc(nom):''),
+        '<div class="ma neg">-'+money(m.monto).replace('-','')+'</div><div class="ms">'+m.medio+'</div>',
+        ro?null:'openMovimiento(\''+m.id+'\')');}).join('')+'</div>');return;}
   setHTML(el,'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Categoria</th><th>Detalle</th><th>Vinculado a</th><th>Medio</th><th class="r">Importe</th></tr></thead><tbody>'+
     rows.map(m=>{const nom=nombrePorCodigo(m.codigo);return '<tr><td class="num muted">'+fdate(m.fecha)+'</td>'+
       '<td><span class="chip rubro">'+esc(catGasto(m))+'</span></td>'+
@@ -730,6 +824,7 @@ function renderMovTable(){
   if(cnt){const neto=rows.reduce((a,m)=>a+(m.signo==='ingreso'?m.monto:-m.monto),0);cnt.textContent=rows.length+' mov.  -  neto '+money(neto);}
   if(!rows.length){setHTML(el,'<div class="empty"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h10"/></svg><div>No hay movimientos con ese filtro.</div></div>');return;}
   const ro=ROLES[S.role].readonly;
+  if(IS_MOBILE()){setHTML(el,listaMov(rows,!ro));return;}
   setHTML(el,'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th>Vinculado a</th><th>Rubro</th><th>Medio</th><th class="r">Ingreso</th><th class="r">Egreso</th>'+(ro?'':'<th></th>')+'</tr></thead><tbody>'+
   rows.map(m=>{const nom=nombrePorCodigo(m.codigo);return '<tr><td class="num muted">'+fdate(m.fecha)+'</td>'+
     '<td><b style="font-weight:560">'+esc(m.concepto)+'</b>'+(m.detalle?'<div class="muted" style="font-size:11.5px">'+esc(m.detalle)+'</div>':'')+
@@ -742,13 +837,14 @@ function renderMovTable(){
     (ro?'':'<td class="r" style="white-space:nowrap"><button class="btn ghost sm" onclick="openMovimiento(\''+m.id+'\')" title="Editar">Editar</button><button class="btn ghost sm danger" onclick="delMov(\''+m.id+'\')" title="Borrar">x</button></td>')+'</tr>';}).join('')+'</tbody></table></div>');
 }
 function delMov(id){if(!confirm('Borrar este movimiento?'))return;S.movimientos=S.movimientos.filter(m=>m.id!==id);save();renderMovTable();buildNav();toast('Movimiento borrado');}
+function delMovPanel(id){if(!confirm('Borrar este movimiento?'))return;S.movimientos=S.movimientos.filter(m=>m.id!==id);save();closePanel();render();toast('Movimiento borrado');}
 
 function openPanel(html,center){const ov=document.getElementById('overlay');
   document.getElementById('panel').className='panel'+(center?' center':'');
   ov.classList.toggle('center-mode',!!center);setHTML(document.getElementById('panel'),html);ov.classList.add('open');}
 function closePanel(){document.getElementById('overlay').classList.remove('open');}
 document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closePanel();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePanel();closeSide();}});
 
 let movForm={signo:'egreso',medio:'Banco',tipo:'normal',editId:null};
 function openMovimiento(editId,prefRubro){
@@ -783,6 +879,7 @@ function openMovimiento(editId,prefRubro){
     '<div class="field"><label>Retencion (opcional)</label><input id="mf-ret" inputmode="decimal" value="'+(ed&&ed.ret?ed.ret:'')+'" placeholder="0"><div class="hint">SUSS, Ganancias, IIBB... lo que te retuvieron en este pago.</div></div>'+
     '<div class="field"><label>Observacion</label><textarea id="mf-obs" rows="2" placeholder="Notas para el equipo">'+esc(ed?ed.detalle:'')+'</textarea></div>'+
     '<div style="display:flex;gap:10px;margin-top:6px"><button class="btn primary" style="flex:1" onclick="saveMovimiento()">'+(ed?'Guardar cambios':'Guardar movimiento')+'</button>'+
+      (ed?'<button class="btn ghost danger" onclick="delMovPanel(\''+ed.id+'\')">Borrar</button>':'')+
       '<button class="btn ghost" onclick="closePanel()">Cancelar</button></div>'+
     '<div class="hint" style="margin-top:10px">El sistema no te deja guardar si falta un dato obligatorio (marcados con <span class="req">*</span>).</div></div>');
 }
@@ -840,6 +937,13 @@ function drawMaesRows(){const arr=S[maesActual];const ro=ROLES[S.role].readonly;
   const qe=document.getElementById('maes-q');const q=(qe?qe.value:'').toLowerCase();
   const rows=arr.filter(x=>!q||x.nombre.toLowerCase().indexOf(q)>=0||(x.codigo||'').toLowerCase().indexOf(q)>=0);
   const gr=maesActual==='conceptos';const ext=esFichaExt();
+  if(IS_MOBILE()){
+    setHTML(document.getElementById('maes-rows'),'<div class="mlist">'+rows.map(x=>
+      mrow(esc(x.nombre),'<span class="codebox">'+esc(x.codigo)+'</span>'+(gr?' &middot; '+esc(x.grupo||'GENERAL'):''),
+        ext?[x.cuit,x.mail,x.banco].filter(Boolean).map(esc).join(' &middot; '):'',
+        ro?'':'<div class="ms">Editar</div>',
+        ro?null:'editMaestro(\''+x.id+'\')')).join('')+'</div>'+(rows.length?'':'<div class="empty">Sin resultados.</div>'));
+    return;}
   setHTML(document.getElementById('maes-rows'),'<div class="tbl-wrap"><table><thead><tr><th>Nombre</th><th>Codigo</th>'+(gr?'<th>Grupo</th>':'')+(ext?'<th>CUIT</th><th>Mail</th><th>Banco</th>':'')+(ro?'':'<th></th>')+'</tr></thead><tbody>'+
     rows.map(x=>'<tr><td><b style="font-weight:560">'+esc(x.nombre)+'</b></td><td><span class="codebox">'+esc(x.codigo)+'</span></td>'+(gr?'<td><span class="chip">'+esc(x.grupo||'GENERAL')+'</span></td>':'')+
     (ext?'<td class="num muted">'+(x.cuit?esc(x.cuit):'<span class="muted">-</span>')+'</td><td class="muted">'+(x.mail?esc(x.mail):'<span class="muted">-</span>')+'</td><td class="muted">'+(x.banco?esc(x.banco)+(x.cbu?'<div style="font-size:11px">'+esc(x.cbu)+'</div>':''):'<span class="muted">-</span>')+'</td>':'')+
@@ -858,7 +962,9 @@ function editMaestroForm(obj){const isNew=!obj;const label=MAES_LABEL[maesActual
       '<div class="field"><label>Telefono</label><input id="ma-tel" value="'+esc(obj&&obj.tel||'')+'" placeholder="11 5555 5555"></div>'+
       '<div class="row2"><div class="field"><label>Banco</label><input id="ma-banco" value="'+esc(obj&&obj.banco||'')+'" placeholder="Galicia"></div>'+
       '<div class="field"><label>CBU / Alias</label><input id="ma-cbu" value="'+esc(obj&&obj.cbu||'')+'" placeholder="CBU o alias"></div></div>':'')+
-    '<div style="display:flex;gap:10px;margin-top:6px"><button class="btn primary" style="flex:1" onclick="saveMaestro(\''+(obj?obj.id:'')+'\')">Guardar</button><button class="btn ghost" onclick="closePanel()">Cancelar</button></div></div>',true);}
+    '<div style="display:flex;gap:10px;margin-top:6px"><button class="btn primary" style="flex:1" onclick="saveMaestro(\''+(obj?obj.id:'')+'\')">Guardar</button>'+
+    (obj?'<button class="btn ghost danger" onclick="closePanel();delMaestro(\''+obj.id+'\')">Borrar</button>':'')+
+    '<button class="btn ghost" onclick="closePanel()">Cancelar</button></div></div>',true);}
 function saveMaestro(id){const nombre=document.getElementById('ma-nombre').value.trim();const codigo=document.getElementById('ma-codigo').value.trim();
   if(!nombre||!codigo){const m=document.getElementById('ma-msg');m.className='form-msg show';m.textContent='Nombre y codigo son obligatorios';return;}
   const g=x=>{const e=document.getElementById(x);return e?e.value.trim():'';};
@@ -888,10 +994,10 @@ function renderCC(){const sel=document.getElementById('cc-sel').value;const obra
     '<div class="meta">'+(esCaja?'Entregado menos rendido en el periodo':(esProv?(saldo<0?'Le debemos':'A favor nuestro'):'Neto del periodo'))+' - codigo '+esc(cod)+'</div></div>'+
     '<div class="tile"><div class="lbl">Movimientos'+(filtrando?' (filtro)':'')+'</div><div class="val num">'+movs.length+(filtrando?' <span class="muted" style="font-size:13px">de '+movsAll.length+'</span>':'')+'</div>'+
     (filtrando?'<div class="meta">Neto del filtro '+money(netoF)+'</div>':'')+'</div></div>'+
-    '<div class="card">'+(movs.length?'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th>Rubro</th><th>Medio</th><th class="r">Monto</th></tr></thead><tbody>'+
+    '<div class="card">'+(movs.length?(IS_MOBILE()?listaMov(movs):'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th>Rubro</th><th>Medio</th><th class="r">Monto</th></tr></thead><tbody>'+
     movs.map(m=>'<tr><td class="num muted">'+fdate(m.fecha)+'</td><td>'+esc(m.concepto)+(m.detalle?'<div class="muted" style="font-size:11.5px">'+esc(m.detalle)+'</div>':'')+'</td>'+
       '<td><span class="chip rubro">'+esc(m.rubro)+'</span></td><td><span class="chip medio">'+m.medio+'</span></td>'+
-      '<td class="r num amt '+(m.signo==='ingreso'?'pos':'neg')+'">'+(m.signo==='ingreso'?'+':'-')+money(m.monto).replace('-','')+'</td></tr>').join('')+'</tbody></table></div>'
+      '<td class="r num amt '+(m.signo==='ingreso'?'pos':'neg')+'">'+(m.signo==='ingreso'?'+':'-')+money(m.monto).replace('-','')+'</td></tr>').join('')+'</tbody></table></div>')
     :'<div class="empty">'+(filtrando?'No hay movimientos con ese filtro.':'Todavia no hay movimientos con ese codigo.')+'</div>')+'</div>');}
 
 function usarEjemploExt(){document.getElementById('ext-in').value='05/01/2026 ; ACRED CERT MIGUELETES 2306 ; 2536837,75\n02/01/2026 ; TRANSF MOYANO JL ; -132000\n02/01/2026 ; PERSONAL FLOW LINEAS ; -40178,90\n02/01/2026 ; ADEL S GALDO ; -1500000\n11/01/2026 ; DEB NN SIN REGISTRAR ; -45000';procesarExtracto();}
@@ -927,9 +1033,12 @@ function procesarExtracto(){const txt=document.getElementById('ext-in').value.tr
   S.movimientos.forEach(m=>{delete m._used;});save();
   setHTML(out,'<div class="tiles" style="margin-bottom:14px"><div class="tile"><div class="lbl"><span class="dot" style="background:var(--pos)"></span>Conciliados</div><div class="val num pos">'+ok+'</div></div>'+
     '<div class="tile"><div class="lbl"><span class="dot" style="background:var(--warn)"></span>Sin match</div><div class="val num">'+nomatch+'</div></div></div>'+
-    '<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto (banco)</th><th class="r">Importe</th><th>Estado</th></tr></thead><tbody>'+
+    (IS_MOBILE()?'<div class="mlist">'+rows.map(r=>
+      mrow(esc(r.concepto),'',r.fecha?fdate(r.fecha):'',
+        '<div class="ma">'+money(r.imp)+'</div><div class="ms">'+(r.hit?'<span class="chip pos">Conciliado</span>':'<span class="chip warn">Revisar</span>')+'</div>')).join('')+'</div>'
+    :'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto (banco)</th><th class="r">Importe</th><th>Estado</th></tr></thead><tbody>'+
     rows.map(r=>'<tr><td class="num muted">'+(r.fecha?fdate(r.fecha):'-')+'</td><td>'+esc(r.concepto)+'</td><td class="r num">'+money(r.imp)+'</td>'+
-      '<td>'+(r.hit?'<span class="chip pos">Conciliado</span>':'<span class="chip warn">Revisar</span>')+'</td></tr>').join('')+'</tbody></table></div>');
+      '<td>'+(r.hit?'<span class="chip pos">Conciliado</span>':'<span class="chip warn">Revisar</span>')+'</td></tr>').join('')+'</tbody></table></div>'));
   toast(ok+' movimientos conciliados');}
 
 function openCheque(){openPanel('<div class="panel-head"><h2>Cargar cheque</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
@@ -962,24 +1071,30 @@ function renderFacturas(){const el=document.getElementById('fact-body');if(!el)r
   if(factTab==='ventas'){const tot=S.ventas.reduce((a,v)=>a+v.importe,0);const cob=S.ventas.filter(v=>v.cobrado).reduce((a,v)=>a+v.importe,0);
     setHTML(el,'<div class="card"><div class="card-head"><h2>Facturas de venta</h2><div class="sub">Facturado '+money(tot)+' - Cobrado '+money(cob)+' - Por cobrar '+money(tot-cob)+'</div><div class="spacer"></div>'+
       (puedeCargar?'<button class="btn primary sm" onclick="openVenta()">+ Factura de venta</button>':'')+'</div>'+
-      '<div class="tbl-wrap"><table><thead><tr><th>N</th><th>Cliente</th><th>Obra</th><th>Fecha</th><th class="r">Neto</th><th class="r">IVA</th><th class="r">Total</th><th>Estado</th>'+(admin?'<th></th>':'')+'</tr></thead><tbody>'+
+      (IS_MOBILE()?'<div class="mlist">'+S.ventas.map(v=>
+        mrow(esc(v.cliente),esc(v.numero)+' &middot; obra '+esc(v.obra),fdate(v.fecha)+' &middot; IVA '+money(ivaOf(v)),
+          '<div class="ma">'+money(v.importe)+'</div><div class="ms">'+(v.cobrado?'<span class="chip pos">Cobrada</span>':(admin?'<button class="btn sm" onclick="marcarCobrada(\''+v.id+'\')">Cobrar</button>':'<span class="chip warn">Pendiente</span>'))+'</div>')).join('')+'</div>'
+      :'<div class="tbl-wrap"><table><thead><tr><th>N</th><th>Cliente</th><th>Obra</th><th>Fecha</th><th class="r">Neto</th><th class="r">IVA</th><th class="r">Total</th><th>Estado</th>'+(admin?'<th></th>':'')+'</tr></thead><tbody>'+
       S.ventas.map(v=>'<tr><td><span class="codebox">'+esc(v.numero)+'</span></td><td>'+esc(v.cliente)+'</td>'+
         '<td class="muted">'+esc(v.obra)+'</td><td class="num muted">'+fdate(v.fecha)+'</td>'+
         '<td class="r num muted">'+money(netoOf(v))+'</td><td class="r num muted">'+money(ivaOf(v))+'</td><td class="r num">'+money(v.importe)+'</td>'+
         '<td><span class="chip '+(v.cobrado?'pos':'warn')+'">'+(v.cobrado?'Cobrada':'Pendiente')+'</span></td>'+
         (admin?'<td class="r">'+(v.cobrado?'':'<button class="btn sm" onclick="marcarCobrada(\''+v.id+'\')">Registrar cobro</button>')+'</td>':'')+'</tr>').join('')+
-      '</tbody></table></div></div>'+(admin?'':'<div class="hint" style="padding:8px 2px">El cobro lo registran Vero o Maxi desde Movimientos.</div>'));
+      '</tbody></table></div>')+'</div>'+(admin?'':'<div class="hint" style="padding:8px 2px">El cobro lo registran Vero o Maxi desde Movimientos.</div>'));
   }else{const tot=S.compras.reduce((a,c)=>a+c.importe,0);const pag=S.compras.filter(c=>c.pagado).reduce((a,c)=>a+c.importe,0);
     setHTML(el,'<div class="card"><div class="card-head"><h2>Facturas de compra</h2><div class="sub">Total '+money(tot)+' - Pagado '+money(pag)+' - Por pagar '+money(tot-pag)+'</div><div class="spacer"></div>'+
       (puedeCargar?'<button class="btn primary sm" onclick="openCompra()">+ Factura de compra</button>':'')+'</div>'+
-      '<div class="tbl-wrap"><table><thead><tr><th>N</th><th>Proveedor</th><th>Obra</th><th>Fecha</th><th class="r">Neto</th><th class="r">IVA</th><th class="r">Total</th><th>Estado</th>'+(admin?'<th></th>':'')+'</tr></thead><tbody>'+
+      (IS_MOBILE()?'<div class="mlist">'+S.compras.map(c=>{const nom=nombrePorCodigo(c.proveedor);
+        return mrow(esc(nom||c.proveedor),esc(c.numero)+(c.obra?' &middot; obra '+esc(c.obra):''),fdate(c.fecha)+' &middot; IVA '+money(ivaOf(c)),
+          '<div class="ma">'+money(c.importe)+'</div><div class="ms">'+(c.pagado?'<span class="chip pos">Pagada</span>':(admin?'<button class="btn sm" onclick="marcarPagada(\''+c.id+'\')">Pagar</button>':'<span class="chip warn">Pendiente</span>'))+'</div>');}).join('')+'</div>'
+      :'<div class="tbl-wrap"><table><thead><tr><th>N</th><th>Proveedor</th><th>Obra</th><th>Fecha</th><th class="r">Neto</th><th class="r">IVA</th><th class="r">Total</th><th>Estado</th>'+(admin?'<th></th>':'')+'</tr></thead><tbody>'+
       S.compras.map(c=>{const nom=nombrePorCodigo(c.proveedor);return '<tr><td><span class="codebox">'+esc(c.numero)+'</span></td>'+
         '<td>'+(nom?esc(nom):'')+'<div class="muted" style="font-size:11.5px">'+esc(c.proveedor)+'</div></td>'+
         '<td class="muted">'+esc(c.obra||'-')+'</td><td class="num muted">'+fdate(c.fecha)+'</td>'+
         '<td class="r num muted">'+money(netoOf(c))+'</td><td class="r num muted">'+money(ivaOf(c))+'</td><td class="r num">'+money(c.importe)+'</td>'+
         '<td><span class="chip '+(c.pagado?'pos':'warn')+'">'+(c.pagado?'Pagada':'Pendiente')+'</span></td>'+
         (admin?'<td class="r">'+(c.pagado?'':'<button class="btn sm" onclick="marcarPagada(\''+c.id+'\')">Registrar pago</button>')+'</td>':'')+'</tr>';}).join('')+
-      '</tbody></table></div></div>'+(admin?'':'<div class="hint" style="padding:8px 2px">El pago lo registran Vero o Maxi desde Movimientos.</div>'));
+      '</tbody></table></div>')+'</div>'+(admin?'':'<div class="hint" style="padding:8px 2px">El pago lo registran Vero o Maxi desde Movimientos.</div>'));
   }}
 function ivaAuto(id){const t=num(document.getElementById(id+'-imp').value);const el=document.getElementById(id+'-iva');if(el&&!el.value)el.value=Math.round(t-t/1.21);}
 function openVenta(){openPanel('<div class="panel-head"><h2>Nueva factura de venta</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
@@ -1039,12 +1154,16 @@ function renderObras(){const el=document.getElementById('obras-body');if(!el)ret
       '<div class="sub">Obra '+esc(o.codigo)+' - '+esc(o.cliente||'')+' - CAC base '+o.cacBase+' (x'+f.toFixed(3)+')</div><div class="spacer"></div>'+
       '<span class="chip warn">A cobrar '+money(pendObraAjust(o))+'</span>'+
       (admin?'<button class="btn sm" onclick="openCert(\''+o.id+'\')">+ Certificado</button>':'')+'</div>'+
-      '<div class="tbl-wrap"><table><thead><tr><th>Certificado</th><th>Mes</th><th class="r">Monto nominal</th><th class="r">Ajustado CAC</th><th>Estado</th>'+(admin?'<th></th>':'')+'</tr></thead><tbody>'+
+      (IS_MOBILE()?'<div class="mlist">'+o.certificados.map(c=>
+        mrow('Cert '+esc(c.numero),esc(c.mes),c.cobrado?'':'nominal '+money(c.monto),
+          '<div class="ma">'+(c.cobrado?'<span class="chip pos">Cobrado</span>':money(Math.round(c.monto*f)))+'</div>'+
+          '<div class="ms">'+(c.cobrado?'':(admin?'<button class="btn sm" onclick="cobrarCert(\''+o.id+'\',\''+c.id+'\')">Cobrar</button>':'por cobrar'))+'</div>')).join('')+'</div>'
+      :'<div class="tbl-wrap"><table><thead><tr><th>Certificado</th><th>Mes</th><th class="r">Monto nominal</th><th class="r">Ajustado CAC</th><th>Estado</th>'+(admin?'<th></th>':'')+'</tr></thead><tbody>'+
       o.certificados.map(c=>'<tr><td><span class="codebox">'+esc(c.numero)+'</span></td><td class="num muted">'+esc(c.mes)+'</td>'+
         '<td class="r num muted">'+money(c.monto)+'</td><td class="r num">'+(c.cobrado?'<span class="muted">-</span>':money(Math.round(c.monto*f)))+'</td>'+
         '<td><span class="chip '+(c.cobrado?'pos':'warn')+'">'+(c.cobrado?'Cobrado':'Por cobrar')+'</span></td>'+
         (admin?'<td class="r">'+(c.cobrado?'':'<button class="btn sm" onclick="cobrarCert(\''+o.id+'\',\''+c.id+'\')">Registrar cobro</button>')+'</td>':'')+'</tr>').join('')+
-      '</tbody></table></div></div>';}).join('')||'<div class="empty">Sin obras cargadas.</div>';
+      '</tbody></table></div>')+'</div>';}).join('')||'<div class="empty">Sin obras cargadas.</div>';
   setHTML(el,html);}
 function cobrarCert(obraId,certId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;const c=o.certificados.find(x=>x.id===certId);if(!c)return;
   const f=cacFactor(o);const cobro=Math.round(c.monto*f);c.cobrado=true;c.cobradoMonto=cobro;
@@ -1130,6 +1249,20 @@ function togglePagos(id){perOpen[id]=!perOpen[id];renderPersonal();}
 function renderPersonal(){const g=id=>{const e=document.getElementById(id);return e?e.value:'';};
   const q=g('per-q').toLowerCase();const d1=g('per-desde'),d2=g('per-hasta');const ro=ROLES[S.role].readonly;
   const rows=S.empleados.filter(e=>!q||e.nombre.toLowerCase().indexOf(q)>=0||String(e.legajo).toLowerCase().indexOf(q)>=0);
+  if(IS_MOBILE()){
+    setHTML(document.getElementById('per-table'),'<div class="mlist">'+rows.map(e=>{
+      const ps=pagosDe(e.legajo).filter(m=>enRango(m.fecha,d1,d2));const tot=ps.reduce((a,m)=>a+m.monto,0);const op=perOpen[e.id];
+      let h=mrow(esc(e.nombre),'Legajo '+esc(e.legajo)+(e.cat?' &middot; '+(CAT_LABEL[e.cat]||('Cat '+e.cat)):''),
+        e.jornal?'jornal '+money(e.jornal):'',
+        '<div class="ma">'+(tot?money(tot):'<span class="muted">-</span>')+'</div><div class="ms">'+(ps.length?ps.length+' pagos':'sin pagos')+'</div>',
+        'togglePagos(\''+e.id+'\')');
+      if(op){h+='<div class="msub">'+
+        (ps.length?ps.slice().sort((a,b)=>(a.fecha<b.fecha?1:-1)).map(m=>
+          mrow(esc(m.detalle||m.concepto),'',fdate(m.fecha)+' &middot; '+m.medio,'<div class="ma">'+money(m.monto)+'</div>')).join('')
+        :'<div class="muted" style="padding:6px 0;font-size:12px">Sin pagos en el rango elegido.</div>')+
+        (ro?'':'<div style="display:flex;gap:8px;margin-top:9px"><button class="btn sm" style="flex:1" onclick="editEmpleado(\''+e.id+'\')">Editar</button><button class="btn sm danger" onclick="delEmpleado(\''+e.id+'\')">Borrar</button></div>')+'</div>';}
+      return h;}).join('')+'</div>'+(rows.length?'':'<div class="empty">Sin resultados.</div>'));
+    return;}
   const body=rows.map(e=>{const ps=pagosDe(e.legajo).filter(m=>enRango(m.fecha,d1,d2));const tot=ps.reduce((a,m)=>a+m.monto,0);const op=perOpen[e.id];
     let tr='<tr class="clik" onclick="togglePagos(\''+e.id+'\')"><td><span class="codebox">'+esc(e.legajo)+'</span></td><td>'+esc(e.nombre)+'</td>'+
       '<td>'+(e.cat?'<span class="chip">'+(CAT_LABEL[e.cat]||('Cat '+e.cat))+'</span>':'<span class="muted">-</span>')+'</td>'+
@@ -1193,6 +1326,5 @@ setHTML(document.getElementById('role-select'),Object.keys(ROLES).map(r=>'<optio
 document.getElementById('role-select').value=S.role;
 document.getElementById('btn-nuevo').style.display=ROLES[S.role].all?'':'none';
 render();
-(function(){const nav=document.getElementById('nav');const foot=document.createElement('button');
-  foot.className='btn ghost sm';foot.style.margin='14px 12px 0';foot.textContent='Reiniciar demo';foot.onclick=resetDemo;nav.appendChild(foot);})();
+try{window.matchMedia('(max-width:640px)').addEventListener('change',()=>render());}catch(e){}
 </script>
