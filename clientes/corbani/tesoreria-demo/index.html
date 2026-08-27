@@ -334,11 +334,12 @@ function mrow(l1,l2,meta,right,onclick){const tag=onclick?'button':'div';
   return '<'+tag+(onclick?' type="button" onclick="'+onclick+'"':'')+' class="mrow">'+
     '<div class="ml"><div class="mc">'+l1+'</div>'+(l2?'<div class="md">'+l2+'</div>':'')+(meta?'<div class="mm">'+meta+'</div>':'')+'</div>'+
     '<div class="mr">'+right+'</div></'+tag+'>';}
-function listaMov(rows,editable){return '<div class="mlist">'+rows.map(m=>{const nom=nombrePorCodigo(m.codigo);
+function listaMov(rows,editable){return '<div class="mlist">'+rows.map(m=>{const nom=nombrePorCodigo(m.codigo);const cerrado=m.anulado||m.anulaDe;
+  const est=m.anulado?'<span class="chip neg" style="font-size:10px;padding:1px 6px">Anulado</span> ':(m.anulaDe?'<span class="chip" style="font-size:10px;padding:1px 6px">Contra-mov.</span> ':'');
   const meta=[fdate(m.fecha),m.rubro?esc(m.rubro):'<span class="chip warn" style="font-size:10px;padding:1px 6px">sin rubro</span>',nom?esc(nom):''].filter(Boolean).join(' &middot; ');
-  const right='<div class="ma '+(m.signo==='ingreso'?'pos':'neg')+'">'+(m.signo==='ingreso'?'+':'-')+money(m.monto).replace('-','')+'</div>'+
+  const right='<div class="ma '+(m.signo==='ingreso'?'pos':'neg')+'"'+(m.anulado?' style="opacity:.55"':'')+'>'+(m.signo==='ingreso'?'+':'-')+money(m.monto).replace('-','')+'</div>'+
     '<div class="ms">'+m.medio+(m.concil?' &middot; conciliado':'')+(m.ret?' &middot; RET '+money(m.ret):'')+'</div>';
-  return mrow(esc(m.concepto),m.detalle?esc(m.detalle):'',meta,right,editable?'openMovimiento(\''+m.id+'\')':null);}).join('')+'</div>';}
+  return mrow(est+esc(m.concepto),m.detalle?esc(m.detalle):'',meta,right,(editable&&!cerrado)?'openMovimiento(\''+m.id+'\')':null);}).join('')+'</div>';}
 function injectFbtns(){if(!IS_MOBILE())return;
   [].forEach.call(document.querySelectorAll('.view .toolbar .filters'),f=>{
     const ocultos=[].filter.call(f.children,c=>!c.classList.contains('search')&&!c.classList.contains('fbtn')&&!c.classList.contains('keep'));
@@ -355,7 +356,29 @@ const ROLES={
 };
 let S=load();
 let lastFecha=null;
-function load(){try{const raw=STORE.getItem(LS_KEY);if(raw)return ensureShape(JSON.parse(raw));}catch(e){}return seed();}
+function load(){try{const raw=STORE.getItem(LS_KEY);if(raw)return migrar(ensureShape(JSON.parse(raw)));}catch(e){}return migrar(seed());}
+// Un movimiento "vivo" es el que cuenta para estados y analisis: ni anulado ni contra-movimiento.
+function movActivo(m){return !m.anulado&&!m.anulaDe;}
+// Los estados NO se editan a mano: se derivan de los movimientos vivos vinculados.
+// Factura con cobro/pago vinculado -> Cobrada/Pagada. Se anula el movimiento -> vuelve a Pendiente.
+function syncEstados(){
+  const links={};S.movimientos.forEach(m=>{if(!movActivo(m))return;if(m.factura)links[m.factura]=m;if(m.cert)links[m.cert]=m;});
+  (S.ventas||[]).forEach(v=>{v.cobrado=!!v.saldadaInicial||!!links[v.id];});
+  (S.compras||[]).forEach(c=>{c.pagado=!!c.saldadaInicial||!!links[c.id];});
+  (S.obras||[]).forEach(o=>(o.certificados||[]).forEach(c=>{const m=links[c.id];c.cobrado=!!c.saldadaInicial||!!m;if(m)c.cobradoMonto=m.monto;}));
+  (S.cheques||[]).forEach(ch=>{if(ch.movId){const m=S.movimientos.find(x=>x.id===ch.movId);
+    if(!m||!movActivo(m)){ch.estado='En cartera';ch.destino='';ch.egreso='';ch.movId=null;}}});
+}
+// Migracion: lo que ya estaba marcado cobrado/pagado sin movimiento vinculado queda como
+// "saldada al inicio" (saldo de arranque), asi no vuelve a Pendiente con el cambio de logica.
+function migrar(s){
+  const act=(s.movimientos||[]).filter(m=>!m.anulado&&!m.anulaDe);
+  const linked=id=>act.some(m=>m.factura===id||m.cert===id);
+  (s.ventas||[]).forEach(v=>{if(v.cobrado&&!linked(v.id))v.saldadaInicial=true;});
+  (s.compras||[]).forEach(c=>{if(c.pagado&&!linked(c.id))c.saldadaInicial=true;});
+  (s.obras||[]).forEach(o=>(o.certificados||[]).forEach(c=>{if(c.cobrado&&!linked(c.id))c.saldadaInicial=true;}));
+  return s;
+}
 function ensureShape(s){const base=seed();['compras','obras','ladob'].forEach(k=>{if(!Array.isArray(s[k]))s[k]=base[k];});if(!s.cac)s.cac=base.cac;s.ventas=(s.ventas||[]).map(v=>Object.assign({iva:0},v));return s;}
 function seed(){
   const openings={Banco:11394786.52,Efectivo:0,Cheque:293011.27,USD:0};
@@ -396,8 +419,8 @@ function seed(){
         {id:uid(),numero:'C-01',mes:'2026-01',monto:970500,cobrado:false}]}],
     ladob:[]};
 }
-function save(){try{STORE.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
-function resetDemo(){if(confirm('Reiniciar la demo con los datos originales? Se borra lo que cargaste en esta sesion.')){try{STORE.removeItem(LS_KEY);}catch(e){}S=seed();current='inicio';render();toast('Demo reiniciada');}}
+function save(){syncEstados();try{STORE.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
+function resetDemo(){if(confirm('Reiniciar la demo con los datos originales? Se borra lo que cargaste en esta sesion.')){try{STORE.removeItem(LS_KEY);}catch(e){}S=migrar(seed());current='inicio';render();toast('Demo reiniciada');}}
 
 const MEDIOS=['Banco','Efectivo','Cheque','USD'];
 const MEDIO_COLOR={Banco:'#0d3b60',Efectivo:'#1f7a4d',Cheque:'#cf2c48',USD:'#6a4fb0'};
@@ -558,13 +581,18 @@ const VIEWS={
     '<div class="card">'+(IS_MOBILE()?'<div class="mlist">'+S.cheques.map(c=>
       mrow(esc(c.origen),esc(c.banco)+' &middot; N '+esc(c.numero),
         'Recibido '+fdate(c.recibido)+(c.vto?' &middot; vence '+fdate(c.vto):'')+(c.destino?' &middot; a '+esc(c.destino):''),
-        '<div class="ma">'+money(c.importe)+'</div><div class="ms"><span class="chip '+(c.estado==='En cartera'?'warn':'pos')+'">'+c.estado+'</span></div>')).join('')+'</div>'
-    :'<div class="tbl-wrap"><table><thead><tr><th>Recibido</th><th>Origen</th><th>Banco</th><th>Numero</th><th class="r">Importe</th><th>Vence</th><th>Destino</th><th>Estado</th></tr></thead><tbody>'+
+        '<div class="ma">'+money(c.importe)+'</div><div class="ms">'+((!ro&&c.estado==='En cartera')
+          ?'<button class="btn sm" onclick="depositarCheque(\''+c.id+'\')">Depositar</button> <button class="btn sm" onclick="endosarCheque(\''+c.id+'\')">Endosar</button>'
+          :'<span class="chip '+(c.estado==='En cartera'?'warn':'pos')+'">'+c.estado+'</span>')+'</div>')).join('')+'</div>'
+    :'<div class="tbl-wrap"><table><thead><tr><th>Recibido</th><th>Origen</th><th>Banco</th><th>Numero</th><th class="r">Importe</th><th>Vence</th><th>Destino</th><th>Estado</th>'+(ro?'':'<th></th>')+'</tr></thead><tbody>'+
     S.cheques.map(c=>'<tr><td class="num muted">'+fdate(c.recibido)+'</td><td>'+esc(c.origen)+'</td><td>'+esc(c.banco)+'</td>'+
       '<td><span class="codebox">'+esc(c.numero)+'</span></td><td class="r num">'+money(c.importe)+'</td>'+
       '<td class="num muted">'+(c.vto?fdate(c.vto):'-')+'</td>'+
       '<td>'+(c.destino?esc(c.destino)+(c.egreso?'<div class="muted" style="font-size:11.5px">salio '+fdate(c.egreso)+'</div>':''):'<span class="muted">-</span>')+'</td>'+
-      '<td><span class="chip '+(c.estado==='En cartera'?'warn':'pos')+'">'+c.estado+'</span></td></tr>').join('')+'</tbody></table></div>')+'</div>';
+      '<td><span class="chip '+(c.estado==='En cartera'?'warn':'pos')+'">'+c.estado+'</span></td>'+
+      (ro?'':'<td class="r" style="white-space:nowrap">'+(c.estado==='En cartera'
+        ?'<button class="btn sm" onclick="depositarCheque(\''+c.id+'\')">Depositar</button> <button class="btn sm" onclick="endosarCheque(\''+c.id+'\')">Endosar</button>':'')+'</td>')+'</tr>').join('')+'</tbody></table></div>')+'</div>'+
+    '<div class="hint" style="padding:8px 2px">Depositar o endosar genera el movimiento en el libro y el estado cambia solo. Para corregir, anula ese movimiento desde Movimientos y el cheque vuelve a En cartera.</div>';
   },
   facturas:function(){
     const ivaDeb=S.ventas.reduce((a,v)=>a+(v.iva||0),0);
@@ -673,7 +701,7 @@ const VIEWS={
   }
 };
 function byRubroBars(d1,d2){
-  const data=S.rubros.filter(r=>r!=='INGRESOS').map(r=>({r:r,t:S.movimientos.filter(m=>m.rubro===r&&m.signo==='egreso'&&enRango(m.fecha,d1,d2)).reduce((a,m)=>a+m.monto,0)})).filter(x=>x.t>0).sort((a,b)=>b.t-a.t);
+  const data=S.rubros.filter(r=>r!=='INGRESOS').map(r=>({r:r,t:S.movimientos.filter(m=>movActivo(m)&&m.rubro===r&&m.signo==='egreso'&&enRango(m.fecha,d1,d2)).reduce((a,m)=>a+m.monto,0)})).filter(x=>x.t>0).sort((a,b)=>b.t-a.t);
   const max=Math.max.apply(null,data.map(d=>d.t).concat([1]));
   return data.map(d=>'<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">'+
     '<span class="chip rubro">'+esc(d.r)+'</span><span class="num muted">'+money(d.t)+'</span></div>'+
@@ -681,7 +709,7 @@ function byRubroBars(d1,d2){
     || '<div class="empty">Sin egresos en el periodo.</div>';
 }
 function chartMensual(){
-  const M={};S.movimientos.forEach(m=>{if(!m.fecha)return;const k=m.fecha.slice(0,7);if(!M[k])M[k]={ing:0,egr:0};if(m.signo==='ingreso')M[k].ing+=m.monto;else M[k].egr+=m.monto;});
+  const M={};S.movimientos.forEach(m=>{if(!m.fecha||!movActivo(m))return;const k=m.fecha.slice(0,7);if(!M[k])M[k]={ing:0,egr:0};if(m.signo==='ingreso')M[k].ing+=m.monto;else M[k].egr+=m.monto;});
   const keys=Object.keys(M).sort();if(!keys.length)return '<div class="empty">Sin datos para graficar.</div>';
   const max=Math.max.apply(null,keys.map(k=>Math.max(M[k].ing,M[k].egr)).concat([1]));
   const W=Math.max(320,keys.length*76),H=180,pad=24,bw=20,gap=6;
@@ -707,7 +735,7 @@ function renderInicio(){const el=document.getElementById('inicio-body');if(!el)r
       '<div class="val num '+cls+'">'+money(v,m==='USD'?'USD':'ARS')+'</div>'+
       '<div class="meta">'+META[m]+' - saldo actual</div></div>';}).join('');
   const total=saldoTotal();
-  const movsPer=S.movimientos.filter(enPer);
+  const movsPer=S.movimientos.filter(m=>movActivo(m)&&enPer(m));
   const ing=movsPer.filter(m=>m.signo==='ingreso').reduce((a,m)=>a+m.monto,0);
   const egr=movsPer.filter(m=>m.signo==='egreso').reduce((a,m)=>a+m.monto,0);
   const recientes=movsPer.slice().sort((a,b)=>(a.fecha<b.fecha?1:-1)).slice(0,8);
@@ -777,6 +805,7 @@ function catGasto(m){if(m.subcat)return m.subcat;const t=((m.concepto||'')+' '+(
 function gastosFiltrados(ignoreCat){const g=id=>{const e=document.getElementById(id);return e?e.value:'';};
   const cat=g('ga-cat'),ru=g('ga-rubro'),q=g('ga-q').toLowerCase(),d1=g('ga-desde'),d2=g('ga-hasta'),imp=g('ga-imp');
   return S.movimientos.slice().reverse().filter(m=>{
+    if(!movActivo(m))return false;
     if(m.signo!=='egreso')return false;
     if(m.rubro==='SUELDOS'||m.rubro==='INGRESOS'||m.rubro==='COMPRAS')return false;
     if(ru&&m.rubro!==ru)return false;
@@ -826,18 +855,32 @@ function renderMovTable(){
   const ro=ROLES[S.role].readonly;
   if(IS_MOBILE()){setHTML(el,listaMov(rows,!ro));return;}
   setHTML(el,'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th>Vinculado a</th><th>Rubro</th><th>Medio</th><th class="r">Ingreso</th><th class="r">Egreso</th>'+(ro?'':'<th></th>')+'</tr></thead><tbody>'+
-  rows.map(m=>{const nom=nombrePorCodigo(m.codigo);return '<tr><td class="num muted">'+fdate(m.fecha)+'</td>'+
+  rows.map(m=>{const nom=nombrePorCodigo(m.codigo);const cerrado=m.anulado||m.anulaDe;
+    return '<tr'+(m.anulado?' style="opacity:.55"':'')+'><td class="num muted">'+fdate(m.fecha)+'</td>'+
     '<td><b style="font-weight:560">'+esc(m.concepto)+'</b>'+(m.detalle?'<div class="muted" style="font-size:11.5px">'+esc(m.detalle)+'</div>':'')+
+      (m.anulado?'<div style="margin-top:3px"><span class="chip neg">Anulado</span></div>':'')+
+      (m.anulaDe?'<div style="margin-top:3px"><span class="chip">Contra-mov.</span></div>':'')+
       (m.ret?'<div style="margin-top:3px"><span class="chip warn">RET '+money(m.ret)+'</span></div>':'')+'</td>'+
     '<td>'+(m.codigo?'<span class="codebox">'+esc(m.codigo)+'</span>'+(nom?'<div class="muted" style="font-size:11.5px">'+esc(nom)+'</div>':''):'<span class="muted">-</span>')+'</td>'+
     '<td>'+(m.rubro?'<span class="chip rubro">'+esc(m.rubro)+'</span>':'<span class="chip warn">sin rubro</span>')+'</td>'+
     '<td><span class="chip medio">'+m.medio+'</span>'+(m.concil?' <span class="chip pos">conciliado</span>':'')+'</td>'+
     '<td class="r num amt pos">'+(m.signo==='ingreso'?money(m.monto):'<span class="muted">-</span>')+'</td>'+
     '<td class="r num amt neg">'+(m.signo==='egreso'?money(m.monto):'<span class="muted">-</span>')+'</td>'+
-    (ro?'':'<td class="r" style="white-space:nowrap"><button class="btn ghost sm" onclick="openMovimiento(\''+m.id+'\')" title="Editar">Editar</button><button class="btn ghost sm danger" onclick="delMov(\''+m.id+'\')" title="Borrar">x</button></td>')+'</tr>';}).join('')+'</tbody></table></div>');
+    (ro?'':'<td class="r" style="white-space:nowrap">'+(cerrado?'':'<button class="btn ghost sm" onclick="openMovimiento(\''+m.id+'\')" title="Editar">Editar</button><button class="btn ghost sm danger" onclick="anularMov(\''+m.id+'\')" title="Anular con contra-movimiento">Anular</button>')+'</td>')+'</tr>';}).join('')+'</tbody></table></div>');
 }
-function delMov(id){if(!confirm('Borrar este movimiento?'))return;S.movimientos=S.movimientos.filter(m=>m.id!==id);save();renderMovTable();buildNav();toast('Movimiento borrado');}
-function delMovPanel(id){if(!confirm('Borrar este movimiento?'))return;S.movimientos=S.movimientos.filter(m=>m.id!==id);save();closePanel();render();toast('Movimiento borrado');}
+// Contabilidad real: los movimientos no se borran, se anulan con un contra-movimiento.
+// Quedan los dos asientos en el libro y los saldos vuelven atras solos.
+function anularMov(id,desdePanel){const m=S.movimientos.find(x=>x.id===id);if(!m)return;
+  if(m.anulado){toast('Ese movimiento ya esta anulado');return;}
+  if(m.anulaDe){toast('Un contra-movimiento no se anula: anularias la correccion');return;}
+  if(!confirm('Anular este movimiento con un contra-movimiento?\n\nNo se borra nada: se asienta el movimiento inverso, los dos quedan en el libro y los saldos vuelven atras. Si estaba vinculado a una factura, certificado o cheque, vuelve a su estado pendiente.'))return;
+  const contra={id:uid(),orden:Date.now(),fecha:m.fecha,concepto:'ANULACION: '+m.concepto,
+    detalle:'Contra-movimiento del asiento del '+fdate(m.fecha)+(m.detalle?' - '+m.detalle:''),
+    codigo:m.codigo,rubro:m.rubro,medio:m.medio,monto:m.monto,
+    signo:(m.signo==='ingreso'?'egreso':'ingreso'),concil:false,ret:null,anulaDe:m.id};
+  m.anulado=true;m.anuladoPor=contra.id;
+  S.movimientos.push(contra);
+  save();if(desdePanel)closePanel();render();toast('Anulado con contra-movimiento, saldos y estados actualizados');}
 
 function openPanel(html,center){const ov=document.getElementById('overlay');
   document.getElementById('panel').className='panel'+(center?' center':'');
@@ -846,40 +889,46 @@ function closePanel(){document.getElementById('overlay').classList.remove('open'
 document.getElementById('overlay').addEventListener('click',e=>{if(e.target.id==='overlay')closePanel();});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePanel();closeSide();}});
 
-let movForm={signo:'egreso',medio:'Banco',tipo:'normal',editId:null};
-function openMovimiento(editId,prefRubro){
+let movForm={signo:'egreso',medio:'Banco',tipo:'normal',editId:null,cert:null,cheque:null};
+// pre = precarga desde otra pantalla (factura, certificado, cheque). El registro SIEMPRE pasa
+// por este formulario: el estado de la factura/cert/cheque lo actualiza el movimiento, no un tilde.
+function openMovimiento(editId,prefRubro,pre){
+  pre=pre||{};
   const ed=(typeof editId==='string')?S.movimientos.find(m=>m.id===editId):null;
-  movForm={signo:ed?ed.signo:'egreso',medio:ed?ed.medio:'Banco',tipo:'normal',editId:ed?ed.id:null};
+  if(ed&&(ed.anulado||ed.anulaDe)){toast('Un asiento anulado o contra-movimiento no se edita');return;}
+  movForm={signo:ed?ed.signo:(pre.signo||'egreso'),medio:ed?ed.medio:(pre.medio||'Banco'),tipo:'normal',editId:ed?ed.id:null,cert:pre.cert||null,cheque:pre.cheque||null};
   const ents=allEntities();
   const dl=ents.map(e=>'<option value="'+esc(e.nombre+' ('+e.codigo+')')+'">'+esc(e.tipo)+'</option>').join('');
   let vincVal='';if(ed&&ed.codigo){const nm=nombrePorCodigo(ed.codigo);vincVal=nm?(nm+' ('+ed.codigo+')'):ed.codigo;}
-  const edf=ed&&ed.factura?ed.factura:'';
+  else if(pre.codigo){const nm=nombrePorCodigo(pre.codigo);vincVal=nm?(nm+' ('+pre.codigo+')'):pre.codigo;}
+  const edf=ed&&ed.factura?ed.factura:(pre.factura||'');
   const fopts='<option value="">Sin factura</option>'+
     S.ventas.filter(v=>!v.cobrado||v.id===edf).map(v=>'<option value="V:'+v.id+'" '+(edf===v.id?'selected':'')+'>Venta '+esc(v.numero)+' - '+esc(v.cliente)+' ('+money(v.importe)+')</option>').join('')+
     S.compras.filter(c=>!c.pagado||c.id===edf).map(c=>'<option value="C:'+c.id+'" '+(edf===c.id?'selected':'')+'>Compra '+esc(c.numero)+' - '+esc(nombrePorCodigo(c.proveedor)||c.proveedor)+' ('+money(c.importe)+')</option>').join('');
-  openPanel('<div class="panel-head"><h2>'+(ed?'Editar movimiento':'Nuevo movimiento')+'</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+  openPanel('<div class="panel-head"><h2>'+(ed?'Editar movimiento':(pre.titulo||'Nuevo movimiento'))+'</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
     '<div class="panel-body"><div class="form-msg" id="mf-msg"></div>'+
-    (ed?'':'<div class="field"><label>Tipo</label><div class="seg"><button type="button" class="on def" data-tipo="normal" onclick="movTipo(\'normal\',this)">Ingreso / Egreso</button>'+
+    (pre.nota?'<div class="banner" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg><div>'+pre.nota+'</div></div>':'')+
+    (ed||pre.signo?'':'<div class="field"><label>Tipo</label><div class="seg"><button type="button" class="on def" data-tipo="normal" onclick="movTipo(\'normal\',this)">Ingreso / Egreso</button>'+
       '<button type="button" data-tipo="transfer" onclick="movTipo(\'transfer\',this)">Transferencia entre cuentas</button></div>'+
       '<div class="hint" id="tipo-hint">Plata que entra o sale de la empresa.</div></div>')+
     '<div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="mf-fecha" value="'+(ed?ed.fecha:(lastFecha||ultimaFecha()))+'"></div>'+
-    '<div class="field"><label>Concepto <span class="req">*</span></label><input id="mf-concepto" value="'+esc(ed?ed.concepto:'')+'" placeholder="Ej. FAMIQ pago factura 748"></div>'+
+    '<div class="field"><label>Concepto <span class="req">*</span></label><input id="mf-concepto" value="'+esc(ed?ed.concepto:(pre.concepto||''))+'" placeholder="Ej. FAMIQ pago factura 748"></div>'+
     '<div id="mf-normal"><div class="field"><label>Movimiento</label><div class="seg"><button type="button" class="'+(movForm.signo==='egreso'?'on egr':'')+'" data-signo="egreso" onclick="movSigno(\'egreso\',this)">Egreso (sale)</button>'+
       '<button type="button" class="'+(movForm.signo==='ingreso'?'on ing':'')+'" data-signo="ingreso" onclick="movSigno(\'ingreso\',this)">Ingreso (entra)</button></div></div>'+
       '<div class="field"><label>Vinculado a</label><input id="mf-codigo" list="mf-codigo-list" value="'+esc(vincVal)+'" placeholder="Escribi para buscar: FAMIQ, MOYANO, caja chica...">'+
         '<datalist id="mf-codigo-list">'+dl+'</datalist>'+
         '<div class="hint">Empeza a escribir y elegi de la lista. Si no esta, escribilo igual y despues lo agregas en Maestros.</div></div>'+
-      '<div class="row2"><div class="field"><label>Rubro <span class="req">*</span></label><select id="mf-rubro"><option value="">Elegi un rubro...</option>'+S.rubros.map(r=>'<option '+((ed?ed.rubro===r:prefRubro===r)?'selected':'')+'>'+esc(r)+'</option>').join('')+'</select></div>'+
-      '<div class="field"><label>Obra (opcional)</label><input id="mf-obra" placeholder="Codigo de obra, ej. 4369"></div></div>'+
+      '<div class="row2"><div class="field"><label>Rubro <span class="req">*</span></label><select id="mf-rubro"><option value="">Elegi un rubro...</option>'+S.rubros.map(r=>'<option '+((ed?ed.rubro===r:(prefRubro||pre.rubro)===r)?'selected':'')+'>'+esc(r)+'</option>').join('')+'</select></div>'+
+      '<div class="field"><label>Obra (opcional)</label><input id="mf-obra" value="'+esc(pre.obra||'')+'" placeholder="Codigo de obra, ej. 4369"></div></div>'+
       '<div class="field"><label>Factura vinculada (opcional)</label><select id="mf-factura">'+fopts+'</select><div class="hint">Si este movimiento es el cobro o pago de una factura, elegila: queda linkeada y la factura pasa a cobrada/pagada.</div></div></div>'+
     '<div id="mf-transfer" style="display:none"><div class="row2"><div class="field"><label>Sale de <span class="req">*</span></label><select id="mf-origen">'+MEDIOS.map(m=>'<option>'+m+'</option>').join('')+'</select></div>'+
       '<div class="field"><label>Entra a <span class="req">*</span></label><select id="mf-destino">'+MEDIOS.map((m,i)=>'<option '+(i===1?'selected':'')+'>'+m+'</option>').join('')+'</select></div></div></div>'+
     '<div class="row2"><div class="field" id="mf-mediowrap"><label>Medio de pago <span class="req">*</span></label><select id="mf-medio" onchange="movForm.medio=this.value">'+MEDIOS.map(m=>'<option '+(movForm.medio===m?'selected':'')+'>'+m+'</option>').join('')+'</select></div>'+
-      '<div class="field"><label>Monto <span class="req">*</span></label><input id="mf-monto" inputmode="decimal" value="'+(ed?ed.monto:'')+'" placeholder="0"></div></div>'+
+      '<div class="field"><label>Monto <span class="req">*</span></label><input id="mf-monto" inputmode="decimal" value="'+(ed?ed.monto:(pre.monto||''))+'" placeholder="0"></div></div>'+
     '<div class="field"><label>Retencion (opcional)</label><input id="mf-ret" inputmode="decimal" value="'+(ed&&ed.ret?ed.ret:'')+'" placeholder="0"><div class="hint">SUSS, Ganancias, IIBB... lo que te retuvieron en este pago.</div></div>'+
     '<div class="field"><label>Observacion</label><textarea id="mf-obs" rows="2" placeholder="Notas para el equipo">'+esc(ed?ed.detalle:'')+'</textarea></div>'+
     '<div style="display:flex;gap:10px;margin-top:6px"><button class="btn primary" style="flex:1" onclick="saveMovimiento()">'+(ed?'Guardar cambios':'Guardar movimiento')+'</button>'+
-      (ed?'<button class="btn ghost danger" onclick="delMovPanel(\''+ed.id+'\')">Borrar</button>':'')+
+      (ed?'<button class="btn ghost danger" onclick="anularMov(\''+ed.id+'\',true)">Anular</button>':'')+
       '<button class="btn ghost" onclick="closePanel()">Cancelar</button></div>'+
     '<div class="hint" style="margin-top:10px">El sistema no te deja guardar si falta un dato obligatorio (marcados con <span class="req">*</span>).</div></div>');
 }
@@ -909,9 +958,15 @@ function saveMovimiento(){const msg=document.getElementById('mf-msg');const errs
     if(!errs.length){const det=[obs,obra?('Obra '+obra):''].filter(Boolean).join(' - ');
       if(movForm.editId){const o=S.movimientos.find(m=>m.id===movForm.editId);
         Object.assign(o,{fecha:fecha,concepto:concepto,detalle:det,codigo:codigo,rubro:rubro,medio:movForm.medio,monto:monto,signo:movForm.signo,ret:ret||null,factura:facId||null});}
-      else S.movimientos.push({id:uid(),orden:Date.now(),fecha:fecha,concepto:concepto,detalle:det,codigo:codigo,rubro:rubro,medio:movForm.medio,monto:monto,signo:movForm.signo,concil:false,ret:ret||null,factura:facId||null});
-      if(facSel[0]==='V'){const v=S.ventas.find(x=>x.id===facId);if(v)v.cobrado=true;}
-      if(facSel[0]==='C'){const c=S.compras.find(x=>x.id===facId);if(c)c.pagado=true;}}}
+      else{const nuevo={id:uid(),orden:Date.now(),fecha:fecha,concepto:concepto,detalle:det,codigo:codigo,rubro:rubro,medio:movForm.medio,monto:monto,signo:movForm.signo,concil:false,ret:ret||null,factura:facId||null,cert:movForm.cert||null};
+        S.movimientos.push(nuevo);
+        // Deposito o endoso de cheque: el movimiento es el asiento, el cheque guarda el link.
+        // Si despues se anula el movimiento, el cheque vuelve solo a En cartera.
+        if(movForm.cheque){const ch=S.cheques.find(x=>x.id===movForm.cheque.id);
+          if(ch){ch.estado=movForm.cheque.estado;ch.egreso=fecha;ch.movId=nuevo.id;
+            if(movForm.cheque.estado==='Endosado')ch.destino=(nombrePorCodigo(codigo)?(nombrePorCodigo(codigo)+' ('+codigo+')'):codigo)||ch.destino;}}}
+      // El estado de facturas/certificados lo deriva syncEstados() en save(): nunca se marca a mano.
+      }}
   if(errs.length){msg.className='form-msg show';msg.textContent=errs.join(' - ');return;}
   lastFecha=fecha;save();closePanel();render();toast(movForm.editId?'Cambios guardados':'Movimiento guardado, saldos actualizados');
 }
@@ -1025,7 +1080,7 @@ function procesarExtracto(){const txt=document.getElementById('ext-in').value.tr
     parts.forEach(p=>{if(!fec&&esFecha(p)){fec=toISO(p);return;}if(esNum(p)){imp=Math.abs(num(p));return;}txtParts.push(p);});
     if(!imp){for(let i=parts.length-1;i>=0;i--){if(esNum(parts[i])){imp=Math.abs(num(parts[i]));break;}}}
     const concepto=txtParts.join(' ')||parts[0];
-    const cand=S.movimientos.filter(m=>m.medio==='Banco'&&!m._used&&Math.abs(m.monto-imp)<Math.max(imp*0.005,1));
+    const cand=S.movimientos.filter(m=>movActivo(m)&&m.medio==='Banco'&&!m._used&&Math.abs(m.monto-imp)<Math.max(imp*0.005,1));
     cand.sort((a,b)=>dif(a.fecha,fec)-dif(b.fecha,fec));
     const hit=cand.length&&dif(cand[0].fecha,fec)<=3?cand[0]:null;
     if(hit){hit._used=true;hit.concil=true;ok++;}else nomatch++;
@@ -1049,12 +1104,23 @@ function openCheque(){openPanel('<div class="panel-head"><h2>Cargar cheque</h2><
     '<div class="row2"><div class="field"><label>Banco <span class="req">*</span></label><input id="ch-banco" placeholder="GALICIA"></div>'+
       '<div class="field"><label>Numero <span class="req">*</span></label><input id="ch-num" placeholder="00000000"></div></div>'+
     '<div class="row2"><div class="field"><label>Vencimiento <span class="req">*</span></label><input type="date" id="ch-vto"></div>'+
-      '<div class="field"><label>Estado</label><select id="ch-estado" onchange="chEstado(this.value)"><option>En cartera</option><option>Depositado</option><option>Endosado</option></select></div></div>'+
+      '<div class="field"><label>Estado</label><select id="ch-estado" onchange="chEstado(this.value)"><option>En cartera</option><option>Depositado</option><option>Endosado</option></select>'+
+        '<div class="hint">Solo para cargar historial: si el cheque ya salio. Si esta en cartera, despues lo deposita o endosa desde el boton de la lista y queda asentado en Movimientos.</div></div></div>'+
     '<div id="ch-dest" style="display:none"><div class="row2"><div class="field"><label>Destino <span class="req">*</span></label><input id="ch-destino" list="ch-dl" placeholder="A quien se lo diste">'+
       '<datalist id="ch-dl">'+allEntities().map(e=>'<option value="'+esc(e.nombre)+' ('+esc(e.codigo)+')"></option>').join('')+'</datalist></div>'+
       '<div class="field"><label>Fecha de salida <span class="req">*</span></label><input type="date" id="ch-egreso"></div></div></div>'+
     '<button class="btn primary" style="width:100%" onclick="saveCheque()">Guardar cheque</button></div>');}
 function chEstado(v){document.getElementById('ch-dest').style.display=(v==='En cartera'?'none':'');}
+// Depositar o endosar un cheque en cartera genera el asiento en Movimientos.
+// El cheque guarda el link al movimiento: si se anula, vuelve solo a En cartera.
+function depositarCheque(id){const ch=S.cheques.find(x=>x.id===id);if(!ch||ch.estado!=='En cartera')return;
+  openMovimiento(null,null,{titulo:'Depositar cheque',signo:'ingreso',medio:'Banco',
+    concepto:'Deposito cheque '+ch.numero+' '+ch.banco,monto:ch.importe,rubro:'INGRESOS',cheque:{id:ch.id,estado:'Depositado'},
+    nota:'<b>Deposito del cheque '+esc(ch.numero)+'</b> ('+esc(ch.banco)+', '+money(ch.importe)+', recibido de '+esc(ch.origen)+'). Al guardar, entra al Banco y el cheque pasa a Depositado. Si te equivocaste, anula el movimiento y vuelve a En cartera.'});}
+function endosarCheque(id){const ch=S.cheques.find(x=>x.id===id);if(!ch||ch.estado!=='En cartera')return;
+  openMovimiento(null,null,{titulo:'Endosar cheque',signo:'egreso',medio:'Cheque',
+    concepto:'Endoso cheque '+ch.numero+' '+ch.banco,monto:ch.importe,rubro:'COMPRAS',cheque:{id:ch.id,estado:'Endosado'},
+    nota:'<b>Endoso del cheque '+esc(ch.numero)+'</b> ('+esc(ch.banco)+', '+money(ch.importe)+'). En "Vinculado a" elegi a quien se lo entregas: queda como destino del cheque. Si el endoso paga una factura de compra, vinculala tambien. Al guardar pasa a Endosado; se corrige anulando el movimiento.'});}
 function saveCheque(){const f=document.getElementById('ch-fecha').value,i=num(document.getElementById('ch-imp').value),o=document.getElementById('ch-origen').value.trim();
   const banco=document.getElementById('ch-banco').value.trim(),numero=document.getElementById('ch-num').value.trim(),vto=document.getElementById('ch-vto').value,estado=document.getElementById('ch-estado').value;
   const destino=document.getElementById('ch-destino').value.trim(),egreso=document.getElementById('ch-egreso').value;
@@ -1073,28 +1139,32 @@ function renderFacturas(){const el=document.getElementById('fact-body');if(!el)r
       (puedeCargar?'<button class="btn primary sm" onclick="openVenta()">+ Factura de venta</button>':'')+'</div>'+
       (IS_MOBILE()?'<div class="mlist">'+S.ventas.map(v=>
         mrow(esc(v.cliente),esc(v.numero)+' &middot; obra '+esc(v.obra),fdate(v.fecha)+' &middot; IVA '+money(ivaOf(v)),
-          '<div class="ma">'+money(v.importe)+'</div><div class="ms">'+(v.cobrado?'<span class="chip pos">Cobrada</span>':(admin?'<button class="btn sm" onclick="marcarCobrada(\''+v.id+'\')">Cobrar</button>':'<span class="chip warn">Pendiente</span>'))+'</div>')).join('')+'</div>'
+          '<div class="ma">'+money(v.importe)+'</div><div class="ms">'+(v.cobrado?'<span class="chip pos">Cobrada</span>':(admin?'<button class="btn sm" onclick="openCobroVenta(\''+v.id+'\')">Registrar cobro</button>':'<span class="chip warn">Pendiente</span>'))+'</div>')).join('')+'</div>'
       :'<div class="tbl-wrap"><table><thead><tr><th>N</th><th>Cliente</th><th>Obra</th><th>Fecha</th><th class="r">Neto</th><th class="r">IVA</th><th class="r">Total</th><th>Estado</th>'+(admin?'<th></th>':'')+'</tr></thead><tbody>'+
       S.ventas.map(v=>'<tr><td><span class="codebox">'+esc(v.numero)+'</span></td><td>'+esc(v.cliente)+'</td>'+
         '<td class="muted">'+esc(v.obra)+'</td><td class="num muted">'+fdate(v.fecha)+'</td>'+
         '<td class="r num muted">'+money(netoOf(v))+'</td><td class="r num muted">'+money(ivaOf(v))+'</td><td class="r num">'+money(v.importe)+'</td>'+
         '<td><span class="chip '+(v.cobrado?'pos':'warn')+'">'+(v.cobrado?'Cobrada':'Pendiente')+'</span></td>'+
-        (admin?'<td class="r">'+(v.cobrado?'':'<button class="btn sm" onclick="marcarCobrada(\''+v.id+'\')">Registrar cobro</button>')+'</td>':'')+'</tr>').join('')+
-      '</tbody></table></div>')+'</div>'+(admin?'':'<div class="hint" style="padding:8px 2px">El cobro lo registran Vero o Maxi desde Movimientos.</div>'));
+        (admin?'<td class="r">'+(v.cobrado?'':'<button class="btn sm" onclick="openCobroVenta(\''+v.id+'\')">Registrar cobro</button>')+'</td>':'')+'</tr>').join('')+
+      '</tbody></table></div>')+'</div>'+(admin
+        ?'<div class="hint" style="padding:8px 2px">El estado lo pone el sistema: pasa a Cobrada cuando se guarda el movimiento del cobro vinculado a la factura. Para corregir un cobro mal registrado, anulalo desde Movimientos (contra-movimiento) y la factura vuelve a Pendiente.</div>'
+        :'<div class="hint" style="padding:8px 2px">El cobro lo registran Vero o Maxi desde Movimientos. El estado cambia solo cuando el cobro queda asentado.</div>'));
   }else{const tot=S.compras.reduce((a,c)=>a+c.importe,0);const pag=S.compras.filter(c=>c.pagado).reduce((a,c)=>a+c.importe,0);
     setHTML(el,'<div class="card"><div class="card-head"><h2>Facturas de compra</h2><div class="sub">Total '+money(tot)+' - Pagado '+money(pag)+' - Por pagar '+money(tot-pag)+'</div><div class="spacer"></div>'+
       (puedeCargar?'<button class="btn primary sm" onclick="openCompra()">+ Factura de compra</button>':'')+'</div>'+
       (IS_MOBILE()?'<div class="mlist">'+S.compras.map(c=>{const nom=nombrePorCodigo(c.proveedor);
         return mrow(esc(nom||c.proveedor),esc(c.numero)+(c.obra?' &middot; obra '+esc(c.obra):''),fdate(c.fecha)+' &middot; IVA '+money(ivaOf(c)),
-          '<div class="ma">'+money(c.importe)+'</div><div class="ms">'+(c.pagado?'<span class="chip pos">Pagada</span>':(admin?'<button class="btn sm" onclick="marcarPagada(\''+c.id+'\')">Pagar</button>':'<span class="chip warn">Pendiente</span>'))+'</div>');}).join('')+'</div>'
+          '<div class="ma">'+money(c.importe)+'</div><div class="ms">'+(c.pagado?'<span class="chip pos">Pagada</span>':(admin?'<button class="btn sm" onclick="openPagoCompra(\''+c.id+'\')">Registrar pago</button>':'<span class="chip warn">Pendiente</span>'))+'</div>');}).join('')+'</div>'
       :'<div class="tbl-wrap"><table><thead><tr><th>N</th><th>Proveedor</th><th>Obra</th><th>Fecha</th><th class="r">Neto</th><th class="r">IVA</th><th class="r">Total</th><th>Estado</th>'+(admin?'<th></th>':'')+'</tr></thead><tbody>'+
       S.compras.map(c=>{const nom=nombrePorCodigo(c.proveedor);return '<tr><td><span class="codebox">'+esc(c.numero)+'</span></td>'+
         '<td>'+(nom?esc(nom):'')+'<div class="muted" style="font-size:11.5px">'+esc(c.proveedor)+'</div></td>'+
         '<td class="muted">'+esc(c.obra||'-')+'</td><td class="num muted">'+fdate(c.fecha)+'</td>'+
         '<td class="r num muted">'+money(netoOf(c))+'</td><td class="r num muted">'+money(ivaOf(c))+'</td><td class="r num">'+money(c.importe)+'</td>'+
         '<td><span class="chip '+(c.pagado?'pos':'warn')+'">'+(c.pagado?'Pagada':'Pendiente')+'</span></td>'+
-        (admin?'<td class="r">'+(c.pagado?'':'<button class="btn sm" onclick="marcarPagada(\''+c.id+'\')">Registrar pago</button>')+'</td>':'')+'</tr>';}).join('')+
-      '</tbody></table></div>')+'</div>'+(admin?'':'<div class="hint" style="padding:8px 2px">El pago lo registran Vero o Maxi desde Movimientos.</div>'));
+        (admin?'<td class="r">'+(c.pagado?'':'<button class="btn sm" onclick="openPagoCompra(\''+c.id+'\')">Registrar pago</button>')+'</td>':'')+'</tr>';}).join('')+
+      '</tbody></table></div>')+'</div>'+(admin
+        ?'<div class="hint" style="padding:8px 2px">El estado lo pone el sistema: pasa a Pagada cuando se guarda el movimiento del pago vinculado a la factura. Para corregir un pago mal registrado, anulalo desde Movimientos (contra-movimiento) y la factura vuelve a Pendiente.</div>'
+        :'<div class="hint" style="padding:8px 2px">El pago lo registran Vero o Maxi desde Movimientos. El estado cambia solo cuando el pago queda asentado.</div>'));
   }}
 function ivaAuto(id){const t=num(document.getElementById(id+'-imp').value);const el=document.getElementById(id+'-iva');if(el&&!el.value)el.value=Math.round(t-t/1.21);}
 function openVenta(){openPanel('<div class="panel-head"><h2>Nueva factura de venta</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
@@ -1131,12 +1201,16 @@ function saveCompra(){const n=document.getElementById('co-num').value.trim(),i=n
   if(!iva)iva=Math.round(i-i/1.21);
   S.compras.unshift({id:uid(),numero:n,proveedor:prov,obra:obra,fecha:fecha,importe:i,iva:iva,pagado:false});
   save();closePanel();render();toast('Factura de compra cargada');}
-function marcarCobrada(id){const v=S.ventas.find(x=>x.id===id);if(!v)return;v.cobrado=true;
-  S.movimientos.push({id:uid(),orden:Date.now(),fecha:ultimaFecha(),concepto:'Cobro factura '+v.numero+' - '+v.cliente,detalle:'Obra '+v.obra,codigo:v.obra,rubro:'INGRESOS',medio:'Banco',monto:v.importe,signo:'ingreso',concil:false,ret:null,factura:v.id});
-  save();render();toast('Cobro registrado en Movimientos');}
-function marcarPagada(id){const c=S.compras.find(x=>x.id===id);if(!c)return;c.pagado=true;
-  S.movimientos.push({id:uid(),orden:Date.now(),fecha:ultimaFecha(),concepto:'Pago factura '+c.numero,detalle:nombrePorCodigo(c.proveedor)||c.proveedor,codigo:c.proveedor,rubro:'COMPRAS',medio:'Banco',monto:c.importe,signo:'egreso',concil:false,ret:null,factura:c.id});
-  save();render();toast('Pago registrado en Movimientos');}
+// El boton NO marca nada: abre el formulario de Movimientos con el cobro/pago precargado.
+// Guardar ese movimiento es lo que pone la factura en Cobrada/Pagada. Anularlo la devuelve a Pendiente.
+function openCobroVenta(id){const v=S.ventas.find(x=>x.id===id);if(!v)return;
+  openMovimiento(null,null,{titulo:'Registrar cobro de factura',signo:'ingreso',medio:'Banco',
+    concepto:'Cobro factura '+v.numero+' - '+v.cliente,monto:v.importe,rubro:'INGRESOS',obra:v.obra,factura:v.id,
+    nota:'<b>Cobro de la factura '+esc(v.numero)+'</b> ('+esc(v.cliente)+', '+money(v.importe)+'). Al guardar, el movimiento queda asentado y la factura pasa sola a Cobrada. Si te equivocaste, se anula el movimiento desde Movimientos y vuelve a Pendiente.'});}
+function openPagoCompra(id){const c=S.compras.find(x=>x.id===id);if(!c)return;const nom=nombrePorCodigo(c.proveedor)||c.proveedor;
+  openMovimiento(null,null,{titulo:'Registrar pago de factura',signo:'egreso',medio:'Banco',
+    concepto:'Pago factura '+c.numero+' - '+nom,monto:c.importe,rubro:'COMPRAS',obra:c.obra||'',codigo:c.proveedor,factura:c.id,
+    nota:'<b>Pago de la factura '+esc(c.numero)+'</b> ('+esc(nom)+', '+money(c.importe)+'). Al guardar, el movimiento queda asentado y la factura pasa sola a Pagada. Si te equivocaste, se anula el movimiento desde Movimientos y vuelve a Pendiente.'});}
 
 // ---- Obras y certificados a cobrar, ajustado por CAC ----
 function cacFactor(o){const base=o.cacBase||S.cac.base||1;return (S.cac.actual||base)/base;}
@@ -1165,10 +1239,13 @@ function renderObras(){const el=document.getElementById('obras-body');if(!el)ret
         (admin?'<td class="r">'+(c.cobrado?'':'<button class="btn sm" onclick="cobrarCert(\''+o.id+'\',\''+c.id+'\')">Registrar cobro</button>')+'</td>':'')+'</tr>').join('')+
       '</tbody></table></div>')+'</div>';}).join('')||'<div class="empty">Sin obras cargadas.</div>';
   setHTML(el,html);}
+// Igual que facturas: el boton abre el formulario de Movimientos con el cobro precargado
+// (ajustado por CAC). Guardar el movimiento pone el certificado en Cobrado; anularlo lo revierte.
 function cobrarCert(obraId,certId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;const c=o.certificados.find(x=>x.id===certId);if(!c)return;
-  const f=cacFactor(o);const cobro=Math.round(c.monto*f);c.cobrado=true;c.cobradoMonto=cobro;
-  S.movimientos.push({id:uid(),orden:Date.now(),fecha:ultimaFecha(),concepto:'Cobro certificado '+c.numero+' - '+o.nombre,detalle:'Obra '+o.codigo+' - ajustado CAC',codigo:o.codigo,rubro:'INGRESOS',medio:'Banco',monto:cobro,signo:'ingreso',concil:false,ret:null,cert:certId});
-  save();render();toast('Certificado cobrado, descontado del monto a cobrar y cargado en Movimientos');}
+  const f=cacFactor(o);const cobro=Math.round(c.monto*f);
+  openMovimiento(null,null,{titulo:'Registrar cobro de certificado',signo:'ingreso',medio:'Banco',
+    concepto:'Cobro certificado '+c.numero+' - '+o.nombre,monto:cobro,rubro:'INGRESOS',obra:o.codigo,codigo:o.codigo,cert:certId,
+    nota:'<b>Cobro del certificado '+esc(c.numero)+'</b> de '+esc(o.nombre)+': nominal '+money(c.monto)+', ajustado CAC '+money(cobro)+'. Al guardar, el certificado pasa solo a Cobrado y se descuenta de lo pendiente de la obra. Si te equivocaste, anula el movimiento y vuelve a Por cobrar.'});}
 function openObra(){openPanel('<div class="panel-head"><h2>Nueva obra</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
   '<div class="panel-body"><div class="form-msg" id="ob-msg"></div>'+
     '<div class="row2"><div class="field"><label>Codigo <span class="req">*</span></label><input id="ob-cod" placeholder="4373"></div>'+
@@ -1242,7 +1319,7 @@ function saveJornal(){const raw=document.getElementById('jo-emp').value.trim(),m
   save();closePanel();render();toast('Pago registrado y saldos actualizados');}
 
 const CAT_LABEL={1:'Ayudante',2:'Medio oficial',3:'Oficial'};
-function pagosDe(leg){const L=String(leg).trim();return S.movimientos.filter(m=>m.rubro==='SUELDOS'&&String(m.codigo).trim()===L);}
+function pagosDe(leg){const L=String(leg).trim();return S.movimientos.filter(m=>movActivo(m)&&m.rubro==='SUELDOS'&&String(m.codigo).trim()===L);}
 let perOpen={};
 function limpiarFiltrosPer(){['per-desde','per-hasta'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});renderPersonal();}
 function togglePagos(id){perOpen[id]=!perOpen[id];renderPersonal();}
@@ -1295,10 +1372,11 @@ function saveEmpleado(id){const leg=document.getElementById('em-leg').value.trim
 function delEmpleado(id){const e=S.empleados.find(x=>x.id===id);if(e&&confirm('Borrar a "'+e.nombre+'" del padron?')){S.empleados=S.empleados.filter(x=>x.id!==id);save();renderPersonal();toast('Empleado borrado');}}
 
 function armarCSV(list){const src=list||S.movimientos;
-  const H=['Fecha','Concepto','Detalle','Codigo','Vinculado a','Rubro','Medio','Ingreso','Egreso','Retencion'];
+  const H=['Fecha','Concepto','Detalle','Codigo','Vinculado a','Rubro','Medio','Ingreso','Egreso','Retencion','Estado'];
   const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
   const body=src.map(m=>[m.fecha||'',m.concepto||'',m.detalle||'',m.codigo||'',nombrePorCodigo(m.codigo)||'',
-    m.rubro||'SIN RUBRO',m.medio,m.signo==='ingreso'?m.monto:'',m.signo==='egreso'?m.monto:'',m.ret||''].map(q).join(';'));
+    m.rubro||'SIN RUBRO',m.medio,m.signo==='ingreso'?m.monto:'',m.signo==='egreso'?m.monto:'',m.ret||'',
+    m.anulado?'ANULADO':(m.anulaDe?'CONTRA-MOV':'')].map(q).join(';'));
   return '\ufeff'+[H.map(q).join(';')].concat(body).join('\r\n');}
 function bajarLocal(csv,nombre){try{
   const a=document.createElement('a');
