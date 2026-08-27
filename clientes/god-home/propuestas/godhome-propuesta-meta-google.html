@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOD home &amp; deco · Propuesta Meta + Google</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #211A12;
+    --ink-soft: #2E251A;
+    --clay: #B5623C;
+    --clay-deep: #8F4A2C;
+    --olive: #7C7A50;
+    --sage: #5E7A57;
+    --cream: #F1E9DB;
+    --paper: #F7F2E9;
+    --paper-2: #EBE1D0;
+    --sand: #E6D9C3;
+    --white: #ffffff;
+    --text: #2A241C;
+    --ash: #7A6E5C;
+    --line: #DED2BC;
+    --bad: #A9503A;
+    --good: #5E7A57;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(33, 26, 18, 0.97);
+    backdrop-filter: blur(12px);
+    padding: 0 48px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(181,98,60,0.28);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 14px; }
+  .nav-brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--cream);
+    letter-spacing: -0.02em;
+  }
+  .nav-brand em { font-style: italic; color: var(--clay); font-weight: 500; }
+  .nav-divider { width: 1px; height: 18px; background: rgba(245,240,232,0.18); }
+  .nav-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 500;
+    color: rgba(245,240,232,0.55);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 26px; }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: rgba(245,240,232,0.5);
+    text-decoration: none; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--clay); }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding: 140px 60px 100px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -120px; right: -80px;
+    width: 620px; height: 620px;
+    background: radial-gradient(circle, rgba(181,98,60,0.22) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(181,98,60,0.45), transparent);
+  }
+  .hero-mark {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 28px; position: relative;
+  }
+  .hero-mark-brand {
+    font-family: 'Fraunces', serif; font-weight: 700;
+    font-size: 20px; letter-spacing: -0.02em; color: var(--cream);
+  }
+  .hero-mark-brand em { font-style: italic; color: var(--clay); font-weight: 500; }
+  .hero-mark-line { width: 40px; height: 1px; background: rgba(245,240,232,0.25); }
+  .hero-mark-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: rgba(245,240,232,0.5);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(181,98,60,0.14);
+    border: 1px solid rgba(181,98,60,0.32);
+    border-radius: 4px; padding: 6px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--clay); margin-bottom: 32px;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 6px; height: 6px;
+    background: var(--clay); border-radius: 50%;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(42px, 6vw, 74px);
+    line-height: 1.02; letter-spacing: -0.03em;
+    color: var(--cream); max-width: 900px; margin-bottom: 24px;
+  }
+  .hero h1 em { font-style: italic; color: var(--clay); font-weight: 400; }
+  .hero-sub {
+    font-size: 17px; color: rgba(245,240,232,0.62);
+    max-width: 680px; font-weight: 300; line-height: 1.7; margin-bottom: 48px;
+  }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .hero-pill {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 4px; padding: 7px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: rgba(245,240,232,0.65);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+  /* SECTIONS */
+  section { padding: 80px 60px; }
+  section.alt { background: var(--cream); }
+  section.dark { background: var(--ink); color: var(--cream); }
+
+  .section-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--clay-deep); margin-bottom: 14px;
+  }
+  section.dark .section-kicker { color: var(--clay); }
+  .section-title {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: clamp(32px, 4vw, 52px);
+    line-height: 1.05; letter-spacing: -0.025em;
+    color: var(--ink); max-width: 780px; margin-bottom: 16px;
+  }
+  .section-title em { font-style: italic; color: var(--clay-deep); }
+  section.dark .section-title { color: var(--cream); }
+  section.dark .section-title em { color: var(--clay); }
+  .section-desc {
+    font-size: 16px; color: var(--ash);
+    max-width: 700px; margin-bottom: 52px; font-weight: 300; line-height: 1.7;
+  }
+  section.dark .section-desc { color: rgba(245,240,232,0.62); }
+
+  /* DIAGNÓSTICO */
+  .diag-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border: 1px solid var(--line); margin-bottom: 24px;
+  }
+  .diag-col { padding: 32px; }
+  .diag-col:first-child { border-right: 1px solid var(--line); background: #EEF1E7; }
+  .diag-col:last-child { background: #F7ECE5; }
+  .diag-col-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--line);
+  }
+  .diag-col:first-child .diag-col-head { color: var(--good); }
+  .diag-col:last-child .diag-col-head { color: var(--bad); }
+  .diag-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .diag-list li {
+    font-size: 14.5px; color: var(--text);
+    padding-left: 22px; position: relative; line-height: 1.55;
+  }
+  .diag-col:first-child .diag-list li::before {
+    content: '✓'; position: absolute; left: 0; color: var(--good); font-weight: 700;
+  }
+  .diag-col:last-child .diag-list li::before {
+    content: '→'; position: absolute; left: 0; color: var(--bad); font-weight: 700;
+  }
+
+  /* CHANNELS */
+  .channels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 24px; }
+  .channel {
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 4px; padding: 32px; position: relative;
+  }
+  .channel::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--clay);
+  }
+  .channel:nth-child(2)::before { background: var(--olive); }
+  .channel:nth-child(3)::before { background: var(--sage); }
+  .channel-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--clay-deep); margin-bottom: 12px;
+  }
+  .channel-title {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 24px; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 8px;
+  }
+  .channel-goal { font-size: 14px; color: var(--ash); line-height: 1.6; margin-bottom: 18px; }
+  .channel-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .channel-list li {
+    font-size: 13.5px; color: var(--ash);
+    padding-left: 20px; position: relative; line-height: 1.55;
+  }
+  .channel-list li::before {
+    content: '✓'; position: absolute; left: 0; color: var(--clay-deep); font-weight: 700; font-size: 13px;
+  }
+
+  /* CONTENT CALLOUT */
+  .content-box {
+    background: var(--white); border: 1px solid var(--line);
+    border-left: 4px solid var(--olive);
+    border-radius: 6px; padding: 32px; margin-top: 30px;
+    display: grid; grid-template-columns: 1fr 300px; gap: 32px; align-items: center;
+  }
+  .content-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--olive); margin-bottom: 12px;
+  }
+  .content-title {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 26px; letter-spacing: -0.02em; color: var(--ink); margin-bottom: 14px;
+  }
+  .content-title em { font-style: italic; color: var(--clay-deep); }
+  .content-desc { font-size: 14.5px; color: var(--ash); line-height: 1.7; }
+  .content-stat {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 6px; padding: 24px; text-align: center;
+  }
+  .content-stat-num {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 46px; letter-spacing: -0.03em; color: var(--clay-deep); line-height: 1;
+  }
+  .content-stat-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash); margin-top: 8px;
+  }
+
+  /* LA CUENTA */
+  .cuenta-flow {
+    display: flex; flex-direction: column; gap: 0;
+    max-width: 900px; position: relative;
+  }
+  .cuenta-flow::before {
+    content: ''; position: absolute; left: 25px; top: 20px; bottom: 60px;
+    width: 2px; background: linear-gradient(180deg, var(--clay) 0%, rgba(181,98,60,0.15) 100%);
+  }
+  .cuenta-step {
+    display: grid; grid-template-columns: 52px 1fr;
+    gap: 24px; padding: 20px 0; position: relative;
+  }
+  .cuenta-num {
+    width: 52px; height: 52px;
+    background: rgba(181,98,60,0.12);
+    border: 2px solid var(--clay);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 15px;
+    color: var(--clay); flex-shrink: 0; position: relative; z-index: 1;
+  }
+  .cuenta-body {
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 20px;
+  }
+  .cuenta-label {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 20px; letter-spacing: -0.015em; color: var(--cream); margin-bottom: 4px;
+  }
+  .cuenta-note { font-size: 13.5px; color: rgba(245,240,232,0.55); line-height: 1.55; max-width: 460px; }
+  .cuenta-value {
+    font-family: 'JetBrains Mono', monospace; font-weight: 500;
+    font-size: 15px; color: var(--clay);
+    background: rgba(181,98,60,0.1); border: 1px solid rgba(181,98,60,0.28);
+    border-radius: 4px; padding: 10px 16px; white-space: nowrap;
+  }
+  .cuenta-result {
+    background: var(--clay); color: #fff;
+    border-radius: 8px; padding: 36px; margin-top: 28px;
+    max-width: 900px; position: relative; overflow: hidden;
+  }
+  .cuenta-result-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 10px;
+  }
+  .cuenta-result-num {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 44px; letter-spacing: -0.03em; line-height: 1; margin-bottom: 22px;
+  }
+  .cuenta-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+  .cuenta-split-card {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px; padding: 18px 20px;
+  }
+  .cuenta-split-ch {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.75); margin-bottom: 6px;
+  }
+  .cuenta-split-val { font-family: 'Fraunces', serif; font-weight: 500; font-size: 26px; letter-spacing: -0.02em; }
+  .cuenta-split-note { font-size: 12.5px; color: rgba(255,255,255,0.7); margin-top: 4px; }
+  .cuenta-inputs {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; padding: 26px; margin-top: 24px; max-width: 900px;
+  }
+  .cuenta-inputs-head {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--clay); margin-bottom: 16px;
+  }
+  .cuenta-inputs-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .cuenta-inputs-list li {
+    font-size: 14px; color: rgba(245,240,232,0.75);
+    padding-left: 20px; position: relative; line-height: 1.55;
+  }
+  .cuenta-inputs-list li::before { content: '→'; position: absolute; left: 0; color: var(--clay); font-weight: 700; }
+
+  /* TIENDA OPT */
+  .tn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .tn-card {
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 6px; padding: 28px; position: relative;
+  }
+  .tn-card-head {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--line);
+  }
+  .tn-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+    background: var(--ink); color: var(--clay);
+    padding: 4px 10px; border-radius: 3px; letter-spacing: 0.08em;
+  }
+  .tn-title {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 18px; color: var(--ink); letter-spacing: -0.015em;
+  }
+  .tn-issue { font-size: 14px; color: var(--bad); line-height: 1.6; margin-bottom: 12px; }
+  .tn-issue strong { color: var(--bad); font-weight: 600; }
+  .tn-fix {
+    font-size: 14px; color: var(--ash); line-height: 1.65;
+    border-top: 1px dashed var(--line); padding-top: 12px;
+  }
+  .tn-fix strong { color: var(--good); font-weight: 600; }
+
+  /* PHASES */
+  .phases { display: flex; flex-direction: column; gap: 0; position: relative; }
+  .phases::before {
+    content: ''; position: absolute; left: 27px; top: 0; bottom: 0; width: 2px;
+    background: linear-gradient(180deg, var(--clay) 0%, rgba(181,98,60,0.1) 100%);
+  }
+  .phase {
+    display: grid; grid-template-columns: 56px 1fr; gap: 24px;
+    padding: 32px 0; border-bottom: 1px solid var(--line); position: relative;
+  }
+  .phase:last-child { border-bottom: none; }
+  .phase-num {
+    width: 56px; height: 56px; background: var(--cream);
+    border: 2px solid var(--clay); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 14px;
+    color: var(--clay-deep); flex-shrink: 0; position: relative; z-index: 1;
+  }
+  .phase-title {
+    font-family: 'Fraunces', serif; font-weight: 500;
+    font-size: 22px; letter-spacing: -0.015em; color: var(--ink); margin-bottom: 10px;
+  }
+  .phase-desc { font-size: 15px; color: var(--ash); margin-bottom: 16px; line-height: 1.65; max-width: 720px; }
+  .phase-items { display: flex; flex-wrap: wrap; gap: 8px; }
+  .phase-item {
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 4px; padding: 4px 12px; font-size: 12px; color: var(--ink);
+    font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em;
+  }
+
+  /* INCLUDED */
+  .included-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .included-col { background: var(--paper); border: 1px solid var(--line); border-radius: 4px; padding: 28px; }
+  .included-col-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line);
+  }
+  .col-badge {
+    background: var(--ink); color: var(--clay);
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10.5px;
+    letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px;
+  }
+  .col-title { font-family: 'Fraunces', serif; font-weight: 500; font-size: 15px; color: var(--ink); letter-spacing: -0.01em; }
+  .included-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .included-list li {
+    font-size: 14px; color: var(--ash); padding-left: 20px; position: relative; line-height: 1.5;
+  }
+  .included-list li::before {
+    content: '✓'; position: absolute; left: 0; color: var(--clay-deep); font-weight: 700; font-size: 13px;
+  }
+
+  /* PORTAL */
+  .portal-box {
+    background: var(--ink); color: var(--cream); border-radius: 6px;
+    padding: 36px; margin-top: 30px; display: grid;
+    grid-template-columns: 1fr 320px; gap: 32px; align-items: center;
+    position: relative; overflow: hidden;
+  }
+  .portal-box::before {
+    content: ''; position: absolute; top: -80px; right: -40px;
+    width: 320px; height: 320px;
+    background: radial-gradient(circle, rgba(181,98,60,0.2) 0%, transparent 70%); pointer-events: none;
+  }
+  .portal-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--olive); margin-bottom: 12px; position: relative;
+  }
+  .portal-title {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 28px;
+    letter-spacing: -0.02em; color: var(--cream); margin-bottom: 14px; position: relative;
+  }
+  .portal-title em { font-style: italic; color: var(--clay); }
+  .portal-desc { font-size: 14.5px; color: rgba(245,240,232,0.7); line-height: 1.7; margin-bottom: 18px; position: relative; }
+  .portal-points { list-style: none; display: flex; flex-direction: column; gap: 6px; position: relative; }
+  .portal-points li {
+    font-size: 13.5px; color: rgba(245,240,232,0.75); padding-left: 18px; position: relative; line-height: 1.55;
+  }
+  .portal-points li::before { content: '→'; position: absolute; left: 0; color: var(--clay); font-weight: 700; }
+  .portal-mock {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(181,98,60,0.22);
+    border-radius: 6px; padding: 18px; position: relative;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(245,240,232,0.6);
+  }
+  .portal-mock-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .portal-mock-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--good); margin-right: 6px; }
+  .portal-mock-rows { display: flex; flex-direction: column; gap: 8px; }
+  .portal-mock-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
+  .portal-mock-row span:last-child { color: var(--clay); font-weight: 600; }
+
+  /* NEEDS */
+  .needs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; }
+  .need-card { background: var(--white); border: 1px solid var(--line); border-radius: 4px; padding: 22px; }
+  .need-icon { font-size: 22px; margin-bottom: 10px; }
+  .need-title {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 16px;
+    color: var(--ink); margin-bottom: 6px; letter-spacing: -0.01em;
+  }
+  .need-desc { font-size: 13px; color: var(--ash); line-height: 1.55; }
+
+  /* PRICING */
+  .pricing-wrap { max-width: 980px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+  .pricing-card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; padding: 32px; position: relative; display: flex; flex-direction: column;
+  }
+  .pricing-card.featured { border-color: var(--clay); background: rgba(181,98,60,0.1); }
+  .pricing-card.featured::before {
+    content: 'Recomendado'; position: absolute; top: -12px; left: 24px;
+    background: var(--clay); color: #fff;
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 700;
+    letter-spacing: 0.12em; text-transform: uppercase; padding: 5px 10px; border-radius: 3px;
+  }
+  .pricing-name {
+    font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 10.5px;
+    color: rgba(245,240,232,0.5); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px;
+  }
+  .pricing-price {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: 48px;
+    letter-spacing: -0.03em; color: var(--cream); line-height: 1; margin-bottom: 4px;
+  }
+  .pricing-price span { font-size: 18px; font-weight: 400; color: rgba(245,240,232,0.4); letter-spacing: -0.01em; }
+  .pricing-note { font-size: 13px; color: rgba(245,240,232,0.45); margin-bottom: 22px; font-style: italic; min-height: 38px; }
+  .pricing-divider { height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 20px; }
+  .pricing-list { list-style: none; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+  .pricing-list li {
+    font-size: 13.5px; color: rgba(245,240,232,0.7); padding-left: 22px; position: relative; line-height: 1.5;
+  }
+  .pricing-list li::before { content: '✓'; position: absolute; left: 0; color: var(--clay); font-weight: 700; }
+  .invest-note {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px; padding: 22px; font-size: 14px; color: rgba(245,240,232,0.6);
+    line-height: 1.7; max-width: 980px; margin: 24px auto 0;
+  }
+  .invest-note strong { color: rgba(245,240,232,0.9); }
+
+  /* CLOSING */
+  .closing { background: var(--ink); padding: 100px 60px; text-align: center; position: relative; overflow: hidden; }
+  .closing::before {
+    content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 720px; height: 400px;
+    background: radial-gradient(ellipse, rgba(181,98,60,0.14) 0%, transparent 70%); pointer-events: none;
+  }
+  .closing h2 {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(34px, 5vw, 58px);
+    letter-spacing: -0.03em; line-height: 1.05; color: var(--cream); margin-bottom: 20px; position: relative;
+  }
+  .closing h2 em { font-style: italic; color: var(--clay); font-weight: 400; }
+  .closing p { font-size: 16px; color: rgba(245,240,232,0.55); max-width: 580px; margin: 0 auto 48px; font-weight: 300; line-height: 1.7; position: relative; }
+
+  /* FOOTER */
+  footer { background: #17110B; color: rgba(245,240,232,0.6); padding: 60px 60px 36px; border-top: 1px solid rgba(181,98,60,0.15); }
+  .footer-top {
+    display: grid; grid-template-columns: 1fr auto; gap: 48px;
+    margin-bottom: 40px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-brand { font-family: 'Fraunces', serif; font-weight: 700; font-size: 28px; letter-spacing: -0.02em; color: var(--cream); margin-bottom: 12px; }
+  .footer-brand em { font-style: italic; color: var(--clay); font-weight: 500; }
+  .footer-tagline { font-size: 14px; color: rgba(245,240,232,0.5); max-width: 360px; line-height: 1.65; font-weight: 300; }
+  .footer-contact { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; text-align: right; }
+  .footer-contact-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase; color: rgba(245,240,232,0.4); margin-bottom: 4px;
+  }
+  .footer-contact a { color: var(--cream); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+  .footer-contact a:hover { color: var(--clay); }
+  .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+  .footer-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(245,240,232,0.35); letter-spacing: 0.08em; }
+  .footer-meta span { color: var(--clay); }
+
+  /* TABLET */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    nav { padding: 0 32px; }
+    .hero { padding: 120px 40px 80px; }
+    .hero h1 { font-size: 54px; }
+    section { padding: 64px 40px; }
+    .channels { grid-template-columns: 1fr; gap: 16px; }
+    .included-grid { grid-template-columns: 1fr; gap: 16px; }
+    .content-box { grid-template-columns: 1fr; gap: 24px; }
+    .cuenta-split { grid-template-columns: 1fr; }
+    .cuenta-inputs-list { grid-template-columns: 1fr; }
+    .pricing-wrap { grid-template-columns: 1fr; gap: 20px; max-width: 560px; }
+    .portal-box { grid-template-columns: 1fr; gap: 24px; }
+    .closing { padding: 80px 40px; }
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; height: 52px; }
+    .nav-links { display: none; }
+    .hero { padding: 88px 24px 64px; }
+    .hero-eyebrow { font-size: 9.5px; padding: 5px 11px; margin-bottom: 24px; }
+    .hero h1 { font-size: 36px; letter-spacing: -0.025em; margin-bottom: 18px; }
+    .hero-sub { font-size: 15px; margin-bottom: 32px; }
+    .hero-pill { font-size: 9.5px; padding: 6px 12px; }
+    section { padding: 56px 24px; }
+    .section-kicker { font-size: 9.5px; }
+    .section-title { font-size: 30px; letter-spacing: -0.02em; margin-bottom: 12px; }
+    .section-desc { font-size: 15px; margin-bottom: 36px; }
+    .diag-grid { grid-template-columns: 1fr; }
+    .diag-col { padding: 24px; }
+    .diag-col:first-child { border-right: none; border-bottom: 1px solid var(--line); }
+    .diag-list li { font-size: 14px; }
+    .channels { grid-template-columns: 1fr; gap: 14px; }
+    .channel { padding: 24px; }
+    .channel-title { font-size: 20px; }
+    .content-box { grid-template-columns: 1fr; padding: 24px; }
+    .content-title { font-size: 22px; }
+    .cuenta-flow::before { left: 21px; }
+    .cuenta-step { grid-template-columns: 44px 1fr; gap: 16px; }
+    .cuenta-num { width: 44px; height: 44px; font-size: 13px; }
+    .cuenta-label { font-size: 18px; }
+    .cuenta-value { font-size: 13.5px; }
+    .cuenta-result { padding: 26px; }
+    .cuenta-result-num { font-size: 32px; }
+    .cuenta-split { grid-template-columns: 1fr; }
+    .cuenta-inputs-list { grid-template-columns: 1fr; }
+    .phases::before { left: 19px; }
+    .phase { grid-template-columns: 40px 1fr; gap: 16px; padding: 24px 0; }
+    .phase-num { width: 40px; height: 40px; font-size: 12px; }
+    .phase-title { font-size: 18px; }
+    .phase-desc { font-size: 14px; }
+    .phase-item { font-size: 11px; padding: 4px 10px; }
+    .tn-grid { grid-template-columns: 1fr; gap: 14px; }
+    .tn-card { padding: 22px; }
+    .tn-title { font-size: 16px; }
+    .needs-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .need-card { padding: 18px; }
+    .need-icon { font-size: 20px; margin-bottom: 8px; }
+    .need-title { font-size: 14px; }
+    .need-desc { font-size: 12.5px; }
+    .included-grid { grid-template-columns: 1fr; gap: 14px; }
+    .included-col { padding: 22px; }
+    .portal-box { grid-template-columns: 1fr; padding: 24px; }
+    .portal-title { font-size: 22px; }
+    .pricing-wrap { grid-template-columns: 1fr; gap: 16px; }
+    .pricing-card { padding: 26px 22px; }
+    .pricing-price { font-size: 38px; }
+    .invest-note { font-size: 13px; padding: 18px; }
+    .closing { padding: 72px 24px 64px; }
+    .closing h2 { font-size: 32px; }
+    .closing p { font-size: 15px; }
+    .nav-divider, .nav-sub { display: none; }
+    .hero-mark { gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+    .hero-mark-brand { font-size: 16px; }
+    .hero-mark-line { width: 24px; }
+    .hero-mark-tag { font-size: 10px; }
+    footer { padding: 48px 24px 28px; }
+    .footer-top { grid-template-columns: 1fr; gap: 28px; margin-bottom: 28px; padding-bottom: 24px; }
+    .footer-contact { align-items: flex-start; text-align: left; }
+    .footer-brand { font-size: 22px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+
+  @media (max-width: 420px) {
+    .hero h1 { font-size: 31px; }
+    .needs-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 26px; }
+    .pricing-price { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-brand">Dilema <em>Creative</em></div>
+    <div class="nav-divider"></div>
+    <div class="nav-sub">Propuesta GOD home &amp; deco</div>
+  </div>
+  <div class="nav-links">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#canales">Canales</a>
+    <a href="#tienda">Tienda</a>
+    <a href="#incluye">Qué incluye</a>
+    <a href="#inversion">Inversión</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-mark">
+    <span class="hero-mark-brand">Dilema <em>Creative</em></span>
+    <span class="hero-mark-line"></span>
+    <span class="hero-mark-tag">para GOD home &amp; deco</span>
+  </div>
+  <div class="hero-eyebrow">Propuesta 2026 · Meta + Google</div>
+  <h1>Tienen la <em>marca</em>.<br>Tienen la <em>comunidad</em>.<br>Falta la maquinaria<br>que lo vuelva <em>ventas</em>.</h1>
+  <p class="hero-sub">God Home ya tiene lo más difícil de conseguir: una identidad clara, 7.500 personas que las siguen y contenido que hacen ustedes mismas y funciona. Lo que falta es poner una estructura de pauta arriba de ese activo: que capture la demanda que ya existe en Google, que muestre el catálogo a gente nueva en Meta y que aparezcan en el mapa cuando alguien busca muebles y deco cerca. Todo calculado desde el número que importa: cuánto puede costar traer una venta para que sea rentable.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">Meta Ads</span>
+    <span class="hero-pill">Google Ads</span>
+    <span class="hero-pill">Google Maps</span>
+    <span class="hero-pill">Tienda online</span>
+  </div>
+</div>
+
+<!-- DIAGNÓSTICO -->
+<section id="diagnostico">
+  <div class="section-kicker">00 · Diagnóstico inicial</div>
+  <h2 class="section-title">Lo que vemos<br>desde <em>afuera</em>.</h2>
+  <p class="section-desc">Antes de proponer nada, leemos a God Home como la leería un cliente potencial. Esto es lo que encontramos al analizar el Instagram, la tienda de Tiendanube y la presencia digital actual.</p>
+
+  <div class="diag-grid">
+    <div class="diag-col">
+      <div class="diag-col-head">Lo que funciona</div>
+      <ul class="diag-list">
+        <li>Marca definida y coherente: "GOD home &amp; deco", naming corto y memorable, identidad visual cuidada y consistente</li>
+        <li>Comunidad real de 7.500 seguidores construida de forma orgánica, con engagement genuino</li>
+        <li>Contenido hecho por ustedes, humano y con cara propia: los posts fijados con personas generan cercanía y confianza. Ese activo no se compra con pauta y la mayoría de las marcas de deco no lo tiene</li>
+        <li>Autoridad de interiorista: hay una mirada y una curaduría detrás de cada pieza. Eso justifica el precio y las diferencia de un revendedor</li>
+        <li>Catálogo amplio y curado: interior, exterior, plantas artificiales, deco e iluminación, con piezas desde objetos accesibles hasta muebles de autor</li>
+        <li>Tienda Tiendanube operativa con dominio propio, financiación en 3 y 6 cuotas sin interés y 15% off por transferencia</li>
+        <li>Showroom físico (Italia 1246): un activo local que hoy no se está capitalizando en digital</li>
+      </ul>
+    </div>
+    <div class="diag-col">
+      <div class="diag-col-head">Lo que falta construir</div>
+      <ul class="diag-list">
+        <li>Sin pauta activa: todo el tráfico depende del alcance orgánico de Instagram. El día que el orgánico baja, bajan las ventas. No hay previsibilidad</li>
+        <li>Demanda activa en Google sin capturar: alguien busca "mesa de comedor de madera", "sillón para exterior" o "planta artificial" hoy y encuentra a la competencia, no a God Home</li>
+        <li>El catálogo no está conectado a Meta ni a Google: hoy los productos no se muestran solos a la persona indicada en el momento indicado</li>
+        <li>Google Maps sin trabajar: teniendo showroom físico, no aparecen cuando alguien busca muebles y deco en la zona</li>
+        <li>Ticket promedio sin estrategia: el catálogo va de ~$78.000 (deco) a ~$2.790.000 (mesas). Sin definir qué empujar y cómo subir el ticket, la pauta se dispersa</li>
+        <li>Sin base de datos propia ni forma de volver a aparecer frente a quien ya visitó: cada visita que no compra hoy se pierde para siempre</li>
+        <li>La inversión en plataforma nunca se calculó desde los márgenes: se gastaría "a ojo" en vez de con un número objetivo</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CANALES -->
+<section class="alt" id="canales">
+  <div class="section-kicker">01 · Los canales que proponemos</div>
+  <h2 class="section-title">Cada canal cumple<br>un <em>rol distinto</em>.</h2>
+  <p class="section-desc">No proponemos canales sueltos. Meta les muestra God Home a gente nueva y convierte la comunidad en ventas; Google los pone adelante de quien ya está buscando lo que venden, tanto en el buscador como en el mapa. Trabajan juntos sobre la misma operación.</p>
+
+  <div class="channels" style="grid-template-columns: 1fr 1fr;">
+    <div class="channel">
+      <div class="channel-tag">Canal 01</div>
+      <div class="channel-title">Meta Ads</div>
+      <div class="channel-goal">Mostrarle God Home a gente nueva que todavía no las conoce, recuperar a quien visitó la tienda y no compró, y convertir la comunidad y el contenido que ya tienen en ventas.</div>
+      <ul class="channel-list">
+        <li>Vender los productos de la tienda a gente interesada en deco y hogar</li>
+        <li>Volver a aparecer frente a quien visitó la tienda y no compró</li>
+        <li>Mostrar el catálogo completo de forma automática</li>
+        <li>Convertir seguidores y contenido en ventas</li>
+        <li>Poner presupuesto detrás de las publicaciones que ya funcionan</li>
+        <li>Hacer crecer la comunidad con seguidores reales</li>
+      </ul>
+    </div>
+    <div class="channel">
+      <div class="channel-tag">Canal 02</div>
+      <div class="channel-title">Google Ads <span style="font-weight:400; color:var(--ash); font-size:0.7em;">+ Maps</span></div>
+      <div class="channel-goal">Aparecer justo cuando alguien ya está buscando lo que ustedes venden: en el buscador, con la foto y el precio del producto, y en Google Maps cuando buscan muebles y deco cerca del showroom.</div>
+      <ul class="channel-list">
+        <li>Aparecer en Google cuando alguien busca muebles o deco</li>
+        <li>Mostrar los productos con foto y precio en los resultados</li>
+        <li>Estar primeros cuando buscan a God Home por nombre</li>
+        <li>Volver a aparecer frente a quien ya visitó la tienda</li>
+        <li>Aparecer en Google Maps cuando buscan cerca del showroom</li>
+        <li>Sumar y mejorar las reseñas del local</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CONTENT CALLOUT -->
+  <div class="content-box">
+    <div>
+      <div class="content-tag">El activo que ya tienen</div>
+      <div class="content-title">Su contenido es la <em>materia prima</em>. No lo reemplazamos, lo potenciamos.</div>
+      <div class="content-desc">La mayoría de las marcas de deco arrancan de cero: sin comunidad, sin cara, sin contenido propio. God Home ya tiene todo eso, hecho por ustedes y con un lenguaje visual que enamora. Nuestro trabajo no es cambiar la voz de la marca, sino poner presupuesto detrás del contenido que ya funciona, producir las piezas que faltan para pauta (catálogo, formatos de venta directa) y medir cuál convierte mejor. Ustedes siguen siendo la voz; nosotros ponemos la maquinaria.</div>
+    </div>
+    <div class="content-stat">
+      <div class="content-stat-num">7.500</div>
+      <div class="content-stat-label">Seguidores orgánicos reales</div>
+    </div>
+  </div>
+</section>
+
+<!-- TIENDA -->
+<section id="tienda">
+  <div class="section-kicker">02 · Optimización de la tienda</div>
+  <h2 class="section-title">La tienda <em>convierte</em><br>antes que la pauta.</h2>
+  <p class="section-desc">Antes de poner plata en pauta, hay palancas de la tienda que mueven la conversión sin gastar un peso extra. Detectamos varias oportunidades concretas al recorrer God Home como lo haría un comprador. <strong>Estas mejoras no forman parte del fee mensual</strong>, son recomendaciones que dejamos en blanco sobre negro para que las puedan ejecutar internamente o con un dev. Con el paquete integral, las trabajamos como bonus.</p>
+
+  <div class="tn-grid">
+    <div class="tn-card">
+      <div class="tn-card-head"><span class="tn-num">01</span><div class="tn-title">Sacar los "sin stock" de destacados</div></div>
+      <div class="tn-issue"><strong>Hoy:</strong> en el home, entre los productos destacados aparecen varias piezas "SIN STOCK" (Sillón Cubo, Sillón Cala) y algunas sin precio (Sillón Cubo Orlando, Sillón GIN). Da sensación de tienda desactualizada y rompe la experiencia.</div>
+      <div class="tn-fix"><strong>Recomendación:</strong> mostrar solo productos con stock y precio en destacados. Los agotados con etiqueta clara y al final, o con un "avisame cuando vuelva" que captura interés en vez de perderlo.</div>
+    </div>
+    <div class="tn-card">
+      <div class="tn-card-head"><span class="tn-num">02</span><div class="tn-title">Combos por ambiente (sube el ticket)</div></div>
+      <div class="tn-issue"><strong>Hoy:</strong> cada pieza se vende suelta. Con una interiorista detrás, hay una oportunidad enorme desaprovechada de vender el conjunto, no el objeto.</div>
+      <div class="tn-fix"><strong>Recomendación:</strong> armar "looks" o ambientes curados por Gaby ("Rincón de lectura", "Living cálido", "Exterior listo") que combinen mueble + deco + planta. Sube el ticket promedio un 30-50% y usa la curaduría como argumento de venta, no solo de contenido.</div>
+    </div>
+    <div class="tn-card">
+      <div class="tn-card-head"><span class="tn-num">03</span><div class="tn-title">Fichas de producto completas</div></div>
+      <div class="tn-issue"><strong>Hoy:</strong> para muebles de ticket alto, el comprador necesita medidas, materiales, terminaciones y cuidados antes de gastar cientos de miles. Fichas incompletas frenan la compra y hacen que los productos se muestren peor en Google.</div>
+      <div class="tn-fix"><strong>Recomendación:</strong> medidas, materiales, tiempos de entrega y buenas fotos en cada ficha. Mejora la conversión y cómo aparecen los productos en Google al mismo tiempo.</div>
+    </div>
+    <div class="tn-card">
+      <div class="tn-card-head"><span class="tn-num">04</span><div class="tn-title">Prueba social en la tienda</div></div>
+      <div class="tn-issue"><strong>Hoy:</strong> no hay reseñas visibles en las fichas. En muebles de ticket alto, la confianza es lo que define la compra, y hoy no se está mostrando.</div>
+      <div class="tn-fix"><strong>Recomendación:</strong> app de reseñas con pedido post-compra automático y testimonios con fotos de clientes reales en cada ficha. La confianza de quien ya compró vende a quien duda.</div>
+    </div>
+    <div class="tn-card">
+      <div class="tn-card-head"><span class="tn-num">05</span><div class="tn-title">Página "Quiénes somos" con la historia de Gaby</div></div>
+      <div class="tn-issue"><strong>Hoy:</strong> la autoridad de Gaby Orlando como interiorista es el mayor diferencial de la marca y casi no aparece en la tienda.</div>
+      <div class="tn-fix"><strong>Recomendación:</strong> una página de marca con su historia, su mirada y su criterio de curaduría. Convierte "otra tienda de muebles" en "la selección de una interiorista". Suma confianza y posicionamiento SEO.</div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGÍA -->
+<section class="alt" id="metodologia">
+  <div class="section-kicker">03 · Metodología</div>
+  <h2 class="section-title">Cómo trabajamos,<br><em>paso a paso</em>.</h2>
+  <p class="section-desc">No lanzamos campañas el día uno. Primero definimos juntos cuánto invertir, dejamos todo midiendo bien y armamos las campañas correctas. Después aceleramos con datos reales.</p>
+
+  <div class="phases">
+    <div class="phase">
+      <div class="phase-num">1</div>
+      <div class="phase-body">
+        <div class="phase-title">Auditoría y definición de inversión</div>
+        <div class="phase-desc">Revisamos tienda, Instagram, dominio, pagos, envíos y catálogo completo. Con sus márgenes y su ticket definimos juntos cuánto conviene invertir, qué presupuesto necesita cada canal y qué productos empujamos primero.</div>
+        <div class="phase-items"><span class="phase-item">Tienda</span><span class="phase-item">Instagram</span><span class="phase-item">Catálogo</span><span class="phase-item">Inversión</span></div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">2</div>
+      <div class="phase-body">
+        <div class="phase-title">Dejar todo midiendo</div>
+        <div class="phase-desc">Configuramos el seguimiento de cada venta en Meta y Google, conectamos el catálogo de la tienda para que los productos se muestren solos, y dejamos el Perfil de Empresa listo para aparecer en el mapa. Sin esto, no se puede saber qué funciona.</div>
+        <div class="phase-items"><span class="phase-item">Seguimiento de ventas</span><span class="phase-item">Catálogo conectado</span><span class="phase-item">Perfil de Empresa</span></div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">3</div>
+      <div class="phase-body">
+        <div class="phase-title">Armado de las campañas</div>
+        <div class="phase-desc">Armamos las campañas por objetivo. En Google, para aparecer cuando buscan sus productos y en el mapa. En Meta, para vender el catálogo, recuperar visitas y llegar a gente nueva. Definimos qué piezas mostrar primero y qué contenido impulsar.</div>
+        <div class="phase-items"><span class="phase-item">Campañas de Google</span><span class="phase-item">Campañas de Meta</span><span class="phase-item">Maps</span><span class="phase-item">Brief de creativos</span></div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">4</div>
+      <div class="phase-body">
+        <div class="phase-title">Lanzamiento y aprendizaje</div>
+        <div class="phase-desc">Lanzamos con el presupuesto que salió de la cuenta. Las primeras semanas los algoritmos calibran y empezamos a identificar qué campañas, ángulos y productos traccionan mejor. El primer mes es de aprendizaje, lo aclaramos antes para que no haya sorpresas con el ROAS inicial.</div>
+        <div class="phase-items"><span class="phase-item">Launch Google</span><span class="phase-item">Launch Meta</span><span class="phase-item">Monitoreo diario</span></div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">5</div>
+      <div class="phase-body">
+        <div class="phase-title">Ritmo continuo: optimización + reporte</div>
+        <div class="phase-desc">Cada semana: ajustes de puja, rotación de creativos, revisión de audiencias y análisis de qué piezas convierten más. Cada mes: reporte claro por canal con inversión, ventas atribuidas, ROAS, CPA y ticket promedio, más una reunión para revisar y reasignar inversión.</div>
+        <div class="phase-items"><span class="phase-item">Revisión semanal</span><span class="phase-item">Reporte mensual</span><span class="phase-item">Reunión mensual</span><span class="phase-item">Refresh creativos</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ INCLUYE -->
+<section id="incluye">
+  <div class="section-kicker">04 · Qué incluye el servicio</div>
+  <h2 class="section-title">Todo lo que <em>entra</em><br>cuando trabajamos juntos.</h2>
+  <p class="section-desc">Cubrimos los canales con la profundidad que cada uno necesita: puesta en marcha, armado de campañas, optimización continua, reportes y reunión mensual. Más el portal de cliente con datos en vivo.</p>
+
+  <div class="included-grid">
+    <div class="included-col">
+      <div class="included-col-header"><div class="col-badge">Meta Ads</div><div class="col-title">Ventas + comunidad</div></div>
+      <ul class="included-list">
+        <li>Puesta en marcha completa de la cuenta y el seguimiento</li>
+        <li>Conexión del catálogo de la tienda</li>
+        <li>Campañas para vender los productos</li>
+        <li>Recuperación de visitas que no compraron</li>
+        <li>Impulso al contenido que mejor funciona</li>
+        <li>Creatividades y su renovación cuando se gastan</li>
+      </ul>
+    </div>
+    <div class="included-col">
+      <div class="included-col-header"><div class="col-badge">Google Ads</div><div class="col-title">Demanda + local</div></div>
+      <ul class="included-list">
+        <li>Puesta en marcha de Google y conexión con la tienda</li>
+        <li>Campañas para aparecer cuando buscan sus productos</li>
+        <li>Productos con foto y precio en los resultados</li>
+        <li>Campaña para su propia marca</li>
+        <li>Google Maps y Perfil de Empresa del showroom</li>
+        <li>Gestión de reseñas del local</li>
+        <li>Optimización semanal</li>
+      </ul>
+    </div>
+    <div class="included-col">
+      <div class="included-col-header"><div class="col-badge">Estrategia</div><div class="col-title">Inversión + curaduría</div></div>
+      <ul class="included-list">
+        <li>Definición de la inversión según sus márgenes y objetivos</li>
+        <li>Qué productos conviene empujar primero</li>
+        <li>Idea de combos por ambiente para vender más por compra</li>
+        <li>Reparto del presupuesto entre los canales</li>
+        <li>Prueba continua de qué funciona mejor</li>
+        <li>Recomendaciones para que la tienda convierta más</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- PORTAL -->
+  <div class="portal-box" style="grid-template-columns: 1fr;">
+    <div>
+      <div class="portal-tag">Bonus · Portal de cliente</div>
+      <div class="portal-title">Datos en vivo de las campañas,<br><em>a medida</em>.</div>
+      <div class="portal-desc">Cuando trabajamos con un cliente lo damos de alta en nuestro portal interno. Ahí ven en vivo cómo vienen las campañas, sin esperar al reporte de fin de mes ni pedir capturas por WhatsApp. El portal se arma a medida según qué datos le suman valor a God Home: si quieren foco en las ventas, en el costo por venta o en qué productos rinden mejor, lo configuramos así.</div>
+      <ul class="portal-points">
+        <li>Vista personalizada según lo que les importe ver</li>
+        <li>Inversión y resultados del mes en curso</li>
+        <li>Comparativa contra el mes anterior</li>
+        <li>Resultados por campaña, canal y producto</li>
+        <li>Acceso desde web o celular, 24/7</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SIEMPRE INCLUIDO -->
+  <div class="included-col" style="background: var(--white); margin-top: 30px;">
+    <div class="included-col-header">
+      <div class="col-badge" style="background: var(--clay-deep); color: white;">Siempre incluido</div>
+      <div class="col-title">Gestión, reportes y comunicación</div>
+    </div>
+    <ul class="included-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+      <li>Optimización semanal de todas las campañas activas</li>
+      <li>Reporte mensual con resultados, lectura y próximos pasos</li>
+      <li>Reunión mensual de estrategia por Meet</li>
+      <li>Portal de cliente a medida con datos en vivo</li>
+      <li>Documento con formatos de ads probados y qué sumar</li>
+      <li>WhatsApp directo para consultas o ajustes urgentes</li>
+      <li>Sugerencias de mejoras aunque no estén en el contrato</li>
+      <li>Refresh de creatividades cuando la frecuencia sube</li>
+    </ul>
+  </div>
+</section>
+
+<!-- QUÉ NECESITAMOS -->
+<section class="alt" id="necesitamos">
+  <div class="section-kicker">05 · Qué necesitamos de su lado</div>
+  <h2 class="section-title">Lo que precisamos<br><em>para arrancar</em>.</h2>
+  <p class="section-desc">No es mucho, pero sí es necesario. Con estos activos configuramos todo desde el primer día y arrancamos sin trabarnos en accesos.</p>
+
+  <div class="needs-grid">
+    <div class="need-card"><div class="need-icon">🔑</div><div class="need-title">Acceso Tiendanube</div><div class="need-desc">Usuario con permisos para editar la tienda, instalar apps y configurar el seguimiento de ventas. Sin esto no podemos conectar el catálogo ni optimizar la tienda.</div></div>
+    <div class="need-card"><div class="need-icon">📱</div><div class="need-title">Cuenta de Meta</div><div class="need-desc">Acceso a la cuenta publicitaria de Meta (Business Manager). Si no la tienen creada, la armamos la primera semana y la vinculamos al Instagram.</div></div>
+    <div class="need-card"><div class="need-icon">📊</div><div class="need-title">Cuenta de Google</div><div class="need-desc">Si ya tienen cuenta de Google Ads, acceso de administrador. Si no, la creamos nosotros vinculada al dominio.</div></div>
+    <div class="need-card"><div class="need-icon">📍</div><div class="need-title">Perfil de Empresa de Google</div><div class="need-desc">Acceso al perfil del showroom (Italia 1246) para optimizarlo y aparecer en el mapa. Si no está creado, lo damos de alta.</div></div>
+    <div class="need-card"><div class="need-icon">🖼️</div><div class="need-title">Material visual</div><div class="need-desc">Ya producen mucho y muy bueno. Nos pasan acceso a las fotos y videos; lo que falte para pauta lo pedimos.</div></div>
+  </div>
+</section>
+
+<!-- INVERSIÓN -->
+<section class="dark" id="inversion">
+  <div class="section-kicker">06 · Inversión</div>
+  <h2 class="section-title">Tres formas<br>de <em>arrancar</em>.</h2>
+  <p class="section-desc">Pueden arrancar por un canal único o combinar los dos, sumando después si lo desean. El fee cubre lo que describimos arriba: la definición de la inversión, la puesta en marcha, el armado de campañas, la optimización semanal, los reportes, el portal de cliente y el documento con formatos probados. La inversión en plataforma (lo que se le paga a Meta y a Google) va aparte.</p>
+
+  <div class="pricing-wrap">
+    <div class="pricing-card">
+      <div class="pricing-name">Solo Meta Ads</div>
+      <div class="pricing-price">USD 350<span>/mes</span></div>
+      <div class="pricing-note">Mostrar los productos a gente nueva, vender y hacer crecer la comunidad.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Puesta en marcha completa de la cuenta</li>
+        <li>Conexión del catálogo de la tienda</li>
+        <li>Campañas de venta + recuperación de visitas</li>
+        <li>Impulso al contenido que funciona</li>
+        <li>Optimización semanal</li>
+        <li>Reporte + reunión mensual + portal</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="pricing-name">Meta + Google · Recomendado</div>
+      <div class="pricing-price">USD 600<span>/mes</span></div>
+      <div class="pricing-note">Los dos canales trabajando juntos, más Maps y las mejoras de tienda como bonus.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Todo lo de Meta Ads</li>
+        <li>Todo lo de Google Ads</li>
+        <li>Google Maps · Perfil de Empresa del showroom</li>
+        <li>Estrategia coordinada entre los dos canales</li>
+        <li>Optimización semanal sobre todo</li>
+        <li>Reporte mensual + reunión + portal</li>
+        <li>Recomendaciones de tienda incluidas como bonus</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-name">Solo Google Ads</div>
+      <div class="pricing-price">USD 350<span>/mes</span></div>
+      <div class="pricing-note">Aparecer cuando ya buscan sus productos, en el buscador y en el mapa.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Puesta en marcha de Google y conexión con la tienda</li>
+        <li>Campañas para aparecer cuando buscan sus productos</li>
+        <li>Productos con foto y precio en los resultados</li>
+        <li>Google Maps · Perfil de Empresa</li>
+        <li>Optimización semanal</li>
+        <li>Reporte + reunión mensual + portal</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="invest-note">
+    <strong>Inversión en plataforma (aparte del fee):</strong> es lo que Meta y Google cobran directamente por mostrar los anuncios. No la ponemos a ojo: la definimos juntos a partir de sus márgenes, la facturación que quieren alcanzar y el ticket promedio, para saber cuánto puede costar una venta y que el número cierre. Ese cálculo lo hacemos con los datos del negocio antes de arrancar.
+  </div>
+</section>
+
+<!-- CIERRE -->
+<div class="closing">
+  <h2>God Home ya <em>enamora</em>.<br>Ahora que además<br>venda <em>todos los meses</em>.</h2>
+  <p>Tienen la marca, la comunidad, el catálogo y una interiorista con criterio detrás de cada pieza. Lo que falta es la maquinaria que convierta todo ese activo en ventas predecibles: pauta que capture la demanda, muestre los productos y aparezca en el mapa. Y una inversión pensada desde sus márgenes, no puesta a ojo.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Dilema <em>Creative</em></div>
+      <div class="footer-tagline">Agencia de marketing digital enfocada en estrategia integral. Trabajamos los canales como un sistema, no como esfuerzos sueltos. Pocos clientes, máximo servicio.</div>
+    </div>
+    <div class="footer-contact">
+      <div class="footer-contact-label">Contacto</div>
+      <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a>
+      <a href="https://dilemacreative.ar" target="_blank">dilemacreative.ar</a>
+      <a href="https://instagram.com/dilema.creative" target="_blank">@dilema.creative</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-meta">Dilema Creative <span>·</span> 2026 <span>·</span> Propuesta para GOD home &amp; deco</div>
+    <div class="footer-meta">Buenos Aires <span>·</span> Argentina</div>
+  </div>
+</footer>
+
+</body>
+</html>
