@@ -396,6 +396,7 @@ function migrar(s){
   s.openings=s.openings||{};
   if(s.openings.Banco!=null){s.openings['Banco Galicia']=(s.openings['Banco Galicia']||0)+s.openings.Banco;delete s.openings.Banco;}
   if(s.openings['Cuenta Inviu']==null)s.openings['Cuenta Inviu']=0;
+  if(Array.isArray(s.rubros)&&s.rubros.indexOf('GASTOS BANCARIOS')<0)s.rubros.push('GASTOS BANCARIOS');
   const act=(s.movimientos||[]).filter(m=>!m.anulado&&!m.anulaDe);
   const linked=id=>act.some(m=>m.factura===id||m.cert===id);
   (s.ventas||[]).forEach(v=>{if(v.cobrado&&!linked(v.id))v.saldadaInicial=true;});
@@ -567,6 +568,7 @@ const VIEWS={
       '</div>'+
       '<div class="actions">'+
         '<button class="btn ghost sm" onclick="limpiarFiltrosMov()">Limpiar</button>'+
+        (ro?'':'<button class="btn sm" onclick="openGastosBancarios()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-4h6v4M9 12h.01M15 12h.01"/></svg>Gastos bancarios</button>')+
         '<button class="btn sm" onclick="exportLista()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>Descargar</button>'+
       '</div>'+
       '</div>'+
@@ -1605,6 +1607,30 @@ function renderProvsFact(el){const provs=S.proveedores.concat(S.contratistas);
       '<td class="muted" style="font-size:11.5px;white-space:pre-line">'+esc(p.cuentas||'-')+'</td></tr>').join('')+
     '</tbody></table></div></div>'+
     '<div class="hint" style="padding:8px 2px">Hay proveedores con varias cuentas: se cargan todas en la ficha (campo "Otras cuentas / alias" en Maestros).</div>');}
+// ============ GASTOS BANCARIOS ============
+// Carga semanal en una sola pantalla: cada renglon con monto genera un movimiento
+// contra la cuenta elegida, rubro GASTOS BANCARIOS, asi concilian solos con el extracto.
+const GB_ROWS=[['comision','Comision bancaria','egreso'],['ivacom','IVA sobre comisiones','egreso'],['iibb','IIBB / SIRCREB','egreso'],['debitos','Debitos varios','egreso'],['creditos','Creditos varios','ingreso']];
+function openGastosBancarios(){
+  openPanel('<div class="panel-head"><h2>Gastos bancarios</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+  '<div class="panel-body"><div class="form-msg" id="gb-msg"></div>'+
+    '<div class="hint" style="margin-bottom:12px">Carga semanal: pone monto solo en lo que hubo. Cada renglon queda como un movimiento dentro del banco y despues concilia solo contra el extracto.</div>'+
+    '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="gb-fecha" value="'+(lastFecha||ultimaFecha())+'"></div>'+
+      '<div class="field"><label>Cuenta <span class="req">*</span></label><select id="gb-cuenta">'+CUENTAS.map(c=>'<option>'+c+'</option>').join('')+'</select></div></div>'+
+    GB_ROWS.map(r=>'<div class="field" style="display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface-2);border-radius:9px;padding:8px 12px">'+
+      '<span style="font-size:13px">'+r[1]+' <span class="chip '+(r[2]==='ingreso'?'pos':'neg')+'" style="font-size:10px;padding:1px 6px">'+(r[2]==='ingreso'?'entra':'sale')+'</span></span>'+
+      '<input id="gb-'+r[0]+'" class="num" inputmode="decimal" placeholder="0" style="max-width:130px;text-align:right"></div>').join('')+
+    '<button class="btn primary" style="width:100%;margin-top:6px" onclick="saveGastosBancarios()">Guardar movimientos</button></div>');}
+function saveGastosBancarios(){
+  const fecha=document.getElementById('gb-fecha').value;const cuenta=document.getElementById('gb-cuenta').value;
+  const rows=GB_ROWS.map(r=>({r:r,monto:num(document.getElementById('gb-'+r[0]).value)})).filter(x=>x.monto>0);
+  const msg=document.getElementById('gb-msg');
+  if(!fecha){msg.className='form-msg show';msg.textContent='Falta la fecha';return;}
+  if(!rows.length){msg.className='form-msg show';msg.textContent='Pone monto en al menos un renglon';return;}
+  rows.forEach(x=>{S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,
+    concepto:x.r[1]+' - '+(cuenta==='Banco Galicia'?'Galicia':'Inviu'),detalle:'Gastos bancarios de la semana',
+    codigo:'',rubro:'GASTOS BANCARIOS',medio:cuenta,monto:x.monto,signo:x.r[2],concil:false,ret:null});});
+  lastFecha=fecha;save();closePanel();render();toast(rows.length+' movimiento'+(rows.length>1?'s':'')+' de banco cargado'+(rows.length>1?'s':''));}
 // ============ POSICION IVA ============
 // Cuadro puntual del IVA del mes: saldo anterior a favor (manual), netos gravados,
 // debito vs credito, percepciones/retenciones de IVA de compras, y diferencia a pagar.
