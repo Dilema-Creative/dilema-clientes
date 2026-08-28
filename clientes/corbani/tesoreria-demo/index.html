@@ -403,7 +403,7 @@ function migrar(s){
   (s.obras||[]).forEach(o=>(o.certificados||[]).forEach(c=>{if(c.cobrado&&!linked(c.id))c.saldadaInicial=true;}));
   return s;
 }
-function ensureShape(s){const base=seed();['compras','obras','ladob','clientes','cobranzas','pagos','acopios','cajam'].forEach(k=>{if(!Array.isArray(s[k]))s[k]=base[k]||[];});if(!s.cac)s.cac=base.cac;s.ventas=(s.ventas||[]).map(v=>Object.assign({iva:0},v));
+function ensureShape(s){const base=seed();['compras','obras','ladob','clientes','cobranzas','pagos','acopios','cajam'].forEach(k=>{if(!Array.isArray(s[k]))s[k]=base[k]||[];});if(!s.cac)s.cac=base.cac;if(!s.ivaPrev)s.ivaPrev={};s.ventas=(s.ventas||[]).map(v=>Object.assign({iva:0},v));
   (s.obras||[]).forEach(o=>(o.certificados||[]).forEach(c=>{if(!c.tipo)c.tipo='A';}));return s;}
 function seed(){
   const openings={Banco:11394786.52,Efectivo:0,Cheque:293011.27,USD:0};
@@ -447,7 +447,7 @@ function seed(){
       {id:uid(),nombre:'MIGUELETES 2306',cuit:'30-71555001-3',domicilio:'Migueletes 2306, CABA',cta:'Galicia CC $ 4055-2 001-9',alias:'MIGUELETES.OBRA',mail:'admin@migueletes2306.com.ar',contacto:'Adriana (adm.)'},
       {id:uid(),nombre:'SAN A12',cuit:'30-70888444-1',domicilio:'Av. San Martin 1200, Vte. Lopez',cta:'Santander CC $ 210-004411/6',alias:'SANA12.PAGOS',mail:'pagos@sana12.com.ar',contacto:'Federico (tesoreria)'},
       {id:uid(),nombre:'BALCARCE 850',cuit:'30-71222333-9',domicilio:'Balcarce 850, CABA',cta:'Galicia CC $ 4802-1 003-5',alias:'BALCARCE.850',mail:'info@balcarce850.com',contacto:'Veronica'}],
-    cobranzas:[],pagos:[],acopios:[],cajam:[]};
+    cobranzas:[],pagos:[],acopios:[],cajam:[],ivaPrev:{}};
 }
 function save(){syncEstados();try{STORE.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
 function resetDemo(){if(confirm('Reiniciar la demo con los datos originales? Se borra lo que cargaste en esta sesion.')){try{STORE.removeItem(LS_KEY);}catch(e){}S=migrar(seed());current='inicio';render();toast('Demo reiniciada');}}
@@ -629,8 +629,8 @@ const VIEWS={
     '<div class="hint" style="padding:8px 2px">Depositar o endosar genera el movimiento en el libro y el estado cambia solo. Para corregir, anula ese movimiento desde Movimientos y el cheque vuelve a En cartera.</div>';
   },
   facturas:function(){
-    const SECS={ventas:[['facturas','Facturas'],['cobros','Cobranzas'],['ctacte','Cuentas corrientes'],['maestro','Clientes']],
-      compras:[['facturas','Facturas'],['cobros','Pagos'],['ctacte','Cuentas corrientes'],['maestro','Proveedores'],['acopios','Acopios']]};
+    const SECS={ventas:[['facturas','Facturas'],['cobros','Cobranzas'],['ctacte','Cuentas corrientes'],['maestro','Clientes'],['iva','IVA']],
+      compras:[['facturas','Facturas'],['cobros','Pagos'],['ctacte','Cuentas corrientes'],['maestro','Proveedores'],['acopios','Acopios'],['iva','IVA']]};
     const side=factTab==='compras'?'compras':'ventas';
     return '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px" id="fact-sides">'+
       ['ventas','compras'].map(s=>'<button class="tile" style="text-align:left;cursor:pointer;border-width:2px;'+(side===s?'border-color:var(--accent);background:var(--accent-soft)':'')+'" onclick="facturasTab(\''+s+'\')">'+
@@ -1242,6 +1242,7 @@ function renderFacturas(){const el=document.getElementById('fact-body');if(!el)r
   if(factSec==='ctacte'){return renderCtaCteFact(el,side);}
   if(factSec==='maestro'){return side==='ventas'?renderClientes(el,puedeCargar):renderProvsFact(el);}
   if(factSec==='acopios'){return renderAcopios(el,puedeCargar);}
+  if(factSec==='iva'){return renderIvaFact(el);}
   if(factTab==='ventas'){const tot=S.ventas.reduce((a,v)=>a+v.importe,0);const cob=S.ventas.reduce((a,v)=>a+Math.min(v.cobrado?v.importe:(v.cobradoMonto||0),v.importe),0);
     setHTML(el,ivaTiles()+'<div class="card"><div class="card-head"><h2>Facturas de venta</h2><div class="sub">Facturado '+money(tot)+' - Cobrado '+money(cob)+' - Por cobrar '+money(tot-cob)+'</div><div class="spacer"></div>'+
       (puedeCargar?'<button class="btn primary sm" onclick="openVenta()">+ Factura de venta</button>':'')+'</div>'+
@@ -1604,6 +1605,48 @@ function renderProvsFact(el){const provs=S.proveedores.concat(S.contratistas);
       '<td class="muted" style="font-size:11.5px;white-space:pre-line">'+esc(p.cuentas||'-')+'</td></tr>').join('')+
     '</tbody></table></div></div>'+
     '<div class="hint" style="padding:8px 2px">Hay proveedores con varias cuentas: se cargan todas en la ficha (campo "Otras cuentas / alias" en Maestros).</div>');}
+// ============ POSICION IVA ============
+// Cuadro puntual del IVA del mes: saldo anterior a favor (manual), netos gravados,
+// debito vs credito, percepciones/retenciones de IVA de compras, y diferencia a pagar.
+let ivaMes=null;
+function ivaSetMes(v){ivaMes=v;render();}
+function ivaSetPrev(mes,v){S.ivaPrev[mes]=num(v);save();render();}
+function renderIvaFact(el){
+  const meses=Array.from(new Set(S.ventas.concat(S.compras).map(f=>(f.fecha||'').slice(0,7)).filter(Boolean))).sort().reverse();
+  const mes=ivaMes||(meses[0]||'');
+  const enMes=f=>mes==='todo'||((f.fecha||'').slice(0,7)===mes);
+  const vs=S.ventas.filter(enMes),cs=S.compras.filter(enMes);
+  const netoV=vs.reduce((a,v)=>a+netoOf(v),0),ivaV=vs.reduce((a,v)=>a+(v.iva||0),0);
+  const netoC=cs.reduce((a,c)=>a+netoOf(c),0),ivaC=cs.reduce((a,c)=>a+(c.iva||0),0);
+  const retIva=cs.reduce((a,c)=>a+(c.retIva||0),0);
+  const prev=mes==='todo'?0:(S.ivaPrev[mes]||0);
+  const dif=ivaV-ivaC-retIva-prev;
+  const mesLabel=m=>m==='todo'?'Todo el historico':(m.slice(5)+'/'+m.slice(0,4));
+  const fila=(l,v,cls,strong)=>'<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)'+(strong?';border-bottom:0':'')+'">'+
+    '<span style="font-size:13px'+(strong?';font-weight:700':'')+'">'+l+'</span><b class="num'+(cls?' amt '+cls:'')+'"'+(strong?' style="font-size:17px"':'')+'>'+v+'</b></div>';
+  setHTML(el,'<div class="toolbar"><div class="filters"><label class="flabel">Periodo <select class="keep" onchange="ivaSetMes(this.value)">'+
+      meses.map(m=>'<option value="'+m+'"'+(mes===m?' selected':'')+'>'+mesLabel(m)+'</option>').join('')+'<option value="todo"'+(mes==='todo'?' selected':'')+'>Todo el historico</option></select></label></div></div>'+
+    '<div class="grid2"><div class="card"><div class="card-head"><h2>Posicion IVA '+mesLabel(mes)+'</h2><div class="spacer"></div>'+
+      '<span class="chip '+(dif>0?'neg':'pos')+'">'+(dif>0?'A pagar '+money(dif):'A favor '+money(Math.abs(dif)))+'</span></div>'+
+    '<div class="panel-body" style="padding-top:10px">'+
+      (mes!=='todo'?'<div class="field" style="display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface-2);border-radius:9px;padding:9px 12px;margin-bottom:12px">'+
+        '<span style="font-size:12.5px">Saldo a favor del mes anterior<div class="hint" style="margin:0">Si el mes pasado dio a favor, cargalo aca</div></span>'+
+        '<input class="num" inputmode="decimal" value="'+(prev||'')+'" placeholder="0" style="max-width:130px;text-align:right" onchange="ivaSetPrev(\''+mes+'\',this.value)"></div>':'')+
+      fila('Neto gravado ventas (sin IVA)','<span class="muted">'+money(netoV)+'</span>')+
+      fila('IVA debito (ventas)',money(ivaV),'neg')+
+      fila('Neto gravado compras (sin IVA)','<span class="muted">'+money(netoC)+'</span>')+
+      fila('IVA credito (compras)','-'+money(ivaC).replace('$','$'),'pos')+
+      fila('Retenciones / percepciones de IVA','-'+money(retIva),'pos')+
+      (prev?fila('Saldo a favor anterior','-'+money(prev),'pos'):'')+
+      '<div style="border-top:2px solid var(--line-strong);margin-top:2px">'+
+      fila(dif>0?'DIFERENCIA A PAGAR':'SALDO A FAVOR',money(Math.abs(dif)),dif>0?'neg':'pos',true)+'</div>'+
+      (dif<0&&mes!=='todo'?'<div class="hint">Dio a favor: el mes que viene cargalo como "saldo a favor del mes anterior".</div>':'')+
+    '</div></div>'+
+    '<div class="card"><div class="card-head"><h2>De donde sale</h2></div><div class="panel-body" style="font-size:12.5px;color:var(--ink-soft);line-height:1.6">'+
+      'IVA debito: el IVA de tus facturas de venta del periodo.<br>IVA credito: el IVA de tus facturas de compra.<br>'+
+      'Retenciones/percepciones de IVA: lo cargado en "Retencion de IVA" de cada factura de compra.<br>'+
+      'Diferencia = debito &minus; credito &minus; retenciones &minus; saldo a favor anterior.<br><br>'+
+      '<b>'+vs.length+'</b> facturas de venta y <b>'+cs.length+'</b> de compra en el periodo.</div></div></div>');}
 // ============ ACOPIOS ============
 function saldoAcopio(a){return a.total-(a.descuentos||[]).reduce((x,d)=>x+d.monto,0);}
 function renderAcopios(el,puedeCargar){
