@@ -397,6 +397,7 @@ function migrar(s){
   if(s.openings.Banco!=null){s.openings['Banco Galicia']=(s.openings['Banco Galicia']||0)+s.openings.Banco;delete s.openings.Banco;}
   if(s.openings['Cuenta Inviu']==null)s.openings['Cuenta Inviu']=0;
   if(Array.isArray(s.rubros)&&s.rubros.indexOf('GASTOS BANCARIOS')<0)s.rubros.push('GASTOS BANCARIOS');
+  (s.movimientos||[]).forEach(m=>{if(m.rubro==='GASTOS BANCARIOS'&&!m.subcat)m.subcat=(m.concepto||'').split(' - ')[0];});
   const act=(s.movimientos||[]).filter(m=>!m.anulado&&!m.anulaDe);
   const linked=id=>act.some(m=>m.factura===id||m.cert===id);
   (s.ventas||[]).forEach(v=>{if(v.cobrado&&!linked(v.id))v.saldadaInicial=true;});
@@ -989,7 +990,7 @@ function openMovimiento(editId,prefRubro,pre){
       return '<div class="row2"><div class="field" id="mf-formawrap"'+((movForm.signo==='ingreso'||movForm.lockCheque)?' style="display:none"':'')+'><label>Forma de pago <span class="req">*</span></label>'+
         '<select id="mf-forma" onchange="movForma(this.value)"><option'+(esCheq?'':' selected')+'>Transferencia</option><option value="Cheque"'+(esCheq?' selected':'')+'>Cheque / E-cheq</option></select></div>'+
       '<div class="field"><label>Monto <span class="req">*</span></label><input id="mf-monto" inputmode="decimal" value="'+(ed?ed.monto:(pre.monto||''))+'" placeholder="0"></div></div>'+
-      '<div class="field" id="mf-cuentawrap"'+((esCheq&&!movForm.lockCheque)||(movForm.lockCheque&&pre.medio==='Cheque')?' style="display:none"':'')+'><label>Cuenta <span class="req">*</span></label>'+
+      '<div class="field" id="mf-cuentawrap"'+((esCheq&&!movForm.lockCheque)||(movForm.lockCheque&&pre.medio==='Cheque')||pre.fijaCuenta?' style="display:none"':'')+'><label>Cuenta <span class="req">*</span></label>'+
         '<select id="mf-cuenta">'+cuentaOpts.map(m=>'<option '+(cuentaSel===m?'selected':'')+'>'+esc(m)+'</option>').join('')+'</select></div>'+
       '<div class="field" id="mf-cheqwrap"'+((esCheq&&!movForm.lockCheque&&!ed)?'':' style="display:none"')+'><label>Que cheque sale de cartera <span class="req">*</span></label>'+
         '<select id="mf-cheq" onchange="cheqPick(this.value)"><option value="">Elegi un cheque...</option>'+
@@ -1209,9 +1210,9 @@ function chEstado(v){document.getElementById('ch-dest').style.display=(v==='En c
 // Depositar o endosar un cheque en cartera genera el asiento en Movimientos.
 // El cheque guarda el link al movimiento: si se anula, vuelve solo a En cartera.
 function depositarCheque(id){const ch=S.cheques.find(x=>x.id===id);if(!ch||ch.estado!=='En cartera')return;
-  openMovimiento(null,null,{titulo:'Depositar cheque',signo:'ingreso',medio:'Banco Galicia',
+  openMovimiento(null,null,{titulo:'Depositar cheque',signo:'ingreso',medio:'Banco Galicia',fijaCuenta:true,
     concepto:'Deposito cheque '+ch.numero+' '+ch.banco,monto:ch.importe,rubro:'INGRESOS',cheque:{id:ch.id,estado:'Depositado'},
-    nota:'<b>Sale de cartera:</b> cheque '+esc(ch.numero)+' ('+esc(ch.banco)+', '+money(ch.importe)+', recibido de '+esc(ch.origen)+'). <b>Entra a</b> la cuenta que elijas abajo. Al guardar, el cheque pasa a Depositado. Si te equivocaste, anula el movimiento y vuelve a En cartera.'});}
+    nota:'<b>Sale de cartera:</b> cheque '+esc(ch.numero)+' ('+esc(ch.banco)+', '+money(ch.importe)+', recibido de '+esc(ch.origen)+'). <b>Entra al Banco Galicia.</b> Al guardar, el cheque pasa a Depositado. Si te equivocaste, anula el movimiento y vuelve a En cartera.'});}
 function endosarCheque(id){const ch=S.cheques.find(x=>x.id===id);if(!ch||ch.estado!=='En cartera')return;
   openMovimiento(null,null,{titulo:'Endosar cheque',signo:'egreso',medio:'Cheque',
     concepto:'Endoso cheque '+ch.numero+' '+ch.banco,monto:ch.importe,rubro:'COMPRAS',cheque:{id:ch.id,estado:'Endosado'},
@@ -1610,26 +1611,30 @@ function renderProvsFact(el){const provs=S.proveedores.concat(S.contratistas);
 // ============ GASTOS BANCARIOS ============
 // Carga semanal en una sola pantalla: cada renglon con monto genera un movimiento
 // contra la cuenta elegida, rubro GASTOS BANCARIOS, asi concilian solos con el extracto.
+// Solo Galicia: Inviu no genera gastos (solo intereses, que se cargan como ingreso a Inviu
+// o via transferencia entre cuentas). Cada renglon guarda su tipo (subcat) para que en
+// Gastos varios se vea discriminado cuanto se va en cada cosa, y admite una aclaracion.
 const GB_ROWS=[['comision','Comision bancaria','egreso'],['ivacom','IVA sobre comisiones','egreso'],['iibb','IIBB / SIRCREB','egreso'],['debitos','Debitos varios','egreso'],['creditos','Creditos varios','ingreso']];
 function openGastosBancarios(){
-  openPanel('<div class="panel-head"><h2>Gastos bancarios</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+  openPanel('<div class="panel-head"><h2>Gastos bancarios - Galicia</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
   '<div class="panel-body"><div class="form-msg" id="gb-msg"></div>'+
-    '<div class="hint" style="margin-bottom:12px">Carga semanal: pone monto solo en lo que hubo. Cada renglon queda como un movimiento dentro del banco y despues concilia solo contra el extracto.</div>'+
-    '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="gb-fecha" value="'+(lastFecha||ultimaFecha())+'"></div>'+
-      '<div class="field"><label>Cuenta <span class="req">*</span></label><select id="gb-cuenta">'+CUENTAS.map(c=>'<option>'+c+'</option>').join('')+'</select></div></div>'+
-    GB_ROWS.map(r=>'<div class="field" style="display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface-2);border-radius:9px;padding:8px 12px">'+
+    '<div class="hint" style="margin-bottom:12px">Carga semanal, siempre contra el <b>Banco Galicia</b> (Inviu no genera gastos, solo intereses). Pone monto en lo que hubo y aclara si hace falta: cada renglon queda como un movimiento aparte, discriminado por tipo en Gastos varios, y concilia solo contra el extracto.</div>'+
+    '<div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="gb-fecha" value="'+(lastFecha||ultimaFecha())+'"></div>'+
+    GB_ROWS.map(r=>'<div class="field" style="background:var(--surface-2);border-radius:9px;padding:8px 12px">'+
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:12px">'+
       '<span style="font-size:13px">'+r[1]+' <span class="chip '+(r[2]==='ingreso'?'pos':'neg')+'" style="font-size:10px;padding:1px 6px">'+(r[2]==='ingreso'?'entra':'sale')+'</span></span>'+
-      '<input id="gb-'+r[0]+'" class="num" inputmode="decimal" placeholder="0" style="max-width:130px;text-align:right"></div>').join('')+
+      '<input id="gb-'+r[0]+'" class="num" inputmode="decimal" placeholder="0" style="max-width:130px;text-align:right"></div>'+
+      '<input id="gb-note-'+r[0]+'" placeholder="Aclaracion (opcional): que fue" style="margin-top:6px;font-size:12px;padding:5px 9px"></div>').join('')+
     '<button class="btn primary" style="width:100%;margin-top:6px" onclick="saveGastosBancarios()">Guardar movimientos</button></div>');}
 function saveGastosBancarios(){
-  const fecha=document.getElementById('gb-fecha').value;const cuenta=document.getElementById('gb-cuenta').value;
-  const rows=GB_ROWS.map(r=>({r:r,monto:num(document.getElementById('gb-'+r[0]).value)})).filter(x=>x.monto>0);
+  const fecha=document.getElementById('gb-fecha').value;
+  const rows=GB_ROWS.map(r=>({r:r,monto:num(document.getElementById('gb-'+r[0]).value),nota:document.getElementById('gb-note-'+r[0]).value.trim()})).filter(x=>x.monto>0);
   const msg=document.getElementById('gb-msg');
   if(!fecha){msg.className='form-msg show';msg.textContent='Falta la fecha';return;}
   if(!rows.length){msg.className='form-msg show';msg.textContent='Pone monto en al menos un renglon';return;}
   rows.forEach(x=>{S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,
-    concepto:x.r[1]+' - '+(cuenta==='Banco Galicia'?'Galicia':'Inviu'),detalle:'Gastos bancarios de la semana',
-    codigo:'',rubro:'GASTOS BANCARIOS',medio:cuenta,monto:x.monto,signo:x.r[2],concil:false,ret:null});});
+    concepto:x.r[1]+' - Galicia',detalle:x.nota||'Gastos bancarios de la semana',
+    codigo:'',rubro:'GASTOS BANCARIOS',medio:'Banco Galicia',monto:x.monto,signo:x.r[2],concil:false,ret:null,subcat:x.r[1]});});
   lastFecha=fecha;save();closePanel();render();toast(rows.length+' movimiento'+(rows.length>1?'s':'')+' de banco cargado'+(rows.length>1?'s':''));}
 // ============ POSICION IVA ============
 // Cuadro puntual del IVA del mes: saldo anterior a favor (manual), netos gravados,
