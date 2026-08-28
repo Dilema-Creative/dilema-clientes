@@ -1365,9 +1365,19 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
   setHTML(el,cf.formas.map(function(f,i){
     let extra='';
     if(f.metodo==='E-cheq'||f.metodo==='Cheque fisico'){
-      extra='<div class="row2" style="margin-top:8px"><div class="field" style="margin:0"><label>N cheque</label><input value="'+esc(f.numero||'')+'" oninput="cfSet('+i+',\'numero\',this.value)" placeholder="00000000"></div>'+
+      if(f.bulk){
+        extra='<div class="field" style="margin:8px 0 0"><label>Un cheque por linea</label>'+
+          '<textarea rows="5" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="numero ; importe ; fecha ; banco&#10;00112233 ; 150000 ; 15/03/2026 ; GALICIA&#10;00112234 ; 200000 ; 30/03/2026" oninput="cf.formas['+i+'].texto=this.value">'+esc(f.texto||'')+'</textarea>'+
+          '<div class="hint">Formato: <span class="codebox">numero ; importe ; fecha ; banco</span> - fecha y banco opcionales. Podes pegar las columnas directo desde un Excel (separadas con tab tambien sirve).</div>'+
+          '<div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap"><button class="btn sm primary" onclick="cfProcesarLote('+i+')">Procesar lineas</button>'+
+          (f.lote&&f.lote.length?'<span class="chip pos">'+f.lote.length+' cheques por '+money(f.monto||0)+'</span>':'<span class="chip warn">Sin procesar</span>')+
+          '<button class="btn ghost sm" onclick="cfSet('+i+',\'bulk\',false);cf.formas['+i+'].lote=null;cf.formas['+i+'].monto=0;cfRender()">Volver a uno solo</button></div>'+
+          (f.loteErr?'<div class="form-msg show" style="margin-top:8px">'+esc(f.loteErr)+'</div>':'');}
+      else{
+        extra='<div class="row2" style="margin-top:8px"><div class="field" style="margin:0"><label>N cheque</label><input value="'+esc(f.numero||'')+'" oninput="cfSet('+i+',\'numero\',this.value)" placeholder="00000000"></div>'+
         '<div class="field" style="margin:0"><label>Banco</label><input value="'+esc(f.banco||'')+'" oninput="cfSet('+i+',\'banco\',this.value)" placeholder="GALICIA"></div></div>'+
-        '<div class="field" style="margin:8px 0 0"><label>Fecha del cheque</label><input type="date" value="'+(f.fechaCh||'')+'" onchange="cfSet('+i+',\'fechaCh\',this.value)"><div class="hint">Si es diferido, la fecha de cobro. El cheque entra solo a cartera.</div></div>';}
+        '<div class="field" style="margin:8px 0 0"><label>Fecha del cheque</label><input type="date" value="'+(f.fechaCh||'')+'" onchange="cfSet('+i+',\'fechaCh\',this.value)"><div class="hint">Si es diferido, la fecha de cobro. El cheque entra solo a cartera.</div></div>'+
+        '<button class="btn ghost sm" style="margin-top:6px" onclick="cfSet('+i+',\'bulk\',true);cfRender()">Son muchos? Cargalos todos juntos</button>';}}
     if(f.metodo==='Cheque propio'){
       extra='<div class="row2" style="margin-top:8px"><div class="field" style="margin:0"><label>N cheque</label><input value="'+esc(f.numero||'')+'" oninput="cfSet('+i+',\'numero\',this.value)" placeholder="00000000"></div>'+
         '<div class="field" style="margin:0"><label>Fecha del cheque</label><input type="date" value="'+(f.fechaCh||'')+'" onchange="cfSet('+i+',\'fechaCh\',this.value)"></div></div>'+
@@ -1379,7 +1389,7 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
     if(f.metodo==='Metros')extra='<div class="hint" style="margin-top:4px">Va a Caja M (solo la ven Vero y Maxi).</div>';
     return '<div style="border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:9px;background:var(--surface-2)">'+
       '<div class="row2"><div class="field" style="margin:0"><label>Forma de pago</label><select onchange="cfMetodo('+i+',this.value)">'+METS.map(m=>'<option'+(f.metodo===m?' selected':'')+'>'+m+'</option>').join('')+'</select></div>'+
-      '<div class="field" style="margin:0"><label>Monto</label><input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="0"'+(f.metodo==='Cheque en cartera'?' readonly':'')+'></div></div>'+extra+
+      '<div class="field" style="margin:0"><label>Monto</label><input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="0"'+((f.metodo==='Cheque en cartera'||f.bulk)?' readonly':'')+'></div></div>'+extra+
       (cf.formas.length>1?'<div style="text-align:right;margin-top:6px"><button class="btn ghost sm danger" onclick="cfDel('+i+')">Quitar</button></div>':'')+'</div>';}).join('')+
     '<button class="btn sm" onclick="cfAdd()">+ Agregar otra forma de pago</button>');
   cfTotales();}
@@ -1388,6 +1398,20 @@ function cfMetodo(i,v){cf.formas[i]={metodo:v};cfRender();}
 function cfAdd(){cf.formas.push({metodo:'Transferencia'});cfRender();}
 function cfDel(i){cf.formas.splice(i,1);cfRender();}
 function cfCartera(i,chId){const ch=S.cheques.find(x=>x.id===chId);cf.formas[i].chequeId=chId||null;cf.formas[i].monto=ch?ch.importe:0;cfRender();}
+// Lote de cheques: una linea por cheque "numero ; importe ; fecha ; banco" (tab o ; como separador).
+function cfFechaCh(s){s=(s||'').trim();if(!s)return '';
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
+  const m=s.match(/^(\d{1,2})\D(\d{1,2})\D(\d{2,4})$/);if(!m)return '';
+  const y=m[3].length===2?'20'+m[3]:m[3];return y+'-'+('0'+m[2]).slice(-2)+'-'+('0'+m[1]).slice(-2);}
+function cfProcesarLote(i){const f=cf.formas[i];const lines=(f.texto||'').split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const items=[];const malas=[];
+  lines.forEach(function(l,idx){const p=l.split(/[;\t]/).map(x=>x.trim());
+    const numero=p[0]||'';const importe=num(p[1]||'');
+    if(!numero||!importe){malas.push(idx+1);return;}
+    items.push({numero:numero,importe:importe,fecha:cfFechaCh(p[2]),banco:(p[3]||'').toUpperCase()});});
+  f.lote=items;f.monto=items.reduce((a,x)=>a+x.importe,0);
+  f.loteErr=malas.length?('Lineas '+malas.join(', ')+': falta numero o importe, no se tomaron.'):(items.length?'':'No se encontro ninguna linea valida.');
+  cfRender();}
 function cfSumFormas(){return cf.formas.reduce((a,f)=>a+(f.monto||0),0);}
 function cfSumRet(){if(cf.tipo!=='cobranza')return 0;return ['gan','iibb','suss'].reduce((a,k)=>{const e=document.getElementById('cf-ret-'+k);return a+(e?num(e.value):0);},0);}
 function cfTotales(){const fp=cfSumFormas(),rt=cfSumRet();
@@ -1429,7 +1453,9 @@ function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[
   const formas=cf.formas.filter(f=>(f.monto||0)>0);
   if(!fecha)errs.push('Falta la fecha');if(!cliente)errs.push('Falta el cliente');
   if(!formas.length)errs.push('Carga al menos una forma de pago con monto');
-  formas.forEach(f=>{if((f.metodo==='E-cheq'||f.metodo==='Cheque fisico')&&!f.numero)errs.push('Falta el N del '+f.metodo.toLowerCase());});
+  formas.forEach(f=>{if(f.metodo==='E-cheq'||f.metodo==='Cheque fisico'){
+    if(f.bulk){if(!f.lote||!f.lote.length)errs.push('Toca "Procesar lineas" para tomar los cheques cargados en lote');}
+    else if(!f.numero)errs.push('Falta el N del '+f.metodo.toLowerCase());}});
   if(errs.length){msg.className='form-msg show';msg.textContent=errs.join(' - ');return;}
   const ret={gan:num(document.getElementById('cf-ret-gan').value),iibb:num(document.getElementById('cf-ret-iibb').value),suss:num(document.getElementById('cf-ret-suss').value)};
   const sumRet=ret.gan+ret.iibb+ret.suss;
@@ -1440,6 +1466,7 @@ function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[
     if(f.metodo==='Transferencia')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Transferencia'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Banco Galicia',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
     else if(f.metodo==='Efectivo')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Efectivo (caja a definir)'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Efectivo',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
     else if(f.metodo==='Metros')S.cajam.push({id:uid(),fecha:fecha,tipo:'Metros',signo:'ingreso',concepto:base,detalle:aclar,monto:f.monto,cobranzaId:cob.id});
+    else if(f.lote)f.lote.forEach(x=>S.cheques.unshift({id:uid(),recibido:fecha,origen:cliente,banco:x.banco||(f.metodo==='E-cheq'?'E-CHEQ':''),numero:x.numero,importe:x.importe,vto:x.fecha||'',destino:'',egreso:'',estado:'En cartera',cobranzaId:cob.id}));
     else S.cheques.unshift({id:uid(),recibido:fecha,origen:cliente,banco:f.banco||'',numero:f.numero||'',importe:f.monto,vto:f.fechaCh||'',destino:'',egreso:'',estado:'En cartera',cobranzaId:cob.id});
   });
   S.cobranzas.unshift(cob);
@@ -1510,7 +1537,7 @@ function anularPago(id){const p=S.pagos.find(x=>x.id===id);if(!p||p.anulado)retu
   save();render();toast('Pago anulado con contra-movimientos');}
 
 // ============ VISTAS DE FACTURACION ============
-function formasResumen(formas){return formas.map(f=>f.metodo+' '+money(f.monto)).join(' + ');}
+function formasResumen(formas){return formas.map(f=>f.metodo+(f.lote?' x'+f.lote.length:'')+' '+money(f.monto)).join(' + ');}
 function facNum(id,esVenta){const f=(esVenta?S.ventas:S.compras).find(x=>x.id===id);return f?f.numero:'';}
 function renderCobranzas(el,admin){
   const rows=S.cobranzas;
