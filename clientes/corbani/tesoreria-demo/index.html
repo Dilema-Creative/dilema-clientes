@@ -286,6 +286,18 @@
     .overlay.center-mode.open .panel{transform:none}
     .row2{grid-template-columns:1fr;gap:0}
   }
+  /* Formas de pago: un renglon por cheque, como la planilla del cuaderno (compacto en 2 lineas) */
+  .chqrow{border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:6px;background:var(--surface)}
+  .chqr1{display:grid;grid-template-columns:106px 1fr 92px 24px;gap:6px;align-items:center}
+  .chqr2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+  .chqrow input,.chqrow select{min-width:0}
+  .chqrow .chqdel{border:0;background:none;color:var(--muted);cursor:pointer;font-size:15px;padding:4px;line-height:1}
+  .chqrow .chqdel:hover{color:var(--neg)}
+  .chqspan{grid-column:2/4;min-width:0}
+  .otrrow{display:grid;grid-template-columns:1fr 118px 24px;gap:6px;align-items:center;margin-bottom:6px}
+  .otrrow input,.otrrow select{min-width:0}
+  .cfblock{border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:9px;background:var(--surface-2)}
+  .cfblock>.cfbt{font-size:12px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
   @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
@@ -387,6 +399,9 @@ function syncEstados(){
     const m=links[c.id];c.cobrado=!!c.saldadaInicial||!!m;if(m)c.cobradoMonto=m.monto;}));
   (S.cheques||[]).forEach(ch=>{if(ch.movId){const m=S.movimientos.find(x=>x.id===ch.movId);
     if(!m||!movActivo(m)){ch.estado='En cartera';ch.destino='';ch.egreso='';ch.movId=null;}}});
+  // Cheque propio: si su movimiento de debito se anulo, el cheque queda anulado tambien.
+  (S.chequesPropios||[]).forEach(ch=>{if(ch.movId&&!ch.anulado){const m=S.movimientos.find(x=>x.id===ch.movId);
+    if(!m||!movActivo(m))ch.anulado=true;}});
 }
 // Migracion: lo que ya estaba marcado cobrado/pagado sin movimiento vinculado queda como
 // "saldada al inicio" (saldo de arranque), asi no vuelve a Pendiente con el cambio de logica.
@@ -403,9 +418,14 @@ function migrar(s){
   (s.ventas||[]).forEach(v=>{if(v.cobrado&&!linked(v.id))v.saldadaInicial=true;});
   (s.compras||[]).forEach(c=>{if(c.pagado&&!linked(c.id))c.saldadaInicial=true;});
   (s.obras||[]).forEach(o=>(o.certificados||[]).forEach(c=>{if(c.cobrado&&!linked(c.id))c.saldadaInicial=true;}));
+  // Cuadro de cheques propios: se reconstruye desde los pagos historicos que usaron esa forma.
+  if(!Array.isArray(s.chequesPropios))s.chequesPropios=[];
+  (s.pagos||[]).forEach(p=>(p.formas||[]).forEach(f=>{
+    if(f.metodo==='Cheque propio'&&f.numero&&!s.chequesPropios.some(c=>c.pagoId===p.id&&c.numero===f.numero))
+      s.chequesPropios.push({id:uid(),fecha:f.fechaCh||p.fecha,numero:f.numero,importe:f.monto||0,destino:p.proveedor||'',pagoId:p.id,anulado:!!p.anulado});}));
   return s;
 }
-function ensureShape(s){const base=seed();['compras','obras','ladob','clientes','cobranzas','pagos','acopios','cajam'].forEach(k=>{if(!Array.isArray(s[k]))s[k]=base[k]||[];});if(!s.cac)s.cac=base.cac;if(!s.ivaPrev)s.ivaPrev={};s.ventas=(s.ventas||[]).map(v=>Object.assign({iva:0},v));
+function ensureShape(s){const base=seed();['compras','obras','ladob','clientes','cobranzas','pagos','acopios','cajam','chequesPropios'].forEach(k=>{if(!Array.isArray(s[k]))s[k]=base[k]||[];});if(!s.cac)s.cac=base.cac;if(!s.ivaPrev)s.ivaPrev={};s.ventas=(s.ventas||[]).map(v=>Object.assign({iva:0},v));
   (s.obras||[]).forEach(o=>(o.certificados||[]).forEach(c=>{if(!c.tipo)c.tipo='A';}));return s;}
 function seed(){
   const openings={Banco:11394786.52,Efectivo:0,Cheque:293011.27,USD:0};
@@ -525,7 +545,7 @@ function setRole(r){S.role=r;save();const av=allowedViews();if(av.indexOf(curren
   document.getElementById('btn-nuevo').style.display=ROLES[r].all?'':'none';render();toast('Ahora ves el sistema como '+r);}
 
 const TITLES={inicio:['Inicio','Resumen de tesoreria al dia'],movimientos:['Movimientos','Libro de caja y banco'],
-  ctascorrientes:['Cuentas corrientes','Saldo por proveedor, contratista u obra'],gastos:['Gastos varios','Consulta por categoria y por fecha'],cheques:['Cheques','En cartera y depositados'],
+  ctascorrientes:['Cuentas corrientes','Saldo por proveedor, contratista u obra'],gastos:['Gastos varios','Consulta por categoria y por fecha'],cheques:['Cheques','De terceros en cartera y propios emitidos'],
   facturas:['Facturacion','Ventas y compras: facturas, cobranzas, pagos, cuentas corrientes'],
   cajam:['Caja M','Plata y metros - solo Vero y Maxi'],obras:['Obras y certificados','Monto a cobrar a futuro, ajustado por CAC'],conciliacion:['Conciliacion bancaria','Cruce del extracto contra tus movimientos'],
   personal:['Personal y jornales','Padron y pago de quincenas'],maestros:['Maestros','Todo lo que cargas una vez y reutilizas'],
@@ -614,8 +634,8 @@ const VIEWS={
       '</div><div id="cc-out"></div>';
   },
   cheques:function(){const ro=ROLES[S.role].readonly;
-    return '<div class="toolbar" style="justify-content:flex-end">'+(ro?'':'<div class="actions"><button class="btn primary sm" onclick="openCheque()">+ Cargar cheque</button></div>')+'</div>'+
-    '<div class="card">'+(IS_MOBILE()?'<div class="mlist">'+S.cheques.map(c=>
+    const propios=(S.chequesPropios||[]).slice().sort((a,b)=>(a.fecha<b.fecha?1:-1));
+    return '<div class="card"><div class="card-head"><h2>Cheques de terceros</h2><div class="sub">Los que recibis: en cartera hasta depositarse o endosarse</div><div class="spacer"></div>'+(ro?'':'<button class="btn primary sm" onclick="openCheque()">+ Cargar cheque</button>')+'</div>'+(IS_MOBILE()?'<div class="mlist">'+S.cheques.map(c=>
       mrow(esc(c.origen),esc(c.banco)+' &middot; N '+esc(c.numero),
         'Recibido '+fdate(c.recibido)+(c.vto?' &middot; vence '+fdate(c.vto):'')+(c.destino?' &middot; a '+esc(c.destino):''),
         '<div class="ma">'+money(c.importe)+'</div><div class="ms">'+((!ro&&c.estado==='En cartera')
@@ -629,7 +649,18 @@ const VIEWS={
       '<td><span class="chip '+(c.estado==='En cartera'?'warn':'pos')+'">'+c.estado+'</span></td>'+
       (ro?'':'<td class="r" style="white-space:nowrap">'+(c.estado==='En cartera'
         ?'<button class="btn sm" onclick="depositarCheque(\''+c.id+'\')">Depositar</button> <button class="btn sm" onclick="endosarCheque(\''+c.id+'\')">Endosar</button>':'')+'</td>')+'</tr>').join('')+'</tbody></table></div>')+'</div>'+
-    '<div class="hint" style="padding:8px 2px">Depositar o endosar genera el movimiento en el libro y el estado cambia solo. Para corregir, anula ese movimiento desde Movimientos y el cheque vuelve a En cartera.</div>';
+    '<div class="hint" style="padding:8px 2px">Depositar o endosar genera el movimiento en el libro y el estado cambia solo. Para corregir, anula ese movimiento desde Movimientos y el cheque vuelve a En cartera.</div>'+
+    '<div class="card" style="margin-top:14px"><div class="card-head"><h2>Cheques propios</h2><div class="sub">Los que emitis vos (Galicia): debitan en la fecha del cheque</div><div class="spacer"></div>'+(ro?'':'<button class="btn primary sm" onclick="openChequePropio()">+ Cargar cheque propio</button>')+'</div>'+
+    (propios.length?(IS_MOBILE()?'<div class="mlist">'+propios.map(c=>
+      mrow(esc(c.destino||'-'),'N '+esc(c.numero),'Fecha '+fdate(c.fecha),
+        '<div class="ma">'+money(c.importe)+'</div><div class="ms"><span class="chip '+chpEstado(c)[1]+'">'+chpEstado(c)[0]+'</span></div>')).join('')+'</div>'
+    :'<div class="tbl-wrap"><table><thead><tr><th>Fecha cheque</th><th>Numero</th><th>Destino</th><th class="r">Importe</th><th>Estado</th>'+(ro?'':'<th></th>')+'</tr></thead><tbody>'+
+    propios.map(c=>'<tr'+(c.anulado?' style="opacity:.55"':'')+'><td class="num muted">'+fdate(c.fecha)+'</td>'+
+      '<td><span class="codebox">'+esc(c.numero)+'</span></td><td>'+(c.destino?esc(c.destino):'<span class="muted">-</span>')+'</td>'+
+      '<td class="r num">'+money(c.importe)+'</td><td><span class="chip '+chpEstado(c)[1]+'">'+chpEstado(c)[0]+'</span></td>'+
+      (ro?'':'<td class="r">'+(c.manual&&!c.anulado?'<button class="btn ghost sm danger" onclick="delChequePropio(\''+c.id+'\')">Borrar</button>':'')+'</td>')+'</tr>').join('')+'</tbody></table></div>')
+    :'<div class="muted" style="padding:14px 16px;font-size:13px">Todavia no hay cheques propios. Se cargan solos cuando pagas con "Cheque propio" desde Pagos, o cargalos a mano si son anteriores al sistema.</div>')+'</div>'+
+    '<div class="hint" style="padding:8px 2px">Los que salen de un pago entran solos a este cuadro y se anulan junto con el pago. Los cargados a mano son solo registro (no tocan el libro).</div>';
   },
   facturas:function(){
     const SECS={ventas:[['facturas','Facturas'],['cobros','Cobranzas'],['ctacte','Cuentas corrientes'],['maestro','Clientes'],['iva','IVA']],
@@ -1225,6 +1256,29 @@ function saveCheque(){const f=document.getElementById('ch-fecha').value,i=num(do
   if(errs.length){const m=document.getElementById('ch-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
   S.cheques.unshift({id:uid(),recibido:f,origen:o,banco:banco,numero:numero,importe:i,vto:vto,destino:destino,egreso:egreso,estado:estado});
   save();closePanel();render();toast('Cheque cargado');}
+// Cheques propios (emitidos por GTSA, Galicia): entran solos al pagar con "Cheque propio",
+// o a mano para historial. Estado derivado: a debitar / debitado segun la fecha del cheque.
+function chpEstado(c){if(c.anulado)return['Anulado','neg'];
+  return c.fecha<=hoyISO()?['Debitado','pos']:['A debitar','warn'];}
+function hoyISO(){const d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+function openChequePropio(){openPanel('<div class="panel-head"><h2>Cargar cheque propio</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+  '<div class="panel-body"><div class="form-msg" id="chp-msg"></div>'+
+    '<div class="banner" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M22 12a10 10 0 11-20 0 10 10 0 0120 0z"/></svg>'+
+    '<div>Esto es para <b>historial</b>: cheques que emitiste antes de arrancar con el sistema. Los pagos nuevos con cheque propio se registran desde <b>Facturacion &gt; Pagos</b> y entran solos a este cuadro con su asiento.</div></div>'+
+    '<div class="row2"><div class="field"><label>Fecha del cheque <span class="req">*</span></label><input type="date" id="chp-fecha"></div>'+
+      '<div class="field"><label>Numero <span class="req">*</span></label><input id="chp-num" placeholder="00000000"></div></div>'+
+    '<div class="row2"><div class="field"><label>Importe <span class="req">*</span></label><input id="chp-imp" inputmode="decimal" placeholder="0"></div>'+
+      '<div class="field"><label>Destino <span class="req">*</span></label><input id="chp-dest" list="chp-dl" placeholder="A quien se lo diste">'+
+      '<datalist id="chp-dl">'+allEntities().map(e=>'<option value="'+esc(e.nombre)+' ('+esc(e.codigo)+')"></option>').join('')+'</datalist></div></div>'+
+    '<button class="btn primary" style="width:100%" onclick="saveChequePropio()">Guardar cheque propio</button></div>');}
+function saveChequePropio(){const f=document.getElementById('chp-fecha').value,n=document.getElementById('chp-num').value.trim();
+  const i=num(document.getElementById('chp-imp').value),d=document.getElementById('chp-dest').value.trim();
+  const errs=[];if(!f)errs.push('la fecha');if(!n)errs.push('el numero');if(!i)errs.push('el importe');if(!d)errs.push('el destino');
+  if(errs.length){const m=document.getElementById('chp-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
+  S.chequesPropios.unshift({id:uid(),fecha:f,numero:n,importe:i,destino:d,manual:true});
+  save();closePanel();render();toast('Cheque propio cargado');}
+function delChequePropio(id){const c=S.chequesPropios.find(x=>x.id===id);if(!c||!c.manual)return;
+  if(confirm('Borrar el cheque propio N '+c.numero+' del registro? (era carga manual, no toca el libro)')){S.chequesPropios=S.chequesPropios.filter(x=>x.id!==id);save();render();toast('Cheque propio borrado');}}
 function estadoFactChip(f,esVenta){const done=esVenta?f.cobrado:f.pagado;const m=(esVenta?f.cobradoMonto:f.pagadoMonto)||0;
   if(done)return '<span class="chip pos">'+(esVenta?'Cobrada':'Pagada')+'</span>';
   if(m>0)return '<span class="chip warn" title="Imputado '+money(m)+'">Parcial - debe '+money(f.importe-m)+'</span>';
@@ -1355,63 +1409,82 @@ function saveCompra(){const n=document.getElementById('co-num').value.trim();
 // genera los asientos en el libro (uno por forma), da de alta cheques recibidos en cartera,
 // y el estado de la factura se deriva: Pendiente / Parcial (con saldo) / Cobrada-Pagada.
 // La retencion tambien cancela factura: total imputado = formas de pago + retenciones.
-const FORMAS_COB=['Transferencia','E-cheq','Cheque fisico','Efectivo','Metros'];
-const FORMAS_PAG=['Transferencia','Efectivo SG','Efectivo CM','Cheque en cartera','Cheque propio'];
+// Formas de pago separadas como en el cuaderno de Vero: bloque CHEQUES (renglones tipo
+// planilla: tipo | numero | fecha | importe | banco) y bloque OTROS (transferencia, deposito
+// de efectivo, efectivo, metros). En pagos los cheques son Endosado (cartera) o Propio (Galicia).
+const CHQ_COB=['E-cheq','Cheque fisico'];
+const CHQ_PAG=['Cheque en cartera','Cheque propio'];
+const OTR_COB=['Transferencia','Dep. efectivo','Efectivo','Metros'];
+const OTR_PAG=['Transferencia','Efectivo SG','Efectivo CM'];
+const CHQ_LBL={'E-cheq':'E-cheq','Cheque fisico':'Fisico','Cheque en cartera':'Endosado (cartera)','Cheque propio':'Propio Galicia'};
 let cf=null; // contexto del form abierto {tipo:'cobranza'|'pago', formas:[...]}
-function esFormaCheque(m){return m==='E-cheq'||m==='Cheque fisico'||m==='Cheque propio';}
+function esFormaCheque(m){return m==='E-cheq'||m==='Cheque fisico'||m==='Cheque propio'||m==='Cheque en cartera';}
 function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
-  const METS=cf.tipo==='cobranza'?FORMAS_COB:FORMAS_PAG;
+  const esCob=cf.tipo==='cobranza';
+  const CHQ=esCob?CHQ_COB:CHQ_PAG,OTR=esCob?OTR_COB:OTR_PAG;
   const cartera=S.cheques.filter(c=>c.estado==='En cartera');
-  setHTML(el,cf.formas.map(function(f,i){
-    let extra='';
-    if(f.metodo==='E-cheq'||f.metodo==='Cheque fisico'){
-      if(f.bulk){
-        extra='<div class="field" style="margin:8px 0 0"><label>Un cheque por linea</label>'+
-          '<textarea rows="5" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="numero ; importe ; fecha ; banco&#10;00112233 ; 150000 ; 15/03/2026 ; GALICIA&#10;00112234 ; 200000 ; 30/03/2026" oninput="cf.formas['+i+'].texto=this.value">'+esc(f.texto||'')+'</textarea>'+
-          '<div class="hint">Formato: <span class="codebox">numero ; importe ; fecha ; banco</span> - fecha y banco opcionales. Podes pegar las columnas directo desde un Excel (separadas con tab tambien sirve).</div>'+
-          '<div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap"><button class="btn sm primary" onclick="cfProcesarLote('+i+')">Procesar lineas</button>'+
-          (f.lote&&f.lote.length?'<span class="chip pos">'+f.lote.length+' cheques por '+money(f.monto||0)+'</span>':'<span class="chip warn">Sin procesar</span>')+
-          '<button class="btn ghost sm" onclick="cfSet('+i+',\'bulk\',false);cf.formas['+i+'].lote=null;cf.formas['+i+'].monto=0;cfRender()">Volver a uno solo</button></div>'+
-          (f.loteErr?'<div class="form-msg show" style="margin-top:8px">'+esc(f.loteErr)+'</div>':'');}
-      else{
-        extra='<div class="row2" style="margin-top:8px"><div class="field" style="margin:0"><label>N cheque</label><input value="'+esc(f.numero||'')+'" oninput="cfSet('+i+',\'numero\',this.value)" placeholder="00000000"></div>'+
-        '<div class="field" style="margin:0"><label>Banco</label><input value="'+esc(f.banco||'')+'" oninput="cfSet('+i+',\'banco\',this.value)" placeholder="GALICIA"></div></div>'+
-        '<div class="field" style="margin:8px 0 0"><label>Fecha del cheque</label><input type="date" value="'+(f.fechaCh||'')+'" onchange="cfSet('+i+',\'fechaCh\',this.value)"><div class="hint">Si es diferido, la fecha de cobro. El cheque entra solo a cartera.</div></div>'+
-        '<button class="btn ghost sm" style="margin-top:6px" onclick="cfSet('+i+',\'bulk\',true);cfRender()">Son muchos? Cargalos todos juntos</button>';}}
-    if(f.metodo==='Cheque propio'){
-      extra='<div class="row2" style="margin-top:8px"><div class="field" style="margin:0"><label>N cheque</label><input value="'+esc(f.numero||'')+'" oninput="cfSet('+i+',\'numero\',this.value)" placeholder="00000000"></div>'+
-        '<div class="field" style="margin:0"><label>Fecha del cheque</label><input type="date" value="'+(f.fechaCh||'')+'" onchange="cfSet('+i+',\'fechaCh\',this.value)"></div></div>'+
-        '<div class="hint" style="margin-top:4px">Cheque propio Galicia: debita el banco en la fecha del cheque.</div>';}
-    if(f.metodo==='Cheque en cartera'){
-      extra='<div class="field" style="margin:8px 0 0"><label>Que cheque sale</label><select onchange="cfCartera('+i+',this.value)"><option value="">Elegi un cheque...</option>'+
-        cartera.map(c=>'<option value="'+c.id+'"'+(f.chequeId===c.id?' selected':'')+'>'+esc(c.numero)+' '+esc(c.banco)+' - '+money(c.importe)+'</option>').join('')+'</select></div>';}
-    if(f.metodo==='Efectivo')extra='<div class="hint" style="margin-top:4px">⚠ A definir con Vero a que caja entra el efectivo cobrado. Por ahora va a Efectivo general.</div>';
-    if(f.metodo==='Metros')extra='<div class="hint" style="margin-top:4px">Va a Caja M (solo la ven Vero y Maxi).</div>';
-    return '<div style="border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:9px;background:var(--surface-2)">'+
-      '<div class="row2"><div class="field" style="margin:0"><label>Forma de pago</label><select onchange="cfMetodo('+i+',this.value)">'+METS.map(m=>'<option'+(f.metodo===m?' selected':'')+'>'+m+'</option>').join('')+'</select></div>'+
-      '<div class="field" style="margin:0"><label>Monto</label><input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="0"'+((f.metodo==='Cheque en cartera'||f.bulk)?' readonly':'')+'></div></div>'+extra+
-      (cf.formas.length>1?'<div style="text-align:right;margin-top:6px"><button class="btn ghost sm danger" onclick="cfDel('+i+')">Quitar</button></div>':'')+'</div>';}).join('')+
-    '<button class="btn sm" onclick="cfAdd()">+ Agregar otra forma de pago</button>');
+  const chqIdx=[],otrIdx=[];
+  cf.formas.forEach(function(f,i){(esFormaCheque(f.metodo)?chqIdx:otrIdx).push(i);});
+  // --- bloque Cheques: un renglon por cheque, como la planilla del cuaderno ---
+  const chqRows=chqIdx.map(function(i){const f=cf.formas[i];
+    const tipoSel='<select onchange="cfMetodo('+i+',this.value)" title="Tipo de cheque">'+CHQ.map(m=>'<option value="'+m+'"'+(f.metodo===m?' selected':'')+'>'+CHQ_LBL[m]+'</option>').join('')+'</select>';
+    const del='<button type="button" class="chqdel" title="Quitar" onclick="cfDel('+i+')">&times;</button>';
+    if(f.metodo==='Cheque en cartera')
+      return '<div class="chqrow"><div class="chqr1">'+tipoSel+'<div class="chqspan"><select onchange="cfCartera('+i+',this.value)"><option value="">Elegi que cheque de cartera sale...</option>'+
+        cartera.map(c=>'<option value="'+c.id+'"'+(f.chequeId===c.id?' selected':'')+'>'+esc(c.numero)+' '+esc(c.banco)+' - '+money(c.importe)+'</option>').join('')+'</select></div>'+del+'</div></div>';
+    const banco=(f.metodo==='Cheque propio')?'<span class="muted" style="font-size:12px;text-align:center">GALICIA</span>'
+      :'<input value="'+esc(f.banco||'')+'" oninput="cfSet('+i+',\'banco\',this.value)" placeholder="Banco">';
+    return '<div class="chqrow"><div class="chqr1">'+tipoSel+
+      '<input value="'+esc(f.numero||'')+'" oninput="cfSet('+i+',\'numero\',this.value)" placeholder="N cheque">'+banco+del+'</div>'+
+      '<div class="chqr2"><input type="date" value="'+(f.fechaCh||'')+'" onchange="cfSet('+i+',\'fechaCh\',this.value)" title="Fecha del cheque (si es diferido, la de cobro)">'+
+      '<input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe"></div></div>';}).join('');
+  const bulkUI=(esCob&&cf.bulkOpen)?'<div class="field" style="margin:10px 0 0"><label>Un cheque por linea</label>'+
+    '<textarea rows="5" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="numero ; importe ; fecha ; banco&#10;00112233 ; 150000 ; 15/03/2026 ; GALICIA&#10;00112234 ; 200000 ; 30/03/2026" oninput="cf.bulkTexto=this.value">'+esc(cf.bulkTexto||'')+'</textarea>'+
+    '<div class="hint">Formato: <span class="codebox">numero ; importe ; fecha ; banco</span> - fecha y banco opcionales. Podes pegar las columnas directo desde un Excel (con tab tambien sirve). Entran como E-cheq; si alguno es fisico, cambiale el tipo en su renglon.</div>'+
+    '<div style="margin-top:8px"><button class="btn sm primary" onclick="cfBulkProcesar()">Agregar estos cheques</button></div>'+
+    (cf.bulkErr?'<div class="form-msg show" style="margin-top:8px">'+esc(cf.bulkErr)+'</div>':'')+'</div>':'';
+  const bloqueChq='<div class="cfblock"><div class="cfbt">Cheques<span class="spacer"></span>'+
+    '<button type="button" class="btn ghost sm" onclick="cfAddCheque()">+ Agregar cheque</button>'+
+    (esCob?'<button type="button" class="btn ghost sm" onclick="cf.bulkOpen=!cf.bulkOpen;cfRender()">'+(cf.bulkOpen?'Cerrar carga masiva':'Son muchos? Pegalos juntos')+'</button>':'')+'</div>'+
+    (chqIdx.length?chqRows:'<div class="hint">Sin cheques en esta operacion. Agrega un renglon por cheque.</div>')+bulkUI+
+    (chqIdx.length?'<div class="hint" style="margin-top:6px">'+(esCob?'Los cheques recibidos entran solos a cartera.':'Endosado: sale un cheque de cartera. Propio: Galicia, debita en la fecha del cheque y queda en el cuadro de cheques propios.')+'</div>':'')+'</div>';
+  // --- bloque Otros: transferencia / depositos / efectivo / metros ---
+  const otrRows=otrIdx.map(function(i){const f=cf.formas[i];
+    let hint='';
+    if(f.metodo==='Dep. efectivo')hint='Entra al Banco Galicia como deposito en efectivo.';
+    if(f.metodo==='Efectivo')hint=esCob?'⚠ A definir con Vero a que caja entra. Por ahora va a Efectivo general.':'';
+    if(f.metodo==='Metros')hint='Va a Caja M (solo la ven Vero y Maxi).';
+    return '<div class="otrrow"><select onchange="cfMetodo('+i+',this.value)">'+OTR.map(m=>'<option'+(f.metodo===m?' selected':'')+'>'+m+'</option>').join('')+'</select>'+
+      '<input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe">'+
+      '<button type="button" class="chqdel" title="Quitar" onclick="cfDel('+i+')">&times;</button></div>'+
+      (hint?'<div class="hint" style="margin:-2px 0 8px">'+hint+'</div>':'');}).join('');
+  const bloqueOtr='<div class="cfblock"><div class="cfbt">Otros<span class="spacer"></span>'+
+    '<button type="button" class="btn ghost sm" onclick="cfAdd()">+ Agregar otra forma</button></div>'+
+    (otrIdx.length?otrRows:'<div class="hint">Transferencia, '+(esCob?'deposito de efectivo, efectivo o metros':'efectivo de caja chica SG o CM')+'.</div>')+'</div>';
+  setHTML(el,bloqueChq+bloqueOtr);
   cfTotales();}
 function cfSet(i,k,v){cf.formas[i][k]=(k==='monto')?num(v):v;if(k==='monto')cfTotales();}
 function cfMetodo(i,v){cf.formas[i]={metodo:v};cfRender();}
 function cfAdd(){cf.formas.push({metodo:'Transferencia'});cfRender();}
+function cfAddCheque(){cf.formas.push({metodo:cf.tipo==='cobranza'?'E-cheq':'Cheque en cartera'});cfRender();}
 function cfDel(i){cf.formas.splice(i,1);cfRender();}
 function cfCartera(i,chId){const ch=S.cheques.find(x=>x.id===chId);cf.formas[i].chequeId=chId||null;cf.formas[i].monto=ch?ch.importe:0;cfRender();}
-// Lote de cheques: una linea por cheque "numero ; importe ; fecha ; banco" (tab o ; como separador).
+// Carga masiva: una linea por cheque "numero ; importe ; fecha ; banco" (tab o ; como separador).
+// Cada linea valida se agrega como un renglon mas del bloque Cheques.
 function cfFechaCh(s){s=(s||'').trim();if(!s)return '';
   if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
   const m=s.match(/^(\d{1,2})\D(\d{1,2})\D(\d{2,4})$/);if(!m)return '';
   const y=m[3].length===2?'20'+m[3]:m[3];return y+'-'+('0'+m[2]).slice(-2)+'-'+('0'+m[1]).slice(-2);}
-function cfProcesarLote(i){const f=cf.formas[i];const lines=(f.texto||'').split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
-  const items=[];const malas=[];
+function cfBulkProcesar(){const lines=(cf.bulkTexto||'').split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const malas=[];let n=0;
   lines.forEach(function(l,idx){const p=l.split(/[;\t]/).map(x=>x.trim());
     const numero=p[0]||'';const importe=num(p[1]||'');
     if(!numero||!importe){malas.push(idx+1);return;}
-    items.push({numero:numero,importe:importe,fecha:cfFechaCh(p[2]),banco:(p[3]||'').toUpperCase()});});
-  f.lote=items;f.monto=items.reduce((a,x)=>a+x.importe,0);
-  f.loteErr=malas.length?('Lineas '+malas.join(', ')+': falta numero o importe, no se tomaron.'):(items.length?'':'No se encontro ninguna linea valida.');
-  cfRender();}
+    cf.formas.push({metodo:'E-cheq',numero:numero,monto:importe,fechaCh:cfFechaCh(p[2]),banco:(p[3]||'E-CHEQ').toUpperCase()});n++;});
+  cf.bulkErr=malas.length?('Lineas '+malas.join(', ')+': falta numero o importe, no se tomaron.'):(n?'':'No se encontro ninguna linea valida.');
+  if(n){cf.bulkTexto='';if(!malas.length)cf.bulkOpen=false;}
+  cfRender();
+  if(n)toast(n+' cheques agregados');}
 function cfSumFormas(){return cf.formas.reduce((a,f)=>a+(f.monto||0),0);}
 function cfSumRet(){if(cf.tipo!=='cobranza')return 0;return ['gan','iibb','suss'].reduce((a,k)=>{const e=document.getElementById('cf-ret-'+k);return a+(e?num(e.value):0);},0);}
 function cfTotales(){const fp=cfSumFormas(),rt=cfSumRet();
@@ -1453,9 +1526,9 @@ function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[
   const formas=cf.formas.filter(f=>(f.monto||0)>0);
   if(!fecha)errs.push('Falta la fecha');if(!cliente)errs.push('Falta el cliente');
   if(!formas.length)errs.push('Carga al menos una forma de pago con monto');
-  formas.forEach(f=>{if(f.metodo==='E-cheq'||f.metodo==='Cheque fisico'){
-    if(f.bulk){if(!f.lote||!f.lote.length)errs.push('Toca "Procesar lineas" para tomar los cheques cargados en lote');}
-    else if(!f.numero)errs.push('Falta el N del '+f.metodo.toLowerCase());}});
+  cf.formas.forEach(f=>{if(f.metodo==='E-cheq'||f.metodo==='Cheque fisico'){
+    if((f.monto||0)>0&&!f.numero)errs.push('Falta el N del '+f.metodo.toLowerCase());
+    if(f.numero&&!((f.monto||0)>0))errs.push('El cheque '+f.numero+' no tiene importe');}});
   if(errs.length){msg.className='form-msg show';msg.textContent=errs.join(' - ');return;}
   const ret={gan:num(document.getElementById('cf-ret-gan').value),iibb:num(document.getElementById('cf-ret-iibb').value),suss:num(document.getElementById('cf-ret-suss').value)};
   const sumRet=ret.gan+ret.iibb+ret.suss;
@@ -1464,10 +1537,10 @@ function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[
   const base='Cobranza '+cliente+(fac?' - Fc '+fac.numero:'')+(cf.concepto==='Saldo'?' (saldo)':' (a cuenta)');
   formas.forEach(function(f){
     if(f.metodo==='Transferencia')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Transferencia'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Banco Galicia',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
+    else if(f.metodo==='Dep. efectivo')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Deposito en efectivo'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Banco Galicia',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
     else if(f.metodo==='Efectivo')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Efectivo (caja a definir)'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Efectivo',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
     else if(f.metodo==='Metros')S.cajam.push({id:uid(),fecha:fecha,tipo:'Metros',signo:'ingreso',concepto:base,detalle:aclar,monto:f.monto,cobranzaId:cob.id});
-    else if(f.lote)f.lote.forEach(x=>S.cheques.unshift({id:uid(),recibido:fecha,origen:cliente,banco:x.banco||(f.metodo==='E-cheq'?'E-CHEQ':''),numero:x.numero,importe:x.importe,vto:x.fecha||'',destino:'',egreso:'',estado:'En cartera',cobranzaId:cob.id}));
-    else S.cheques.unshift({id:uid(),recibido:fecha,origen:cliente,banco:f.banco||'',numero:f.numero||'',importe:f.monto,vto:f.fechaCh||'',destino:'',egreso:'',estado:'En cartera',cobranzaId:cob.id});
+    else S.cheques.unshift({id:uid(),recibido:fecha,origen:cliente,banco:f.banco||(f.metodo==='E-cheq'?'E-CHEQ':''),numero:f.numero||'',importe:f.monto,vto:f.fechaCh||'',destino:'',egreso:'',estado:'En cartera',cobranzaId:cob.id});
   });
   S.cobranzas.unshift(cob);
   lastFecha=fecha;save();closePanel();render();toast('Cobranza registrada: asientos, cheques y estado de factura actualizados');}
@@ -1512,8 +1585,9 @@ function savePago(){const msg=document.getElementById('cf-msg');const errs=[];
   const formas=cf.formas.filter(f=>(f.monto||0)>0);
   if(!fecha)errs.push('Falta la fecha');if(!provRaw)errs.push('Falta el proveedor');
   if(!formas.length)errs.push('Carga al menos una forma de pago con monto');
-  formas.forEach(f=>{if(f.metodo==='Cheque en cartera'&&!f.chequeId)errs.push('Elegi que cheque de cartera sale');
-    if(f.metodo==='Cheque propio'&&!f.numero)errs.push('Falta el N del cheque propio');});
+  cf.formas.forEach(f=>{if(f.metodo==='Cheque en cartera'&&!f.chequeId)errs.push('Elegi que cheque de cartera sale');
+    if(f.metodo==='Cheque propio'){if((f.monto||0)>0&&!f.numero)errs.push('Falta el N del cheque propio');
+      if(f.numero&&!((f.monto||0)>0))errs.push('El cheque propio '+f.numero+' no tiene importe');}});
   if(errs.length){msg.className='form-msg show';msg.textContent=errs.join(' - ');return;}
   const pago={id:uid(),fecha:fecha,proveedor:prov,factura:facId,concepto:cf.concepto,aclar:aclar,obra:obra,rubro:rubro,formas:formas,imputado:formas.reduce((a,f)=>a+f.monto,0)};
   const fac=facId?S.compras.find(c=>c.id===facId):null;
@@ -1526,18 +1600,24 @@ function savePago(){const msg=document.getElementById('cf-msg');const errs=[];
     else if(f.metodo==='Cheque en cartera'){const ch=S.cheques.find(x=>x.id===f.chequeId);
       const mv={id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[det,'Endoso cheque '+(ch?ch.numero:'')].filter(Boolean).join(' - '),codigo:prov,rubro:rubro,medio:'Cheque',monto:f.monto,signo:'egreso',concil:false,ret:null,cobranzaId:pago.id};
       S.movimientos.push(mv);if(ch){ch.estado='Endosado';ch.egreso=fecha;ch.destino=nom+' ('+prov+')';ch.movId=mv.id;}}
-    else if(f.metodo==='Cheque propio')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:f.fechaCh||fecha,concepto:base,detalle:[det,'Cheque propio Galicia N '+f.numero+' - debita a fecha del cheque'].filter(Boolean).join(' - '),codigo:prov,rubro:rubro,medio:'Banco Galicia',monto:f.monto,signo:'egreso',concil:false,ret:null,cobranzaId:pago.id});
+    else if(f.metodo==='Cheque propio'){
+      const mv={id:uid(),orden:Date.now()+Math.random(),fecha:f.fechaCh||fecha,concepto:base,detalle:[det,'Cheque propio Galicia N '+f.numero+' - debita a fecha del cheque'].filter(Boolean).join(' - '),codigo:prov,rubro:rubro,medio:'Banco Galicia',monto:f.monto,signo:'egreso',concil:false,ret:null,cobranzaId:pago.id};
+      S.movimientos.push(mv);
+      S.chequesPropios.unshift({id:uid(),fecha:f.fechaCh||fecha,numero:f.numero,importe:f.monto,destino:nom+' ('+prov+')',pagoId:pago.id,movId:mv.id});}
   });
   S.pagos.unshift(pago);
   lastFecha=fecha;save();closePanel();render();toast('Pago registrado: asientos y estado de factura actualizados');}
 function anularPago(id){const p=S.pagos.find(x=>x.id===id);if(!p||p.anulado)return;
-  if(!confirm('Anular este pago completo?\n\nSe asientan los contra-movimientos, los cheques endosados vuelven a cartera y la factura recupera su saldo.'))return;
+  if(!confirm('Anular este pago completo?\n\nSe asientan los contra-movimientos, los cheques endosados vuelven a cartera, los propios quedan anulados y la factura recupera su saldo.'))return;
   S.movimientos.filter(m=>m.cobranzaId===id&&movActivo(m)).forEach(anularMovSilent);
+  (S.chequesPropios||[]).forEach(c=>{if(c.pagoId===id)c.anulado=true;});
   p.anulado=true;
   save();render();toast('Pago anulado con contra-movimientos');}
 
 // ============ VISTAS DE FACTURACION ============
-function formasResumen(formas){return formas.map(f=>f.metodo+(f.lote?' x'+f.lote.length:'')+' '+money(f.monto)).join(' + ');}
+function formasResumen(formas){const g={},ord=[];
+  formas.forEach(f=>{const k=f.metodo;if(!g[k]){g[k]={n:0,m:0};ord.push(k);}g[k].n+=(f.lote?f.lote.length:1);g[k].m+=f.monto||0;});
+  return ord.map(k=>k+(g[k].n>1?' x'+g[k].n:'')+' '+money(g[k].m)).join(' + ');}
 function facNum(id,esVenta){const f=(esVenta?S.ventas:S.compras).find(x=>x.id===id);return f?f.numero:'';}
 function renderCobranzas(el,admin){
   const rows=S.cobranzas;
