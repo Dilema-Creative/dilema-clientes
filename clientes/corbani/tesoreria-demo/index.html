@@ -456,15 +456,9 @@ function seed(){
       {id:uid(),numero:'A-0088',proveedor:'PROV.287',obra:'4369',fecha:'2026-01-22',importe:847000,iva:147000,pagado:false}],
     cac:{actual:1180,base:1000,hist:[{mes:'Nov 25',v:940},{mes:'Dic 25',v:975},{mes:'Ene 26',v:1000},{mes:'Feb 26',v:1080},{mes:'Mar 26',v:1180}]},
     obras:[
-      {id:uid(),codigo:'4369',nombre:'Migueletes 2306',cliente:'MIGUELETES 2306',cacBase:1000,certificados:[
-        {id:uid(),numero:'C-01',mes:'2026-01',monto:2611233,cobrado:true},
-        {id:uid(),numero:'C-02',mes:'2026-02',monto:2450000,cobrado:false},
-        {id:uid(),numero:'C-03',mes:'2026-03',monto:2600000,cobrado:false}]},
-      {id:uid(),codigo:'4370',nombre:'San A12',cliente:'SAN A12',cacBase:1080,certificados:[
-        {id:uid(),numero:'C-01',mes:'2026-02',monto:1890000,cobrado:false},
-        {id:uid(),numero:'C-02',mes:'2026-03',monto:1950000,cobrado:false}]},
-      {id:uid(),codigo:'4372',nombre:'Balcarce 850',cliente:'BALCARCE 850',cacBase:1000,certificados:[
-        {id:uid(),numero:'C-01',mes:'2026-01',monto:970500,cobrado:false}]}],
+      {id:uid(),codigo:'4369',nombre:'Migueletes 2306',cliente:'MIGUELETES 2306',cacBase:1000,certificados:[]},
+      {id:uid(),codigo:'4370',nombre:'San A12',cliente:'SAN A12',cacBase:1080,certificados:[]},
+      {id:uid(),codigo:'4372',nombre:'Balcarce 850',cliente:'BALCARCE 850',cacBase:1000,certificados:[]}],
     ladob:[],
     clientes:[
       {id:uid(),nombre:'MIGUELETES 2306',cuit:'30-71555001-3',domicilio:'Migueletes 2306, CABA',cta:'Galicia CC $ 4055-2 001-9',alias:'MIGUELETES.OBRA',mail:'admin@migueletes2306.com.ar',contacto:'Adriana (adm.)'},
@@ -674,7 +668,7 @@ const VIEWS={
   },
   obras:function(){
     return '<div class="banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V9l6-4 6 4v12"/></svg>'+
-      '<div><b>Lo que queda por cobrar de cada obra, ajustado por CAC.</b> Cargas los certificados a cobrar (no una fecha, que no se sabe: cuanto queda). El monto se actualiza mes a mes con el indice CAC. Cuando cobras un certificado, se descuenta solo y queda linkeado a un movimiento de ingreso.</div></div>'+
+      '<div><b>Los certificados se cargan una sola vez: como factura de venta.</b> Cada factura de venta aparece aca sola, bajo su obra, y desde aca registras la cobranza (no hace falta cargarla dos veces). El indice CAC ajusta solo los certificados viejos cargados a mano.</div></div>'+
     '<div class="toolbar"><div class="filters"><label class="flabel">Indice CAC actual <input id="cac-actual" inputmode="decimal" value="'+(S.cac.actual||0)+'" style="width:110px" onchange="setCacActual()"></label>'+
       '<span class="muted" style="font-size:12px">Ultimo: '+esc((S.cac.hist[S.cac.hist.length-1]||{}).mes||'')+'</span></div>'+
       '<div class="actions">'+(ROLES[S.role].all?'<button class="btn sm" onclick="openObra()">+ Obra</button>':'')+'</div></div>'+
@@ -1788,32 +1782,49 @@ function saveDesacopio(id){const a=S.acopios.find(x=>x.id===id);if(!a)return;
 
 // ---- Obras y certificados a cobrar, ajustado por CAC ----
 function cacFactor(o){const base=o.cacBase||S.cac.base||1;return (S.cac.actual||base)/base;}
-function pendObra(o){return o.certificados.filter(c=>!c.cobrado&&c.tipo!=='Z').reduce((a,c)=>a+c.monto,0);}      // nominal, sin Z
-function pendObraAjust(o){return Math.round(pendObra(o)*cacFactor(o));}                             // ajustado CAC
+// Los certificados ahora salen de las facturas de venta: cada factura de venta cuya obra
+// coincide con el codigo de la obra aparece como certificado (una sola carga). Los viejos
+// cargados a mano siguen viviendo en o.certificados y se ajustan por CAC.
+function facturasDeObra(o){return (S.ventas||[]).filter(v=>v.obra&&String(v.obra)===String(o.codigo));}
+function saldoFac(v){return Math.max(0,(v.importe||0)-(v.cobrado?(v.importe||0):(v.cobradoMonto||0)));}
+function facPend(o){return facturasDeObra(o).reduce((a,v)=>a+saldoFac(v),0);}                          // real, sin CAC
+function manualAPend(o){return o.certificados.filter(c=>!c.cobrado&&c.tipo==='A').reduce((a,c)=>a+c.monto,0);} // viejo a mano
+function pendObra(o){return facPend(o)+manualAPend(o);}                                                // nominal
+function pendObraAjust(o){return facPend(o)+Math.round(manualAPend(o)*cacFactor(o));}                  // fac real + viejo ajustado CAC
+function certsPendObra(o){return facturasDeObra(o).filter(v=>!v.cobrado).length+o.certificados.filter(c=>!c.cobrado&&c.tipo==='A').length;}
+// Filas unificadas de la obra: facturas de venta + certificados viejos a mano
+function rowsObra(o){const f=cacFactor(o);const rows=[];
+  facturasDeObra(o).forEach(v=>rows.push({num:v.numero,origen:'factura',mes:(v.fecha||'').slice(0,7),
+    nominal:v.importe||0,ajust:v.importe||0,cobrado:!!v.cobrado,parcial:(v.cobradoMonto||0)>0&&!v.cobrado,saldo:saldoFac(v),
+    onCobrar:"openCobranza('"+v.id+"')"}));
+  o.certificados.filter(c=>c.tipo==='A').forEach(c=>rows.push({num:c.numero,origen:'mano',mes:c.mes,
+    nominal:c.monto,ajust:Math.round(c.monto*f),cobrado:!!c.cobrado,parcial:false,saldo:c.monto,
+    onCobrar:"cobrarCert('"+o.id+"','"+c.id+"')"}));
+  return rows;}
+function chipOrigen(r){return r.origen==='factura'?' <span class="chip" style="font-size:10px;padding:1px 6px">Factura</span>':
+  ' <span class="chip" style="font-size:10px;padding:1px 6px;opacity:.7">a mano</span>';}
 function setCacActual(){S.cac.actual=num(document.getElementById('cac-actual').value)||S.cac.actual;save();renderObras();toast('Indice CAC actualizado, montos recalculados');}
 function renderObras(){const el=document.getElementById('obras-body');if(!el)return;const admin=ROLES[S.role].all;
   const totalAjust=S.obras.reduce((a,o)=>a+pendObraAjust(o),0);
   const totalNom=S.obras.reduce((a,o)=>a+pendObra(o),0);
-  let html='<div class="tiles"><div class="tile total"><div class="lbl">Total a cobrar a futuro (CAC)</div><div class="val num">'+money(totalAjust)+'</div><div class="meta">nominal '+money(totalNom)+' - ajustado por CAC '+(S.cac.actual)+'</div></div>'+
+  let html='<div class="tiles"><div class="tile total"><div class="lbl">Total a cobrar</div><div class="val num">'+money(totalAjust)+'</div><div class="meta">nominal '+money(totalNom)+' - viejos ajustados por CAC '+(S.cac.actual)+'</div></div>'+
     '<div class="tile"><div class="lbl">Obras activas</div><div class="val num">'+S.obras.length+'</div></div>'+
-    '<div class="tile"><div class="lbl">Certificados pendientes</div><div class="val num">'+S.obras.reduce((a,o)=>a+o.certificados.filter(c=>!c.cobrado&&c.tipo!=='Z').length,0)+'</div></div></div>';
-  const verZ=false;
-  html+=S.obras.map(o=>{const f=cacFactor(o);const certs=o.certificados.filter(c=>verZ||c.tipo!=='Z');
+    '<div class="tile"><div class="lbl">Certificados pendientes</div><div class="val num">'+S.obras.reduce((a,o)=>a+certsPendObra(o),0)+'</div></div></div>';
+  html+=S.obras.map(o=>{const f=cacFactor(o);const rows=rowsObra(o);
     return '<div class="card" style="margin-bottom:16px"><div class="card-head"><h2>'+esc(o.nombre)+'</h2>'+
       '<div class="sub">Obra '+esc(o.codigo)+' - '+esc(o.cliente||'')+' - CAC base '+o.cacBase+' (x'+f.toFixed(3)+')</div><div class="spacer"></div>'+
-      '<span class="chip warn">A cobrar '+money(pendObraAjust(o))+'</span>'+
-      (admin?'<button class="btn sm" onclick="openCert(\''+o.id+'\')">+ Certificado</button>':'')+'</div>'+
-      (IS_MOBILE()?'<div class="mlist">'+certs.map(c=>{const esZ=c.tipo==='Z';
-        return mrow('Cert '+esc(c.numero)+(esZ?' <span class="chip neg" style="font-size:10px;padding:1px 6px">Z</span>':''),esc(c.mes),c.cobrado?'':(esZ?'queda '+money(c.monto-(c.cobradoMonto||0)):'nominal '+money(c.monto)),
-          '<div class="ma">'+(c.cobrado?'<span class="chip pos">Cobrado</span>':money(esZ?c.monto:Math.round(c.monto*f)))+'</div>'+
-          '<div class="ms">'+(c.cobrado?'':(admin?'<button class="btn sm" onclick="'+(esZ?'openCobroZ':'cobrarCert')+'(\''+o.id+'\',\''+c.id+'\')">Cobrar</button>':'por cobrar'))+'</div>');}).join('')+'</div>'
+      '<span class="chip warn">A cobrar '+money(pendObraAjust(o))+'</span></div>'+
+      (rows.length?(IS_MOBILE()?'<div class="mlist">'+rows.map(r=>
+        mrow('Cert '+esc(r.num)+chipOrigen(r),esc(r.mes),r.cobrado?'':(r.parcial?'queda '+money(r.saldo):'nominal '+money(r.nominal)),
+          '<div class="ma">'+(r.cobrado?'<span class="chip pos">Cobrado</span>':money(r.ajust||r.nominal))+'</div>'+
+          '<div class="ms">'+(r.cobrado?'':(admin?'<button class="btn sm" onclick="'+r.onCobrar+'">Cobrar</button>':'por cobrar'))+'</div>')).join('')+'</div>'
       :'<div class="tbl-wrap"><table><thead><tr><th>Certificado</th><th>Mes</th><th class="r">Monto nominal</th><th class="r">Ajustado CAC</th><th>Estado</th>'+(admin?'<th></th>':'')+'</tr></thead><tbody>'+
-      certs.map(c=>{const esZ=c.tipo==='Z';const saldoZ=c.monto-(c.cobradoMonto||0);
-        return '<tr><td><span class="codebox">'+esc(c.numero)+'</span>'+(esZ?' <span class="chip neg" style="font-size:10px;padding:1px 6px">Z</span>':'')+'</td><td class="num muted">'+esc(c.mes)+'</td>'+
-        '<td class="r num muted">'+money(c.monto)+'</td><td class="r num">'+(c.cobrado?'<span class="muted">-</span>':(esZ?'<span class="muted">s/ajuste</span>':money(Math.round(c.monto*f))))+'</td>'+
-        '<td>'+(c.cobrado?'<span class="chip pos">Cobrado</span>':(esZ&&(c.cobradoMonto||0)>0?'<span class="chip warn">Parcial - queda '+money(saldoZ)+'</span>':'<span class="chip warn">Por cobrar</span>'))+'</td>'+
-        (admin?'<td class="r">'+(c.cobrado?'':'<button class="btn sm" onclick="'+(esZ?'openCobroZ':'cobrarCert')+'(\''+o.id+'\',\''+c.id+'\')">Registrar cobro</button>')+'</td>':'')+'</tr>';}).join('')+
-      '</tbody></table></div>')+'</div>';}).join('')||'<div class="empty">Sin obras cargadas.</div>';
+      rows.map(r=>{
+        return '<tr><td><span class="codebox">'+esc(r.num)+'</span>'+chipOrigen(r)+'</td><td class="num muted">'+esc(r.mes)+'</td>'+
+        '<td class="r num muted">'+money(r.nominal)+'</td><td class="r num">'+(r.cobrado?'<span class="muted">-</span>':money(r.ajust))+'</td>'+
+        '<td>'+(r.cobrado?'<span class="chip pos">Cobrado</span>':(r.parcial?'<span class="chip warn">Parcial - queda '+money(r.saldo)+'</span>':'<span class="chip warn">Por cobrar</span>'))+'</td>'+
+        (admin?'<td class="r">'+(r.cobrado?'':'<button class="btn sm" onclick="'+r.onCobrar+'">Registrar cobro</button>')+'</td>':'')+'</tr>';}).join('')+
+      '</tbody></table></div>'):'<div class="empty">Sin certificados. Entran solos al cargar la factura de venta con esta obra.</div>')+'</div>';}).join('')||'<div class="empty">Sin obras cargadas.</div>';
   setHTML(el,html);}
 // Igual que facturas: el boton abre el formulario de Movimientos con el cobro precargado
 // (ajustado por CAC). Guardar el movimiento pone el certificado en Cobrado; anularlo lo revierte.
@@ -1835,20 +1846,7 @@ function saveObra(){const cod=document.getElementById('ob-cod').value.trim(),nom
   if(errs.length){const m=document.getElementById('ob-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
   S.obras.push({id:uid(),codigo:cod,nombre:nom,cliente:cli,cacBase:cac,certificados:[]});
   save();closePanel();render();toast('Obra cargada');}
-function openCert(obraId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;
-  openPanel('<div class="panel-head"><h2>Certificado a cobrar</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
-  '<div class="panel-body"><div class="form-msg" id="ce-msg"></div>'+
-    '<div class="hint" style="margin-bottom:12px">Obra '+esc(o.codigo)+' - '+esc(o.nombre)+'. Cargas cuanto queda por cobrar; el sistema lo ajusta por CAC.</div>'+
-    '<div class="row2"><div class="field"><label>N certificado <span class="req">*</span></label><input id="ce-num" placeholder="C-04"></div>'+
-      '<div class="field"><label>Mes <span class="req">*</span></label><input type="month" id="ce-mes" value="'+ultimaFecha().slice(0,7)+'"></div></div>'+
-    '<div class="field"><label>Monto a cobrar (nominal) <span class="req">*</span></label><input id="ce-monto" inputmode="decimal" placeholder="0"><div class="hint">En pesos del contrato. Se ajusta con el CAC actual.</div></div>'+
-    '<button class="btn primary" style="width:100%" onclick="saveCert(\''+o.id+'\')">Guardar certificado</button></div>');}
-function saveCert(obraId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;
-  const n=document.getElementById('ce-num').value.trim(),mes=document.getElementById('ce-mes').value,monto=num(document.getElementById('ce-monto').value);
-  const errs=[];if(!n)errs.push('el numero');if(!mes)errs.push('el mes');if(!monto)errs.push('el monto');
-  if(errs.length){const m=document.getElementById('ce-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
-  o.certificados.push({id:uid(),numero:n,mes:mes,monto:monto,cobrado:false,tipo:'A'});
-  save();closePanel();render();toast('Certificado cargado');}
+// Los certificados ya no se cargan a mano: entran solos desde la factura de venta con la obra.
 // ---- Movimientos de caja chica (roles con caja asignada: cargan solo en la suya) ----
 function openMovCaja(){if(!ROLES[S.role].caja)return;mcSignoV='egreso';
   openPanel('<div class="panel-head"><h2>Registrar en mi caja</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
