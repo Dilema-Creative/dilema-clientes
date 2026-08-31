@@ -368,7 +368,7 @@ const ROLES={
   Maxi :{nombre:'Maxi',  desc:'Acceso total', all:true},
   Sole :{nombre:'Sole',  desc:'Acceso completo', all:true},
   Vivi :{nombre:'Vivi',  desc:'Facturas de venta y compra: carga y consulta', all:false, views:['facturas'], readonly:false},
-  Carlitos:{nombre:'Carlitos', desc:'Solo su caja chica', all:false, views:['micaja'], readonly:true, caja:'CCH.005'}
+  Carlos:{nombre:'Carlos', desc:'Su caja chica: carga y consulta', all:false, views:['micaja'], readonly:false, caja:'CCH.005'}
 };
 let S=load();
 let lastFecha=null;
@@ -408,6 +408,7 @@ function syncEstados(){
 function migrar(s){
   // "Banco" generico se abrio en dos cuentas reales. Lo historico va a Galicia (provisorio, confirmar con Vero).
   (s.movimientos||[]).forEach(m=>{if(m.medio==='Banco')m.medio='Banco Galicia';});
+  if(s.role==='Carlitos')s.role='Carlos';
   s.openings=s.openings||{};
   if(s.openings.Banco!=null){s.openings['Banco Galicia']=(s.openings['Banco Galicia']||0)+s.openings.Banco;delete s.openings.Banco;}
   if(s.openings['Cuenta Inviu']==null)s.openings['Cuenta Inviu']=0;
@@ -684,11 +685,11 @@ const VIEWS={
     const ing=movs.filter(m=>m.signo==='ingreso').reduce((a,m)=>a+m.monto,0);
     const egr=movs.filter(m=>m.signo==='egreso').reduce((a,m)=>a+m.monto,0);
     return '<div class="banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a2 2 0 010 4H8l-4-4 4-4h13a2 2 0 010 4zM7 12h.01"/></svg>'+
-      '<div><b>Esta es tu caja: '+esc(caja.responsable||caja.nombre)+'.</b> Solo ves lo tuyo: lo que entra, lo que sale y el saldo. Nada mas del sistema.</div></div>'+
+      '<div><b>Esta es tu caja: '+esc(caja.responsable||caja.nombre)+'.</b> Ves y cargas solo lo tuyo: lo que entra, lo que sale y el saldo. Nada mas del sistema.</div></div>'+
     '<div class="tiles"><div class="tile"><div class="lbl"><span class="dot" style="background:var(--pos)"></span>Entradas</div><div class="val num pos">'+money(ing)+'</div></div>'+
       '<div class="tile"><div class="lbl"><span class="dot" style="background:var(--neg)"></span>Salidas</div><div class="val num neg">'+money(egr)+'</div></div>'+
       '<div class="tile total"><div class="lbl">Saldo de la caja</div><div class="val num">'+money(ing-egr)+'</div><div class="meta">codigo '+esc(cod)+'</div></div></div>'+
-    '<div class="card"><div class="card-head"><h2>Movimientos de mi caja</h2><div class="sub">'+movs.length+' movimientos</div></div>'+
+    '<div class="card"><div class="card-head"><h2>Movimientos de mi caja</h2><div class="sub">'+movs.length+' movimientos</div><div class="spacer"></div><button class="btn primary sm" onclick="openMovCaja()">+ Registrar</button></div>'+
       (movs.length?(IS_MOBILE()?listaMov(movs):'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th class="r">Entrada</th><th class="r">Salida</th></tr></thead><tbody>'+
       movs.map(m=>'<tr><td class="num muted">'+fdate(m.fecha)+'</td><td>'+esc(m.concepto)+(m.detalle?'<div class="muted" style="font-size:11.5px">'+esc(m.detalle)+'</div>':'')+'</td>'+
         '<td class="r num amt pos">'+(m.signo==='ingreso'?money(m.monto):'<span class="muted">-</span>')+'</td>'+
@@ -1848,6 +1849,25 @@ function saveCert(obraId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;
   if(errs.length){const m=document.getElementById('ce-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
   o.certificados.push({id:uid(),numero:n,mes:mes,monto:monto,cobrado:false,tipo:'A'});
   save();closePanel();render();toast('Certificado cargado');}
+// ---- Movimientos de caja chica (roles con caja asignada: cargan solo en la suya) ----
+function openMovCaja(){if(!ROLES[S.role].caja)return;mcSignoV='egreso';
+  openPanel('<div class="panel-head"><h2>Registrar en mi caja</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+  '<div class="panel-body"><div class="form-msg" id="mc-msg"></div>'+
+    '<div class="field"><label>Movimiento</label><div class="seg"><button type="button" class="on egr" id="mc-egr" onclick="mcSigno(\'egreso\')">Salida</button><button type="button" id="mc-ing" onclick="mcSigno(\'ingreso\')">Entrada</button></div></div>'+
+    '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="mc-fecha" value="'+ultimaFecha()+'"></div>'+
+      '<div class="field"><label>Monto <span class="req">*</span></label><input id="mc-monto" inputmode="decimal" placeholder="0"></div></div>'+
+    '<div class="field"><label>Rubro <span class="req">*</span></label><select id="mc-rubro"><option value="">Elegi el rubro...</option>'+S.rubros.map(r=>'<option>'+esc(r)+'</option>').join('')+'</select></div>'+
+    '<div class="field"><label>Concepto <span class="req">*</span></label><input id="mc-conc" placeholder="Que se pago o de donde entro"></div>'+
+    '<div class="field"><label>Aclaracion</label><input id="mc-det" placeholder="Opcional"></div>'+
+    '<button class="btn primary" style="width:100%" onclick="saveMovCaja()">Guardar</button></div>');}
+let mcSignoV='egreso';
+function mcSigno(s){mcSignoV=s;document.getElementById('mc-egr').className=(s==='egreso'?'on egr':'');document.getElementById('mc-ing').className=(s==='ingreso'?'on ing':'');}
+function saveMovCaja(){const cod=ROLES[S.role].caja;if(!cod)return;
+  const f=document.getElementById('mc-fecha').value,m=num(document.getElementById('mc-monto').value),r=document.getElementById('mc-rubro').value,c=document.getElementById('mc-conc').value.trim();
+  if(!f||!m||!r||!c){const x=document.getElementById('mc-msg');x.className='form-msg show';x.textContent='Completa fecha, monto, rubro y concepto';return;}
+  S.movimientos.push({id:uid(),orden:Date.now(),fecha:f,concepto:c,detalle:document.getElementById('mc-det').value.trim(),codigo:cod,rubro:r,medio:'Efectivo',monto:m,signo:mcSignoV,concil:false,ret:null});
+  lastFecha=f;save();closePanel();render();toast('Movimiento registrado en tu caja');}
+
 function quincenas(){const f=ultimaFecha();const y=f.slice(2,4),mm=f.slice(5,7);
   return ['1a quincena '+mm+'/'+y,'2a quincena '+mm+'/'+y];}
 function openJornal(){openPanel('<div class="panel-head"><h2>Registrar pago a personal</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
