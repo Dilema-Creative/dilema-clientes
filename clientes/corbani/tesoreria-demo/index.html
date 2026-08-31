@@ -364,8 +364,8 @@ function injectFbtns(){if(!IS_MOBILE())return;
       b.onclick=function(){this.closest('.toolbar').classList.toggle('fx');};f.appendChild(b);}});}
 
 const ROLES={
-  Vero :{nombre:'Vero',  desc:'Acceso total, crea maestros', all:true, ladob:true},
-  Maxi :{nombre:'Maxi',  desc:'Acceso total', all:true, ladob:true},
+  Vero :{nombre:'Vero',  desc:'Acceso total, crea maestros', all:true},
+  Maxi :{nombre:'Maxi',  desc:'Acceso total', all:true},
   Sole :{nombre:'Sole',  desc:'Acceso completo', all:true},
   Vivi :{nombre:'Vivi',  desc:'Facturas de venta y compra: carga y consulta', all:false, views:['facturas'], readonly:false},
   Carlitos:{nombre:'Carlitos', desc:'Solo su caja chica', all:false, views:['micaja'], readonly:true, caja:'CCH.005'}
@@ -474,7 +474,7 @@ function seed(){
 function save(){syncEstados();try{STORE.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
 function resetDemo(){if(confirm('Reiniciar la demo con los datos originales? Se borra lo que cargaste en esta sesion.')){try{STORE.removeItem(LS_KEY);}catch(e){}S=migrar(seed());current='inicio';render();toast('Demo reiniciada');}}
 
-// Cuentas bancarias reales de GTSA. "Efectivo" y "USD" quedan solo por historial (Lado B / a definir).
+// Cuentas bancarias reales de GTSA. "Efectivo" y "USD" quedan solo por historial (a definir).
 const CUENTAS=['Banco Galicia','Cuenta Inviu'];
 const MEDIOS=['Banco Galicia','Cuenta Inviu','Cheque','Efectivo','USD'];
 const MEDIO_COLOR={'Banco Galicia':'#0d3b60','Cuenta Inviu':'#6a4fb0','Cheque':'#cf2c48','Efectivo':'#1f7a4d','USD':'#8a6d1a'};
@@ -505,14 +505,12 @@ const NAV=[
   {group:'Administracion'},
   {id:'maestros',label:'Maestros',icon:'M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z'},
   {id:'reportes',label:'Reportes',icon:'M4 20V10M10 20V4M16 20v-7M22 20H2'},
-  {id:'ladob',label:'Lado B',icon:'M4 7h16v13H4z M4 7l4-4h8l4 4 M12 11v5'},
-  {id:'cajam',label:'Caja M',icon:'M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z'},
   {id:'micaja',label:'Mi caja chica',icon:'M21 12a2 2 0 010 4H8l-4-4 4-4h13a2 2 0 010 4zM7 12h.01'}
 ];
 let current='inicio';
 function allowedViews(){const r=ROLES[S.role];
   if(!r.all)return r.views;
-  return NAV.filter(n=>n.id&&n.id!=='micaja'&&((n.id!=='ladob'&&n.id!=='cajam')||r.ladob)).map(n=>n.id);}
+  return NAV.filter(n=>n.id&&n.id!=='micaja').map(n=>n.id);}
 function buildNav(){const av=allowedViews();
   setHTML(document.getElementById('nav'),NAV.map(n=>{
     if(n.group)return '<div class="nav-group">'+n.group+'</div>';
@@ -547,10 +545,9 @@ function setRole(r){S.role=r;save();const av=allowedViews();if(av.indexOf(curren
 const TITLES={inicio:['Inicio','Resumen de tesoreria al dia'],movimientos:['Movimientos','Libro de caja y banco'],
   ctascorrientes:['Cuentas corrientes','Saldo por proveedor, contratista u obra'],gastos:['Gastos varios','Consulta por categoria y por fecha'],cheques:['Cheques','De terceros en cartera y propios emitidos'],
   facturas:['Facturacion','Ventas y compras: facturas, cobranzas, pagos, cuentas corrientes'],
-  cajam:['Caja M','Plata y metros - solo Vero y Maxi'],obras:['Obras y certificados','Monto a cobrar a futuro, ajustado por CAC'],conciliacion:['Conciliacion bancaria','Cruce del extracto contra tus movimientos'],
+  obras:['Obras y certificados','Monto a cobrar a futuro, ajustado por CAC'],conciliacion:['Conciliacion bancaria','Cruce del extracto contra tus movimientos'],
   personal:['Personal y jornales','Padron y pago de quincenas'],maestros:['Maestros','Todo lo que cargas una vez y reutilizas'],
   reportes:['Reportes','Consultas, graficos y exportacion'],
-  ladob:['Lado B','Registro paralelo - solo Vero y Maxi'],
   micaja:['Mi caja chica','Ingresos, egresos y saldo de tu caja']};
 function render(){buildNav();buildBottomBar();const t=TITLES[current]||['',''];
   document.getElementById('page-title').textContent=t[0];
@@ -682,45 +679,6 @@ const VIEWS={
       '<div class="actions">'+(ROLES[S.role].all?'<button class="btn sm" onclick="openObra()">+ Obra</button>':'')+'</div></div>'+
     '<div id="obras-body"></div>';
   },
-  ladob:function(){const ro=ROLES[S.role].readonly;
-    const ing=S.ladob.filter(x=>x.signo==='ingreso').reduce((a,x)=>a+x.monto,0);
-    const egr=S.ladob.filter(x=>x.signo==='egreso').reduce((a,x)=>a+x.monto,0);
-    return '<div class="banner warnbar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg>'+
-      '<div><b>Seccion privada y opcional.</b> Registro paralelo para reemplazar ese Excel. Solo entran Vero y Maxi; queda separado del resto del sistema y no se mezcla con ningun reporte oficial. Se puede desactivar del todo cuando quieran.</div></div>'+
-    '<div class="tiles"><div class="tile"><div class="lbl"><span class="dot" style="background:var(--pos)"></span>Ingresos</div><div class="val num pos">'+money(ing)+'</div></div>'+
-      '<div class="tile"><div class="lbl"><span class="dot" style="background:var(--neg)"></span>Egresos</div><div class="val num neg">'+money(egr)+'</div></div>'+
-      '<div class="tile total"><div class="lbl">Saldo</div><div class="val num">'+money(ing-egr)+'</div></div></div>'+
-    '<div class="card"><div class="card-head"><h2>Registro Lado B</h2><div class="sub">'+S.ladob.length+' movimientos</div><div class="spacer"></div>'+
-      (ro?'':'<button class="btn primary sm" onclick="openLadoB()">+ Registrar</button>')+'</div>'+
-      (S.ladob.length?(IS_MOBILE()?'<div class="mlist">'+S.ladob.slice().sort((a,b)=>(a.fecha<b.fecha?1:-1)).map(x=>
-        mrow(esc(x.concepto),'',fdate(x.fecha),
-          '<div class="ma '+(x.signo==='ingreso'?'pos':'neg')+'">'+(x.signo==='ingreso'?'+':'-')+money(x.monto).replace('-','')+'</div>'+
-          (ro?'':'<div class="ms"><button class="btn ghost sm danger" onclick="delLadoB(\''+x.id+'\')">Borrar</button></div>'))).join('')+'</div>'
-      :'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th class="r">Ingreso</th><th class="r">Egreso</th>'+(ro?'':'<th></th>')+'</tr></thead><tbody>'+
-      S.ladob.slice().sort((a,b)=>(a.fecha<b.fecha?1:-1)).map(x=>'<tr><td class="num muted">'+fdate(x.fecha)+'</td><td>'+esc(x.concepto)+'</td>'+
-        '<td class="r num amt pos">'+(x.signo==='ingreso'?money(x.monto):'<span class="muted">-</span>')+'</td>'+
-        '<td class="r num amt neg">'+(x.signo==='egreso'?money(x.monto):'<span class="muted">-</span>')+'</td>'+
-        (ro?'':'<td class="r"><button class="btn ghost sm danger" onclick="delLadoB(\''+x.id+'\')">x</button></td>')+'</tr>').join('')+'</tbody></table></div>')
-      :'<div class="empty">Sin registros. Toca "Registrar" para empezar.</div>')+'</div>';
-  },
-  cajam:function(){
-    const vivos=S.cajam.filter(e=>!e.anulado&&!e.anulaDe);
-    const sum=t=>vivos.filter(e=>e.tipo===t).reduce((a,e)=>a+(e.signo==='egreso'?-e.monto:e.monto),0);
-    const pendZ=S.obras.reduce((a,o)=>a+o.certificados.filter(c=>c.tipo==='Z'&&!c.cobrado).reduce((x,c)=>x+c.monto-(c.cobradoMonto||0),0),0);
-    return '<div class="banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>'+
-      '<div><b>Caja M: solo la ven Vero y Maxi.</b> Aca cae lo cobrado en metros y los certificados Z. No toca el libro oficial ni los saldos de banco.</div></div>'+
-    '<div class="tiles"><div class="tile"><div class="lbl">Caja M (plata)</div><div class="val num">'+money(sum('Caja M'))+'</div></div>'+
-      '<div class="tile"><div class="lbl">Metros</div><div class="val num">'+money(sum('Metros'))+'</div><div class="meta">valorizado en pesos</div></div>'+
-      '<div class="tile"><div class="lbl">Certificados Z por cobrar</div><div class="val num">'+money(pendZ)+'</div><div class="meta">saldo pendiente</div></div></div>'+
-    '<div class="card"><div class="card-head"><h2>Registros</h2><div class="spacer"></div><button class="btn primary sm" onclick="openCajaM()">+ Registrar</button></div>'+
-    (S.cajam.length?'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th>Cuenta</th><th class="r">Ingreso</th><th class="r">Egreso</th></tr></thead><tbody>'+
-      S.cajam.slice().reverse().map(e=>'<tr'+(e.anulado?' style="opacity:.55"':'')+'><td class="num muted">'+fdate(e.fecha)+'</td>'+
-        '<td><b style="font-weight:560">'+esc(e.concepto)+'</b>'+(e.detalle?'<div class="muted" style="font-size:11.5px">'+esc(e.detalle)+'</div>':'')+(e.anulado?' <span class="chip neg">Anulado</span>':'')+(e.anulaDe?' <span class="chip">Contra-mov.</span>':'')+'</td>'+
-        '<td><span class="chip medio">'+esc(e.tipo)+'</span></td>'+
-        '<td class="r num amt pos">'+(e.signo!=='egreso'?money(e.monto):'<span class="muted">-</span>')+'</td>'+
-        '<td class="r num amt neg">'+(e.signo==='egreso'?money(e.monto):'<span class="muted">-</span>')+'</td></tr>').join('')+
-      '</tbody></table></div>':'<div class="empty">Sin registros en Caja M.</div>')+'</div>';
-  },
   micaja:function(){const cod=ROLES[S.role].caja;const caja=S.cajaschicas.find(c=>c.codigo===cod)||{nombre:'Mi caja',codigo:cod,responsable:S.role};
     const movs=movsPorCodigo(cod).slice().sort((a,b)=>(a.fecha<b.fecha?1:-1));
     const ing=movs.filter(m=>m.signo==='ingreso').reduce((a,m)=>a+m.monto,0);
@@ -814,7 +772,7 @@ function setInicioPer(){inicioPer.d1=(document.getElementById('ini-desde')||{}).
 function renderInicio(){const el=document.getElementById('inicio-body');if(!el)return;
   const d1=inicioPer.d1,d2=inicioPer.d2;const enPer=m=>enRango(m.fecha,d1,d2);
   const rotulo=(d1||d2)?('del '+(d1?fdate(d1):'inicio')+' al '+(d2?fdate(d2):'hoy')):'de todo el historico';
-  // Inicio muestra lo cotidiano: las dos cuentas y los cheques. Efectivo es cosa del Lado B; USD a definir.
+  // Inicio muestra lo cotidiano: las dos cuentas y los cheques. Efectivo y USD a definir.
   const META={'Banco Galicia':'saldo actual de la cuenta','Cuenta Inviu':'saldo actual de la cuenta','Cheque':'en cartera, todavia no es plata'};
   const tiles=['Banco Galicia','Cuenta Inviu','Cheque'].map(m=>{const v=saldoMedio(m);const cls=v<0?'neg':'';
     return '<div class="tile"><div class="lbl"><span class="dot" style="background:'+MEDIO_COLOR[m]+'"></span>'+(m==='Cheque'?'Cheques':m)+'</div>'+
@@ -1411,10 +1369,10 @@ function saveCompra(){const n=document.getElementById('co-num').value.trim();
 // La retencion tambien cancela factura: total imputado = formas de pago + retenciones.
 // Formas de pago separadas como en el cuaderno de Vero: bloque CHEQUES (renglones tipo
 // planilla: tipo | numero | fecha | importe | banco) y bloque OTROS (transferencia, deposito
-// de efectivo, efectivo, metros). En pagos los cheques son Endosado (cartera) o Propio (Galicia).
+// de efectivo, efectivo). En pagos los cheques son Endosado (cartera) o Propio (Galicia).
 const CHQ_COB=['E-cheq','Cheque fisico'];
 const CHQ_PAG=['Cheque en cartera','Cheque propio'];
-const OTR_COB=['Transferencia','Dep. efectivo','Efectivo','Metros'];
+const OTR_COB=['Transferencia','Dep. efectivo','Efectivo'];
 const OTR_PAG=['Transferencia','Efectivo SG','Efectivo CM'];
 const CHQ_LBL={'E-cheq':'E-cheq','Cheque fisico':'Fisico','Cheque en cartera':'Endosado (cartera)','Cheque propio':'Propio Galicia'};
 let cf=null; // contexto del form abierto {tipo:'cobranza'|'pago', formas:[...]}
@@ -1448,19 +1406,18 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
     (esCob?'<button type="button" class="btn ghost sm" onclick="cf.bulkOpen=!cf.bulkOpen;cfRender()">'+(cf.bulkOpen?'Cerrar carga masiva':'Son muchos? Pegalos juntos')+'</button>':'')+'</div>'+
     (chqIdx.length?chqRows:'<div class="hint">Sin cheques en esta operacion. Agrega un renglon por cheque.</div>')+bulkUI+
     (chqIdx.length?'<div class="hint" style="margin-top:6px">'+(esCob?'Los cheques recibidos entran solos a cartera.':'Endosado: sale un cheque de cartera. Propio: Galicia, debita en la fecha del cheque y queda en el cuadro de cheques propios.')+'</div>':'')+'</div>';
-  // --- bloque Otros: transferencia / depositos / efectivo / metros ---
+  // --- bloque Otros: transferencia / depositos / efectivo ---
   const otrRows=otrIdx.map(function(i){const f=cf.formas[i];
     let hint='';
     if(f.metodo==='Dep. efectivo')hint='Entra al Banco Galicia como deposito en efectivo.';
     if(f.metodo==='Efectivo')hint=esCob?'⚠ A definir con Vero a que caja entra. Por ahora va a Efectivo general.':'';
-    if(f.metodo==='Metros')hint='Va a Caja M (solo la ven Vero y Maxi).';
     return '<div class="otrrow"><select onchange="cfMetodo('+i+',this.value)">'+OTR.map(m=>'<option'+(f.metodo===m?' selected':'')+'>'+m+'</option>').join('')+'</select>'+
       '<input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe">'+
       '<button type="button" class="chqdel" title="Quitar" onclick="cfDel('+i+')">&times;</button></div>'+
       (hint?'<div class="hint" style="margin:-2px 0 8px">'+hint+'</div>':'');}).join('');
   const bloqueOtr='<div class="cfblock"><div class="cfbt">Otros<span class="spacer"></span>'+
     '<button type="button" class="btn ghost sm" onclick="cfAdd()">+ Agregar otra forma</button></div>'+
-    (otrIdx.length?otrRows:'<div class="hint">Transferencia, '+(esCob?'deposito de efectivo, efectivo o metros':'efectivo de caja chica SG o CM')+'.</div>')+'</div>';
+    (otrIdx.length?otrRows:'<div class="hint">Transferencia, '+(esCob?'deposito de efectivo o efectivo':'efectivo de caja chica SG o CM')+'.</div>')+'</div>';
   setHTML(el,bloqueChq+bloqueOtr);
   cfTotales();}
 function cfSet(i,k,v){cf.formas[i][k]=(k==='monto')?num(v):v;if(k==='monto')cfTotales();}
@@ -1539,7 +1496,6 @@ function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[
     if(f.metodo==='Transferencia')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Transferencia'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Banco Galicia',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
     else if(f.metodo==='Dep. efectivo')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Deposito en efectivo'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Banco Galicia',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
     else if(f.metodo==='Efectivo')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Efectivo (caja a definir)'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Efectivo',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
-    else if(f.metodo==='Metros')S.cajam.push({id:uid(),fecha:fecha,tipo:'Metros',signo:'ingreso',concepto:base,detalle:aclar,monto:f.monto,cobranzaId:cob.id});
     else S.cheques.unshift({id:uid(),recibido:fecha,origen:cliente,banco:f.banco||(f.metodo==='E-cheq'?'E-CHEQ':''),numero:f.numero||'',importe:f.monto,vto:f.fechaCh||'',destino:'',egreso:'',estado:'En cartera',cobranzaId:cob.id});
   });
   S.cobranzas.unshift(cob);
@@ -1634,7 +1590,7 @@ function renderCobranzas(el,admin){
       '<td class="r num amt pos">'+money(c.imputado)+'</td>'+
       (admin?'<td class="r">'+(c.anulado?'':'<button class="btn ghost sm danger" onclick="anularCobranza(\''+c.id+'\')">Anular</button>')+'</td>':'')+'</tr>';}).join('')+
     '</tbody></table></div>':'<div class="empty">Todavia no hay cobranzas. Se registran desde aca o desde el boton de cada factura.</div>')+'</div>'+
-    '<div class="hint" style="padding:8px 2px">Cada cobranza puede juntar varias formas de pago (transferencia + cheque + efectivo + metros) y suma sola. Los cheques entran a cartera, los metros a Caja M. Total imputado = formas de pago + retenciones.</div>');}
+    '<div class="hint" style="padding:8px 2px">Cada cobranza puede juntar varias formas de pago (transferencia + cheque + efectivo) y suma sola. Los cheques entran a cartera. Total imputado = formas de pago + retenciones.</div>');}
 function renderPagos(el,admin){
   const rows=S.pagos;
   setHTML(el,'<div class="card"><div class="card-head"><h2>Pagos</h2><div class="sub">'+rows.filter(p=>!p.anulado).length+' registrados</div><div class="spacer"></div>'+
@@ -1840,7 +1796,7 @@ function renderObras(){const el=document.getElementById('obras-body');if(!el)ret
   let html='<div class="tiles"><div class="tile total"><div class="lbl">Total a cobrar a futuro (CAC)</div><div class="val num">'+money(totalAjust)+'</div><div class="meta">nominal '+money(totalNom)+' - ajustado por CAC '+(S.cac.actual)+'</div></div>'+
     '<div class="tile"><div class="lbl">Obras activas</div><div class="val num">'+S.obras.length+'</div></div>'+
     '<div class="tile"><div class="lbl">Certificados pendientes</div><div class="val num">'+S.obras.reduce((a,o)=>a+o.certificados.filter(c=>!c.cobrado&&c.tipo!=='Z').length,0)+'</div></div></div>';
-  const verZ=!!ROLES[S.role].ladob;
+  const verZ=false;
   html+=S.obras.map(o=>{const f=cacFactor(o);const certs=o.certificados.filter(c=>verZ||c.tipo!=='Z');
     return '<div class="card" style="margin-bottom:16px"><div class="card-head"><h2>'+esc(o.nombre)+'</h2>'+
       '<div class="sub">Obra '+esc(o.codigo)+' - '+esc(o.cliente||'')+' - CAC base '+o.cacBase+' (x'+f.toFixed(3)+')</div><div class="spacer"></div>'+
@@ -1885,64 +1841,13 @@ function openCert(obraId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;
     '<div class="row2"><div class="field"><label>N certificado <span class="req">*</span></label><input id="ce-num" placeholder="C-04"></div>'+
       '<div class="field"><label>Mes <span class="req">*</span></label><input type="month" id="ce-mes" value="'+ultimaFecha().slice(0,7)+'"></div></div>'+
     '<div class="field"><label>Monto a cobrar (nominal) <span class="req">*</span></label><input id="ce-monto" inputmode="decimal" placeholder="0"><div class="hint">En pesos del contrato. Se ajusta con el CAC actual.</div></div>'+
-    (ROLES[S.role].ladob?'<div class="field"><label>Tipo</label><div class="seg"><button type="button" class="on def" data-ctipo="A" onclick="ceTipo(\'A\',this)">A (en blanco)</button>'+
-      '<button type="button" data-ctipo="Z" onclick="ceTipo(\'Z\',this)">Z</button></div>'+
-      '<div class="hint">Los Z solo los ven Vero y Maxi. Se cobran a Caja M o en metros, y no entran en los totales visibles de la obra.</div></div>':'')+
     '<button class="btn primary" style="width:100%" onclick="saveCert(\''+o.id+'\')">Guardar certificado</button></div>');}
-let ceTipoV='A';
-function ceTipo(t,btn){ceTipoV=t;[].forEach.call(document.querySelectorAll('[data-ctipo]'),b=>b.className=b.getAttribute('data-ctipo')===t?'on def':'');}
 function saveCert(obraId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;
   const n=document.getElementById('ce-num').value.trim(),mes=document.getElementById('ce-mes').value,monto=num(document.getElementById('ce-monto').value);
   const errs=[];if(!n)errs.push('el numero');if(!mes)errs.push('el mes');if(!monto)errs.push('el monto');
   if(errs.length){const m=document.getElementById('ce-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
-  o.certificados.push({id:uid(),numero:n,mes:mes,monto:monto,cobrado:false,tipo:(ROLES[S.role].ladob?ceTipoV:'A')});
-  ceTipoV='A';save();closePanel();render();toast('Certificado cargado');}
-// Cobro de certificado Z: no toca el libro oficial, va directo a Caja M (plata o metros).
-function openCobroZ(obraId,certId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;const c=o.certificados.find(x=>x.id===certId);if(!c)return;
-  const saldo=c.monto-(c.cobradoMonto||0);
-  openPanel('<div class="panel-head"><h2>Cobro certificado Z</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
-  '<div class="panel-body"><div class="form-msg" id="cz-msg"></div>'+
-    '<div class="banner" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>'+
-    '<div>Cert <b>'+esc(c.numero)+'</b> de '+esc(o.nombre)+': total '+money(c.monto)+', queda por cobrar <b>'+money(saldo)+'</b>. Va a Caja M, solo lo ven Vero y Maxi.</div></div>'+
-    '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="cz-fecha" value="'+ultimaFecha()+'"></div>'+
-      '<div class="field"><label>Monto <span class="req">*</span></label><input id="cz-monto" inputmode="decimal" value="'+saldo+'"><div class="hint">Puede ser una parte: el saldo queda a la vista.</div></div></div>'+
-    '<div class="field"><label>Entra como</label><div class="seg"><button type="button" id="cz-p" class="on def" onclick="czDest(\'Caja M\')">Caja M (plata)</button>'+
-      '<button type="button" id="cz-m" onclick="czDest(\'Metros\')">Metros</button></div></div>'+
-    '<button class="btn primary" style="width:100%" onclick="saveCobroZ(\''+o.id+'\',\''+c.id+'\')">Registrar cobro</button></div>');}
-let czDestV='Caja M';
-function czDest(v){czDestV=v;document.getElementById('cz-p').className=v==='Caja M'?'on def':'';document.getElementById('cz-m').className=v==='Metros'?'on def':'';}
-function openCajaM(){openPanel('<div class="panel-head"><h2>Registrar en Caja M</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
-  '<div class="panel-body"><div class="form-msg" id="cm-msg"></div>'+
-    '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="cm-fecha" value="'+ultimaFecha()+'"></div>'+
-      '<div class="field"><label>Monto <span class="req">*</span></label><input id="cm-monto" inputmode="decimal" placeholder="0"></div></div>'+
-    '<div class="field"><label>Concepto <span class="req">*</span></label><input id="cm-conc" placeholder="De donde viene o a donde va"></div>'+
-    '<div class="row2"><div class="field"><label>Cuenta</label><select id="cm-tipo"><option>Caja M</option><option>Metros</option></select></div>'+
-      '<div class="field"><label>Movimiento</label><select id="cm-signo"><option value="ingreso">Ingreso</option><option value="egreso">Egreso</option></select></div></div>'+
-    '<button class="btn primary" style="width:100%" onclick="saveCajaM()">Guardar</button></div>');}
-function saveCajaM(){const fecha=document.getElementById('cm-fecha').value,monto=num(document.getElementById('cm-monto').value),conc=document.getElementById('cm-conc').value.trim();
-  if(!fecha||!monto||!conc){const m=document.getElementById('cm-msg');m.className='form-msg show';m.textContent='Falta fecha, monto o concepto';return;}
-  S.cajam.push({id:uid(),fecha:fecha,tipo:document.getElementById('cm-tipo').value,signo:document.getElementById('cm-signo').value,concepto:conc,detalle:'',monto:monto});
-  save();closePanel();render();toast('Registrado en Caja M');}
-function saveCobroZ(obraId,certId){const o=S.obras.find(x=>x.id===obraId);const c=o&&o.certificados.find(x=>x.id===certId);if(!c)return;
-  const fecha=document.getElementById('cz-fecha').value,monto=num(document.getElementById('cz-monto').value);
-  if(!fecha||!monto){const m=document.getElementById('cz-msg');m.className='form-msg show';m.textContent='Falta la fecha o el monto';return;}
-  S.cajam.push({id:uid(),fecha:fecha,tipo:czDestV,signo:'ingreso',concepto:'Cobro cert Z '+c.numero+' - '+o.nombre,detalle:'Obra '+o.codigo,monto:monto,certId:certId});
-  czDestV='Caja M';save();closePanel();render();toast('Cobro Z registrado en Caja M');}
-
-// ---- Lado B ----
-function openLadoB(){openPanel('<div class="panel-head"><h2>Registrar en Lado B</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
-  '<div class="panel-body"><div class="form-msg" id="lb-msg"></div>'+
-    '<div class="field"><label>Movimiento</label><div class="seg"><button type="button" class="on egr" id="lb-egr" onclick="lbSigno(\'egreso\')">Egreso</button><button type="button" id="lb-ing" onclick="lbSigno(\'ingreso\')">Ingreso</button></div></div>'+
-    '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="lb-fecha" value="'+ultimaFecha()+'"></div>'+
-      '<div class="field"><label>Monto <span class="req">*</span></label><input id="lb-monto" inputmode="decimal" placeholder="0"></div></div>'+
-    '<div class="field"><label>Concepto <span class="req">*</span></label><input id="lb-conc" placeholder="Detalle"></div>'+
-    '<button class="btn primary" style="width:100%" onclick="saveLadoB()">Guardar</button></div>');}
-let lbSignoV='egreso';
-function lbSigno(s){lbSignoV=s;document.getElementById('lb-egr').className=(s==='egreso'?'on egr':'');document.getElementById('lb-ing').className=(s==='ingreso'?'on ing':'');}
-function saveLadoB(){const f=document.getElementById('lb-fecha').value,m=num(document.getElementById('lb-monto').value),c=document.getElementById('lb-conc').value.trim();
-  if(!f||!m||!c){const x=document.getElementById('lb-msg');x.className='form-msg show';x.textContent='Completa fecha, monto y concepto';return;}
-  S.ladob.unshift({id:uid(),fecha:f,monto:m,concepto:c,signo:lbSignoV});lbSignoV='egreso';save();closePanel();render();toast('Registrado en Lado B');}
-function delLadoB(id){if(!confirm('Borrar este registro?'))return;S.ladob=S.ladob.filter(x=>x.id!==id);save();render();toast('Borrado');}
+  o.certificados.push({id:uid(),numero:n,mes:mes,monto:monto,cobrado:false,tipo:'A'});
+  save();closePanel();render();toast('Certificado cargado');}
 function quincenas(){const f=ultimaFecha();const y=f.slice(2,4),mm=f.slice(5,7);
   return ['1a quincena '+mm+'/'+y,'2a quincena '+mm+'/'+y];}
 function openJornal(){openPanel('<div class="panel-head"><h2>Registrar pago a personal</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
