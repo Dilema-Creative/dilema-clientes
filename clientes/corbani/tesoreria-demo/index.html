@@ -1288,8 +1288,8 @@ function renderFacturas(){const el=document.getElementById('fact-body');if(!el)r
   }}
 // Alicuotas de IVA reales (no todo es 21%). La factura se carga como en el papel:
 // neto + IVA (+ IIBB en compras) y el total se arma solo.
-const ALICUOTAS=['21','10.5','27','5','2.5','0'];
-function aliOpts(){return ALICUOTAS.map(a=>'<option value="'+a+'"'+(a==='21'?' selected':'')+'>'+(a==='0'?'Exento / 0%':a.replace('.',',')+'%')+'</option>').join('');}
+const ALICUOTAS=['10.5','21','27','5','2.5','0']; // 10,5 primero: es la que mas usan (pedido Vero 01/09)
+function aliOpts(){return ALICUOTAS.map(a=>'<option value="'+a+'"'+(a==='10.5'?' selected':'')+'>'+(a==='0'?'Exento / 0%':a.replace('.',',')+'%')+'</option>').join('');}
 function factCalc(p){const neto=num(document.getElementById(p+'-neto').value);
   const ali=parseFloat(document.getElementById(p+'-ali').value)||0;
   const ivaEl=document.getElementById(p+'-iva');ivaEl.value=neto?Math.round(neto*ali/100):'';
@@ -1392,7 +1392,7 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
       '<div class="chqr2"><input type="date" value="'+(f.fechaCh||'')+'" onchange="cfSet('+i+',\'fechaCh\',this.value)" title="Fecha del cheque (si es diferido, la de cobro)">'+
       '<input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe"></div></div>';}).join('');
   const bulkUI=(esCob&&cf.bulkOpen)?'<div class="field" style="margin:10px 0 0"><label>Un cheque por linea</label>'+
-    '<textarea rows="5" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="numero ; importe ; fecha ; banco&#10;00112233 ; 150000 ; 15/03/2026 ; GALICIA&#10;00112234 ; 200000 ; 30/03/2026" oninput="cf.bulkTexto=this.value">'+esc(cf.bulkTexto||'')+'</textarea>'+
+    '<textarea id="cf-bulk-ta" rows="5" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="numero ; importe ; fecha ; banco&#10;00112233 ; 150000 ; 15/03/2026 ; GALICIA&#10;00112234 ; 200000 ; 30/03/2026" oninput="cf.bulkTexto=this.value">'+esc(cf.bulkTexto||'')+'</textarea>'+
     '<div class="hint">Formato: <span class="codebox">numero ; importe ; fecha ; banco</span> - fecha y banco opcionales. Podes pegar las columnas directo desde un Excel (con tab tambien sirve). Entran como E-cheq; si alguno es fisico, cambiale el tipo en su renglon.</div>'+
     '<div style="margin-top:8px"><button class="btn sm primary" onclick="cfBulkProcesar()">Agregar estos cheques</button></div>'+
     (cf.bulkErr?'<div class="form-msg show" style="margin-top:8px">'+esc(cf.bulkErr)+'</div>':'')+'</div>':'';
@@ -1416,28 +1416,43 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
   setHTML(el,bloqueChq+bloqueOtr);
   cfTotales();}
 function cfSet(i,k,v){cf.formas[i][k]=(k==='monto')?num(v):v;if(k==='monto')cfTotales();}
-function cfMetodo(i,v){cf.formas[i]={metodo:v};cfRender();}
+// Cambiar el metodo NO pisa lo ya tipeado: conserva importe (y datos del cheque si sigue
+// siendo cheque). Antes se reseteaba el renglon entero y el total quedaba corto.
+function cfMetodo(i,v){const o=cf.formas[i]||{};const f={metodo:v};
+  if(v!=='Cheque en cartera'){
+    if(o.monto)f.monto=cfMonto(o);
+    if(esFormaCheque(v)&&esFormaCheque(o.metodo)){
+      if(o.numero)f.numero=o.numero;if(o.fechaCh)f.fechaCh=o.fechaCh;
+      if(o.banco&&v!=='Cheque propio')f.banco=o.banco;}}
+  cf.formas[i]=f;cfRender();}
 function cfAdd(){cf.formas.push({metodo:'Transferencia'});cfRender();}
 function cfAddCheque(){cf.formas.push({metodo:cf.tipo==='cobranza'?'E-cheq':'Cheque en cartera'});cfRender();}
 function cfDel(i){cf.formas.splice(i,1);cfRender();}
-function cfCartera(i,chId){const ch=S.cheques.find(x=>x.id===chId);cf.formas[i].chequeId=chId||null;cf.formas[i].monto=ch?ch.importe:0;cfRender();}
+function cfCartera(i,chId){const ch=S.cheques.find(x=>x.id===chId);cf.formas[i].chequeId=chId||null;
+  // importe siempre numerico: si el cheque viene de datos viejos con el importe como texto, se convierte
+  cf.formas[i].monto=ch?(typeof ch.importe==='number'?ch.importe:num(ch.importe)):0;cfRender();}
 // Carga masiva: una linea por cheque "numero ; importe ; fecha ; banco" (tab o ; como separador).
 // Cada linea valida se agrega como un renglon mas del bloque Cheques.
 function cfFechaCh(s){s=(s||'').trim();if(!s)return '';
   if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
   const m=s.match(/^(\d{1,2})\D(\d{1,2})\D(\d{2,4})$/);if(!m)return '';
   const y=m[3].length===2?'20'+m[3]:m[3];return y+'-'+('0'+m[2]).slice(-2)+'-'+('0'+m[1]).slice(-2);}
-function cfBulkProcesar(){const lines=(cf.bulkTexto||'').split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+function cfBulkProcesar(){
+  // Leer el texto directo del textarea: en algunos celulares el oninput no llega a guardar
+  // lo tipeado antes de tocar el boton, y parecia que "no habia ninguna linea".
+  const ta=document.getElementById('cf-bulk-ta');if(ta)cf.bulkTexto=ta.value;
+  const lines=(cf.bulkTexto||'').split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
   const malas=[];let n=0;
-  lines.forEach(function(l,idx){const p=l.split(/[;\t]/).map(x=>x.trim());
+  lines.forEach(function(l,idx){const p=l.split(/[;:\t]/).map(x=>x.trim());
     const numero=p[0]||'';const importe=num(p[1]||'');
     if(!numero||!importe){malas.push(idx+1);return;}
     cf.formas.push({metodo:'E-cheq',numero:numero,monto:importe,fechaCh:cfFechaCh(p[2]),banco:(p[3]||'E-CHEQ').toUpperCase()});n++;});
-  cf.bulkErr=malas.length?('Lineas '+malas.join(', ')+': falta numero o importe, no se tomaron.'):(n?'':'No se encontro ninguna linea valida.');
+  cf.bulkErr=malas.length?('Lineas '+malas.join(', ')+': falta numero o importe, no se tomaron.'):(n?'':'Escribi al menos una linea con numero ; importe (la fecha y el banco son opcionales) y toca "Agregar estos cheques".');
   if(n){cf.bulkTexto='';if(!malas.length)cf.bulkOpen=false;}
   cfRender();
   if(n)toast(n+' cheques agregados');}
-function cfSumFormas(){return cf.formas.reduce((a,f)=>a+(f.monto||0),0);}
+function cfMonto(f){return typeof f.monto==='number'?(f.monto||0):num(f.monto);}
+function cfSumFormas(){return cf.formas.reduce((a,f)=>a+cfMonto(f),0);}
 function cfSumRet(){if(cf.tipo!=='cobranza')return 0;return ['gan','iibb','suss'].reduce((a,k)=>{const e=document.getElementById('cf-ret-'+k);return a+(e?num(e.value):0);},0);}
 function cfTotales(){const fp=cfSumFormas(),rt=cfSumRet();
   const a=document.getElementById('cf-tot-plata'),b=document.getElementById('cf-tot-ret'),c=document.getElementById('cf-tot-imp');
@@ -1445,6 +1460,27 @@ function cfTotales(){const fp=cfSumFormas(),rt=cfSumRet();
 function conceptoSeg(val){return '<div class="seg"><button type="button" id="cf-conc-a" class="'+(val==='A cuenta'?'on def':'')+'" onclick="cfConc(\'A cuenta\')">A cuenta</button>'+
   '<button type="button" id="cf-conc-s" class="'+(val==='Saldo'?'on def':'')+'" onclick="cfConc(\'Saldo\')">Saldo</button></div>';}
 function cfConc(v){cf.concepto=v;document.getElementById('cf-conc-a').className=v==='A cuenta'?'on def':'';document.getElementById('cf-conc-s').className=v==='Saldo'?'on def':'';}
+// Con el cliente/proveedor elegido, el select de factura muestra SOLO sus facturas
+// (pedido Vero 01/09: aparecian todas y daba lugar a error). Vacio o sin match: todas.
+function cfFacOpts(){const sel=document.getElementById('cf-factura'),inp=document.getElementById('cf-cliente');if(!sel||!inp||!cf)return;
+  const cur=sel.value;const q=(inp.value||'').trim().toLowerCase();
+  const esCob=cf.tipo==='cobranza';
+  let list=esCob?S.ventas.filter(v=>!v.cobrado||v.id===cur):S.compras.filter(c=>!c.pagado||c.id===cur);
+  if(q&&q!=='otro'){
+    if(esCob){
+      // cliente exacto de la lista: filtro estricto aunque quede vacio (no mostrar facturas ajenas)
+      const exacto=S.clientes.some(c=>(c.nombre||'').toLowerCase()===q)||S.ventas.some(v=>(v.cliente||'').toLowerCase()===q);
+      if(exacto)list=list.filter(v=>(v.cliente||'').toLowerCase()===q);
+      else{const m=list.filter(v=>(v.cliente||'').toLowerCase().includes(q));if(m.length)list=m;}}
+    else{const provs=S.proveedores.concat(S.contratistas);
+      const cod=(codigoDesdeInput(inp.value)||'').toLowerCase();
+      // filtro estricto solo si el codigo es real (elegido de la lista); tipeando a medias, filtro suave
+      if(cod&&provs.some(p=>(p.codigo||'').toLowerCase()===cod))list=list.filter(c=>(c.proveedor||'').toLowerCase()===cod);
+      else{const m=list.filter(c=>{const n=(nombrePorCodigo(c.proveedor)||c.proveedor||'').toLowerCase();return n.includes(q)||q.includes(n);});if(m.length)list=m;}}}
+  setHTML(sel,'<option value="">Sin factura puntual</option>'+list.map(x=>esCob
+    ?'<option value="'+x.id+'">Fc '+esc(x.numero)+' ('+(x.tipo||'A')+') - '+esc(x.cliente)+' - debe '+money(x.importe-(x.cobradoMonto||0))+'</option>'
+    :'<option value="'+x.id+'">Fc '+esc(x.numero)+' - '+esc(nombrePorCodigo(x.proveedor)||x.proveedor)+' - debe '+money(x.importe-(x.pagadoMonto||0))+(x.remito?'':' [SIN REMITO]')+'</option>').join(''));
+  sel.value=cur;if(sel.value!==cur)sel.value='';}
 
 function openCobranza(facId){const fac=facId?S.ventas.find(x=>x.id===facId):null;
   cf={tipo:'cobranza',concepto:'A cuenta',formas:[{metodo:'Transferencia'}]};
@@ -1453,9 +1489,9 @@ function openCobranza(facId){const fac=facId?S.ventas.find(x=>x.id===facId):null
   '<div class="panel-body"><div class="form-msg" id="cf-msg"></div>'+
     '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="cf-fecha" value="'+(lastFecha||ultimaFecha())+'"></div>'+
       '<div class="field"><label>Rubro <span class="req">*</span></label><select id="cf-rubro">'+S.rubros.map(r=>'<option'+(r==='INGRESOS'?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select></div></div>'+
-    '<div class="field"><label>Cliente <span class="req">*</span></label><input id="cf-cliente" list="cf-cli-list" value="'+esc(fac?fac.cliente:'')+'" placeholder="Escribi y elegi de la lista">'+
+    '<div class="field"><label>Cliente <span class="req">*</span></label><input id="cf-cliente" list="cf-cli-list" value="'+esc(fac?fac.cliente:'')+'" placeholder="Escribi y elegi de la lista" oninput="cfFacOpts()">'+
       '<datalist id="cf-cli-list"><option value="Otro"></option>'+S.clientes.map(c=>'<option value="'+esc(c.nombre)+'"></option>').join('')+'</datalist></div>'+
-    '<div class="field"><label>Factura vinculada</label><select id="cf-factura">'+fopts+'</select><div class="hint">Lo cobrado se imputa a esta factura. Si es a cuenta sin factura, dejalo vacio: queda en la cuenta corriente del cliente.</div></div>'+
+    '<div class="field"><label>Factura vinculada</label><select id="cf-factura">'+fopts+'</select><div class="hint">Con el cliente elegido, aca aparecen solo sus facturas. Lo cobrado se imputa a esta factura. Si es a cuenta sin factura, dejalo vacio: queda en la cuenta corriente del cliente.</div></div>'+
     '<div class="field"><label>Concepto</label>'+conceptoSeg('A cuenta')+'</div>'+
     '<div class="field"><label>Aclaracion</label><input id="cf-aclar" placeholder="Que estan pagando: cert 3, saldo de enero, parte del adicional..."></div>'+
     '<div class="field"><label>Formas de pago <span class="req">*</span></label><div id="cf-formas"></div></div>'+
@@ -1470,11 +1506,12 @@ function openCobranza(facId){const fac=facId?S.ventas.find(x=>x.id===facId):null
       '<div style="display:flex;justify-content:space-between;margin-top:6px;padding-top:6px;border-top:1px solid var(--line)"><b>TOTAL que cancela</b><b class="num" id="cf-tot-imp" style="font-size:15px">$ 0</b></div></div>'+
     '<button class="btn primary" style="width:100%" onclick="saveCobranza()">Guardar cobranza</button>'+
     '<div class="hint" style="margin-top:9px">Genera los asientos en Movimientos (uno por forma de pago), los cheques entran a cartera y el estado de la factura se actualiza solo. Se corrige anulando la cobranza completa.</div></div>');
-  cfRender();}
+  cfRender();cfFacOpts();}
 function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[];
   const fecha=document.getElementById('cf-fecha').value,cliente=document.getElementById('cf-cliente').value.trim();
   const rubro=document.getElementById('cf-rubro').value,aclar=document.getElementById('cf-aclar').value.trim();
   const facId=document.getElementById('cf-factura').value||null;
+  cf.formas.forEach(f=>{f.monto=cfMonto(f);});
   const formas=cf.formas.filter(f=>(f.monto||0)>0);
   if(!fecha)errs.push('Falta la fecha');if(!cliente)errs.push('Falta el cliente');
   if(!formas.length)errs.push('Carga al menos una forma de pago con monto');
@@ -1515,9 +1552,9 @@ function openPago(facId){const fac=facId?S.compras.find(x=>x.id===facId):null;
     (fac&&!fac.remito?'<div class="banner warnbar" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4m0 4h.01M10.3 3.9L2 18a2 2 0 001.7 3h16.6a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg><div><b>Esta factura no tiene remito cargado.</b> Regla de la casa: sin remito no se paga. Podes seguir igual, pero queda avisado.</div></div>':'')+
     '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="cf-fecha" value="'+(lastFecha||ultimaFecha())+'"></div>'+
       '<div class="field"><label>Rubro <span class="req">*</span></label><select id="cf-rubro">'+S.rubros.map(r=>'<option'+(r==='COMPRAS'?' selected':'')+'>'+esc(r)+'</option>').join('')+'</select></div></div>'+
-    '<div class="field"><label>Proveedor <span class="req">*</span></label><input id="cf-cliente" list="cf-prov-list" value="'+esc(fac?(nombrePorCodigo(fac.proveedor)?nombrePorCodigo(fac.proveedor)+' ('+fac.proveedor+')':fac.proveedor):'')+'" placeholder="Escribi para buscar...">'+
+    '<div class="field"><label>Proveedor <span class="req">*</span></label><input id="cf-cliente" list="cf-prov-list" value="'+esc(fac?(nombrePorCodigo(fac.proveedor)?nombrePorCodigo(fac.proveedor)+' ('+fac.proveedor+')':fac.proveedor):'')+'" placeholder="Escribi para buscar..." oninput="cfFacOpts()">'+
       '<datalist id="cf-prov-list">'+provs.map(p=>'<option value="'+esc(p.nombre)+' ('+esc(p.codigo)+')"></option>').join('')+'</datalist></div>'+
-    '<div class="field"><label>Factura vinculada</label><select id="cf-factura">'+fopts+'</select><div class="hint">Lo pagado se imputa a esta factura: podes pagar una parte (queda Parcial con el saldo a la vista). Sin factura, queda a cuenta en la cta cte del proveedor.</div></div>'+
+    '<div class="field"><label>Factura vinculada</label><select id="cf-factura">'+fopts+'</select><div class="hint">Con el proveedor elegido, aca aparecen solo sus facturas. Lo pagado se imputa a esta factura: podes pagar una parte (queda Parcial con el saldo a la vista). Sin factura, queda a cuenta en la cta cte del proveedor.</div></div>'+
     '<div class="field"><label>Concepto</label>'+conceptoSeg('A cuenta')+'</div>'+
     '<div class="row2"><div class="field"><label>Aclaracion</label><input id="cf-aclar" placeholder="Que se esta pagando"></div>'+
       '<div class="field"><label>Obra (opcional)</label><input id="cf-obra" value="'+esc(fac&&fac.obra?fac.obra:'')+'" placeholder="Codigo de obra"></div></div>'+
@@ -1527,12 +1564,13 @@ function openPago(facId){const fac=facId?S.compras.find(x=>x.id===facId):null;
       '<span id="cf-tot-ret" style="display:none"></span><span id="cf-tot-imp" style="display:none"></span></div>'+
     '<button class="btn primary" style="width:100%" onclick="savePago()">Guardar pago</button>'+
     '<div class="hint" style="margin-top:9px">Sin retenciones ni observaciones en pagos (pedido de Vero). Genera los asientos, mueve los cheques y actualiza la factura. Se corrige anulando el pago completo.</div></div>');
-  cfRender();}
+  cfRender();cfFacOpts();}
 function savePago(){const msg=document.getElementById('cf-msg');const errs=[];
   const fecha=document.getElementById('cf-fecha').value;const provRaw=document.getElementById('cf-cliente').value.trim();
   const prov=codigoDesdeInput(provRaw);const rubro=document.getElementById('cf-rubro').value;
   const aclar=document.getElementById('cf-aclar').value.trim();const obra=document.getElementById('cf-obra').value.trim();
   const facId=document.getElementById('cf-factura').value||null;
+  cf.formas.forEach(f=>{f.monto=cfMonto(f);});
   const formas=cf.formas.filter(f=>(f.monto||0)>0);
   if(!fecha)errs.push('Falta la fecha');if(!provRaw)errs.push('Falta el proveedor');
   if(!formas.length)errs.push('Carga al menos una forma de pago con monto');
