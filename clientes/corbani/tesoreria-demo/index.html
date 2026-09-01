@@ -367,8 +367,8 @@ function injectFbtns(){if(!IS_MOBILE())return;
       b.onclick=function(){this.closest('.toolbar').classList.toggle('fx');};f.appendChild(b);}});}
 
 const ROLES={
-  Vero :{nombre:'Vero',  desc:'Acceso total, crea maestros', all:true},
-  Maxi :{nombre:'Maxi',  desc:'Acceso total', all:true},
+  Vero :{nombre:'Vero',  desc:'Acceso total, crea maestros', all:true, ladob:true},
+  Maxi :{nombre:'Maxi',  desc:'Acceso total', all:true, ladob:true},
   Sole :{nombre:'Sole',  desc:'Acceso completo', all:true},
   Vivi :{nombre:'Vivi',  desc:'Facturas de venta y compra: carga y consulta', all:false, views:['facturas'], readonly:false},
   Carlos:{nombre:'Carlos', desc:'Su caja chica: carga y consulta', all:false, views:['micaja'], readonly:false, caja:'CCH.005'}
@@ -459,8 +459,10 @@ function seed(){
       {id:uid(),numero:'A-0088',proveedor:'PROV.287',obra:'4369',fecha:'2026-01-22',importe:847000,iva:147000,pagado:false}],
     cac:{actual:1180,base:1000,hist:[{mes:'Nov 25',v:940},{mes:'Dic 25',v:975},{mes:'Ene 26',v:1000},{mes:'Feb 26',v:1080},{mes:'Mar 26',v:1180}]},
     obras:[
-      {id:uid(),codigo:'4369',nombre:'Migueletes 2306',cliente:'MIGUELETES 2306',cacBase:1000,certificados:[]},
-      {id:uid(),codigo:'4370',nombre:'San A12',cliente:'SAN A12',cacBase:1080,certificados:[]},
+      {id:uid(),codigo:'4369',nombre:'Migueletes 2306',cliente:'MIGUELETES 2306',cacBase:1000,certificados:[
+        {id:uid(),numero:'Z-01',mes:'2026-02',monto:900000,cobrado:false,tipo:'Z'}]},
+      {id:uid(),codigo:'4370',nombre:'San A12',cliente:'SAN A12',cacBase:1080,certificados:[
+        {id:uid(),numero:'Z-01',mes:'2026-03',monto:600000,cobrado:false,tipo:'Z'}]},
       {id:uid(),codigo:'4372',nombre:'Balcarce 850',cliente:'BALCARCE 850',cacBase:1000,certificados:[]}],
     ladob:[],
     clientes:[
@@ -503,12 +505,13 @@ const NAV=[
   {group:'Administracion'},
   {id:'maestros',label:'Maestros',icon:'M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z'},
   {id:'reportes',label:'Reportes',icon:'M4 20V10M10 20V4M16 20v-7M22 20H2'},
+  {id:'cajam',label:'Caja M',icon:'M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z'},
   {id:'micaja',label:'Mi caja chica',icon:'M21 12a2 2 0 010 4H8l-4-4 4-4h13a2 2 0 010 4zM7 12h.01'}
 ];
 let current='inicio';
 function allowedViews(){const r=ROLES[S.role];
   if(!r.all)return r.views;
-  return NAV.filter(n=>n.id&&n.id!=='micaja').map(n=>n.id);}
+  return NAV.filter(n=>n.id&&n.id!=='micaja'&&((n.id!=='ladob'&&n.id!=='cajam')||r.ladob)).map(n=>n.id);}
 function buildNav(){const av=allowedViews();
   setHTML(document.getElementById('nav'),NAV.map(n=>{
     if(n.group)return '<div class="nav-group">'+n.group+'</div>';
@@ -543,7 +546,7 @@ function setRole(r){S.role=r;save();const av=allowedViews();if(av.indexOf(curren
 const TITLES={inicio:['Inicio','Resumen de tesoreria al dia'],movimientos:['Movimientos','Libro de caja y banco'],
   ctascorrientes:['Cuentas corrientes','Saldo por proveedor, contratista u obra'],gastos:['Gastos varios','Consulta por categoria y por fecha'],cheques:['Cheques','De terceros en cartera y propios emitidos'],
   facturas:['Facturacion','Ventas y compras: facturas, cobranzas, pagos, cuentas corrientes'],
-  obras:['Obras y certificados','Monto a cobrar a futuro, ajustado por CAC'],conciliacion:['Conciliacion bancaria','Cruce del extracto contra tus movimientos'],
+  cajam:['Caja M','Plata y metros - solo Vero y Maxi'],obras:['Obras y certificados','Monto a cobrar a futuro, ajustado por CAC'],conciliacion:['Conciliacion bancaria','Cruce del extracto contra tus movimientos'],
   personal:['Personal y jornales','Padron y pago de quincenas'],maestros:['Maestros','Todo lo que cargas una vez y reutilizas'],
   reportes:['Reportes','Consultas, graficos y exportacion'],
   micaja:['Mi caja chica','Ingresos, egresos y saldo de tu caja']};
@@ -671,11 +674,29 @@ const VIEWS={
   },
   obras:function(){
     return '<div class="banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V9l6-4 6 4v12"/></svg>'+
-      '<div><b>Los certificados se cargan una sola vez: como factura de venta.</b> Cada factura de venta aparece aca sola, bajo su obra, y desde aca registras la cobranza (no hace falta cargarla dos veces). El indice CAC ajusta solo los certificados viejos cargados a mano.</div></div>'+
+      '<div><b>Los certificados A se cargan una sola vez: como factura de venta.</b> Cada factura de venta aparece aca sola, bajo su obra, y desde aca cobras (no hace falta cargarla dos veces). Los certificados Z se cargan a mano y se cobran a Caja M. El indice CAC ajusta solo los certificados viejos cargados a mano.</div></div>'+
     '<div class="toolbar"><div class="filters"><label class="flabel">Indice CAC actual <input id="cac-actual" inputmode="decimal" value="'+(S.cac.actual||0)+'" style="width:110px" onchange="setCacActual()"></label>'+
       '<span class="muted" style="font-size:12px">Ultimo: '+esc((S.cac.hist[S.cac.hist.length-1]||{}).mes||'')+'</span></div>'+
       '<div class="actions">'+(ROLES[S.role].all?'<button class="btn sm" onclick="openObra()">+ Obra</button>':'')+'</div></div>'+
     '<div id="obras-body"></div>';
+  },
+  cajam:function(){
+    const vivos=S.cajam.filter(e=>!e.anulado&&!e.anulaDe);
+    const sum=t=>vivos.filter(e=>e.tipo===t).reduce((a,e)=>a+(e.signo==='egreso'?-e.monto:e.monto),0);
+    const pendZ=S.obras.reduce((a,o)=>a+o.certificados.filter(c=>c.tipo==='Z'&&!c.cobrado).reduce((x,c)=>x+c.monto-(c.cobradoMonto||0),0),0);
+    return '<div class="banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z"/></svg>'+
+      '<div><b>Caja M: solo la ven Vero y Maxi.</b> Aca cae lo cobrado en metros y los certificados Z. No toca el libro oficial ni los saldos de banco.</div></div>'+
+    '<div class="tiles"><div class="tile"><div class="lbl">Caja M (plata)</div><div class="val num">'+money(sum('Caja M'))+'</div></div>'+
+      '<div class="tile"><div class="lbl">Metros</div><div class="val num">'+money(sum('Metros'))+'</div><div class="meta">valorizado en pesos</div></div>'+
+      '<div class="tile"><div class="lbl">Certificados Z por cobrar</div><div class="val num">'+money(pendZ)+'</div><div class="meta">saldo pendiente</div></div></div>'+
+    '<div class="card"><div class="card-head"><h2>Registros</h2><div class="spacer"></div><button class="btn primary sm" onclick="openCajaM()">+ Registrar</button></div>'+
+    (S.cajam.length?'<div class="tbl-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th>Cuenta</th><th class="r">Ingreso</th><th class="r">Egreso</th></tr></thead><tbody>'+
+      S.cajam.slice().reverse().map(e=>'<tr'+(e.anulado?' style="opacity:.55"':'')+'><td class="num muted">'+fdate(e.fecha)+'</td>'+
+        '<td><b style="font-weight:560">'+esc(e.concepto)+'</b>'+(e.detalle?'<div class="muted" style="font-size:11.5px">'+esc(e.detalle)+'</div>':'')+(e.anulado?' <span class="chip neg">Anulado</span>':'')+(e.anulaDe?' <span class="chip">Contra-mov.</span>':'')+'</td>'+
+        '<td><span class="chip medio">'+esc(e.tipo)+'</span></td>'+
+        '<td class="r num amt pos">'+(e.signo!=='egreso'?money(e.monto):'<span class="muted">-</span>')+'</td>'+
+        '<td class="r num amt neg">'+(e.signo==='egreso'?money(e.monto):'<span class="muted">-</span>')+'</td></tr>').join('')+
+      '</tbody></table></div>':'<div class="empty">Sin registros en Caja M.</div>')+'</div>';
   },
   micaja:function(){const cod=ROLES[S.role].caja;const caja=S.cajaschicas.find(c=>c.codigo===cod)||{nombre:'Mi caja',codigo:cod,responsable:S.role};
     const movs=movsPorCodigo(cod).slice().sort((a,b)=>(a.fecha<b.fecha?1:-1));
@@ -1392,10 +1413,10 @@ function saveCompra(){const n=document.getElementById('co-num').value.trim();
 // La retencion tambien cancela factura: total imputado = formas de pago + retenciones.
 // Formas de pago separadas como en el cuaderno de Vero: bloque CHEQUES (renglones tipo
 // planilla: tipo | numero | fecha | importe | banco) y bloque OTROS (transferencia, deposito
-// de efectivo, efectivo). En pagos los cheques son Endosado (cartera) o Propio (Galicia).
+// de efectivo, efectivo, metros). En pagos los cheques son Endosado (cartera) o Propio (Galicia).
 const CHQ_COB=['E-cheq','Cheque fisico'];
 const CHQ_PAG=['Cheque en cartera','Cheque propio'];
-const OTR_COB=['Transferencia','Dep. efectivo','Efectivo'];
+const OTR_COB=['Transferencia','Dep. efectivo','Efectivo','Metros'];
 const OTR_PAG=['Transferencia','Efectivo SG','Efectivo CM'];
 const CHQ_LBL={'E-cheq':'E-cheq','Cheque fisico':'Fisico','Cheque en cartera':'Endosado (cartera)','Cheque propio':'Propio Galicia'};
 let cf=null; // contexto del form abierto {tipo:'cobranza'|'pago', formas:[...]}
@@ -1429,18 +1450,19 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
     (esCob?'<button type="button" class="btn ghost sm" onclick="cf.bulkOpen=!cf.bulkOpen;cfRender()">'+(cf.bulkOpen?'Cerrar carga masiva':'Son muchos? Pegalos juntos')+'</button>':'')+'</div>'+
     (chqIdx.length?chqRows:'<div class="hint">Sin cheques en esta operacion. Agrega un renglon por cheque.</div>')+bulkUI+
     (chqIdx.length?'<div class="hint" style="margin-top:6px">'+(esCob?'Los cheques recibidos entran solos a cartera.':'Endosado: sale un cheque de cartera. Propio: Galicia, debita en la fecha del cheque y queda en el cuadro de cheques propios.')+'</div>':'')+'</div>';
-  // --- bloque Otros: transferencia / depositos / efectivo ---
+  // --- bloque Otros: transferencia / depositos / efectivo / metros ---
   const otrRows=otrIdx.map(function(i){const f=cf.formas[i];
     let hint='';
     if(f.metodo==='Dep. efectivo')hint='Entra al Banco Galicia como deposito en efectivo.';
     if(f.metodo==='Efectivo')hint=esCob?'⚠ A definir con Vero a que caja entra. Por ahora va a Efectivo general.':'';
+    if(f.metodo==='Metros')hint='Va a Caja M (solo la ven Vero y Maxi).';
     return '<div class="otrrow"><select onchange="cfMetodo('+i+',this.value)">'+OTR.map(m=>'<option'+(f.metodo===m?' selected':'')+'>'+m+'</option>').join('')+'</select>'+
       '<input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe">'+
       '<button type="button" class="chqdel" title="Quitar" onclick="cfDel('+i+')">&times;</button></div>'+
       (hint?'<div class="hint" style="margin:-2px 0 8px">'+hint+'</div>':'');}).join('');
   const bloqueOtr='<div class="cfblock"><div class="cfbt">Otros<span class="spacer"></span>'+
     '<button type="button" class="btn ghost sm" onclick="cfAdd()">+ Agregar otra forma</button></div>'+
-    (otrIdx.length?otrRows:'<div class="hint">Transferencia, '+(esCob?'deposito de efectivo o efectivo':'efectivo de caja chica SG o CM')+'.</div>')+'</div>';
+    (otrIdx.length?otrRows:'<div class="hint">Transferencia, '+(esCob?'deposito de efectivo, efectivo o metros':'efectivo de caja chica SG o CM')+'.</div>')+'</div>';
   setHTML(el,bloqueChq+bloqueOtr);
   cfTotales();}
 function cfSet(i,k,v){cf.formas[i][k]=(k==='monto')?num(v):v;if(k==='monto')cfTotales();}
@@ -1546,14 +1568,17 @@ function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[
   if(!formas.length)errs.push('Carga al menos una forma de pago con monto');
   // Un cheque no entra sin todos sus datos (pedido Vero 01/09): numero, importe y fecha
   // siempre; banco solo obligatorio en cheque fisico (el e-cheq queda como E-CHEQ).
+  // Un renglon de cheque vacio tampoco pasa: o se completa o se quita con la x.
   cf.formas.forEach(f=>{if(f.metodo==='E-cheq'||f.metodo==='Cheque fisico'){
     const falta=[];
     if(!f.numero)falta.push('el numero');
     if(!(cfMonto(f)>0))falta.push('el importe');
     if(!f.fechaCh)falta.push('la fecha');
     if(f.metodo==='Cheque fisico'&&!f.banco)falta.push('el banco');
-    const tocado=f.numero||cfMonto(f)>0||f.fechaCh||f.banco;
-    if(falta.length&&tocado)errs.push('Al '+f.metodo.toLowerCase()+' '+(f.numero?'N '+f.numero:'sin numero')+' le falta '+falta.join(', '));}});
+    if(!falta.length)return;
+    const vacio=!f.numero&&!(cfMonto(f)>0)&&!f.fechaCh&&!f.banco;
+    errs.push(vacio?'Hay un renglon de cheque sin completar: cargale numero, importe y fecha, o quitalo con la x'
+      :'Al '+f.metodo.toLowerCase()+' '+(f.numero?'N '+f.numero:'sin numero')+' le falta '+falta.join(', '));}});
   if(errs.length){msg.className='form-msg show';msg.textContent=errs.join(' - ');return;}
   const ret={gan:num(document.getElementById('cf-ret-gan').value),iibb:num(document.getElementById('cf-ret-iibb').value),suss:num(document.getElementById('cf-ret-suss').value)};
   const sumRet=ret.gan+ret.iibb+ret.suss;
@@ -1564,6 +1589,7 @@ function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[
     if(f.metodo==='Transferencia')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Transferencia'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Banco Galicia',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
     else if(f.metodo==='Dep. efectivo')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Deposito en efectivo'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Banco Galicia',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
     else if(f.metodo==='Efectivo')S.movimientos.push({id:uid(),orden:Date.now()+Math.random(),fecha:fecha,concepto:base,detalle:[aclar,'Efectivo (caja a definir)'].filter(Boolean).join(' - '),codigo:'',rubro:rubro,medio:'Efectivo',monto:f.monto,signo:'ingreso',concil:false,ret:null,cobranzaId:cob.id});
+    else if(f.metodo==='Metros')S.cajam.push({id:uid(),fecha:fecha,tipo:'Metros',signo:'ingreso',concepto:base,detalle:aclar,monto:f.monto,cobranzaId:cob.id});
     else S.cheques.unshift({id:uid(),recibido:fecha,origen:cliente,banco:f.banco||(f.metodo==='E-cheq'?'E-CHEQ':''),numero:f.numero||'',importe:f.monto,vto:f.fechaCh||'',destino:'',egreso:'',estado:'En cartera',cobranzaId:cob.id});
   });
   S.cobranzas.unshift(cob);
@@ -1611,9 +1637,17 @@ function savePago(){const msg=document.getElementById('cf-msg');const errs=[];
   const formas=cf.formas.filter(f=>(f.monto||0)>0);
   if(!fecha)errs.push('Falta la fecha');if(!provRaw)errs.push('Falta el proveedor');
   if(!formas.length)errs.push('Carga al menos una forma de pago con monto');
-  cf.formas.forEach(f=>{if(f.metodo==='Cheque en cartera'&&!f.chequeId)errs.push('Elegi que cheque de cartera sale');
-    if(f.metodo==='Cheque propio'){if((f.monto||0)>0&&!f.numero)errs.push('Falta el N del cheque propio');
-      if(f.numero&&!((f.monto||0)>0))errs.push('El cheque propio '+f.numero+' no tiene importe');}});
+  // Cheque propio: numero, importe y fecha obligatorios (debita en la fecha del cheque).
+  // Renglon vacio no pasa: se completa o se quita con la x.
+  cf.formas.forEach(f=>{if(f.metodo==='Cheque en cartera'&&!f.chequeId)errs.push('Elegi que cheque de cartera sale (o quita el renglon con la x)');
+    if(f.metodo==='Cheque propio'){const falta=[];
+      if(!f.numero)falta.push('el numero');
+      if(!(cfMonto(f)>0))falta.push('el importe');
+      if(!f.fechaCh)falta.push('la fecha (ese dia debita de Galicia)');
+      if(!falta.length)return;
+      const vacio=!f.numero&&!(cfMonto(f)>0)&&!f.fechaCh;
+      errs.push(vacio?'Hay un renglon de cheque propio sin completar: cargale numero, importe y fecha, o quitalo con la x'
+        :'Al cheque propio '+(f.numero?'N '+f.numero:'sin numero')+' le falta '+falta.join(', '));}});
   if(errs.length){msg.className='form-msg show';msg.textContent=errs.join(' - ');return;}
   const pago={id:uid(),fecha:fecha,proveedor:prov,factura:facId,concepto:cf.concepto,aclar:aclar,obra:obra,rubro:rubro,formas:formas,imputado:formas.reduce((a,f)=>a+f.monto,0)};
   const fac=facId?S.compras.find(c=>c.id===facId):null;
@@ -1660,7 +1694,7 @@ function renderCobranzas(el,admin){
       '<td class="r num amt pos">'+money(c.imputado)+'</td>'+
       (admin?'<td class="r">'+(c.anulado?'':'<button class="btn ghost sm danger" onclick="anularCobranza(\''+c.id+'\')">Anular</button>')+'</td>':'')+'</tr>';}).join('')+
     '</tbody></table></div>':'<div class="empty">Todavia no hay cobranzas. Se registran desde aca o desde el boton de cada factura.</div>')+'</div>'+
-    '<div class="hint" style="padding:8px 2px">Cada cobranza puede juntar varias formas de pago (transferencia + cheque + efectivo) y suma sola. Los cheques entran a cartera. Total imputado = formas de pago + retenciones.</div>');}
+    '<div class="hint" style="padding:8px 2px">Cada cobranza puede juntar varias formas de pago (transferencia + cheque + efectivo + metros) y suma sola. Los cheques entran a cartera, los metros a Caja M. Total imputado = formas de pago + retenciones.</div>');}
 function renderPagos(el,admin){
   const rows=S.pagos;
   setHTML(el,'<div class="card"><div class="card-head"><h2>Pagos</h2><div class="sub">'+rows.filter(p=>!p.anulado).length+' registrados</div><div class="spacer"></div>'+
@@ -1857,49 +1891,55 @@ function saveDesacopio(id){const a=S.acopios.find(x=>x.id===id);if(!a)return;
 
 // ---- Obras y certificados a cobrar, ajustado por CAC ----
 function cacFactor(o){const base=o.cacBase||S.cac.base||1;return (S.cac.actual||base)/base;}
-// Los certificados ahora salen de las facturas de venta: cada factura de venta cuya obra
-// coincide con el codigo de la obra aparece como certificado (una sola carga). Los viejos
-// cargados a mano siguen viviendo en o.certificados y se ajustan por CAC.
+// Los certificados A ahora salen de las facturas de venta: cada factura de venta cuya obra
+// coincide con el codigo de la obra aparece como certificado A (una sola carga). Los Z y los
+// A viejos cargados a mano siguen viviendo en o.certificados.
 function facturasDeObra(o){return (S.ventas||[]).filter(v=>v.obra&&String(v.obra)===String(o.codigo));}
 function saldoFac(v){return Math.max(0,(v.importe||0)-(v.cobrado?(v.importe||0):(v.cobradoMonto||0)));}
 function facPend(o){return facturasDeObra(o).reduce((a,v)=>a+saldoFac(v),0);}                          // real, sin CAC
-function manualAPend(o){return o.certificados.filter(c=>!c.cobrado&&c.tipo==='A').reduce((a,c)=>a+c.monto,0);} // viejo a mano
-function pendObra(o){return facPend(o)+manualAPend(o);}                                                // nominal
-function pendObraAjust(o){return facPend(o)+Math.round(manualAPend(o)*cacFactor(o));}                  // fac real + viejo ajustado CAC
+function manualAPend(o){return o.certificados.filter(c=>!c.cobrado&&c.tipo==='A').reduce((a,c)=>a+c.monto,0);} // A viejo a mano
+function pendObra(o){return facPend(o)+manualAPend(o);}                                                // nominal (A), sin Z
+function pendObraAjust(o){return facPend(o)+Math.round(manualAPend(o)*cacFactor(o));}                  // fac real + A viejo ajustado CAC
 function certsPendObra(o){return facturasDeObra(o).filter(v=>!v.cobrado).length+o.certificados.filter(c=>!c.cobrado&&c.tipo==='A').length;}
-// Filas unificadas de la obra: facturas de venta + certificados viejos a mano
-function rowsObra(o){const f=cacFactor(o);const rows=[];
-  facturasDeObra(o).forEach(v=>rows.push({num:v.numero,origen:'factura',mes:(v.fecha||'').slice(0,7),
+// Filas unificadas de la obra: facturas de venta (A) + A viejos a mano + Z (si el rol los ve)
+function rowsObra(o,verZ){const f=cacFactor(o);const rows=[];
+  facturasDeObra(o).forEach(v=>rows.push({num:v.numero,tipoLbl:'A',origen:'factura',mes:(v.fecha||'').slice(0,7),
     nominal:v.importe||0,ajust:v.importe||0,cobrado:!!v.cobrado,parcial:(v.cobradoMonto||0)>0&&!v.cobrado,saldo:saldoFac(v),
     onCobrar:"openCobranza('"+v.id+"')"}));
-  o.certificados.filter(c=>c.tipo==='A').forEach(c=>rows.push({num:c.numero,origen:'mano',mes:c.mes,
+  o.certificados.filter(c=>c.tipo==='A').forEach(c=>rows.push({num:c.numero,tipoLbl:'A',origen:'mano',mes:c.mes,
     nominal:c.monto,ajust:Math.round(c.monto*f),cobrado:!!c.cobrado,parcial:false,saldo:c.monto,
     onCobrar:"cobrarCert('"+o.id+"','"+c.id+"')"}));
+  if(verZ)o.certificados.filter(c=>c.tipo==='Z').forEach(c=>rows.push({num:c.numero,tipoLbl:'Z',origen:'Z',mes:c.mes,
+    nominal:c.monto,ajust:null,cobrado:!!c.cobrado,parcial:(c.cobradoMonto||0)>0&&!c.cobrado,saldo:c.monto-(c.cobradoMonto||0),
+    onCobrar:"openCobroZ('"+o.id+"','"+c.id+"')"}));
   return rows;}
 function chipOrigen(r){return r.origen==='factura'?' <span class="chip" style="font-size:10px;padding:1px 6px">Factura</span>':
-  ' <span class="chip" style="font-size:10px;padding:1px 6px;opacity:.7">a mano</span>';}
+  r.origen==='mano'?' <span class="chip" style="font-size:10px;padding:1px 6px;opacity:.7">a mano</span>':
+  ' <span class="chip neg" style="font-size:10px;padding:1px 6px">Z</span>';}
 function setCacActual(){S.cac.actual=num(document.getElementById('cac-actual').value)||S.cac.actual;save();renderObras();toast('Indice CAC actualizado, montos recalculados');}
 function renderObras(){const el=document.getElementById('obras-body');if(!el)return;const admin=ROLES[S.role].all;
+  const verZ=!!ROLES[S.role].ladob;
   const totalAjust=S.obras.reduce((a,o)=>a+pendObraAjust(o),0);
   const totalNom=S.obras.reduce((a,o)=>a+pendObra(o),0);
-  let html='<div class="tiles"><div class="tile total"><div class="lbl">Total a cobrar</div><div class="val num">'+money(totalAjust)+'</div><div class="meta">nominal '+money(totalNom)+' - viejos ajustados por CAC '+(S.cac.actual)+'</div></div>'+
+  let html='<div class="tiles"><div class="tile total"><div class="lbl">Total a cobrar</div><div class="val num">'+money(totalAjust)+'</div><div class="meta">nominal '+money(totalNom)+' - A viejos ajustados por CAC '+(S.cac.actual)+'</div></div>'+
     '<div class="tile"><div class="lbl">Obras activas</div><div class="val num">'+S.obras.length+'</div></div>'+
-    '<div class="tile"><div class="lbl">Certificados pendientes</div><div class="val num">'+S.obras.reduce((a,o)=>a+certsPendObra(o),0)+'</div></div></div>';
-  html+=S.obras.map(o=>{const f=cacFactor(o);const rows=rowsObra(o);
+    '<div class="tile"><div class="lbl">Certificados A pendientes</div><div class="val num">'+S.obras.reduce((a,o)=>a+certsPendObra(o),0)+'</div></div></div>';
+  html+=S.obras.map(o=>{const f=cacFactor(o);const rows=rowsObra(o,verZ);
     return '<div class="card" style="margin-bottom:16px"><div class="card-head"><h2>'+esc(o.nombre)+'</h2>'+
       '<div class="sub">Obra '+esc(o.codigo)+' - '+esc(o.cliente||'')+' - CAC base '+o.cacBase+' (x'+f.toFixed(3)+')</div><div class="spacer"></div>'+
-      '<span class="chip warn">A cobrar '+money(pendObraAjust(o))+'</span></div>'+
+      '<span class="chip warn">A cobrar '+money(pendObraAjust(o))+'</span>'+
+      (verZ?'<button class="btn sm" onclick="openCert(\''+o.id+'\')">+ Certificado Z</button>':'')+'</div>'+
       (rows.length?(IS_MOBILE()?'<div class="mlist">'+rows.map(r=>
         mrow('Cert '+esc(r.num)+chipOrigen(r),esc(r.mes),r.cobrado?'':(r.parcial?'queda '+money(r.saldo):'nominal '+money(r.nominal)),
-          '<div class="ma">'+(r.cobrado?'<span class="chip pos">Cobrado</span>':money(r.ajust||r.nominal))+'</div>'+
+          '<div class="ma">'+(r.cobrado?'<span class="chip pos">Cobrado</span>':money(r.tipoLbl==='Z'?r.nominal:(r.ajust||r.nominal)))+'</div>'+
           '<div class="ms">'+(r.cobrado?'':(admin?'<button class="btn sm" onclick="'+r.onCobrar+'">Cobrar</button>':'por cobrar'))+'</div>')).join('')+'</div>'
       :'<div class="tbl-wrap"><table><thead><tr><th>Certificado</th><th>Mes</th><th class="r">Monto nominal</th><th class="r">Ajustado CAC</th><th>Estado</th>'+(admin?'<th></th>':'')+'</tr></thead><tbody>'+
       rows.map(r=>{
         return '<tr><td><span class="codebox">'+esc(r.num)+'</span>'+chipOrigen(r)+'</td><td class="num muted">'+esc(r.mes)+'</td>'+
-        '<td class="r num muted">'+money(r.nominal)+'</td><td class="r num">'+(r.cobrado?'<span class="muted">-</span>':money(r.ajust))+'</td>'+
+        '<td class="r num muted">'+money(r.nominal)+'</td><td class="r num">'+(r.cobrado?'<span class="muted">-</span>':(r.ajust==null?'<span class="muted">s/ajuste</span>':money(r.ajust)))+'</td>'+
         '<td>'+(r.cobrado?'<span class="chip pos">Cobrado</span>':(r.parcial?'<span class="chip warn">Parcial - queda '+money(r.saldo)+'</span>':'<span class="chip warn">Por cobrar</span>'))+'</td>'+
         (admin?'<td class="r">'+(r.cobrado?'':'<button class="btn sm" onclick="'+r.onCobrar+'">Registrar cobro</button>')+'</td>':'')+'</tr>';}).join('')+
-      '</tbody></table></div>'):'<div class="empty">Sin certificados. Entran solos al cargar la factura de venta con esta obra.</div>')+'</div>';}).join('')||'<div class="empty">Sin obras cargadas.</div>';
+      '</tbody></table></div>'):'<div class="empty">Sin certificados. Los A entran solos al cargar la factura de venta con esta obra'+(verZ?'; los Z se cargan con el boton de arriba.':'.')+'</div>')+'</div>';}).join('')||'<div class="empty">Sin obras cargadas.</div>';
   setHTML(el,html);}
 // Igual que facturas: el boton abre el formulario de Movimientos con el cobro precargado
 // (ajustado por CAC). Guardar el movimiento pone el certificado en Cobrado; anularlo lo revierte.
@@ -1921,7 +1961,56 @@ function saveObra(){const cod=document.getElementById('ob-cod').value.trim(),nom
   if(errs.length){const m=document.getElementById('ob-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
   S.obras.push({id:uid(),codigo:cod,nombre:nom,cliente:cli,cacBase:cac,certificados:[]});
   save();closePanel();render();toast('Obra cargada');}
-// Los certificados ya no se cargan a mano: entran solos desde la factura de venta con la obra.
+// Alta manual de certificados: SOLO Z (Vero/Maxi). Los A ya no se cargan aca: entran solos
+// desde la factura de venta con la obra correspondiente.
+function openCert(obraId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;
+  if(!ROLES[S.role].ladob){toast('Los certificados A entran solos al cargar la factura de venta');return;}
+  openPanel('<div class="panel-head"><h2>Certificado Z a cobrar</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+  '<div class="panel-body"><div class="form-msg" id="ce-msg"></div>'+
+    '<div class="hint" style="margin-bottom:12px">Obra '+esc(o.codigo)+' - '+esc(o.nombre)+'. Los A no se cargan aca: entran solos desde la factura de venta. Esto es solo para los Z (se cobran a Caja M o en metros, solo los ven Vero y Maxi).</div>'+
+    '<div class="row2"><div class="field"><label>N certificado <span class="req">*</span></label><input id="ce-num" placeholder="C-04"></div>'+
+      '<div class="field"><label>Mes <span class="req">*</span></label><input type="month" id="ce-mes" value="'+ultimaFecha().slice(0,7)+'"></div></div>'+
+    '<div class="field"><label>Monto a cobrar (nominal) <span class="req">*</span></label><input id="ce-monto" inputmode="decimal" placeholder="0"><div class="hint">En pesos. No entra en los totales visibles de la obra.</div></div>'+
+    '<button class="btn primary" style="width:100%" onclick="saveCert(\''+o.id+'\')">Guardar certificado Z</button></div>');}
+function saveCert(obraId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;
+  if(!ROLES[S.role].ladob)return;
+  const n=document.getElementById('ce-num').value.trim(),mes=document.getElementById('ce-mes').value,monto=num(document.getElementById('ce-monto').value);
+  const errs=[];if(!n)errs.push('el numero');if(!mes)errs.push('el mes');if(!monto)errs.push('el monto');
+  if(errs.length){const m=document.getElementById('ce-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
+  o.certificados.push({id:uid(),numero:n,mes:mes,monto:monto,cobrado:false,tipo:'Z'});
+  save();closePanel();render();toast('Certificado Z cargado');}
+// Cobro de certificado Z: no toca el libro oficial, va directo a Caja M (plata o metros).
+function openCobroZ(obraId,certId){const o=S.obras.find(x=>x.id===obraId);if(!o)return;const c=o.certificados.find(x=>x.id===certId);if(!c)return;
+  const saldo=c.monto-(c.cobradoMonto||0);
+  openPanel('<div class="panel-head"><h2>Cobro certificado Z</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+  '<div class="panel-body"><div class="form-msg" id="cz-msg"></div>'+
+    '<div class="banner" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>'+
+    '<div>Cert <b>'+esc(c.numero)+'</b> de '+esc(o.nombre)+': total '+money(c.monto)+', queda por cobrar <b>'+money(saldo)+'</b>. Va a Caja M, solo lo ven Vero y Maxi.</div></div>'+
+    '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="cz-fecha" value="'+ultimaFecha()+'"></div>'+
+      '<div class="field"><label>Monto <span class="req">*</span></label><input id="cz-monto" inputmode="decimal" value="'+saldo+'"><div class="hint">Puede ser una parte: el saldo queda a la vista.</div></div></div>'+
+    '<div class="field"><label>Entra como</label><div class="seg"><button type="button" id="cz-p" class="on def" onclick="czDest(\'Caja M\')">Caja M (plata)</button>'+
+      '<button type="button" id="cz-m" onclick="czDest(\'Metros\')">Metros</button></div></div>'+
+    '<button class="btn primary" style="width:100%" onclick="saveCobroZ(\''+o.id+'\',\''+c.id+'\')">Registrar cobro</button></div>');}
+let czDestV='Caja M';
+function czDest(v){czDestV=v;document.getElementById('cz-p').className=v==='Caja M'?'on def':'';document.getElementById('cz-m').className=v==='Metros'?'on def':'';}
+function openCajaM(){openPanel('<div class="panel-head"><h2>Registrar en Caja M</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+  '<div class="panel-body"><div class="form-msg" id="cm-msg"></div>'+
+    '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="cm-fecha" value="'+ultimaFecha()+'"></div>'+
+      '<div class="field"><label>Monto <span class="req">*</span></label><input id="cm-monto" inputmode="decimal" placeholder="0"></div></div>'+
+    '<div class="field"><label>Concepto <span class="req">*</span></label><input id="cm-conc" placeholder="De donde viene o a donde va"></div>'+
+    '<div class="row2"><div class="field"><label>Cuenta</label><select id="cm-tipo"><option>Caja M</option><option>Metros</option></select></div>'+
+      '<div class="field"><label>Movimiento</label><select id="cm-signo"><option value="ingreso">Ingreso</option><option value="egreso">Egreso</option></select></div></div>'+
+    '<button class="btn primary" style="width:100%" onclick="saveCajaM()">Guardar</button></div>');}
+function saveCajaM(){const fecha=document.getElementById('cm-fecha').value,monto=num(document.getElementById('cm-monto').value),conc=document.getElementById('cm-conc').value.trim();
+  if(!fecha||!monto||!conc){const m=document.getElementById('cm-msg');m.className='form-msg show';m.textContent='Falta fecha, monto o concepto';return;}
+  S.cajam.push({id:uid(),fecha:fecha,tipo:document.getElementById('cm-tipo').value,signo:document.getElementById('cm-signo').value,concepto:conc,detalle:'',monto:monto});
+  save();closePanel();render();toast('Registrado en Caja M');}
+function saveCobroZ(obraId,certId){const o=S.obras.find(x=>x.id===obraId);const c=o&&o.certificados.find(x=>x.id===certId);if(!c)return;
+  const fecha=document.getElementById('cz-fecha').value,monto=num(document.getElementById('cz-monto').value);
+  if(!fecha||!monto){const m=document.getElementById('cz-msg');m.className='form-msg show';m.textContent='Falta la fecha o el monto';return;}
+  S.cajam.push({id:uid(),fecha:fecha,tipo:czDestV,signo:'ingreso',concepto:'Cobro cert Z '+c.numero+' - '+o.nombre,detalle:'Obra '+o.codigo,monto:monto,certId:certId});
+  czDestV='Caja M';save();closePanel();render();toast('Cobro Z registrado en Caja M');}
+
 // ---- Movimientos de caja chica (roles con caja asignada: cargan solo en la suya) ----
 function openMovCaja(){if(!ROLES[S.role].caja)return;mcSignoV='egreso';
   openPanel('<div class="panel-head"><h2>Registrar en mi caja</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
