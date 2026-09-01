@@ -339,7 +339,9 @@ const LS_KEY='gtsa_proto_v6';
 const STORE=window.sessionStorage||window.localStorage;
 document.getElementById('brandlogo').src=LOGO;
 const money=(n,cur)=>{cur=cur||'ARS';
-  const v=new Intl.NumberFormat('es-AR',{minimumFractionDigits:0,maximumFractionDigits:0}).format(Math.round(Math.abs(n)));
+  // Con centavos muestra 2 decimales (los cheques y transferencias pueden venir con centavos - Vero 01/09)
+  const a=Math.abs(n);const dec=Math.round(a*100)%100!==0;
+  const v=new Intl.NumberFormat('es-AR',{minimumFractionDigits:dec?2:0,maximumFractionDigits:dec?2:0}).format(dec?a:Math.round(a));
   const s=(cur==='USD'?'US$':'$')+' '+v;return n<0?'-'+s:s;};
 const fdate=s=>{const p=s.split('-');return p[2]+'/'+p[1]+'/'+p[0].slice(2);};
 const uid=()=>Math.random().toString(36).slice(2,9);
@@ -1056,7 +1058,18 @@ function cheqPick(id){const ch=S.cheques.find(x=>x.id===id);if(!ch)return;
 function num(v){v=(v||'').toString().trim();
   // "150,000" o "1,500,000" (coma como miles, estilo Excel/teclado ingles): antes se leia 150 o 1,5
   if(/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(v))return parseFloat(v.replace(/,/g,''))||0;
+  // "2000.60" = centavos con punto (un solo punto y 1-2 decimales; "1.500" sigue siendo mil quinientos)
+  if(/^\d+\.\d{1,2}$/.test(v))return parseFloat(v)||0;
   return parseFloat(v.replace(/\./g,'').replace(',','.'))||0;}
+// Al salir de un campo de importe queda formateado con separador de miles (pedido Vero
+// 01/09: "cuando cargas numeros no pone comas"). num() lo vuelve a leer bien igual.
+function fmtImp(n){if(!isFinite(n)||!n)return '';
+  const dec=Math.round(Math.abs(n)*100)%100!==0;
+  return new Intl.NumberFormat('es-AR',{minimumFractionDigits:dec?2:0,maximumFractionDigits:dec?2:0}).format(n);}
+document.addEventListener('focusout',function(e){const el=e.target;
+  if(!el||el.tagName!=='INPUT'||el.getAttribute('inputmode')!=='decimal'||el.readOnly)return;
+  const v=(el.value||'').trim();if(!v)return;
+  const n=num(v);if(n)el.value=fmtImp(n);});
 function saveMovimiento(){const msg=document.getElementById('mf-msg');const errs=[];
   const fecha=document.getElementById('mf-fecha').value;const concepto=document.getElementById('mf-concepto').value.trim();
   const monto=num(document.getElementById('mf-monto').value);let ret=num(document.getElementById('mf-ret').value);const obs=document.getElementById('mf-obs').value.trim();
