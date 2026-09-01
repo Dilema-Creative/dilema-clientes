@@ -287,6 +287,9 @@
     .row2{grid-template-columns:1fr;gap:0}
   }
   /* Formas de pago: un renglon por cheque, como la planilla del cuaderno (compacto en 2 lineas) */
+  .sugbox{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--surface,#fff);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(15,23,42,.14);z-index:80;max-height:230px;overflow:auto}
+  .sugit{padding:10px 13px;cursor:pointer;font-size:14px}
+  .sugit:hover{background:var(--surface-2)}
   .chqrow{border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:6px;background:var(--surface)}
   .chqr1{display:grid;grid-template-columns:106px 1fr 92px 24px;gap:6px;align-items:center}
   .chqr2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
@@ -989,6 +992,26 @@ function openMovimiento(editId,prefRubro,pre){
 }
 function codigoDesdeInput(val){val=(val||'').trim();if(!val)return '';const m=val.match(/\(([^)]+)\)\s*$/);if(m)return m[1].trim();
   const ent=allEntities().find(e=>e.nombre.toLowerCase()===val.toLowerCase());return ent?ent.codigo:val;}
+// Buscador con sugerencias propio: el datalist nativo del navegador se trababa (Edge no
+// filtraba al tipear, quedaba clavado en la A - reporte Vero 01/09). Filtra sin acentos,
+// por cualquier parte del nombre o del codigo; toca una sugerencia para elegirla.
+function normTxt(s){return (s||'').toString().normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();}
+function sugiere(inpId,getList,onPick){const inp=document.getElementById(inpId);if(!inp)return;
+  inp.removeAttribute('list');inp.setAttribute('autocomplete','off');
+  const wrap=inp.parentNode;wrap.style.position='relative';
+  let box=null;
+  const close=()=>{if(box){box.remove();box=null;}};
+  const render=()=>{close();const q=normTxt(inp.value.trim());
+    const items=getList().filter(x=>!q||normTxt(x).includes(q)).slice(0,8);
+    if(!items.length)return;
+    box=document.createElement('div');box.className='sugbox';
+    items.forEach(x=>{const d=document.createElement('div');d.className='sugit';d.textContent=x;
+      d.addEventListener('mousedown',e=>{e.preventDefault();inp.value=x;close();if(onPick)onPick();});
+      box.appendChild(d);});
+    wrap.appendChild(box);};
+  inp.addEventListener('input',render);
+  inp.addEventListener('focus',render);
+  inp.addEventListener('blur',()=>setTimeout(close,180));}
 function movTipo(t,btn){movForm.tipo=t;[].forEach.call(document.querySelectorAll('[data-tipo]'),b=>b.className=b.getAttribute('data-tipo')===t?'on def':'');
   document.getElementById('mf-normal').style.display=t==='normal'?'':'none';
   document.getElementById('mf-transfer').style.display=t==='transfer'?'':'none';
@@ -1009,7 +1032,10 @@ function movForma(v){const cheq=v==='Cheque';
   if(rw)rw.style.display=cheq?'none':'';}
 function cheqPick(id){const ch=S.cheques.find(x=>x.id===id);if(!ch)return;
   const m=document.getElementById('mf-monto');if(m)m.value=ch.importe;}
-function num(v){return parseFloat((v||'').toString().replace(/\./g,'').replace(',','.'))||0;}
+function num(v){v=(v||'').toString().trim();
+  // "150,000" o "1,500,000" (coma como miles, estilo Excel/teclado ingles): antes se leia 150 o 1,5
+  if(/^\d{1,3}(,\d{3})+(\.\d+)?$/.test(v))return parseFloat(v.replace(/,/g,''))||0;
+  return parseFloat(v.replace(/\./g,'').replace(',','.'))||0;}
 function saveMovimiento(){const msg=document.getElementById('mf-msg');const errs=[];
   const fecha=document.getElementById('mf-fecha').value;const concepto=document.getElementById('mf-concepto').value.trim();
   const monto=num(document.getElementById('mf-monto').value);let ret=num(document.getElementById('mf-ret').value);const obs=document.getElementById('mf-obs').value.trim();
@@ -1315,7 +1341,8 @@ function openVenta(){openPanel('<div class="panel-head"><h2>Nueva factura de ven
       '<div class="field"><label>IVA</label><select id="ve-ali" onchange="factCalc(\'ve\')">'+aliOpts()+'</select></div></div>'+
     '<div class="field"><label>Monto IVA</label><input id="ve-iva" inputmode="decimal" placeholder="0" oninput="factTotal(\'ve\')"><div class="hint">Se calcula solo con la alicuota; corregilo si tu factura dice otro numero.</div></div>'+
     '<div class="field" style="display:flex;justify-content:space-between;align-items:center;background:var(--surface-2);border-radius:9px;padding:10px 13px"><b>TOTAL</b><b class="num" id="ve-total" style="font-size:16px">$ 0</b></div>'+
-    '<button class="btn primary" style="width:100%" onclick="saveVenta()">Guardar factura</button></div>');}
+    '<button class="btn primary" style="width:100%" onclick="saveVenta()">Guardar factura</button></div>');
+  sugiere('ve-cli',()=>['Otro'].concat(S.clientes.map(c=>c.nombre)));}
 let veTipoV='A';
 function veTipo(t,btn){veTipoV=t;[].forEach.call(document.querySelectorAll('[data-vtipo]'),b=>b.className=b.getAttribute('data-vtipo')===t?'on def':'');}
 function saveVenta(){const n=document.getElementById('ve-num').value.trim(),c=document.getElementById('ve-cli').value.trim();
@@ -1344,7 +1371,8 @@ function openCompra(){const provs=S.proveedores.concat(S.contratistas);
       '<div class="field"><label>Otros impuestos</label><input id="co-otros" inputmode="decimal" placeholder="0" oninput="factTotal(\'co\')"></div></div>'+
     '<div class="field"><label>TOTAL</label><input id="co-total" class="num" inputmode="decimal" placeholder="0" oninput="this.dataset.touched=1" style="font-weight:700;font-size:15px">'+
       '<div class="hint">Suma todos los conceptos solo. Si tu factura tiene una diferencia minima, corregilo a mano.</div></div>'+
-    '<button class="btn primary" style="width:100%" onclick="saveCompra()">Guardar factura</button></div>');}
+    '<button class="btn primary" style="width:100%" onclick="saveCompra()">Guardar factura</button></div>');
+  sugiere('co-prov',()=>S.proveedores.concat(S.contratistas).map(p=>p.nombre+' ('+p.codigo+')'));}
 function saveCompra(){const n=document.getElementById('co-num').value.trim();
   const neto=num(document.getElementById('co-neto').value);const iva=num(document.getElementById('co-iva').value);
   const iibbp=num(document.getElementById('co-iibbp').value),iibbc=num(document.getElementById('co-iibbc').value);
@@ -1393,7 +1421,7 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
       '<input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe"></div></div>';}).join('');
   const bulkUI=(esCob&&cf.bulkOpen)?'<div class="field" style="margin:10px 0 0"><label>Un cheque por linea</label>'+
     '<textarea id="cf-bulk-ta" rows="5" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="numero ; importe ; fecha ; banco&#10;00112233 ; 150000 ; 15/03/2026 ; GALICIA&#10;00112234 ; 200000 ; 30/03/2026" oninput="cf.bulkTexto=this.value">'+esc(cf.bulkTexto||'')+'</textarea>'+
-    '<div class="hint">Formato: <span class="codebox">numero ; importe ; fecha ; banco</span> - fecha y banco opcionales. Podes pegar las columnas directo desde un Excel (con tab tambien sirve). Entran como E-cheq; si alguno es fisico, cambiale el tipo en su renglon.</div>'+
+    '<div class="hint">Formato: <span class="codebox">numero ; importe ; fecha ; banco</span> - numero, importe y fecha obligatorios; banco opcional (queda E-CHEQ). Podes pegar las columnas directo desde un Excel (con tab tambien sirve). Entran como E-cheq; si alguno es fisico, cambiale el tipo en su renglon.</div>'+
     '<div style="margin-top:8px"><button class="btn sm primary" onclick="cfBulkProcesar()">Agregar estos cheques</button></div>'+
     (cf.bulkErr?'<div class="form-msg show" style="margin-top:8px">'+esc(cf.bulkErr)+'</div>':'')+'</div>':'';
   const bloqueChq='<div class="cfblock"><div class="cfbt">Cheques<span class="spacer"></span>'+
@@ -1444,10 +1472,10 @@ function cfBulkProcesar(){
   const lines=(cf.bulkTexto||'').split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
   const malas=[];let n=0;
   lines.forEach(function(l,idx){const p=l.split(/[;:\t]/).map(x=>x.trim());
-    const numero=p[0]||'';const importe=num(p[1]||'');
-    if(!numero||!importe){malas.push(idx+1);return;}
-    cf.formas.push({metodo:'E-cheq',numero:numero,monto:importe,fechaCh:cfFechaCh(p[2]),banco:(p[3]||'E-CHEQ').toUpperCase()});n++;});
-  cf.bulkErr=malas.length?('Lineas '+malas.join(', ')+': falta numero o importe, no se tomaron.'):(n?'':'Escribi al menos una linea con numero ; importe (la fecha y el banco son opcionales) y toca "Agregar estos cheques".');
+    const numero=p[0]||'';const importe=num(p[1]||'');const fecha=cfFechaCh(p[2]);
+    if(!numero||!importe||!fecha){malas.push(idx+1);return;}
+    cf.formas.push({metodo:'E-cheq',numero:numero,monto:importe,fechaCh:fecha,banco:(p[3]||'E-CHEQ').toUpperCase()});n++;});
+  cf.bulkErr=malas.length?('Lineas '+malas.join(', ')+': falta numero, importe o fecha (los tres son obligatorios), no se tomaron.'):(n?'':'Escribi al menos una linea con numero ; importe ; fecha y toca "Agregar estos cheques".');
   if(n){cf.bulkTexto='';if(!malas.length)cf.bulkOpen=false;}
   cfRender();
   if(n)toast(n+' cheques agregados');}
@@ -1457,8 +1485,8 @@ function cfSumRet(){if(cf.tipo!=='cobranza')return 0;return ['gan','iibb','suss'
 function cfTotales(){const fp=cfSumFormas(),rt=cfSumRet();
   const a=document.getElementById('cf-tot-plata'),b=document.getElementById('cf-tot-ret'),c=document.getElementById('cf-tot-imp');
   if(a)a.textContent=money(fp);if(b)b.textContent=money(rt);if(c)c.textContent=money(fp+rt);}
-function conceptoSeg(val){return '<div class="seg"><button type="button" id="cf-conc-a" class="'+(val==='A cuenta'?'on def':'')+'" onclick="cfConc(\'A cuenta\')">A cuenta</button>'+
-  '<button type="button" id="cf-conc-s" class="'+(val==='Saldo'?'on def':'')+'" onclick="cfConc(\'Saldo\')">Saldo</button></div>';}
+function conceptoSeg(val){return '<div class="seg"><button type="button" id="cf-conc-s" class="'+(val==='Saldo'?'on def':'')+'" onclick="cfConc(\'Saldo\')">Saldo</button>'+
+  '<button type="button" id="cf-conc-a" class="'+(val==='A cuenta'?'on def':'')+'" onclick="cfConc(\'A cuenta\')">A cuenta</button></div>';}
 function cfConc(v){cf.concepto=v;document.getElementById('cf-conc-a').className=v==='A cuenta'?'on def':'';document.getElementById('cf-conc-s').className=v==='Saldo'?'on def':'';}
 // Con el cliente/proveedor elegido, el select de factura muestra SOLO sus facturas
 // (pedido Vero 01/09: aparecian todas y daba lugar a error). Vacio o sin match: todas.
@@ -1483,7 +1511,7 @@ function cfFacOpts(){const sel=document.getElementById('cf-factura'),inp=documen
   sel.value=cur;if(sel.value!==cur)sel.value='';}
 
 function openCobranza(facId){const fac=facId?S.ventas.find(x=>x.id===facId):null;
-  cf={tipo:'cobranza',concepto:'A cuenta',formas:[{metodo:'Transferencia'}]};
+  cf={tipo:'cobranza',concepto:'Saldo',formas:[{metodo:'Transferencia'}]};
   const fopts='<option value="">Sin factura puntual</option>'+S.ventas.filter(v=>!v.cobrado||v.id===facId).map(v=>'<option value="'+v.id+'"'+(facId===v.id?' selected':'')+'>Fc '+esc(v.numero)+' ('+(v.tipo||'A')+') - '+esc(v.cliente)+' - debe '+money(v.importe-(v.cobradoMonto||0))+'</option>').join('');
   openPanel('<div class="panel-head"><h2>Registrar cobranza</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
   '<div class="panel-body"><div class="form-msg" id="cf-msg"></div>'+
@@ -1492,7 +1520,7 @@ function openCobranza(facId){const fac=facId?S.ventas.find(x=>x.id===facId):null
     '<div class="field"><label>Cliente <span class="req">*</span></label><input id="cf-cliente" list="cf-cli-list" value="'+esc(fac?fac.cliente:'')+'" placeholder="Escribi y elegi de la lista" oninput="cfFacOpts()">'+
       '<datalist id="cf-cli-list"><option value="Otro"></option>'+S.clientes.map(c=>'<option value="'+esc(c.nombre)+'"></option>').join('')+'</datalist></div>'+
     '<div class="field"><label>Factura vinculada</label><select id="cf-factura">'+fopts+'</select><div class="hint">Con el cliente elegido, aca aparecen solo sus facturas. Lo cobrado se imputa a esta factura. Si es a cuenta sin factura, dejalo vacio: queda en la cuenta corriente del cliente.</div></div>'+
-    '<div class="field"><label>Concepto</label>'+conceptoSeg('A cuenta')+'</div>'+
+    '<div class="field"><label>Concepto</label>'+conceptoSeg('Saldo')+'</div>'+
     '<div class="field"><label>Aclaracion</label><input id="cf-aclar" placeholder="Que estan pagando: cert 3, saldo de enero, parte del adicional..."></div>'+
     '<div class="field"><label>Formas de pago <span class="req">*</span></label><div id="cf-formas"></div></div>'+
     '<div class="field"><label>Retenciones que sufriste en este cobro</label><div class="row2" style="grid-template-columns:1fr 1fr 1fr;gap:8px">'+
@@ -1506,7 +1534,8 @@ function openCobranza(facId){const fac=facId?S.ventas.find(x=>x.id===facId):null
       '<div style="display:flex;justify-content:space-between;margin-top:6px;padding-top:6px;border-top:1px solid var(--line)"><b>TOTAL que cancela</b><b class="num" id="cf-tot-imp" style="font-size:15px">$ 0</b></div></div>'+
     '<button class="btn primary" style="width:100%" onclick="saveCobranza()">Guardar cobranza</button>'+
     '<div class="hint" style="margin-top:9px">Genera los asientos en Movimientos (uno por forma de pago), los cheques entran a cartera y el estado de la factura se actualiza solo. Se corrige anulando la cobranza completa.</div></div>');
-  cfRender();cfFacOpts();}
+  cfRender();cfFacOpts();
+  sugiere('cf-cliente',()=>['Otro'].concat(S.clientes.map(c=>c.nombre)),cfFacOpts);}
 function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[];
   const fecha=document.getElementById('cf-fecha').value,cliente=document.getElementById('cf-cliente').value.trim();
   const rubro=document.getElementById('cf-rubro').value,aclar=document.getElementById('cf-aclar').value.trim();
@@ -1515,9 +1544,16 @@ function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[
   const formas=cf.formas.filter(f=>(f.monto||0)>0);
   if(!fecha)errs.push('Falta la fecha');if(!cliente)errs.push('Falta el cliente');
   if(!formas.length)errs.push('Carga al menos una forma de pago con monto');
+  // Un cheque no entra sin todos sus datos (pedido Vero 01/09): numero, importe y fecha
+  // siempre; banco solo obligatorio en cheque fisico (el e-cheq queda como E-CHEQ).
   cf.formas.forEach(f=>{if(f.metodo==='E-cheq'||f.metodo==='Cheque fisico'){
-    if((f.monto||0)>0&&!f.numero)errs.push('Falta el N del '+f.metodo.toLowerCase());
-    if(f.numero&&!((f.monto||0)>0))errs.push('El cheque '+f.numero+' no tiene importe');}});
+    const falta=[];
+    if(!f.numero)falta.push('el numero');
+    if(!(cfMonto(f)>0))falta.push('el importe');
+    if(!f.fechaCh)falta.push('la fecha');
+    if(f.metodo==='Cheque fisico'&&!f.banco)falta.push('el banco');
+    const tocado=f.numero||cfMonto(f)>0||f.fechaCh||f.banco;
+    if(falta.length&&tocado)errs.push('Al '+f.metodo.toLowerCase()+' '+(f.numero?'N '+f.numero:'sin numero')+' le falta '+falta.join(', '));}});
   if(errs.length){msg.className='form-msg show';msg.textContent=errs.join(' - ');return;}
   const ret={gan:num(document.getElementById('cf-ret-gan').value),iibb:num(document.getElementById('cf-ret-iibb').value),suss:num(document.getElementById('cf-ret-suss').value)};
   const sumRet=ret.gan+ret.iibb+ret.suss;
@@ -1544,7 +1580,7 @@ function anularCobranza(id){const c=S.cobranzas.find(x=>x.id===id);if(!c||c.anul
   save();render();toast('Cobranza anulada con contra-movimientos');}
 
 function openPago(facId){const fac=facId?S.compras.find(x=>x.id===facId):null;
-  cf={tipo:'pago',concepto:'A cuenta',formas:[{metodo:'Transferencia'}]};
+  cf={tipo:'pago',concepto:'Saldo',formas:[{metodo:'Transferencia'}]};
   const provs=S.proveedores.concat(S.contratistas);
   const fopts='<option value="">Sin factura puntual</option>'+S.compras.filter(c=>!c.pagado||c.id===facId).map(c=>'<option value="'+c.id+'"'+(facId===c.id?' selected':'')+'>Fc '+esc(c.numero)+' - '+esc(nombrePorCodigo(c.proveedor)||c.proveedor)+' - debe '+money(c.importe-(c.pagadoMonto||0))+(c.remito?'':' [SIN REMITO]')+'</option>').join('');
   openPanel('<div class="panel-head"><h2>Registrar pago</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
@@ -1555,7 +1591,7 @@ function openPago(facId){const fac=facId?S.compras.find(x=>x.id===facId):null;
     '<div class="field"><label>Proveedor <span class="req">*</span></label><input id="cf-cliente" list="cf-prov-list" value="'+esc(fac?(nombrePorCodigo(fac.proveedor)?nombrePorCodigo(fac.proveedor)+' ('+fac.proveedor+')':fac.proveedor):'')+'" placeholder="Escribi para buscar..." oninput="cfFacOpts()">'+
       '<datalist id="cf-prov-list">'+provs.map(p=>'<option value="'+esc(p.nombre)+' ('+esc(p.codigo)+')"></option>').join('')+'</datalist></div>'+
     '<div class="field"><label>Factura vinculada</label><select id="cf-factura">'+fopts+'</select><div class="hint">Con el proveedor elegido, aca aparecen solo sus facturas. Lo pagado se imputa a esta factura: podes pagar una parte (queda Parcial con el saldo a la vista). Sin factura, queda a cuenta en la cta cte del proveedor.</div></div>'+
-    '<div class="field"><label>Concepto</label>'+conceptoSeg('A cuenta')+'</div>'+
+    '<div class="field"><label>Concepto</label>'+conceptoSeg('Saldo')+'</div>'+
     '<div class="row2"><div class="field"><label>Aclaracion</label><input id="cf-aclar" placeholder="Que se esta pagando"></div>'+
       '<div class="field"><label>Obra (opcional)</label><input id="cf-obra" value="'+esc(fac&&fac.obra?fac.obra:'')+'" placeholder="Codigo de obra"></div></div>'+
     '<div class="field"><label>Formas de pago <span class="req">*</span></label><div id="cf-formas"></div></div>'+
@@ -1564,7 +1600,8 @@ function openPago(facId){const fac=facId?S.compras.find(x=>x.id===facId):null;
       '<span id="cf-tot-ret" style="display:none"></span><span id="cf-tot-imp" style="display:none"></span></div>'+
     '<button class="btn primary" style="width:100%" onclick="savePago()">Guardar pago</button>'+
     '<div class="hint" style="margin-top:9px">Sin retenciones ni observaciones en pagos (pedido de Vero). Genera los asientos, mueve los cheques y actualiza la factura. Se corrige anulando el pago completo.</div></div>');
-  cfRender();cfFacOpts();}
+  cfRender();cfFacOpts();
+  sugiere('cf-cliente',()=>S.proveedores.concat(S.contratistas).map(p=>p.nombre+' ('+p.codigo+')'),cfFacOpts);}
 function savePago(){const msg=document.getElementById('cf-msg');const errs=[];
   const fecha=document.getElementById('cf-fecha').value;const provRaw=document.getElementById('cf-cliente').value.trim();
   const prov=codigoDesdeInput(provRaw);const rubro=document.getElementById('cf-rubro').value;
