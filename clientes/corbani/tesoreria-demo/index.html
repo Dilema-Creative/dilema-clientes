@@ -290,6 +290,7 @@
   .sugbox{position:absolute;left:0;right:0;top:100%;margin-top:4px;background:var(--surface,#fff);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 30px rgba(15,23,42,.14);z-index:80;max-height:230px;overflow:auto}
   .sugit{padding:10px 13px;cursor:pointer;font-size:14px}
   .sugit:hover{background:var(--surface-2)}
+  .numbad{border-color:var(--neg)!important;background:rgba(220,38,38,.06)!important}
   .chqrow{border:1px solid var(--line);border-radius:8px;padding:8px;margin-bottom:6px;background:var(--surface)}
   .chqr1{display:grid;grid-template-columns:106px 1fr 92px 24px;gap:6px;align-items:center}
   .chqr2{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
@@ -999,7 +1000,7 @@ function openMovimiento(editId,prefRubro,pre){
       movForm.lockCheque=!!pre.cheque;
       return '<div class="row2"><div class="field" id="mf-formawrap"'+((movForm.signo==='ingreso'||movForm.lockCheque)?' style="display:none"':'')+'><label>Forma de pago <span class="req">*</span></label>'+
         '<select id="mf-forma" onchange="movForma(this.value)"><option'+(esCheq?'':' selected')+'>Transferencia</option><option value="Cheque"'+(esCheq?' selected':'')+'>Cheque / E-cheq</option></select></div>'+
-      '<div class="field"><label>Monto <span class="req">*</span></label><input id="mf-monto" inputmode="decimal" value="'+(ed?ed.monto:(pre.monto||''))+'" placeholder="0"></div></div>'+
+      '<div class="field"><label>Monto <span class="req">*</span></label><input id="mf-monto" inputmode="decimal" value="'+fmtImp(num(ed?ed.monto:(pre.monto||0)))+'" placeholder="0"></div></div>'+
       '<div class="field" id="mf-cuentawrap"'+((esCheq&&!movForm.lockCheque)||(movForm.lockCheque&&pre.medio==='Cheque')||pre.fijaCuenta?' style="display:none"':'')+'><label>Cuenta <span class="req">*</span></label>'+
         '<select id="mf-cuenta">'+cuentaOpts.map(m=>'<option '+(cuentaSel===m?'selected':'')+'>'+esc(m)+'</option>').join('')+'</select></div>'+
       '<div class="field" id="mf-cheqwrap"'+((esCheq&&!movForm.lockCheque&&!ed)?'':' style="display:none"')+'><label>Que cheque sale de cartera <span class="req">*</span></label>'+
@@ -1054,10 +1055,15 @@ function movForma(v){const cheq=v==='Cheque';
   if(qw)qw.style.display=(cheq&&!movForm.lockCheque&&!movForm.editId)?'':'none';
   if(rw)rw.style.display=cheq?'none':'';}
 function cheqPick(id){const ch=S.cheques.find(x=>x.id===id);if(!ch)return;
-  const m=document.getElementById('mf-monto');if(m)m.value=ch.importe;}
-function num(v){v=(v||'').toString().trim();
-  // Convencion fijada por Nacho 01/09: el punto es SIEMPRE separador de miles (1.000.000 = un millon,
-  // nunca centavos) y la coma es SIEMPRE centavos (2000,60). Avisar a los usuarios: centavos con coma.
+  const m=document.getElementById('mf-monto');if(m)m.value=fmtImp(num(ch.importe));}
+// Convencion fijada por Nacho 01/09: el punto es SIEMPRE separador de miles y despues de cada
+// punto van EXACTAMENTE 3 cifras (1.000.000); la coma es SIEMPRE centavos (2.789.097,78).
+// Un formato invalido (ej. 2.789.097.78 o 2000.60) vale 0 y NO se deja cargar: el campo se
+// marca en rojo y los guardados lo rechazan como "falta el importe".
+const NUM_RE=/^-?\d+(\.\d{3})*(,\d{1,2})?$/;
+function numOk(v){if(typeof v==='number')return true;v=(v||'').toString().trim();return !v||NUM_RE.test(v);}
+function num(v){if(typeof v==='number')return isFinite(v)?v:0;
+  v=(v||'').toString().trim();if(!v||!NUM_RE.test(v))return 0;
   return parseFloat(v.replace(/\./g,'').replace(',','.'))||0;}
 // Al salir de un campo de importe queda formateado con separador de miles (pedido Vero
 // 01/09: "cuando cargas numeros no pone comas"). num() lo vuelve a leer bien igual.
@@ -1066,7 +1072,9 @@ function fmtImp(n){if(!isFinite(n)||!n)return '';
   return new Intl.NumberFormat('es-AR',{minimumFractionDigits:dec?2:0,maximumFractionDigits:dec?2:0}).format(n);}
 document.addEventListener('focusout',function(e){const el=e.target;
   if(!el||el.tagName!=='INPUT'||el.getAttribute('inputmode')!=='decimal'||el.readOnly)return;
-  const v=(el.value||'').trim();if(!v)return;
+  const v=(el.value||'').trim();el.classList.remove('numbad');if(!v)return;
+  if(!numOk(v)){el.classList.add('numbad');
+    toast('Revisa el importe: despues de un punto van 3 cifras (el punto es de miles) y los centavos van con coma. Ej: 2.789.097,78');return;}
   const n=num(v);if(n)el.value=fmtImp(n);});
 function saveMovimiento(){const msg=document.getElementById('mf-msg');const errs=[];
   const fecha=document.getElementById('mf-fecha').value;const concepto=document.getElementById('mf-concepto').value.trim();
@@ -1265,6 +1273,9 @@ function saveCheque(){const f=document.getElementById('ch-fecha').value,i=num(do
   const errs=[];if(!f)errs.push('la fecha');if(!i)errs.push('el importe');if(!o)errs.push('el origen');if(!banco)errs.push('el banco');if(!numero)errs.push('el numero');if(!vto)errs.push('el vencimiento');
   if(estado!=='En cartera'){if(!destino)errs.push('el destino');if(!egreso)errs.push('la fecha de salida');}
   if(errs.length){const m=document.getElementById('ch-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
+  // Cheque duplicado (mismo numero y banco, no anulado) = error contable
+  if(S.cheques.some(c=>c.estado!=='Anulado'&&(c.numero||'').trim()===numero&&((c.banco||'')+'').trim().toUpperCase()===banco.toUpperCase())){
+    const m=document.getElementById('ch-msg');m.className='form-msg show';m.textContent='Ya hay un cheque N '+numero+' de '+banco+' cargado en el sistema';return;}
   S.cheques.unshift({id:uid(),recibido:f,origen:o,banco:banco,numero:numero,importe:i,vto:vto,destino:destino,egreso:egreso,estado:estado});
   save();closePanel();render();toast('Cheque cargado');}
 // Cheques propios (emitidos por GTSA, Galicia): entran solos al pagar con "Cheque propio",
@@ -1355,7 +1366,7 @@ function factCalc(p){const neto=num(document.getElementById(p+'-neto').value);
 function factTotal(p){const g=id=>{const e=document.getElementById(p+'-'+id);return e?num(e.value):0;};
   const total=g('neto')+g('iva')+g('iibbp')+g('iibbc')+g('retiva')+g('otros');
   const t=document.getElementById(p+'-total');if(!t)return;
-  if(t.tagName==='INPUT'){if(!t.dataset.touched)t.value=total||'';}
+  if(t.tagName==='INPUT'){if(!t.dataset.touched)t.value=total?fmtImp(total):'';}
   else t.textContent=money(total);}
 function openVenta(){openPanel('<div class="panel-head"><h2>Nueva factura de venta</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
   '<div class="panel-body"><div class="form-msg" id="ve-msg"></div>'+
@@ -1415,6 +1426,9 @@ function saveCompra(){const n=document.getElementById('co-num').value.trim();
   const prov=codigoDesdeInput(document.getElementById('co-prov').value);
   const errs=[];if(!n)errs.push('el N de factura');if(!fecha)errs.push('la fecha');if(!prov)errs.push('el proveedor');if(!neto)errs.push('el subtotal neto');
   if(errs.length){const m=document.getElementById('co-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
+  // Proveedor contra el maestro: texto libre crearia una cta cte paralela por typo.
+  if(!S.proveedores.concat(S.contratistas).some(p=>normTxt(p.codigo)===normTxt(prov))){
+    const m=document.getElementById('co-msg');m.className='form-msg show';m.textContent='El proveedor no esta en el maestro: elegilo de la lista (se carga en Maestros > Proveedores)';return;}
   S.compras.unshift({id:uid(),numero:n,proveedor:prov,obra:obra,fecha:fecha,remito:rem,detalle:det,neto:neto,alicuota:document.getElementById('co-ali').value,iva:iva,iibbProv:iibbp,iibbCaba:iibbc,retIva:retiva,otrosImp:otros,importe:totalIn||(neto+iva+iibbp+iibbc+retiva+otros),pagado:false});
   save();closePanel();render();toast('Factura de compra cargada'+(rem?'':' - OJO: sin remito, no se paga hasta tenerlo'));}
 // ============ COBRANZAS Y PAGOS (multi-forma de pago) ============
@@ -1436,6 +1450,8 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
   const esCob=cf.tipo==='cobranza';
   const CHQ=esCob?CHQ_COB:CHQ_PAG,OTR=esCob?OTR_COB:OTR_PAG;
   const cartera=S.cheques.filter(c=>c.estado==='En cartera');
+  // Un cheque de cartera solo puede salir una vez: el elegido en un renglon no se ofrece en otro
+  const usados=cf.formas.map(x=>x&&x.chequeId).filter(Boolean);
   const chqIdx=[],otrIdx=[];
   cf.formas.forEach(function(f,i){(esFormaCheque(f.metodo)?chqIdx:otrIdx).push(i);});
   // --- bloque Cheques: un renglon por cheque, como la planilla del cuaderno ---
@@ -1444,13 +1460,13 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
     const del='<button type="button" class="chqdel" title="Quitar" onclick="cfDel('+i+')">&times;</button>';
     if(f.metodo==='Cheque en cartera')
       return '<div class="chqrow"><div class="chqr1">'+tipoSel+'<div class="chqspan"><select onchange="cfCartera('+i+',this.value)"><option value="">Elegi que cheque de cartera sale...</option>'+
-        cartera.map(c=>'<option value="'+c.id+'"'+(f.chequeId===c.id?' selected':'')+'>'+esc(c.numero)+' '+esc(c.banco)+' - '+money(c.importe)+'</option>').join('')+'</select></div>'+del+'</div></div>';
+        cartera.filter(c=>c.id===f.chequeId||usados.indexOf(c.id)<0).map(c=>'<option value="'+c.id+'"'+(f.chequeId===c.id?' selected':'')+'>'+esc(c.numero)+' '+esc(c.banco)+' - '+money(c.importe)+'</option>').join('')+'</select></div>'+del+'</div></div>';
     const banco=(f.metodo==='Cheque propio')?'<span class="muted" style="font-size:12px;text-align:center">GALICIA</span>'
       :'<input value="'+esc(f.banco||'')+'" oninput="cfSet('+i+',\'banco\',this.value)" placeholder="Banco">';
     return '<div class="chqrow"><div class="chqr1">'+tipoSel+
       '<input value="'+esc(f.numero||'')+'" oninput="cfSet('+i+',\'numero\',this.value)" placeholder="N cheque">'+banco+del+'</div>'+
       '<div class="chqr2"><input type="date" value="'+(f.fechaCh||'')+'" onchange="cfSet('+i+',\'fechaCh\',this.value)" title="Fecha del cheque (si es diferido, la de cobro)">'+
-      '<input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe"></div></div>';}).join('');
+      '<input inputmode="decimal" value="'+(f.monto?fmtImp(cfMonto(f)):'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe"></div></div>';}).join('');
   const bulkUI=(esCob&&cf.bulkOpen)?'<div class="field" style="margin:10px 0 0"><label>Un cheque por linea</label>'+
     '<textarea id="cf-bulk-ta" rows="5" style="width:100%;font-family:var(--mono);font-size:12px" placeholder="numero ; importe ; fecha ; banco&#10;00112233 ; 150000 ; 15/03/2026 ; GALICIA&#10;00112234 ; 200000 ; 30/03/2026" oninput="cf.bulkTexto=this.value">'+esc(cf.bulkTexto||'')+'</textarea>'+
     '<div class="hint">Formato: <span class="codebox">numero ; importe ; fecha ; banco</span> - numero, importe y fecha obligatorios; banco opcional (queda E-CHEQ). Podes pegar las columnas directo desde un Excel (con tab tambien sirve). Entran como E-cheq; si alguno es fisico, cambiale el tipo en su renglon.</div>'+
@@ -1468,7 +1484,7 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
     if(f.metodo==='Efectivo')hint=esCob?'⚠ A definir con Vero a que caja entra. Por ahora va a Efectivo general.':'';
     if(f.metodo==='Metros')hint='Va a Caja M (solo la ven Vero y Maxi).';
     return '<div class="otrrow"><select onchange="cfMetodo('+i+',this.value)">'+OTR.map(m=>'<option'+(f.metodo===m?' selected':'')+'>'+m+'</option>').join('')+'</select>'+
-      '<input inputmode="decimal" value="'+(f.monto||'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe">'+
+      '<input inputmode="decimal" value="'+(f.monto?fmtImp(cfMonto(f)):'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe">'+
       '<button type="button" class="chqdel" title="Quitar" onclick="cfDel('+i+')">&times;</button></div>'+
       (hint?'<div class="hint" style="margin:-2px 0 8px">'+hint+'</div>':'');}).join('');
   const bloqueOtr='<div class="cfblock"><div class="cfbt">Otros<span class="spacer"></span>'+
@@ -1570,7 +1586,12 @@ function openCobranza(facId){const fac=facId?S.ventas.find(x=>x.id===facId):null
   cfRender();cfFacOpts();
   sugiere('cf-cliente',()=>['Otro'].concat(S.clientes.map(c=>c.nombre)),cfFacOpts);}
 function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[];
-  const fecha=document.getElementById('cf-fecha').value,cliente=document.getElementById('cf-cliente').value.trim();
+  const fecha=document.getElementById('cf-fecha').value;let cliente=document.getElementById('cf-cliente').value.trim();
+  // Cliente contra el maestro: un typo o mayusculas distintas crearian una cta cte paralela.
+  // Si coincide (sin importar mayusculas/acentos) se normaliza al nombre del maestro.
+  if(cliente&&cliente!=='Otro'){const cli=S.clientes.find(c=>normTxt(c.nombre)===normTxt(cliente));
+    if(cli)cliente=cli.nombre;
+    else errs.push('El cliente "'+cliente+'" no esta en el maestro: elegilo de la lista, cargalo en Clientes o usa "Otro"');}
   const rubro=document.getElementById('cf-rubro').value,aclar=document.getElementById('cf-aclar').value.trim();
   const facId=document.getElementById('cf-factura').value||null;
   cf.formas.forEach(f=>{f.monto=cfMonto(f);});
@@ -1580,16 +1601,23 @@ function saveCobranza(){const msg=document.getElementById('cf-msg');const errs=[
   // Un cheque no entra sin todos sus datos (pedido Vero 01/09): numero, importe y fecha
   // siempre; banco solo obligatorio en cheque fisico (el e-cheq queda como E-CHEQ).
   // Un renglon de cheque vacio tampoco pasa: o se completa o se quita con la x.
+  // Y numero+banco repetido (en esta cobranza o ya cargado) tampoco: cheque duplicado = error.
+  const chkVistos={};
   cf.formas.forEach(f=>{if(f.metodo==='E-cheq'||f.metodo==='Cheque fisico'){
     const falta=[];
     if(!f.numero)falta.push('el numero');
     if(!(cfMonto(f)>0))falta.push('el importe');
     if(!f.fechaCh)falta.push('la fecha');
     if(f.metodo==='Cheque fisico'&&!f.banco)falta.push('el banco');
-    if(!falta.length)return;
-    const vacio=!f.numero&&!(cfMonto(f)>0)&&!f.fechaCh&&!f.banco;
-    errs.push(vacio?'Hay un renglon de cheque sin completar: cargale numero, importe y fecha, o quitalo con la x'
-      :'Al '+f.metodo.toLowerCase()+' '+(f.numero?'N '+f.numero:'sin numero')+' le falta '+falta.join(', '));}});
+    if(falta.length){const vacio=!f.numero&&!(cfMonto(f)>0)&&!f.fechaCh&&!f.banco;
+      errs.push(vacio?'Hay un renglon de cheque sin completar: cargale numero, importe y fecha, o quitalo con la x'
+        :'Al '+f.metodo.toLowerCase()+' '+(f.numero?'N '+f.numero:'sin numero')+' le falta '+falta.join(', '));return;}
+    const numk=(f.numero||'').trim(),bank=(f.banco||(f.metodo==='E-cheq'?'E-CHEQ':'')).trim().toUpperCase();
+    const k=numk+'|'+bank;
+    if(chkVistos[k])errs.push('El cheque N '+f.numero+' ('+bank+') esta repetido en esta cobranza');
+    chkVistos[k]=1;
+    if(S.cheques.some(c=>c.estado!=='Anulado'&&(c.numero||'').trim()===numk&&((c.banco||'')+'').trim().toUpperCase()===bank))
+      errs.push('El cheque N '+f.numero+' ('+bank+') ya esta cargado en el sistema');}});
   if(errs.length){msg.className='form-msg show';msg.textContent=errs.join(' - ');return;}
   const ret={gan:num(document.getElementById('cf-ret-gan').value),iibb:num(document.getElementById('cf-ret-iibb').value),suss:num(document.getElementById('cf-ret-suss').value)};
   const sumRet=ret.gan+ret.iibb+ret.suss;
@@ -1642,6 +1670,9 @@ function openPago(facId){const fac=facId?S.compras.find(x=>x.id===facId):null;
 function savePago(){const msg=document.getElementById('cf-msg');const errs=[];
   const fecha=document.getElementById('cf-fecha').value;const provRaw=document.getElementById('cf-cliente').value.trim();
   const prov=codigoDesdeInput(provRaw);const rubro=document.getElementById('cf-rubro').value;
+  // Proveedor contra el maestro: texto libre crearia una cta cte paralela por typo.
+  if(provRaw&&!S.proveedores.concat(S.contratistas).some(p=>normTxt(p.codigo)===normTxt(prov)))
+    errs.push('El proveedor no esta en el maestro: elegilo de la lista (se carga en Maestros)');
   const aclar=document.getElementById('cf-aclar').value.trim();const obra=document.getElementById('cf-obra').value.trim();
   const facId=document.getElementById('cf-factura').value||null;
   cf.formas.forEach(f=>{f.monto=cfMonto(f);});
@@ -1650,15 +1681,23 @@ function savePago(){const msg=document.getElementById('cf-msg');const errs=[];
   if(!formas.length)errs.push('Carga al menos una forma de pago con monto');
   // Cheque propio: numero, importe y fecha obligatorios (debita en la fecha del cheque).
   // Renglon vacio no pasa: se completa o se quita con la x.
+  // El mismo cheque de cartera no puede salir dos veces en el mismo pago (se contaria doble).
+  const cartIds=cf.formas.filter(f=>f.metodo==='Cheque en cartera'&&f.chequeId).map(f=>f.chequeId);
+  if(new Set(cartIds).size!==cartIds.length)errs.push('Elegiste el mismo cheque de cartera en dos renglones: un cheque sale una sola vez');
+  const propiosVistos={};
   cf.formas.forEach(f=>{if(f.metodo==='Cheque en cartera'&&!f.chequeId)errs.push('Elegi que cheque de cartera sale (o quita el renglon con la x)');
     if(f.metodo==='Cheque propio'){const falta=[];
       if(!f.numero)falta.push('el numero');
       if(!(cfMonto(f)>0))falta.push('el importe');
       if(!f.fechaCh)falta.push('la fecha (ese dia debita de Galicia)');
-      if(!falta.length)return;
-      const vacio=!f.numero&&!(cfMonto(f)>0)&&!f.fechaCh;
-      errs.push(vacio?'Hay un renglon de cheque propio sin completar: cargale numero, importe y fecha, o quitalo con la x'
-        :'Al cheque propio '+(f.numero?'N '+f.numero:'sin numero')+' le falta '+falta.join(', '));}});
+      if(falta.length){const vacio=!f.numero&&!(cfMonto(f)>0)&&!f.fechaCh;
+        errs.push(vacio?'Hay un renglon de cheque propio sin completar: cargale numero, importe y fecha, o quitalo con la x'
+          :'Al cheque propio '+(f.numero?'N '+f.numero:'sin numero')+' le falta '+falta.join(', '));return;}
+      // Numero de cheque propio repetido = error contable (mismo talonario Galicia)
+      const k=(f.numero||'').trim();
+      if(propiosVistos[k])errs.push('El cheque propio N '+f.numero+' esta repetido en este pago');
+      propiosVistos[k]=1;
+      if((S.chequesPropios||[]).some(c=>!c.anulado&&(c.numero||'').trim()===k))errs.push('El cheque propio N '+f.numero+' ya esta cargado en el cuadro de cheques propios');}});
   if(errs.length){msg.className='form-msg show';msg.textContent=errs.join(' - ');return;}
   const pago={id:uid(),fecha:fecha,proveedor:prov,factura:facId,concepto:cf.concepto,aclar:aclar,obra:obra,rubro:rubro,formas:formas,imputado:formas.reduce((a,f)=>a+f.monto,0)};
   const fac=facId?S.compras.find(c=>c.id===facId):null;
@@ -1998,7 +2037,7 @@ function openCobroZ(obraId,certId){const o=S.obras.find(x=>x.id===obraId);if(!o)
     '<div class="banner" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>'+
     '<div>Cert <b>'+esc(c.numero)+'</b> de '+esc(o.nombre)+': total '+money(c.monto)+', queda por cobrar <b>'+money(saldo)+'</b>. Va a Caja M, solo lo ven Vero y Maxi.</div></div>'+
     '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="cz-fecha" value="'+ultimaFecha()+'"></div>'+
-      '<div class="field"><label>Monto <span class="req">*</span></label><input id="cz-monto" inputmode="decimal" value="'+saldo+'"><div class="hint">Puede ser una parte: el saldo queda a la vista.</div></div></div>'+
+      '<div class="field"><label>Monto <span class="req">*</span></label><input id="cz-monto" inputmode="decimal" value="'+fmtImp(saldo)+'"><div class="hint">Puede ser una parte: el saldo queda a la vista. No se puede cobrar mas que el saldo.</div></div></div>'+
     '<div class="field"><label>Entra como</label><div class="seg"><button type="button" id="cz-p" class="on def" onclick="czDest(\'Caja M\')">Caja M (plata)</button>'+
       '<button type="button" id="cz-m" onclick="czDest(\'Metros\')">Metros</button></div></div>'+
     '<button class="btn primary" style="width:100%" onclick="saveCobroZ(\''+o.id+'\',\''+c.id+'\')">Registrar cobro</button></div>');}
@@ -2019,6 +2058,9 @@ function saveCajaM(){const fecha=document.getElementById('cm-fecha').value,monto
 function saveCobroZ(obraId,certId){const o=S.obras.find(x=>x.id===obraId);const c=o&&o.certificados.find(x=>x.id===certId);if(!c)return;
   const fecha=document.getElementById('cz-fecha').value,monto=num(document.getElementById('cz-monto').value);
   if(!fecha||!monto){const m=document.getElementById('cz-msg');m.className='form-msg show';m.textContent='Falta la fecha o el monto';return;}
+  // No se puede cobrar mas que el saldo pendiente del certificado (dejaria saldo negativo oculto)
+  const saldoPend=c.monto-cobradoZ(certId);
+  if(monto>saldoPend){const m=document.getElementById('cz-msg');m.className='form-msg show';m.textContent='El monto supera el saldo pendiente del certificado ('+money(saldoPend)+'): corregilo';return;}
   S.cajam.push({id:uid(),fecha:fecha,tipo:czDestV,signo:'ingreso',concepto:'Cobro cert Z '+c.numero+' - '+o.nombre,detalle:'Obra '+o.codigo,monto:monto,certId:certId});
   czDestV='Caja M';save();closePanel();render();toast('Cobro Z registrado en Caja M');}
 
