@@ -268,15 +268,6 @@ select:focus,input:focus{outline:2px solid var(--cyan);outline-offset:1px;border
 .arg .t{font-weight:700;margin-bottom:5px;font-size:15.5px;color:var(--ink)}
 .arg p{font-size:14px;color:var(--ink-soft);line-height:1.5}
 
-/* QUESTIONS */
-.qlist{counter-reset:q;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
-.qitem{background:var(--surface);padding:15px 20px 15px 54px;position:relative;font-size:15px;color:var(--ink-soft)}
-.qitem::before{counter-increment:q;content:counter(q,decimal-leading-zero);position:absolute;left:18px;top:15px;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted)}
-.qitem.key{background:color-mix(in srgb,var(--orange) 7%,var(--surface))}
-.qitem.key::before{color:var(--orange);font-weight:600}
-.qitem b{color:var(--ink)}
-.qitem .tag{display:inline-block;margin-left:8px;font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);border:1px solid var(--orange);border-radius:4px;padding:1px 6px;vertical-align:middle}
-
 /* CLOSE */
 .close{position:relative;overflow:hidden;background:var(--navy-deep);color:#EAF3F8;border-radius:14px;padding:clamp(30px,6vw,54px);text-align:center}
 .close::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 0%,rgba(0,146,207,.22),transparent 60%),radial-gradient(circle at 80% 100%,rgba(241,89,34,.16),transparent 55%)}
@@ -303,8 +294,9 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
     <div class="nav-links">
       <a href="#diagnostico">Diagnóstico</a>
       <a href="#activo">El activo</a>
-      <a href="#cotizador">Cotizador</a>
+      <a href="#motor">El motor</a>
       <a href="#plan">Plan</a>
+      <a href="#cotizador">Cotizador</a>
       <a href="#trabajo">Cómo trabajamos</a>
     </div>
     <button class="ttoggle" id="tt" aria-label="Cambiar tema">◐</button>
@@ -323,17 +315,17 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
       <div><span class="k">Documento</span><span class="v">Motor de demanda<br>Freight Forwarding</span></div>
       <div><span class="k">Para</span><span class="v">DP World Argentina<br>Oficina logística BA</span></div>
       <div><span class="k">Preparado por</span><span class="v">Dilema Creative</span></div>
-      <div><span class="k">Fecha · Ref</span><span class="v">26·08·2026<br>AR-FF-00</span></div>
+      <div><span class="k">Fecha · Ref</span><span class="v">02·09·2026<br>AR-FF-01</span></div>
     </div>
 
     <h1 class="thesis reveal">El único operador de Argentina que es <span class="hl">dueño del puerto</span> por donde pasa la carga.</h1>
 
-    <p class="lede reveal">Abrieron la unidad de forwarding hace nueve meses. Tienen la mejor infraestructura del país, uno de cada cuatro contenedores entra por su terminal. Y la página de contacto de Argentina <span class="flag">no tiene ni un formulario.</span> Ese es el problema, y se resuelve en cuatro semanas.</p>
+    <p class="lede reveal">Abrieron la unidad de forwarding hace nueve meses, con la mejor infraestructura del país: uno de cada cuatro contenedores entra por su terminal. Lo que falta es el motor comercial. La demanda que necesitan <b>ya está identificada, con nombre y apellido, en la data pública de aduana</b> — y hoy <span class="flag">nadie la está yendo a buscar.</span> Esta propuesta es ese motor.</p>
 
     <div class="statstrip reveal">
       <div class="stat"><div class="n">~25%</div><div class="l">de la carga contenerizada de Argentina entra por TRP, su terminal</div></div>
       <div class="stat"><div class="n">9</div><div class="l">meses de vida de la unidad, con cero motor de captación local</div></div>
-      <div class="stat"><div class="n flag">0</div><div class="l">formularios, cotizadores o vías de captura en el sitio local hoy</div></div>
+      <div class="stat"><div class="n flag">0</div><div class="l">prospección sistemática, pauta o captura de leads funcionando hoy</div></div>
     </div>
   </div>
 </header>
@@ -346,27 +338,157 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
       <div class="prose reveal">
         <p><strong>DP World dejó de ser un operador portuario.</strong> Desde 2023 abrió más de 180 oficinas logísticas en el mundo, 35 en América. Es un rollout global de freight forwarding montado sobre su red de puertos, no un experimento local.</p>
         <p>En Argentina hay dos piezas. Una es <strong>Terminales Río de la Plata (TRP)</strong>, Puerto Nuevo: la terminal de contenedores más grande del país, 430.000 m². La otra es la <strong>oficina logística de Buenos Aires, abierta el 26 de noviembre de 2025</strong>: marítimo y aéreo FCL y LCL, transporte doméstico, despacho aduanero, seguro de carga, depósito fiscal y no fiscal.</p>
-        <p>La unidad tiene nueve meses, cero cartera propia de forwarding y cero forma de generar demanda local. Exactamente el problema que les llegó.</p>
+        <p>La unidad tiene nueve meses, cero cartera propia de forwarding y cero forma de generar demanda local. Y hay un dato que ordena toda la estrategia: <strong>el grueso de la demanda de forwarding no busca en Google</strong>, ya tiene proveedor. Al que factura hay que identificarlo e ir a buscarlo. Por eso el centro de esta propuesta es un motor de prospección, no una campaña.</p>
       </div>
       <div class="grid" style="align-content:start">
         <div class="card reveal"><span class="chip info">Contexto de mercado</span><h3>La ventana está abierta ahora</h3><p>El mercado de freight y logística argentino ronda los USD 29,7 mil millones en 2026. Importaciones proyectadas: USD 81.498 millones, récord histórico. La desregulación 2024–2026 abrió una franja de importadores nuevos que antes no existía como mercado.</p></div>
-        <div class="card reveal"><span class="chip good">Referencia global</span><h3>El activo #1 de un forwarder moderno no es una campaña</h3><p>Es un cotizador instantáneo bien hecho. Flexport pasó de cero a USD 8.000 millones con "cotización en menos de 24 horas". DHL, Kuehne+Nagel y DSV convergieron todos a lo mismo.</p></div>
+        <div class="card reveal"><span class="chip good">El dato que ordena todo</span><h3>La demanda no viene: se va a buscar</h3><p>Las importaciones argentinas son data pública, con nombre del importador. Se sabe qué trae cada empresa, desde dónde, cuánto y con qué frecuencia. Para un forwarder eso es un mapa exacto de su mercado, y ningún competidor local lo está explotando de forma sistemática.</p></div>
       </div>
     </div>
 
     <div style="margin-top:34px" class="reveal">
-      <p class="kicker" style="margin-bottom:14px">Auditoría del sitio local</p>
+      <p class="kicker" style="margin-bottom:14px">Auditoría de la presencia digital local</p>
       <div class="audit">
+        <div class="row"><span class="q">Prospección comercial sistemática</span><span class="s">No existe</span></div>
+        <div class="row"><span class="q">Captura y atribución de leads</span><span class="s">No existe</span></div>
         <div class="row"><span class="q">Formulario de contacto en Argentina</span><span class="s">No existe</span></div>
         <div class="row"><span class="q">Cotizador o calculadora instantánea</span><span class="s">No existe</span></div>
-        <div class="row"><span class="q">Sitio en castellano completo</span><span class="s">Parcial · URLs rotas</span></div>
         <div class="row"><span class="q">Blog o contenido local para el importador</span><span class="s">No existe</span></div>
         <div class="row"><span class="q">Casos de éxito locales</span><span class="s">No existe</span></div>
-        <div class="row"><span class="q">Captura y atribución de leads</span><span class="s">No existe</span></div>
       </div>
+      <p class="note">El plan ataca esta lista en orden de retorno: primero el motor de prospección, que no depende de ningún activo digital existente. La capa web llega al final (§ 08).</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 EL ACTIVO / HALLAZGOS -->
+<section id="activo">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-code">§ 02</span><h2 class="sec-title">El activo y los hallazgos</h2></div>
+    <p class="sec-sub reveal">Seis cosas que salieron de investigar el negocio y la presencia digital. Las primeras dos abren la puerta, la tercera la mantiene abierta sin conflicto.</p>
+
+    <div class="grid g3">
+      <div class="card reveal"><span class="chip opp">Oportunidad única</span><h3>Son dueños del puerto</h3><p>Operan la terminal por donde pasa uno de cada cuatro contenedores del país. Previsibilidad, menos demoras y estadía, trazabilidad real y un solo interlocutor del barco a la puerta. Ningún otro forwarder argentino puede decir esto.</p></div>
+      <div class="card reveal"><span class="chip crit">Crítico</span><h3>La captura está tapiada</h3><p>La página de contacto de Argentina solo tiene teléfono, mail y horario 9 a 18. Sin formulario, sin cotizador, sin blog, sitio mayormente en inglés. Cada consulta que no encuentra por dónde entrar es una operación que cierra otro.</p></div>
+      <div class="card reveal"><span class="chip risk">Riesgo a manejar</span><h3>Conflicto de canal</h3><p>Los forwarders que operan por TRP son clientes y ahora competidores. La salida limpia, y conviene que salga de nosotros: targetear con data pública de aduana, nunca con data de terminal. Segmento: dueño de la carga, no intermediarios.</p></div>
+      <div class="card reveal"><span class="chip info">Brecha</span><h3>El branding global no sirve acá</h3><p>DP World Tour de golf hasta 2035, cricket, "Beyond Boundaries". Nada de eso le habla al jefe de comex de una PyME de Villa Martelli. Tienen la marca resuelta y cero motor de demanda local. No tocamos la marca: construimos la máquina de leads.</p></div>
+      <div class="card reveal"><span class="chip opp">Palanca a confirmar</span><h3>CARGOES Finance</h3><p>La plataforma de DP World que financia comercio a PyMEs. En Argentina, donde el dolor número uno del importador es el capital de trabajo, un forwarder que además financia es una propuesta durísima. Sería el mejor lead magnet posible.</p></div>
+      <div class="card reveal"><span class="chip risk">Competencia</span><h3>Andreani arranca al lado</h3><p>Andreani Global Logistic lanzó como agente de carga internacional. Es el competidor local más peligroso porque arranca con más de 100.000 PyMEs ya clientes del grupo. La ventana no es infinita.</p></div>
     </div>
 
-    <div style="margin-top:30px" class="reveal">
+    <div style="margin-top:38px" class="statement reveal">
+      El lead más caliente de Argentina ya está dentro de su sistema, y nadie lo usa comercialmente.
+      <small>La relación de terminal se usa para abrir la puerta, no para filtrar la lista. El dato sale de la aduana pública. El conflicto se disuelve.</small>
+    </div>
+  </div>
+</section>
+
+<!-- 03 EL MOTOR -->
+<section id="motor">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-code">§ 03</span><h2 class="sec-title">El motor: prospección integrada</h2></div>
+    <p class="sec-sub reveal">El centro de la propuesta. Un solo flujo que arranca en la data de aduana y termina en una conversación con el decisor correcto, con LinkedIn, email y cotización integrados, y filtrado automático en el medio. Los vendedores no administran planillas: atienden conversaciones.</p>
+
+    <div class="grid g2" style="align-items:start">
+      <div class="seqcard reveal">
+        <div class="seqstep"><span class="num o">1</span><div><h4>Radar de aduana</h4><p>El universo completo de importadores, armado desde data pública: qué trae cada empresa, desde qué origen, cuánto y con qué frecuencia. El filtrado es automático: solo pasan los perfiles que encajan con los lanes y el tipo de cliente que definamos juntos.</p></div></div>
+        <div class="seqstep"><span class="num">2</span><div><h4>Identificación del decisor</h4><p>Para cada empresa filtrada, la persona correcta: dueño, gerente de compras o jefe de comex, con su perfil de LinkedIn y su casilla corporativa verificada. Sales Navigator y enriquecimiento de datos, integrados al flujo.</p></div></div>
+        <div class="seqstep"><span class="num">3</span><div><h4>Primer toque por LinkedIn</h4><p>Desde el perfil real de cada vendedor de DP World, personalizado por lane y producto: "Vi que traés X desde Ningbo cada dos meses. Operamos la terminal por donde entra tu carga. Mirémoslo punta a punta."</p></div></div>
+        <div class="seqstep"><span class="num">4</span><div><h4>Secuencia de email</h4><p>El seguimiento sale de la casilla corporativa real del vendedor, a ritmo bajo y sostenido, con opt-out en cada envío. Ningún mensaje sale de un dominio inventado ni en nombre de nadie.</p></div></div>
+        <div class="seqstep"><span class="num">5</span><div><h4>La cotización como respuesta</h4><p>Cuando el prospecto muestra interés, el vendedor no propone "una llamada para ver": manda un rango concreto para su lane, al instante. El diferencial de ser dueños de la terminal se demuestra en el primer intercambio, y se ahorra un paso entero del ciclo.</p></div></div>
+        <div class="seqstep"><span class="num">6</span><div><h4>Orquestación y medición</h4><p>Todo corre sobre automatizaciones propias: quién está en qué paso, quién respondió, alerta inmediata al vendedor y cada conversación registrada con su origen. Nada depende de la memoria de nadie.</p></div></div>
+      </div>
+
+      <div class="grid" style="align-content:start">
+        <div class="card reveal"><span class="chip good">Reparto de roles</span><h3>Dilema entrega conversaciones, sus vendedores venden</h3><p>Dilema arma la lista, escribe las secuencias, opera la máquina y mide todo. Nadie externo habla en nombre de DP World: cada mensaje sale del perfil y la casilla de una persona real del equipo.</p></div>
+        <div class="card reveal"><span class="chip info">Por qué este formato</span><h3>El único que pasa el filtro de una multinacional</h3><p>Nunca desde el dominio principal: quemar dpworld.com sería un problema global. El híbrido LinkedIn más casilla corporativa real es el formato que IT y compliance pueden aprobar sin fricción, y escala cuando la operación lo pida.</p></div>
+        <div class="card reveal"><span class="chip info">Nota legal, mejor adelantarla</span><h3>Ley 25.326</h3><p>La data de aduana es pública, pero el envío comercial no solicitado cae bajo Protección de Datos Personales. B2B a casillas corporativas es práctica habitual, pero toda secuencia lleva opt-out visible. En una empresa con compliance, adelantarse suma.</p></div>
+        <div class="card reveal"><span class="chip risk">No mezclar</span><h3>Prospección ≠ email marketing</h3><p>Son sistemas distintos: herramienta, dominio, base y métrica diferentes. La prospección busca la primera respuesta; el email marketing nutre al que ya dejó sus datos. Mezclarlos quema la entregabilidad de los dos.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 GOOGLE ADS -->
+<section id="ads">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-code">§ 04</span><h2 class="sec-title">Google Ads: la red para la intención</h2></div>
+    <p class="sec-sub reveal">El complemento del motor. La minoría que sí busca activamente un forwarder es la demanda más caliente que existe, y hoy no hay nadie de DP World esperándola del otro lado.</p>
+    <div class="grid g3">
+      <div class="card reveal"><span class="chip good">Fondo del embudo</span><h3>Solo intención de compra</h3><p>Búsquedas que solo hace alguien que necesita mover carga: cotización de flete internacional, agente de carga, despacho de aduana. Cero volumen genérico, cero curiosos. Presupuesto quirúrgico donde la decisión ya está en marcha.</p></div>
+      <div class="card reveal"><span class="chip opp">Comparación directa</span><h3>Marca de competidores</h3><p>Quien busca un forwarder por nombre está en modo proveedor. Aparecer en esa búsqueda con el diferencial de la terminal es de las inversiones más rentables del canal.</p></div>
+      <div class="card reveal"><span class="chip info">Siempre encendido</span><h3>Retargeting</h3><p>El que cotizó y no cerró, el que visitó y no dejó datos. En un ciclo de compra largo como el de logística, quedarse presente convierte varias veces mejor que el tráfico frío.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 SISTEMA A MEDIDA -->
+<section id="sistema">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-code">§ 05</span><h2 class="sec-title">El sistema a medida: donde vive la operación</h2></div>
+    <p class="sec-sub reveal">El motor genera conversaciones, cotizaciones y clientes. Todo eso necesita un lugar donde vivir, y no tiene por qué ser una herramienta enlatada ni depender de aprobaciones regionales: se construye a medida de la unidad, empezando por lo mínimo y creciendo por módulos según lo que la operación pida.</p>
+    <div class="grid g2">
+      <div class="card reveal"><span class="chip good">Núcleo</span><h3>El CRM del flujo</h3><p>El pipeline completo de la prospección: cada empresa, cada conversación con su historial, en qué paso está y de dónde salió. Alertas al vendedor, estados claros y atribución de cada cliente nuevo a su origen. Nace integrado al motor, no pegado después.</p></div>
+      <div class="card reveal"><span class="chip info">Módulo</span><h3>Integraciones de IA</h3><p>Clasificación automática de respuestas, priorización de prospectos, redacción asistida de secuencias, resúmenes de cuenta antes de cada llamada. La IA trabaja adentro del sistema, sobre los datos reales de la operación.</p></div>
+      <div class="card reveal"><span class="chip info">Módulo</span><h3>Lo financiero, si lo necesitan</h3><p>Seguimiento de cotizaciones enviadas contra cerradas, márgenes por operación, cuentas por cliente. El alcance exacto se define con ustedes: el sistema se diseña sobre necesidades reales, no al revés.</p></div>
+      <div class="card reveal"><span class="chip info">Módulo</span><h3>Lo que pida la operación</h3><p>Mail y documentos integrados, reportes automáticos para la región, conexión con las herramientas que ya usan. Sin licencias por asiento y sin esperar el roadmap de un proveedor global: el sistema crece a la velocidad de la unidad.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 PLAN -->
+<section id="plan">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-code">§ 06</span><h2 class="sec-title">El plan completo, en orden</h2></div>
+    <p class="sec-sub reveal">El orden es por retorno: primero lo que genera conversaciones sin depender de ningún activo existente, después las capas que multiplican.</p>
+
+    <div class="phases reveal">
+      <div class="phase zero"><span class="pcode">FASE 00</span><h3>El motor de prospección integrada</h3><p>Lo de la § 03 funcionando de punta a punta: universo de aduana armado y filtrado, decisores identificados, secuencias aprobadas por ustedes, orquestación y registro de cada conversación. Es el canal de mayor retorno inmediato y no espera rankings ni algoritmos.</p></div>
+      <div class="phase"><span class="pcode">FASE 01</span><h3>LinkedIn orgánico, en paralelo</h3><p>El canal natural del comprador corporativo. Presencia sostenida de los vendedores con dirección editorial nuestra, y la cara visible de la unidad al frente. Los posts de personas alcanzan 5 a 10 veces más que los de página. Después, ABM pago sobre la misma lista del motor.</p></div>
+      <div class="phase"><span class="pcode">FASE 02</span><h3>Google Ads de intención</h3><p>La red del fondo del embudo (§ 04): búsquedas de compra, marca de competidores y retargeting siempre encendido.</p></div>
+      <div class="phase"><span class="pcode">FASE 03</span><h3>Sistema a medida, por módulos</h3><p>El CRM del flujo nace con el motor. Desde ahí, los módulos que la operación pida (§ 05): IA, finanzas, reporting regional.</p></div>
+      <div class="phase"><span class="pcode">FASE 04</span><h3>SEO y GEO en castellano</h3><p>Nada de "qué es un freight forwarder". Por lane, por producto y por dolor: "Importar desde Ningbo a Buenos Aires", "Cómo evitar demoras y estadía en el Puerto" (autoridad única: es su terminal). Cuando alguien le pregunta a ChatGPT cuánto sale traer algo, el que tiene estas páginas es el citado.</p></div>
+      <div class="phase"><span class="pcode">FASE 05</span><h3>Ecosistema</h3><p>Programa formal de referidos con despachantes de aduana y contadores de comex (rinden 3 a 5 veces más que los informales, y DP World ya tiene la relación por la terminal). Ferias con protocolo digital, Expo Logisti-k. Contenido en inglés para captar nominaciones del exterior.</p></div>
+      <div class="phase"><span class="pcode">FASE 06</span><h3>La capa web con cotizador</h3><p>La frutilla del postre (§ 08): la puerta de entrada pública que hoy ningún operador local tiene. Todo lo anterior funciona sin ella; con ella, el sistema queda completo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 MATEMATICA -->
+<section id="matematica">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-code">§ 07</span><h2 class="sec-title">La matemática</h2></div>
+    <p class="sec-sub reveal">En logística el reflejo es tratar al marketing como gasto. La cuenta hecha lo pone donde va: adquisición.</p>
+    <div class="grid g2">
+      <div class="tablewrap reveal">
+        <table class="figtable">
+          <thead><tr><th>Métrica de la industria</th><th style="text-align:right">Referencia</th></tr></thead>
+          <tbody>
+            <tr><td>Margen bruto por contenedor</td><td class="num">USD 300–1.000</td></tr>
+            <tr><td>Importador de 2 FCL/mes, margen anual</td><td class="num">USD 7.000–24.000</td></tr>
+            <tr><td>CAC sano de un forwarder mediano</td><td class="num">&lt; USD 2.000</td></tr>
+            <tr><td>Ratio LTV:CAC objetivo</td><td class="num">5 : 1</td></tr>
+            <tr><td>Conversión cotización → embarque</td><td class="num">15–30%</td></tr>
+            <tr><td>MQLs/mes de un forwarder mediano</td><td class="num">30–80</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="prose reveal">
+        <p><strong>Un cliente vale muchísimo más que un lead.</strong> El negocio es recurrente y de relación: nadie cambia de forwarder por 50 dólares. Se puede pagar tranquilamente USD 100 a 300 por lead calificado y seguir con la ecuación sana.</p>
+        <p>Con 3 o 4 clientes nuevos por mes, cada uno con USD 7.000 a 24.000 de margen bruto anual recurrente, son unos 40 clientes al año y entre <strong>USD 280.000 y 960.000 de margen</strong>.</p>
+        <div class="statement" style="font-size:clamp(20px,2.8vw,26px);margin-top:22px">Con conseguir 3 o 4 clientes nuevos por mes, todo lo demás está pago.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 COTIZADOR -->
+<section id="cotizador">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="sec-code">§ 08</span><h2 class="sec-title">La frutilla del postre: el cotizador</h2></div>
+    <p class="sec-sub reveal">Todo lo anterior funciona sin tocar el sitio. Esta es la capa final: la puerta de entrada pública que hoy ningún operador local tiene. Y tiene una virtud clave: <strong>no necesita esperar a nada para trabajar</strong>. Como herramienta con link propio, los vendedores la pueden mandar dentro del flujo desde el primer día, precargada con el lane del prospecto.</p>
+
+    <div style="margin-bottom:26px" class="reveal">
       <p class="kicker" style="margin-bottom:14px">Cotización online · DP World vs. la competencia</p>
       <div class="tablewrap">
         <table>
@@ -381,38 +503,8 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
           </tbody>
         </table>
       </div>
-      <p class="note">El 78% de los compradores B2B elige al primer proveedor que responde. Si el lead espera 48 horas por una cotización, ya reservó con otro.</p>
+      <p class="note">El 78% de los compradores B2B elige al primer proveedor que responde. Flexport pasó de cero a USD 8.000 millones con "cotización en menos de 24 horas". DHL, Kuehne+Nagel y DSV convergieron todos a lo mismo.</p>
     </div>
-  </div>
-</section>
-
-<!-- 02 EL ACTIVO / HALLAZGOS -->
-<section id="activo">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 02</span><h2 class="sec-title">El activo y los hallazgos que ganan la reunión</h2></div>
-    <p class="sec-sub reveal">Seis cosas que salieron de investigar el negocio y la presencia digital. Las primeras dos abren la puerta, la tercera la mantiene abierta sin conflicto.</p>
-
-    <div class="grid g3">
-      <div class="card reveal"><span class="chip crit">Crítico</span><h3>La captura está tapiada</h3><p>La contacto de Argentina solo tiene teléfono, mail y horario 9 a 18. Sin formulario, sin cotizador, sin blog, sitio mayormente en inglés y URLs es-ar rotas. Sin formulario no hay lead, sin lead no hay embudo.</p></div>
-      <div class="card reveal"><span class="chip opp">Oportunidad única</span><h3>Son dueños del puerto</h3><p>Operan la terminal por donde pasa uno de cada cuatro contenedores del país. Previsibilidad, menos demoras y estadía, trazabilidad real y un solo interlocutor del barco a la puerta. Ningún otro forwarder argentino puede decir esto.</p></div>
-      <div class="card reveal"><span class="chip risk">Riesgo a manejar</span><h3>Conflicto de canal</h3><p>Los forwarders que operan por TRP son clientes y ahora competidores. La salida limpia, y conviene que salga de nosotros: targetear con data pública de aduana, nunca con data de terminal. Segmento: dueño de la carga, no intermediarios.</p></div>
-      <div class="card reveal"><span class="chip info">Brecha</span><h3>El branding global no sirve acá</h3><p>DP World Tour de golf hasta 2035, cricket, "Beyond Boundaries". Nada de eso le habla al jefe de comex de una PyME de Villa Martelli. Tienen la marca resuelta y cero motor de demanda local. No tocamos la marca: construimos la máquina de leads.</p></div>
-      <div class="card reveal"><span class="chip opp">Palanca a confirmar</span><h3>CARGOES Finance</h3><p>La plataforma de DP World que financia comercio a PyMEs. En Argentina, donde el dolor número uno del importador es el capital de trabajo, un forwarder que además financia es una propuesta durísima. Sería el mejor lead magnet posible.</p></div>
-      <div class="card reveal"><span class="chip risk">Competencia</span><h3>Andreani arranca al lado</h3><p>Andreani Global Logistic lanzó como agente de carga internacional. Es el competidor local más peligroso porque arranca con más de 100.000 PyMEs ya clientes del grupo. La ventana no es infinita.</p></div>
-    </div>
-
-    <div style="margin-top:38px" class="statement reveal">
-      El lead más caliente de Argentina ya está dentro de su sistema, y nadie lo usa comercialmente.
-      <small>La relación de terminal se usa para abrir la puerta, no para filtrar la lista. El dato sale de la aduana pública. El conflicto se disuelve.</small>
-    </div>
-  </div>
-</section>
-
-<!-- 03 COTIZADOR -->
-<section id="cotizador">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 03</span><h2 class="sec-title">La puerta de entrada que hoy no existe</h2></div>
-    <p class="sec-sub reveal">No es una landing con formulario, es una herramienta. Origen, tipo de carga, y devuelve un rango al instante a cambio del contacto. Así se vería la Fase 0. Probalo.</p>
 
     <div class="quoter-shell reveal">
       <div class="quoter-top">
@@ -474,122 +566,52 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
     </div>
 
     <div class="grid g3" style="margin-top:22px">
-      <div class="card reveal"><h3 style="font-size:16px">Formulario corto</h3><p>Origen, carga y contacto. El resto se pide después. Los formularios de 25 campos se abandonan.</p></div>
-      <div class="card reveal"><h3 style="font-size:16px">SLA de 15 minutos</h3><p>Alerta al vendedor y contacto inmediato. Es un cambio de proceso, no de marketing, y es el de mayor impacto.</p></div>
-      <div class="card reveal"><h3 style="font-size:16px">Motor de GEO</h3><p>Cada lane y producto es una página con cotizador embebido. Cuando alguien le pregunta a ChatGPT cuánto sale traer algo, el que tenga estas páginas es el citado. Hoy no lo tomó nadie.</p></div>
+      <div class="card reveal"><h3 style="font-size:16px">Herramienta, no landing</h3><p>Vive en un link propio. Puede embeberse en una página local cuando corresponda, o viajar en el flujo de prospección como lo que es: una demostración del diferencial.</p></div>
+      <div class="card reveal"><h3 style="font-size:16px">SLA de 15 minutos</h3><p>Alerta al vendedor y contacto inmediato. Es un cambio de proceso, no de marketing, y es el de mayor impacto de toda la lista.</p></div>
+      <div class="card reveal"><h3 style="font-size:16px">Motor de GEO</h3><p>Cada lane y producto puede ser una página con el cotizador embebido. Cuando alguien le pregunta a una IA cuánto sale traer algo, el que tiene estas páginas es el citado. Hoy no lo tomó nadie.</p></div>
     </div>
   </div>
 </section>
 
-<!-- 04 PLAN -->
-<section id="plan">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 04</span><h2 class="sec-title">Metodología: el plan en orden</h2></div>
-    <p class="sec-sub reveal">El orden es distinto al genérico de la industria, porque su punto de partida es distinto. Sin la Fase 0, todo lo demás es tirar plata.</p>
-
-    <div class="phases reveal">
-      <div class="phase zero"><span class="pcode">FASE 00 · <span class="when">semanas 1–4</span></span><h3>Destapar la captura</h3><p>Sin esto no funciona nada. Formulario y cotizador instantáneo en el sitio local, SLA de respuesta de 15 minutos, tracking completo con atribución en CRM antes de prender un peso de pauta, y versión en castellano sin URLs rotas.</p></div>
-      <div class="phase"><span class="pcode">FASE 01 · <span class="when">mes 2 en adelante</span></span><h3>Outbound quirúrgico con data de aduana</h3><p>El canal de mayor ROI inmediato. El grueso de la demanda no busca en Google, ya tiene proveedor: hay que identificarla e ir a buscarla. Con Nosis o Penta se arma el universo de importadores por producto, origen, volumen y frecuencia.</p><ul><li>"Vi que traés X desde Ningbo cada dos meses. Operamos la terminal por donde entra tu carga. Mirémoslo punta a punta."</li><li>3% a 7% de respuesta es excelente. Máximo dos follow-ups.</li></ul></div>
-      <div class="phase"><span class="pcode">FASE 02 · <span class="when">paralelo</span></span><h3>LinkedIn, orgánico primero</h3><p>El canal natural del comprador corporativo. Ritmo 5-3-1 semanal por vendedor, con Figuerola como cara visible. Los posts de personas alcanzan 5 a 10 veces más que los de página. Después, ABM pago sobre la lista de aduana.</p></div>
-      <div class="phase"><span class="pcode">FASE 03 · <span class="when">3–6 meses a ranking</span></span><h3>SEO y GEO programático en castellano</h3><p>Nada de "qué es un freight forwarder". Por lane, por producto y por dolor: "Importar desde Ningbo a Buenos Aires", "Cómo evitar demoras y estadía en el Puerto" (autoridad única, es su terminal). Una plantilla, cientos de combinaciones, cada una con cotizador embebido.</p></div>
-      <div class="phase"><span class="pcode">FASE 04</span><h3>Google Ads de intención pura</h3><p>Volumen bajo, intención altísima. Solo exacta y de frase. "Flete internacional desde china", "agente de carga internacional", más marca de competidores. Retargeting siempre encendido: convierte 3 a 5 veces más que el tráfico frío.</p></div>
-      <div class="phase"><span class="pcode">FASE 05</span><h3>Ecosistema</h3><p>Programa formal de referidos con despachantes de aduana y contadores de comex (rinden 3 a 5 veces más que los informales, y DP World ya tiene la relación por la terminal). Ferias con protocolo digital, Expo Logisti-k. Contenido en inglés para captar nominaciones del exterior.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- 05 MATEMATICA -->
-<section id="matematica">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 05</span><h2 class="sec-title">La matemática que hay que llevar</h2></div>
-    <p class="sec-sub reveal">En logística el reflejo es tratar al marketing como gasto. Hay que entrar con la cuenta hecha para que se discuta como adquisición.</p>
-    <div class="grid g2">
-      <div class="tablewrap reveal">
-        <table class="figtable">
-          <thead><tr><th>Métrica de la industria</th><th style="text-align:right">Referencia</th></tr></thead>
-          <tbody>
-            <tr><td>Margen bruto por contenedor</td><td class="num">USD 300–1.000</td></tr>
-            <tr><td>Importador de 2 FCL/mes, margen anual</td><td class="num">USD 7.000–24.000</td></tr>
-            <tr><td>CAC sano de un forwarder mediano</td><td class="num">&lt; USD 2.000</td></tr>
-            <tr><td>Ratio LTV:CAC objetivo</td><td class="num">5 : 1</td></tr>
-            <tr><td>Conversión cotización → embarque</td><td class="num">15–30%</td></tr>
-            <tr><td>MQLs/mes de un forwarder mediano</td><td class="num">30–80</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="prose reveal">
-        <p><strong>Un cliente vale muchísimo más que un lead.</strong> El negocio es recurrente y de relación: nadie cambia de forwarder por 50 dólares. Se puede pagar tranquilamente USD 100 a 300 por lead calificado y seguir con la ecuación sana.</p>
-        <p>Con 3 o 4 clientes nuevos por mes, cada uno con USD 7.000 a 24.000 de margen bruto anual recurrente, son unos 40 clientes al año y entre <strong>USD 280.000 y 960.000 de margen</strong>.</p>
-        <div class="statement" style="font-size:clamp(20px,2.8vw,26px);margin-top:22px">Con conseguir 3 o 4 clientes nuevos por mes, todo lo demás está pago.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 06 COMO TRABAJAMOS (sin pricing) -->
+<!-- 09 COMO TRABAJAMOS -->
 <section id="trabajo">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 06</span><h2 class="sec-title">Cómo trabajamos</h2></div>
+    <div class="sec-head reveal"><span class="sec-code">§ 09</span><h2 class="sec-title">Cómo trabajamos</h2></div>
     <p class="sec-sub reveal">A una multinacional no se le vende un "proyecto de 3 meses y después vemos". Se invierte la secuencia: compran algo concreto, no una promesa. Cada paso baja el riesgo percibido.</p>
 
     <div class="grid g2" style="align-items:start">
       <div class="seqcard reveal">
-        <div class="seqstep"><span class="num o">1</span><div><h4>Fase 0, proyecto cerrado</h4><p>4 a 6 semanas. Cotizador, captura, tracking y sitio en castellano funcionando. El beneficio oculto y más importante: te da de alta como proveedor. Pasar procurement es lo más difícil, después ampliar es fácil.</p></div></div>
-        <div class="seqstep"><span class="num">2</span><div><h4>Piloto de 90 días</h4><p>Operación con KPIs cerrados por escrito: leads calificados, costo por lead, pipeline generado, tiempo de respuesta. Si no funciona, se corta antes de quemar la relación.</p></div></div>
-        <div class="seqstep"><span class="num">3</span><div><h4>Contrato anual renovable</h4><p>Una vez que el piloto muestra la curva. La operación completa: outbound, contenido, campañas y reporting.</p></div></div>
-        <div class="pending"><b>La inversión se define en conjunto.</b> Antes conviene cerrar dos cosas en la reunión: el umbral de firma de Figuerola (para que la Fase 0 quede por debajo y no suba a la región) y si paga la entidad argentina o la regional. Los rangos los ajustamos ahí.</div>
+        <div class="seqstep"><span class="num o">1</span><div><h4>Fase 0, proyecto cerrado</h4><p>El motor de prospección funcionando: universo de aduana armado y filtrado, decisores identificados, secuencias aprobadas, orquestación y registro de conversaciones operativos, con el CRM del flujo como base.</p></div></div>
+        <div class="seqstep"><span class="num">2</span><div><h4>Piloto de 90 días</h4><p>Operación con KPIs cerrados por escrito: conversaciones abiertas, leads calificados, costo por lead, pipeline generado. Si no funciona, se corta antes de quemar la relación.</p></div></div>
+        <div class="seqstep"><span class="num">3</span><div><h4>Contrato anual renovable</h4><p>Una vez que el piloto muestra la curva. La operación completa: prospección, campañas, sistema a medida, contenido y reporting.</p></div></div>
+        <div class="pending"><b>La inversión se define en conjunto.</b> El alcance exacto de la Fase 0 y el esquema de contratación se cierran en la próxima conversación, y los rangos se ajustan ahí.</div>
       </div>
 
       <div class="args">
-        <div class="arg reveal"><div class="t">Queda por debajo del piso de su propio sector</div><p>Un forwarder mediano invierte 3% a 7% de su facturación en marketing. Preguntar qué proyecta facturar la unidad: cualquier propuesta seria queda por debajo de ese benchmark.</p></div>
+        <div class="arg reveal"><div class="t">Queda por debajo del piso de su propio sector</div><p>Un forwarder mediano invierte 3% a 7% de su facturación en marketing. Contra lo que proyecte facturar la unidad, cualquier propuesta seria queda por debajo de ese benchmark.</p></div>
         <div class="arg reveal"><div class="t">La cuenta de retorno</div><p>40 clientes nuevos al año, cada uno USD 7.000 a 24.000 de margen recurrente. Entre 280.000 y 960.000 de margen bruto anual. La adquisición se paga varias veces.</p></div>
-        <div class="arg reveal"><div class="t">El scope es quirúrgico a propósito</div><p>No pedimos aprobación de marca global. Todo lo que se construye vive en un subdominio o páginas locales, sin pelear con el CMS global. Eso baja la fricción de IT y la política interna.</p></div>
-        <div class="arg reveal"><div class="t">Reparto de roles claro</div><p>Dilema arma la lista, escribe las secuencias, opera la herramienta y entrega conversaciones. Los vendedores de DP World venden.</p></div>
+        <div class="arg reveal"><div class="t">El scope es quirúrgico a propósito</div><p>No pedimos aprobación de marca global ni tocamos ningún activo global. El motor entero corre sobre herramientas propias y perfiles del equipo local. Eso baja la fricción de IT y la política interna.</p></div>
+        <div class="arg reveal"><div class="t">Se empieza por donde más retorno hay</div><p>La prospección integrada no espera rankings ni fases de aprendizaje de algoritmos: las primeras conversaciones con importadores reales llegan durante el piloto.</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 07 OUTBOUND -->
-<section id="outbound">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 07</span><h2 class="sec-title">Cómo se hace el outbound</h2></div>
-    <p class="sec-sub reveal">Nunca desde el dominio principal: quemar dpworld.com sería un problema global. El dominio secundario propio IT casi nunca lo aprueba. Vamos por el que sí pasa el filtro.</p>
-    <div class="grid g2">
-      <div class="card reveal">
-        <span class="chip good">Recomendado</span>
-        <h3>Híbrido LinkedIn-first</h3>
-        <p style="margin-bottom:10px">Más lento que el outbound masivo, pero el único que pasa el filtro político de una multinacional. En paralelo se gestiona el dominio secundario y, cuando sale, se escala.</p>
-        <ol style="margin:0;padding-left:20px;color:var(--ink-soft);font-size:14.5px">
-          <li>Lista desde data de aduana (Nosis o Penta).</li>
-          <li>Enriquecimiento del decisor (Sales Navigator, Apollo, Vibe).</li>
-          <li>Primer toque por LinkedIn, desde el perfil del vendedor.</li>
-          <li>Follow-up por su casilla corporativa real, 10 a 20/día.</li>
-          <li>Orquestación y medición en n8n (Railway, ya operativo).</li>
-        </ol>
-      </div>
-      <div class="grid" style="align-content:start">
-        <div class="card reveal"><span class="chip info">Nota legal, mejor adelantarla</span><h3>Ley 25.326</h3><p>La data de aduana es pública, pero el envío comercial no solicitado cae bajo Protección de Datos Personales. B2B a casillas corporativas es práctica habitual, pero toda secuencia lleva opt-out visible. En una empresa con compliance, adelantarse suma.</p></div>
-        <div class="card reveal"><span class="chip risk">No mezclar</span><h3>Outbound frío ≠ email marketing</h3><p>Son sistemas distintos: herramienta, dominio, base y métrica diferentes. El frío busca la primera respuesta desde un dominio secundario; el marketing nutre al que ya dejó datos, desde Perfit o Brevo. Mezclarlos quema la entregabilidad de los dos.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 08 DILEMA -->
+<!-- 10 DILEMA -->
 <section id="dilema">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 08</span><h2 class="sec-title">Qué aporta Dilema</h2></div>
+    <div class="sec-head reveal"><span class="sec-code">§ 10</span><h2 class="sec-title">Qué aporta Dilema</h2></div>
     <p class="sec-sub reveal">No es una cuenta de "manejame Meta". Es un sistema de adquisición completo, y ahí Dilema tiene todo el stack en un solo lugar.</p>
     <div class="tablewrap reveal">
       <table>
         <thead><tr><th>Necesidad</th><th>Qué ponemos</th></tr></thead>
         <tbody>
-          <tr><td>Destapar la captura: formulario, cotizador, landings, tracking, CRM</td><td>Programador Web</td></tr>
-          <tr><td>Outbound con data de aduana: ingesta, scoring, secuencias, automatización</td><td>Prospecting + n8n</td></tr>
-          <tr><td>Contenido en castellano que rankea y que citan las IA</td><td>SEO &amp; GEO + Creativo &amp; Copy</td></tr>
+          <tr><td>Prospección integrada: data de aduana, filtrado, secuencias, orquestación</td><td>Prospecting + Automatizaciones</td></tr>
           <tr><td>Google Ads de intención, retargeting, LinkedIn ABM</td><td>Paid Media</td></tr>
+          <tr><td>Sistema a medida: CRM del flujo, módulos financieros, integraciones de IA</td><td>Programador Web</td></tr>
+          <tr><td>Contenido en castellano que rankea y que citan las IA</td><td>SEO &amp; GEO + Creativo &amp; Copy</td></tr>
           <tr><td>Nurturing por tipo de carga y estacionalidad</td><td>Email Marketing</td></tr>
+          <tr><td>Cotizador, captura web y tracking con atribución</td><td>Programador Web</td></tr>
           <tr><td>Panel de MQL, CAC, cotizaciones y embarques por fuente</td><td>Reporting &amp; Analytics</td></tr>
         </tbody>
       </table>
@@ -597,39 +619,16 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
   </div>
 </section>
 
-<!-- 09 PREGUNTAS -->
-<section id="preguntas">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 09</span><h2 class="sec-title">Las 12 preguntas para la reunión</h2></div>
-    <p class="sec-sub reveal">Dos pesan más que el resto. La 01 define el mensaje entero. La 09 puede cambiar la estrategia de captación completa.</p>
-    <div class="qlist reveal">
-      <div class="qitem key"><b>¿Le venden al dueño de carga directo (BCO), o también a forwarders?</b> Define todo el mensaje.<span class="tag">Clave</span></div>
-      <div class="qitem">¿Cómo resuelven internamente el conflicto de canal con los forwarders que operan por TRP?</div>
-      <div class="qitem">¿Import, export o los dos? ¿Qué lanes priorizan: Mercosur, Asia, Europa, EE.UU.?</div>
-      <div class="qitem">¿Van por PyME importadora, corporativo, o los dos?</div>
-      <div class="qitem">¿Tienen despachante propio o tercerizan el despacho?</div>
-      <div class="qitem">¿Cuánto tardan hoy en responder un pedido de cotización?</div>
-      <div class="qitem">¿Qué CRM usan y quién lo administra, local o regional?</div>
-      <div class="qitem">¿Pueden publicar contenido y landings locales sin pasar por el CMS global? ¿Subdominio propio es viable?</div>
-      <div class="qitem key"><b>¿CARGOES Finance está habilitado en Argentina?</b> Si sí, es la mejor palanca de captación que tienen.<span class="tag">Clave</span></div>
-      <div class="qitem">Presupuesto de marketing local: ¿existe, quién lo firma, qué orden de magnitud?</div>
-      <div class="qitem">¿Cuántos vendedores tiene la unidad y cuál es la meta de nuevos clientes por mes?</div>
-      <div class="qitem">¿Qué relación tiene la marca TRP con DP World de cara al mercado?</div>
-    </div>
-  </div>
-</section>
-
 <section style="padding-top:10px">
   <div class="wrap">
     <div class="close reveal">
-      <p class="kicker">El pitch de apertura, en una frase</p>
-      <h2>Tienen la mejor infraestructura del país y la puerta de entrada digital tapiada. La destapamos en cuatro semanas.</h2>
-      <p>No pedimos aprobación de marca global. Pedimos presupuesto local de generación de demanda, con KPI de leads y pipeline. Empezamos por la Fase 0, que se paga sola y nos da de alta como proveedor.</p>
+      <p class="kicker">El pitch, en una frase</p>
+      <h2>Cada importador del país figura en la data pública de aduana. Construimos el motor que los va a buscar, con sus vendedores al frente.</h2>
+      <p>No pedimos aprobación de marca global. Pedimos presupuesto local de generación de demanda, con KPI de conversaciones, leads y pipeline. Empezamos por la Fase 0: el motor andando y midiendo desde el primer día.</p>
       <div class="steps">
-        <span>01 · Reunión + las 2 preguntas clave</span>
-        <span>02 · Fase 0 cerrada</span>
-        <span>03 · Piloto 90 días</span>
-        <span>04 · Anual</span>
+        <span>01 · Fase 0 · el motor andando</span>
+        <span>02 · Piloto 90 días</span>
+        <span>03 · Anual</span>
       </div>
     </div>
   </div>
@@ -638,7 +637,7 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
 <footer>
   <div class="wrap">
     <div class="foot-brand"><span class="logo-chip"><img src="logo-dilema.png" alt="Dilema Creative"></span></div>
-    <div class="meta">Motor de demanda · DP World Argentina<br>REF AR-FF-00 · 26·08·2026 · Documento de trabajo</div>
+    <div class="meta">Motor de demanda · DP World Argentina<br>REF AR-FF-01 · 02·09·2026 · Documento de trabajo</div>
   </div>
 </footer>
 
