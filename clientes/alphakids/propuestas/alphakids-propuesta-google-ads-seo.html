@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alpha Kids · Propuesta de Google Ads y medición</title>
+<meta name="description" content="Propuesta de Dilema Creative para Alpha Kids: auditoría de medición, Google Ads para captar alumnos y un plan de crecimiento por etapas.">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Base Dilema */
+    --navy: #0C1738;
+    --navy-2: #070E22;
+    --blue: #314394;
+    --sky: #6BBBE0;
+    --green-deep: #44A39B;
+    --paper: #F7F9FC;
+    --paper-2: #ECF1F7;
+    --white: #FFFFFF;
+    --text: #16192B;
+    --ash: #5F6880;
+    --line: #D8E1EC;
+    --bad: #C0433A;
+    --warn: #C97B2B;
+
+    /* Alpha Kids — tomados de su propia identidad */
+    --ak-ink: #111729;
+    --ak-violet: #6100D1;
+    --ak-violet-2: #7C3AED;
+    --ak-blue: #3878E8;
+    --ak-cyan: #2BE0E5;
+    --ak-amber: #FFB703;
+    --ak-cream: #FDFBF7;
+    --ak-cream-2: #F2EEE6;
+    --ak-line: #E0D9CC;
+    --ak-ash: #635C51;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Montserrat", sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(12, 23, 56, 0.97);
+    backdrop-filter: blur(12px);
+    padding: 0 48px; height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(107,187,224,0.22);
+  }
+  .nav-brand { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 15px; color: #fff; letter-spacing: -0.01em; }
+  .nav-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .nav-left { display: flex; align-items: center; gap: 14px; }
+  .nav-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.2); }
+  .nav-sub {
+    font-family: "JetBrains Mono", monospace; font-size: 10px; font-weight: 500;
+    color: rgba(255,255,255,0.55); letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a {
+    font-family: "JetBrains Mono", monospace; font-size: 10px; color: rgba(255,255,255,0.5);
+    text-decoration: none; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--sky); }
+  .nav-links a.is-ak:hover { color: var(--ak-cyan); }
+
+  /* ---------- LAYOUT ---------- */
+  section { padding: 100px 60px; }
+  section.alt { background: var(--paper-2); }
+  section.dark { background: var(--navy); color: #fff; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+
+  .kicker {
+    font-family: "JetBrains Mono", monospace; font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--blue); margin-bottom: 18px;
+  }
+  .dark .kicker { color: var(--sky); }
+
+  .section-title {
+    font-family: "Poppins", sans-serif; font-weight: 700;
+    font-size: clamp(28px, 4.2vw, 44px); line-height: 1.15;
+    letter-spacing: -0.02em; margin-bottom: 22px;
+  }
+  .section-title em { font-style: normal; color: var(--blue); }
+  .dark .section-title em { color: var(--sky); }
+
+  .lead { font-size: clamp(15px, 2vw, 17.5px); color: var(--ash); max-width: 730px; margin-bottom: 48px; }
+  .dark .lead { color: rgba(255,255,255,0.72); }
+
+  .sub-h {
+    font-family: "Poppins", sans-serif; font-weight: 600; font-size: 20px;
+    letter-spacing: -0.01em; margin: 46px 0 16px;
+  }
+  .dark .sub-h { color: #fff; }
+
+  /* ---------- HERO ---------- */
+  .hero { background: var(--navy); padding: 150px 60px 100px; position: relative; overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; top: -140px; right: -80px; width: 620px; height: 620px;
+    background: radial-gradient(circle, rgba(107,187,224,0.20) 0%, transparent 70%); pointer-events: none;
+  }
+  .hero::after {
+    content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(107,187,224,0.45), transparent);
+  }
+  .hero-mark { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; position: relative; flex-wrap: wrap; }
+  .hero-mark-brand { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 15px; color: #fff; }
+  .hero-mark-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .hero-mark-line { width: 26px; height: 1px; background: rgba(255,255,255,0.3); }
+  .hero-mark-for {
+    font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: rgba(255,255,255,0.6);
+  }
+  .hero h1 {
+    font-family: "Poppins", sans-serif; font-weight: 700; font-size: clamp(32px, 6vw, 60px);
+    line-height: 1.08; letter-spacing: -0.03em; color: #fff; margin-bottom: 30px; position: relative;
+  }
+  .hero h1 em { font-style: normal; color: var(--sky); }
+  .hero-sub { font-size: clamp(15px, 2.2vw, 18px); color: rgba(255,255,255,0.72); max-width: 680px; position: relative; margin-bottom: 44px; }
+  .hero-meta { display: flex; gap: 44px; flex-wrap: wrap; padding-top: 34px; border-top: 1px solid rgba(255,255,255,0.13); position: relative; }
+  .hero-meta-item .hm-label {
+    font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 6px;
+  }
+  .hero-meta-item .hm-value { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 15px; color: #fff; }
+
+  /* ---------- CARDS ---------- */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+  .card { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 30px; }
+  .card-num { font-family: "JetBrains Mono", monospace; font-size: 11px; color: var(--blue); letter-spacing: 0.12em; margin-bottom: 14px; text-transform: uppercase; }
+  .card h3 { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 18px; margin-bottom: 10px; letter-spacing: -0.01em; }
+  .card p { font-size: 14.5px; color: var(--ash); }
+  .card p + p { margin-top: 10px; }
+  .dark .card { background: rgba(255,255,255,0.045); border-color: rgba(255,255,255,0.13); }
+  .dark .card h3 { color: #fff; }
+  .dark .card p { color: rgba(255,255,255,0.7); }
+  .dark .card-num { color: var(--sky); }
+
+  /* ---------- HALLAZGOS ---------- */
+  .find {
+    border-left: 3px solid var(--bad); background: var(--white); border-radius: 0 12px 12px 0;
+    padding: 24px 28px; margin-bottom: 14px;
+    border-top: 1px solid var(--line); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .find.warn { border-left-color: var(--warn); }
+  .find-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+  .find-tag {
+    font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--bad); background: rgba(192,67,58,0.09);
+    padding: 3px 9px; border-radius: 4px; white-space: nowrap;
+  }
+  .find.warn .find-tag { color: var(--warn); background: rgba(201,123,43,0.10); }
+  .find h3 { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -0.01em; }
+  .find p { font-size: 14.5px; color: var(--ash); }
+  .find p + p { margin-top: 10px; }
+  .find .metric { font-family: "JetBrains Mono", monospace; font-weight: 500; color: var(--bad); }
+  .find.warn .metric { color: var(--warn); }
+  .find code {
+    font-family: "JetBrains Mono", monospace; font-size: 12.5px; background: var(--paper-2);
+    border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; color: var(--blue);
+  }
+
+  /* ---------- TABLA ---------- */
+  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; background: var(--white); border-radius: 12px; overflow: hidden; }
+  th {
+    font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--blue); text-align: left; padding: 15px 18px;
+    background: var(--paper-2); border-bottom: 1px solid var(--line); font-weight: 500;
+  }
+  td { padding: 15px 18px; font-size: 14.5px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  td strong { font-family: "Poppins", sans-serif; font-weight: 600; }
+  td .muted { color: var(--ash); font-size: 13.5px; }
+  .num { font-family: "JetBrains Mono", monospace; font-weight: 500; white-space: nowrap; }
+  .dark table { background: rgba(255,255,255,0.045); }
+  .dark th { color: var(--sky); background: rgba(255,255,255,0.06); border-bottom-color: rgba(255,255,255,0.14); }
+  .dark td { border-bottom-color: rgba(255,255,255,0.10); color: rgba(255,255,255,0.82); }
+  .dark td strong { color: #fff; }
+  .dark td .muted { color: rgba(255,255,255,0.55); }
+
+  /* ---------- PASOS ---------- */
+  .step { display: grid; grid-template-columns: 140px 1fr; gap: 26px; padding: 26px 0; border-bottom: 1px solid var(--line); }
+  .step:last-child { border-bottom: none; }
+  .step-label {
+    font-family: "JetBrains Mono", monospace; font-size: 10.5px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--blue); padding-top: 4px;
+  }
+  .step h3 { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 19px; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .step p { font-size: 14.5px; color: var(--ash); }
+  .step p + p { margin-top: 9px; }
+
+  /* ---------- LISTA DE ALCANCE ---------- */
+  .inc-group { margin-bottom: 34px; }
+  .inc-group h3 {
+    font-family: "Poppins", sans-serif; font-weight: 600; font-size: 17px; margin-bottom: 14px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--line); letter-spacing: -0.01em;
+  }
+  .inc-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px 26px; }
+  .inc-list li { font-size: 14.5px; color: var(--ash); padding-left: 20px; position: relative; }
+  .inc-list li::before {
+    content: ""; position: absolute; left: 0; top: 9px; width: 7px; height: 7px;
+    border-radius: 2px; background: var(--green-deep);
+  }
+
+  /* ---------- CALLOUT ---------- */
+  .callout {
+    background: var(--white); border: 1px solid var(--line); border-left: 3px solid var(--green-deep);
+    border-radius: 0 12px 12px 0; padding: 26px 30px; margin-top: 26px;
+  }
+  .callout h3 { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 17px; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .callout p { font-size: 14.5px; color: var(--ash); }
+  .callout p + p { margin-top: 10px; }
+  .dark .callout { background: rgba(255,255,255,0.045); border-color: rgba(255,255,255,0.13); border-left-color: var(--sky); }
+  .dark .callout h3 { color: #fff; }
+  .dark .callout p { color: rgba(255,255,255,0.72); }
+
+  /* ---------- TAGS ---------- */
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 14px; }
+  .tag {
+    font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.06em;
+    color: var(--blue); background: var(--paper-2); border: 1px solid var(--line);
+    padding: 4px 10px; border-radius: 20px;
+  }
+  .dark .tag { color: var(--sky); background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.14); }
+
+  /* =========================================================
+     BLOQUE ALPHA KIDS
+     ========================================================= */
+  .ak { background: var(--ak-cream); color: var(--ak-ink); }
+  .ak .kicker { color: var(--ak-violet); }
+  .ak .section-title em { color: var(--ak-violet); }
+  .ak .lead { color: var(--ak-ash); }
+  .ak .card { background: #fff; border-color: var(--ak-line); }
+  .ak .card-num { color: var(--ak-violet); }
+  .ak .card p { color: var(--ak-ash); }
+  .ak .card h3 { color: var(--ak-ink); }
+  .ak .callout { background: #fff; border-color: var(--ak-line); border-left-color: var(--ak-amber); }
+  .ak .callout p { color: var(--ak-ash); }
+  .ak table { background: #fff; }
+  .ak th { color: var(--ak-violet); background: var(--ak-cream-2); border-bottom-color: var(--ak-line); }
+  .ak td { border-bottom-color: var(--ak-line); }
+  .ak td .muted { color: var(--ak-ash); }
+  .ak .tag { color: var(--ak-violet); background: var(--ak-cream-2); border-color: var(--ak-line); }
+  .ak .find { background: #fff; border-color: var(--ak-line); }
+  .ak .find p { color: var(--ak-ash); }
+  .ak .find code { background: var(--ak-cream-2); border-color: var(--ak-line); color: var(--ak-violet); }
+  .ak .inc-list li::before { background: var(--ak-violet); }
+  .ak .inc-group h3 { border-bottom-color: var(--ak-line); }
+  .ak .inc-list li { color: var(--ak-ash); }
+  .ak .step { border-bottom-color: var(--ak-line); }
+  .ak .step-label { color: var(--ak-violet); }
+  .ak .step p { color: var(--ak-ash); }
+  .ak .sub-h { color: var(--ak-ink); }
+
+  .ak-open { background: var(--ak-ink); color: #fff; padding: 92px 60px 80px; position: relative; overflow: hidden; }
+  .ak-open::before {
+    content: ""; position: absolute; top: -180px; right: -120px; width: 660px; height: 660px;
+    background: radial-gradient(circle, rgba(97,0,209,0.42) 0%, transparent 70%); pointer-events: none;
+  }
+  .ak-open::after {
+    content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--ak-violet), var(--ak-cyan), transparent);
+  }
+  .brand-tag {
+    display: inline-flex; align-items: center; gap: 11px; margin-bottom: 24px; position: relative;
+    font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .brand-tag .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .ak-open .brand-tag { color: var(--ak-cyan); }
+  .ak-open .brand-tag .dot { background: var(--ak-violet-2); }
+  .ak-open h2 {
+    font-family: "Poppins", sans-serif; font-weight: 700; font-size: clamp(30px, 5.4vw, 54px);
+    line-height: 1.08; letter-spacing: -0.03em; color: #fff; margin-bottom: 26px; position: relative;
+  }
+  .ak-open h2 em { font-style: normal; color: var(--ak-cyan); }
+  .ak-open p.o-sub { font-size: clamp(15px, 2.1vw, 17.5px); color: rgba(255,255,255,0.74); max-width: 690px; position: relative; }
+  .facts { display: flex; gap: 40px; flex-wrap: wrap; padding-top: 32px; margin-top: 34px; border-top: 1px solid rgba(255,255,255,0.14); position: relative; }
+  .fact .f-num { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 27px; letter-spacing: -0.02em; line-height: 1.1; color: var(--ak-cyan); }
+  .fact .f-lab { font-family: "JetBrains Mono", monospace; font-size: 9.5px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 5px; }
+
+  /* ---------- CALCULADORA ---------- */
+  .calc { background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.14); border-radius: 18px; padding: 34px; }
+  .calc-title { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 20px; color: #fff; margin-bottom: 6px; letter-spacing: -0.01em; }
+  .calc-note { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 26px; }
+  .calc-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 30px; }
+  .fld label {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+    font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 10px;
+  }
+  .fld label b { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 15px; color: var(--sky); letter-spacing: 0; text-transform: none; }
+  .fld input[type=range] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 3px;
+    background: rgba(255,255,255,0.18); border-radius: 3px; outline: none;
+  }
+  .fld input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 17px; height: 17px; border-radius: 50%;
+    background: var(--sky); cursor: pointer; border: 3px solid var(--navy);
+  }
+  .fld input[type=range]::-moz-range-thumb {
+    width: 17px; height: 17px; border-radius: 50%; background: var(--sky);
+    cursor: pointer; border: 3px solid var(--navy);
+  }
+  .calc-out { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.14); border: 1px solid rgba(255,255,255,0.14); border-radius: 12px; overflow: hidden; margin-top: 32px; }
+  .out { background: #101B3D; padding: 20px 18px; }
+  .out .o-lab { font-family: "JetBrains Mono", monospace; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.45); margin-bottom: 8px; }
+  .out .o-val { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 26px; letter-spacing: -0.02em; color: #fff; line-height: 1.1; }
+  .out.hi .o-val { color: var(--ak-cyan); }
+  .verdict {
+    margin-top: 18px; border-radius: 12px; padding: 20px 24px; font-size: 14.5px;
+    background: rgba(107,187,224,0.10); border: 1px solid rgba(107,187,224,0.32); color: rgba(255,255,255,0.85);
+  }
+  .verdict strong { color: #fff; font-family: "Poppins", sans-serif; font-weight: 600; }
+  .verdict.bad { background: rgba(192,67,58,0.12); border-color: rgba(192,67,58,0.40); }
+
+  /* ---------- INVERSIÓN ---------- */
+  .pr-block { margin-bottom: 46px; }
+  .pr-head { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; flex-wrap: wrap; }
+  .pr-head .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .pr-head h3 { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 22px; color: #fff; letter-spacing: -0.01em; }
+  .pr-head .pr-note { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.45); }
+
+  .price-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .price-grid.g4 { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .price-grid.g4 .price-card { padding: 26px 22px; }
+  .price-grid.g4 .price-num { font-size: 30px; }
+  .price-save { font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky); margin-top: 8px; }
+  .price-card {
+    background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 16px; padding: 30px 26px; position: relative; display: flex; flex-direction: column;
+  }
+  .price-card.featured { border-color: var(--sky); background: rgba(107,187,224,0.09); }
+  .price-badge {
+    position: absolute; top: 16px; right: 18px; font-family: "JetBrains Mono", monospace;
+    font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--navy);
+    background: var(--sky); padding: 4px 10px; border-radius: 20px; font-weight: 500;
+  }
+  .price-type {
+    font-family: "JetBrains Mono", monospace; font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--sky); margin-bottom: 12px;
+  }
+  .price-card.featured .price-type { padding-right: 104px; }
+  .price-card h4 { font-family: "Poppins", sans-serif; font-weight: 600; font-size: 19px; color: #fff; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .price-card > p { font-size: 13.5px; color: rgba(255,255,255,0.62); margin-bottom: 22px; min-height: 4.6em; }
+  .price-num { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 34px; color: #fff; letter-spacing: -0.03em; line-height: 1; margin-top: auto; }
+  .price-num span { font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.6); letter-spacing: 0; }
+
+  .note {
+    background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 12px; padding: 24px 28px; font-size: 14.5px; color: rgba(255,255,255,0.75);
+  }
+  .note strong { color: #fff; font-family: "Poppins", sans-serif; font-weight: 600; }
+  .note.hi { border-left: 3px solid var(--sky); }
+
+  /* ---------- CIERRE ---------- */
+  .closing { background: var(--navy); padding: 110px 60px; text-align: center; }
+  .closing h2 {
+    font-family: "Poppins", sans-serif; font-weight: 700; font-size: clamp(26px, 4.5vw, 44px);
+    line-height: 1.15; color: #fff; letter-spacing: -0.025em; max-width: 900px; margin: 0 auto;
+  }
+  .closing h2 em { font-style: normal; color: var(--sky); }
+
+  /* ---------- PIE ---------- */
+  footer {
+    background: var(--navy-2); padding: 48px 60px; display: flex; justify-content: space-between;
+    align-items: center; gap: 24px; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .foot-brand { font-family: "Poppins", sans-serif; font-weight: 700; font-size: 17px; color: #fff; }
+  .foot-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .foot-tag { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .foot-contact { font-family: "JetBrains Mono", monospace; font-size: 11px; color: rgba(255,255,255,0.5); text-align: right; line-height: 1.9; }
+  .foot-contact a { color: rgba(255,255,255,0.68); text-decoration: none; }
+  .foot-contact a:hover { color: var(--sky); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    nav { padding: 0 22px; }
+    .nav-links { display: none; }
+    section, .hero, .closing, .ak-open { padding-left: 24px; padding-right: 24px; }
+    section { padding-top: 66px; padding-bottom: 66px; }
+    .hero { padding-top: 118px; padding-bottom: 70px; }
+    .ak-open { padding-top: 70px; padding-bottom: 62px; }
+    .closing { padding-top: 78px; padding-bottom: 78px; }
+    .grid-2, .grid-3, .price-grid, .price-grid.g4, .inc-list, .calc-grid { grid-template-columns: 1fr; }
+    .calc-out { grid-template-columns: repeat(2, 1fr); }
+    .step { grid-template-columns: 1fr; gap: 10px; }
+    .hero-meta, .facts { gap: 26px; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .foot-contact { text-align: left; }
+    .price-card > p { min-height: 0; }
+    .calc { padding: 26px 22px; }
+  }
+  @media (max-width: 560px) {
+    nav { padding: 0 18px; }
+    .nav-brand { font-size: 13.5px; white-space: nowrap; }
+    .nav-sub { display: none; }
+    .nav-divider { display: none; }
+    .calc-out { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .price-card { padding: 26px 22px; }
+    .price-num { font-size: 30px; }
+    .find { padding: 20px 22px; }
+    .callout { padding: 22px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <span class="nav-brand">Dilema <em>Creative</em></span>
+    <span class="nav-divider"></span>
+    <span class="nav-sub">Alpha Kids</span>
+  </div>
+  <div class="nav-links">
+    <a href="#punto">Punto de partida</a>
+    <a href="#negocio" class="is-ak">El negocio</a>
+    <a href="#simulador" class="is-ak">Simulador</a>
+    <a href="#ritmo">Ritmo</a>
+    <a href="#estrategia">Estrategia</a>
+    <a href="#seo">SEO</a>
+    <a href="#calendario">Calendario</a>
+    <a href="#inversion">Inversión</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-mark">
+      <span class="hero-mark-brand">Dilema <em>Creative</em></span>
+      <span class="hero-mark-line"></span>
+      <span class="hero-mark-for">para Alpha Kids</span>
+    </div>
+    <h1>Una clase gratis que<br>convierte al 40%.<br>Y hoy <em>no la mide nadie</em>.</h1>
+    <p class="hero-sub">
+      Esta propuesta cubre Google Ads, SEO y la medición que hace falta para que los dos funcionen.
+      No venimos a proponerles presencia ni notoriedad: el objetivo es que entren alumnos
+      matriculados y que cada uno se pueda rastrear hasta la búsqueda que lo trajo. Empezamos por
+      lo que revisamos en su sitio, seguimos por los números del negocio y recién después hablamos
+      de campañas.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hm-label">Alcance</div>
+        <div class="hm-value">Google Ads, SEO y medición</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hm-label">Objetivo</div>
+        <div class="hm-value">Alumnos matriculados</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hm-label">Modalidad</div>
+        <div class="hm-value">Auditoría + plan mensual</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hm-label">Fecha</div>
+        <div class="hm-value">Septiembre 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PUNTO DE PARTIDA ============ -->
+<section id="punto">
+  <div class="wrap">
+    <div class="kicker">01 · Punto de partida</div>
+    <h2 class="section-title">Lo que encontramos<br>antes de <em>escribir esta propuesta</em>.</h2>
+    <p class="lead">
+      Revisamos alphakidseu.com, su contenedor de etiquetas y su configuración de rastreo antes de
+      sentarnos a escribir. Lo que sigue no son impresiones sobre el diseño: son cosas verificadas
+      sobre el sitio cargado y sobre el contenedor publicado. Las ponemos primero porque
+      condicionan todo lo que viene después, y porque preferimos que las sepan ahora y no dentro de
+      dos meses de pauta.
+    </p>
+
+    <div class="find">
+      <div class="find-head">
+        <span class="find-tag">Crítico</span>
+        <h3>Las etiquetas están puestas, pero miden visitas, no alumnos</h3>
+      </div>
+      <p>
+        El contenedor <code>GTM-MKFRTB9N</code> está instalado y funciona. Adentro tiene
+        <strong>una sola etiqueta</strong>: la configuración de Google Analytics 4
+        (<code>G-KNC6PC7QKD</code>), con un único activador de inicialización de página. No hay
+        etiqueta de conversión de Google Ads, no hay activadores de clic, no hay eventos propios y
+        no hay píxel de Meta.
+      </p>
+      <p>
+        Traducido: hoy saben cuánta gente entra, pero Google Ads no tiene forma de saber qué pasó
+        después. <span class="metric">Sin conversión declarada no hay puja inteligente</span>, no
+        hay optimización automática hacia quien reserva y no hay manera de decir qué palabra clave
+        trajo un alumno. Una campaña lanzada en estas condiciones reparte presupuesto por clics,
+        no por resultados.
+      </p>
+    </div>
+
+    <div class="find">
+      <div class="find-head">
+        <span class="find-tag">Crítico</span>
+        <h3>Las dos acciones que valen plata son justo las que no dejan rastro</h3>
+      </div>
+      <p>
+        La reserva de la clase gratis pasa por <code>/auth</code>, que es una aplicación que se
+        arma en el navegador: el usuario avanza sin que cambie la dirección de la página, así que
+        no hay una URL de gracias sobre la cual disparar una conversión. Hace falta un evento
+        propio empujado desde la aplicación, no una regla de página.
+      </p>
+      <p>
+        Y los cuatro botones de plan no llevan a un pago: llevan a WhatsApp, con cinco mensajes
+        distintos repartidos entre dos números (<span class="num">…2833-7350</span> para ayuda y
+        <span class="num">…3624-0354</span> para planes). Ese salto a WhatsApp es
+        <span class="metric">el punto exacto donde se corta la trazabilidad</span> entre el dinero
+        invertido y el alumno que paga. Es resoluble, y explicamos cómo más abajo.
+      </p>
+    </div>
+
+    <div class="find">
+      <div class="find-head">
+        <span class="find-tag">Alto</span>
+        <h3>Hay una sola página, y todas las campañas caerían en ella</h3>
+      </div>
+      <p>
+        El sitio es una única página con anclas. <code>/programme</code>, <code>/plans</code>,
+        <code>/about</code> y <code>/contact</code> devuelven 404: el menú superior no lleva a
+        páginas, lleva a secciones. Funciona muy bien como carta de presentación, pero significa
+        que un padre que busca <em>clases de ábaco para niños de 5 años</em> y otro que busca
+        <em>apoyo de matemáticas online</em> aterrizan exactamente en el mismo lugar, con el mismo
+        titular.
+      </p>
+      <p>
+        En Google Ads eso se paga dos veces: peor nivel de calidad —o sea, clic más caro por la
+        misma posición— y peor tasa de reserva, porque la página no le responde a nadie en
+        particular. <span class="metric">Es la palanca de conversión más grande que tienen
+        disponible</span> y no requiere rehacer el sitio, solo sumar páginas de aterrizaje.
+      </p>
+    </div>
+
+    <div class="find warn">
+      <div class="find-head">
+        <span class="find-tag">Medio</span>
+        <h3>El sitio es bilingüe, pero para Google es una sola página en un solo idioma</h3>
+      </div>
+      <p>
+        El conmutador ES/EN cambia el texto en el navegador, sin cambiar la dirección:
+        <code>/es</code> devuelve 404 y no hay etiquetas <code>hreflang</code>. Además el HTML
+        declara <code>lang="es"</code> sobre una página que se sirve en inglés.
+      </p>
+      <p>
+        Con la mitad del alumnado tomando clases en castellano y la otra mitad en inglés, esto
+        importa mucho más de lo que parece: <span class="metric">no se puede mandar un anuncio en
+        español a una página en español</span>. Y ese desajuste entre el idioma del anuncio y el
+        de la página es una de las cosas que más castiga el nivel de calidad.
+      </p>
+    </div>
+
+    <div class="find warn">
+      <div class="find-head">
+        <span class="find-tag">Bajo</span>
+        <h3>El robots.txt apunta el mapa del sitio a otro dominio</h3>
+      </div>
+      <p>
+        El archivo declara el mapa del sitio en <code>alphakids.com</code>, que no es el dominio
+        que usan, y esa dirección no responde. Es un detalle chico y de cinco minutos, pero es el
+        tipo de cosa que conviene dejar ordenada antes de empezar a pagar por tráfico.
+      </p>
+    </div>
+
+    <div class="callout">
+      <h3>Nada de esto es una mala noticia</h3>
+      <p>
+        Es lo normal en un proyecto de mes y medio que acaba de lanzar la web. La diferencia es
+        que se arregla una sola vez y queda funcionando para siempre: cada euro que entra después
+        alimenta un sistema que aprende solo. La mala versión de esta historia es descubrirlo en
+        noviembre, con tres meses de inversión que no dejaron ni un dato aprovechable.
+      </p>
+      <p>
+        Por eso la instalación de la medición va incluida en el arranque y es lo primero que
+        hacemos, antes de que se publique un solo anuncio.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================
+     ALPHA KIDS
+     ========================================================= -->
+<div class="ak-open" id="negocio">
+  <div class="wrap">
+    <div class="brand-tag"><span class="dot"></span> El negocio · Alpha Kids</div>
+    <h2>No venden clases.<br>Venden un método<br>que <em>se prueba gratis</em>.</h2>
+    <p class="o-sub">
+      Alpha Kids no arranca de cero. Hay un método con nueve años de recorrido y más de seiscientos
+      alumnos detrás, un aula virtual propia, profesoras formadas y un programa con certificación e
+      informes clase por clase. Lo que falta no es producto: falta que los padres que ya están
+      buscando algo así lleguen hasta acá. Y falta que, cuando lleguen, se pueda saber quiénes son.
+    </p>
+    <div class="facts">
+      <div class="fact"><div class="f-num">4 a 14</div><div class="f-lab">Años de los alumnos</div></div>
+      <div class="fact"><div class="f-num">40%</div><div class="f-lab">Se queda tras la clase gratis</div></div>
+      <div class="fact"><div class="f-num">+600</div><div class="f-lab">Alumnos de trayectoria previa</div></div>
+      <div class="fact"><div class="f-num">4</div><div class="f-lab">Planes, de 100 a 128 €/mes</div></div>
+      <div class="fact"><div class="f-num">1:1</div><div class="f-lab">Clases individuales en vivo</div></div>
+    </div>
+  </div>
+</div>
+
+<section class="ak">
+  <div class="wrap">
+    <div class="kicker">Alpha Kids · 02</div>
+    <h2 class="section-title">La clase gratis es<br>la mejor máquina que<br><em>ya tienen andando</em>.</h2>
+    <p class="lead">
+      Este es el punto que cambia toda la estrategia. Alpha Kids no le pide a un padre que compre:
+      le pide que reserve una clase de 25 minutos, sin dejar datos de pago, y encima le devuelve
+      una evaluación del nivel de su hijo. La fricción de esa oferta es casi cero, y cuatro de cada
+      diez familias que la prueban se quedan. Eso no es una promesa nuestra: es el dato que ustedes
+      ya tienen.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-num">Lo que se compra</div>
+        <h3>Una reserva, no una matrícula</h3>
+        <p>
+          Toda la publicidad tiene que empujar hacia la clase gratis. Es lo más barato de conseguir,
+          lo que más volumen genera y lo único que un padre acepta hacer la primera vez que escucha
+          hablar de un ábaco.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Lo que decide</div>
+        <h3>La clase, no el anuncio</h3>
+        <p>
+          El anuncio no tiene que convencer a nadie de matricularse. Tiene que conseguir que la
+          familia se siente 25 minutos con una profesora. La conversión de verdad la hace la clase,
+          y ahí ustedes ya ganan cuatro de cada diez.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Dónde está la plata</div>
+        <h3>El plan que eligen después</h3>
+        <p>
+          Entre el plan mensual y el anual hay diez veces de diferencia en ingreso comprometido.
+          Por eso la campaña no se optimiza contra reservas a secas, sino contra reservas que
+          terminan en el plan largo.
+        </p>
+      </div>
+    </div>
+
+    <div class="sub-h">Cuánto se puede pagar por un alumno</div>
+    <p class="lead" style="margin-bottom: 26px;">
+      Con la tasa del 40% que ya midieron, cada alumno matriculado cuesta dos reservas y media de
+      clase gratis. A partir de ahí, el techo de lo que se puede invertir sale de sus propios
+      precios. Los tres escenarios de abajo van del más conservador al más ambicioso.
+    </p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Escenario de recupero</th>
+            <th>Ingreso que respalda</th>
+            <th>Coste admisible por alumno</th>
+            <th>Coste máximo por reserva</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>El primer mes paga la captación</strong><div class="muted">Muy conservador. Todo lo que venga después es margen.</div></td>
+            <td class="num">128 €</td>
+            <td class="num">128 €</td>
+            <td class="num">51 €</td>
+          </tr>
+          <tr>
+            <td><strong>El trimestre paga la captación</strong><div class="muted">Su plan trimestral ya está vendido cuando se recupera.</div></td>
+            <td class="num">360 €</td>
+            <td class="num">360 €</td>
+            <td class="num">144 €</td>
+          </tr>
+          <tr>
+            <td><strong>Se mide contra el plan anual</strong><div class="muted">El caso real de las familias que se quedan de verdad.</div></td>
+            <td class="num">1.200 €</td>
+            <td class="num">1.200 €</td>
+            <td class="num">480 €</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <h3>Por qué esta tabla es la parte importante de la propuesta</h3>
+      <p>
+        Aun en la lectura más pesimista —que una familia se vaya después del primer mes— hay
+        cincuenta euros de margen por reserva de clase gratis. En búsqueda, para un servicio con
+        esta demanda, ese margen es cómodo. El problema nunca fue que los números no den: el
+        problema es que hoy ninguno de estos números se puede leer dentro de Google Ads, así que
+        no hay forma de saber si una campaña está adentro o afuera de ese techo.
+      </p>
+      <p>
+        Los importes salen de los planes publicados en su web y de la tasa del 40% que nos pasaron.
+        En el mes de auditoría los reemplazamos por los suyos reales: cuánto dura de verdad una
+        familia y qué plan elige cada una. Ahí la tabla deja de ser un marco y pasa a ser el
+        tablero con el que se decide el presupuesto.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALCULADORA ============ -->
+<section class="dark" id="simulador">
+  <div class="wrap">
+    <div class="kicker">03 · Simulador</div>
+    <h2 class="section-title">Qué pasa si ponemos<br>los números <em>a jugar</em>.</h2>
+    <p class="lead">
+      Mové los controles y mirá cómo se mueve el resultado. Los valores que vienen puestos son
+      conservadores y están para discutirse: el coste por clic y la tasa de reserva son los dos
+      que solo se saben de verdad después del primer mes con datos propios. El 40% de matrícula es
+      el de ustedes.
+    </p>
+
+    <div class="calc">
+      <div class="calc-title">Simulador de captación mensual</div>
+      <div class="calc-note">Estimación · no es una previsión de resultados</div>
+
+      <div class="calc-grid">
+        <div class="fld">
+          <label>Inversión mensual en Google Ads <b id="lb-inv">600 €</b></label>
+          <input type="range" id="in-inv" min="200" max="2500" step="50" value="600">
+        </div>
+        <div class="fld">
+          <label>Coste por clic estimado <b id="lb-cpc">0,80 €</b></label>
+          <input type="range" id="in-cpc" min="20" max="300" step="5" value="80">
+        </div>
+        <div class="fld">
+          <label>De cada 100 visitas, cuántas reservan <b id="lb-cvr">4</b></label>
+          <input type="range" id="in-cvr" min="1" max="15" step="1" value="4">
+        </div>
+        <div class="fld">
+          <label>De cada 100 clases gratis, cuántas se matriculan <b id="lb-mat">40</b></label>
+          <input type="range" id="in-mat" min="15" max="70" step="1" value="40">
+        </div>
+        <div class="fld">
+          <label>Cuota mensual media <b id="lb-cuo">120 €</b></label>
+          <input type="range" id="in-cuo" min="100" max="128" step="1" value="120">
+        </div>
+        <div class="fld">
+          <label>Meses que dura una familia <b id="lb-dur">6</b></label>
+          <input type="range" id="in-dur" min="1" max="24" step="1" value="6">
+        </div>
+      </div>
+
+      <div class="calc-out">
+        <div class="out">
+          <div class="o-lab">Clics al mes</div>
+          <div class="o-val" id="o-clics">750</div>
+        </div>
+        <div class="out">
+          <div class="o-lab">Clases gratis reservadas</div>
+          <div class="o-val" id="o-res">30</div>
+        </div>
+        <div class="out hi">
+          <div class="o-lab">Alumnos nuevos al mes</div>
+          <div class="o-val" id="o-alu">12</div>
+        </div>
+        <div class="out">
+          <div class="o-lab">Coste por alumno</div>
+          <div class="o-val" id="o-cac">50 €</div>
+        </div>
+      </div>
+
+      <div class="verdict" id="verdict"></div>
+    </div>
+
+    <div class="callout" style="margin-top: 30px;">
+      <h3>Lo que este simulador demuestra, más allá del número exacto</h3>
+      <p>
+        Que el negocio aguanta la publicidad con holgura, y que la variable que más mueve el
+        resultado no es el presupuesto: es la tasa de reserva de la página. Duplicar esa tasa vale
+        lo mismo que duplicar la inversión, y cuesta muchísimo menos. Por eso las páginas de
+        aterrizaje por idioma y por intención aparecen tan arriba en nuestro plan.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RITMO ============ -->
+<section class="alt" id="ritmo">
+  <div class="wrap">
+    <div class="kicker">04 · La decisión</div>
+    <h2 class="section-title">¿Todo ahora para septiembre,<br>o de a poco para <em>ir viendo</em>?</h2>
+    <p class="lead">
+      Nos hicieron esta pregunta y merece una respuesta clara, no un «depende». La respuesta corta
+      es: ninguna de las dos. Va una tercera, y abajo está el porqué de cada descarte.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-num">Opción A · No</div>
+        <h3>Todo el presupuesto ya, campaña fuerte de septiembre</h3>
+        <p>
+          Hoy no hay ninguna conversión declarada en Google Ads. Sin eso, la puja automática no
+          existe como opción: la campaña solo puede optimizar hacia clics, y los clics no pagan
+          profesoras.
+        </p>
+        <p>
+          Invertir fuerte en esas condiciones no es agresivo, es a ciegas. Y lo peor no es el
+          dinero: es que al mes siguiente no queda ni un dato para decidir mejor.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Opción B · No</div>
+        <h3>Muy de a poco, probando durante meses</h3>
+        <p>
+          El problema espejo. Con presupuestos muy chicos nunca se juntan las conversiones que el
+          sistema necesita para aprender, y la cuenta se queda estancada en modo prueba
+          indefinidamente.
+        </p>
+        <p>
+          Además septiembre es cuando los padres deciden las actividades del curso. Llegar en
+          noviembre con la cuenta calibrada es llegar tarde a la conversación.
+        </p>
+      </div>
+      <div class="card" style="border-color: var(--green-deep); border-width: 2px;">
+        <div class="card-num" style="color: var(--green-deep);">Opción C · Sí</div>
+        <h3>Arranque contenido en septiembre, escalado en octubre</h3>
+        <p>
+          Dos semanas para instalar la medición y abrir solo las campañas de intención más alta,
+          con presupuesto acotado y el objetivo declarado de juntar datos, no volumen.
+        </p>
+        <p>
+          Cuando hay entre treinta y sesenta reservas acumuladas, se pasa a puja por conversiones y
+          recién ahí se sube el presupuesto. Se escala sobre algo que ya funciona, no sobre una
+          apuesta.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>El detalle técnico que hace que esto funcione</h3>
+      <p>
+        La puja automática de Google necesita del orden de treinta conversiones al mes para
+        estabilizarse. Si optimizáramos contra alumnos matriculados —que hoy son unos cinco al
+        mes— nunca llegaríamos. Por eso <strong>optimizamos contra la reserva de la clase
+        gratis</strong>, que con su tasa del 40% genera dos veces y media ese volumen, y dejamos la
+        matrícula como el indicador de negocio que se importa aparte. Es la diferencia entre una
+        cuenta que aprende y una que no.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ESTRATEGIA ============ -->
+<section id="estrategia">
+  <div class="wrap">
+    <div class="kicker">05 · Estrategia</div>
+    <h2 class="section-title">Google no interrumpe:<br><em>atiende</em> a quien ya está buscando.</h2>
+    <p class="lead">
+      Nos contaron que los padres desconfían de la publicidad de Meta. Nos parece una lectura
+      correcta del mercado, y es exactamente el argumento por el que arrancamos por búsqueda. En
+      Meta uno interrumpe a alguien que estaba mirando otra cosa; en Google, alguien escribió con
+      sus propias manos que necesita ayuda con las matemáticas de su hijo. La conversación empieza
+      con la confianza del lado de ustedes.
+    </p>
+
+    <div class="sub-h">Cuatro frentes de búsqueda, de más caliente a más frío</div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-num">Frente 01 · Defensa</div>
+        <h3>Marca</h3>
+        <p>
+          Quien busca «Alpha Kids» ya los conoce y viene de una recomendación o de la clase gratis.
+          Es el clic más barato de la cuenta y el que peor se siente perder contra un competidor
+          que puje sobre el nombre. Presupuesto chico, prioridad alta.
+        </p>
+        <div class="tags"><span class="tag">alpha kids</span><span class="tag">alphakids abaco</span><span class="tag">alpha kids opiniones</span></div>
+      </div>
+      <div class="card">
+        <div class="card-num">Frente 02 · Intención máxima</div>
+        <h3>Competencia y categoría</h3>
+        <p>
+          El padre que busca por el nombre de otra academia de ábaco, o directamente por la
+          categoría, ya entendió el producto y solo está eligiendo con quién. No hay que educarlo:
+          hay que mostrarle por qué las clases individuales en vivo ganan.
+        </p>
+        <div class="tags"><span class="tag">clases de ábaco online</span><span class="tag">cálculo mental niños</span><span class="tag">soroban online</span><span class="tag">abacus classes for kids</span></div>
+      </div>
+      <div class="card">
+        <div class="card-num">Frente 03 · Volumen</div>
+        <h3>El problema, no el método</h3>
+        <p>
+          La mayoría de los padres no busca «ábaco»: busca que su hijo no sufra con las
+          matemáticas, o que se concentre mejor. Es donde está el volumen real y donde el mensaje
+          tiene que hablar del problema, no del método.
+        </p>
+        <div class="tags"><span class="tag">apoyo matemáticas niños</span><span class="tag">profesor particular online</span><span class="tag">maths tutor for kids</span><span class="tag">help child concentration</span></div>
+      </div>
+      <div class="card">
+        <div class="card-num">Frente 04 · Aparte</div>
+        <h3>Altas capacidades</h3>
+        <p>
+          Nos dijeron que el alumnado se parte entre familias muy exigentes y chicos con altas
+          capacidades. Ese segundo grupo busca con palabras propias y merece anuncios y página
+          propios: el mensaje del refuerzo escolar no le habla.
+        </p>
+        <div class="tags"><span class="tag">altas capacidades matemáticas</span><span class="tag">gifted child maths</span><span class="tag">enrichment maths kids</span></div>
+      </div>
+    </div>
+
+    <div class="sub-h">Y acá está la parte que casi nadie mira</div>
+    <div class="callout" style="margin-top: 0;">
+      <h3>Anuncios en español, dentro del Reino Unido</h3>
+      <p>
+        Ocho de cada diez alumnos vienen de familias migrantes, y cerca de la mitad están en el
+        Reino Unido. Eso no describe un mercado británico: describe a una familia hispanohablante
+        viviendo en Londres o Manchester que quiere que su hijo aprenda con una profesora que le
+        hable en castellano. Esa familia no busca en inglés cuando busca esto.
+      </p>
+      <p>
+        Google Ads permite segmentar por idioma y por ubicación de forma independiente. La mayoría
+        de las cuentas lo ignora y manda anuncios en inglés a todo el Reino Unido, compitiendo de
+        frente con las academias locales y pagando el clic más caro del mercado.
+        <strong>Nosotros vamos a abrir campañas en español apuntadas al Reino Unido, Alemania y
+        Países Bajos</strong>, que es donde sus propias reseñas dicen que están sus familias. Es
+        menos competencia, clic más barato y un mensaje que encaja de verdad.
+      </p>
+    </div>
+
+    <div class="sub-h">Qué dice el anuncio</div>
+    <p class="lead" style="margin-bottom: 22px;">
+      Nos quedó clara una cosa de la charla: no quieren parecer una aplicación de idiomas
+      gamificada. Estamos de acuerdo, y además es su mejor argumento comercial. Contra una
+      aplicación, ustedes tienen exactamente lo que esa aplicación no puede dar.
+    </p>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>Lo que promete una app</th><th>Lo que dice el anuncio de Alpha Kids</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="muted">Aprendé jugando, a tu ritmo</td><td><strong>Una profesora, tu hijo y 25 minutos. En vivo.</strong></td></tr>
+          <tr><td class="muted">Rachas, premios y notificaciones</td><td><strong>Informe clase por clase de cómo va.</strong></td></tr>
+          <tr><td class="muted">Descargá gratis</td><td><strong>Primera clase gratis, sin datos de pago.</strong></td></tr>
+          <tr><td class="muted">Millones de usuarios</td><td><strong>Nueve años de método y más de 600 alumnos.</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <h3>Sobre las pruebas sociales que ya tienen</h3>
+      <p>
+        Las reseñas de su web hablan de confianza, concentración y de padres que se sienten parte
+        del proceso. Son mejores que cualquier titular que podamos inventar nosotros, y hoy están
+        enterradas al final de una página larga. Entran directo a las páginas de aterrizaje y a las
+        extensiones de anuncio.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SEO ============ -->
+<section class="alt" id="seo">
+  <div class="wrap">
+    <div class="kicker">06 · SEO</div>
+    <h2 class="section-title">La misma búsqueda,<br>sin <em>pagar el clic</em>.</h2>
+    <p class="lead">
+      Acá el SEO no es «mejorar el posicionamiento». Es más básico que eso: hoy no hay casi nada
+      que posicionar. Las tres cosas que encontramos en la auditoría —una sola página, ningún
+      idioma separado y un mapa del sitio roto— son problemas de Google Ads, sí, pero son sobre
+      todo la razón por la que el tráfico orgánico no puede crecer aunque el producto sea bueno.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-num">Hueco 01</div>
+        <h3>Una página no compite contra diez</h3>
+        <p>
+          Google posiciona páginas, no sitios. Alpha Kids tiene material para diez: el método, el
+          programa por edades, cada plan, quiénes son las profesoras, el aula virtual, las
+          preguntas que hacen los padres. Hoy todo eso vive dentro de una sola dirección, así que
+          compite por una sola búsqueda.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Hueco 02</div>
+        <h3>Dos idiomas, una sola dirección</h3>
+        <p>
+          Sin URL por idioma y sin <code>hreflang</code>, Google solo puede entender el sitio en un
+          idioma. Con clases en castellano y en inglés y familias en cuatro países, están
+          renunciando a la mitad de la demanda orgánica antes de empezar.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Hueco 03</div>
+        <h3>La competencia dejó la puerta abierta</h3>
+        <p>
+          Es un mercado específico, con pocos jugadores y sitios pobres. En una categoría así, un
+          sitio bien armado no pelea contra gigantes: pelea contra webs que nadie mantiene. Es de
+          los pocos casos donde el SEO todavía se gana con orden y no con presupuesto.
+        </p>
+      </div>
+    </div>
+
+    <div class="sub-h">Por qué conviene hacerlo junto con Google Ads y no después</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 30%;">Lo que aporta cada uno</th>
+            <th>Google Ads</th>
+            <th>SEO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Cuándo trae alumnos</strong></td>
+            <td>Desde la primera semana.</td>
+            <td class="muted">Primeros movimientos a los 3 o 4 meses. Resultado real entre el 6 y el 12.</td>
+          </tr>
+          <tr>
+            <td><strong>Qué pasa si se corta</strong></td>
+            <td class="muted">Se apaga el mismo día. El tráfico se termina con el presupuesto.</td>
+            <td>Queda. Una página bien posicionada sigue trayendo familias sin pagar por cada visita.</td>
+          </tr>
+          <tr>
+            <td><strong>Coste por alumno</strong></td>
+            <td class="muted">Estable en el tiempo: siempre se paga el clic.</td>
+            <td>Alto al principio y decreciente. A los doce meses es el canal más barato de todos.</td>
+          </tr>
+          <tr>
+            <td><strong>Qué le da al otro</strong></td>
+            <td>En sesenta días dice <strong>qué búsquedas convierten de verdad</strong>, con datos y no con suposiciones.</td>
+            <td>Aporta las páginas que además funcionan como destino de los anuncios y suben su nivel de calidad.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <h3>El argumento de fondo: es el mismo trabajo hecho una vez</h3>
+      <p>
+        Las páginas que Google Ads necesita como destino —una por idioma, una por intención de
+        búsqueda— son exactamente las páginas que hoy le faltan al sitio para posicionar. Si se
+        hacen para los anuncios y encima quedan indexables, se pagó un trabajo y rinde en los dos
+        canales. Hacerlo por separado, seis meses después, es pagarlo dos veces.
+      </p>
+      <p>
+        Y hay un orden que importa: <strong>Google Ads descubre en dos meses qué palabras traen
+        familias que se matriculan.</strong> El SEO que se construye después de saber eso apunta a
+        las búsquedas correctas desde el día uno. El SEO que se construye sin ese dato adivina
+        durante medio año y suele acertarle a las búsquedas de más volumen, que casi nunca son las
+        que convierten.
+      </p>
+    </div>
+
+    <div class="callout" style="border-left-color: var(--warn);">
+      <h3>Lo que el SEO no va a hacer</h3>
+      <p>
+        No va a traer alumnos en septiembre ni en octubre. Si el objetivo es llenar la agenda de
+        las profesoras este trimestre, eso lo hace Google Ads y nada más. El SEO es la decisión
+        que hace que dentro de un año el coste de conseguir un alumno sea la mitad. Las dos cosas
+        son razonables; lo que no es razonable es esperar de una lo que da la otra.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MEDICIÓN ============ -->
+<section class="dark" id="medicion">
+  <div class="wrap">
+    <div class="kicker">07 · Medición</div>
+    <h2 class="section-title">Cerrar el circuito entre<br>el clic y <em>el alumno que paga</em>.</h2>
+    <p class="lead">
+      Esta es la parte que no se ve en ninguna captura de pantalla bonita y es la que decide si la
+      inversión rinde o no. Va incluida en el arranque y es lo primero que hacemos.
+    </p>
+
+    <div class="step">
+      <div class="step-label">Medición 01</div>
+      <div>
+        <h3>Conversión de Google Ads y evento de reserva</h3>
+        <p>
+          Creamos la etiqueta de conversión de Google Ads —que hoy no existe— y la conectamos al
+          contenedor que ya tienen. Para la reserva de la clase gratis hace falta que la aplicación
+          de <code>/auth</code> empuje un evento propio al confirmarse el turno, porque no hay una
+          URL de gracias sobre la que disparar. Es media hora de trabajo de quien programó el
+          portal y les dejamos el fragmento escrito.
+        </p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-label">Medición 02</div>
+      <div>
+        <h3>Los clics a WhatsApp, como conversión secundaria</h3>
+        <p>
+          Los cinco botones de plan salen a WhatsApp con mensajes distintos, así que se pueden
+          distinguir uno de otro. Los marcamos como conversión secundaria: no se usan para pujar,
+          pero permiten ver qué campañas empujan a la familia hasta el punto de escribir.
+        </p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-label">Medición 03</div>
+      <div>
+        <h3>Importación de conversiones sin conexión</h3>
+        <p>
+          Esta es la pieza que separa una cuenta profesional de una cuenta corriente. Cuando alguien
+          entra desde un anuncio, Google le pone un identificador al clic. Si ese identificador se
+          guarda junto a la ficha del alumno, después se le puede devolver a Google el dato de que
+          esa persona se matriculó y con qué plan, aunque el pago se haya cerrado por WhatsApp
+          quince días más tarde.
+        </p>
+        <p>
+          A partir de ahí Google deja de optimizar hacia quien reserva y empieza a optimizar hacia
+          <strong>quien termina pagando</strong>, y hacia el plan anual antes que hacia el mensual.
+          Es lo que convierte 100 € de cuota mensual y 1.200 € de plan anual en dos señales
+          distintas en vez de una sola conversión indiferenciada.
+        </p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-label">Medición 04</div>
+      <div>
+        <h3>Consentimiento, porque el público es europeo</h3>
+        <p>
+          Con tráfico de Reino Unido, España, Alemania y Países Bajos, Google exige el modo de
+          consentimiento configurado para poder medir y remarketar. En el contenedor actual no hay
+          ninguna plantilla de gestión de consentimiento instalada. Lo dejamos resuelto en el
+          arranque: sin eso, buena parte de las conversiones europeas directamente no se registran.
+        </p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-label">Medición 05</div>
+      <div>
+        <h3>Un panel que se entiende sin saber de Google Ads</h3>
+        <p>
+          Nos dijeron que Google Ads no es su fuerte, y no tiene por qué serlo. El reporte mensual
+          va a responder cuatro preguntas: cuánto se invirtió, cuántas clases gratis se reservaron,
+          cuántas se convirtieron en alumno y cuánto costó cada uno. Sin capturas de la plataforma
+          ni métricas que no sirven para decidir nada.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MÁS ADELANTE ============ -->
+<section class="ak" id="despues">
+  <div class="wrap">
+    <div class="kicker">Alpha Kids · 08</div>
+    <h2 class="section-title">Meta y email:<br>segunda y <em>tercera instancia</em>.</h2>
+    <p class="lead">
+      Los dos canales tienen sentido en esta cuenta, y ninguno de los dos tiene sentido todavía.
+      Los dejamos planteados con el momento en que los abriríamos y la razón, para que no parezca
+      que nos los guardamos en la manga.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-num">Segunda instancia · Mes 3</div>
+        <h3>Meta, pero no para vender</h3>
+        <p>
+          Tienen razón en que un padre desconfía de que le vendan clases para su hijo en Instagram.
+          Por eso Meta no entra como canal de venta directa: entra como remarketing y como prueba.
+          Mostrarle testimonios y fragmentos de clase real a quien ya visitó la web o reservó y no
+          asistió cuesta muy poco y no interrumpe a un desconocido.
+        </p>
+        <p>
+          Requiere el píxel instalado y público acumulado. Antes del mes tres no hay a quién
+          mostrarle nada, y por eso no lo cotizamos ahora.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Tercera instancia · Mes 3 o 4</div>
+        <h3>Email, donde está el agujero más grande</h3>
+        <p>
+          Seis de cada diez familias hacen la clase gratis y no se matriculan. Hoy esa gente se
+          pierde. Son personas que dejaron su correo, conocieron a la profesora y vieron el aula:
+          es el público más caliente que van a tener nunca, y no cuesta nada volver a hablarles.
+        </p>
+        <p>
+          Una secuencia después de la clase de prueba, otra para quien reservó y no asistió, y el
+          informe de progreso como excusa de contacto. Es lo que mejor relación esfuerzo-resultado
+          tiene de todo lo que hay en esta propuesta.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>El cuestionario que lanzaron esta semana</h3>
+      <p>
+        Nos parece la mejor decisión que tomaron en el último mes y queremos usarlo. Todo lo que
+        hay en esta propuesta sobre quiénes son los padres sale de lo que ustedes observaron, no de
+        datos duros. Los resultados de ese cuestionario entran directo al mes de auditoría: con qué
+        palabras describen el problema, qué los frenó antes de reservar y qué esperaban encontrar.
+        De ahí salen los titulares de los anuncios, que es donde esas palabras valen dinero.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CÓMO TRABAJAMOS ============ -->
+<section class="alt" id="trabajo">
+  <div class="wrap">
+    <div class="kicker">09 · Cómo trabajamos</div>
+    <h2 class="section-title">El orden importa más<br>que la <em>velocidad</em>.</h2>
+    <p class="lead">
+      No empezamos por las campañas. Empezamos por poder leer lo que pase después, porque una
+      campaña sin medición es una opinión cara.
+    </p>
+
+    <div class="step">
+      <div class="step-label">Semana 1</div>
+      <div>
+        <h3>Entender el negocio antes de tocar nada</h3>
+        <p>
+          Una reunión larga con ustedes y, si se puede, con el profesor que fundó el proyecto.
+          Queremos entender qué pasa dentro de la clase gratis, por qué se queda el 40% y qué dicen
+          los que no se quedan. Ahí también revisamos los resultados del cuestionario.
+        </p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-label">Semanas 1 y 2</div>
+      <div>
+        <h3>Instalar la capa que hoy no existe</h3>
+        <p>
+          Conversión de Google Ads, evento de reserva, clics a WhatsApp, consentimiento y la
+          preparación para la importación sin conexión. Al final de esta etapa cada acción del
+          sitio tiene un nombre y se puede contar.
+        </p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-label">Semana 2</div>
+      <div>
+        <h3>Estructura de cuenta y primeras páginas</h3>
+        <p>
+          Montamos la cuenta con los frentes separados por intención e idioma, escribimos los
+          anuncios y armamos las primeras páginas de aterrizaje: una en español y una en inglés,
+          que es el arreglo más rentable de toda la propuesta.
+        </p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-label">Semanas 3 a 6</div>
+      <div>
+        <h3>Lanzamiento contenido y aprendizaje</h3>
+        <p>
+          Salen primero marca, competencia y categoría, con presupuesto acotado y concordancias
+          cerradas. Revisión de términos de búsqueda dos veces por semana y lista de negativas
+          creciendo, que es donde se evita la mayor parte del derroche del primer mes.
+        </p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-label">Mes 2 en adelante</div>
+      <div>
+        <h3>Puja por conversiones y escalado</h3>
+        <p>
+          Con reservas acumuladas suficientes pasamos a puja automática, abrimos el frente de
+          problema y de altas capacidades, y subimos presupuesto donde el coste por alumno esté
+          dentro del techo de la tabla. Reporte mensual y una llamada para leerlo juntos.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUÉ INCLUYE ============ -->
+<section id="incluye">
+  <div class="wrap">
+    <div class="kicker">10 · Alcance</div>
+    <h2 class="section-title">Todo lo que <em>entra</em><br>en el trabajo mensual.</h2>
+
+    <div class="inc-group">
+      <h3>Google Ads</h3>
+      <ul class="inc-list">
+        <li>Estructura de campañas por intención e idioma</li>
+        <li>Investigación de palabras clave en español e inglés</li>
+        <li>Redacción de anuncios y titulares por frente</li>
+        <li>Extensiones, reseñas y textos destacados</li>
+        <li>Revisión de términos de búsqueda y negativas</li>
+        <li>Segmentación por idioma cruzada con país</li>
+        <li>Gestión de pujas y presupuestos</li>
+        <li>Pruebas de anuncios y de página de destino</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>Medición</h3>
+      <ul class="inc-list">
+        <li>Etiqueta de conversión de Google Ads</li>
+        <li>Evento de reserva de clase gratis</li>
+        <li>Seguimiento de los clics a WhatsApp</li>
+        <li>Modo de consentimiento para tráfico europeo</li>
+        <li>Preparación de conversiones sin conexión</li>
+        <li>Revisión y orden del contenedor de etiquetas</li>
+        <li>Objetivos y públicos en Analytics</li>
+        <li>Corrección del robots.txt y del mapa del sitio</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>SEO <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--ash);text-transform:uppercase;">· si se contrata</span></h3>
+      <ul class="inc-list">
+        <li>Arquitectura de páginas indexables por tema</li>
+        <li>Versión por idioma con hreflang</li>
+        <li>Investigación de búsquedas orgánicas por país</li>
+        <li>Redacción de las páginas nuevas</li>
+        <li>Títulos, descripciones y datos estructurados</li>
+        <li>Mapa del sitio y robots.txt corregidos</li>
+        <li>Rendimiento y salud técnica del sitio</li>
+        <li>Seguimiento de posiciones y tráfico orgánico</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>Páginas de aterrizaje</h3>
+      <ul class="inc-list">
+        <li>Una página en español y una en inglés</li>
+        <li>Redacción orientada a la reserva</li>
+        <li>Reseñas propias puestas donde se leen</li>
+        <li>Medición instalada desde el primer día</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>Seguimiento</h3>
+      <ul class="inc-list">
+        <li>Reporte mensual en las cuatro preguntas que importan</li>
+        <li>Llamada mensual para leerlo juntos</li>
+        <li>Canal directo para dudas del día a día</li>
+        <li>Aviso proactivo si algo se rompe o se dispara</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <h3>Lo que necesitamos que hagan ustedes, y no podemos hacer nosotros</h3>
+      <p>
+        El evento de reserva dentro del portal lo tiene que pegar quien programó la aplicación:
+        nosotros entregamos el código exacto y las instrucciones, pero no tocamos su producto.
+        Y para la importación sin conexión hace falta que el identificador del clic se guarde
+        junto a la ficha del alumno. Sin esas dos cosas, el circuito queda abierto.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LO QUE PRECISAMOS ============ -->
+<section class="alt" id="necesitamos">
+  <div class="wrap">
+    <div class="kicker">11 · De su lado</div>
+    <h2 class="section-title">Lo que precisamos<br>para <em>arrancar</em>.</h2>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-num">01</div>
+        <h3>Accesos</h3>
+        <p>
+          Cuenta de Google Ads —o la creamos a nombre de ustedes—, el contenedor de etiquetas,
+          Analytics y el sitio para publicar las páginas nuevas. Todo con usuario propio de Dilema,
+          sin compartir contraseñas.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <h3>Números del negocio</h3>
+        <p>
+          Cuántas reservas hubo hasta hoy, cuántas se matricularon, qué plan eligió cada familia y
+          cuánto dura en promedio. Aunque sea aproximado y esté en una planilla: es lo que
+          reemplaza las estimaciones de esta propuesta por sus números reales.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">03</div>
+        <h3>Material y una persona de contacto</h3>
+        <p>
+          Fotos o video de una clase real, los resultados del cuestionario, y alguien de su lado
+          que pueda responder en el día. También saber cuántos alumnos nuevos por profesora pueden
+          absorber por mes: no queremos traer demanda que no tenga quién la atienda.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CALENDARIO ============ -->
+<section id="calendario">
+  <div class="wrap">
+    <div class="kicker">12 · Calendario</div>
+    <h2 class="section-title">Los primeros<br><em>tres meses</em>, con fecha.</h2>
+    <p class="lead">
+      Septiembre no se pierde: se usa para arrancar bien. Lo que sigue es el plan concreto si
+      empezamos en las próximas dos semanas.
+    </p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 22%;">Cuándo</th>
+            <th>Qué pasa</th>
+            <th style="width: 26%;">Con qué se mide</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Septiembre · Semanas 1 y 2</strong></td>
+            <td>Reunión de negocio, lectura del cuestionario, medición instalada de punta a punta, cuenta montada y primeras dos páginas de aterrizaje.</td>
+            <td class="muted">Cada acción del sitio se puede contar. Todavía no hay gasto en pauta.</td>
+          </tr>
+          <tr>
+            <td><strong>Septiembre · Semanas 3 y 4</strong></td>
+            <td>Salen marca, competencia y categoría, en español e inglés, con concordancias cerradas y presupuesto acotado. Revisión de términos dos veces por semana.</td>
+            <td class="muted">Primeras reservas atribuidas. El objetivo del mes es aprender, no escalar.</td>
+          </tr>
+          <tr>
+            <td><strong>Octubre</strong></td>
+            <td>Con las reservas acumuladas se pasa a puja por conversiones. Abre el frente de problema, que es el de volumen. Importación de matrículas sin conexión funcionando.</td>
+            <td class="muted">Coste por reserva y coste por alumno, contra el techo de la tabla.</td>
+          </tr>
+          <tr>
+            <td><strong>Noviembre</strong></td>
+            <td>Se escala presupuesto donde el coste por alumno esté dentro del techo. Abre altas capacidades. Se decide con datos si Meta entra o no.</td>
+            <td class="muted">Alumnos por profesora y cuánto aguanta la agenda antes de saturarse.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <h3>Si además entra SEO, corre en paralelo y con otro reloj</h3>
+      <p>
+        El calendario de arriba es el de Google Ads, que es el que trae alumnos este trimestre. El
+        SEO arranca el mismo mes pero se mide distinto: septiembre y octubre son de arquitectura
+        —las páginas por tema y por idioma que hoy no existen—, noviembre y diciembre de contenido,
+        y las primeras posiciones que mueven algo aparecen entre enero y marzo. Conviene tener eso
+        claro de entrada para no juzgarlo en el mes dos.
+      </p>
+    </div>
+
+    <div class="callout">
+      <h3>Una advertencia que preferimos hacer ahora</h3>
+      <p>
+        Con el escenario del simulador, una inversión moderada puede traer más alumnos de los que
+        hoy hay capacidad para atender. Eso suena a buen problema y no lo es: una familia que
+        reserva y espera dos semanas por un hueco, se va. El presupuesto de pauta lo vamos a mover
+        contra la agenda real de las profesoras, no contra lo que se pueda gastar.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INVERSIÓN ============
+     ▼▼▼ VALEN: los importes editables están en los .price-num de acá abajo ▼▼▼ -->
+<section class="dark" id="inversion">
+  <div class="wrap">
+    <div class="kicker">13 · Inversión</div>
+    <h2 class="section-title">Cuatro servicios y<br>tres formas de <em>combinarlos</em>.</h2>
+    <p class="lead">
+      Nos plantearon que querían ver todas las opciones, así que van todas. Cada servicio se puede
+      contratar suelto, y cualquier combinación de dos o más tiene descuento. En todos los planes
+      mensuales la auditoría y la instalación de la medición van incluidas: es la base sobre la que
+      se apoya el resto y cobrarla aparte sería cobrar dos veces por lo mismo.
+    </p>
+
+    <div class="pr-block">
+      <div class="pr-head">
+        <span class="dot" style="background: var(--sky);"></span>
+        <h3>Por servicio</h3>
+        <span class="pr-note">Fee mensual Dilema</span>
+      </div>
+      <div class="price-grid g4">
+        <div class="price-card">
+          <div class="price-type">Desde el mes 1</div>
+          <h4>Google Ads</h4>
+          <p>Campañas por intención e idioma, medición instalada y optimización contra alumnos matriculados.</p>
+          <div class="price-num">300 <span>USD / mes</span></div>
+        </div>
+        <div class="price-card">
+          <div class="price-type">Desde el mes 1</div>
+          <h4>SEO</h4>
+          <p>Arquitectura de páginas, versiones por idioma, contenido y trabajo técnico sobre el sitio.</p>
+          <div class="price-num">400 <span>USD / mes</span></div>
+        </div>
+        <div class="price-card">
+          <div class="price-type">Desde el mes 3</div>
+          <h4>Meta Ads</h4>
+          <p>Remarketing y prueba social sobre público ya acumulado. Antes del mes tres no hay a quién mostrarle nada.</p>
+          <div class="price-num">300 <span>USD / mes</span></div>
+        </div>
+        <div class="price-card">
+          <div class="price-type">Desde el mes 3</div>
+          <h4>Email marketing</h4>
+          <p>Secuencias para el 60% que prueba y no se matricula, y para quien reservó y no asistió.</p>
+          <div class="price-num">150 <span>USD / mes</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pr-block">
+      <div class="pr-head">
+        <span class="dot" style="background: var(--ak-violet-2);"></span>
+        <h3>Combinados</h3>
+        <span class="pr-note">10% de descuento sobre la suma</span>
+      </div>
+      <div class="price-grid">
+        <div class="price-card featured">
+          <div class="price-badge">Recomendado</div>
+          <div class="price-type">Los dos frentes de búsqueda</div>
+          <h4>Google Ads + SEO</h4>
+          <p>Lo pagado trae alumnos ahora y le dice al orgánico qué búsquedas convierten. Las páginas se construyen una vez y sirven para los dos.</p>
+          <div class="price-num">630 <span>USD / mes</span></div>
+          <div class="price-save">Suman 700 · ahorran 70 al mes</div>
+        </div>
+        <div class="price-card">
+          <div class="price-type">Los tres canales</div>
+          <h4>Google + SEO + Meta</h4>
+          <p>Los tres canales sobre la misma medición y con un solo reporte. Meta entra cuando haya público acumulado.</p>
+          <div class="price-num">900 <span>USD / mes</span></div>
+          <div class="price-save">Suman 1.000 · ahorran 100 al mes</div>
+        </div>
+        <div class="price-card">
+          <div class="price-type">Todo</div>
+          <h4>Los tres + email</h4>
+          <p>Todo lo de esta propuesta funcionando junto, incluida la recuperación del 60% que prueba y no se queda.</p>
+          <div class="price-num">1.035 <span>USD / mes</span></div>
+          <div class="price-save">Suman 1.150 · ahorran 115 al mes</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note hi" style="margin-bottom: 16px;">
+      <strong>La auditoría va incluida en cualquier plan mensual, sin costo de puesta en marcha.</strong>
+      Si prefieren contratarla sola, sin gestión, son <strong>450 USD de pago único</strong>: auditoría
+      completa, medición instalada y funcionando, y la estructura de campañas y anuncios entregada
+      por escrito para que la ejecuten ustedes.
+    </div>
+
+    <div class="note" style="margin-bottom: 16px;">
+      <strong>Sin permanencia, con una preferencia declarada.</strong> Todos los planes son mes a
+      mes y se pueden cortar avisando con treinta días. Dicho eso, recomendamos comprometerse
+      mentalmente a tres meses: es el plazo en el que una cuenta nueva pasa de aprender a rendir, y
+      juzgarla antes es juzgar el período de aprendizaje, no el trabajo.
+    </div>
+
+    <div class="note" style="margin-bottom: 16px;">
+      <strong>El fee es el trabajo de Dilema. La inversión en pauta va aparte</strong> y se paga
+      directo a Google desde la cuenta de Alpha Kids, con la tarjeta de ustedes. Nunca pasa por
+      nosotros, y pueden ver el gasto en tiempo real cuando quieran.
+      <br><br>
+      Sugerencia para arrancar: <strong>entre 400 y 600 € al mes de pauta</strong>. Con los
+      supuestos conservadores del simulador, ese rango alcanza para llenar la base de una profesora
+      en el primer mes y medio. Preferimos empezar por abajo y subir contra la agenda real, en vez
+      de traer familias que después esperan turno.
+    </div>
+
+    <div class="note" style="margin-bottom: 16px;">
+      <strong>Sobre las monedas.</strong> Nuestros honorarios van en dólares, que es la moneda con
+      la que trabajamos. Todo lo que en esta propuesta habla del negocio de ustedes —los planes, el
+      simulador, la inversión en pauta— está en euros, porque son sus precios y su mercado.
+    </div>
+
+    <div class="note">
+      <strong>Lo que se construye queda de Alpha Kids.</strong> La cuenta publicitaria, la medición
+      instalada, las páginas de aterrizaje, el contenido y los públicos quedan a nombre de ustedes,
+      con sus accesos, pase lo que pase con la relación comercial. No trabajamos con activos
+      rehenes.
+    </div>
+
+    <div class="callout">
+      <h3>Qué no incluye</h3>
+      <p>
+        Producción de fotografía y video, gestión de redes sociales y contenido orgánico en redes,
+        desarrollo dentro del portal de clases y la inversión en pauta. Nada de eso hace falta para
+        arrancar, y si en algún momento conviene sumarlo lo vamos a plantear con el dato que lo
+        justifique, no antes.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section class="closing">
+  <div class="wrap">
+    <h2>Ya tienen el método, las profesoras<br>y una clase gratis que convence<br>a cuatro de cada diez familias.<br>Falta que <em>lleguen hasta ella</em>.</h2>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="foot-brand">Dilema <em>Creative</em></div>
+    <div class="foot-tag">Estrategia integral para empresas que quieren crecer en digital.</div>
+  </div>
+  <div class="foot-contact">
+    <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a><br>
+    <a href="https://www.instagram.com/dilema.creative/" target="_blank" rel="noopener">@dilema.creative</a><br>
+    <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var ids = ["inv", "cpc", "cvr", "mat", "cuo", "dur"];
+  var el = {};
+  ids.forEach(function (k) {
+    el["in_" + k] = document.getElementById("in-" + k);
+    el["lb_" + k] = document.getElementById("lb-" + k);
+  });
+
+  function eur(n, dec) {
+    var opts = {
+      minimumFractionDigits: dec || 0,
+      maximumFractionDigits: dec || 0
+    };
+    try {
+      return n.toLocaleString("es-ES", Object.assign({ useGrouping: "always" }, opts)) + " €";
+    } catch (e) {
+      return n.toLocaleString("es-ES", opts) + " €";
+    }
+  }
+
+  function render() {
+    var inv = +el.in_inv.value;
+    var cpc = +el.in_cpc.value / 100;
+    var cvr = +el.in_cvr.value / 100;
+    var mat = +el.in_mat.value / 100;
+    var cuo = +el.in_cuo.value;
+    var dur = +el.in_dur.value;
+
+    el.lb_inv.textContent = eur(inv);
+    el.lb_cpc.textContent = cpc.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+    el.lb_cvr.textContent = el.in_cvr.value;
+    el.lb_mat.textContent = el.in_mat.value;
+    el.lb_cuo.textContent = eur(cuo);
+    el.lb_dur.textContent = dur + (dur === 1 ? " mes" : " meses");
+
+    var clics = inv / cpc;
+    var reservas = clics * cvr;
+    var alumnos = reservas * mat;
+    var cac = alumnos > 0 ? inv / alumnos : 0;
+    var ingreso = alumnos * cuo * dur;
+
+    document.getElementById("o-clics").textContent = Math.round(clics).toLocaleString("es-ES");
+    document.getElementById("o-res").textContent = reservas.toFixed(reservas < 10 ? 1 : 0).replace(".", ",");
+    document.getElementById("o-alu").textContent = alumnos.toFixed(alumnos < 10 ? 1 : 0).replace(".", ",");
+    document.getElementById("o-cac").textContent = eur(cac);
+
+    var v = document.getElementById("verdict");
+    var cabeza;
+    if (cac <= cuo) {
+      cabeza = "El primer mes de cuota ya paga la captación.";
+    } else if (cac <= cuo * 3) {
+      cabeza = "La captación se recupera dentro del primer trimestre.";
+    } else if (cac <= cuo * 12) {
+      cabeza = "La captación se recupera contra el plan largo, no contra el primer mes.";
+    } else {
+      cabeza = "Con estos supuestos, la captación no se recupera ni con el plan anual: hay que bajar el coste por clic o subir la tasa de reserva.";
+    }
+
+    v.innerHTML =
+      "<strong>" + cabeza + "</strong> Con " + eur(inv) + " al mes entran unos <strong>" +
+      alumnos.toFixed(alumnos < 10 ? 1 : 0).replace(".", ",") + " alumnos nuevos</strong> a " +
+      eur(cac) + " cada uno, que si se quedan " + dur + (dur === 1 ? " mes" : " meses") +
+      " facturan <strong>" + eur(ingreso) + "</strong>.";
+    v.className = cac <= cuo * 12 ? "verdict" : "verdict bad";
+  }
+
+  ids.forEach(function (k) {
+    el["in_" + k].addEventListener("input", render);
+  });
+  render();
+})();
+</script>
+
+</body>
+</html>
