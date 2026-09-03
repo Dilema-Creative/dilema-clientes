@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tres Mares &middot; Estado de la medici&oacute;n &middot; Dilema Creative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0E2A47; --ink-soft: #1B3A5C; --sage: #4FA27E; --sage-deep: #2F7D5E;
+    --cream: #F4EFE6; --paper: #FAF6EE; --paper-2: #EFE8D9; --black: #14161A;
+    --ash: #6B6257; --line: #D9CFBC; --good: #2F7D5E; --bad: #B23A2B;
+    --star: #5BB4D6; --warn: #C97B2B;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--paper); color: var(--black); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+  nav { position: sticky; top: 0; z-index: 100; background: var(--ink); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 56px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .nav-brand { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--cream); letter-spacing: -0.02em; }
+  .nav-brand em { font-style: italic; color: var(--sage); }
+  .nav-links { display: flex; gap: 6px; list-style: none; }
+  .nav-links a { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(244,239,230,0.55); text-decoration: none; padding: 6px 12px; border-radius: 3px; transition: all .15s; }
+  .nav-links a:hover { color: var(--cream); background: rgba(255,255,255,0.06); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .nav-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); padding: 4px 10px; border: 1px solid var(--sage); border-radius: 3px; }
+
+  .hero { background: var(--paper); padding: 80px 80px 64px; border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -120px; right: -120px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(79,162,126,0.07) 0%, transparent 70%); pointer-events: none; }
+  .hero-kicker { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ash); margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+  .hero-kicker::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: var(--line); }
+  .hero h1 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(56px, 8vw, 112px); line-height: 0.9; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 28px; }
+  .hero h1 em { font-style: italic; color: var(--sage); }
+  .hero-sub { font-family: 'Fraunces', serif; font-size: clamp(18px, 2vw, 24px); font-style: italic; color: var(--ash); max-width: 760px; line-height: 1.4; margin-bottom: 48px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; max-width: 980px; }
+  .hero-stat { background: var(--paper); padding: 20px 24px; }
+  .hero-stat .k { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash); margin-bottom: 6px; }
+  .hero-stat .v { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; color: var(--ink); letter-spacing: -0.02em; line-height: 1; }
+  .hero-stat .v.good { color: var(--good); }
+  .hero-stat .v.star-c { color: var(--star); }
+  .hero-stat .delta { font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-top: 4px; color: var(--ash); }
+
+  section { padding: 72px 80px; border-bottom: 1px solid var(--line); }
+  section.dark { background: var(--ink); color: var(--cream); border-bottom-color: rgba(255,255,255,0.08); }
+  section.cream { background: var(--cream); }
+  .sec-head { display: flex; align-items: baseline; gap: 20px; margin-bottom: 48px; padding-bottom: 18px; border-bottom: 1px solid currentColor; opacity: 0.95; }
+  .sec-head .num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; opacity: 0.5; }
+  .sec-head h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(32px, 4vw, 52px); line-height: 0.95; letter-spacing: -0.025em; }
+  .sec-head h2 em { font-style: italic; color: var(--sage); }
+  .section-lede { font-family: 'Fraunces', serif; font-size: 20px; font-style: italic; color: var(--ash); max-width: 760px; line-height: 1.4; margin-bottom: 36px; }
+  section.dark .section-lede { color: rgba(244,239,230,0.7); }
+  .prose { max-width: 760px; }
+  .prose p { margin-bottom: 16px; }
+  .prose p:last-child { margin-bottom: 0; }
+  .prose strong { color: var(--ink); font-weight: 600; }
+  section.dark .prose strong { color: var(--sage); }
+
+  .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .metric-card { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 20px 18px; position: relative; overflow: hidden; }
+  .metric-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--line); }
+  .metric-card.accent-green::before { background: var(--sage); }
+  .metric-card.accent-blue::before { background: var(--star); }
+  .metric-card.accent-warn::before { background: var(--warn); }
+  .metric-card .label { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash); margin-bottom: 8px; }
+  .metric-card .value { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink); line-height: 1; }
+  .metric-card .sub { font-size: 11px; color: var(--ash); margin-top: 6px; font-family: 'JetBrains Mono', monospace; }
+  section.dark .metric-card { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); }
+  section.dark .metric-card .value { color: var(--cream); }
+  section.dark .metric-card .label, section.dark .metric-card .sub { color: rgba(244,239,230,0.5); }
+
+  .table-wrap { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .camp-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .camp-table th { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ash); text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); background: var(--paper-2); }
+  .camp-table td { padding: 14px; border-bottom: 1px solid var(--line); color: var(--black); vertical-align: middle; }
+  .camp-table tr:last-child td { border-bottom: none; }
+  .camp-name { font-weight: 600; color: var(--ink); font-size: 12.5px; }
+  .camp-type { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ash); margin-top: 2px; }
+  .badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; white-space: nowrap; }
+  .badge.green { background: rgba(79,162,126,0.12); color: var(--good); }
+  .badge.blue { background: rgba(91,180,214,0.12); color: #3a90b0; }
+  .badge.grey { background: var(--paper-2); color: var(--ash); }
+  .badge.warn { background: rgba(201,123,43,0.14); color: var(--warn); }
+  .badge.bad { background: rgba(178,58,43,0.12); color: var(--bad); }
+  .num-good { color: var(--good); font-weight: 700; }
+  .num-bad { color: var(--bad); font-weight: 700; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  .callout { border-left: 4px solid var(--sage); background: var(--paper); padding: 26px 30px; border-radius: 0 6px 6px 0; margin: 32px 0; max-width: 860px; }
+  .callout .clabel { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage-deep); margin-bottom: 10px; }
+  .callout p { font-size: 15.5px; line-height: 1.65; }
+  .callout strong { color: var(--ink); font-weight: 700; }
+  section.dark .callout { background: rgba(255,255,255,0.05); }
+  section.dark .callout strong { color: var(--sage); }
+  section.cream .callout { background: var(--paper); }
+
+  .owner-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .owner-card { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 28px 26px; }
+  .owner-card .otitle { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 4px; }
+  .owner-card .otitle em { font-style: italic; color: var(--sage); }
+  .owner-card .okicker { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ash); margin-bottom: 20px; }
+  .task { display: flex; gap: 12px; padding: 13px 0; border-top: 1px dashed var(--line); font-size: 13.5px; line-height: 1.5; }
+  .task:first-of-type { border-top: 1px solid var(--line); }
+  .task .tnum { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--ash); padding-top: 3px; min-width: 16px; }
+  .task .tbody strong { display: block; color: var(--ink); font-weight: 600; margin-bottom: 2px; }
+  .task .tbody span { color: var(--ash); font-size: 12.5px; }
+
+  .step-list { max-width: 860px; }
+  .step { display: grid; grid-template-columns: 128px 1fr; gap: 24px; padding: 22px 0; border-top: 1px solid var(--line); }
+  .step:last-child { border-bottom: 1px solid var(--line); }
+  .step .sk { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash); padding-top: 4px; }
+  .step .sb h3 { font-family: 'Fraunces', serif; font-size: 21px; font-weight: 500; color: var(--ink); letter-spacing: -0.02em; margin-bottom: 6px; }
+  .step .sb p { font-size: 14px; color: var(--ash); line-height: 1.6; }
+  section.dark .step { border-color: rgba(255,255,255,0.12); }
+  section.dark .step .sk { color: rgba(244,239,230,0.45); }
+  section.dark .step .sb h3 { color: var(--cream); }
+  section.dark .step .sb p { color: rgba(244,239,230,0.65); }
+
+  footer { background: var(--ink); color: var(--cream); padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.08); }
+  .footer-brand { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .footer-brand em { font-style: italic; color: var(--sage); }
+  footer .meta-f { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(244,239,230,0.4); text-align: right; line-height: 1.8; }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 16px; height: 52px; }
+    .nav-links { display: none; }
+    .nav-brand { font-size: 16px; }
+    .nav-tag { font-size: 9px; padding: 3px 8px; }
+    .hero { padding: 56px 20px 48px; }
+    .hero h1 { font-size: 52px; line-height: 0.92; }
+    .hero-sub { font-size: 17px; margin-bottom: 32px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .hero-stat { padding: 16px 18px; }
+    .hero-stat .v { font-size: 22px; }
+    section { padding: 48px 20px; }
+    .sec-head { flex-direction: column; gap: 8px; margin-bottom: 32px; align-items: flex-start; }
+    .sec-head h2 { font-size: 32px; line-height: 1; }
+    .section-lede { font-size: 17px; margin-bottom: 24px; }
+    .metrics-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .metric-card { padding: 14px 12px; }
+    .metric-card .value { font-size: 20px; }
+    .owner-grid { grid-template-columns: 1fr; gap: 14px; }
+    .owner-card { padding: 22px 18px; }
+    .step { grid-template-columns: 1fr; gap: 6px; }
+    .camp-table th, .camp-table td { padding: 10px 8px; font-size: 11.5px; }
+    .callout { padding: 20px 22px; }
+    footer { padding: 28px 20px; flex-direction: column; gap: 16px; text-align: center; }
+    .footer-brand { font-size: 18px; }
+  }
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 42px; }
+    .hero-stats { grid-template-columns: 1fr; }
+    .metrics-row { grid-template-columns: 1fr; }
+    .sec-head h2 { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Dilema <em>creative</em></div>
+  <ul class="nav-links">
+    <li><a href="#resumen">Resumen</a></li>
+    <li><a href="#resultados">Resultados</a></li>
+    <li><a href="#hoy">D&oacute;nde estamos</a></li>
+    <li><a href="#falta">Qu&eacute; falta</a></li>
+    <li><a href="#despues">C&oacute;mo queda</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="nav-tag">Tres Mares &middot; Septiembre 2026</span>
+  </div>
+</nav>
+
+<div class="hero" id="resumen">
+  <div class="hero-kicker">Estado del proyecto &nbsp;&middot;&nbsp; Medici&oacute;n de ventas &nbsp;&middot;&nbsp; 3 de septiembre de 2026</div>
+  <h1>Medir lo que<br><em>se cobra.</em></h1>
+  <p class="hero-sub">Arrancamos con una pregunta tuya: c&oacute;mo saber las ventas reales sin cruzar planillas a mano. La respuesta result&oacute; ser m&aacute;s grande que la pregunta &mdash; Google estaba contando como venta cada orden generada, se cobrara o no. Ya sacamos $3,73 millones de facturaci&oacute;n que nunca existi&oacute;, y esto es lo que falta para que el sistema se corrija solo.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="k">Facturaci&oacute;n fantasma removida</div><div class="v good">$3.73M</div><div class="delta">En 3 tandas, desde el 27/8</div></div>
+    <div class="hero-stat"><div class="k">De las &oacute;rdenes se cobra</div><div class="v">59,5%</div><div class="delta">Medido sobre el reporte de pagos</div></div>
+    <div class="hero-stat"><div class="k">ROAS &uacute;ltimos 14 d&iacute;as</div><div class="v star-c">4,85x</div><div class="delta">$427.192 invertidos</div></div>
+    <div class="hero-stat"><div class="k">Puntos abiertos</div><div class="v">7</div><div class="delta">4 del dev &middot; 2 tuyos &middot; 1 nuestro</div></div>
+  </div>
+</div>
+
+<section class="cream" id="overview">
+  <div class="sec-head"><span class="num">01 / EL PROBLEMA</span><h2>Por qu&eacute; los n&uacute;meros <em>no cerraban.</em></h2></div>
+  <p class="section-lede">Esto explica por qu&eacute; el cruce de Analytics contra las ventas de la web nunca daba, por m&aacute;s que lo revisaras.</p>
+  <div class="prose">
+    <p>La conversi&oacute;n de Google Ads estaba enganchada al momento en que se <strong>genera</strong> la orden, no al momento en que se <strong>cobra</strong>. En el checkout, antes de que el pago exista.</p>
+    <p>Eso significa que toda orden que arranc&oacute; y despu&eacute;s no se pag&oacute; &mdash; las de MercadoPago que quedan pendientes, las transferencias que nunca llegan, los reintentos &mdash; entraba a Google como una venta con su monto completo. Y si despu&eacute;s se ca&iacute;a, Google no se enteraba nunca.</p>
+    <p>El mismo problema afecta a Analytics: la facturaci&oacute;n que ves ah&iacute; est&aacute; inflada por la misma raz&oacute;n. <strong>No era un problema de atribuci&oacute;n. Era que se estaban contando ventas que no ocurrieron.</strong></p>
+  </div>
+
+  <div class="callout">
+    <div class="clabel">El caso m&aacute;s claro</div>
+    <p>Las &oacute;rdenes <strong>497 y 498</strong> son dos intentos de la misma compra. La que finalmente se cobr&oacute; fue la <strong>499</strong>. Google contaba las tres: <strong>la misma venta, tres veces</strong>, con su monto completo cada una.</p>
+  </div>
+</section>
+
+<section id="resultados">
+  <div class="sec-head"><span class="num">02 / RESULTADOS</span><h2>Lo que ya <em>se corrigi&oacute;.</em></h2></div>
+  <p class="section-lede">Nada de esto es proyecci&oacute;n: son correcciones ya aplicadas sobre la cuenta.</p>
+
+  <div class="metrics-row">
+    <div class="metric-card accent-green"><div class="label">Removido de Google Ads</div><div class="value">$3.735.102</div><div class="sub">Ventas que no se cobraron</div></div>
+    <div class="metric-card accent-green"><div class="label">Tandas aplicadas</div><div class="value">3</div><div class="sub">27/8 &middot; 28/8 &middot; 1/9</div></div>
+    <div class="metric-card accent-blue"><div class="label">Correcci&oacute;n</div><div class="value">Autom&aacute;tica</div><div class="sub">Corre todos los d&iacute;as a las 9:00</div></div>
+    <div class="metric-card accent-blue"><div class="label">Alcance del arreglo</div><div class="value">Ads + GA4</div><div class="sub">Y tambi&eacute;n Meta</div></div>
+  </div>
+
+  <div class="table-wrap">
+    <table class="camp-table">
+      <thead>
+        <tr><th>Frente</th><th>Qu&eacute; se hizo</th><th>Estado</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><div class="camp-name">Ventas no cobradas</div><div class="camp-type">Retracciones</div></td>
+          <td>Se identificaron y descontaron de Google Ads las &oacute;rdenes que nunca se cobraron, cruzando orden por orden contra el backoffice.</td>
+          <td><span class="badge green">Aplicado</span></td>
+        </tr>
+        <tr>
+          <td><div class="camp-name">Rutina semanal</div><div class="camp-type">Automatizaci&oacute;n</div></td>
+          <td>Se mont&oacute; una carga programada que toma las &oacute;rdenes ca&iacute;das y las descuenta sola, sin intervenci&oacute;n manual.</td>
+          <td><span class="badge green">Andando</span></td>
+        </tr>
+        <tr>
+          <td><div class="camp-name">Objetivos de la cuenta</div><div class="camp-type">Configuraci&oacute;n</div></td>
+          <td>Se desconectaron objetivos heredados que sumaban conversiones falsas (clics de llamada, agregar al carrito).</td>
+          <td><span class="badge green">Aplicado</span></td>
+        </tr>
+        <tr>
+          <td><div class="camp-name">Datos del comprador</div><div class="camp-type">Conversiones avanzadas</div></td>
+          <td>El email del comprador no llegaba a Google, as&iacute; que la mitad de las ventas no se pod&iacute;an atribuir. Se resolvi&oacute; sin depender del desarrollador y qued&oacute; verificado funcionando.</td>
+          <td><span class="badge green">Corregido</span></td>
+        </tr>
+        <tr>
+          <td><div class="camp-name">Campa&ntilde;a limitada</div><div class="camp-type">Alerta de Google</div></td>
+          <td>Google hab&iacute;a marcado la campa&ntilde;a como limitada por errores en la carga de datos. Se identific&oacute; la causa y se corrigi&oacute;.</td>
+          <td><span class="badge green">Corregido</span></td>
+        </tr>
+        <tr>
+          <td><div class="camp-name">Etiqueta duplicada</div><div class="camp-type">C&oacute;digo del sitio</div></td>
+          <td>Hab&iacute;a un c&oacute;digo de conversi&oacute;n viejo disparando en todas las p&aacute;ginas. Ya lo sacaste de casi todo el sitio.</td>
+          <td><span class="badge warn">Falta la home</span></td>
+        </tr>
+        <tr>
+          <td><div class="camp-name">Demand Gen</div><div class="camp-type">Campa&ntilde;as</div></td>
+          <td>Se paus&oacute; la campa&ntilde;a que consum&iacute;a presupuesto sin generar ventas atribuidas.</td>
+          <td><span class="badge green">Pausada</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="dark" id="hoy">
+  <div class="sec-head"><span class="num">03 / HOY</span><h2>D&oacute;nde estamos <em>parados.</em></h2></div>
+  <p class="section-lede">N&uacute;meros de la cuenta al 2 de septiembre, ya con las correcciones aplicadas.</p>
+
+  <div class="metrics-row">
+    <div class="metric-card"><div class="label">Inversi&oacute;n 14 d&iacute;as</div><div class="value">$427.192</div><div class="sub">20 ago &ndash; 2 sept</div></div>
+    <div class="metric-card"><div class="label">Ventas atribuidas</div><div class="value">20</div><div class="sub">Mismo per&iacute;odo</div></div>
+    <div class="metric-card"><div class="label">Facturaci&oacute;n atribuida</div><div class="value">$2.073.709</div><div class="sub">Mismo per&iacute;odo</div></div>
+    <div class="metric-card"><div class="label">ROAS reportado</div><div class="value">4,85x</div><div class="sub">Sobre la vara nueva</div></div>
+  </div>
+
+  <div class="prose">
+    <p>Queda <strong>una sola campa&ntilde;a activa</strong>, de M&aacute;ximo rendimiento, con un presupuesto de $33.000 por d&iacute;a.</p>
+    <p>Ese 4,85x hay que leerlo con cuidado: es el n&uacute;mero que <strong>reporta Google</strong>, y todav&iacute;a incluye &oacute;rdenes recientes que pueden no cobrarse. La rutina de correcci&oacute;n las va descontando a medida que se definen, as&iacute; que el n&uacute;mero baja durante las primeras semanas y despu&eacute;s se estabiliza. <strong>Es esperable y es sano</strong>: significa que el panel se est&aacute; acercando a la realidad.</p>
+  </div>
+
+  <div class="callout">
+    <div class="clabel">Para dimensionar</div>
+    <p>En junio, el panel de Google mostraba un retorno de casi <strong>7x</strong>. El real, contando solo lo cobrado, era <strong>1,68x</strong>. Esa brecha es la que estamos cerrando.</p>
+  </div>
+</section>
+
+<section class="cream" id="falta">
+  <div class="sec-head"><span class="num">04 / PENDIENTE</span><h2>Qu&eacute; falta y <em>de qui&eacute;n</em> depende.</h2></div>
+  <p class="section-lede">Todo lo que queda abierto, ordenado por qui&eacute;n lo tiene que resolver.</p>
+
+  <div class="owner-grid">
+    <div class="owner-card">
+      <div class="otitle">Del <em>desarrollador</em></div>
+      <div class="okicker">4 puntos &middot; Bloquea lo dem&aacute;s</div>
+      <div class="task"><div class="tnum">01</div><div class="tbody"><strong>Identificador de sesi&oacute;n en el evento de compra</strong><span>Sin ese dato, la venta se registra pero no se puede saber de qu&eacute; campa&ntilde;a vino. Es la m&aacute;s importante de las tres consultas.</span></div></div>
+      <div class="task"><div class="tnum">02</div><div class="tbody"><strong>Cu&aacute;ndo dispara para transferencia y efectivo</strong><span>Tiene que ser cuando ustedes marcan el pago como recibido, no cuando se crea la orden. Es justo el caso del problema.</span></div></div>
+      <div class="task"><div class="tnum">03</div><div class="tbody"><strong>Qu&eacute; datos incluye el evento</strong><span>Necesitamos n&uacute;mero de orden, monto en pesos y moneda. Y saber si avisa cuando una orden se cancela o reembolsa.</span></div></div>
+      <div class="task"><div class="tnum">04</div><div class="tbody"><strong>Moneda de los productos</strong><span>Ya lo confirmaron y lo van a corregir. Arregla los informes de productos de Analytics.</span></div></div>
+    </div>
+
+    <div class="owner-card">
+      <div class="otitle">De <em>Tres Mares</em></div>
+      <div class="okicker">2 puntos &middot; Cuando puedas</div>
+      <div class="task"><div class="tnum">01</div><div class="tbody"><strong>La etiqueta que qued&oacute; en la home</strong><span>La sacaste de todo el resto del sitio. En la p&aacute;gina de inicio sigue: debe haber una segunda copia cargada aparte.</span></div></div>
+      <div class="task"><div class="tnum">02</div><div class="tbody"><strong>La ganancia de julio y agosto</strong><span>Con el n&uacute;mero de orden como referencia. Es el &uacute;nico dato que no podemos sacar por nuestra cuenta y el que permite medir rentabilidad y no solo facturaci&oacute;n.</span></div></div>
+    </div>
+
+    <div class="owner-card">
+      <div class="otitle">De <em>Dilema</em></div>
+      <div class="okicker">1 punto &middot; En curso</div>
+      <div class="task"><div class="tnum">01</div><div class="tbody"><strong>Seguimiento semanal</strong><span>Control de la rutina de correcci&oacute;n, exclusi&oacute;n de b&uacute;squedas que no corresponden al negocio, y monitoreo de que los datos del comprador lleguen bien.</span></div></div>
+      <div class="task"><div class="tnum">&mdash;</div><div class="tbody"><strong>Al recibir las respuestas del dev</strong><span>Configuramos el evento nuevo, lo dejamos en observaci&oacute;n dos o tres semanas contra tu sistema, y reci&eacute;n despu&eacute;s lo pasamos a ser la medici&oacute;n principal.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="despues">
+  <div class="sec-head"><span class="num">05 / EL DESPU&Eacute;S</span><h2>C&oacute;mo queda <em>cuando cierre.</em></h2></div>
+  <p class="section-lede">El objetivo no es tener un panel m&aacute;s lindo. Es que las decisiones de inversi&oacute;n se tomen sobre plata cobrada.</p>
+
+  <div class="step-list">
+    <div class="step">
+      <div class="sk">Se termina</div>
+      <div class="sb"><h3>El cruce manual de planillas</h3><p>Hoy hay que bajar las &oacute;rdenes del backoffice y compararlas a mano. Con el evento de pago aprobado, Google recibe solo las ventas cobradas y el cruce deja de existir.</p></div>
+    </div>
+    <div class="step">
+      <div class="sk">Se termina</div>
+      <div class="sb"><h3>El problema de las &oacute;rdenes duplicadas</h3><p>Si el comprador rehace el checkout, esa orden abandonada nunca confirma pago y por lo tanto nunca cuenta como venta. El duplicado se resuelve solo.</p></div>
+    </div>
+    <div class="step">
+      <div class="sk">Se arregla</div>
+      <div class="sb"><h3>Analytics y Meta, de una</h3><p>Los tres sistemas leen la misma se&ntilde;al. Corregir el origen los corrige a los tres al mismo tiempo.</p></div>
+    </div>
+    <div class="step">
+      <div class="sk">Mejora</div>
+      <div class="sb"><h3>C&oacute;mo compra Google</h3><p>Hoy el sistema autom&aacute;tico de Google aprende de ventas que no se cobraron, y sale a buscar m&aacute;s p&uacute;blico parecido. Con la se&ntilde;al correcta, aprende de compradores que s&iacute; pagan.</p></div>
+    </div>
+    <div class="step">
+      <div class="sk">Habilita</div>
+      <div class="sb"><h3>Decidir con el n&uacute;mero real</h3><p>Reci&eacute;n con facturaci&oacute;n cobrada y la ganancia por orden se puede definir cu&aacute;nto conviene invertir y en qu&eacute;. Hasta ah&iacute;, cualquier decisi&oacute;n de presupuesto se toma sobre un n&uacute;mero inflado.</p></div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <div class="clabel">El siguiente paso</div>
+    <p>Las tres consultas para el desarrollador ya est&aacute;n redactadas y listas para reenviar. En cuanto lleguen las respuestas, generamos las credenciales y arrancamos con la configuraci&oacute;n. <strong>Ese es el &uacute;nico punto que hoy bloquea el resto.</strong></p>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-brand">Dilema <em>creative</em></div>
+  <div class="meta-f">
+    Tres Mares &middot; Estado de la medici&oacute;n<br>
+    3 de septiembre de 2026 &middot; equipo@dilemacreative.ar
+  </div>
+</footer>
+
+</body>
+</html>
