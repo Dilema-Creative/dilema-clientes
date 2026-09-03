@@ -447,11 +447,8 @@
     </div>
     <h1>Una clase gratis que<br>convierte al 40%.<br>Y hoy <em>no la mide nadie</em>.</h1>
     <p class="hero-sub">
-      Esta propuesta cubre Google Ads, SEO y la medición que hace falta para que los dos funcionen.
-      No venimos a proponerles presencia ni notoriedad: el objetivo es que entren alumnos
-      matriculados y que cada uno se pueda rastrear hasta la búsqueda que lo trajo. Empezamos por
-      lo que revisamos en su sitio, seguimos por los números del negocio y recién después hablamos
-      de campañas.
+      Google Ads, SEO y la medición que hace falta para que los dos funcionen. El objetivo no es
+      presencia: son alumnos matriculados, rastreables hasta la búsqueda que los trajo.
     </p>
     <div class="hero-meta">
       <div class="hero-meta-item">
@@ -480,116 +477,71 @@
     <div class="kicker">01 · Punto de partida</div>
     <h2 class="section-title">Lo que encontramos<br>antes de <em>escribir esta propuesta</em>.</h2>
     <p class="lead">
-      Revisamos alphakidseu.com, su contenedor de etiquetas y su configuración de rastreo antes de
-      sentarnos a escribir. Lo que sigue no son impresiones sobre el diseño: son cosas verificadas
-      sobre el sitio cargado y sobre el contenedor publicado. Las ponemos primero porque
-      condicionan todo lo que viene después, y porque preferimos que las sepan ahora y no dentro de
-      dos meses de pauta.
+      Revisamos alphakidseu.com, su contenedor de etiquetas y su rastreo antes de escribir. Va
+      primero porque condiciona todo lo demás — mejor que lo sepan ahora y no dos meses después.
     </p>
 
     <div class="find">
       <div class="find-head">
         <span class="find-tag">Crítico</span>
-        <h3>Las etiquetas están puestas, pero miden visitas, no alumnos</h3>
+        <h3>Las etiquetas miden visitas, no alumnos</h3>
       </div>
       <p>
-        El contenedor <code>GTM-MKFRTB9N</code> está instalado y funciona. Adentro tiene
-        <strong>una sola etiqueta</strong>: la configuración de Google Analytics 4
-        (<code>G-KNC6PC7QKD</code>), con un único activador de inicialización de página. No hay
-        etiqueta de conversión de Google Ads, no hay activadores de clic, no hay eventos propios y
-        no hay píxel de Meta.
-      </p>
-      <p>
-        Traducido: hoy saben cuánta gente entra, pero Google Ads no tiene forma de saber qué pasó
-        después. <span class="metric">Sin conversión declarada no hay puja inteligente</span>, no
-        hay optimización automática hacia quien reserva y no hay manera de decir qué palabra clave
-        trajo un alumno. Una campaña lanzada en estas condiciones reparte presupuesto por clics,
-        no por resultados.
+        El contenedor <code>GTM-MKFRTB9N</code> tiene <strong>una sola etiqueta</strong>: GA4
+        (<code>G-KNC6PC7QKD</code>). No hay conversión de Google Ads, ni activadores de clic, ni
+        eventos propios, ni píxel de Meta. <span class="metric">Sin conversión declarada no hay
+        puja inteligente</span>: una campaña lanzada así reparte presupuesto por clics, no por
+        resultados.
       </p>
     </div>
 
     <div class="find">
       <div class="find-head">
         <span class="find-tag">Crítico</span>
-        <h3>Las dos acciones que valen plata son justo las que no dejan rastro</h3>
+        <h3>Las dos acciones que valen plata no dejan rastro</h3>
       </div>
       <p>
-        La reserva de la clase gratis pasa por <code>/auth</code>, que es una aplicación que se
-        arma en el navegador: el usuario avanza sin que cambie la dirección de la página, así que
-        no hay una URL de gracias sobre la cual disparar una conversión. Hace falta un evento
-        propio empujado desde la aplicación, no una regla de página.
-      </p>
-      <p>
-        Y los cuatro botones de plan no llevan a un pago: llevan a WhatsApp, con cinco mensajes
-        distintos repartidos entre dos números (<span class="num">…2833-7350</span> para ayuda y
-        <span class="num">…3624-0354</span> para planes). Ese salto a WhatsApp es
-        <span class="metric">el punto exacto donde se corta la trazabilidad</span> entre el dinero
-        invertido y el alumno que paga. Es resoluble, y explicamos cómo más abajo.
+        La reserva de clase gratis pasa por <code>/auth</code>, una SPA sin URL de gracias:
+        hace falta un evento propio empujado desde la aplicación. Y los cuatro botones de plan
+        no llevan a un pago, llevan a WhatsApp — <span class="metric">el punto exacto donde se
+        corta la trazabilidad</span> entre lo invertido y el alumno que paga. Las dos cosas se
+        resuelven en el arranque.
       </p>
     </div>
 
     <div class="find">
       <div class="find-head">
         <span class="find-tag">Alto</span>
-        <h3>Hay una sola página, y todas las campañas caerían en ella</h3>
+        <h3>Una sola página, y todas las campañas caerían ahí</h3>
       </div>
       <p>
-        El sitio es una única página con anclas. <code>/programme</code>, <code>/plans</code>,
-        <code>/about</code> y <code>/contact</code> devuelven 404: el menú superior no lleva a
-        páginas, lleva a secciones. Funciona muy bien como carta de presentación, pero significa
-        que un padre que busca <em>clases de ábaco para niños de 5 años</em> y otro que busca
-        <em>apoyo de matemáticas online</em> aterrizan exactamente en el mismo lugar, con el mismo
-        titular.
-      </p>
-      <p>
-        En Google Ads eso se paga dos veces: peor nivel de calidad —o sea, clic más caro por la
-        misma posición— y peor tasa de reserva, porque la página no le responde a nadie en
-        particular. <span class="metric">Es la palanca de conversión más grande que tienen
-        disponible</span> y no requiere rehacer el sitio, solo sumar páginas de aterrizaje.
+        <code>/programme</code>, <code>/plans</code>, <code>/about</code> y <code>/contact</code>
+        dan 404: el menú son anclas, no páginas. Un padre que busca <em>clases de ábaco</em> y
+        otro que busca <em>apoyo de matemáticas</em> aterrizan en el mismo lugar. En Google Ads
+        eso se paga dos veces —clic más caro, peor tasa de reserva— y es
+        <span class="metric">la palanca de conversión más grande que tienen disponible</span>.
       </p>
     </div>
 
     <div class="find warn">
       <div class="find-head">
         <span class="find-tag">Medio</span>
-        <h3>El sitio es bilingüe, pero para Google es una sola página en un solo idioma</h3>
+        <h3>Bilingüe para el usuario, un solo idioma para Google</h3>
       </div>
       <p>
-        El conmutador ES/EN cambia el texto en el navegador, sin cambiar la dirección:
-        <code>/es</code> devuelve 404 y no hay etiquetas <code>hreflang</code>. Además el HTML
-        declara <code>lang="es"</code> sobre una página que se sirve en inglés.
-      </p>
-      <p>
-        Con la mitad del alumnado tomando clases en castellano y la otra mitad en inglés, esto
-        importa mucho más de lo que parece: <span class="metric">no se puede mandar un anuncio en
-        español a una página en español</span>. Y ese desajuste entre el idioma del anuncio y el
-        de la página es una de las cosas que más castiga el nivel de calidad.
-      </p>
-    </div>
-
-    <div class="find warn">
-      <div class="find-head">
-        <span class="find-tag">Bajo</span>
-        <h3>El robots.txt apunta el mapa del sitio a otro dominio</h3>
-      </div>
-      <p>
-        El archivo declara el mapa del sitio en <code>alphakids.com</code>, que no es el dominio
-        que usan, y esa dirección no responde. Es un detalle chico y de cinco minutos, pero es el
-        tipo de cosa que conviene dejar ordenada antes de empezar a pagar por tráfico.
+        El conmutador ES/EN no cambia la URL: <code>/es</code> da 404, sin <code>hreflang</code>,
+        con <code>lang="es"</code> declarado sobre una página en inglés. Con la mitad del
+        alumnado en castellano, <span class="metric">no se puede mandar un anuncio en español a
+        una página en inglés</span> sin que castigue el nivel de calidad.
       </p>
     </div>
 
     <div class="callout">
-      <h3>Nada de esto es una mala noticia</h3>
+      <h3>Nada de esto es mala noticia</h3>
       <p>
-        Es lo normal en un proyecto de mes y medio que acaba de lanzar la web. La diferencia es
-        que se arregla una sola vez y queda funcionando para siempre: cada euro que entra después
-        alimenta un sistema que aprende solo. La mala versión de esta historia es descubrirlo en
-        noviembre, con tres meses de inversión que no dejaron ni un dato aprovechable.
-      </p>
-      <p>
-        Por eso la instalación de la medición va incluida en el arranque y es lo primero que
-        hacemos, antes de que se publique un solo anuncio.
+        Es lo normal en un proyecto de mes y medio. Se arregla una sola vez y queda funcionando
+        para siempre — por eso la medición va incluida en el arranque, antes de publicar un
+        anuncio.
       </p>
     </div>
   </div>
@@ -603,10 +555,9 @@
     <div class="brand-tag"><span class="dot"></span> El negocio · Alpha Kids</div>
     <h2>No venden clases.<br>Venden un método<br>que <em>se prueba gratis</em>.</h2>
     <p class="o-sub">
-      Alpha Kids no arranca de cero. Hay un método con nueve años de recorrido y más de seiscientos
-      alumnos detrás, un aula virtual propia, profesoras formadas y un programa con certificación e
-      informes clase por clase. Lo que falta no es producto: falta que los padres que ya están
-      buscando algo así lleguen hasta acá. Y falta que, cuando lleguen, se pueda saber quiénes son.
+      Nueve años de método, más de seiscientos alumnos, aula virtual propia, profesoras formadas
+      y certificación por nivel. Lo que falta no es producto: falta que los padres que ya buscan
+      esto lleguen, y que se pueda saber quiénes son.
     </p>
     <div class="facts">
       <div class="fact"><div class="f-num">4 a 14</div><div class="f-lab">Años de los alumnos</div></div>
@@ -623,48 +574,32 @@
     <div class="kicker">Alpha Kids · 02</div>
     <h2 class="section-title">La clase gratis es<br>la mejor máquina que<br><em>ya tienen andando</em>.</h2>
     <p class="lead">
-      Este es el punto que cambia toda la estrategia. Alpha Kids no le pide a un padre que compre:
-      le pide que reserve una clase de 25 minutos, sin dejar datos de pago, y encima le devuelve
-      una evaluación del nivel de su hijo. La fricción de esa oferta es casi cero, y cuatro de cada
-      diez familias que la prueban se quedan. Eso no es una promesa nuestra: es el dato que ustedes
-      ya tienen.
+      Alpha Kids no le pide a un padre que compre: le pide 25 minutos sin datos de pago, y cuatro
+      de cada diez familias se quedan. Ese dato ya es de ustedes — cambia toda la estrategia.
     </p>
 
     <div class="grid-3">
       <div class="card">
         <div class="card-num">Lo que se compra</div>
         <h3>Una reserva, no una matrícula</h3>
-        <p>
-          Toda la publicidad tiene que empujar hacia la clase gratis. Es lo más barato de conseguir,
-          lo que más volumen genera y lo único que un padre acepta hacer la primera vez que escucha
-          hablar de un ábaco.
-        </p>
+        <p>Toda la publicidad empuja hacia la clase gratis: es lo más barato y lo único que un padre acepta hacer la primera vez.</p>
       </div>
       <div class="card">
         <div class="card-num">Lo que decide</div>
         <h3>La clase, no el anuncio</h3>
-        <p>
-          El anuncio no tiene que convencer a nadie de matricularse. Tiene que conseguir que la
-          familia se siente 25 minutos con una profesora. La conversión de verdad la hace la clase,
-          y ahí ustedes ya ganan cuatro de cada diez.
-        </p>
+        <p>El anuncio solo tiene que lograr que la familia se siente 25 minutos con una profesora. La conversión real la hace la clase.</p>
       </div>
       <div class="card">
         <div class="card-num">Dónde está la plata</div>
         <h3>El plan que eligen después</h3>
-        <p>
-          Entre el plan mensual y el anual hay diez veces de diferencia en ingreso comprometido.
-          Por eso la campaña no se optimiza contra reservas a secas, sino contra reservas que
-          terminan en el plan largo.
-        </p>
+        <p>Entre plan mensual y anual hay diez veces de diferencia en ingreso. Por eso se optimiza contra reservas que terminan en plan largo.</p>
       </div>
     </div>
 
     <div class="sub-h">Cuánto se puede pagar por un alumno</div>
     <p class="lead" style="margin-bottom: 26px;">
-      Con la tasa del 40% que ya midieron, cada alumno matriculado cuesta dos reservas y media de
-      clase gratis. A partir de ahí, el techo de lo que se puede invertir sale de sus propios
-      precios. Los tres escenarios de abajo van del más conservador al más ambicioso.
+      Con el 40% de matrícula, cada alumno cuesta dos reservas y media de clase gratis. El techo
+      de inversión sale de sus propios precios:
     </p>
 
     <div class="tbl-wrap">
@@ -679,19 +614,19 @@
         </thead>
         <tbody>
           <tr>
-            <td><strong>El primer mes paga la captación</strong><div class="muted">Muy conservador. Todo lo que venga después es margen.</div></td>
+            <td><strong>El primer mes paga la captación</strong><div class="muted">Muy conservador.</div></td>
             <td class="num">128 €</td>
             <td class="num">128 €</td>
             <td class="num">51 €</td>
           </tr>
           <tr>
-            <td><strong>El trimestre paga la captación</strong><div class="muted">Su plan trimestral ya está vendido cuando se recupera.</div></td>
+            <td><strong>El trimestre paga la captación</strong><div class="muted">Plan trimestral vendido.</div></td>
             <td class="num">360 €</td>
             <td class="num">360 €</td>
             <td class="num">144 €</td>
           </tr>
           <tr>
-            <td><strong>Se mide contra el plan anual</strong><div class="muted">El caso real de las familias que se quedan de verdad.</div></td>
+            <td><strong>Se mide contra el plan anual</strong><div class="muted">El caso de la familia que se queda.</div></td>
             <td class="num">1.200 €</td>
             <td class="num">1.200 €</td>
             <td class="num">480 €</td>
@@ -701,19 +636,11 @@
     </div>
 
     <div class="callout">
-      <h3>Por qué esta tabla es la parte importante de la propuesta</h3>
+      <h3>Por qué esta tabla importa</h3>
       <p>
-        Aun en la lectura más pesimista —que una familia se vaya después del primer mes— hay
-        cincuenta euros de margen por reserva de clase gratis. En búsqueda, para un servicio con
-        esta demanda, ese margen es cómodo. El problema nunca fue que los números no den: el
-        problema es que hoy ninguno de estos números se puede leer dentro de Google Ads, así que
-        no hay forma de saber si una campaña está adentro o afuera de ese techo.
-      </p>
-      <p>
-        Los importes salen de los planes publicados en su web y de la tasa del 40% que nos pasaron.
-        En el mes de auditoría los reemplazamos por los suyos reales: cuánto dura de verdad una
-        familia y qué plan elige cada una. Ahí la tabla deja de ser un marco y pasa a ser el
-        tablero con el que se decide el presupuesto.
+        Aun en la lectura más pesimista hay cincuenta euros de margen por reserva. El problema
+        nunca fue que los números no den: es que hoy no se pueden leer dentro de Google Ads. En
+        el mes de auditoría los reemplazamos por los suyos reales.
       </p>
     </div>
   </div>
@@ -725,10 +652,8 @@
     <div class="kicker">03 · Simulador</div>
     <h2 class="section-title">Qué pasa si ponemos<br>los números <em>a jugar</em>.</h2>
     <p class="lead">
-      Mové los controles y mirá cómo se mueve el resultado. Los valores que vienen puestos son
-      conservadores y están para discutirse: el coste por clic y la tasa de reserva son los dos
-      que solo se saben de verdad después del primer mes con datos propios. El 40% de matrícula es
-      el de ustedes.
+      Mové los controles. Los valores vienen conservadores y son para discutir — el coste por
+      clic y la tasa de reserva se saben de verdad recién con el primer mes de datos propios.
     </p>
 
     <div class="calc">
@@ -785,12 +710,11 @@
     </div>
 
     <div class="callout" style="margin-top: 30px;">
-      <h3>Lo que este simulador demuestra, más allá del número exacto</h3>
+      <h3>Lo que este simulador demuestra</h3>
       <p>
-        Que el negocio aguanta la publicidad con holgura, y que la variable que más mueve el
-        resultado no es el presupuesto: es la tasa de reserva de la página. Duplicar esa tasa vale
-        lo mismo que duplicar la inversión, y cuesta muchísimo menos. Por eso las páginas de
-        aterrizaje por idioma y por intención aparecen tan arriba en nuestro plan.
+        Que el negocio aguanta la publicidad con holgura, y que lo que más mueve el resultado no
+        es el presupuesto: es la tasa de reserva de la página. Por eso las páginas de aterrizaje
+        por idioma e intención van tan arriba en el plan.
       </p>
     </div>
   </div>
@@ -802,61 +726,34 @@
     <div class="kicker">04 · La decisión</div>
     <h2 class="section-title">¿Todo ahora para septiembre,<br>o de a poco para <em>ir viendo</em>?</h2>
     <p class="lead">
-      Nos hicieron esta pregunta y merece una respuesta clara, no un «depende». La respuesta corta
-      es: ninguna de las dos. Va una tercera, y abajo está el porqué de cada descarte.
+      La respuesta corta es: ninguna de las dos. Va una tercera.
     </p>
 
     <div class="grid-3">
       <div class="card">
         <div class="card-num">Opción A · No</div>
-        <h3>Todo el presupuesto ya, campaña fuerte de septiembre</h3>
-        <p>
-          Hoy no hay ninguna conversión declarada en Google Ads. Sin eso, la puja automática no
-          existe como opción: la campaña solo puede optimizar hacia clics, y los clics no pagan
-          profesoras.
-        </p>
-        <p>
-          Invertir fuerte en esas condiciones no es agresivo, es a ciegas. Y lo peor no es el
-          dinero: es que al mes siguiente no queda ni un dato para decidir mejor.
-        </p>
+        <h3>Todo el presupuesto ya</h3>
+        <p>Sin conversión declarada no hay puja automática: la campaña solo optimiza hacia clics, y los clics no pagan profesoras. Invertir fuerte así es a ciegas.</p>
       </div>
       <div class="card">
         <div class="card-num">Opción B · No</div>
-        <h3>Muy de a poco, probando durante meses</h3>
-        <p>
-          El problema espejo. Con presupuestos muy chicos nunca se juntan las conversiones que el
-          sistema necesita para aprender, y la cuenta se queda estancada en modo prueba
-          indefinidamente.
-        </p>
-        <p>
-          Además septiembre es cuando los padres deciden las actividades del curso. Llegar en
-          noviembre con la cuenta calibrada es llegar tarde a la conversación.
-        </p>
+        <h3>Muy de a poco, meses de prueba</h3>
+        <p>Con presupuestos chicos nunca se juntan las conversiones que el sistema necesita para aprender. Y septiembre es cuando los padres deciden — llegar calibrados en noviembre es tarde.</p>
       </div>
       <div class="card" style="border-color: var(--green-deep); border-width: 2px;">
         <div class="card-num" style="color: var(--green-deep);">Opción C · Sí</div>
-        <h3>Arranque contenido en septiembre, escalado en octubre</h3>
-        <p>
-          Dos semanas para instalar la medición y abrir solo las campañas de intención más alta,
-          con presupuesto acotado y el objetivo declarado de juntar datos, no volumen.
-        </p>
-        <p>
-          Cuando hay entre treinta y sesenta reservas acumuladas, se pasa a puja por conversiones y
-          recién ahí se sube el presupuesto. Se escala sobre algo que ya funciona, no sobre una
-          apuesta.
-        </p>
+        <h3>Arranque contenido, escalado en octubre</h3>
+        <p>Dos semanas para instalar medición y abrir solo intención alta, presupuesto acotado. Con 30-60 reservas acumuladas se pasa a puja por conversiones y recién ahí se sube el gasto.</p>
       </div>
     </div>
 
     <div class="callout">
-      <h3>El detalle técnico que hace que esto funcione</h3>
+      <h3>El porqué técnico</h3>
       <p>
-        La puja automática de Google necesita del orden de treinta conversiones al mes para
-        estabilizarse. Si optimizáramos contra alumnos matriculados —que hoy son unos cinco al
-        mes— nunca llegaríamos. Por eso <strong>optimizamos contra la reserva de la clase
-        gratis</strong>, que con su tasa del 40% genera dos veces y media ese volumen, y dejamos la
-        matrícula como el indicador de negocio que se importa aparte. Es la diferencia entre una
-        cuenta que aprende y una que no.
+        La puja automática necesita ~30 conversiones al mes para estabilizarse. Contra alumnos
+        matriculados —hoy unos cinco al mes— nunca llegaríamos. Por eso
+        <strong>optimizamos contra la reserva de clase gratis</strong>, que genera dos veces y
+        media ese volumen, y la matrícula queda como indicador de negocio aparte.
       </p>
     </div>
   </div>
@@ -868,11 +765,8 @@
     <div class="kicker">05 · Estrategia</div>
     <h2 class="section-title">Google no interrumpe:<br><em>atiende</em> a quien ya está buscando.</h2>
     <p class="lead">
-      Nos contaron que los padres desconfían de la publicidad de Meta. Nos parece una lectura
-      correcta del mercado, y es exactamente el argumento por el que arrancamos por búsqueda. En
-      Meta uno interrumpe a alguien que estaba mirando otra cosa; en Google, alguien escribió con
-      sus propias manos que necesita ayuda con las matemáticas de su hijo. La conversación empieza
-      con la confianza del lado de ustedes.
+      Nos dijeron que los padres desconfían de la publicidad de Meta. Coincidimos, y es la razón
+      por la que arrancamos por búsqueda: en Google alguien ya escribió que necesita ayuda.
     </p>
 
     <div class="sub-h">Cuatro frentes de búsqueda, de más caliente a más frío</div>
@@ -880,130 +774,64 @@
       <div class="card">
         <div class="card-num">Frente 01 · Defensa</div>
         <h3>Marca</h3>
-        <p>
-          Quien busca «Alpha Kids» ya los conoce y viene de una recomendación o de la clase gratis.
-          Es el clic más barato de la cuenta y el que peor se siente perder contra un competidor
-          que puje sobre el nombre. Presupuesto chico, prioridad alta.
-        </p>
+        <p>Quien busca «Alpha Kids» ya los conoce. El clic más barato de la cuenta — presupuesto chico, prioridad alta.</p>
         <div class="tags"><span class="tag">alpha kids</span><span class="tag">alphakids abaco</span><span class="tag">alpha kids opiniones</span></div>
       </div>
       <div class="card">
         <div class="card-num">Frente 02 · Intención máxima</div>
         <h3>Competencia y categoría</h3>
-        <p>
-          El padre que busca por el nombre de otra academia de ábaco, o directamente por la
-          categoría, ya entendió el producto y solo está eligiendo con quién. No hay que educarlo:
-          hay que mostrarle por qué las clases individuales en vivo ganan.
-        </p>
+        <p>Ya entendió el producto, solo está eligiendo con quién. Hay que mostrarle por qué ganan las clases 1:1 en vivo.</p>
         <div class="tags"><span class="tag">clases de ábaco online</span><span class="tag">cálculo mental niños</span><span class="tag">alternativa a abakus europe</span><span class="tag">abacus classes for kids</span></div>
       </div>
       <div class="card">
         <div class="card-num">Frente 03 · Volumen</div>
         <h3>El problema, no el método</h3>
-        <p>
-          La mayoría de los padres no busca «ábaco»: busca que su hijo no sufra con las
-          matemáticas, o que se concentre mejor. Es donde está el volumen real y donde el mensaje
-          tiene que hablar del problema, no del método.
-        </p>
+        <p>La mayoría no busca «ábaco»: busca que su hijo no sufra con matemática. Ahí está el volumen real.</p>
         <div class="tags"><span class="tag">apoyo matemáticas niños</span><span class="tag">profesor particular online</span><span class="tag">maths tutor for kids</span><span class="tag">help child concentration</span></div>
       </div>
       <div class="card">
         <div class="card-num">Frente 04 · Aparte</div>
         <h3>Altas capacidades</h3>
-        <p>
-          Nos dijeron que el alumnado se parte entre familias muy exigentes y chicos con altas
-          capacidades. Ese segundo grupo busca con palabras propias y merece anuncios y página
-          propios: el mensaje del refuerzo escolar no le habla.
-        </p>
+        <p>Busca con palabras propias y merece anuncios propios: el mensaje de refuerzo escolar no le habla.</p>
         <div class="tags"><span class="tag">altas capacidades matemáticas</span><span class="tag">gifted child maths</span><span class="tag">enrichment maths kids</span></div>
       </div>
     </div>
 
-    <div class="sub-h">Y acá está la parte que casi nadie mira</div>
-    <div class="callout" style="margin-top: 0;">
-      <h3>Anuncios en español, dentro del Reino Unido</h3>
-      <p>
-        Ocho de cada diez alumnos vienen de familias migrantes, y cerca de la mitad están en el
-        Reino Unido. Eso no describe un mercado británico: describe a una familia hispanohablante
-        viviendo en Londres o Manchester que quiere que su hijo aprenda con una profesora que le
-        hable en castellano. Esa familia no busca en inglés cuando busca esto.
-      </p>
-      <p>
-        Google Ads permite segmentar por idioma y por ubicación de forma independiente. La mayoría
-        de las cuentas lo ignora y manda anuncios en inglés a todo el Reino Unido, compitiendo de
-        frente con las academias locales y pagando el clic más caro del mercado.
-        <strong>Nosotros vamos a abrir campañas en español apuntadas al Reino Unido, Alemania y
-        Países Bajos</strong>, que es donde sus propias reseñas dicen que están sus familias. Es
-        menos competencia, clic más barato y un mensaje que encaja de verdad.
-      </p>
-      <p>
-        Un matiz para no asumir de más: dentro de ese grupo migrante, un 40% ya nació en
-        Europa —segunda generación—, así que conviene probar también una versión en inglés para
-        esa porción en vez de darla toda por hispanohablante. También hay presencia fuerte en
-        Europa del Este, sobre todo Rusia y República Checa: no entra en el arranque, pero es un
-        mercado para sumar más adelante si el volumen inicial lo justifica.
-      </p>
-    </div>
-
     <div class="callout" style="margin-top: 26px;">
-      <h3>Tres motivos de compra, y valen anuncios distintos</h3>
+      <h3>Español en Reino Unido, y tres motivos de compra</h3>
       <p>
-        Juan —el profesor fundador— cruzó lo que le contaron cientos de familias que pasaron por
-        Alpha Kids y por su etapa previa en Abakus Europe, y el reparto queda así: <strong>50%
-        son padres exigentes</strong> que quieren un currículum cargado desde chico, <strong>30%
-        buscan un método alternativo</strong> porque la matemática de la escuela no les está
-        funcionando, y <strong>10% son chicos con mucha facilidad</strong> que buscan explotar el
-        talento. El 10% restante todavía es zona gris, y el cuestionario que lanzaron esta semana
-        debería afinarlo.
+        Ocho de cada diez alumnos son de familias migrantes y la mitad está en Reino Unido — una
+        familia hispanohablante en Londres, no un mercado británico. <strong>Vamos a abrir
+        campañas en español apuntadas a Reino Unido, Alemania y Países Bajos</strong>: menos
+        competencia, clic más barato. Matiz: un 40% de ese grupo migrante ya nació en Europa
+        (segunda generación), así que probamos también una versión en inglés para esa porción.
       </p>
       <p>
-        Ese primer grupo pide currículum, certificación y examen por nivel; el segundo pide un
-        método que complemente el colegio, no que lo reemplace; el tercero pide contenido para no
-        aburrirse. Con datos así conviene escribir un titular por perfil en vez de uno genérico
-        para los tres.
-      </p>
-      <p>
-        Como pista extra para afinar la segmentación por intereses en Google y, más adelante, en
-        Meta: los mismos padres suelen combinar Alpha Kids con <strong>ajedrez, programación o
-        robótica, y artes marciales</strong> — intereses que sirven de señal para públicos por
-        afinidad.
+        Por motivo de compra: <strong>50% padres exigentes</strong> (currículum y certificación),
+        <strong>30% buscan método alternativo</strong> a una escuela que no funciona, y
+        <strong>10% chicos con talento</strong> a potenciar — un titular por perfil, no uno
+        genérico. Como señal extra de segmentación, esos padres suelen combinar Alpha Kids con
+        ajedrez, programación/robótica y artes marciales.
       </p>
     </div>
 
-    <div class="callout" style="border-left-color: var(--warn); margin-top: 26px;">
-      <h3>Palabras negativas que hay que dejar cerradas desde el día uno</h3>
+    <div class="callout" style="border-left-color: var(--warn);">
+      <h3>Dos límites a tener en cuenta desde el día uno</h3>
       <p>
-        Alpha Kids no es una escuela de competencia de ábaco ni una academia presencial, así que
-        <strong>«competencias de ábaco» y «soroban»</strong> van directo a la lista de negativas:
-        son términos que traen escuelas asiáticas de torneo, no familias buscando clases 1:1 en
-        vivo. Por eso sacamos «soroban» de las palabras clave positivas de más arriba — competir
-        por ese clic sería pagar por el público equivocado.
-      </p>
-    </div>
-
-    <div class="callout">
-      <h3>Un límite operativo que define el arranque: edad y idioma de las profesoras</h3>
-      <p>
-        Aunque el programa completo va de 4 a 14 años, la primera etapa conviene enfocarla en
-        <strong>chicos de 5 a 9 años</strong>: las tres profesoras recién formadas todavía no están
-        en nivel avanzado, así que solo pueden atender alumnos que están arrancando. El público de
-        más edad se suma cuando el plantel docente crezca o se forme más.
+        <strong>Negativas:</strong> «competencias de ábaco» y «soroban» — Alpha Kids no es escuela
+        de torneo ni presencial, esos términos traen al público equivocado.
       </p>
       <p>
-        Y hay un segundo límite que cruza directo con la estrategia de idioma: de esas tres
-        profesoras, <strong>una da clases en castellano e inglés, y las otras dos solo en
-        inglés</strong>. Las campañas en español para Reino Unido, Alemania y Países Bajos que
-        proponemos más arriba son el diferencial más fuerte que tienen, pero hoy solo hay una
-        profesora para atenderlas. Conviene arrancarlas con presupuesto acotado y mirar de cerca
-        cuántas reservas puede absorber esa sola profesora antes de escalar el gasto ahí.
+        <strong>Capacidad docente:</strong> el foco etario arranca en <strong>5 a 9 años</strong>
+        (las profesoras nuevas todavía no dan nivel avanzado), y de las tres, <strong>solo una
+        habla español</strong>. Las campañas en español de arriba son el diferencial más fuerte,
+        pero hoy dependen de una sola profesora — arrancan acotadas.
       </p>
     </div>
 
     <div class="sub-h">Qué dice el anuncio</div>
     <p class="lead" style="margin-bottom: 22px;">
-      Nos quedó clara una cosa de la charla: no quieren parecer una aplicación de idiomas
-      gamificada. Estamos de acuerdo, y además es su mejor argumento comercial. Contra una
-      aplicación, ustedes tienen exactamente lo que esa aplicación no puede dar.
+      No quieren parecer una app gamificada — de acuerdo, y es su mejor argumento contra una.
     </p>
     <div class="tbl-wrap">
       <table>
@@ -1018,15 +846,6 @@
         </tbody>
       </table>
     </div>
-    <div class="callout">
-      <h3>Sobre las pruebas sociales que ya tienen</h3>
-      <p>
-        Las reseñas de su web hablan de confianza, concentración y de padres que se sienten parte
-        del proceso. Son mejores que cualquier titular que podamos inventar nosotros, y hoy están
-        enterradas al final de una página larga. Entran directo a las páginas de aterrizaje y a las
-        extensiones de anuncio.
-      </p>
-    </div>
   </div>
 </section>
 
@@ -1036,44 +855,30 @@
     <div class="kicker">06 · SEO</div>
     <h2 class="section-title">La misma búsqueda,<br>sin <em>pagar el clic</em>.</h2>
     <p class="lead">
-      Acá el SEO no es «mejorar el posicionamiento». Es más básico que eso: hoy no hay casi nada
-      que posicionar. Las tres cosas que encontramos en la auditoría —una sola página, ningún
-      idioma separado y un mapa del sitio roto— son problemas de Google Ads, sí, pero son sobre
-      todo la razón por la que el tráfico orgánico no puede crecer aunque el producto sea bueno.
+      Hoy no hay casi nada que posicionar: una sola página, ningún idioma separado, mapa del
+      sitio roto. Son los mismos problemas de Google Ads y la razón por la que el orgánico no
+      crece aunque el producto sea bueno.
     </p>
 
     <div class="grid-3">
       <div class="card">
         <div class="card-num">Hueco 01</div>
         <h3>Una página no compite contra diez</h3>
-        <p>
-          Google posiciona páginas, no sitios. Alpha Kids tiene material para diez: el método, el
-          programa por edades, cada plan, quiénes son las profesoras, el aula virtual, las
-          preguntas que hacen los padres. Hoy todo eso vive dentro de una sola dirección, así que
-          compite por una sola búsqueda.
-        </p>
+        <p>Google posiciona páginas, no sitios. Hay material para diez y todo vive en una sola dirección.</p>
       </div>
       <div class="card">
         <div class="card-num">Hueco 02</div>
         <h3>Dos idiomas, una sola dirección</h3>
-        <p>
-          Sin URL por idioma y sin <code>hreflang</code>, Google solo puede entender el sitio en un
-          idioma. Con clases en castellano y en inglés y familias en cuatro países, están
-          renunciando a la mitad de la demanda orgánica antes de empezar.
-        </p>
+        <p>Sin URL por idioma ni <code>hreflang</code>, renuncian a la mitad de la demanda orgánica.</p>
       </div>
       <div class="card">
         <div class="card-num">Hueco 03</div>
         <h3>La competencia dejó la puerta abierta</h3>
-        <p>
-          Es un mercado específico, con pocos jugadores y sitios pobres. En una categoría así, un
-          sitio bien armado no pelea contra gigantes: pelea contra webs que nadie mantiene. Es de
-          los pocos casos donde el SEO todavía se gana con orden y no con presupuesto.
-        </p>
+        <p>Mercado chico, pocos jugadores, sitios pobres — se gana con orden, no con presupuesto.</p>
       </div>
     </div>
 
-    <div class="sub-h">Por qué conviene hacerlo junto con Google Ads y no después</div>
+    <div class="sub-h">Por qué conviene hacerlo junto con Google Ads</div>
     <div class="tbl-wrap">
       <table>
         <thead>
@@ -1087,51 +892,27 @@
           <tr>
             <td><strong>Cuándo trae alumnos</strong></td>
             <td>Desde la primera semana.</td>
-            <td class="muted">Primeros movimientos a los 3 o 4 meses. Resultado real entre el 6 y el 12.</td>
+            <td class="muted">Resultado real entre el mes 6 y el 12.</td>
           </tr>
           <tr>
             <td><strong>Qué pasa si se corta</strong></td>
-            <td class="muted">Se apaga el mismo día. El tráfico se termina con el presupuesto.</td>
-            <td>Queda. Una página bien posicionada sigue trayendo familias sin pagar por cada visita.</td>
-          </tr>
-          <tr>
-            <td><strong>Coste por alumno</strong></td>
-            <td class="muted">Estable en el tiempo: siempre se paga el clic.</td>
-            <td>Alto al principio y decreciente. A los doce meses es el canal más barato de todos.</td>
+            <td class="muted">Se apaga el mismo día.</td>
+            <td>Queda funcionando sin pagar por cada visita.</td>
           </tr>
           <tr>
             <td><strong>Qué le da al otro</strong></td>
-            <td>En sesenta días dice <strong>qué búsquedas convierten de verdad</strong>, con datos y no con suposiciones.</td>
-            <td>Aporta las páginas que además funcionan como destino de los anuncios y suben su nivel de calidad.</td>
+            <td>En 60 días dice <strong>qué búsquedas convierten</strong>, con datos.</td>
+            <td>Aporta las páginas que sirven de destino y suben el nivel de calidad.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <div class="callout">
-      <h3>El argumento de fondo: es el mismo trabajo hecho una vez</h3>
-      <p>
-        Las páginas que Google Ads necesita como destino —una por idioma, una por intención de
-        búsqueda— son exactamente las páginas que hoy le faltan al sitio para posicionar. Si se
-        hacen para los anuncios y encima quedan indexables, se pagó un trabajo y rinde en los dos
-        canales. Hacerlo por separado, seis meses después, es pagarlo dos veces.
-      </p>
-      <p>
-        Y hay un orden que importa: <strong>Google Ads descubre en dos meses qué palabras traen
-        familias que se matriculan.</strong> El SEO que se construye después de saber eso apunta a
-        las búsquedas correctas desde el día uno. El SEO que se construye sin ese dato adivina
-        durante medio año y suele acertarle a las búsquedas de más volumen, que casi nunca son las
-        que convierten.
-      </p>
-    </div>
-
     <div class="callout" style="border-left-color: var(--warn);">
       <h3>Lo que el SEO no va a hacer</h3>
       <p>
-        No va a traer alumnos en septiembre ni en octubre. Si el objetivo es llenar la agenda de
-        las profesoras este trimestre, eso lo hace Google Ads y nada más. El SEO es la decisión
-        que hace que dentro de un año el coste de conseguir un alumno sea la mitad. Las dos cosas
-        son razonables; lo que no es razonable es esperar de una lo que da la otra.
+        No trae alumnos en septiembre ni octubre — eso lo hace Google Ads. El SEO es la decisión
+        que dentro de un año baja a la mitad el coste de conseguir un alumno.
       </p>
     </div>
   </div>
@@ -1143,8 +924,8 @@
     <div class="kicker">07 · Medición</div>
     <h2 class="section-title">Cerrar el circuito entre<br>el clic y <em>el alumno que paga</em>.</h2>
     <p class="lead">
-      Esta es la parte que no se ve en ninguna captura de pantalla bonita y es la que decide si la
-      inversión rinde o no. Va incluida en el arranque y es lo primero que hacemos.
+      La parte que no se ve en ninguna captura bonita y que decide si la inversión rinde. Va
+      incluida en el arranque, antes de que se publique un anuncio.
     </p>
 
     <div class="step">
@@ -1152,22 +933,20 @@
       <div>
         <h3>Conversión de Google Ads y evento de reserva</h3>
         <p>
-          Creamos la etiqueta de conversión de Google Ads —que hoy no existe— y la conectamos al
-          contenedor que ya tienen. Para la reserva de la clase gratis hace falta que la aplicación
-          de <code>/auth</code> empuje un evento propio al confirmarse el turno, porque no hay una
-          URL de gracias sobre la que disparar. Es media hora de trabajo de quien programó el
-          portal y les dejamos el fragmento escrito.
+          Creamos la etiqueta de conversión —hoy no existe— y el evento propio que
+          <code>/auth</code> tiene que empujar al confirmarse el turno, porque no hay URL de
+          gracias. Es media hora de quien programó el portal; les dejamos el fragmento escrito.
         </p>
       </div>
     </div>
     <div class="step">
       <div class="step-label">Medición 02</div>
       <div>
-        <h3>Los clics a WhatsApp, como conversión secundaria</h3>
+        <h3>WhatsApp como conversión secundaria</h3>
         <p>
-          Los cinco botones de plan salen a WhatsApp con mensajes distintos, así que se pueden
-          distinguir uno de otro. Los marcamos como conversión secundaria: no se usan para pujar,
-          pero permiten ver qué campañas empujan a la familia hasta el punto de escribir.
+          Los botones de plan van a WhatsApp con mensajes distintos, así que se pueden distinguir
+          y marcar como conversión secundaria: no pujan, pero muestran qué campaña empuja a
+          escribir.
         </p>
       </div>
     </div>
@@ -1176,29 +955,31 @@
       <div>
         <h3>Importación de conversiones sin conexión</h3>
         <p>
-          Esta es la pieza que separa una cuenta profesional de una cuenta corriente. Cuando alguien
-          entra desde un anuncio, Google le pone un identificador al clic. Si ese identificador se
-          guarda junto a la ficha del alumno, después se le puede devolver a Google el dato de que
-          esa persona se matriculó y con qué plan, aunque el pago se haya cerrado por WhatsApp
-          quince días más tarde.
-        </p>
-        <p>
-          A partir de ahí Google deja de optimizar hacia quien reserva y empieza a optimizar hacia
-          <strong>quien termina pagando</strong>, y hacia el plan anual antes que hacia el mensual.
-          Es lo que convierte 100 € de cuota mensual y 1.200 € de plan anual en dos señales
-          distintas en vez de una sola conversión indiferenciada.
+          La pieza que separa una cuenta profesional de una cuenta corriente: si el identificador
+          del clic se guarda junto a la ficha del alumno, después le devolvemos a Google el dato
+          de quién se matriculó y con qué plan, aunque el pago se cierre por WhatsApp semanas
+          después. Ahí Google deja de optimizar hacia quien reserva y empieza a optimizar hacia
+          <strong>quien termina pagando</strong>.
         </p>
       </div>
     </div>
     <div class="step">
       <div class="step-label">Medición 04</div>
       <div>
-        <h3>Consentimiento, porque el público es europeo</h3>
+        <h3>Consentimiento y publicidad a menores</h3>
         <p>
           Con tráfico de Reino Unido, España, Alemania y Países Bajos, Google exige el modo de
-          consentimiento configurado para poder medir y remarketar. En el contenedor actual no hay
-          ninguna plantilla de gestión de consentimiento instalada. Lo dejamos resuelto en el
-          arranque: sin eso, buena parte de las conversiones europeas directamente no se registran.
+          consentimiento, y hoy no hay ninguna plantilla instalada. Lo dejamos resuelto en el
+          arranque.
+        </p>
+        <p>
+          Un punto aparte porque venden a familias con menores: la campaña apunta a padres que
+          buscan y deciden, así que queda afuera de las restricciones de Google a menores de 18.
+          El cuidado es a futuro, cuando entre Meta en el mes 3 — los públicos personalizados hay
+          que construirlos con las acciones del padre, nunca con el uso que el chico hace del
+          aula. Y como más de la mitad de la audiencia está en Reino Unido, la <em>plataforma de
+          clases</em> (no la campaña) entra en el Children's Code de la ICO: no poner tags de
+          remarketing en las páginas donde entra el chico, solo en las de marketing.
         </p>
       </div>
     </div>
@@ -1207,35 +988,9 @@
       <div>
         <h3>Un panel que se entiende sin saber de Google Ads</h3>
         <p>
-          Nos dijeron que Google Ads no es su fuerte, y no tiene por qué serlo. El reporte mensual
-          va a responder cuatro preguntas: cuánto se invirtió, cuántas clases gratis se reservaron,
-          cuántas se convirtieron en alumno y cuánto costó cada uno. Sin capturas de la plataforma
-          ni métricas que no sirven para decidir nada.
-        </p>
-      </div>
-    </div>
-    <div class="step">
-      <div class="step-label">Medición 06</div>
-      <div>
-        <h3>Lo que cambia por vender a menores en Europa</h3>
-        <p>
-          Todo lo que armamos apunta a un padre que busca y decide, no a un chico: eso ya deja las
-          campañas de búsqueda afuera de las restricciones que Google aplica a menores de 18, que
-          hoy no son elegibles para publicidad personalizada ni para remarketing. El punto a cuidar
-          es más adelante, cuando entre Meta en el mes 3: los públicos personalizados hay que
-          construirlos con las visitas y acciones del padre en la web, nunca con el uso que el
-          chico hace del aula virtual.
-        </p>
-        <p>
-          La Ley de Servicios Digitales de la Unión Europea prohíbe la publicidad segmentada por
-          perfilado a menores, y esa prohibición no se puede saltear ni con consentimiento de los
-          padres. Y como más de la mitad del público está en Reino Unido, la plataforma de
-          clases —no la campaña, la plataforma— entra dentro del Children's Code de la ICO
-          británica: exige privacidad por defecto para cualquier servicio al que puedan acceder
-          chicos. Lo que ya hacen bien —no grabar clases, auditoría anónima, sin geolocalización—
-          va en la dirección correcta; lo único que pedimos es no poner ninguna etiqueta de
-          remarketing en las páginas del aula virtual donde entra el chico, solo en las páginas de
-          marketing donde entra el padre.
+          Cuatro preguntas por mes: cuánto se invirtió, cuántas clases gratis se reservaron,
+          cuántas se convirtieron en alumno y cuánto costó cada uno. Sin capturas ni métricas que
+          no sirven para decidir.
         </p>
       </div>
     </div>
@@ -1248,50 +1003,28 @@
     <div class="kicker">Alpha Kids · 08</div>
     <h2 class="section-title">Meta y email:<br>segunda y <em>tercera instancia</em>.</h2>
     <p class="lead">
-      Los dos canales tienen sentido en esta cuenta, y ninguno de los dos tiene sentido todavía.
-      Los dejamos planteados con el momento en que los abriríamos y la razón, para que no parezca
-      que nos los guardamos en la manga.
+      Tienen sentido en esta cuenta, y ninguno todavía. Van planteados con el momento y el
+      porqué.
     </p>
 
     <div class="grid-2">
       <div class="card">
         <div class="card-num">Segunda instancia · Mes 3</div>
         <h3>Meta, pero no para vender</h3>
-        <p>
-          Tienen razón en que un padre desconfía de que le vendan clases para su hijo en Instagram.
-          Por eso Meta no entra como canal de venta directa: entra como remarketing y como prueba.
-          Mostrarle testimonios y fragmentos de clase real a quien ya visitó la web o reservó y no
-          asistió cuesta muy poco y no interrumpe a un desconocido.
-        </p>
-        <p>
-          Requiere el píxel instalado y público acumulado. Antes del mes tres no hay a quién
-          mostrarle nada, y por eso no lo cotizamos ahora.
-        </p>
+        <p>No como venta directa: como remarketing y prueba social a quien ya visitó o reservó y no asistió. Requiere píxel y público acumulado, por eso no se cotiza ahora.</p>
       </div>
       <div class="card">
         <div class="card-num">Tercera instancia · Mes 3 o 4</div>
-        <h3>Email, donde está el agujero más grande</h3>
-        <p>
-          Seis de cada diez familias hacen la clase gratis y no se matriculan. Hoy esa gente se
-          pierde. Son personas que dejaron su correo, conocieron a la profesora y vieron el aula:
-          es el público más caliente que van a tener nunca, y no cuesta nada volver a hablarles.
-        </p>
-        <p>
-          Una secuencia después de la clase de prueba, otra para quien reservó y no asistió, y el
-          informe de progreso como excusa de contacto. Es lo que mejor relación esfuerzo-resultado
-          tiene de todo lo que hay en esta propuesta.
-        </p>
+        <h3>Email, el agujero más grande</h3>
+        <p>Seis de cada diez familias hacen la clase gratis y no se matriculan. Es el público más caliente que van a tener, y no cuesta nada volver a hablarles.</p>
       </div>
     </div>
 
     <div class="callout">
       <h3>El cuestionario que lanzaron esta semana</h3>
       <p>
-        Nos parece la mejor decisión que tomaron en el último mes y queremos usarlo. Todo lo que
-        hay en esta propuesta sobre quiénes son los padres sale de lo que ustedes observaron, no de
-        datos duros. Los resultados de ese cuestionario entran directo al mes de auditoría: con qué
-        palabras describen el problema, qué los frenó antes de reservar y qué esperaban encontrar.
-        De ahí salen los titulares de los anuncios, que es donde esas palabras valen dinero.
+        La mejor decisión del último mes, y queremos usarlo: sus resultados entran directo al mes
+        de auditoría y de ahí salen los titulares de los anuncios.
       </p>
     </div>
   </div>
@@ -1303,63 +1036,42 @@
     <div class="kicker">09 · Cómo trabajamos</div>
     <h2 class="section-title">El orden importa más<br>que la <em>velocidad</em>.</h2>
     <p class="lead">
-      No empezamos por las campañas. Empezamos por poder leer lo que pase después, porque una
-      campaña sin medición es una opinión cara.
+      No empezamos por las campañas. Una campaña sin medición es una opinión cara.
     </p>
 
     <div class="step">
       <div class="step-label">Semana 1</div>
       <div>
-        <h3>Entender el negocio antes de tocar nada</h3>
-        <p>
-          Una reunión larga con ustedes y, si se puede, con el profesor que fundó el proyecto.
-          Queremos entender qué pasa dentro de la clase gratis, por qué se queda el 40% y qué dicen
-          los que no se quedan. Ahí también revisamos los resultados del cuestionario.
-        </p>
+        <h3>Entender el negocio</h3>
+        <p>Reunión con ustedes y, si se puede, con Juan. Qué pasa dentro de la clase gratis, por qué se queda el 40%, y revisión del cuestionario.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-label">Semanas 1 y 2</div>
       <div>
-        <h3>Instalar la capa que hoy no existe</h3>
-        <p>
-          Conversión de Google Ads, evento de reserva, clics a WhatsApp, consentimiento y la
-          preparación para la importación sin conexión. Al final de esta etapa cada acción del
-          sitio tiene un nombre y se puede contar.
-        </p>
+        <h3>Instalar la medición</h3>
+        <p>Conversión, evento de reserva, WhatsApp, consentimiento y preparación de importación sin conexión. Cada acción del sitio queda con nombre y se puede contar.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-label">Semana 2</div>
       <div>
-        <h3>Estructura de cuenta y primeras páginas</h3>
-        <p>
-          Montamos la cuenta con los frentes separados por intención e idioma, escribimos los
-          anuncios y armamos las primeras páginas de aterrizaje: una en español y una en inglés,
-          que es el arreglo más rentable de toda la propuesta.
-        </p>
+        <h3>Cuenta y primeras páginas</h3>
+        <p>Estructura por intención e idioma, anuncios, y las primeras dos páginas de aterrizaje —español e inglés—, el arreglo más rentable de la propuesta.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-label">Semanas 3 a 6</div>
       <div>
-        <h3>Lanzamiento contenido y aprendizaje</h3>
-        <p>
-          Salen primero marca, competencia y categoría, con presupuesto acotado y concordancias
-          cerradas. Revisión de términos de búsqueda dos veces por semana y lista de negativas
-          creciendo, que es donde se evita la mayor parte del derroche del primer mes.
-        </p>
+        <h3>Lanzamiento y aprendizaje</h3>
+        <p>Marca, competencia y categoría primero, presupuesto acotado. Revisión de términos dos veces por semana.</p>
       </div>
     </div>
     <div class="step">
       <div class="step-label">Mes 2 en adelante</div>
       <div>
         <h3>Puja por conversiones y escalado</h3>
-        <p>
-          Con reservas acumuladas suficientes pasamos a puja automática, abrimos el frente de
-          problema y de altas capacidades, y subimos presupuesto donde el coste por alumno esté
-          dentro del techo de la tabla. Reporte mensual y una llamada para leerlo juntos.
-        </p>
+        <p>Con reservas acumuladas, puja automática, se abren problema y altas capacidades, y se sube presupuesto dentro del techo de la tabla. Reporte y llamada mensual.</p>
       </div>
     </div>
   </div>
@@ -1434,12 +1146,11 @@
     </div>
 
     <div class="callout">
-      <h3>Lo que necesitamos que hagan ustedes, y no podemos hacer nosotros</h3>
+      <h3>Lo que necesitamos que hagan ustedes</h3>
       <p>
-        El evento de reserva dentro del portal lo tiene que pegar quien programó la aplicación:
-        nosotros entregamos el código exacto y las instrucciones, pero no tocamos su producto.
-        Y para la importación sin conexión hace falta que el identificador del clic se guarde
-        junto a la ficha del alumno. Sin esas dos cosas, el circuito queda abierto.
+        El evento de reserva lo pega quien programó la aplicación — entregamos el código exacto,
+        no tocamos su producto. Y para la importación sin conexión, el identificador del clic
+        tiene que guardarse junto a la ficha del alumno.
       </p>
     </div>
   </div>
@@ -1455,29 +1166,17 @@
       <div class="card">
         <div class="card-num">01</div>
         <h3>Accesos</h3>
-        <p>
-          Cuenta de Google Ads —o la creamos a nombre de ustedes—, el contenedor de etiquetas,
-          Analytics y el sitio para publicar las páginas nuevas. Todo con usuario propio de Dilema,
-          sin compartir contraseñas.
-        </p>
+        <p>Google Ads —o la creamos a su nombre—, contenedor de etiquetas, Analytics y el sitio. Todo con usuario propio de Dilema, sin compartir contraseñas.</p>
       </div>
       <div class="card">
         <div class="card-num">02</div>
         <h3>Números del negocio</h3>
-        <p>
-          Cuántas reservas hubo hasta hoy, cuántas se matricularon, qué plan eligió cada familia y
-          cuánto dura en promedio. Aunque sea aproximado y esté en una planilla: es lo que
-          reemplaza las estimaciones de esta propuesta por sus números reales.
-        </p>
+        <p>Reservas hasta hoy, matrículas, plan elegido y duración promedio, aunque sea aproximado — reemplaza las estimaciones de esta propuesta.</p>
       </div>
       <div class="card">
         <div class="card-num">03</div>
-        <h3>Material y una persona de contacto</h3>
-        <p>
-          Fotos o video de una clase real, los resultados del cuestionario, y alguien de su lado
-          que pueda responder en el día. También saber cuántos alumnos nuevos por profesora pueden
-          absorber por mes: no queremos traer demanda que no tenga quién la atienda.
-        </p>
+        <h3>Material y contacto</h3>
+        <p>Fotos o video de una clase real, resultados del cuestionario, alguien que responda en el día, y cuántos alumnos nuevos por profesora pueden absorber por mes.</p>
       </div>
     </div>
   </div>
@@ -1489,8 +1188,7 @@
     <div class="kicker">12 · Calendario</div>
     <h2 class="section-title">Los primeros<br><em>tres meses</em>, con fecha.</h2>
     <p class="lead">
-      Septiembre no se pierde: se usa para arrancar bien. Lo que sigue es el plan concreto si
-      empezamos en las próximas dos semanas.
+      Septiembre no se pierde: se usa para arrancar bien.
     </p>
 
     <div class="tbl-wrap">
@@ -1504,47 +1202,43 @@
         </thead>
         <tbody>
           <tr>
-            <td><strong>Septiembre · Semanas 1 y 2</strong></td>
-            <td>Reunión de negocio, lectura del cuestionario, medición instalada de punta a punta, cuenta montada y primeras dos páginas de aterrizaje.</td>
-            <td class="muted">Cada acción del sitio se puede contar. Todavía no hay gasto en pauta.</td>
+            <td><strong>Sept. · Semanas 1-2</strong></td>
+            <td>Reunión de negocio, lectura del cuestionario, medición instalada, cuenta montada, primeras dos páginas.</td>
+            <td class="muted">Todo se puede contar. Todavía sin gasto en pauta.</td>
           </tr>
           <tr>
-            <td><strong>Septiembre · Semanas 3 y 4</strong></td>
-            <td>Salen marca, competencia y categoría, en español e inglés, con concordancias cerradas y presupuesto acotado. Revisión de términos dos veces por semana.</td>
-            <td class="muted">Primeras reservas atribuidas. El objetivo del mes es aprender, no escalar.</td>
+            <td><strong>Sept. · Semanas 3-4</strong></td>
+            <td>Salen marca, competencia y categoría, en español e inglés, presupuesto acotado.</td>
+            <td class="muted">Primeras reservas atribuidas. El objetivo es aprender.</td>
           </tr>
           <tr>
             <td><strong>Octubre</strong></td>
-            <td>Con las reservas acumuladas se pasa a puja por conversiones. Abre el frente de problema, que es el de volumen. Importación de matrículas sin conexión funcionando.</td>
-            <td class="muted">Coste por reserva y coste por alumno, contra el techo de la tabla.</td>
+            <td>Puja por conversiones. Abre el frente de problema. Importación de matrículas funcionando.</td>
+            <td class="muted">Coste por reserva y por alumno, contra el techo de la tabla.</td>
           </tr>
           <tr>
             <td><strong>Noviembre</strong></td>
-            <td>Se escala presupuesto donde el coste por alumno esté dentro del techo. Abre altas capacidades. Se decide con datos si Meta entra o no.</td>
-            <td class="muted">Alumnos por profesora y cuánto aguanta la agenda antes de saturarse.</td>
+            <td>Se escala donde el coste por alumno esté dentro del techo. Abre altas capacidades.</td>
+            <td class="muted">Alumnos por profesora y cuánto aguanta la agenda.</td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <div class="callout">
-      <h3>Si además entra SEO, corre en paralelo y con otro reloj</h3>
+      <h3>Si además entra SEO</h3>
       <p>
-        El calendario de arriba es el de Google Ads, que es el que trae alumnos este trimestre. El
-        SEO arranca el mismo mes pero se mide distinto: septiembre y octubre son de arquitectura
-        —las páginas por tema y por idioma que hoy no existen—, noviembre y diciembre de contenido,
-        y las primeras posiciones que mueven algo aparecen entre enero y marzo. Conviene tener eso
-        claro de entrada para no juzgarlo en el mes dos.
+        Corre en paralelo con otro reloj: septiembre-octubre de arquitectura, noviembre-diciembre
+        de contenido, primeras posiciones entre enero y marzo.
       </p>
     </div>
 
     <div class="callout">
-      <h3>Una advertencia que preferimos hacer ahora</h3>
+      <h3>Una advertencia</h3>
       <p>
-        Con el escenario del simulador, una inversión moderada puede traer más alumnos de los que
-        hoy hay capacidad para atender. Eso suena a buen problema y no lo es: una familia que
-        reserva y espera dos semanas por un hueco, se va. El presupuesto de pauta lo vamos a mover
-        contra la agenda real de las profesoras, no contra lo que se pueda gastar.
+        El simulador puede traer más alumnos de los que hoy hay capacidad para atender. El
+        presupuesto lo movemos contra la agenda real de las profesoras, no contra lo que se pueda
+        gastar.
       </p>
     </div>
   </div>
@@ -1557,10 +1251,8 @@
     <div class="kicker">13 · Inversión</div>
     <h2 class="section-title">Cuatro servicios y<br>tres formas de <em>combinarlos</em>.</h2>
     <p class="lead">
-      Nos plantearon que querían ver todas las opciones, así que van todas. Cada servicio se puede
-      contratar suelto, y cualquier combinación de dos o más tiene descuento. En todos los planes
-      mensuales la auditoría y la instalación de la medición van incluidas: es la base sobre la que
-      se apoya el resto y cobrarla aparte sería cobrar dos veces por lo mismo.
+      Cada servicio se contrata suelto, y toda combinación de dos o más tiene descuento. En los
+      planes mensuales la auditoría y la medición van incluidas.
     </p>
 
     <div class="pr-block">
@@ -1573,25 +1265,25 @@
         <div class="price-card">
           <div class="price-type">Desde el mes 1</div>
           <h4>Google Ads</h4>
-          <p>Campañas por intención e idioma, medición instalada y optimización contra alumnos matriculados.</p>
+          <p>Campañas por intención e idioma, medición instalada, optimización contra alumnos matriculados.</p>
           <div class="price-num">300 <span>USD / mes</span></div>
         </div>
         <div class="price-card">
           <div class="price-type">Desde el mes 1</div>
           <h4>SEO</h4>
-          <p>Arquitectura de páginas, versiones por idioma, contenido y trabajo técnico sobre el sitio.</p>
+          <p>Arquitectura de páginas, versiones por idioma, contenido y trabajo técnico.</p>
           <div class="price-num">400 <span>USD / mes</span></div>
         </div>
         <div class="price-card">
           <div class="price-type">Desde el mes 3</div>
           <h4>Meta Ads</h4>
-          <p>Remarketing y prueba social sobre público ya acumulado. Antes del mes tres no hay a quién mostrarle nada.</p>
+          <p>Remarketing y prueba social sobre público acumulado.</p>
           <div class="price-num">300 <span>USD / mes</span></div>
         </div>
         <div class="price-card">
           <div class="price-type">Desde el mes 3</div>
           <h4>Email marketing</h4>
-          <p>Secuencias para el 60% que prueba y no se matricula, y para quien reservó y no asistió.</p>
+          <p>Secuencias para quien prueba y no se matricula, o reserva y no asiste.</p>
           <div class="price-num">150 <span>USD / mes</span></div>
         </div>
       </div>
@@ -1608,21 +1300,21 @@
           <div class="price-badge">Recomendado</div>
           <div class="price-type">Los dos frentes de búsqueda</div>
           <h4>Google Ads + SEO</h4>
-          <p>Lo pagado trae alumnos ahora y le dice al orgánico qué búsquedas convierten. Las páginas se construyen una vez y sirven para los dos.</p>
+          <p>Lo pagado trae alumnos ahora y le dice al orgánico qué búsquedas convierten.</p>
           <div class="price-num">630 <span>USD / mes</span></div>
           <div class="price-save">Suman 700 · ahorran 70 al mes</div>
         </div>
         <div class="price-card">
           <div class="price-type">Los tres canales</div>
           <h4>Google + SEO + Meta</h4>
-          <p>Los tres canales sobre la misma medición y con un solo reporte. Meta entra cuando haya público acumulado.</p>
+          <p>Los tres canales sobre la misma medición y un solo reporte.</p>
           <div class="price-num">900 <span>USD / mes</span></div>
           <div class="price-save">Suman 1.000 · ahorran 100 al mes</div>
         </div>
         <div class="price-card">
           <div class="price-type">Todo</div>
           <h4>Los tres + email</h4>
-          <p>Todo lo de esta propuesta funcionando junto, incluida la recuperación del 60% que prueba y no se queda.</p>
+          <p>Todo lo de esta propuesta funcionando junto.</p>
           <div class="price-num">1.035 <span>USD / mes</span></div>
           <div class="price-save">Suman 1.150 · ahorran 115 al mes</div>
         </div>
@@ -1631,49 +1323,37 @@
 
     <div class="note hi" style="margin-bottom: 16px;">
       <strong>La auditoría va incluida en cualquier plan mensual, sin costo de puesta en marcha.</strong>
-      Si prefieren contratarla sola, sin gestión, son <strong>450 USD de pago único</strong>: auditoría
-      completa, medición instalada y funcionando, y la estructura de campañas y anuncios entregada
-      por escrito para que la ejecuten ustedes.
+      Sola, sin gestión: <strong>450 USD de pago único</strong> — auditoría, medición instalada y
+      la estructura de campañas entregada por escrito.
     </div>
 
     <div class="note" style="margin-bottom: 16px;">
-      <strong>Sin permanencia, con una preferencia declarada.</strong> Todos los planes son mes a
-      mes y se pueden cortar avisando con treinta días. Dicho eso, recomendamos comprometerse
-      mentalmente a tres meses: es el plazo en el que una cuenta nueva pasa de aprender a rendir, y
-      juzgarla antes es juzgar el período de aprendizaje, no el trabajo.
+      <strong>Sin permanencia.</strong> Mes a mes, se corta avisando con treinta días. Recomendamos
+      comprometerse mentalmente a tres meses: es el plazo en que una cuenta pasa de aprender a
+      rendir.
     </div>
 
     <div class="note" style="margin-bottom: 16px;">
-      <strong>El fee es el trabajo de Dilema. La inversión en pauta va aparte</strong> y se paga
-      directo a Google desde la cuenta de Alpha Kids, con la tarjeta de ustedes. Nunca pasa por
-      nosotros, y pueden ver el gasto en tiempo real cuando quieran.
-      <br><br>
-      Sugerencia para arrancar: <strong>entre 400 y 600 € al mes de pauta</strong>. Con los
-      supuestos conservadores del simulador, ese rango alcanza para llenar la base de una profesora
-      en el primer mes y medio. Preferimos empezar por abajo y subir contra la agenda real, en vez
-      de traer familias que después esperan turno.
+      <strong>El fee es el trabajo de Dilema. La pauta va aparte</strong> y se paga directo a
+      Google desde la cuenta de Alpha Kids. Sugerencia para arrancar: <strong>entre 400 y 600 €
+      al mes de pauta</strong>.
     </div>
 
     <div class="note" style="margin-bottom: 16px;">
-      <strong>Sobre las monedas.</strong> Nuestros honorarios van en dólares, que es la moneda con
-      la que trabajamos. Todo lo que en esta propuesta habla del negocio de ustedes —los planes, el
-      simulador, la inversión en pauta— está en euros, porque son sus precios y su mercado.
+      <strong>Sobre las monedas.</strong> Honorarios en dólares. Todo lo del negocio de ustedes
+      —planes, simulador, pauta— en euros.
     </div>
 
     <div class="note">
-      <strong>Lo que se construye queda de Alpha Kids.</strong> La cuenta publicitaria, la medición
-      instalada, las páginas de aterrizaje, el contenido y los públicos quedan a nombre de ustedes,
-      con sus accesos, pase lo que pase con la relación comercial. No trabajamos con activos
-      rehenes.
+      <strong>Lo que se construye queda de Alpha Kids.</strong> Cuenta, medición, páginas,
+      contenido y públicos, con sus accesos, pase lo que pase con la relación comercial.
     </div>
 
     <div class="callout">
       <h3>Qué no incluye</h3>
       <p>
-        Producción de fotografía y video, gestión de redes sociales y contenido orgánico en redes,
-        desarrollo dentro del portal de clases y la inversión en pauta. Nada de eso hace falta para
-        arrancar, y si en algún momento conviene sumarlo lo vamos a plantear con el dato que lo
-        justifique, no antes.
+        Producción de fotografía y video, redes sociales orgánicas, desarrollo dentro del portal
+        de clases y la inversión en pauta.
       </p>
     </div>
   </div>
