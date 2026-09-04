@@ -307,11 +307,6 @@ nav {
 }
 @keyframes artDraw { to { stroke-dashoffset: 0; } }
 
-@media (prefers-reduced-motion: reduce) {
-    .hero-art .art-c { animation: none; }
-    .hero-art .draw { animation: none; stroke-dashoffset: 0; }
-}
-
 .hero-controls {
     position: absolute;
     bottom: 2rem;

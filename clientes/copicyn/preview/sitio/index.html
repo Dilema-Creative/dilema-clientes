@@ -34,7 +34,7 @@
     <link rel="preload" href="fonts/LEMONMILK-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="fonts/Montserrat-Medium.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="style.css?v=20260904c">
+    <link rel="stylesheet" href="style.css?v=20260904d">
     <script src="https://kit.fontawesome.com/b51218d54f.js" crossorigin="anonymous" defer></script>
 </head>
 <body>
@@ -283,7 +283,6 @@
     // viajeras de frecuencias inconmensurables (nunca se percibe el loop).
     // data-w = x0,y0,x1,y1,bend,amp,fase
     (function () {
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       var paths = document.querySelectorAll('.hero-art path[data-w]');
       if (!paths.length) return;
       var lines = [];
