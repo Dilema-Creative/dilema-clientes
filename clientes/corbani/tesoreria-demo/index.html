@@ -1907,48 +1907,200 @@ function renderIvaFact(el){
       'Diferencia = debito &minus; credito &minus; retenciones &minus; saldo a favor anterior.<br><br>'+
       '<b>'+vs.length+'</b> facturas de venta y <b>'+cs.length+'</b> de compra en el periodo.</div></div></div>');}
 // ============ ACOPIOS ============
+// v2 05/09 (pedido Vero via Vivi): acopio por articulo, "que se vea cuanto queda de producto y de plata".
+// La lista de precios del proveedor (la planilla que arma Vivi, ej. AWADUCT) se sube en Excel y queda
+// en localStorage: es la lista publica del proveedor, no dato contable, asi no se resube cada sesion.
+const LP_KEY='gtsa_lista_precios_v1';
+let LISTA=null;
+try{const _lp=localStorage.getItem(LP_KEY);if(_lp)LISTA=JSON.parse(_lp);}catch(e){}
+function fmtCant(n){return new Intl.NumberFormat('es-AR',{maximumFractionDigits:2}).format(n||0);}
+function itKey(x){return x.codigo||normTxt(x.articulo||'');}
+function lpDisp(){if(!LISTA)return [];if(!LISTA._disp)LISTA._disp=LISTA.items.map(it=>it[0]+' - '+it[1]);return LISTA._disp;}
+function lpFind(cod){if(!LISTA)return null;const it=LISTA.items.find(x=>x[0]===cod);return it?{codigo:it[0],articulo:it[1],precio:it[2]}:null;}
+// Los importes del Excel pueden venir como numero o como texto en cualquier formato: tolerante, no estricto.
+function numXls(v){if(typeof v==='number')return isFinite(v)?v:0;v=String(v==null?'':v).trim();if(!v)return 0;
+  if(NUM_RE.test(v))return num(v);
+  const f=parseFloat(v.replace(/\s/g,'').replace(/\.(?=\d{3}(\D|$))/g,'').replace(',','.'));return isFinite(f)?f:0;}
+function importarLista(input){const file=input.files&&input.files[0];if(!file)return;input.value='';lpLeerFile(file);}
+function lpLeerFile(file){toast('Leyendo la lista...');
+  ensureXLSX().then(XLSX=>{const rd=new FileReader();rd.onload=e=>{try{
+    const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});
+    const aoa=XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,raw:true});
+    let hi=-1,ci=null;
+    for(let i=0;i<Math.min(20,aoa.length);i++){const r=(aoa[i]||[]).map(c=>normNom(c));
+      const cc=r.findIndex(h=>h.indexOf('CODIGO')>=0),ca=r.findIndex(h=>h.indexOf('ARTICULO')>=0||h.indexOf('DESCRIPCION')>=0);
+      if(cc>=0&&ca>=0){let cp=-1;r.forEach(function(h,j){if(h.indexOf('ACOPIO')>=0)cp=j;});
+        if(cp<0)r.forEach(function(h,j){if(h)cp=j;}); // sin columna "acopio": la ultima con encabezado
+        ci={c:cc,a:ca,p:cp};hi=i;break;}}
+    if(hi<0){toast('No encontre las columnas Codigo / Articulo en el archivo');return;}
+    const items=[];
+    for(let i=hi+1;i<aoa.length;i++){const r=aoa[i]||[];const cod=(r[ci.c]!=null?String(r[ci.c]):'').trim();if(!cod)continue;
+      const pre=numXls(r[ci.p]);if(pre<=0)continue;
+      items.push([cod,(r[ci.a]!=null?String(r[ci.a]):'').trim(),pre]);}
+    if(!items.length){toast('El archivo no tiene articulos con precio');return;}
+    LISTA={nombre:file.name.replace(/\.[^.]+$/,''),cargada:new Date().toISOString().slice(0,10),n:items.length,items:items};
+    try{localStorage.setItem(LP_KEY,JSON.stringify(LISTA));}catch(err){toast('Ojo: la lista quedo cargada pero no se pudo guardar en el navegador; habra que subirla de nuevo la proxima vez');}
+    render();toast(items.length+' articulos cargados con su precio de acopio');
+  }catch(err){toast('No se pudo leer el archivo');}};rd.readAsArrayBuffer(file);})
+  .catch(()=>toast('No se pudo cargar el lector de Excel (revisa la conexion a internet)'));}
 function saldoAcopio(a){return a.total-(a.descuentos||[]).reduce((x,d)=>x+d.monto,0);}
+function acRetirado(a,k){return (a.descuentos||[]).reduce((s,d)=>s+((d.items||[]).filter(x=>itKey(x)===k).reduce((y,x)=>y+x.cant,0)),0);}
+let acOpen={};
+function toggleAcItems(id){acOpen[id]=!acOpen[id];render();}
 function renderAcopios(el,puedeCargar){
+  const listaInfo=LISTA?('Lista de precios: <b>'+esc(LISTA.nombre)+'</b> ('+LISTA.n+' articulos, subida '+fdate(LISTA.cargada)+').')
+    :'Todavia no hay lista de precios: subi el Excel del proveedor (la planilla de acopio) para buscar articulos con su precio.';
   setHTML(el,'<div class="banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg>'+
-    '<div><b>Acopios: pagas la factura grande el dia uno y la vas consumiendo con remitos.</b> Cada remito descuenta del acopio (desacopio) y aca se ve cuanto queda. Version inicial: se afina con Vivi, que es quien lo maneja.</div></div>'+
+    '<div><b>Acopios: pagas la factura grande el dia uno y la vas retirando con remitos.</b> Cada remito descuenta producto y plata del acopio, y aca se ve cuanto queda de cada cosa. '+listaInfo+'</div></div>'+
     '<div class="card"><div class="card-head"><h2>Acopios</h2><div class="sub">'+S.acopios.length+' activos - queda por consumir '+money(S.acopios.reduce((a,x)=>a+saldoAcopio(x),0))+'</div><div class="spacer"></div>'+
+    (puedeCargar?'<label class="btn sm" style="cursor:pointer">'+(LISTA?'Actualizar lista':'Subir lista de precios')+'<input type="file" accept=".xls,.xlsx,.csv" style="display:none" onchange="importarLista(this)"></label>':'')+
     (puedeCargar?'<button class="btn primary sm" onclick="editAcopio()">+ Acopio</button>':'')+'</div>'+
-    (S.acopios.length?S.acopios.map(function(a){const nom=nombrePorCodigo(a.proveedor)||a.proveedor;const saldo=saldoAcopio(a);
+    (S.acopios.length?S.acopios.map(function(a){const nom=nombrePorCodigo(a.proveedor)||a.proveedor;const saldo=saldoAcopio(a);const its=a.items||[];
       return '<div style="border-bottom:1px solid var(--line);padding:13px 17px">'+
       '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap"><b>'+esc(nom)+'</b><span class="muted" style="font-size:12px">'+fdate(a.fecha)+(a.detalle?' - '+esc(a.detalle):'')+'</span><div class="spacer"></div>'+
       '<span class="chip">Acopiado '+money(a.total)+'</span><span class="chip '+(saldo>0?'pos':'warn')+'">Queda '+money(saldo)+'</span>'+
+      (its.length?'<button class="btn ghost sm" onclick="toggleAcItems(\''+a.id+'\')">'+(acOpen[a.id]?'Ocultar productos':'Productos ('+its.length+')')+'</button>':'')+
       (puedeCargar?'<button class="btn sm" onclick="addDesacopio(\''+a.id+'\')">+ Desacopio</button>':'')+'</div>'+
+      (its.length&&acOpen[a.id]?'<div class="tbl-wrap" style="margin-top:9px"><table><thead><tr><th>Codigo</th><th>Articulo</th><th class="r">Acopiado</th><th class="r">Retirado</th><th class="r">Queda</th><th class="r">Precio unit.</th></tr></thead><tbody>'+
+        its.map(function(it){const ret=acRetirado(a,itKey(it));const q=it.cant-ret;
+          return '<tr><td>'+(it.codigo?'<span class="codebox">'+esc(it.codigo)+'</span>':'<span class="muted">-</span>')+'</td><td>'+esc(it.articulo)+'</td><td class="r num">'+fmtCant(it.cant)+'</td><td class="r num">'+fmtCant(ret)+'</td><td class="r"><span class="chip '+(q>0?'pos':'warn')+'">'+fmtCant(q)+'</span></td><td class="r num">'+money(it.precio)+'</td></tr>';}).join('')+
+        '</tbody></table></div>':'')+
       ((a.descuentos||[]).length?'<div class="tbl-wrap" style="margin-top:9px"><table><thead><tr><th>Fecha</th><th>Remito</th><th>Detalle</th><th class="r">Monto</th></tr></thead><tbody>'+
-        a.descuentos.map(d=>'<tr><td class="num muted">'+fdate(d.fecha)+'</td><td><span class="codebox">'+esc(d.remito||'-')+'</span></td><td class="muted">'+esc(d.detalle||'')+'</td><td class="r num amt neg">'+money(d.monto)+'</td></tr>').join('')+
+        a.descuentos.map(function(d){const det=(d.items&&d.items.length?d.items.map(x=>fmtCant(x.cant)+' x '+(x.articulo||x.codigo)).join(' - '):'')+(d.detalle?(d.items&&d.items.length?' - ':'')+d.detalle:'');
+          return '<tr><td class="num muted">'+fdate(d.fecha)+'</td><td><span class="codebox">'+esc(d.remito||'-')+'</span></td><td class="muted">'+esc(det)+'</td><td class="r num amt neg">'+money(d.monto)+'</td></tr>';}).join('')+
         '</tbody></table></div>':'<div class="muted" style="font-size:12px;margin-top:7px">Sin desacopios todavia.</div>')+'</div>';}).join('')
     :'<div class="empty">Sin acopios cargados.</div>')+'</div>');}
-function editAcopio(){const provs=S.proveedores.concat(S.contratistas);
+let acNew=null;
+function editAcopio(){const provs=S.proveedores.concat(S.contratistas);acNew={rows:[]};
   openPanel('<div class="panel-head"><h2>Nuevo acopio</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
   '<div class="panel-body"><div class="form-msg" id="ac-msg"></div>'+
-    '<div class="field"><label>Proveedor <span class="req">*</span></label><input id="ac-prov" list="ac-prov-list" placeholder="Escribi para buscar..."><datalist id="ac-prov-list">'+provs.map(p=>'<option value="'+esc(p.nombre)+' ('+esc(p.codigo)+')"></option>').join('')+'</datalist></div>'+
+    '<div class="field"><label>Proveedor <span class="req">*</span></label><input id="ac-prov" placeholder="Escribi para buscar..." autocomplete="off"></div>'+
     '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="ac-fecha" value="'+ultimaFecha()+'"></div>'+
-      '<div class="field"><label>Monto acopiado <span class="req">*</span></label><input id="ac-total" inputmode="decimal" placeholder="0"></div></div>'+
-    '<div class="field"><label>Detalle</label><input id="ac-det" placeholder="Que se acopio: hierros, cemento..."></div>'+
+      '<div class="field"><label>Detalle</label><input id="ac-det" placeholder="Que se acopio"></div></div>'+
+    '<div class="field"><label>Articulos acopiados'+(LISTA?'':' (sin lista de precios: articulo y precio a mano)')+'</label><div id="ac-rows"></div>'+
+      '<button class="btn ghost sm" onclick="acAddRow()">+ Agregar articulo</button></div>'+
+    '<div class="row2"><div class="field"><label>Total acopiado <span class="req">*</span></label><input id="ac-total" inputmode="decimal" placeholder="0"></div>'+
+      '<div class="field" style="justify-content:flex-end"><div class="hint" id="ac-tot-hint" style="margin:0"></div></div></div>'+
     '<div class="hint" style="margin-bottom:12px">El pago de la factura del acopio se registra aparte, en Pagos, como cualquier factura.</div>'+
-    '<button class="btn primary" style="width:100%" onclick="saveAcopio()">Guardar acopio</button></div>');}
-function saveAcopio(){const prov=codigoDesdeInput(document.getElementById('ac-prov').value);const fecha=document.getElementById('ac-fecha').value;const total=num(document.getElementById('ac-total').value);
-  if(!prov||!fecha||!total){const m=document.getElementById('ac-msg');m.className='form-msg show';m.textContent='Falta proveedor, fecha o monto';return;}
-  S.acopios.unshift({id:uid(),proveedor:prov,fecha:fecha,total:total,detalle:document.getElementById('ac-det').value.trim(),descuentos:[]});
+    '<button class="btn primary" style="width:100%" onclick="saveAcopio()">Guardar acopio</button></div>');
+  sugiere('ac-prov',function(){return provs.map(p=>p.nombre+' ('+p.codigo+')');});
+  acAddRow();}
+function acAddRow(){acNew.rows.push({codigo:'',articulo:'',cant:'',precio:''});acRowsRender();}
+function acDelRow(i){acNew.rows.splice(i,1);acRowsRender();}
+function acRowsRender(){const el=document.getElementById('ac-rows');if(!el)return;
+  setHTML(el,acNew.rows.map(function(r,i){return '<div style="border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px">'+
+    '<div class="field" style="margin-bottom:6px"><input id="ac-art-'+i+'" placeholder="'+(LISTA?'Busca por codigo o nombre en la lista...':'Articulo')+'" value="'+esc(r.articulo)+'" autocomplete="off" oninput="acNew.rows['+i+'].articulo=this.value;acNew.rows['+i+'].codigo=\'\'"></div>'+
+    '<div style="display:flex;gap:8px;align-items:flex-end">'+
+      '<div class="field" style="flex:1;margin:0"><label>Cantidad</label><input id="ac-cant-'+i+'" inputmode="decimal" placeholder="0" value="'+esc(r.cant)+'" oninput="acSync('+i+')"></div>'+
+      '<div class="field" style="flex:1;margin:0"><label>Precio unit.</label><input id="ac-pre-'+i+'" inputmode="decimal" placeholder="0" value="'+esc(r.precio)+'" oninput="acSync('+i+')"></div>'+
+      '<div style="flex:1;text-align:right;padding-bottom:8px"><div class="muted" style="font-size:11px">Importe</div><b id="ac-imp-'+i+'" class="num">-</b></div>'+
+      '<button class="btn ghost sm danger" style="margin-bottom:4px" onclick="acDelRow('+i+')">x</button></div></div>';}).join(''));
+  acNew.rows.forEach(function(r,i){sugiere('ac-art-'+i,lpDisp,function(){acPick(i);});acImp(i);});
+  acTotalCalc();}
+function acPick(i){const inp=document.getElementById('ac-art-'+i);const cod=(inp.value.split(' - ')[0]||'').trim();const it=lpFind(cod);
+  if(it){const r=acNew.rows[i];r.codigo=it.codigo;r.articulo=it.codigo+' - '+it.articulo;r.precio=fmtImp(it.precio);
+    const p=document.getElementById('ac-pre-'+i);if(p)p.value=r.precio;
+    const c=document.getElementById('ac-cant-'+i);if(c)c.focus();}
+  acSync(i);}
+function acSync(i){const r=acNew.rows[i];if(!r)return;
+  const c=document.getElementById('ac-cant-'+i),p=document.getElementById('ac-pre-'+i);
+  if(c)r.cant=c.value;if(p)r.precio=p.value;acImp(i);acTotalCalc();}
+function acImp(i){const r=acNew.rows[i];const el=document.getElementById('ac-imp-'+i);if(!el)return;
+  const imp=num(r.cant)*num(r.precio);el.textContent=imp>0?money(imp):'-';}
+function acTotalCalc(){const tot=acNew.rows.reduce((s,r)=>s+num(r.cant)*num(r.precio),0);
+  const t=document.getElementById('ac-total'),h=document.getElementById('ac-tot-hint');if(!t)return;
+  if(tot>0){t.value=fmtImp(tot);t.readOnly=true;if(h)h.textContent='Total = suma de los articulos.';}
+  else{t.readOnly=false;if(h)h.textContent='Sin articulos: carga el total a mano.';}}
+function saveAcopio(){const msg=document.getElementById('ac-msg');
+  const prov=codigoDesdeInput(document.getElementById('ac-prov').value);const fecha=document.getElementById('ac-fecha').value;
+  const err=t=>{msg.className='form-msg show';msg.textContent=t;};
+  if(!prov||!fecha)return err('Falta proveedor o fecha');
+  const items=[];
+  for(let i=0;i<acNew.rows.length;i++){const r=acNew.rows[i];
+    const art=(r.articulo||'').trim(),cant=num(r.cant),precio=num(r.precio);
+    if(!art&&!cant&&!precio)continue; // renglon vacio: se ignora
+    if(!art||cant<=0||precio<=0)return err('Renglon '+(i+1)+': falta articulo, cantidad o precio (o sacalo con la x)');
+    let nomArt=art;if(r.codigo&&art.indexOf(r.codigo+' - ')===0)nomArt=art.slice((r.codigo+' - ').length);
+    const k=r.codigo||normTxt(nomArt);const ya=items.find(x=>itKey(x)===k);
+    if(ya)ya.cant+=cant;else items.push({codigo:r.codigo||'',articulo:nomArt,cant:cant,precio:precio});}
+  const total=items.length?items.reduce((s,x)=>s+x.cant*x.precio,0):num(document.getElementById('ac-total').value);
+  if(!total)return err('Falta el total del acopio (carga articulos o el monto a mano)');
+  S.acopios.unshift({id:uid(),proveedor:prov,fecha:fecha,total:total,detalle:document.getElementById('ac-det').value.trim(),items:items,descuentos:[]});
   save();closePanel();render();toast('Acopio cargado');}
+let daNew=null;
 function addDesacopio(id){const a=S.acopios.find(x=>x.id===id);if(!a)return;
-  openPanel('<div class="panel-head"><h2>Desacopio</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+  const its=a.items||[];
+  if(!its.length){ // acopio viejo solo-plata: form simple como siempre
+    openPanel('<div class="panel-head"><h2>Desacopio</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+    '<div class="panel-body"><div class="form-msg" id="da-msg"></div>'+
+      '<div class="banner" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg><div>Acopio de <b>'+esc(nombrePorCodigo(a.proveedor)||a.proveedor)+'</b>: queda <b>'+money(saldoAcopio(a))+'</b>.</div></div>'+
+      '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="da-fecha" value="'+ultimaFecha()+'"></div>'+
+        '<div class="field"><label>N remito <span class="req">*</span></label><input id="da-rem" placeholder="R-0001-00012345"></div></div>'+
+      '<div class="row2"><div class="field"><label>Monto <span class="req">*</span></label><input id="da-monto" inputmode="decimal" placeholder="0"></div>'+
+        '<div class="field"><label>Detalle</label><input id="da-det" placeholder="Que se retiro"></div></div>'+
+      '<button class="btn primary" style="width:100%" onclick="saveDesacopio(\''+a.id+'\')">Descontar del acopio</button></div>');return;}
+  daNew={aid:id,rows:[]};
+  openPanel('<div class="panel-head"><h2>Desacopio por remito</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
   '<div class="panel-body"><div class="form-msg" id="da-msg"></div>'+
-    '<div class="banner" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg><div>Acopio de <b>'+esc(nombrePorCodigo(a.proveedor)||a.proveedor)+'</b>: queda <b>'+money(saldoAcopio(a))+'</b>.</div></div>'+
+    '<div class="banner" style="margin-bottom:14px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg><div>Acopio de <b>'+esc(nombrePorCodigo(a.proveedor)||a.proveedor)+'</b>: queda <b>'+money(saldoAcopio(a))+'</b>. Los precios son los del acopio (congelados).</div></div>'+
     '<div class="row2"><div class="field"><label>Fecha <span class="req">*</span></label><input type="date" id="da-fecha" value="'+ultimaFecha()+'"></div>'+
       '<div class="field"><label>N remito <span class="req">*</span></label><input id="da-rem" placeholder="R-0001-00012345"></div></div>'+
-    '<div class="row2"><div class="field"><label>Monto <span class="req">*</span></label><input id="da-monto" inputmode="decimal" placeholder="0"></div>'+
-      '<div class="field"><label>Detalle</label><input id="da-det" placeholder="Que se retiro"></div></div>'+
-    '<button class="btn primary" style="width:100%" onclick="saveDesacopio(\''+a.id+'\')">Descontar del acopio</button></div>');}
+    '<div class="field"><label>Que se retiro <span class="req">*</span></label><div id="da-rows"></div>'+
+      '<button class="btn ghost sm" onclick="daAddRow()">+ Agregar articulo</button></div>'+
+    '<div class="field"><label>Detalle</label><input id="da-det" placeholder="Observaciones (opcional)"></div>'+
+    '<div style="display:flex;justify-content:flex-end;margin-bottom:12px"><div>Total del remito: <b id="da-total" class="num">-</b></div></div>'+
+    '<button class="btn primary" style="width:100%" onclick="saveDesacopio(\''+a.id+'\')">Descontar del acopio</button></div>');
+  daAddRow();}
+function daDisponible(a,k,skipRow){let d=0;const it=(a.items||[]).find(x=>itKey(x)===k);if(!it)return 0;
+  d=it.cant-acRetirado(a,k);
+  daNew.rows.forEach(function(r,j){if(j!==skipRow&&r.k===k)d-=num(r.cant);});
+  return d;}
+function daAddRow(){daNew.rows.push({k:'',cant:''});daRowsRender();}
+function daDelRow(i){daNew.rows.splice(i,1);daRowsRender();}
+function daRowsRender(){const a=S.acopios.find(x=>x.id===daNew.aid);if(!a)return;
+  const el=document.getElementById('da-rows');if(!el)return;
+  setHTML(el,daNew.rows.map(function(r,i){
+    const opts='<option value="">Elegi articulo...</option>'+(a.items||[]).map(function(it){const k=itKey(it);const disp=it.cant-acRetirado(a,k);
+      if(disp<=0&&r.k!==k)return '';
+      return '<option value="'+esc(k)+'"'+(r.k===k?' selected':'')+'>'+esc((it.codigo?it.codigo+' - ':'')+it.articulo)+' (quedan '+fmtCant(disp)+')</option>';}).join('');
+    return '<div style="border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px">'+
+    '<div class="field" style="margin-bottom:6px"><select id="da-art-'+i+'" onchange="daSel('+i+')">'+opts+'</select></div>'+
+    '<div style="display:flex;gap:8px;align-items:flex-end">'+
+      '<div class="field" style="flex:1;margin:0"><label>Cantidad</label><input id="da-cant-'+i+'" inputmode="decimal" placeholder="0" value="'+esc(r.cant)+'" oninput="daSync('+i+')"></div>'+
+      '<div style="flex:1;text-align:right;padding-bottom:8px"><div class="muted" style="font-size:11px">Importe</div><b id="da-imp-'+i+'" class="num">-</b></div>'+
+      '<button class="btn ghost sm danger" style="margin-bottom:4px" onclick="daDelRow('+i+')">x</button></div></div>';}).join(''));
+  daNew.rows.forEach(function(r,i){daImp(i);});daTot();}
+function daSel(i){const s=document.getElementById('da-art-'+i);daNew.rows[i].k=s?s.value:'';daImp(i);daTot();}
+function daSync(i){const c=document.getElementById('da-cant-'+i);if(c)daNew.rows[i].cant=c.value;daImp(i);daTot();}
+function daImp(i){const a=S.acopios.find(x=>x.id===daNew.aid);const r=daNew.rows[i];const el=document.getElementById('da-imp-'+i);if(!el||!a)return;
+  const it=(a.items||[]).find(x=>itKey(x)===r.k);const imp=it?num(r.cant)*it.precio:0;
+  el.textContent=imp>0?money(imp):'-';}
+function daTot(){const a=S.acopios.find(x=>x.id===daNew.aid);const el=document.getElementById('da-total');if(!el||!a)return;
+  const tot=daNew.rows.reduce(function(s,r){const it=(a.items||[]).find(x=>itKey(x)===r.k);return s+(it?num(r.cant)*it.precio:0);},0);
+  el.textContent=tot>0?money(tot):'-';}
 function saveDesacopio(id){const a=S.acopios.find(x=>x.id===id);if(!a)return;
-  const fecha=document.getElementById('da-fecha').value,rem=document.getElementById('da-rem').value.trim(),monto=num(document.getElementById('da-monto').value);
-  if(!fecha||!rem||!monto){const m=document.getElementById('da-msg');m.className='form-msg show';m.textContent='Falta fecha, remito o monto';return;}
-  a.descuentos.push({fecha:fecha,remito:rem,monto:monto,detalle:document.getElementById('da-det').value.trim()});
-  save();closePanel();render();toast('Desacopio registrado, saldo actualizado');}
+  const msg=document.getElementById('da-msg');const err=t=>{msg.className='form-msg show';msg.textContent=t;};
+  const fecha=document.getElementById('da-fecha').value,rem=document.getElementById('da-rem').value.trim();
+  if(!fecha||!rem)return err('Falta fecha o numero de remito');
+  const its=a.items||[];
+  if(!its.length){ // acopio viejo solo-plata
+    const monto=num(document.getElementById('da-monto').value);
+    if(!monto)return err('Falta el monto');
+    a.descuentos.push({fecha:fecha,remito:rem,monto:monto,detalle:document.getElementById('da-det').value.trim()});
+    save();closePanel();render();toast('Desacopio registrado, saldo actualizado');return;}
+  const items=[];
+  for(let i=0;i<daNew.rows.length;i++){const r=daNew.rows[i];const cant=num(r.cant);
+    if(!r.k&&!cant)continue;
+    if(!r.k||cant<=0)return err('Renglon '+(i+1)+': falta articulo o cantidad (o sacalo con la x)');
+    const it=its.find(x=>itKey(x)===r.k);if(!it)return err('Renglon '+(i+1)+': articulo invalido');
+    if(items.find(x=>itKey(x)===r.k))return err('El articulo "'+it.articulo+'" esta en dos renglones, unificalo');
+    const disp=it.cant-acRetirado(a,r.k);
+    if(cant>disp+0.001)return err('De "'+it.articulo+'" quedan '+fmtCant(disp)+', no se puede retirar '+fmtCant(cant));
+    items.push({codigo:it.codigo,articulo:it.articulo,cant:cant,precio:it.precio});}
+  if(!items.length)return err('Carga al menos un articulo del remito');
+  const monto=items.reduce((s,x)=>s+x.cant*x.precio,0);
+  a.descuentos.push({fecha:fecha,remito:rem,monto:monto,detalle:document.getElementById('da-det').value.trim(),items:items});
+  save();closePanel();render();toast('Desacopio registrado: producto y plata descontados');}
 
 // ---- Obras y certificados a cobrar, ajustado por CAC ----
 function cacFactor(o){const base=o.cacBase||S.cac.base||1;return (S.cac.actual||base)/base;}
