@@ -74,65 +74,87 @@
 
 @font-face {
     font-family: 'LEMONMILK-Bold';
-    src: url('fonts/LEMONMILK-Bold.otf') format('opentype');
+    src: url('fonts/LEMONMILK-Bold.woff2') format('woff2'), url('fonts/LEMONMILK-Bold.otf') format('opentype');
          font-weight: normal;
          font-style: normal;
+         font-display: swap;
 }
 @font-face {
     font-family: 'LEMONMILK-Medium';
-    src: url('fonts/LEMONMILK-Medium.otf') format('opentype');
+    src: url('fonts/LEMONMILK-Medium.woff2') format('woff2'), url('fonts/LEMONMILK-Medium.otf') format('opentype');
          font-weight: normal;
          font-style: normal;
+         font-display: swap;
 }
 
 @font-face {
     font-family: 'LEMONMILK-Regular';
-    src: url('fonts/LEMONMILK-Regular.otf') format('opentype');
+    src: url('fonts/LEMONMILK-Regular.woff2') format('woff2'), url('fonts/LEMONMILK-Regular.otf') format('opentype');
          font-weight: normal;
          font-style: normal;
+         font-display: swap;
 }
 
 @font-face {
     font-family: 'LEMONMILK-Light';
-    src:  url('fonts/LEMONMILK-Light.otf') format('opentype');
+    src: url('fonts/LEMONMILK-Light.woff2') format('woff2'), url('fonts/LEMONMILK-Light.otf') format('opentype');
          font-weight: normal;
          font-style: normal;
+         font-display: swap;
 }
 
 @font-face {
     font-family: 'Montserrat-Light';
-    src: url('fonts/Montserrat-Light.ttf') format('truetype');
+    src: url('fonts/Montserrat-Light.woff2') format('woff2'), url('fonts/Montserrat-Light.ttf') format('truetype');
          font-weight: normal;
          font-style: normal;
+         font-display: swap;
 }
 
 @font-face {
     font-family: 'Montserrat-Medium';
-    src: url('fonts/Montserrat-Medium.ttf') format('truetype');
+    src: url('fonts/Montserrat-Medium.woff2') format('woff2'), url('fonts/Montserrat-Medium.ttf') format('truetype');
          font-weight: normal;
          font-style: normal;
+         font-display: swap;
 }
 
 @font-face {
     font-family: 'Montserrat-Regular';
-    src: url('fonts/Montserrat-Regular.ttf') format('truetype');
+    src: url('fonts/Montserrat-Regular.woff2') format('woff2'), url('fonts/Montserrat-Regular.ttf') format('truetype');
          font-weight: normal;
          font-style: normal;
+         font-display: swap;
 }
 
 @font-face {
     font-family: 'Montserrat-Thin';
-    src: url('fonts/Montserrat-Thin.ttf') format('truetype');
+    src: url('fonts/Montserrat-Thin.woff2') format('woff2'), url('fonts/Montserrat-Thin.ttf') format('truetype');
          font-weight: normal;
          font-style: normal;
+         font-display: swap;
 }
 
 
-html, body {
+html {
     margin: 0;
     padding: 0;
     height: 100%;
     overflow-x: hidden;
+    max-width: 100%;
+}
+
+/* OJO: en el body va "clip" y NO "hidden".
+   overflow-x:hidden fuerza overflow-y a auto (regla del estandar CSS) y eso,
+   junto al height:100%, convertia al body en un contenedor de scroll propio:
+   la ventana no scrolleaba, el evento scroll no disparaba y las secciones
+   con fade-in quedaban invisibles. "clip" corta el desborde horizontal
+   sin crear contenedor de scroll. */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    overflow-x: clip;
     max-width: 100%;
 }
 
@@ -253,6 +275,48 @@ nav {
     z-index: 1;
 }
 
+/* Banner vectorial animado: nitido en cualquier pantalla, ~6KB.
+   Tres capas con drift a distintas velocidades + trazo que se dibuja al cargar. */
+.hero-art {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    background: #1a1e6e;
+    pointer-events: none;
+}
+.hero-art svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.hero-art .art-a,
+.hero-art .art-b,
+.hero-art .art-c {
+    will-change: transform;
+}
+.hero-art .art-a { animation: artDriftA 26s ease-in-out infinite alternate; }
+.hero-art .art-b { animation: artDriftB 34s ease-in-out infinite alternate; }
+.hero-art .art-c { animation: artDriftC 22s ease-in-out infinite alternate; }
+.hero-art .art-d { animation: artDriftB 30s ease-in-out infinite alternate; will-change: transform; }
+@keyframes artDriftA { from { transform: translate(0, 0); }     to { transform: translate(48px, -30px); } }
+@keyframes artDriftB { from { transform: translate(0, 0); }     to { transform: translate(-60px, 22px); } }
+@keyframes artDriftC { from { transform: translate(0, 0); }     to { transform: translate(26px, 16px); } }
+
+/* Intro: las lineas se dibujan como un plotter (una sola vez) */
+.hero-art .draw {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: artDraw 1.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+    animation-delay: calc(var(--i) * 0.12s);
+}
+@keyframes artDraw { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-art .art-a, .hero-art .art-b, .hero-art .art-c { animation: none; }
+    .hero-art .draw { animation: none; stroke-dashoffset: 0; }
+}
+
 .hero-controls {
     position: absolute;
     bottom: 2rem;
@@ -283,7 +347,7 @@ nav {
 }
 
 .hero {
-    background: url('printing-bg.jpg') center/cover;
+    background: #211E5E center/cover;
     color: white;
     text-align: center;
     padding: 100px 20px;
@@ -296,27 +360,29 @@ nav {
     transform: translateY(-50%);
     z-index: 2;
     color: #fff;
-    max-width: 500px;
+    max-width: 900px;
+    padding-right: 2rem;
     text-align:left;
 }
 
 .hero-subtitle {
     font-family: 'LEMONMILK-Medium';
-    font-size: 1.25rem;
-    letter-spacing: 0.16em;
+    font-size: 0.95rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #cfe0f0;
-    margin-bottom: 0.9rem;
+    color: #bcd4ea;
+    margin-bottom: 1.4rem;
     margin-top: 0;
     opacity: 0.95;
 }
 
 .hero-title {
     font-family: 'LEMONMILK-Bold';
-    font-size: 6rem;
-    margin-bottom: 2rem;
+    font-size: clamp(2.6rem, 4.4vw, 4rem);
+    margin-bottom: 2.2rem;
     margin-top: 0;
-    line-height: 1.1;
+    line-height: 1.06;
+    letter-spacing: -0.01em;
 }
 
 .hero-cta-btn {
@@ -794,23 +860,70 @@ a.hero-cta-btn {
 
 
 footer{
-    background: url('images/footer-background.png') center center/cover no-repeat;
+    /* fondo navy solido en vez de footer-background.png: esa imagen es
+       casi toda BLANCA (solo tiene una franja oscura abajo) y el footer
+       nuevo lleva texto claro. Ademas unifica con el footer de las landings. */
+    background: #211E5E;
     color: white;
-    padding: 90px;
-    display: flex;
+    padding: 70px 40px 32px;
+    display: block;
     position: relative;
-    justify-content: center;
-    align-items: flex-start;
     z-index: 1;
-    min-height: 80px; /* Ensure footer has enough height for the background */
+    min-height: 80px;
 }
 
-footer p{
-    font-family: 'LEMONMILK-Medium';
-    font-size: 1rem;
-    margin: 90px 0 0 0;
-    color:#2e385f
+.footer-inner{
+    max-width: 1120px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1.2fr;
+    gap: 48px;
+    align-items: start;
 }
+
+.footer-logo{ height: 34px; width: auto; margin-bottom: 18px; }
+
+.footer-desc{
+    font-family: 'Montserrat-Regular';
+    font-size: .95rem;
+    line-height: 1.6;
+    color: #d6def0;
+    max-width: 34ch;
+}
+
+.footer-col h4{
+    font-family: 'LEMONMILK-Medium';
+    font-size: .82rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 0 0 1rem;
+}
+
+.footer-col a{
+    display: block;
+    font-family: 'Montserrat-Regular';
+    font-size: .95rem;
+    color: #cdd6ee;
+    text-decoration: none;
+    margin-bottom: .6rem;
+    transition: color .18s;
+}
+.footer-col a:hover{ color: #fff; }
+
+.footer-copy{
+    max-width: 1120px;
+    margin: 44px auto 0;
+    padding-top: 22px;
+    border-top: 1px solid rgba(255,255,255,.16);
+    font-family: 'Montserrat-Regular';
+    font-size: .86rem;
+    color: #aab6d4;
+    text-align: center;
+}
+
+/* la regla vieja 'footer p' (margin 90px + color oscuro sobre fondo oscuro)
+   se saco: el footer nuevo usa .footer-desc y .footer-copy con estilo propio */
 
 
 /* Contact region style */
@@ -970,8 +1083,8 @@ footer p{
 }
 
 .fade-in-on-scroll {
-  opacity: 0;
-  transform: translateY(30px);
+  opacity: 1;
+  transform: none;
   transition: opacity 0.8s cubic-bezier(.4,0,.2,1), transform 0.8s cubic-bezier(.4,0,.2,1);
   will-change: opacity, transform;
 }
@@ -1255,7 +1368,7 @@ footer p{
 
 
 /* ═══════════════════════════════════════════════════════════════
-   RESPONSIVE — agregado por Dilema Creative (optimización 2026).
+   RESPONSIVE : agregado por Dilema Creative (optimización 2026).
    El diseño desktop de arriba queda intacto; esto arregla mobile/tablet.
    ═══════════════════════════════════════════════════════════════ */
 
@@ -1283,8 +1396,16 @@ img { max-width: 100%; }
      (en iOS el fade-in a veces no dispara y quedaba un bloque blanco) */
   .fade-in-on-scroll { opacity: 1; transform: none; }
 
+  /* footer */
+  .footer-inner{ grid-template-columns: 1fr 1fr; gap: 32px; }
+  .footer-brand{ grid-column: 1 / -1; }
+  footer{ padding: 48px 22px 26px; }
+
   /* hero */
-  .hero-content { left: 6%; right: 6%; max-width: none; }
+  /* padding-right:0 -> el padding de 2rem que usa el desktop descentraba
+     el contenido en mobile (con text-align:center el texto se centra dentro
+     del area SIN el padding y queda corrido 16px a la izquierda) */
+  .hero-content { left: 6%; right: 6%; max-width: none; padding-right: 0; }
   .hero-subtitle { font-size: 1.05rem; }
   .hero-title { font-size: 3.4rem; }
 
@@ -1319,11 +1440,14 @@ img { max-width: 100%; }
   .info-section { max-width: 100%; padding: 1rem 0; }
 
   footer { padding: 48px 24px; min-height: auto; }
-  footer p { margin: 24px 0 0 0; }
 }
 
 /* ---------- MOBILE (≤ 600px) ---------- */
 @media (max-width: 600px) {
+  /* footer a una sola columna: el mail largo desbalanceaba las dos */
+  .footer-inner{ grid-template-columns: 1fr; gap: 26px; }
+  .footer-col a{ font-size: .92rem; }
+
   header { padding: .6rem .7rem; }
   /* banda sutil arriba: separa el logo/nav del contenido del hero (antes "parecia todo lo mismo") */
   header:not(.opaque) { background: linear-gradient(180deg, rgba(20,18,60,.60), rgba(20,18,60,0)); }

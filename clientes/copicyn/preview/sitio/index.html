@@ -7,7 +7,7 @@
     <meta name="description" content="Copicyn: gráfica integral en el microcentro de CABA con más de 30 años de trayectoria. Tarjetas, etiquetas, ploteos, impresiones, encuadernados y más. Pedí tu presupuesto por WhatsApp.">
     <meta name="keywords" content="gráfica integral CABA, imprenta Buenos Aires, impresiones microcentro, tarjetas personales, etiquetas adhesivas, ploteos, encuadernados, Copicyn">
     <meta name="author" content="Copicyn">
-    <meta name="robots" content="noindex, nofollow">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <link rel="canonical" href="https://copicyn.com.ar/">
     <meta name="theme-color" content="#211E5E">
     <meta name="geo.region" content="AR-C">
@@ -29,7 +29,12 @@
     <meta name="twitter:image" content="https://copicyn.com.ar/images/og-home.jpg">
     <link rel="icon" href="images/favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    <link rel="stylesheet" href="style.css?v=20260820e">
+    <link rel="preload" href="fonts/LEMONMILK-Bold.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/LEMONMILK-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/LEMONMILK-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="fonts/Montserrat-Medium.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="stylesheet" href="style.css?v=20260904">
     <script src="https://kit.fontawesome.com/b51218d54f.js" crossorigin="anonymous" defer></script>
 </head>
 <body>
@@ -49,8 +54,66 @@
 
     <!-- Hero Section -->
     <section class="hero">
-       <video class="hero-video" id="hero-video" poster="images/hero-poster.jpg" preload="metadata" autoplay loop muted playsinline></video>
-       
+       <div class="hero-art" aria-hidden="true">
+         <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+           <defs>
+             <linearGradient id="hbg" x1="0.2" y1="0" x2="0.45" y2="1">
+               <stop offset="0" stop-color="#151a66"/>
+               <stop offset="0.55" stop-color="#1f3894"/>
+               <stop offset="1" stop-color="#1f7e93"/>
+             </linearGradient>
+             <radialGradient id="hglow" cx="0.1" cy="1" r="0.75">
+               <stop offset="0" stop-color="#37c0b2" stop-opacity="0.4"/>
+               <stop offset="1" stop-color="#37c0b2" stop-opacity="0"/>
+             </radialGradient>
+             <radialGradient id="hdeep" cx="0.85" cy="0.05" r="0.8">
+               <stop offset="0" stop-color="#0d1052" stop-opacity="0.55"/>
+               <stop offset="1" stop-color="#0d1052" stop-opacity="0"/>
+             </radialGradient>
+             <pattern id="hdots" width="26" height="26" patternUnits="userSpaceOnUse">
+               <circle cx="4" cy="4" r="2.1" fill="#ffffff"/>
+             </pattern>
+             <radialGradient id="hdotfade" cx="0.85" cy="0.9" r="0.65">
+               <stop offset="0" stop-color="#fff"/>
+               <stop offset="1" stop-color="#000"/>
+             </radialGradient>
+             <mask id="hdotmask">
+               <rect x="1100" y="600" width="820" height="480" fill="url(#hdotfade)"/>
+             </mask>
+           </defs>
+           <rect width="1920" height="1080" fill="url(#hbg)"/>
+           <rect width="1920" height="1080" fill="url(#hdeep)"/>
+           <rect width="1920" height="1080" fill="url(#hglow)"/>
+           <g class="art-d" fill="none" stroke-linecap="round">
+             <path d="M 720 40 C 1050 110 1400 130 2020 96" stroke="#aab8ff" stroke-width="2" opacity="0.4" pathLength="1"/>
+             <path d="M 640 110 C 1000 190 1380 212 2020 172" stroke="#ffffff" stroke-width="2.5" opacity="0.5" pathLength="1"/>
+             <path d="M 560 190 C 960 280 1360 302 2020 256" stroke="#8fa0ee" stroke-width="2" opacity="0.35" pathLength="1"/>
+             <path d="M 500 280 C 930 380 1350 400 2020 348" stroke="#cdd8ff" stroke-width="2" opacity="0.25" pathLength="1"/>
+           </g>
+           <rect x="1100" y="600" width="820" height="480" fill="url(#hdots)" mask="url(#hdotmask)" opacity="0.07"/>
+           <g class="art-c" fill="none" stroke-linecap="round">
+             <path d="M -160 560 C 240 520 560 600 590 800 C 610 950 380 1030 140 1000" stroke="#8fd8d0" stroke-width="2.5" opacity="0.32" pathLength="1"/>
+             <path d="M -160 640 C 200 610 480 680 505 840 C 522 960 330 1035 120 1015" stroke="#bfe3f2" stroke-width="2" opacity="0.22" pathLength="1"/>
+           </g>
+           <g class="art-a" fill="none" stroke-linecap="round">
+             <path class="draw" style="--i:0" d="M -100 820 C 320 800 480 640 760 600 S 1240 430 1500 330 S 1860 160 2020 110" stroke="#ffffff" stroke-width="10" opacity="0.10" pathLength="1"/>
+             <path class="draw" style="--i:0" d="M -100 820 C 320 800 480 640 760 600 S 1240 430 1500 330 S 1860 160 2020 110" stroke="#ffffff" stroke-width="3.5" opacity="0.95" pathLength="1"/>
+             <path class="draw" style="--i:1" d="M -100 856 C 330 838 495 678 775 638 S 1255 468 1515 368 S 1870 198 2020 148" stroke="#cdd8ff" stroke-width="2.5" opacity="0.7" pathLength="1"/>
+             <path class="draw" style="--i:2" d="M -100 898 C 345 882 515 722 795 682 S 1275 512 1535 412 S 1880 244 2020 194" stroke="#94a7f0" stroke-width="3" opacity="0.6" pathLength="1"/>
+             <path class="draw" style="--i:3" d="M -100 950 C 360 936 540 776 820 736 S 1300 566 1560 466 S 1890 300 2020 250" stroke="#6c82e6" stroke-width="2.5" opacity="0.55" pathLength="1"/>
+             <path class="draw" style="--i:4" d="M -100 1015 C 380 1002 570 842 850 802 S 1330 632 1590 532 S 1900 368 2020 318" stroke="#bfe3f2" stroke-width="2.5" opacity="0.45" pathLength="1"/>
+             <path class="draw" style="--i:5" d="M -100 1095 C 400 1084 605 924 885 884 S 1360 714 1620 614 S 1910 452 2020 402" stroke="#7fd2c8" stroke-width="3" opacity="0.4" pathLength="1"/>
+           </g>
+           <g class="art-b" fill="none" stroke-linecap="round">
+             <path d="M 560 1140 L 2020 690" stroke="#ffffff" stroke-width="8" opacity="0.08" pathLength="1"/>
+             <path d="M 560 1140 L 2020 690" stroke="#ffffff" stroke-width="3" opacity="0.75" pathLength="1"/>
+             <path d="M 700 1160 L 2020 760" stroke="#cdd8ff" stroke-width="2" opacity="0.45" pathLength="1"/>
+             <path d="M 850 1180 L 2020 832" stroke="#94a7f0" stroke-width="2" opacity="0.35" pathLength="1"/>
+             <path d="M 1010 1200 L 2020 906" stroke="#8fd8d0" stroke-width="2" opacity="0.28" pathLength="1"/>
+           </g>
+         </svg>
+       </div>
+
        <div class="hero-content">
            <h3 class="hero-subtitle">Gráfica integral · CABA</h3>
            <h1 class="hero-title">Soluciones gráficas integrales</h1>
@@ -59,20 +122,12 @@
              <button class="hero-cta-btn hero-cta-ghost" onclick="scrollToIntroduction()">Conoce más</button>
            </div>
        </div>
-       
-       <div class="hero-controls">
-           <div class="hero-indicators">
-               <span class="hero-dot active" data-video="0"></span>
-               <span class="hero-dot" data-video="1"></span>
-               <span class="hero-dot" data-video="2"></span>
-           </div>
-       </div>
     </section>
 
     <section class="fade-in-on-scroll">
     <section class="introduction-graphic">
       <div class="introduction-graphic-image-area">
-        <img src="images/introduction.jpg" alt="Copicyn Graphic" class="introduction-graphic-main-image">
+        <img src="images/introduction.jpg" alt="Copicyn Graphic" class="introduction-graphic-main-image" loading="lazy" decoding="async">
         <!-- Example graphic elements -->
         <div class="introduction-graphic-circle"></div>
         <div class="introduction-graphic-line"></div>
@@ -92,67 +147,64 @@
             <!-- Individual Cards -->
             <a href="services.html" class="card-link">
               <div class="service-card card-tarjetas" data-card="tarjetas">
-                <img src="images/tarjetas.jpg" alt="Tarjetas personales">
+                <img src="images/tarjetas.jpg" alt="Tarjetas personales" loading="lazy" decoding="async">
                 <h3>Tarjetas personales</h3>
                 
               </div>
             </a>
             <a href="services.html" class="card-link">
               <div class="service-card card-flyers" data-card="flyers">
-              <img src="images/flyers.jpg" alt="Flyers & Pancartas">
+              <img src="images/flyers.jpg" alt="Flyers & Pancartas" loading="lazy" decoding="async">
               <h3>Flyers & Pancartas</h3>
               
               </div>
 
             </a>
-            <a href="services.html" class="card-link">
+            <a href="etiquetas-adhesivas/" class="card-link">
             <div class="service-card card-adhesivos" data-card="adhesivos">
-              <img src="images/stickers.jpg" alt="adhesivos">
-              <h3>Stickers</h3>
-              
+              <img src="images/stickers.jpg" alt="Stickers y etiquetas adhesivas personalizadas" loading="lazy" decoding="async">
+              <h3>Stickers y etiquetas</h3>
+
             </div>
-            </a>
             </a>
             <a href="services.html" class="card-link">
             <div class="service-card card-calendarios" data-card="calendarios">
-              <img src="images/calendarios.jpg" alt="calendarios">
+              <img src="images/calendarios.jpg" alt="calendarios" loading="lazy" decoding="async">
               <h3>Calendarios</h3>
               
             </div>
             </a>
-
-            </a>
             <a href="services.html" class="card-link">
             <div class="service-card card-ploteos" data-card="ploteos">
-              <img src="images/ploteos.jpg" alt="Ploteos">
+              <img src="images/ploteos.jpg" alt="Ploteos" loading="lazy" decoding="async">
               <h3>Ploteos</h3>
               
             </div>
             </a>
             <a href="services.html" class="card-link">
             <div class="service-card card-impresiones" data-card="impresiones">
-              <img src="images/impresiones.jpg" alt="Impresiones">
+              <img src="images/impresiones.jpg" alt="Impresiones" loading="lazy" decoding="async">
               <h3>Impresiones</h3>
               
             </div>
             </a>
             <a href="services.html" class="card-link">
             <div class="service-card card-digitalizaciones" data-card="digitalizaciones">
-              <img src="images/digitalizaciones.jpg" alt="Digitalizaciones">
+              <img src="images/digitalizaciones.jpg" alt="Digitalizaciones" loading="lazy" decoding="async">
               <h3>Digitalizaciones</h3>
               
             </div>
             </a>
              <a href="services.html" class="card-link">
             <div class="service-card card-posavasos" data-card="posavasos">
-              <img src="images/posavasos.jpg" alt="posavasos">
+              <img src="images/posavasos.jpg" alt="posavasos" loading="lazy" decoding="async">
               <h3>Posavasos</h3>
               
             </div>
             </a>
             <a href="services.html" class="card-link">
             <div class="service-card card-encuadernados" data-card="encuadernados">
-              <img src="images/encuadernados.jpg" alt="Encuadernados">
+              <img src="images/encuadernados.jpg" alt="Encuadernados" loading="lazy" decoding="async">
               <h3>Encuadernados</h3>
 
             </div>
@@ -201,10 +253,30 @@
 
     <!-- Footer -->
     <footer>
-        <p> Copyright © 2026 Copicyn. </p>
+      <div class="footer-inner">
+        <div class="footer-col footer-brand">
+          <img src="images/logo-white.png" alt="Copicyn" class="footer-logo">
+          <p class="footer-desc">Gráfica integral en el microcentro de CABA. Más de 30 años imprimiendo.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Productos</h4>
+          <a href="etiquetas-adhesivas/">Etiquetas adhesivas</a>
+          <a href="services.html">Tarjetas personales</a>
+          <a href="services.html">Flyers y pancartas</a>
+          <a href="services.html">Ver todos los servicios</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contacto</h4>
+          <a href="https://wa.me/5491138311287" target="_blank" rel="noopener">WhatsApp 11 3831 1287</a>
+          <a href="tel:+541143115454">(011) 4311 5454</a>
+          <a href="mailto:trabajos@copicyn.com.ar">trabajos@copicyn.com.ar</a>
+          <a href="contacto.html">25 de Mayo 759, CABA</a>
+        </div>
+      </div>
+      <p class="footer-copy">&copy; 2026 Copicyn. Gráfica integral en CABA.</p>
     </footer>
 
-    <script src="script.js?v=20260820e"></script>
+    <script src="script.js?v=20260824b"></script>
 
     <a href="https://wa.me/5491138311287" class="whatsapp-widget" target="_blank" aria-label="WhatsApp">
      <i class="fa-brands fa-whatsapp"></i>
