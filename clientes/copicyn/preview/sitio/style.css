@@ -299,9 +299,18 @@ nav {
 .hero-art .art-b { animation: artDriftB 34s ease-in-out infinite alternate; }
 .hero-art .art-c { animation: artDriftC 22s ease-in-out infinite alternate; }
 .hero-art .art-d { animation: artDriftB 30s ease-in-out infinite alternate; will-change: transform; }
-@keyframes artDriftA { from { transform: translate(0, 0); }     to { transform: translate(48px, -30px); } }
-@keyframes artDriftB { from { transform: translate(0, 0); }     to { transform: translate(-60px, 22px); } }
-@keyframes artDriftC { from { transform: translate(0, 0); }     to { transform: translate(26px, 16px); } }
+@keyframes artDriftA { from { transform: translate(0, 0); }     to { transform: translate(110px, -70px); } }
+@keyframes artDriftB { from { transform: translate(0, 0); }     to { transform: translate(-130px, 48px); } }
+@keyframes artDriftC { from { transform: translate(0, 0); }     to { transform: translate(60px, 36px); } }
+
+/* Pulsos de luz que recorren las lineas (loop continuo, velocidades distintas) */
+.hero-art .flow {
+    stroke-dasharray: 0.07 0.93;
+    stroke-dashoffset: 1;
+    animation: artFlow var(--d, 9s) linear infinite;
+    animation-delay: var(--ph, 0s);
+}
+@keyframes artFlow { to { stroke-dashoffset: 0; } }
 
 /* Intro: las lineas se dibujan como un plotter (una sola vez) */
 .hero-art .draw {
@@ -313,8 +322,9 @@ nav {
 @keyframes artDraw { to { stroke-dashoffset: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
-    .hero-art .art-a, .hero-art .art-b, .hero-art .art-c { animation: none; }
+    .hero-art .art-a, .hero-art .art-b, .hero-art .art-c, .hero-art .art-d { animation: none; }
     .hero-art .draw { animation: none; stroke-dashoffset: 0; }
+    .hero-art .flow { animation: none; display: none; }
 }
 
 .hero-controls {
