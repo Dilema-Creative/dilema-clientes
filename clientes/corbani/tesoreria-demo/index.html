@@ -432,7 +432,7 @@ function migrar(s){
       s.chequesPropios.push({id:uid(),fecha:f.fechaCh||p.fecha,numero:f.numero,importe:f.monto||0,destino:p.proveedor||'',pagoId:p.id,anulado:!!p.anulado});}));
   return s;
 }
-function ensureShape(s){const base=seed();['compras','obras','ladob','clientes','cobranzas','pagos','acopios','cajam','chequesPropios'].forEach(k=>{if(!Array.isArray(s[k]))s[k]=base[k]||[];});if(!s.cac)s.cac=base.cac;if(!s.ivaPrev)s.ivaPrev={};s.ventas=(s.ventas||[]).map(v=>Object.assign({iva:0},v));
+function ensureShape(s){const base=seed();['compras','obras','ladob','clientes','cobranzas','pagos','acopios','cajam','chequesPropios','cuentasgasto'].forEach(k=>{if(!Array.isArray(s[k]))s[k]=base[k]||[];});if(!s.cac)s.cac=base.cac;if(!s.ivaPrev)s.ivaPrev={};s.ventas=(s.ventas||[]).map(v=>Object.assign({iva:0},v));
   (s.obras||[]).forEach(o=>(o.certificados||[]).forEach(c=>{if(!c.tipo)c.tipo='A';}));return s;}
 function seed(){
   const openings={Banco:11394786.52,Efectivo:0,Cheque:293011.27,USD:0};
@@ -448,6 +448,7 @@ function seed(){
     sociosub:SEED.sociosub.slice(),
     conceptospersonal:SEED.conceptospersonal.slice(),
     rubros:SEED.rubros.slice(),
+    cuentasgasto:['Edenor','Edesur','Metrogas','Naturgy','Aysa','Internet','Telefonia','Alquiler','Seguros','Honorarios y estudios','Impuestos y tasas','Aportes y sindicato','Materiales','Libreria y oficina','Viaticos','Fletes y combustible','Mantenimiento'],
     cheques:[
       {id:uid(),recibido:'2026-01-05',origen:'MIGUELETES 2306',banco:'GALICIA',numero:'00458721',importe:2611233,vto:'2026-03-10',destino:'',egreso:'',estado:'En cartera'},
       {id:uid(),recibido:'2026-01-09',origen:'SAN A12',banco:'SANTANDER',numero:'00098233',importe:840500,vto:'2026-02-20',destino:'BONORA HIERROS (PROV.037)',egreso:'2026-01-22',estado:'Endosado'},
@@ -462,10 +463,8 @@ function seed(){
       {id:uid(),numero:'A-0088',proveedor:'PROV.287',obra:'4369',fecha:'2026-01-22',importe:847000,iva:147000,pagado:false}],
     cac:{actual:1180,base:1000,hist:[{mes:'Nov 25',v:940},{mes:'Dic 25',v:975},{mes:'Ene 26',v:1000},{mes:'Feb 26',v:1080},{mes:'Mar 26',v:1180}]},
     obras:[
-      {id:uid(),codigo:'4369',nombre:'Migueletes 2306',cliente:'MIGUELETES 2306',cacBase:1000,certificados:[
-        {id:uid(),numero:'Z-01',mes:'2026-02',monto:900000,cobrado:false,tipo:'Z'}]},
-      {id:uid(),codigo:'4370',nombre:'San A12',cliente:'SAN A12',cacBase:1080,certificados:[
-        {id:uid(),numero:'Z-01',mes:'2026-03',monto:600000,cobrado:false,tipo:'Z'}]},
+      {id:uid(),codigo:'4369',nombre:'Migueletes 2306',cliente:'MIGUELETES 2306',cacBase:1000,certificados:[]},
+      {id:uid(),codigo:'4370',nombre:'San A12',cliente:'SAN A12',cacBase:1080,certificados:[]},
       {id:uid(),codigo:'4372',nombre:'Balcarce 850',cliente:'BALCARCE 850',cacBase:1000,certificados:[]}],
     ladob:[],
     clientes:[
@@ -477,10 +476,10 @@ function seed(){
 function save(){syncEstados();try{STORE.setItem(LS_KEY,JSON.stringify(S));}catch(e){}}
 function resetDemo(){if(confirm('Reiniciar la demo con los datos originales? Se borra lo que cargaste en esta sesion.')){try{STORE.removeItem(LS_KEY);}catch(e){}S=migrar(seed());current='inicio';render();toast('Demo reiniciada');}}
 
-// Cuentas bancarias reales de GTSA. "Efectivo" y "USD" quedan solo por historial (a definir).
+// Cuentas bancarias reales de GTSA. "Efectivo" y "USD" quedan solo por historial (Lado B / a definir).
 const CUENTAS=['Banco Galicia','Cuenta Inviu'];
-const MEDIOS=['Banco Galicia','Cuenta Inviu','Cheque','Efectivo','USD'];
-const MEDIO_COLOR={'Banco Galicia':'#0d3b60','Cuenta Inviu':'#6a4fb0','Cheque':'#cf2c48','Efectivo':'#1f7a4d','USD':'#8a6d1a'};
+const MEDIOS=['Banco Galicia','Cuenta Inviu','Tarjeta Visa','Cheque','Efectivo','USD'];
+const MEDIO_COLOR={'Banco Galicia':'#0d3b60','Cuenta Inviu':'#6a4fb0','Tarjeta Visa':'#1a1f71','Cheque':'#cf2c48','Efectivo':'#1f7a4d','USD':'#8a6d1a'};
 function saldoMedio(medio){let s=S.openings[medio]||0;for(const m of S.movimientos){if(m.medio===medio)s+=(m.signo==='ingreso'?m.monto:-m.monto);}return s;}
 function saldoTotal(){return saldoMedio('Banco Galicia')+saldoMedio('Cuenta Inviu');}
 function saldoCaja(cod){return movsPorCodigo(cod).reduce((a,m)=>a+(m.signo==='egreso'?m.monto:-m.monto),0);}
@@ -508,7 +507,6 @@ const NAV=[
   {group:'Administracion'},
   {id:'maestros',label:'Maestros',icon:'M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z'},
   {id:'reportes',label:'Reportes',icon:'M4 20V10M10 20V4M16 20v-7M22 20H2'},
-  {id:'cajam',label:'Caja M',icon:'M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z'},
   {id:'micaja',label:'Mi caja chica',icon:'M21 12a2 2 0 010 4H8l-4-4 4-4h13a2 2 0 010 4zM7 12h.01'}
 ];
 let current='inicio';
@@ -549,7 +547,7 @@ function setRole(r){S.role=r;save();const av=allowedViews();if(av.indexOf(curren
 const TITLES={inicio:['Inicio','Resumen de tesoreria al dia'],movimientos:['Movimientos','Libro de caja y banco'],
   ctascorrientes:['Cuentas corrientes','Saldo por proveedor, contratista u obra'],gastos:['Gastos varios','Consulta por categoria y por fecha'],cheques:['Cheques','De terceros en cartera y propios emitidos'],
   facturas:['Facturacion','Ventas y compras: facturas, cobranzas, pagos, cuentas corrientes'],
-  cajam:['Caja M','Plata y metros - solo Vero y Maxi'],obras:['Obras y certificados','Monto a cobrar a futuro, ajustado por CAC'],conciliacion:['Conciliacion bancaria','Cruce del extracto contra tus movimientos'],
+  obras:['Obras y certificados','Monto a cobrar a futuro, ajustado por CAC'],conciliacion:['Conciliacion bancaria','Cruce del extracto contra tus movimientos'],
   personal:['Personal y jornales','Padron y pago de quincenas'],maestros:['Maestros','Todo lo que cargas una vez y reutilizas'],
   reportes:['Reportes','Consultas, graficos y exportacion'],
   micaja:['Mi caja chica','Ingresos, egresos y saldo de tu caja']};
@@ -582,7 +580,7 @@ const VIEWS={
         '<div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>'+
         '<input id="mov-q" placeholder="Buscar concepto, proveedor, codigo..." oninput="renderMovTable()"></div>'+
         '<select id="mov-rubro" onchange="renderMovTable()"><option value="">Todos los rubros</option>'+S.rubros.map(r=>'<option>'+esc(r)+'</option>').join('')+'</select>'+
-        '<select id="mov-medio" onchange="renderMovTable()"><option value="">Todos los medios</option>'+MEDIOS.map(m=>'<option>'+m+'</option>').join('')+'</select>'+
+        '<select id="mov-medio" onchange="renderMovTable()"><option value="">Todos los medios</option><option value="__BANCO__">Solo banco (Galicia + Inviu)</option>'+MEDIOS.map(m=>'<option>'+m+'</option>').join('')+'</select>'+
         '<label class="flabel">Desde <input type="date" id="mov-desde" onchange="renderMovTable()"></label>'+
         '<label class="flabel">Hasta <input type="date" id="mov-hasta" onchange="renderMovTable()"></label>'+
         '<div class="search imp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>'+
@@ -677,7 +675,7 @@ const VIEWS={
   },
   obras:function(){
     return '<div class="banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V9l6-4 6 4v12"/></svg>'+
-      '<div><b>Los certificados A se cargan una sola vez: como factura de venta.</b> Cada factura de venta aparece aca sola, bajo su obra, y desde aca cobras (no hace falta cargarla dos veces). Los certificados Z se cargan a mano y se cobran a Caja M. El indice CAC ajusta solo los certificados viejos cargados a mano.</div></div>'+
+      '<div><b>Los certificados A se cargan una sola vez: como factura de venta.</b> Cada factura de venta aparece aca sola, bajo su obra, y desde aca cobras (no hace falta cargarla dos veces). El indice CAC ajusta solo los certificados viejos cargados a mano.</div></div>'+
     '<div class="toolbar"><div class="filters"><label class="flabel">Indice CAC actual <input id="cac-actual" inputmode="decimal" value="'+(S.cac.actual||0)+'" style="width:110px" onchange="setCacActual()"></label>'+
       '<span class="muted" style="font-size:12px">Ultimo: '+esc((S.cac.hist[S.cac.hist.length-1]||{}).mes||'')+'</span></div>'+
       '<div class="actions">'+(ROLES[S.role].all?'<button class="btn sm" onclick="openObra()">+ Obra</button>':'')+'</div></div>'+
@@ -741,11 +739,13 @@ const VIEWS={
         '<label class="flabel">Pagos desde <input type="date" id="per-desde" onchange="renderPersonal()"></label>'+
         '<label class="flabel">Hasta <input type="date" id="per-hasta" onchange="renderPersonal()"></label>'+
         '<button class="btn ghost sm" onclick="limpiarFiltrosPer()">Limpiar</button></div>'+
-      (ro?'':'<div class="actions"><button class="btn sm" onclick="editEmpleado(null)">+ Agregar empleado</button><button class="btn primary sm" onclick="openJornal()">+ Registrar pago</button></div>')+'</div>'+
+      (ro?'':'<div class="actions"><label class="btn sm" style="margin:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 16V4m0 0L8 8m4-4l4 4M4 20h16"/></svg>Subir quincena<input type="file" id="jorn-file" accept=".xlsx,.xls,.csv" style="display:none" onchange="importarQuincena(this)"></label>'+
+        '<button class="btn sm" onclick="openExportBanco()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>Bajar Excel banco</button>'+
+        '<button class="btn sm" onclick="editEmpleado(null)">+ Agregar empleado</button><button class="btn primary sm" onclick="openJornal()">+ Registrar pago</button></div>')+'</div>'+
       '<div class="card"><div class="card-head"><h2>Padron</h2><div class="sub">'+S.empleados.length+' empleados</div><div class="spacer"></div><span class="muted" style="font-size:12px">Toca una fila para ver los pagos</span></div><div id="per-table"></div></div>';
   },
   maestros:function(){
-    const tabs=[['proveedores','Proveedores'],['contratistas','Contratistas'],['cuentas','Cuentas y cajas'],['cajaschicas','Cajas chicas'],['conceptos','Conceptos fijos'],['socios','Socios'],['rubros','Rubros'],['apertura','Saldos de apertura']];
+    const tabs=[['proveedores','Proveedores'],['contratistas','Contratistas'],['cuentas','Cuentas y cajas'],['cuentasgasto','Cuentas de gasto'],['cajaschicas','Cajas chicas'],['conceptos','Conceptos fijos'],['socios','Socios'],['rubros','Rubros'],['apertura','Saldos de apertura']];
     return '<div class="banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/></svg>'+
       '<div><b>Todo se agrega y edita desde aca, sin tocar codigo.</b> Cargas un proveedor, una cuenta o un rubro una vez y ya aparece en el resto del sistema. Esto es lo que le da autonomia a Vero.</div></div>'+
     '<div class="toolbar" id="maes-tabs">'+tabs.map((t,i)=>'<button class="btn sm '+(i===0?'primary':'')+'" data-t="'+t[0]+'" onclick="maestroTab(\''+t[0]+'\')">'+t[1]+'</button>').join('')+'</div>'+
@@ -794,7 +794,7 @@ function setInicioPer(){inicioPer.d1=(document.getElementById('ini-desde')||{}).
 function renderInicio(){const el=document.getElementById('inicio-body');if(!el)return;
   const d1=inicioPer.d1,d2=inicioPer.d2;const enPer=m=>enRango(m.fecha,d1,d2);
   const rotulo=(d1||d2)?('del '+(d1?fdate(d1):'inicio')+' al '+(d2?fdate(d2):'hoy')):'de todo el historico';
-  // Inicio muestra lo cotidiano: las dos cuentas y los cheques. Efectivo y USD a definir.
+  // Inicio muestra lo cotidiano: las dos cuentas y los cheques. Efectivo es cosa del Lado B; USD a definir.
   const META={'Banco Galicia':'saldo actual de la cuenta','Cuenta Inviu':'saldo actual de la cuenta','Cheque':'en cartera, todavia no es plata'};
   const tiles=['Banco Galicia','Cuenta Inviu','Cheque'].map(m=>{const v=saldoMedio(m);const cls=v<0?'neg':'';
     return '<div class="tile"><div class="lbl"><span class="dot" style="background:'+MEDIO_COLOR[m]+'"></span>'+(m==='Cheque'?'Cheques':m)+'</div>'+
@@ -841,7 +841,8 @@ function movFiltrados(){
   const q=g('mov-q').toLowerCase();const fr=g('mov-rubro');const fm=g('mov-medio');
   const d1=g('mov-desde');const d2=g('mov-hasta');const imp=g('mov-imp');
   return S.movimientos.slice().reverse().filter(m=>{
-    if(fr&&m.rubro!==fr)return false;if(fm&&m.medio!==fm)return false;
+    if(fr&&m.rubro!==fr)return false;
+    if(fm==='__BANCO__'){if(CUENTAS.indexOf(m.medio)<0)return false;}else if(fm&&m.medio!==fm)return false;
     if(!enRango(m.fecha,d1,d2))return false;
     if(imp&&!impMatch(m.monto,imp))return false;
     if(q){const hay=(m.concepto+' '+m.detalle+' '+m.codigo+' '+nombrePorCodigo(m.codigo)).toLowerCase();if(hay.indexOf(q)<0)return false;}
@@ -989,25 +990,29 @@ function openMovimiento(editId,prefRubro,pre){
         '<div class="hint">Empeza a escribir y elegi de la lista. Si no esta, escribilo igual y despues lo agregas en Maestros.</div></div>'+
       '<div class="row2"><div class="field"><label>Rubro <span class="req">*</span></label><select id="mf-rubro"><option value="">Elegi un rubro...</option>'+S.rubros.map(r=>'<option '+((ed?ed.rubro===r:(prefRubro||pre.rubro)===r)?'selected':'')+'>'+esc(r)+'</option>').join('')+'</select></div>'+
       '<div class="field"><label>Obra (opcional)</label><input id="mf-obra" value="'+esc(pre.obra||'')+'" placeholder="Codigo de obra, ej. 4369"></div></div>'+
+      '<div class="field"><label>Cuenta de gasto (opcional)</label><input id="mf-subcat" list="mf-subcat-list" value="'+esc(ed&&ed.subcat?ed.subcat:(pre.subcat||''))+'" placeholder="Ej. Edenor, Metrogas, Alquiler...">'+
+        '<datalist id="mf-subcat-list">'+S.cuentasgasto.map(c=>'<option value="'+esc(c)+'"></option>').join('')+'</datalist>'+
+        '<div class="hint">Para gastos: elegi a que cuenta imputarlo y queda agrupado en Gastos varios. Se agregan en Maestros &rsaquo; Cuentas de gasto.</div></div>'+
       '<div class="field"><label>Factura vinculada (opcional)</label><select id="mf-factura">'+fopts+'</select><div class="hint">Si este movimiento es el cobro o pago de una factura, elegila: queda linkeada y la factura pasa a cobrada/pagada.</div></div></div>'+
     '<div id="mf-transfer" style="display:none"><div class="row2"><div class="field"><label>Sale de <span class="req">*</span></label><select id="mf-origen">'+CUENTAS.map(m=>'<option>'+m+'</option>').join('')+'</select></div>'+
       '<div class="field"><label>Entra a <span class="req">*</span></label><select id="mf-destino">'+CUENTAS.map((m,i)=>'<option '+(i===1?'selected':'')+'>'+m+'</option>').join('')+'</select></div></div></div>'+
     (function(){
       const esCheq=ed?ed.medio==='Cheque':(pre.medio==='Cheque');
+      const esVisa=ed?ed.medio==='Tarjeta Visa':(pre.medio==='Tarjeta Visa');
       const cuentaSel=(ed&&ed.medio!=='Cheque')?ed.medio:((pre.medio&&pre.medio!=='Cheque')?pre.medio:CUENTAS[0]);
       const cuentaOpts=CUENTAS.concat(CUENTAS.indexOf(cuentaSel)<0?[cuentaSel]:[]);
       const cartera=S.cheques.filter(c=>c.estado==='En cartera');
       movForm.lockCheque=!!pre.cheque;
       return '<div class="row2"><div class="field" id="mf-formawrap"'+((movForm.signo==='ingreso'||movForm.lockCheque)?' style="display:none"':'')+'><label>Forma de pago <span class="req">*</span></label>'+
-        '<select id="mf-forma" onchange="movForma(this.value)"><option'+(esCheq?'':' selected')+'>Transferencia</option><option value="Cheque"'+(esCheq?' selected':'')+'>Cheque / E-cheq</option></select></div>'+
+        '<select id="mf-forma" onchange="movForma(this.value)"><option'+((!esCheq&&!esVisa)?' selected':'')+'>Transferencia</option><option value="Cheque"'+(esCheq?' selected':'')+'>Cheque / E-cheq</option><option value="Tarjeta Visa"'+(esVisa?' selected':'')+'>Tarjeta de credito Visa</option></select></div>'+
       '<div class="field"><label>Monto <span class="req">*</span></label><input id="mf-monto" inputmode="decimal" value="'+fmtImp(num(ed?ed.monto:(pre.monto||0)))+'" placeholder="0"></div></div>'+
-      '<div class="field" id="mf-cuentawrap"'+((esCheq&&!movForm.lockCheque)||(movForm.lockCheque&&pre.medio==='Cheque')||pre.fijaCuenta?' style="display:none"':'')+'><label>Cuenta <span class="req">*</span></label>'+
+      '<div class="field" id="mf-cuentawrap"'+((esCheq&&!movForm.lockCheque)||(movForm.lockCheque&&pre.medio==='Cheque')||pre.fijaCuenta||esVisa?' style="display:none"':'')+'><label>Cuenta <span class="req">*</span></label>'+
         '<select id="mf-cuenta">'+cuentaOpts.map(m=>'<option '+(cuentaSel===m?'selected':'')+'>'+esc(m)+'</option>').join('')+'</select></div>'+
       '<div class="field" id="mf-cheqwrap"'+((esCheq&&!movForm.lockCheque&&!ed)?'':' style="display:none"')+'><label>Que cheque sale de cartera <span class="req">*</span></label>'+
         '<select id="mf-cheq" onchange="cheqPick(this.value)"><option value="">Elegi un cheque...</option>'+
         cartera.map(c=>'<option value="'+c.id+'">'+esc(c.numero)+' '+esc(c.banco)+' - '+money(c.importe)+' (de '+esc(c.origen)+')</option>').join('')+'</select>'+
         '<div class="hint">El cheque queda asociado: deja de estar En cartera y pasa a Endosado. Si te equivocaste, se anula el movimiento y vuelve a cartera.</div></div>';})()+
-    '<div class="field" id="mf-retwrap"'+((ed?ed.medio==='Cheque':pre.medio==='Cheque')?' style="display:none"':'')+'><label>Retencion (opcional)</label><input id="mf-ret" inputmode="decimal" value="'+(ed&&ed.ret?ed.ret:'')+'" placeholder="0"><div class="hint">SUSS, Ganancias, IIBB... lo que te retuvieron en este pago.</div></div>'+
+    '<div class="field" id="mf-retwrap"'+((ed?(ed.medio==='Cheque'||ed.medio==='Tarjeta Visa'):(pre.medio==='Cheque'||pre.medio==='Tarjeta Visa'))?' style="display:none"':'')+'><label>Retencion (opcional)</label><input id="mf-ret" inputmode="decimal" value="'+(ed&&ed.ret?ed.ret:'')+'" placeholder="0"><div class="hint">SUSS, Ganancias, IIBB... lo que te retuvieron en este pago.</div></div>'+
     '<div class="field"><label>Observacion</label><textarea id="mf-obs" rows="2" placeholder="Notas para el equipo">'+esc(ed?ed.detalle:'')+'</textarea></div>'+
     '<div style="display:flex;gap:10px;margin-top:6px"><button class="btn primary" style="flex:1" onclick="saveMovimiento()">'+(ed?'Guardar cambios':'Guardar movimiento')+'</button>'+
       (ed?'<button class="btn ghost danger" onclick="anularMov(\''+ed.id+'\',true)">Anular</button>':'')+
@@ -1049,11 +1054,11 @@ function movSigno(s,btn){movForm.signo=s;[].forEach.call(document.querySelectorA
   const fw=document.getElementById('mf-formawrap');
   if(s==='ingreso'){if(fw)fw.style.display='none';const f=document.getElementById('mf-forma');if(f)f.value='Transferencia';movForma('Transferencia');}
   else if(fw){fw.style.display='';}}
-function movForma(v){const cheq=v==='Cheque';
+function movForma(v){const cheq=v==='Cheque';const visa=v==='Tarjeta Visa';
   const cw=document.getElementById('mf-cuentawrap'),qw=document.getElementById('mf-cheqwrap'),rw=document.getElementById('mf-retwrap');
-  if(cw)cw.style.display=cheq?'none':'';
+  if(cw)cw.style.display=(cheq||visa)?'none':'';
   if(qw)qw.style.display=(cheq&&!movForm.lockCheque&&!movForm.editId)?'':'none';
-  if(rw)rw.style.display=cheq?'none':'';}
+  if(rw)rw.style.display=(cheq||visa)?'none':'';}
 function cheqPick(id){const ch=S.cheques.find(x=>x.id===id);if(!ch)return;
   const m=document.getElementById('mf-monto');if(m)m.value=fmtImp(num(ch.importe));}
 // Convencion fijada por Nacho 01/09: el punto es SIEMPRE separador de miles y despues de cada
@@ -1089,6 +1094,7 @@ function saveMovimiento(){const msg=document.getElementById('mf-msg');const errs
       if(!movForm.editId){const chId=((document.getElementById('mf-cheq')||{}).value)||'';
         if(!chId)errs.push('Elegi que cheque de cartera sale');
         else movForm.cheque={id:chId,estado:'Endosado'};}}
+    else if(forma==='Tarjeta Visa'){movForm.medio='Tarjeta Visa';ret=0;}
     else{movForm.medio=(((document.getElementById('mf-cuenta')||{}).value)||movForm.medio);}
   }
   if(movForm.tipo==='transfer'){const o=document.getElementById('mf-origen').value,d=document.getElementById('mf-destino').value;
@@ -1097,13 +1103,14 @@ function saveMovimiento(){const msg=document.getElementById('mf-msg');const errs
       S.movimientos.push({id:uid(),orden:base,fecha:fecha,concepto:concepto+' (transf.)',detalle:'Sale de '+o,codigo:'',rubro:'VARIOS',medio:o,monto:monto,signo:'egreso',concil:false,ret:null});
       S.movimientos.push({id:uid(),orden:base+1,fecha:fecha,concepto:concepto+' (transf.)',detalle:'Entra a '+d,codigo:'',rubro:'VARIOS',medio:d,monto:monto,signo:'ingreso',concil:false,ret:null});}
   }else{const codigo=codigoDesdeInput(document.getElementById('mf-codigo').value);const rubro=document.getElementById('mf-rubro').value;const obra=document.getElementById('mf-obra').value.trim();
+    const subcat=((document.getElementById('mf-subcat')||{}).value||'').trim();
     const facSel=(document.getElementById('mf-factura')||{}).value||'';const facId=facSel?facSel.slice(2):'';
     document.getElementById('mf-rubro').classList.toggle('field-err',!rubro);
     if(!rubro)errs.push('Falta el rubro');
     if(!errs.length){const det=[obs,obra?('Obra '+obra):''].filter(Boolean).join(' - ');
       if(movForm.editId){const o=S.movimientos.find(m=>m.id===movForm.editId);
-        Object.assign(o,{fecha:fecha,concepto:concepto,detalle:det,codigo:codigo,rubro:rubro,medio:movForm.medio,monto:monto,signo:movForm.signo,ret:ret||null,factura:facId||null});}
-      else{const nuevo={id:uid(),orden:Date.now(),fecha:fecha,concepto:concepto,detalle:det,codigo:codigo,rubro:rubro,medio:movForm.medio,monto:monto,signo:movForm.signo,concil:false,ret:ret||null,factura:facId||null,cert:movForm.cert||null};
+        Object.assign(o,{fecha:fecha,concepto:concepto,detalle:det,codigo:codigo,rubro:rubro,medio:movForm.medio,monto:monto,signo:movForm.signo,ret:ret||null,factura:facId||null,subcat:subcat||null});}
+      else{const nuevo={id:uid(),orden:Date.now(),fecha:fecha,concepto:concepto,detalle:det,codigo:codigo,rubro:rubro,medio:movForm.medio,monto:monto,signo:movForm.signo,concil:false,ret:ret||null,factura:facId||null,cert:movForm.cert||null,subcat:subcat||null};
         S.movimientos.push(nuevo);
         // Deposito o endoso de cheque: el movimiento es el asiento, el cheque guarda el link.
         // Si despues se anula el movimiento, el cheque vuelve solo a En cartera.
@@ -1126,6 +1133,9 @@ function renderMaestro(){const el=document.getElementById('maes-body');if(!el)re
       '<div>Como arrancas en una fecha (sin cargar lo viejo), el <b>saldo de apertura</b> es la plata que tenes ese dia en cada lado: banco, efectivo, cheques y dolares. De ahi en mas, el saldo es <b>apertura + todo lo que vas cargando</b>. Lo viejo queda en tus Excel, no hace falta pasarlo.</div></div>'+
       MEDIOS.map(m=>'<div class="field"><label>'+m+'</label><input id="ap-'+m+'" inputmode="decimal" value="'+(S.openings[m]||0)+'"></div>').join('')+
       (ro?'':'<button class="btn primary" onclick="saveApertura()">Guardar aperturas</button>')+'</div>');return;}
+  if(maesActual==='cuentasgasto'){setHTML(el,'<div class="card-head"><h2>Cuentas de gasto</h2><div class="sub">'+S.cuentasgasto.length+'</div><div class="spacer"></div>'+(ro?'':'<button class="btn primary sm" onclick="addCuentaGasto()">+ Agregar cuenta</button>')+'</div>'+
+    '<div class="panel-body"><div class="hint" style="margin-bottom:12px">Son las categorias de gasto que elegis al cargar un movimiento (Edenor, Metrogas, Alquiler...). Cada movimiento queda imputado a su cuenta y se agrupa solo en Gastos varios.</div>'+
+    '<div style="display:flex;flex-wrap:wrap;gap:8px">'+S.cuentasgasto.map((c,i)=>'<span class="chip rubro" style="padding:6px 12px;font-size:12.5px">'+esc(c)+(ro?'':' <button class="btn ghost sm danger" style="padding:0 3px" onclick="delCuentaGasto('+i+')">x</button>')+'</span>').join('')+'</div></div>');return;}
   if(maesActual==='rubros'){setHTML(el,'<div class="card-head"><h2>Rubros</h2><div class="sub">'+S.rubros.length+'</div><div class="spacer"></div>'+(ro?'':'<button class="btn primary sm" onclick="addRubro()">+ Agregar rubro</button>')+'</div>'+
     '<div class="panel-body" style="display:flex;flex-wrap:wrap;gap:8px">'+S.rubros.map((r,i)=>'<span class="chip rubro" style="padding:6px 12px;font-size:12.5px">'+esc(r)+(ro?'':' <button class="btn ghost sm danger" style="padding:0 3px" onclick="delRubro('+i+')">x</button>')+'</span>').join('')+'</div>');return;}
   const arr=S[maesActual];
@@ -1177,6 +1187,8 @@ function saveApertura(){MEDIOS.forEach(m=>{const el=document.getElementById('ap-
   save();render();toast('Saldos de apertura actualizados');}
 function addRubro(){const r=prompt('Nombre del nuevo rubro:');if(r&&r.trim()){S.rubros.push(r.trim().toUpperCase());save();renderMaestro();toast('Rubro agregado');}}
 function delRubro(i){if(confirm('Borrar rubro "'+S.rubros[i]+'"?')){S.rubros.splice(i,1);save();renderMaestro();}}
+function addCuentaGasto(){const c=prompt('Nombre de la cuenta de gasto (ej. Edenor):');if(c&&c.trim()){S.cuentasgasto.push(c.trim());save();renderMaestro();toast('Cuenta de gasto agregada');}}
+function delCuentaGasto(i){if(confirm('Borrar "'+S.cuentasgasto[i]+'"?')){S.cuentasgasto.splice(i,1);save();renderMaestro();}}
 
 function limpiarFiltrosCC(){['cc-desde','cc-hasta','cc-imp'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});renderCC();}
 function renderCC(){const sel=document.getElementById('cc-sel').value;const obra=document.getElementById('cc-obra').value.trim();
@@ -1441,7 +1453,7 @@ function saveCompra(){const n=document.getElementById('co-num').value.trim();
 // de efectivo, efectivo, metros). En pagos los cheques son Endosado (cartera) o Propio (Galicia).
 const CHQ_COB=['E-cheq','Cheque fisico'];
 const CHQ_PAG=['Cheque en cartera','Cheque propio'];
-const OTR_COB=['Transferencia','Dep. efectivo','Efectivo','Metros'];
+const OTR_COB=['Transferencia','Dep. efectivo','Efectivo'];
 const OTR_PAG=['Transferencia','Efectivo SG','Efectivo CM'];
 const CHQ_LBL={'E-cheq':'E-cheq','Cheque fisico':'Fisico','Cheque en cartera':'Endosado (cartera)','Cheque propio':'Propio Galicia'};
 let cf=null; // contexto del form abierto {tipo:'cobranza'|'pago', formas:[...]}
@@ -1482,14 +1494,13 @@ function cfRender(){const el=document.getElementById('cf-formas');if(!el)return;
     let hint='';
     if(f.metodo==='Dep. efectivo')hint='Entra al Banco Galicia como deposito en efectivo.';
     if(f.metodo==='Efectivo')hint=esCob?'⚠ A definir con Vero a que caja entra. Por ahora va a Efectivo general.':'';
-    if(f.metodo==='Metros')hint='Va a Caja M (solo la ven Vero y Maxi).';
     return '<div class="otrrow"><select onchange="cfMetodo('+i+',this.value)">'+OTR.map(m=>'<option'+(f.metodo===m?' selected':'')+'>'+m+'</option>').join('')+'</select>'+
       '<input inputmode="decimal" value="'+(f.monto?fmtImp(cfMonto(f)):'')+'" oninput="cfSet('+i+',\'monto\',this.value)" placeholder="Importe">'+
       '<button type="button" class="chqdel" title="Quitar" onclick="cfDel('+i+')">&times;</button></div>'+
       (hint?'<div class="hint" style="margin:-2px 0 8px">'+hint+'</div>':'');}).join('');
   const bloqueOtr='<div class="cfblock"><div class="cfbt">Otros<span class="spacer"></span>'+
     '<button type="button" class="btn ghost sm" onclick="cfAdd()">+ Agregar otra forma</button></div>'+
-    (otrIdx.length?otrRows:'<div class="hint">Transferencia, '+(esCob?'deposito de efectivo, efectivo o metros':'efectivo de caja chica SG o CM')+'.</div>')+'</div>';
+    (otrIdx.length?otrRows:'<div class="hint">Transferencia, '+(esCob?'deposito de efectivo o efectivo':'efectivo de caja chica SG o CM')+'.</div>')+'</div>';
   setHTML(el,bloqueChq+bloqueOtr);
   cfTotales();}
 function cfSet(i,k,v){cf.formas[i][k]=(k==='monto')?num(v):v;if(k==='monto')cfTotales();}
@@ -1744,7 +1755,7 @@ function renderCobranzas(el,admin){
       '<td class="r num amt pos">'+money(c.imputado)+'</td>'+
       (admin?'<td class="r">'+(c.anulado?'':'<button class="btn ghost sm danger" onclick="anularCobranza(\''+c.id+'\')">Anular</button>')+'</td>':'')+'</tr>';}).join('')+
     '</tbody></table></div>':'<div class="empty">Todavia no hay cobranzas. Se registran desde aca o desde el boton de cada factura.</div>')+'</div>'+
-    '<div class="hint" style="padding:8px 2px">Cada cobranza puede juntar varias formas de pago (transferencia + cheque + efectivo + metros) y suma sola. Los cheques entran a cartera, los metros a Caja M. Total imputado = formas de pago + retenciones.</div>');}
+    '<div class="hint" style="padding:8px 2px">Cada cobranza puede juntar varias formas de pago (transferencia + cheque + efectivo) y suma sola. Los cheques entran a cartera. Total imputado = formas de pago + retenciones.</div>');}
 function renderPagos(el,admin){
   const rows=S.pagos;
   setHTML(el,'<div class="card"><div class="card-head"><h2>Pagos</h2><div class="sub">'+rows.filter(p=>!p.anulado).length+' registrados</div><div class="spacer"></div>'+
@@ -1968,7 +1979,7 @@ function chipOrigen(r){return r.origen==='factura'?' <span class="chip" style="f
   ' <span class="chip neg" style="font-size:10px;padding:1px 6px">Z</span>';}
 function setCacActual(){S.cac.actual=num(document.getElementById('cac-actual').value)||S.cac.actual;save();renderObras();toast('Indice CAC actualizado, montos recalculados');}
 function renderObras(){const el=document.getElementById('obras-body');if(!el)return;const admin=ROLES[S.role].all;
-  const verZ=!!ROLES[S.role].ladob;
+  const verZ=false; // Certificados Z, Caja M y Metros retirados definitivo (pedido Vero 04/09): parte contable solo A.
   const totalAjust=S.obras.reduce((a,o)=>a+pendObraAjust(o),0);
   const totalNom=S.obras.reduce((a,o)=>a+pendObra(o),0);
   let html='<div class="tiles"><div class="tile total"><div class="lbl">Total a cobrar</div><div class="val num">'+money(totalAjust)+'</div><div class="meta">nominal '+money(totalNom)+' - A viejos ajustados por CAC '+(S.cac.actual)+'</div></div>'+
@@ -2113,6 +2124,92 @@ function saveJornal(){const raw=document.getElementById('jo-emp').value.trim(),m
     rubro:'SUELDOS',medio:document.getElementById('jo-medio').value,monto:m,signo:'egreso',concil:false,ret:null});
   save();closePanel();render();toast('Pago registrado y saldos actualizados');}
 
+// ============ JORNALES: subir/bajar el Excel del banco (Cuenta, Nombre, Importe, Concepto) ============
+let _xlsxP=null;
+function ensureXLSX(){if(window.XLSX)return Promise.resolve(window.XLSX);if(_xlsxP)return _xlsxP;
+  _xlsxP=new Promise((res,rej)=>{const s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    s.onload=()=>res(window.XLSX);s.onerror=()=>rej(new Error('carga'));document.head.appendChild(s);});
+  return _xlsxP;}
+function normNom(s){return (s||'').toString().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/#/g,'N').replace(/\s+/g,' ').trim().toUpperCase();}
+// Lee filas [{cuenta,nombre,importe,concepto}] de una matriz, tolerando encabezado y orden de columnas
+function parseQuincenaAOA(aoa){
+  if(!aoa.length)return [];
+  let hi=-1;
+  for(let i=0;i<Math.min(3,aoa.length);i++){const r=(aoa[i]||[]).map(c=>normNom(c));
+    if(r.some(c=>c.indexOf('NOMBRE')>=0)&&r.some(c=>c.indexOf('IMPORTE')>=0)){hi=i;break;}}
+  let ci={cuenta:0,nombre:1,importe:2,concepto:3},start=0;
+  if(hi>=0){const hdr=aoa[hi].map(c=>normNom(c));
+    const find=(...keys)=>{for(const k of keys){const idx=hdr.findIndex(h=>h.indexOf(k)>=0);if(idx>=0)return idx;}return -1;};
+    const c1=find('CUENTA','CBU'),c2=find('NOMBRE','APELLIDO'),c3=find('IMPORTE','MONTO'),c4=find('CONCEPTO');
+    ci={cuenta:c1>=0?c1:0,nombre:c2>=0?c2:1,importe:c3>=0?c3:2,concepto:c4>=0?c4:3};start=hi+1;}
+  const out=[];
+  for(let i=start;i<aoa.length;i++){const r=aoa[i]||[];const nombre=(r[ci.nombre]!=null?String(r[ci.nombre]):'').trim();
+    if(!nombre)continue;
+    const impRaw=r[ci.importe];const importe=typeof impRaw==='number'?impRaw:num(String(impRaw||''));
+    out.push({cuenta:(r[ci.cuenta]!=null?String(r[ci.cuenta]):'').trim(),nombre:nombre,importe:importe,concepto:(r[ci.concepto]!=null?String(r[ci.concepto]):'').trim()});}
+  return out;}
+let qImport=null;
+function importarQuincena(input){const file=input.files&&input.files[0];if(!file)return;input.value='';
+  const done=filas=>{qImport={filas:filas,fecha:ultimaFecha()};if(!filas.length){toast('No se encontraron filas en el archivo');return;}abrirPreviewQuincena();};
+  if(/\.csv$/i.test(file.name)){const rd=new FileReader();rd.onload=e=>{const aoa=String(e.target.result).split(/\r?\n/).filter(l=>l.trim()).map(l=>l.split(/[;\t,]/));done(parseQuincenaAOA(aoa));};rd.readAsText(file);return;}
+  toast('Leyendo Excel...');
+  ensureXLSX().then(XLSX=>{const rd=new FileReader();rd.onload=e=>{try{
+    const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array'});const ws=wb.Sheets[wb.SheetNames[0]];
+    done(parseQuincenaAOA(XLSX.utils.sheet_to_json(ws,{header:1,raw:true})));}catch(err){toast('No se pudo leer el Excel');}};rd.readAsArrayBuffer(file);})
+    .catch(()=>toast('No se pudo cargar el lector de Excel (revisa la conexion a internet)'));}
+function matchEmpleado(nombre){const n=normNom(nombre);return S.empleados.find(e=>normNom(e.nombre)===n);}
+function abrirPreviewQuincena(){const filas=qImport.filas;
+  const conImp=filas.filter(f=>f.importe>0);
+  const matched=conImp.filter(f=>matchEmpleado(f.nombre));
+  const nomatch=conImp.filter(f=>!matchEmpleado(f.nombre));
+  const total=conImp.reduce((a,f)=>a+f.importe,0);
+  openPanel('<div class="panel-head"><h2>Subir quincena</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+    '<div class="panel-body"><div class="form-msg" id="qi-msg"></div>'+
+    '<div class="banner" style="margin-bottom:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4m0 4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg>'+
+    '<div>Leimos <b>'+conImp.length+' pagos</b> por <b>'+money(total)+'</b>. <b>'+matched.length+'</b> coinciden con el padron, <b>'+nomatch.length+'</b> no.'+(nomatch.length?' Los que no estan se registran solo si marcas la casilla de abajo (se crean en el padron con su cuenta).':'')+'</div></div>'+
+    '<div class="row2"><div class="field"><label>Fecha de la quincena <span class="req">*</span></label><input type="date" id="qi-fecha" value="'+qImport.fecha+'"></div>'+
+      '<div class="field"><label>Medio de pago</label><select id="qi-medio">'+CUENTAS.map(c=>'<option>'+c+'</option>').join('')+'</select></div></div>'+
+    (nomatch.length?'<label class="flabel" style="display:flex;gap:8px;align-items:center;margin:4px 0 12px"><input type="checkbox" id="qi-add"> Agregar al padron los '+nomatch.length+' que faltan (con su cuenta)</label>':'')+
+    '<div class="tbl-wrap" style="max-height:320px;overflow:auto"><table><thead><tr><th>Nombre</th><th>Estado</th><th class="r">Importe</th></tr></thead><tbody>'+
+    conImp.slice(0,300).map(f=>{const e=matchEmpleado(f.nombre);return '<tr><td>'+esc(f.nombre)+'</td><td>'+(e?'<span class="chip pos">Legajo '+esc(e.legajo)+'</span>':'<span class="chip warn">No esta</span>')+'</td><td class="r num">'+money(f.importe)+'</td></tr>';}).join('')+'</tbody></table></div>'+
+    (conImp.length>300?'<div class="hint">Mostrando los primeros 300 de '+conImp.length+'.</div>':'')+
+    '<div style="display:flex;gap:10px;margin-top:12px"><button class="btn primary" style="flex:1" onclick="confirmarQuincena()">Registrar pagos</button>'+
+    '<button class="btn ghost" onclick="closePanel()">Cancelar</button></div></div>');}
+function confirmarQuincena(){const fecha=document.getElementById('qi-fecha').value;const medio=document.getElementById('qi-medio').value;
+  const add=(document.getElementById('qi-add')||{}).checked;
+  if(!fecha){const m=document.getElementById('qi-msg');m.className='form-msg show';m.textContent='Elegi la fecha de la quincena';return;}
+  const conImp=qImport.filas.filter(f=>f.importe>0);let reg=0,creados=0,saltados=0;
+  conImp.forEach(f=>{let e=matchEmpleado(f.nombre);
+    if(!e){if(!add){saltados++;return;}e={id:uid(),legajo:f.cuenta||('S/L-'+creados),nombre:f.nombre,cat:'',jornal:0,cuenta:f.cuenta||''};S.empleados.push(e);creados++;}
+    if(f.cuenta&&!e.cuenta)e.cuenta=f.cuenta;
+    S.movimientos.push({id:uid(),orden:Date.now()+reg,fecha:fecha,concepto:e.nombre,detalle:'Jornal quincena '+fecha,codigo:String(e.legajo),rubro:'SUELDOS',medio:medio,monto:f.importe,signo:'egreso',concil:false,ret:null});reg++;});
+  save();closePanel();render();
+  toast(reg+' pagos registrados'+(creados?' - '+creados+' empleados nuevos':'')+(saltados?' - '+saltados+' sin match saltados':''));}
+function openExportBanco(){const f=ultimaFecha();
+  openPanel('<div class="panel-head"><h2>Bajar Excel para el banco</h2><div class="spacer"></div><button class="btn ghost sm" onclick="closePanel()">x</button></div>'+
+    '<div class="panel-body">'+
+    '<div class="banner" style="margin-bottom:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 7l3-3M4 7l3 3"/></svg>'+
+    '<div>Arma el archivo de transferencias (<b>Cuenta, Nombre, Importe, Concepto</b>) sumando lo pagado a cada empleado en el rango. Se descarga en Excel, listo para el banco.</div></div>'+
+    '<div class="row2"><div class="field"><label>Desde</label><input type="date" id="qe-d1" value="'+(f.slice(0,8)+'01')+'" onchange="previewExportBanco()"></div>'+
+      '<div class="field"><label>Hasta</label><input type="date" id="qe-d2" value="'+f+'" onchange="previewExportBanco()"></div></div>'+
+    '<div class="field"><label>Concepto (columna del banco)</label><input id="qe-conc" value="1"></div>'+
+    '<div id="qe-prev" class="hint"></div>'+
+    '<div style="display:flex;gap:10px;margin-top:12px"><button class="btn primary" style="flex:1" onclick="bajarExcelBanco()">Descargar Excel</button>'+
+    '<button class="btn ghost" onclick="closePanel()">Cancelar</button></div></div>');
+  previewExportBanco();}
+function filasExportBanco(){const d1=(document.getElementById('qe-d1')||{}).value||'';const d2=(document.getElementById('qe-d2')||{}).value||'';
+  return S.empleados.map(e=>{const tot=pagosDe(e.legajo).filter(m=>enRango(m.fecha,d1,d2)).reduce((a,m)=>a+m.monto,0);
+    return {cuenta:e.cuenta||'',nombre:e.nombre,importe:tot};}).filter(r=>r.importe>0);}
+function previewExportBanco(){const rows=filasExportBanco();const sinCta=rows.filter(r=>!r.cuenta).length;const el=document.getElementById('qe-prev');
+  if(el)setHTML(el,rows.length+' empleados con pagos en el rango, total '+money(rows.reduce((a,r)=>a+r.importe,0))+(sinCta?'. <b>'+sinCta+' sin cuenta cargada</b> (completala en el padron para que el banco pueda transferir).':'.'));}
+function bajarExcelBanco(){const conc=(document.getElementById('qe-conc')||{}).value||'1';const rows=filasExportBanco();
+  if(!rows.length){toast('No hay pagos en ese rango');return;}
+  const aoa=[['Cuenta','Nombre','Importe','Concepto']].concat(rows.map(r=>[r.cuenta,r.nombre,r.importe,conc]));
+  ensureXLSX().then(XLSX=>{const ws=XLSX.utils.aoa_to_sheet(aoa);const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Empleados');
+    XLSX.writeFile(wb,'transferencias-quincena.xlsx');toast('Excel descargado');})
+    .catch(()=>toast('No se pudo cargar el generador de Excel (revisa la conexion a internet)'));}
+
 const CAT_LABEL={1:'Ayudante',2:'Medio oficial',3:'Oficial'};
 function pagosDe(leg){const L=String(leg).trim();return S.movimientos.filter(m=>movActivo(m)&&m.rubro==='SUELDOS'&&String(m.codigo).trim()===L);}
 let perOpen={};
@@ -2156,13 +2253,15 @@ function editEmpleado(id){const e=id?S.empleados.find(x=>x.id===id):null;const i
       '<div class="field"><label>Nombre <span class="req">*</span></label><input id="em-nom" value="'+esc(e?e.nombre:'')+'" placeholder="Apellido y nombre"></div></div>'+
     '<div class="row2"><div class="field"><label>Categoria <span class="req">*</span></label><select id="em-cat"><option value="">Elegi una categoria...</option>'+[1,2,3].map(c=>'<option value="'+c+'" '+(e&&String(e.cat)===String(c)?'selected':'')+'>'+CAT_LABEL[c]+'</option>').join('')+'</select></div>'+
       '<div class="field"><label>Jornal <span class="req">*</span></label><input id="em-jor" inputmode="decimal" value="'+(e&&e.jornal?e.jornal:'')+'" placeholder="Valor del dia o la hora"><div class="hint">El valor de la hora/dia segun categoria.</div></div></div>'+
+    '<div class="field"><label>Cuenta / CBU (para transferencias)</label><input id="em-cta" value="'+esc(e&&e.cuenta?e.cuenta:'')+'" placeholder="Nro de cuenta o CBU del banco"><div class="hint">Es la cuenta a la que le transferis. Se usa para armar el Excel del banco. Se completa sola al subir la quincena.</div></div>'+
     '<div style="display:flex;gap:10px;margin-top:6px"><button class="btn primary" style="flex:1" onclick="saveEmpleado(\''+(e?e.id:'')+'\')">Guardar</button><button class="btn ghost" onclick="closePanel()">Cancelar</button></div></div>',true);}
 function saveEmpleado(id){const leg=document.getElementById('em-leg').value.trim();const nom=document.getElementById('em-nom').value.trim();
   const cat=document.getElementById('em-cat').value;const jor=num(document.getElementById('em-jor').value);
   const errs=[];if(!leg)errs.push('el legajo');if(!nom)errs.push('el nombre');if(!cat)errs.push('la categoria');if(!jor)errs.push('el jornal');
   if(errs.length){const m=document.getElementById('em-msg');m.className='form-msg show';m.textContent='Falta cargar '+errs.join(', ');return;}
-  if(id){const e=S.empleados.find(x=>x.id===id);Object.assign(e,{legajo:leg,nombre:nom,cat:Number(cat),jornal:jor});}
-  else S.empleados.unshift({id:uid(),legajo:leg,nombre:nom,cat:Number(cat),jornal:jor});
+  const cta=(document.getElementById('em-cta')||{}).value||'';
+  if(id){const e=S.empleados.find(x=>x.id===id);Object.assign(e,{legajo:leg,nombre:nom,cat:Number(cat),jornal:jor,cuenta:cta.trim()});}
+  else S.empleados.unshift({id:uid(),legajo:leg,nombre:nom,cat:Number(cat),jornal:jor,cuenta:cta.trim()});
   save();closePanel();render();toast('Empleado guardado');}
 function delEmpleado(id){const e=S.empleados.find(x=>x.id===id);if(e&&confirm('Borrar a "'+e.nombre+'" del padron?')){S.empleados=S.empleados.filter(x=>x.id!==id);save();renderPersonal();toast('Empleado borrado');}}
 
