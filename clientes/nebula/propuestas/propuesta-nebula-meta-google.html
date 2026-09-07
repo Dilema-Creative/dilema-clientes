@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nebula · Propuesta Meta Ads + Google Ads</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0C0C0E;
+    --ink-2: #151517;
+    --paper: #F2EFE8;
+    --paper-2: #E9E5DA;
+    --cream: #F6F3EC;
+    --white: #ffffff;
+    --gold: #C99A46;
+    --gold-deep: #A67C2E;
+    --text: #17171A;
+    --ash: #605B52;
+    --line: #D8D2C3;
+    --line-dark: rgba(246,243,236,0.12);
+    --bad: #A8402F;
+    --good: #3A6B52;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .display {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(12, 12, 14, 0.97);
+    backdrop-filter: blur(12px);
+    padding: 0 48px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--line-dark);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 14px; }
+  .nav-brand {
+    font-family: 'Anton', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    text-transform: uppercase;
+  }
+  .nav-brand span { color: var(--gold); }
+  .nav-divider { width: 1px; height: 18px; background: rgba(246,243,236,0.18); }
+  .nav-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: rgba(246,243,236,0.55);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: rgba(246,243,236,0.5);
+    text-decoration: none;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ORBIT MARK (guiño al iso de Nebula) */
+  .orbit-mark { flex-shrink: 0; }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    padding: 130px 60px 90px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,154,70,0.45), transparent);
+  }
+  .hero-orbit {
+    position: absolute;
+    top: -140px; right: -120px;
+    width: 560px; height: 560px;
+    opacity: 0.12;
+    pointer-events: none;
+  }
+  .hero-mark {
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 40px;
+    position: relative;
+  }
+  .hero-mark-brand {
+    font-family: 'Anton', sans-serif;
+    font-size: 17px;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    text-transform: uppercase;
+  }
+  .hero-mark-line { width: 40px; height: 1px; background: rgba(246,243,236,0.25); }
+  .hero-mark-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(246,243,236,0.5);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: clamp(46px, 7vw, 92px);
+    line-height: 0.98;
+    letter-spacing: 0.005em;
+    color: var(--cream);
+    max-width: 900px;
+    margin-bottom: 26px;
+    position: relative;
+  }
+  .hero h1 span { color: var(--gold); }
+  .hero-sub {
+    font-size: 17px;
+    color: rgba(246,243,236,0.62);
+    max-width: 620px;
+    font-weight: 300;
+    line-height: 1.7;
+    margin-bottom: 44px;
+    position: relative;
+  }
+  .hero-pills { display: flex; flex-wrap: wrap; gap: 10px; position: relative; }
+  .hero-pill {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 7px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(246,243,236,0.65);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* SECTIONS */
+  section { padding: 80px 60px; }
+  section.alt { background: var(--cream); }
+  section.dark { background: var(--ink); color: var(--cream); }
+
+  .section-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 14px;
+  }
+  section.dark .section-kicker { color: var(--gold); }
+
+  .section-title {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: clamp(32px, 4.4vw, 56px);
+    line-height: 1.02;
+    letter-spacing: 0.005em;
+    color: var(--ink);
+    max-width: 780px;
+    margin-bottom: 16px;
+  }
+  .section-title span { color: var(--gold-deep); }
+  section.dark .section-title { color: var(--cream); }
+  section.dark .section-title span { color: var(--gold); }
+
+  .section-desc {
+    font-size: 16px;
+    color: var(--ash);
+    max-width: 680px;
+    margin-bottom: 52px;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  section.dark .section-desc { color: rgba(246,243,236,0.6); }
+
+  /* DIAGNÓSTICO */
+  .diag-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid var(--line);
+  }
+  .diag-col { padding: 32px; }
+  .diag-col:first-child { border-right: 1px solid var(--line); background: #EFF2EA; }
+  .diag-col:last-child { background: #F4ECE4; }
+  .diag-col-head {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .diag-col:first-child .diag-col-head { color: var(--good); }
+  .diag-col:last-child .diag-col-head { color: var(--bad); }
+  .diag-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .diag-list li {
+    font-size: 14.5px;
+    color: var(--text);
+    padding-left: 22px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .diag-col:first-child .diag-list li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--good); font-weight: 700;
+  }
+  .diag-col:last-child .diag-list li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--bad); font-weight: 700;
+  }
+
+  /* CANALES */
+  .channels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  .channel {
+    background: var(--white);
+    border: 1px solid var(--line);
+    padding: 36px;
+    position: relative;
+  }
+  .channel::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: var(--ink);
+  }
+  .channel:nth-child(2)::before { background: var(--gold); }
+  .channel-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 12px;
+  }
+  .channel-title {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 26px;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .channel-goal {
+    font-size: 14.5px;
+    color: var(--ash);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .channel-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .channel-list li {
+    font-size: 14px;
+    color: var(--ash);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .channel-list li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--gold-deep); font-weight: 700; font-size: 13px;
+  }
+  .channel-note {
+    margin-top: 20px;
+    padding: 16px 18px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    font-size: 13.5px;
+    color: var(--ash);
+    line-height: 1.6;
+  }
+  .channel-note strong { color: var(--ink); font-weight: 600; }
+
+  /* SEGUIDORES CALLOUT */
+  .followers-box {
+    margin-top: 24px;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 36px;
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 36px;
+    align-items: center;
+  }
+  .followers-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .followers-title {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 26px;
+    letter-spacing: 0.01em;
+    color: var(--cream);
+    margin-bottom: 14px;
+  }
+  .followers-desc {
+    font-size: 14.5px;
+    color: rgba(246,243,236,0.7);
+    line-height: 1.7;
+  }
+  .followers-stat {
+    border: 1px solid var(--line-dark);
+    padding: 26px;
+    text-align: center;
+  }
+  .followers-stat-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 44px;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .followers-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(246,243,236,0.5);
+    line-height: 1.6;
+  }
+
+  /* PHASES */
+  .phases { display: flex; flex-direction: column; position: relative; }
+  .phases::before {
+    content: '';
+    position: absolute;
+    left: 27px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--gold) 0%, rgba(201,154,70,0.1) 100%);
+  }
+  .phase {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 24px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .phase:last-child { border-bottom: none; }
+  .phase-num {
+    width: 56px; height: 56px;
+    background: var(--cream);
+    border: 2px solid var(--gold-deep);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--gold-deep);
+    flex-shrink: 0;
+    position: relative; z-index: 1;
+  }
+  .phase-title {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 21px;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .phase-desc {
+    font-size: 15px;
+    color: var(--ash);
+    line-height: 1.65;
+    max-width: 720px;
+  }
+
+  /* INCLUDED */
+  .included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .included-col {
+    background: var(--white);
+    border: 1px solid var(--line);
+    padding: 30px;
+  }
+  .included-col-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .col-badge {
+    background: var(--ink);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+  }
+  .col-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--ash);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .included-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .included-list li {
+    font-size: 14px;
+    color: var(--ash);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .included-list li::before {
+    content: '✓'; position: absolute; left: 0;
+    color: var(--gold-deep); font-weight: 700; font-size: 13px;
+  }
+  .always-col {
+    background: var(--white);
+    border: 1px solid var(--line);
+    padding: 30px;
+    margin-top: 20px;
+  }
+  .always-col .included-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; }
+
+  /* PORTAL */
+  .portal-box {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 40px;
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 36px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .portal-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .portal-title {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 27px;
+    letter-spacing: 0.01em;
+    color: var(--cream);
+    margin-bottom: 14px;
+  }
+  .portal-desc {
+    font-size: 14.5px;
+    color: rgba(246,243,236,0.7);
+    line-height: 1.7;
+    margin-bottom: 18px;
+  }
+  .portal-points { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .portal-points li {
+    font-size: 13.5px;
+    color: rgba(246,243,236,0.75);
+    padding-left: 18px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .portal-points li::before {
+    content: '→'; position: absolute; left: 0;
+    color: var(--gold); font-weight: 700;
+  }
+  .portal-mock {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(201,154,70,0.25);
+    padding: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(246,243,236,0.6);
+  }
+  .portal-mock-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .portal-mock-rows { display: flex; flex-direction: column; gap: 8px; }
+  .portal-mock-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 0;
+  }
+  .portal-mock-row span:last-child { color: var(--gold); font-weight: 700; }
+
+  /* NEEDS */
+  .needs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .need-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    padding: 24px;
+  }
+  .need-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold-deep);
+    margin-bottom: 12px;
+    letter-spacing: 0.1em;
+  }
+  .need-title {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 16px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .need-desc { font-size: 13.5px; color: var(--ash); line-height: 1.6; }
+
+  /* CONTENIDO */
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .content-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    padding: 26px;
+  }
+  .content-card.aparte { background: var(--paper); }
+  .content-card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 10px;
+  }
+  .content-card-title {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .content-card-desc { font-size: 13.5px; color: var(--ash); line-height: 1.65; }
+
+  /* PRICING */
+  .pricing-wrap {
+    max-width: 1020px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.25fr 1fr;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .pricing-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 32px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .pricing-card.featured {
+    border-color: var(--gold);
+    background: rgba(201,154,70,0.08);
+    padding: 40px 32px;
+  }
+  .pricing-card.featured::before {
+    content: 'Recomendado';
+    position: absolute;
+    top: -12px; left: 24px;
+    background: var(--gold);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+  }
+  .pricing-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 10.5px;
+    color: rgba(246,243,236,0.5);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .pricing-anchor {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: rgba(246,243,236,0.4);
+    text-decoration: line-through;
+    margin-bottom: 2px;
+  }
+  .pricing-price {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-size: 50px;
+    letter-spacing: 0.01em;
+    color: var(--cream);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .pricing-card.featured .pricing-price { font-size: 58px; color: var(--gold); }
+  .pricing-price span {
+    font-family: 'Inter', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    color: rgba(246,243,236,0.4);
+  }
+  .pricing-note {
+    font-size: 13px;
+    color: rgba(246,243,236,0.5);
+    margin-bottom: 22px;
+    min-height: 40px;
+    line-height: 1.55;
+  }
+  .pricing-divider { height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 20px; }
+  .pricing-list { list-style: none; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+  .pricing-list li {
+    font-size: 13.5px;
+    color: rgba(246,243,236,0.7);
+    padding-left: 22px;
+    position: relative;
+    line-height: 1.5;
+  }
+  .pricing-list li::before { content: '✓'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+  .invest-note {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 24px;
+    font-size: 14px;
+    color: rgba(246,243,236,0.6);
+    line-height: 1.7;
+    max-width: 1020px;
+    margin: 28px auto 0;
+  }
+  .invest-note strong { color: rgba(246,243,236,0.9); }
+
+  /* CLOSING */
+  .closing {
+    background: var(--ink);
+    padding: 96px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-top: 1px solid var(--line-dark);
+  }
+  .closing h2 {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: clamp(34px, 5vw, 62px);
+    letter-spacing: 0.005em;
+    line-height: 1.02;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  .closing h2 span { color: var(--gold); }
+  .closing p {
+    font-size: 16px;
+    color: rgba(246,243,236,0.55);
+    max-width: 560px;
+    margin: 0 auto;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #08080A;
+    color: rgba(246,243,236,0.6);
+    padding: 60px 60px 36px;
+    border-top: 1px solid rgba(201,154,70,0.18);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    margin-bottom: 40px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-brand {
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  .footer-brand span { color: var(--gold); }
+  .footer-tagline {
+    font-size: 14px;
+    color: rgba(246,243,236,0.5);
+    max-width: 380px;
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .footer-contact {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+    text-align: right;
+  }
+  .footer-contact-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(246,243,236,0.4);
+    margin-bottom: 4px;
+  }
+  .footer-contact a {
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  .footer-contact a:hover { color: var(--gold); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .footer-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(246,243,236,0.35);
+    letter-spacing: 0.08em;
+  }
+  .footer-meta span { color: var(--gold); }
+
+  /* TABLET */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    nav { padding: 0 32px; }
+    .hero { padding: 116px 40px 76px; }
+    section { padding: 64px 40px; }
+    .channels { grid-template-columns: 1fr; gap: 16px; }
+    .included-grid { grid-template-columns: 1fr; gap: 16px; }
+    .needs-grid { grid-template-columns: 1fr 1fr; }
+    .content-grid { grid-template-columns: 1fr; gap: 14px; }
+    .pricing-wrap { grid-template-columns: 1fr; gap: 24px; max-width: 560px; }
+    .portal-box { grid-template-columns: 1fr; gap: 24px; }
+    .followers-box { grid-template-columns: 1fr; gap: 24px; }
+    .closing { padding: 80px 40px; }
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; height: 52px; }
+    .nav-links { display: none; }
+    .nav-divider, .nav-sub { display: none; }
+
+    .hero { padding: 84px 24px 60px; }
+    .hero h1 { font-size: 44px; margin-bottom: 18px; }
+    .hero-sub { font-size: 15px; margin-bottom: 30px; }
+    .hero-pill { font-size: 9.5px; padding: 6px 12px; }
+    .hero-mark { gap: 10px; margin-bottom: 26px; flex-wrap: wrap; }
+    .hero-mark-brand { font-size: 15px; }
+    .hero-mark-line { width: 24px; }
+    .hero-mark-tag { font-size: 10px; }
+    .hero-orbit { width: 320px; height: 320px; top: -80px; right: -100px; }
+
+    section { padding: 56px 24px; }
+    .section-kicker { font-size: 9.5px; }
+    .section-title { font-size: 31px; margin-bottom: 12px; }
+    .section-desc { font-size: 15px; margin-bottom: 36px; }
+
+    .diag-grid { grid-template-columns: 1fr; }
+    .diag-col { padding: 24px; }
+    .diag-col:first-child { border-right: none; border-bottom: 1px solid var(--line); }
+
+    .channels { grid-template-columns: 1fr; gap: 14px; }
+    .channel { padding: 24px; }
+    .channel-title { font-size: 21px; }
+
+    .followers-box { grid-template-columns: 1fr; padding: 26px; gap: 22px; }
+    .followers-title { font-size: 21px; }
+
+    .phases::before { left: 19px; }
+    .phase { grid-template-columns: 40px 1fr; gap: 16px; padding: 24px 0; }
+    .phase-num { width: 40px; height: 40px; font-size: 12px; }
+    .phase-title { font-size: 17px; }
+    .phase-desc { font-size: 14px; }
+
+    .included-grid { grid-template-columns: 1fr; gap: 14px; }
+    .included-col { padding: 22px; }
+    .always-col { padding: 22px; }
+    .always-col .included-list { grid-template-columns: 1fr; }
+    .included-list li { font-size: 13px; }
+
+    .portal-box { grid-template-columns: 1fr; padding: 24px; }
+    .portal-title { font-size: 21px; }
+    .portal-desc { font-size: 13.5px; }
+
+    .needs-grid { grid-template-columns: 1fr; gap: 12px; }
+    .need-card { padding: 20px; }
+
+    .content-grid { grid-template-columns: 1fr; gap: 12px; }
+    .content-card { padding: 22px; }
+
+    .pricing-wrap { grid-template-columns: 1fr; gap: 22px; }
+    .pricing-card { padding: 26px 22px; }
+    .pricing-card.featured { padding: 32px 22px 26px; }
+    .pricing-price { font-size: 42px; }
+    .pricing-card.featured .pricing-price { font-size: 48px; }
+    .invest-note { font-size: 13px; padding: 18px; }
+
+    .closing { padding: 68px 24px 60px; }
+    .closing h2 { font-size: 33px; }
+    .closing p { font-size: 15px; }
+
+    footer { padding: 48px 24px 28px; }
+    .footer-top { grid-template-columns: 1fr; gap: 28px; margin-bottom: 28px; padding-bottom: 24px; }
+    .footer-contact { align-items: flex-start; text-align: left; }
+    .footer-brand { font-size: 21px; }
+    .footer-tagline { font-size: 13px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .footer-meta { font-size: 10px; }
+  }
+
+  @media (max-width: 420px) {
+    .hero h1 { font-size: 37px; }
+    .section-title { font-size: 27px; }
+    .pricing-price { font-size: 38px; }
+    .pricing-card.featured .pricing-price { font-size: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-brand">Dilema <span>Creative</span></div>
+    <div class="nav-divider"></div>
+    <div class="nav-sub">Propuesta Nebula</div>
+  </div>
+  <div class="nav-links">
+    <a href="#canales">Canales</a>
+    <a href="#metodologia">Cómo trabajamos</a>
+    <a href="#incluye">Qué incluye</a>
+    <a href="#necesitamos">Qué necesitamos</a>
+    <a href="#inversion">Inversión</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <svg class="hero-orbit" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <g transform="rotate(-24 50 50)">
+      <ellipse cx="50" cy="50" rx="42" ry="18" fill="none" stroke="#F6F3EC" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="200 64"/>
+      <ellipse cx="50" cy="50" rx="28" ry="11" fill="none" stroke="#C99A46" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="130 46"/>
+    </g>
+  </svg>
+  <div class="hero-mark">
+    <span class="hero-mark-brand">Dilema <span style="color: var(--gold);">Creative</span></span>
+    <span class="hero-mark-line"></span>
+    <span class="hero-mark-tag">para Nebula</span>
+  </div>
+  <h1>Más consultas.<br>Más eventos<br><span>en el calendario.</span></h1>
+  <p class="hero-sub">Nebula ya produce eventos que se recomiendan solos. Esta propuesta suma el sistema para que las consultas lleguen todos los meses por Meta y Google, sin depender del boca a boca.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">Meta Ads · Leads</span>
+    <span class="hero-pill">Google Ads · Búsqueda</span>
+    <span class="hero-pill">Casamientos · XV · Corporativos</span>
+  </div>
+</div>
+
+<!-- PUNTO DE PARTIDA -->
+<section id="diagnostico">
+  <div class="section-kicker">01 · Punto de partida</div>
+  <h2 class="section-title">Lo que hay<br>y lo que <span>falta</span>.</h2>
+  <p class="section-desc">Antes de proponer nada, leemos a Nebula como la leería alguien que está organizando su evento. Esto es lo que vemos hoy.</p>
+
+  <div class="diag-grid">
+    <div class="diag-col">
+      <div class="diag-col-head">Lo que funciona</div>
+      <ul class="diag-list">
+        <li>Identidad de marca clara y cuidada: el Instagram tiene estética propia, no parece una productora más</li>
+        <li>Más de 4.000 seguidores en @productora.nebula, una base real construida con contenido genuino</li>
+        <li>Producción integral: casamientos, XV, cumpleaños y corporativos bajo un mismo equipo</li>
+        <li>Contenido de eventos reales para mostrar, que es exactamente el material que mejor funciona en pauta</li>
+        <li>Sitio web ya desarrollado, listo para salir</li>
+      </ul>
+    </div>
+    <div class="diag-col">
+      <div class="diag-col-head">Lo que falta construir</div>
+      <ul class="diag-list">
+        <li>Sin pauta activa: las consultas dependen del alcance orgánico y de la recomendación</li>
+        <li>Demanda activa en Google sin capturar: hoy alguien busca cómo organizar su casamiento o sus XV y encuentra a la competencia</li>
+        <li>El dominio del sitio todavía no está habilitado, y sin la web en vivo no hay dónde aterrizar los clics de Google</li>
+        <li>El volumen de eventos futuro queda atado a lo que entra solo, sin una fuente de consultas predecible</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CANALES -->
+<section class="alt" id="canales">
+  <div class="section-kicker">02 · Los dos canales</div>
+  <h2 class="section-title">Cada canal atrapa<br>a la persona en un<br><span>momento distinto</span>.</h2>
+  <p class="section-desc">Google captura a quien ya está buscando dónde hacer su evento. Meta llega antes: le muestra Nebula a quien tiene una fecha por delante y todavía no eligió con quién. Los dos alimentan la misma agenda.</p>
+
+  <div class="channels">
+    <div class="channel">
+      <div class="channel-tag">Canal 01</div>
+      <div class="channel-title">Google Ads</div>
+      <div class="channel-goal">Campañas de búsqueda para aparecer cuando alguien ya está averiguando por una productora, un salón o la organización de su evento. Es la persona con más intención de todas: tiene fecha, tiene presupuesto y está comparando opciones.</div>
+      <ul class="channel-list">
+        <li>Campañas de búsqueda separadas por tipo de evento: casamientos, XV, cumpleaños, corporativos</li>
+        <li>Anuncios que responden a lo que la persona está buscando, con Nebula como respuesta</li>
+        <li>Alcance geográfico definido según las zonas donde Nebula produce</li>
+        <li>Revisión de en qué búsquedas se va el presupuesto, para cortar las que no son clientes</li>
+        <li>Medición de cada consulta: formulario y WhatsApp</li>
+      </ul>
+      <div class="channel-note"><strong>Sobre la web:</strong> las campañas de búsqueda necesitan el sitio en vivo para aterrizar los clics. Apenas se habilite el dominio, Google queda listo para salir.</div>
+    </div>
+    <div class="channel">
+      <div class="channel-tag">Canal 02</div>
+      <div class="channel-title">Meta Ads</div>
+      <div class="channel-goal">Campañas de leads en Instagram y Facebook con los eventos reales de Nebula como protagonistas. La persona que está por organizar algo ve el anuncio, deja sus datos sin salir de la app y la consulta llega directo.</div>
+      <ul class="channel-list">
+        <li>Campañas de leads con formularios nativos: la consulta se completa dentro de Instagram</li>
+        <li>Anuncios por tipo de evento, con el material real de producciones pasadas</li>
+        <li>Remarketing a quienes interactuaron y no consultaron</li>
+        <li>Test continuo de piezas y ángulos para bajar el costo por consulta</li>
+        <li>Consultas derivadas a WhatsApp para responder rápido</li>
+      </ul>
+      <div class="channel-note"><strong>Ventaja de arranque:</strong> los formularios nativos de Meta no dependen de la web. Este canal puede salir primero, mientras el dominio se habilita.</div>
+    </div>
+  </div>
+
+  <div class="followers-box">
+    <div>
+      <div class="followers-tag">Capa adicional · Dentro de Meta Ads</div>
+      <div class="followers-title">Campaña de seguidores</div>
+      <div class="followers-desc">Cuando alguien evalúa una productora para su evento, lo primero que hace es entrar al Instagram. Una cuenta que crece y se ve viva termina de cerrar la decisión. Como capa complementaria a las campañas de leads, podemos destinar parte de la pauta a hacer crecer @productora.nebula con seguidores reales del público correcto: personas con eventos por delante, en las zonas donde Nebula produce.</div>
+    </div>
+    <div class="followers-stat">
+      <div class="followers-stat-num">+4.000</div>
+      <div class="followers-stat-label">Seguidores actuales.<br>La base ya existe, la pauta la multiplica.</div>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGÍA -->
+<section id="metodologia">
+  <div class="section-kicker">03 · Cómo trabajamos</div>
+  <h2 class="section-title">Del acuerdo<br>a las <span>primeras consultas</span>.</h2>
+  <p class="section-desc">No lanzamos campañas el día uno. Primero dejamos la base técnica y la estrategia bien armadas, y recién ahí sale la pauta. Después el trabajo es continuo.</p>
+
+  <div class="phases">
+    <div class="phase">
+      <div class="phase-num">1</div>
+      <div class="phase-body">
+        <div class="phase-title">Auditoría y definición</div>
+        <div class="phase-desc">Relevamos los activos de Nebula: Instagram, material de eventos, sitio web, competencia. Definimos juntos qué tipos de evento priorizar, en qué zonas, y qué hace distinta a Nebula para que eso sea lo que comunican los anuncios.</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">2</div>
+      <div class="phase-body">
+        <div class="phase-title">Setup técnico</div>
+        <div class="phase-desc">Dejamos toda la infraestructura configurada y midiendo: Business Manager de Meta, píxel en la web, cuenta de Google Ads, conversiones y formularios. Cada consulta que llegue va a quedar registrada, con su canal de origen.</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">3</div>
+      <div class="phase-body">
+        <div class="phase-title">Estructura de campañas y anuncios</div>
+        <div class="phase-desc">Armamos la arquitectura de campañas por tipo de evento en los dos canales y producimos los anuncios con el material real de Nebula. Antes de salir, todo pasa por aprobación de ustedes.</div>
+      </div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">4</div>
+      <div class="phase-body">
+        <div class="phase-title">Lanzamiento y ritmo continuo</div>
+        <div class="phase-desc">Salimos con presupuesto controlado y las primeras semanas son de aprendizaje: los algoritmos calibran y nosotros identificamos qué anuncios y qué tipos de evento traen las consultas más baratas. De ahí en adelante, optimización semanal, reporte mensual y reunión para revisar resultados y próximos pasos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ INCLUYE -->
+<section class="alt" id="incluye">
+  <div class="section-kicker">04 · Qué incluye</div>
+  <h2 class="section-title">Todo lo que entra<br><span>en el servicio</span>.</h2>
+  <p class="section-desc">Setup completo, gestión, optimización continua y comunicación directa. Esto es lo que cubre el fee de cada canal.</p>
+
+  <div class="included-grid">
+    <div class="included-col">
+      <div class="included-col-header">
+        <div class="col-badge">Meta Ads</div>
+        <div class="col-title">Generar demanda</div>
+      </div>
+      <ul class="included-list">
+        <li>Setup completo de Business Manager, píxel y medición</li>
+        <li>Campañas de leads por tipo de evento</li>
+        <li>Formularios nativos conectados a WhatsApp</li>
+        <li>Remarketing a interesados que no consultaron</li>
+        <li>Campaña de seguidores como capa complementaria</li>
+        <li>Test y rotación continua de anuncios</li>
+        <li>Briefs de contenido para que lo que filmen en cada evento sirva para pauta</li>
+      </ul>
+    </div>
+    <div class="included-col">
+      <div class="included-col-header">
+        <div class="col-badge">Google Ads</div>
+        <div class="col-title">Capturar demanda</div>
+      </div>
+      <ul class="included-list">
+        <li>Setup completo de cuenta y conversiones</li>
+        <li>Campañas de búsqueda por tipo de evento</li>
+        <li>Redacción de anuncios orientados a la consulta</li>
+        <li>Alcance geográfico según zonas de cobertura</li>
+        <li>Depuración continua de búsquedas que no son clientes</li>
+        <li>Optimización semanal de campañas</li>
+        <li>Medición de consultas por formulario y WhatsApp</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="always-col">
+    <div class="included-col-header">
+      <div class="col-badge" style="background: var(--gold-deep); color: var(--white);">Siempre incluido</div>
+      <div class="col-title">Gestión, reportes y comunicación</div>
+    </div>
+    <ul class="included-list">
+      <li>Optimización semanal de todas las campañas activas</li>
+      <li>Reporte mensual con resultados, lectura y próximos pasos</li>
+      <li>Reunión mensual de estrategia</li>
+      <li>Portal de cliente con datos en vivo</li>
+      <li>WhatsApp directo para consultas o ajustes urgentes</li>
+      <li>Sugerencias de mejora aunque no estén en el contrato</li>
+    </ul>
+  </div>
+
+  <div class="portal-box">
+    <div>
+      <div class="portal-tag">Bonus · Portal de cliente</div>
+      <div class="portal-title">Los datos de sus campañas, en vivo</div>
+      <div class="portal-desc">Cuando trabajamos con un cliente lo damos de alta en nuestro portal. Ahí ven en vivo cómo vienen las campañas, sin esperar al reporte de fin de mes ni pedir capturas por WhatsApp. Se configura a medida según qué les sirva mirar: consultas del mes, costo por consulta, inversión por canal o por tipo de evento.</div>
+      <ul class="portal-points">
+        <li>Vista personalizada según las métricas que les importen</li>
+        <li>Inversión y consultas del mes en curso</li>
+        <li>Comparativa contra el mes anterior</li>
+        <li>Acceso desde web o celular, 24/7</li>
+      </ul>
+    </div>
+    <div class="portal-mock">
+      <div class="portal-mock-bar">
+        <div>portal.dilemacreative.ar</div>
+        <div style="color: var(--gold);">live</div>
+      </div>
+      <div class="portal-mock-rows">
+        <div class="portal-mock-row"><span>Consultas del mes</span><span>47</span></div>
+        <div class="portal-mock-row"><span>Costo por consulta</span><span>USD 6,10</span></div>
+        <div class="portal-mock-row"><span>Meta · leads</span><span>31</span></div>
+        <div class="portal-mock-row"><span>Google · leads</span><span>16</span></div>
+        <div class="portal-mock-row"><span>vs. mes anterior</span><span>+38%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ NECESITAMOS -->
+<section id="necesitamos">
+  <div class="section-kicker">05 · Qué necesitamos</div>
+  <h2 class="section-title">Lo que precisamos<br><span>de su lado</span>.</h2>
+  <p class="section-desc">Con estos accesos y definiciones podemos configurar todo y arrancar sin trabarnos.</p>
+
+  <div class="needs-grid">
+    <div class="need-card">
+      <div class="need-num">01</div>
+      <div class="need-title">Accesos de Meta</div>
+      <div class="need-desc">Acceso al Instagram y a la cuenta publicitaria si existe. Si no hay Business Manager, lo armamos nosotros y lo dejamos a nombre de Nebula.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-num">02</div>
+      <div class="need-title">Cuenta de Google Ads</div>
+      <div class="need-desc">Si existe, acceso de administrador. Si no, la creamos vinculada al dominio de Nebula.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-num">03</div>
+      <div class="need-title">Dominio habilitado</div>
+      <div class="need-desc">La web ya está desarrollada, falta que el dominio quede activo. Es la condición para que Google salga a correr.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-num">04</div>
+      <div class="need-title">Material de eventos</div>
+      <div class="need-desc">Fotos y videos de producciones reales, la materia prima de los anuncios. Lo que falte lo briefeamos para que se capture en los próximos eventos.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-num">05</div>
+      <div class="need-title">Prioridades del negocio</div>
+      <div class="need-desc">Qué tipos de evento les conviene empujar primero, en qué zonas trabajan y el rango de inversión de sus clientes típicos.</div>
+    </div>
+    <div class="need-card">
+      <div class="need-num">06</div>
+      <div class="need-title">WhatsApp atendido</div>
+      <div class="need-desc">Las consultas van a llegar ahí. En eventos, la velocidad de respuesta define quién se queda con la fecha.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENIDO -->
+<section class="alt" id="contenido">
+  <div class="section-kicker">06 · Sobre el contenido</div>
+  <h2 class="section-title">Quién produce<br><span>las piezas</span>.</h2>
+  <p class="section-desc">Los anuncios se arman con el contenido de Nebula. Así se reparte el trabajo.</p>
+
+  <div class="content-grid">
+    <div class="content-card">
+      <div class="content-card-tag">Nebula</div>
+      <div class="content-card-title">Produce el contenido</div>
+      <div class="content-card-desc">Las fotos y videos de los eventos los capturan ustedes, que son quienes están ahí. Ese material real es el que mejor funciona en pauta.</div>
+    </div>
+    <div class="content-card">
+      <div class="content-card-tag">Dilema · Incluido en el fee</div>
+      <div class="content-card-title">Recomendamos y guiamos</div>
+      <div class="content-card-desc">Les pasamos los formatos que funcionan y briefs concretos de qué capturar en cada evento, para que lo que filmen salga listo para usar en anuncios.</div>
+    </div>
+    <div class="content-card aparte">
+      <div class="content-card-tag">Opcional</div>
+      <div class="content-card-title">Producción por nuestra cuenta</div>
+      <div class="content-card-desc">Si prefieren que la producción de piezas la hagamos nosotros, se presupuesta aparte del fee mensual, según el volumen que necesiten.</div>
+    </div>
+  </div>
+</section>
+
+<!-- INVERSIÓN -->
+<section class="dark" id="inversion">
+  <div class="section-kicker">07 · Inversión</div>
+  <h2 class="section-title">El fee<br><span>del servicio</span>.</h2>
+  <p class="section-desc">Pueden arrancar por un canal o por los dos. El fee cubre todo lo descripto arriba: setup, estructura, gestión, optimización semanal, reportes y portal de cliente. La inversión en pauta (lo que se le paga a Meta y a Google por mostrar los anuncios) va aparte.</p>
+
+  <div class="pricing-wrap">
+
+    <div class="pricing-card">
+      <div class="pricing-name">Solo Meta Ads</div>
+      <div class="pricing-price">USD 300<span>/mes</span></div>
+      <div class="pricing-note">Generar consultas en Instagram y Facebook, con la capa de seguidores incluida.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Setup completo de Meta</li>
+        <li>Campañas de leads por tipo de evento</li>
+        <li>Remarketing + campaña de seguidores</li>
+        <li>Optimización semanal</li>
+        <li>Reporte + reunión mensual + portal</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card featured">
+      <div class="pricing-name">Meta + Google</div>
+      <div class="pricing-anchor">Por separado: USD 600/mes</div>
+      <div class="pricing-price">USD 500<span>/mes</span></div>
+      <div class="pricing-note">Los dos momentos cubiertos: quien todavía no eligió productora y quien ya está buscando una. Es la forma más completa de llenar la agenda.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Todo lo de Meta Ads</li>
+        <li>Todo lo de Google Ads</li>
+        <li>Estrategia cruzada entre los dos canales</li>
+        <li>Presupuesto de pauta balanceado según qué canal traiga la consulta más barata</li>
+        <li>Optimización semanal sobre todo</li>
+        <li>Reporte + reunión mensual + portal</li>
+      </ul>
+    </div>
+
+    <div class="pricing-card">
+      <div class="pricing-name">Solo Google Ads</div>
+      <div class="pricing-price">USD 300<span>/mes</span></div>
+      <div class="pricing-note">Capturar la demanda que ya busca productora, salón o evento en Google.</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-list">
+        <li>Setup completo de Google Ads</li>
+        <li>Campañas de búsqueda por tipo de evento</li>
+        <li>Depuración continua de búsquedas</li>
+        <li>Optimización semanal</li>
+        <li>Reporte + reunión mensual + portal</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="invest-note">
+    <strong>Inversión en pauta (aparte del fee):</strong> es lo que Meta y Google cobran directamente por mostrar los anuncios. La definimos juntos en la fase de auditoría, en función de qué tipos de evento priorizar, las zonas de cobertura y la temporada. Preferimos definirla con datos del negocio antes que tirar un número a ojo en este documento.
+  </div>
+</section>
+
+<!-- CIERRE -->
+<div class="closing">
+  <h2>Ustedes producen<br>el evento. Nosotros<br><span>llenamos la agenda.</span></h2>
+  <p>Nebula ya tiene la marca, el equipo y los eventos que se muestran solos. Esta propuesta suma la fuente de consultas que hace que el calendario no dependa de la suerte.</p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">Dilema <span>Creative</span></div>
+      <div class="footer-tagline">Agencia de marketing digital enfocada en estrategia integral. Trabajamos los canales como un sistema, no como esfuerzos sueltos. Pocos clientes, máximo servicio.</div>
+    </div>
+    <div class="footer-contact">
+      <div class="footer-contact-label">Contacto</div>
+      <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a>
+      <a href="https://dilemacreative.ar" target="_blank">dilemacreative.ar</a>
+      <a href="https://instagram.com/dilema.creative" target="_blank">@dilema.creative</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-meta">Dilema Creative <span>·</span> 2026 <span>·</span> Propuesta para Nebula</div>
+    <div class="footer-meta">Buenos Aires <span>·</span> Argentina</div>
+  </div>
+</footer>
+
+</body>
+</html>
