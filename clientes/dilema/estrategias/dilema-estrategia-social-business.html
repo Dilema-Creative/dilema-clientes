@@ -1,0 +1,1138 @@
+<title>Re-Evolución Social</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+  :root{
+    --ink:#0E2A47; --ink-soft:#1B3A5C;
+    --sage:#4FA27E; --sage-deep:#2F7D5E;
+    --cream:#F4EFE6; --paper:#FAF6EE; --paper-2:#EFE8D9;
+    --black:#14161A; --ash:#6B6257; --line:#D9CFBC;
+    --good:#2F7D5E; --bad:#B23A2B; --star:#5BB4D6; --warn:#C97B2B;
+    --serif:"Fraunces", Georgia, "Times New Roman", serif;
+    --sans:"Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    --mono:"JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--black);
+    font-family:var(--sans); font-size:15px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50; height:56px;
+    background:var(--ink); color:var(--cream);
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 28px; gap:20px;
+  }
+  .brand{font-family:var(--serif); font-size:19px; font-weight:500; letter-spacing:-.02em; color:var(--cream)}
+  .brand em{font-style:italic; color:var(--sage)}
+  .nav-links{display:flex; gap:20px; font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase}
+  .nav-links a{color:#B9C6D4; text-decoration:none}
+  .nav-links a:hover{color:var(--sage)}
+  .nav-tag{
+    font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--sage); border:1px solid var(--sage); border-radius:3px; padding:5px 9px; white-space:nowrap;
+  }
+
+  /* ---------- LAYOUT ---------- */
+  section{padding:64px 72px; border-bottom:1px solid var(--line)}
+  section.cream{background:var(--cream)}
+  section.dark{background:var(--ink); color:var(--cream); border-bottom-color:var(--ink-soft)}
+  section.dark .lead, section.dark .ash{color:#AEBFCF}
+  .wrap{max-width:1080px; margin:0 auto}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:76px 72px 56px; background:var(--paper);
+    background-image:radial-gradient(680px 380px at 88% 0%, rgba(79,162,126,.09), transparent 65%);
+  }
+  .kicker{
+    font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ash); display:flex; align-items:center; gap:14px; margin-bottom:26px;
+  }
+  .kicker::after{content:""; height:1px; width:90px; background:var(--line)}
+  h1{
+    font-family:var(--serif); font-weight:500; color:var(--ink);
+    font-size:clamp(48px,7.2vw,104px); line-height:.9; letter-spacing:-.035em;
+    margin:0 0 26px; text-wrap:balance;
+  }
+  h1 em{font-style:italic; color:var(--sage)}
+  .lead{
+    font-family:var(--serif); font-style:italic; font-size:21px; line-height:1.5;
+    color:var(--ash); max-width:62ch; margin:0;
+  }
+
+  .hero-stats{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line); border-radius:6px;
+    overflow:hidden; margin-top:46px;
+  }
+  .hero-stats div{background:var(--paper); padding:18px 20px}
+  .k{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ash); display:block; margin-bottom:8px}
+  .v{font-family:var(--serif); font-size:27px; font-weight:600; letter-spacing:-.02em; color:var(--ink); line-height:1.05; display:block}
+  .v small{font-size:14px; font-weight:500; color:var(--ash); letter-spacing:0}
+
+  /* ---------- SECTION HEADS ---------- */
+  .sec-head{margin-bottom:36px}
+  .sec-num{
+    font-family:var(--mono); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--ash); display:block; margin-bottom:14px;
+  }
+  section.dark .sec-num{color:var(--sage)}
+  h2{
+    font-family:var(--serif); font-weight:500; color:var(--ink);
+    font-size:clamp(30px,4vw,48px); line-height:1.02; letter-spacing:-.03em; margin:0; text-wrap:balance;
+  }
+  section.dark h2{color:var(--cream)}
+  h2 em{font-style:italic; color:var(--sage)}
+  .sec-sub{font-family:var(--serif); font-style:italic; font-size:18px; color:var(--ash); margin:14px 0 0; max-width:64ch}
+
+  h3{
+    font-family:var(--serif); font-weight:600; font-size:21px; letter-spacing:-.02em;
+    color:var(--ink); margin:0 0 10px;
+  }
+  section.dark h3{color:var(--cream)}
+  p{margin:0 0 14px; max-width:70ch}
+  section.dark p{color:#D6E0E8}
+  strong{font-weight:600; color:var(--ink)}
+  section.dark strong{color:#fff}
+  .ash{color:var(--ash)}
+
+  /* ---------- TABLES ---------- */
+  .table-wrap{border:1px solid var(--line); border-radius:6px; overflow-x:auto; background:var(--paper); margin:22px 0}
+  table{border-collapse:collapse; width:100%; min-width:600px}
+  th{
+    font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--ash); background:var(--paper-2); text-align:left; padding:11px 14px;
+    border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  td{padding:13px 14px; border-bottom:1px solid var(--line); vertical-align:top; font-size:14px}
+  tr:last-child td{border-bottom:none}
+  td.mono{font-family:var(--mono); font-size:11px; color:var(--ash); white-space:nowrap}
+  td strong{display:block; margin-bottom:3px}
+
+  /* ---------- CALLOUT ---------- */
+  .callout{
+    border-left:4px solid var(--sage); background:var(--paper-2);
+    padding:20px 24px; border-radius:0 6px 6px 0; margin:26px 0;
+  }
+  section.dark .callout{background:var(--ink-soft); border-left-color:var(--sage)}
+  .callout .lbl{
+    font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--sage-deep); display:block; margin-bottom:10px;
+  }
+  section.dark .callout .lbl{color:var(--sage)}
+  .callout p:last-child{margin-bottom:0}
+  .callout.warn{border-left-color:var(--warn); background:#F7EFE2}
+  .callout.warn .lbl{color:var(--warn)}
+  .callout.bad{border-left-color:var(--bad); background:#F8EBE8}
+  .callout.bad .lbl{color:var(--bad)}
+
+  /* ---------- MODULE GRID (temario) ---------- */
+  .mods{display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden}
+  .mod{background:var(--paper); padding:22px 24px}
+  .mod.locked{background:var(--paper-2)}
+  .mod-top{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:14px}
+  .mod-name{font-family:var(--serif); font-size:19px; font-weight:600; letter-spacing:-.02em; color:var(--ink)}
+  .pill{font-family:var(--mono); font-size:8.5px; letter-spacing:.13em; text-transform:uppercase; padding:3px 7px; border-radius:3px; white-space:nowrap}
+  .pill.open{color:var(--sage-deep); border:1px solid var(--sage)}
+  .pill.shut{color:var(--ash); border:1px solid var(--line)}
+  .mod ul{margin:0; padding:0; list-style:none}
+  .mod li{font-size:13.5px; padding:5px 0 5px 16px; position:relative; color:var(--black); line-height:1.45}
+  .mod li::before{content:""; position:absolute; left:0; top:12px; width:5px; height:5px; background:var(--sage); border-radius:1px}
+  .mod.locked li::before{background:var(--line)}
+  .mod li .grp{display:block; font-family:var(--mono); font-size:9px; letter-spacing:.13em; text-transform:uppercase; color:var(--ash); margin-top:12px; padding-left:0}
+  .mod li.head{padding-left:0; font-family:var(--mono); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--ash); margin-top:14px; border-top:1px solid var(--line); padding-top:12px}
+  .mod li.head::before{display:none}
+  .mod li.head:first-child{margin-top:0; border-top:none; padding-top:0}
+
+  /* ---------- LADDER ---------- */
+  .ladder{display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden}
+  .rung{background:var(--paper); padding:20px 24px; display:grid; grid-template-columns:88px 1fr 190px; gap:24px; align-items:start}
+  .rung .lvl{font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ash); padding-top:4px}
+  .rung .price{font-family:var(--serif); font-size:17px; font-weight:600; color:var(--ink); letter-spacing:-.02em; text-align:right}
+  .rung .price span{display:block; font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--ash); font-weight:400; margin-top:5px; line-height:1.5}
+  .rung.core{background:var(--paper-2)}
+  .rung.later{background:var(--paper)}
+  .rung.later .rung-name, .rung.later p{opacity:.72}
+  .rung-name{font-family:var(--serif); font-size:19px; font-weight:600; letter-spacing:-.02em; color:var(--ink); margin-bottom:6px; display:block}
+  .rung p{font-size:13.5px; margin:0; max-width:none}
+
+  /* ---------- FUNNEL ---------- */
+  .funnel{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1px; background:var(--ink-soft); border:1px solid var(--ink-soft); border-radius:6px; overflow:hidden}
+  .step{background:var(--ink); padding:20px 22px}
+  .step .n{font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; color:var(--sage); display:block; margin-bottom:10px}
+  .step h4{font-family:var(--serif); font-size:17px; font-weight:600; color:var(--cream); margin:0 0 8px; letter-spacing:-.02em}
+  .step p{font-size:13px; color:#AEBFCF; margin:0}
+  .step .tool{font-family:var(--mono); font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--sage); margin-top:12px; display:block}
+
+  /* ---------- IDEAS ---------- */
+  .ideas{display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:22px; margin-top:8px}
+  .pillar-name{
+    font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--sage-deep); padding-bottom:10px; border-bottom:2px solid var(--sage); margin-bottom:6px; display:block;
+  }
+  .ideas ol{margin:0; padding-left:20px}
+  .ideas li{font-size:13.5px; padding:9px 0; border-bottom:1px solid var(--line); line-height:1.5}
+  .ideas li:last-child{border-bottom:none}
+  .ideas li::marker{font-family:var(--mono); font-size:10px; color:var(--ash)}
+  .ideas li b{font-weight:600; color:var(--ink)}
+  .src{display:block; font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--sage-deep); margin-top:5px}
+
+  /* ---------- GUIONES ---------- */
+  .guiones{display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden; margin-top:10px}
+  .guion{background:var(--paper); padding:24px 26px; display:flex; flex-direction:column; gap:14px}
+  .guion-top{display:flex; align-items:baseline; justify-content:space-between; gap:12px}
+  .guion-n{font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--ash)}
+  .tag-pilar{font-family:var(--mono); font-size:8.5px; letter-spacing:.13em; text-transform:uppercase; padding:3px 7px; border-radius:3px; border:1px solid var(--sage); color:var(--sage-deep); white-space:nowrap}
+  .tag-pilar.prueba{border-color:var(--star); color:#2E7E9C}
+  .tag-pilar.metodo{border-color:var(--warn); color:var(--warn)}
+  .tag-pilar.criterio{border-color:var(--ink-soft); color:var(--ink-soft)}
+  .guion h3{font-size:20px; margin:0; line-height:1.15}
+  .bl{display:block}
+  .bl .lbl{font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--ash); display:block; margin-bottom:6px}
+  .bl p{margin:0; font-size:14px; max-width:none}
+  .bl.gancho p{font-family:var(--serif); font-style:italic; font-size:17px; line-height:1.4; color:var(--ink)}
+  .bl ul{margin:0; padding:0; list-style:none}
+  .bl li{font-size:13.5px; padding:4px 0 4px 16px; position:relative; line-height:1.5}
+  .bl li::before{content:""; position:absolute; left:0; top:11px; width:5px; height:5px; background:var(--sage); border-radius:1px}
+  .bl.cta{background:var(--paper-2); border-left:3px solid var(--sage); padding:12px 16px; border-radius:0 4px 4px 0; margin-top:auto}
+  .bl.cta p{font-size:14px; font-weight:500}
+  .nota{font-family:var(--mono); font-size:10px; letter-spacing:.04em; color:var(--warn); line-height:1.6; border-top:1px dashed var(--line); padding-top:12px}
+
+  /* ---------- WEEKS ---------- */
+  .month{margin-bottom:34px}
+  .month:last-child{margin-bottom:0}
+  .month-head{display:flex; align-items:baseline; gap:16px; margin-bottom:16px; padding-bottom:12px; border-bottom:1px solid var(--line)}
+  .month-num{font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--ash)}
+  .month-name{font-family:var(--serif); font-size:26px; font-weight:600; letter-spacing:-.025em; color:var(--ink)}
+  .month-goal{font-family:var(--serif); font-style:italic; font-size:15px; color:var(--ash); margin-left:auto; text-align:right}
+
+  /* ---------- SPLIT ---------- */
+  .split{display:grid; grid-template-columns:1fr 1fr; gap:32px; margin-top:8px}
+  .split h3{margin-top:0}
+  .yes li::before{background:var(--good)}
+  .no li::before{background:var(--bad)}
+  .plainlist{margin:0; padding:0; list-style:none}
+  .plainlist li{font-size:14px; padding:8px 0 8px 18px; position:relative; border-bottom:1px solid var(--line); line-height:1.5}
+  .plainlist li:last-child{border-bottom:none}
+  .plainlist li::before{content:""; position:absolute; left:0; top:15px; width:5px; height:5px; background:var(--sage); border-radius:1px}
+
+  /* ---------- ROLES ---------- */
+  .roles{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:6px; overflow:hidden}
+  .role{background:var(--paper); padding:24px}
+  .role .who{font-family:var(--serif); font-size:22px; font-weight:600; color:var(--ink); letter-spacing:-.025em; display:block; margin-bottom:4px}
+  .role .what{font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--sage-deep); display:block; margin-bottom:16px}
+
+  /* ---------- CLOSING ---------- */
+  .closing{padding:72px; background:var(--ink); color:var(--cream); text-align:center; border-bottom:none}
+  .closing h2{font-size:clamp(28px,4vw,44px); color:var(--cream); margin-bottom:20px}
+  .closing p{max-width:58ch; margin:0 auto 14px; color:#C4D2DE; font-size:16px}
+  .floor{
+    display:inline-block; text-align:left; margin-top:26px; background:var(--ink-soft);
+    border-left:4px solid var(--sage); padding:22px 28px; border-radius:0 6px 6px 0;
+  }
+  .floor .lbl{font-family:var(--mono); font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--sage); display:block; margin-bottom:12px}
+  .floor ul{margin:0; padding:0; list-style:none}
+  .floor li{font-size:14.5px; padding:6px 0 6px 18px; position:relative; color:#D6E0E8}
+  .floor li::before{content:""; position:absolute; left:0; top:14px; width:5px; height:5px; background:var(--sage); border-radius:1px}
+
+  footer{background:#08192B; color:#7E93A6; padding:26px 72px; font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; display:flex; justify-content:space-between; gap:20px; flex-wrap:wrap}
+
+  a{color:var(--sage-deep)}
+  a:focus-visible, .nav-links a:focus-visible{outline:2px solid var(--sage); outline-offset:3px}
+
+  @media (max-width:900px){
+    section, .hero, .closing, footer{padding-left:26px; padding-right:26px}
+    .hero{padding-top:52px}
+    .hero-stats{grid-template-columns:repeat(2,1fr)}
+    .split, .roles{grid-template-columns:1fr}
+    .rung{grid-template-columns:1fr; gap:10px}
+    .rung .price{text-align:left}
+    .nav-links{display:none}
+    .month-head{flex-wrap:wrap}
+    .month-goal{margin-left:0; text-align:left; width:100%}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<nav>
+  <span class="brand">Dilema <em>creative</em></span>
+  <div class="nav-links">
+    <a href="#programa">Programa</a>
+    <a href="#sirve">Qué sirve</a>
+    <a href="#oferta">Oferta</a>
+    <a href="#contenido">Contenido</a>
+    <a href="#guiones">Guiones</a>
+    <a href="#comunidad">Comunidad</a>
+    <a href="#noventa">90 días</a>
+  </div>
+  <span class="nav-tag">Estrategia · Septiembre 2026</span>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="kicker">Plan de social business · Dilema Creative</div>
+    <h1>Del curso guardado<br>a un sistema que <em>trae llamadas</em>.</h1>
+    <p class="lead">Qué enseña realmente el programa de AXIS, qué parte sirve para una agencia B2B industrial argentina y cuál no, y el plan concreto de 90 días para construir audiencia, comunidad y un ticket alto que se venda solo.</p>
+
+    <div class="hero-stats">
+      <div><span class="k">Seguidores @nacho</span><span class="v">255</span></div>
+      <div><span class="k">Seguidores @dilema</span><span class="v">22</span></div>
+      <div><span class="k">Cursos en AXIS</span><span class="v">4 <small>de 8 abiertos</small></span></div>
+      <div><span class="k">Productos en la escalera</span><span class="v">1 <small>de 4 necesarios</small></span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= 01 ================= -->
+<section id="programa">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">01 / El programa</span>
+      <h2>Qué hay adentro de <em>Comunidad AXIS</em>.</h2>
+      <p class="sec-sub">566 miembros, 8 cursos, 4 accesibles con el nivel que tienen hoy. Esto es el temario completo, verificado adentro de la plataforma.</p>
+    </div>
+
+    <p>AXIS es el programa de <strong>Emilio Puigrredón</strong> (Chile). La mentoría dura 6 semanas y la comunidad de Skool es el after: es donde quedan los egresados. Los videos son cortos —de 1 a 15 minutos— y no tienen texto ni transcripción, así que el valor está en el temario y en el orden en que está armado.</p>
+
+    <div class="callout">
+      <span class="lbl">El método en una línea</span>
+      <p>Marca personal que genera confianza → contenido que atrae <strong>seguidores hiper-calificados</strong> (no views ni likes) → <strong>anzuelos</strong> que empujan la conversación al privado → <strong>DM Ads</strong> pagos que compran conversaciones directo al inbox → <strong>pre-selling</strong> en el chat → agenda → llamada → ticket alto. Todo sostenido por CRM y SOPs para que no dependa de que vos estés.</p>
+      <p>La estructura de persuasión que repite es <strong>«embudo de oportunidad»</strong>: das contexto, mostrás la prueba de ese contexto, y recién ahí presentás la oportunidad.</p>
+    </div>
+
+    <div class="mods">
+      <div class="mod">
+        <div class="mod-top"><span class="mod-name">Social Business</span><span class="pill open">Abierto · el núcleo</span></div>
+        <ul>
+          <li class="head">Onboarding</li>
+          <li>Bienvenida oficial</li>
+          <li>Lección de mis casos de éxito</li>
+          <li>Tus coaches · Roadmap · Usando Skool</li>
+          <li class="head">Entendiendo la paciencia agresiva</li>
+          <li>Quién logra los objetivos</li>
+          <li>Ansiedades · La maratón falsa</li>
+          <li>Apego obsesivo · Falta de contraste</li>
+          <li class="head">El ecosistema</li>
+          <li>Fundamentos de tu marca personal</li>
+          <li>Optimización de oferta</li>
+          <li>Venta perpetua: orgánico</li>
+          <li>Anzuelos</li>
+          <li>Sistema de agenda por chat</li>
+          <li class="head">DM Ads Mastery</li>
+          <li>Sistema de anuncios</li>
+          <li>Autopilot (bonus) · Pre-selling</li>
+          <li class="head">Sales Mastery</li>
+        </ul>
+      </div>
+
+      <div class="mod">
+        <div class="mod-top"><span class="mod-name">Linkedin Mastery</span><span class="pill open">Abierto · clave</span></div>
+        <ul>
+          <li>Introducción a LinkedIn</li>
+          <li>Optimización de perfil</li>
+          <li>Publicaciones efectivas en LinkedIn</li>
+          <li>El arma secreta: Sales Navigator</li>
+        </ul>
+        <div class="mod-top" style="margin-top:26px"><span class="mod-name">CRM &amp; Automatizaciones</span><span class="pill open">Abierto</span></div>
+        <ul>
+          <li>Notion 1 — Creando un CRM</li>
+          <li>Notion 2 — Creando plantillas</li>
+          <li>Notion 3 — Plantilla de mentoría</li>
+          <li>Automatización con Make (2 lecciones)</li>
+        </ul>
+      </div>
+
+      <div class="mod">
+        <div class="mod-top"><span class="mod-name">Management Mastery</span><span class="pill open">Abierto</span></div>
+        <ul>
+          <li>Delegación</li>
+          <li>SOPs</li>
+          <li>Seguimiento y medición</li>
+          <li>EODs (reportes de fin de día)</li>
+          <li>La importancia de estar arriba de tu equipo</li>
+        </ul>
+        <div class="mod-top" style="margin-top:26px"><span class="mod-name">Los 4 cerrados</span><span class="pill shut">Requieren nivel superior</span></div>
+        <ul>
+          <li>Mentoría — Business Coaching</li>
+          <li>Mentoría — Llamadas de ventas</li>
+          <li>AXIS Mastermind</li>
+          <li>AXIS Inner Circle</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <span class="lbl">Dato de la comunidad, no del temario</span>
+      <p>El temario se reorganizó con el tiempo y <strong>algunos módulos que figuran en materiales viejos ya no están en el aula</strong>: las lecciones de Meta Ads, los anuncios de «educación forzada» y la página para reclutar setters. Si hace falta alguno, se le pide al coach.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 02 ================= -->
+<section class="cream" id="sirve">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">02 / El filtro</span>
+      <h2>Qué del método sirve para Dilema<br>y qué <em>hay que dar vuelta</em>.</h2>
+      <p class="sec-sub">Esta es la parte que no viene en el curso, y es la que decide si el plan funciona o si copian algo calibrado para otro negocio.</p>
+    </div>
+
+    <p>AXIS está diseñado para <strong>coaches, consultores e infoproductores que le venden a personas por Instagram</strong>, con tickets de 500 a 3.000 dólares y ciclos de decisión de días. Ustedes le venden un programa de tres meses <em>done for you</em> a <strong>dueños de PyME industrial y B2B en Rosario y Buenos Aires</strong>. Friotex, Maxport, DOS. Eso cambia dos cosas, y solo dos —pero son grandes.</p>
+
+    <div class="split">
+      <div>
+        <h3>Transfiere tal cual</h3>
+        <ul class="plainlist yes">
+          <li><strong>Fundamentos de marca personal.</strong> La confianza vive en una cara, no en un logo. Con 255 seguidores contra 22, el mercado ya se los dijo.</li>
+          <li><strong>Optimización de oferta.</strong> Es lo que más les falta y lo desarrollamos en la sección 05.</li>
+          <li><strong>Anzuelos.</strong> El recurso gratis que mueve la conversación al privado.</li>
+          <li><strong>Sistema de agenda por chat.</strong> El corazón operativo del método.</li>
+          <li><strong>Pre-selling y Sales Mastery.</strong> Calificar antes de la llamada.</li>
+          <li><strong>CRM en Notion, Make, SOPs, EODs.</strong> Directamente aplicable a la agencia entera, no solo a la prospección.</li>
+          <li><strong>Paciencia agresiva.</strong> Ejecutar fuerte y no medir el resultado a los 15 días. Es literalmente lo que les pasó con este curso.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Hay que darlo vuelta</h3>
+        <ul class="plainlist no">
+          <li><strong>El canal principal no es Instagram, es LinkedIn.</strong> El dueño de Maxport no está en Instagram en modo compra. Está en LinkedIn, en Google buscando proveedores y en su cámara empresaria. AXIS pone Instagram al frente y LinkedIn como accesorio: para ustedes es al revés.</li>
+          <li><strong>«Ventas diarias por DM» no va a pasar.</strong> El B2B industrial tiene ciclo de 30 a 90 días y decide en comité. La métrica no es venta diaria: es <em>llamada de diagnóstico agendada</em>.</li>
+          <li><strong>El DM Ads no es el motor, es el amplificador.</strong> Sirve —pero para calentar a alguien que ya los vio, no para captar en frío a un industrial.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="lbl">La decisión más importante del plan</span>
+      <p><strong>LinkedIn es el canal de captación. Instagram es el canal de prueba y de calor.</strong> Todo lo demás del método se aplica igual. Si copian AXIS al pie de la letra y ponen Instagram al frente, van a producir contenido durante seis meses para una audiencia que no les puede comprar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 ================= -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">03 / Punto de partida</span>
+      <h2>Dónde están hoy, sin maquillaje.</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Activo</th><th>Estado hoy</th><th>Qué falta</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="mono">@nacho.dilemacreative</td>
+            <td><strong>255 seguidores, 24 seguidos.</strong> Bio correcta, formato reels de cámara al hombro, ya hay hábito de grabar.</td>
+            <td>Volumen y constancia. La base está bien armada.</td>
+          </tr>
+          <tr>
+            <td class="mono">@dilema.creative</td>
+            <td><strong>22 seguidores.</strong> Bio en inglés («scaling brands with strategy &amp; content»), carruseles estáticos.</td>
+            <td>Que deje de competir con la marca personal. Es canal de prueba, no de captación.</td>
+          </tr>
+          <tr>
+            <td class="mono">LinkedIn</td>
+            <td><strong>No existe en la ecuación.</strong> No aparece en ninguna bio ni en el VSL.</td>
+            <td>Todo. Es el canal número uno del plan.</td>
+          </tr>
+          <tr>
+            <td class="mono">VSL Re-Evolución</td>
+            <td><strong>Muy bien hecho.</strong> Problema, para quién es, tres meses con entregables, tres testimonios reales, CTA a llamada de 30 min.</td>
+            <td>Tráfico. Hoy no le llega nadie.</td>
+          </tr>
+          <tr>
+            <td class="mono">dilemacreative.ar</td>
+            <td><strong>Posicionamiento claro:</strong> Presencia / Performance / Inteligencia, 18+ marcas, «menos reuniones, más resultados».</td>
+            <td>Nada urgente. Está bien.</td>
+          </tr>
+          <tr>
+            <td class="mono">Comunidad</td>
+            <td><strong>Cero.</strong> Sin lista, sin newsletter, sin grupo, sin evento.</td>
+            <td>Ver sección 10. La respuesta no es la que esperan.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout bad">
+      <span class="lbl">Arreglar hoy, tarda 10 minutos</span>
+      <p>El link de la bio de Nacho apunta a <strong>re-evoluciondigital-dilemacreative.netlify.app</strong>, no a <strong>re-evoluciondigital.dilemacreative.ar</strong>. Está mostrando el dominio de Netlify a cada persona que entra al perfil: pierden marca, pierden confianza en un mercado B2B donde la seriedad se lee en detalles así, y probablemente pierden el tracking que ya tienen configurado en el dominio propio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 04 ================= -->
+<section class="cream">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">04 / Decisiones</span>
+      <h2>Las cinco cosas que hay que decidir<br><em>antes</em> de grabar un solo video.</h2>
+      <p class="sec-sub">Cada una tiene una recomendación. Si están de acuerdo, se ejecuta. Si no, se discute ahora y no en el mes dos.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:52px">#</th><th>La decisión</th><th>Recomendación</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="mono">01</td>
+            <td><strong>¿Una cara o dos?</strong><br><span class="ash">Dos personas diciendo lo mismo se anulan.</span></td>
+            <td><strong>Dos caras con roles distintos.</strong> Nacho es la cara comercial y estratégica: el método, la opinión, el criterio. Valen es la voz técnica y de datos: auditorías, tracking, Google Ads, «te muestro el número que tu agencia no te muestra». Ese contraste es un diferencial real y le da profundidad a la marca. Lo que no funciona es que los dos publiquen tips genéricos de marketing.</td>
+          </tr>
+          <tr>
+            <td class="mono">02</td>
+            <td><strong>¿Cuál es el nicho declarado?</strong></td>
+            <td><strong>Ya lo tienen, no lo diluyan:</strong> PyME industrial y B2B argentina que ya factura y quiere que el digital genere leads reales. El VSL lo dice bien. La tentación va a ser ampliar para no perder consultas. No amplíen: el nicho angosto es lo que hace que el contenido convierta.</td>
+          </tr>
+          <tr>
+            <td class="mono">03</td>
+            <td><strong>¿Cómo es la escalera de oferta?</strong></td>
+            <td>Hoy tienen <strong>un solo producto</strong>. Falta el escalón de entrada y falta el de arriba. Sección 05.</td>
+          </tr>
+          <tr>
+            <td class="mono">04</td>
+            <td><strong>¿Dónde vive la comunidad?</strong></td>
+            <td><strong>En ningún lado, todavía.</strong> Sección 10.</td>
+          </tr>
+          <tr>
+            <td class="mono">05</td>
+            <td><strong>¿Cuánto vale el ticket alto?</strong></td>
+            <td>El número se define con los costos reales en la mano, pero el marco es este: el ticket alto tiene que ser <strong>al menos 4 veces el ticket de entrada</strong>, y se justifica por lo que vale un cliente nuevo para una industrial —miles de dólares de valor de vida— no por las horas que se le meten. Si el precio actual del programa quedó por debajo de ese piso, el problema no es de marketing y ningún plan de contenido lo arregla.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05 ================= -->
+<section id="oferta">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">05 / La escalera</span>
+      <h2>El escalón que les falta<br>es el <em>de entrada</em>.</h2>
+      <p class="sec-sub">Hoy la única opción es «contratá tres meses done for you». Es un salto muy grande desde un reel. Esto lo parte en pasos.</p>
+    </div>
+
+    <div class="ladder">
+      <div class="rung">
+        <span class="lvl">Nivel 0</span>
+        <div>
+          <span class="rung-name">Diagnóstico Digital B2B</span>
+          <p>El anzuelo. Un PDF corto y concreto —«las 12 cosas que revisamos antes de tocar un peso de pauta en una industrial»— entregado por DM automático. No es un lead magnet genérico: es literalmente el checklist con el que auditan. Regalar el <em>qué</em> y el <em>por qué</em> cuesta nada; el <em>hacelo por mí</em> es lo que se cobra.</p>
+        </div>
+        <span class="price">Gratis<span>Captura el contacto</span></span>
+      </div>
+
+      <div class="rung">
+        <span class="lvl">Nivel 1</span>
+        <div>
+          <span class="rung-name">Auditoría Re-Evolución</span>
+          <p><strong>Este es el escalón que más falta.</strong> Dos semanas: informe completo, reunión de 90 minutos, hoja de ruta priorizada. Es exactamente el mes 1 del programa, vendido suelto. Hace tres cosas a la vez: monetiza al que no puede pagar el programa completo, filtra a los que no tienen fit, y convierte al programa completo con una tasa altísima porque el cliente ya vio cómo trabajan en vez de tener que creerles.</p>
+        </div>
+        <span class="price">Ticket de entrada<span>Precio a definir</span></span>
+      </div>
+
+      <div class="rung core">
+        <span class="lvl">Nivel 2 · Core</span>
+        <div>
+          <span class="rung-name">Re-Evolución Digital</span>
+          <p>El ticket alto. Tres meses, done for you, ya construido y ya con VSL y testimonios. No hay que inventarlo: hay que ponerle tráfico y ponerle un escalón antes.</p>
+        </div>
+        <span class="price">Ticket alto<span>Precio a definir</span></span>
+      </div>
+
+      <div class="rung">
+        <span class="lvl">Nivel 3</span>
+        <div>
+          <span class="rung-name">Partner de crecimiento</span>
+          <p>El fee mensual después del programa. Acá está la rentabilidad real de una agencia: ingreso recurrente sobre un cliente que ya confía y que ya tiene el sistema montado. Hoy el programa termina en el mes 3 con un manual —termina en una puerta abierta que no están usando.</p>
+        </div>
+        <span class="price">Fee mensual<span>El objetivo de fondo</span></span>
+      </div>
+
+      <div class="rung later">
+        <span class="lvl">Nivel 4</span>
+        <div>
+          <span class="rung-name">Re-Evolución Interno · <span class="ash" style="font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase">No lanzar ahora</span></span>
+          <p>El programa grupal donde le enseñan al equipo interno del cliente a hacerlo. Es el modelo AXIS puro y es tentador porque escala sin horas. <strong>Es la fase 2, mes 6 en adelante.</strong> Montarlo antes de tener audiencia es la forma más común de perder cuatro meses.</p>
+        </div>
+        <span class="price">Fase 2<span>Mes 6+</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 06 ================= -->
+<section class="dark">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">06 / El sistema</span>
+      <h2>El embudo social de Dilema,<br>paso por paso.</h2>
+      <p class="sec-sub" style="color:#AEBFCF">Ocho pasos. El único que hoy existe es el último. Los siete anteriores hay que construirlos.</p>
+    </div>
+
+    <div class="funnel">
+      <div class="step">
+        <span class="n">01</span>
+        <h4>Contenido</h4>
+        <p>LinkedIn como canal principal, Instagram como prueba. Cuatro pilares, tres publicaciones por semana.</p>
+        <span class="tool">LinkedIn · Instagram</span>
+      </div>
+      <div class="step">
+        <span class="n">02</span>
+        <h4>Anzuelo</h4>
+        <p>«Comentá <strong>AUDITORÍA</strong> y te mando el checklist con el que revisamos una industrial antes de tocar la pauta.»</p>
+        <span class="tool">ManyChat</span>
+      </div>
+      <div class="step">
+        <span class="n">03</span>
+        <h4>Entrega automática</h4>
+        <p>El PDF llega al privado en segundos. La conversación ya está abierta y no la abrió un vendedor.</p>
+        <span class="tool">ManyChat</span>
+      </div>
+      <div class="step">
+        <span class="n">04</span>
+        <h4>Pre-selling</h4>
+        <p>Dos preguntas de calificación en el chat: rubro y qué están haciendo hoy en digital. Nada de pitch.</p>
+        <span class="tool">Chat manual</span>
+      </div>
+      <div class="step">
+        <span class="n">05</span>
+        <h4>Loom personalizado</h4>
+        <p><strong>La mejor palanca que tienen.</strong> Cinco minutos mirando la web y las campañas de esa empresa, con nombre y apellido. Casi nadie lo hace en B2B argentino. Convierte porque es prueba de trabajo, no promesa.</p>
+        <span class="tool">Loom</span>
+      </div>
+      <div class="step">
+        <span class="n">06</span>
+        <h4>Agenda</h4>
+        <p>Link de calendario recién acá, cuando ya vieron trabajo hecho sobre su propio negocio.</p>
+        <span class="tool">Cal.com</span>
+      </div>
+      <div class="step">
+        <span class="n">07</span>
+        <h4>Llamada de diagnóstico</h4>
+        <p>30 minutos, la que ya ofrece el VSL. Sale de acá con auditoría vendida o con programa vendido.</p>
+        <span class="tool">Meet</span>
+      </div>
+      <div class="step">
+        <span class="n">08</span>
+        <h4>Propuesta</h4>
+        <p>El sistema de propuestas que ya tienen armado. Este paso ya funciona.</p>
+        <span class="tool">Ya existe</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="lbl">Herramientas · todo lo enseña el curso</span>
+      <p><strong>ManyChat</strong> para comentarios y DM automáticos. <strong>Cal.com o Calendly</strong> para la agenda. <strong>Notion</strong> como CRM —está en el módulo CRM &amp; Automatizaciones, con plantillas incluidas. <strong>Make</strong> como pegamento entre todo. <strong>Brevo o MailerLite</strong> para el newsletter. <strong>Sales Navigator</strong> para LinkedIn. Presupuesto mensual estimado: menos de USD 100.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 07 ================= -->
+<section id="contenido">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">07 / Contenido</span>
+      <h2>Cuatro pilares, un día de grabación<br>cada quince.</h2>
+      <p class="sec-sub">La cadencia está calibrada para dos personas con demanda laboral alta. Si intentan producir diario, abandonan en tres semanas —que es exactamente lo que ya pasó con el curso.</p>
+    </div>
+
+    <h3>Los cuatro pilares</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:150px">Pilar</th><th>Qué es</th><th style="width:230px">Para qué sirve</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">Diagnóstico</td><td><strong>«Esto está roto en tu digital y no lo sabés.»</strong> Síntoma concreto, causa, consecuencia en plata.</td><td>Crea el problema en la cabeza del dueño. Es el pilar que genera respuestas al privado.</td></tr>
+          <tr><td class="mono">Prueba</td><td><strong>Casos, números, capturas.</strong> Friotex, Maxport, DOS Argentina. Sin inventar nada y solo con los que ya autorizaron.</td><td>El pilar más escaso y el que más vende. En B2B, la prueba pesa más que el argumento.</td></tr>
+          <tr><td class="mono">Método</td><td><strong>Cómo se hace.</strong> Regalan el qué y el por qué; cobran el hacelo por mí.</td><td>Construye autoridad y filtra: el que lo puede hacer solo, que lo haga.</td></tr>
+          <tr><td class="mono">Criterio</td><td><strong>La opinión.</strong> «Por qué no te vendemos pauta el primer mes.» «La agencia que te muestra impresiones te está mintiendo.»</td><td>Esto es lo que separa una marca personal de una cuenta corporativa. Sin esto son intercambiables.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="margin-top:34px">La cadencia</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Canal</th><th style="width:110px">Frecuencia</th><th>Formato y quién</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">LinkedIn — Nacho</td><td><strong>3 / semana</strong><br><span class="ash">Lun · Mié · Vie</span></td><td>Texto puro, 900–1.300 caracteres. Uno de diagnóstico, uno de prueba, uno de criterio. <strong>Es el canal prioritario: si una semana solo se puede hacer una cosa, se hace esta.</strong></td></tr>
+          <tr><td class="mono">Instagram — Nacho</td><td><strong>3 / semana</strong></td><td>Reels reciclados del mismo guion del post de LinkedIn. Cámara al hombro, sin producción. Ya lo están haciendo, así que el hábito existe.</td></tr>
+          <tr><td class="mono">Historias — Nacho</td><td><strong>5 días / semana</strong></td><td>Mínimo tres slides. <strong>Este es el motor de conversaciones</strong> —el «sistema de agenda por chat» de AXIS vive acá. Una de las tres siempre tiene interacción: encuesta, caja de preguntas, «respondé X».</td></tr>
+          <tr><td class="mono">LinkedIn — Valen</td><td><strong>1 / semana</strong></td><td>El post técnico. Un número real de una cuenta, anonimizado. Este es su diferencial y no requiere volumen.</td></tr>
+          <tr><td class="mono">@dilema.creative</td><td><strong>2 / semana</strong></td><td>Solo prueba y casos. No es canal de captación: es la vidriera que mira el que ya los está evaluando.</td></tr>
+          <tr><td class="mono">Newsletter</td><td><strong>Quincenal</strong></td><td>La versión larga de lo mejor del mes. Es el único activo que no depende de un algoritmo.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <span class="lbl">La regla que salva el plan</span>
+      <p><strong>Un día de grabación cada quince.</strong> Un bloque de tres horas, doce guiones escritos de antemano, doce reels grabados de una. El resto del mes es solo publicar y responder mensajes. La producción diaria es lo que hace que los planes de contenido mueran en la semana tres.</p>
+      <p><strong>Y una idea nunca se usa una sola vez:</strong> una idea → un post de LinkedIn → un reel → tres slides de historia → un bloque del newsletter. Nunca se parte de cero.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 08 ================= -->
+<section class="cream">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">08 / Banco de ideas</span>
+      <h2>Treinta contenidos<br>que ya tienen <em>escritos</em>.</h2>
+      <p class="sec-sub">Los mejores no hay que inventarlos: están en las auditorías que ya hicieron este año. Cada hallazgo real es un contenido, y la prueba viene incluida.</p>
+    </div>
+
+    <div class="ideas">
+      <div>
+        <span class="pillar-name">Diagnóstico</span>
+        <ol>
+          <li><b>«Tu ROAS de 4x probablemente sea de 2,4x.»</b> Contar órdenes generadas en vez de órdenes cobradas.<span class="src">Caso real · ecommerce</span></li>
+          <li><b>«El 40% de tus ventas online no se cobra y tu agencia te las está reportando como ventas.»</b><span class="src">Caso real · ecommerce</span></li>
+          <li><b>«Google te cambió la estrategia de puja solo y no te avisó.»</b> Auto-apply de recomendaciones.<span class="src">Caso real · ecommerce</span></li>
+          <li><b>«Tu campaña optimiza el clic a WhatsApp, no la consulta. Por eso te llegan curiosos.»</b><span class="src">Caso real · empresa de servicios</span></li>
+          <li><b>«Si tu valor de conversión llega en cero, Google está pujando a ciegas.»</b><span class="src">Caso real · ecommerce</span></li>
+          <li><b>«El cliente que te compra dos veces por error te está inflando las conversiones.»</b> Órdenes duplicadas por reintento de pago.</li>
+          <li><b>«Tu sitio tarda seis segundos. Perdés a cuatro de cada diez antes de que vean nada.»</b></li>
+          <li>«Tenés 136 campañas optimizando un objetivo que está roto hace meses.»</li>
+          <li>«Si no importaste los costos de Meta a GA4, no sabés cuál canal te trae plata.»</li>
+        </ol>
+      </div>
+
+      <div>
+        <span class="pillar-name">Prueba</span>
+        <ol start="10">
+          <li><b>Friotex:</b> «Años sin aparecer en Google. Primer mes: sitio optimizado, tracking, hoja de ruta. Al terminar: consultas todos los días.» El testimonio ya está escrito en el VSL —falta contarlo en video.</li>
+          <li><b>Maxport:</b> «Tenían pauta activa y no cerraban. No fue magia, fue método.»</li>
+          <li><b>DOS Argentina:</b> «Encontramos campañas que pagaban sin ningún resultado. El mismo presupuesto empezó a rendir el doble.»</li>
+          <li>Captura de un antes y después de una cuenta real, con los números tapados.</li>
+          <li>El informe de auditoría abierto en pantalla: «esto es lo que entregamos en el mes 1».</li>
+          <li>Un mes de trabajo en 60 segundos: qué se tocó, en qué orden y por qué.</li>
+          <li>Los 18 logos de clientes, contando por qué eligieron quedarse con menos de 20 cuentas activas.</li>
+        </ol>
+      </div>
+
+      <div>
+        <span class="pillar-name">Método</span>
+        <ol start="17">
+          <li><b>Las 12 cosas que revisamos antes de tocar un peso de pauta.</b> Es el anzuelo entero, contado en un carrusel.</li>
+          <li>Cómo saber en cinco minutos si tu tracking está bien configurado.</li>
+          <li>Qué es una conversión que sirve y qué es una que te miente.</li>
+          <li>Por qué primero se arregla el sitio y recién después se enciende la pauta.</li>
+          <li>Cómo se arma una lista de negativas en una campaña industrial.</li>
+          <li>Qué preguntar en la primera reunión con una agencia —las cinco que casi nadie hace.</li>
+          <li>Cómo leer un informe de agencia y detectar si te están mostrando métricas de vanidad.</li>
+          <li>Qué es GEO y por qué en 2026 importa tanto como el SEO.</li>
+        </ol>
+      </div>
+
+      <div>
+        <span class="pillar-name">Criterio</span>
+        <ol start="25">
+          <li><b>«No te vendemos pauta el primer mes. Y por eso funciona.»</b></li>
+          <li><b>«La agencia que te muestra impresiones y alcance te está mintiendo por omisión.»</b></li>
+          <li>«El informe de 80 páginas que nadie implementa es el producto más vendido de la consultoría argentina.»</li>
+          <li>«No trabajamos con quien no puede atender más demanda. Explico por qué.»</li>
+          <li>«Le recomendamos a un cliente algo que no estaba en el contrato y nos costó plata. Lo volveríamos a hacer.»</li>
+          <li>«Por qué elegimos tener menos de 20 clientes cuando podríamos tener 60.»</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="lbl">Lo que hace que esto funcione</span>
+      <p>Ninguno de estos contenidos requiere investigar nada. <strong>Son hallazgos reales de las auditorías que ya hicieron.</strong> Ese es el activo que tiene una agencia que trabaja de verdad y que un coach que arranca no tiene: no hablan en teoría, muestran lo que encontraron el martes pasado. Regla: anonimizar siempre —«una industrial de Rosario», no el nombre— salvo que el cliente autorice, como ya hicieron en el VSL.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 09 ================= -->
+<section id="guiones">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">09 / Producción</span>
+      <h2>Los doce guiones<br>del <em>primer día de grabación</em>.</h2>
+      <p class="sec-sub">Tres horas, doce reels, un mes de contenido. Están ordenados para grabarlos de corrido: cuatro de diagnóstico, tres de prueba, dos de método y tres de criterio. Cada uno dura entre 45 y 60 segundos.</p>
+    </div>
+
+    <div class="callout warn">
+      <span class="lbl">Antes de grabar · confidencialidad</span>
+      <p><strong>Friotex, Maxport y DOS Argentina ya están con nombre y apellido en el VSL</strong>, así que esos tres se pueden nombrar. <strong>El resto va anonimizado</strong> —«un ecommerce de indumentaria», «una empresa de servicios»— salvo que el cliente autorice por escrito. Los guiones ya están escritos así.</p>
+    </div>
+
+    <div class="guiones">
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 01</span><span class="tag-pilar">Diagnóstico</span></div>
+        <h3>Tu ROAS de 4x capaz es de 2,4x</h3>
+        <div class="bl gancho"><span class="lbl">Gancho · primeros 3 segundos</span><p>«Si tu agencia te dice que tenés 4 de ROAS, hacé esta cuenta antes de festejar.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo</span><ul>
+          <li>Auditamos un ecommerce este año. El panel reportaba 4x.</li>
+          <li>Cruzamos las órdenes que Google contaba como venta contra lo que realmente entró al banco. <strong>De cada 100, se cobraban 59.</strong></li>
+          <li>Transferencias que nunca se hacían, links de pago vencidos, y reintentos que generaban dos órdenes para una sola compra.</li>
+          <li>El ROAS real era 2,4. Con ese número, la mitad de las campañas que estaban escalando había que apagarlas.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre</span><p>«La plataforma cuenta órdenes generadas. Tu banco cuenta plata cobrada. Si nadie cruzó esos dos números, no sabés cuánto te rinde la pauta.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«Escribime <strong>ROAS</strong> y te paso cómo se hace ese cruce.»</p></div>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 02</span><span class="tag-pilar">Diagnóstico</span></div>
+        <h3>Google te cambió la puja solo</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«Google puede cambiarte la estrategia de puja de una campaña sin avisarte. Y lo hace.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo</span><ul>
+          <li>Se llama <strong>auto-apply</strong>: recomendaciones que se aplican solas si nadie las desactiva.</li>
+          <li>Encontramos una cuenta donde la campaña principal cambió de estrategia de un día para el otro. No lo tocó la empresa ni la agencia. Lo hizo Google.</li>
+          <li>El rendimiento se cae justo a partir de esa fecha, y como nadie sabe que pasó, se busca la causa en cualquier otro lado.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre</span><p>«Andá a Recomendaciones, pestaña Aplicación automática, y mirá qué tenés tildado. Te va a sorprender.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>Historia con encuesta: «¿Sabías que lo tenías activado? Sí / No tengo idea».</p></div>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 03</span><span class="tag-pilar">Diagnóstico</span></div>
+        <h3>Por eso te llegan consultas basura</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«Si te llegan consultas de gente que no compra nada, no es culpa del público. Es de lo que le pediste optimizar a Google.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo</span><ul>
+          <li>Una empresa de servicios tenía la campaña optimizando el clic al botón de WhatsApp.</li>
+          <li>Google es obediente: te trae la gente que más clickea WhatsApp. Y el que clickea por curiosidad clickea muchísimo más que el que quiere cotizar en serio.</li>
+          <li>El formulario, que era la conversión que sí valía, ni siquiera estaba cargado como objetivo.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre</span><p>«Google te trae exactamente lo que le pedís. Si le pedís clics, te trae clickeadores.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«Comentá <strong>AUDITORÍA</strong> y te mando el checklist de las 12 cosas que revisamos antes de tocar un peso de pauta.»</p></div>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 04</span><span class="tag-pilar">Diagnóstico</span></div>
+        <h3>El número que llega en cero</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«Hay un número en tu cuenta de Google que, si llega en cero, hace que tu campaña esté pujando a ciegas.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo</span><ul>
+          <li>Es el <strong>valor de conversión</strong>. Si tu campaña usa maximizar valor o ROAS objetivo, Google necesita saber cuánto vale cada venta para decidir a quién mostrarle el anuncio.</li>
+          <li>Auditamos una cuenta donde ese valor venía en cero hacía semanas. El sitio lo mandaba bien —lo verificamos en GA4—, se rompía en el camino.</li>
+          <li>Mientras tanto la campaña seguía gastando todos los días, optimizando para nada.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre</span><p>«Conversiones y valor de conversión no son lo mismo. Podés tener las primeras perfectas y el segundo roto hace meses.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«Respondé esta historia con el rubro de tu empresa y te digo qué mirar primero.»</p></div>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 05</span><span class="tag-pilar prueba">Prueba</span></div>
+        <h3>Friotex · 90 días</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«Una industrial de Rosario llevaba años sin aparecer ni en Google ni en redes. Esto hicimos en 90 días.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo</span><ul>
+          <li><strong>Mes 1:</strong> no tocamos un peso de pauta. Auditoría de sitio, redes, proceso de ventas y competencia. Optimización de la web y configuración del tracking.</li>
+          <li><strong>Mes 2:</strong> recién ahí encendimos, sobre una base que ya convertía.</li>
+          <li><strong>Mes 3:</strong> optimización sobre datos reales del negocio.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre · cita textual del cliente</span><p>«Al terminar el programa teníamos consultas entrando todos los días, algo que nunca habíamos logrado internamente.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«El caso completo está en el link de la bio.»</p></div>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 06</span><span class="tag-pilar prueba">Prueba</span></div>
+        <h3>DOS Argentina · el mismo presupuesto</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«Encontramos campañas que esta empresa venía pagando hacía meses sin un solo resultado.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo</span><ul>
+          <li>Consultora de RRHH en Buenos Aires.</li>
+          <li>No hizo falta subir el presupuesto. Hizo falta mirar dónde se estaba yendo.</li>
+          <li>Cortamos lo que no traía nada y redistribuimos a lo que sí.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre · cita textual</span><p>«Llegaron con preguntas y datos, no con presentaciones genéricas. El mismo presupuesto empezó a rendir el doble.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«¿Cuándo fue la última vez que alguien te mostró en qué se te va cada peso?»</p></div>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 07</span><span class="tag-pilar prueba">Prueba</span></div>
+        <h3>Maxport · el problema no era la pauta</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«Tenían pauta activa y no entendían por qué no cerraban más ventas.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo</span><ul>
+          <li>Fabricante de puertas B2B, Rosario.</li>
+          <li>El problema no estaba en la pauta. Estaba antes: en el sitio, en el tracking y en el proceso de venta.</li>
+          <li>Por eso el mes 1 del programa no es lanzar. Es diagnosticar.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre · cita textual</span><p>«Dilema auditó todo, encontró los problemas reales y los resolvió. No fue magia, fue método.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«Link en la bio si querés que miremos la tuya.»</p></div>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 08</span><span class="tag-pilar metodo">Método · el del anzuelo</span></div>
+        <h3>Las 12 cosas antes de la pauta</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«Estas son las 12 cosas que revisamos antes de gastar un solo peso en publicidad. Si tu agencia no las miró, estás tirando plata.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo · enumerar rápido, con texto en pantalla</span><ul>
+          <li>Velocidad del sitio · CTA claro · formulario que funcione</li>
+          <li>Tracking configurado y eventos disparando bien</li>
+          <li>Calidad del dato de conversión y valor de conversión</li>
+          <li>Proceso de venta y tiempo de respuesta a una consulta</li>
+          <li>Diferenciación real contra la competencia</li>
+          <li>«Las otras cinco están en el checklist.»</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre</span><p>«No es que la pauta no funcione. Es que la encendiste sobre una base rota.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«Comentá <strong>AUDITORÍA</strong> y te lo mando por privado, gratis.»</p></div>
+        <p class="nota">⚠ Este es el reel que se pauta. Es el que alimenta ManyChat y el único que necesita presupuesto. Grabarlo dos veces con ganchos distintos para poder testear.</p>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 09</span><span class="tag-pilar metodo">Método</span></div>
+        <h3>Chequeá tu tracking en 5 minutos</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«Cinco minutos, sin saber nada técnico, para descubrir si tus conversiones son mentira.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo · paso a paso</span><ul>
+          <li>Entrá a tu propio sitio y completá el formulario vos mismo, con un nombre falso que reconozcas.</li>
+          <li>Fijate en las horas siguientes si esa conversión aparece en Google Ads o en GA4.</li>
+          <li>Si no aparece, tenés un problema. Si aparecen tres, también.</li>
+          <li><strong>El chequeo más honesto:</strong> compará las conversiones del mes contra las consultas que tu equipo comercial realmente atendió. Si Google dice 80 y tu vendedor atendió 25, alguien está contando mal.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre</span><p>«Esa última comparación no necesita ninguna herramienta y es la que más agencias incomoda.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«Hacela y contame el resultado por privado.»</p></div>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 10</span><span class="tag-pilar criterio">Criterio</span></div>
+        <h3>No vendemos pauta el primer mes</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«El primer mes no te vendemos publicidad. Y es exactamente la razón por la que funciona.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo</span><ul>
+          <li>Casi todas las agencias arrancan lanzando campañas: es lo que se ve, lo que justifica el fee y lo que el cliente espera.</li>
+          <li>El problema es que <strong>la pauta amplifica lo que ya tenés</strong>. Si el sitio no convierte, te trae más gente a un sitio que no convierte.</li>
+          <li>Si nadie contesta una consulta en menos de una hora, te trae más consultas sin contestar.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre</span><p>«Encender pauta sobre una base rota no es marketing. Es acelerar en la dirección equivocada.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«¿Te lanzaron campañas el primer mes? Contame cómo te fue.»</p></div>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 11</span><span class="tag-pilar criterio">Criterio</span></div>
+        <h3>Impresiones y alcance</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«Si el informe de tu agencia empieza con impresiones y alcance, te están mintiendo por omisión.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo</span><ul>
+          <li>No es que esos números sean falsos. Es que no significan nada para tu negocio: nadie factura impresiones.</li>
+          <li>Un informe honesto tiene cinco números: cuánto invertiste, cuántas consultas entraron, cuántas eran reales, cuántas cerraron y cuánto costó cada una.</li>
+          <li>Si esos cinco no están, el informe no es un informe. Es una excusa.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre</span><p>«El día que preguntes por esos cinco números vas a ver quién trabaja de verdad.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«Guardá este video y mandáselo a tu agencia.»</p></div>
+        <p class="nota">⚠ Este va a generar comentarios, incluso de gente del rubro. Responder todos el mismo día: ahí está la mitad del valor.</p>
+      </div>
+
+      <div class="guion">
+        <div class="guion-top"><span class="guion-n">Guion 12</span><span class="tag-pilar criterio">Criterio</span></div>
+        <h3>Menos de 20 clientes</h3>
+        <div class="bl gancho"><span class="lbl">Gancho</span><p>«Podríamos tener 60 clientes. Elegimos tener menos de 20. Te explico por qué.»</p></div>
+        <div class="bl"><span class="lbl">Desarrollo</span><ul>
+          <li>Una agencia con 60 cuentas no las mira. Las gestiona un junior con una plantilla y el dueño aparece en la reunión mensual.</li>
+          <li>Nosotros nos metemos en el negocio: recomendamos cosas que no están en el contrato y si vemos algo lo decimos, aunque nos cueste plata.</li>
+          <li>Eso no escala a 60 cuentas. Y no queremos que escale.</li>
+        </ul></div>
+        <div class="bl"><span class="lbl">Cierre</span><p>«Preferimos pocos clientes con el mejor servicio posible, antes que muchos con uno promedio.»</p></div>
+        <div class="bl cta"><span class="lbl">CTA</span><p>«Si buscás la agencia más barata, no somos nosotros. Si buscás la que se involucra, hablemos.»</p></div>
+      </div>
+
+    </div>
+
+    <div class="callout">
+      <span class="lbl">Cómo se graban los doce de una sentada</span>
+      <p><strong>Misma ropa, mismo encuadre, misma luz</strong> para los doce: si después hay que regrabar uno, entra sin que se note. Grabar en orden de pilar —los cuatro de diagnóstico juntos, después los de prueba— porque el tono de cada pilar es distinto y cambiar de registro cansa.</p>
+      <p><strong>No memorizar.</strong> Los guiones son la estructura, no el texto exacto: gancho literal —ese sí palabra por palabra, son los tres segundos que deciden todo— y el resto hablado. Si un reel sale en dos tomas, se pasa al siguiente.</p>
+      <p><strong>Cada guion rinde cuatro veces:</strong> el reel, el post de LinkedIn con el desarrollo ampliado, tres slides de historia con el gancho y la pregunta, y un bloque del newsletter. Doce guiones son cuatro semanas de contenido en todos los canales.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 10 ================= -->
+<section class="cream" id="comunidad">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">10 / Comunidad</span>
+      <h2>La parte donde<br>casi todos se equivocan.</h2>
+    </div>
+
+    <p>La tentación natural después de hacer el curso es abrir un Skool en la primera semana. Es la decisión que más tiempo puede costar, y conviene leer esto antes.</p>
+
+    <div class="callout bad">
+      <span class="lbl">Por qué una comunidad abierta casi nunca arranca</span>
+      <p>La regla empírica de cualquier plataforma de comunidad es que <strong>solo un porcentaje muy chico de los miembros entra en un día cualquiera</strong>, y eso pasa incluso en comunidades de gente que eligió pagar por marketing digital y que vive en internet. <strong>Acá el público son dueños de metalúrgicas de Rosario.</strong> La participación espontánea va a ser todavía más baja.</p>
+      <p>La conclusión no es «no armar comunidad». Es: <strong>la comunidad no es el activo. El activo es el contenido más el sistema de conversaciones.</strong> La comunidad es una consecuencia, no un punto de partida.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:130px">Fase</th><th style="width:130px">Cuándo</th><th>Qué hacen</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="mono">Fase 1<br>Audiencia</td>
+            <td><strong>Meses 1–3</strong></td>
+            <td><strong>No armen comunidad. Armen conversaciones.</strong> El «espacio» en esta fase son tres cosas: la lista del newsletter, un canal de difusión de WhatsApp con los que pidieron el diagnóstico, y los mensajes privados. Nada más. Cero plataforma nueva, cero moderación, cero mantenimiento.</td>
+          </tr>
+          <tr>
+            <td class="mono">Fase 2<br>Evento</td>
+            <td><strong>Mes 4+</strong></td>
+            <td><strong>En B2B argentino el formato que mejor funciona es el evento, no el foro.</strong> Un encuentro mensual en vivo de 60 minutos —«Mesa de Re-Evolución»— por Zoom, gratis, con inscripción. 30 minutos de contenido duro y 30 de preguntas. Construye lista, autoridad y pipeline a la vez, y no requiere que nadie vuelva a entrar a ningún lado entre encuentro y encuentro.</td>
+          </tr>
+          <tr>
+            <td class="mono">Fase 3<br>Plataforma</td>
+            <td><strong>Mes 6+</strong></td>
+            <td>Recién acá un Skool o un Circle, y <strong>solo si el evento mensual se llena</strong>. Y probablemente pago, no gratis: una comunidad B2B gratuita se muere sola, porque nadie protege lo que no le costó nada.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <span class="lbl">El formato con más potencial que tienen</span>
+      <p><strong>La auditoría en vivo.</strong> Piden un voluntario, auditan la web y las campañas de una PyME real durante veinte minutos frente a la audiencia. Es contenido, es prueba, es venta y es comunidad, todo en el mismo acto. Es la traducción más exacta del «contexto → prueba → oportunidad» de AXIS al negocio de ustedes, y es prácticamente imposible de copiar sin saber hacer el trabajo de verdad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 11 ================= -->
+<section id="noventa">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">11 / Ejecución</span>
+      <h2>Noventa días,<br>semana por semana.</h2>
+      <p class="sec-sub">Un objetivo por mes. Si un mes no se cumple, no se avanza al siguiente: se repite. La secuencia importa más que la velocidad.</p>
+    </div>
+
+    <div class="month">
+      <div class="month-head">
+        <span class="month-num">Mes 01</span>
+        <span class="month-name">Fundaciones</span>
+        <span class="month-goal">Meta: publicar 3 veces por semana sin fallar<br>y abrir 30 conversaciones nuevas.</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:90px">Semana</th><th>Tareas</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">1</td><td>Arreglar el link de bio. Definir la escalera de oferta y el precio de la auditoría de entrada. Optimizar el perfil de LinkedIn de Nacho como landing (módulo Linkedin Mastery). Escribir los 12 primeros guiones del banco de ideas.</td></tr>
+            <tr><td class="mono">2</td><td><strong>Primer día de grabación:</strong> 3 horas, 12 reels. Producir el PDF del anzuelo. Armar ManyChat con la automatización de comentario a privado. Empezar a publicar en LinkedIn.</td></tr>
+            <tr><td class="mono">3</td><td>Sales Navigator: armar la lista de 200 dueños y gerentes de PyME industrial en Rosario y Buenos Aires. Empezar el ritmo diario: 20 invitaciones sin nota, 10 mensajes de conversación —no de pitch— y <strong>10 comentarios en posts de esa lista</strong>, que es la palanca más subestimada de LinkedIn.</td></tr>
+            <tr><td class="mono">4</td><td>Montar el CRM en Notion (módulo CRM &amp; Automatizaciones). Primeros Looms personalizados. Revisar qué contenido generó respuestas al privado y cuál no.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="month">
+      <div class="month-head">
+        <span class="month-num">Mes 02</span>
+        <span class="month-name">Motor</span>
+        <span class="month-goal">Meta: 8 a 12 llamadas de diagnóstico agendadas.</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:90px">Semana</th><th>Tareas</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">5</td><td>Segundo día de grabación. Encender pauta chica: <strong>USD 10 a 15 por día</strong>, dividida entre DM Ads en Instagram a audiencia tibia y LinkedIn Ads al público del nicho. El objetivo no es vender: es conseguir datos de qué mensaje resuena.</td></tr>
+            <tr><td class="mono">6</td><td>Arranca el newsletter quincenal. Primera edición: el mejor contenido de diagnóstico del mes 1, ampliado.</td></tr>
+            <tr><td class="mono">7</td><td><strong>Primera Mesa de Re-Evolución</strong> en vivo. Se anuncia con dos semanas de anticipación en todos los canales. Si vienen 8 personas, está bien: son 8 dueños de empresa escuchándolos 60 minutos.</td></tr>
+            <tr><td class="mono">8</td><td>Revisión de números del embudo. Cortar lo que no trae conversaciones. Duplicar lo que sí.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="month">
+      <div class="month-head">
+        <span class="month-num">Mes 03</span>
+        <span class="month-name">Venta y sistema</span>
+        <span class="month-goal">Meta: 2 a 4 auditorías vendidas,<br>1 o 2 programas completos.</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:90px">Semana</th><th>Tareas</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">9</td><td>Tercer día de grabación. Ahora los guiones salen de las objeciones reales que aparecieron en las llamadas del mes 2 —ese es el mejor material que van a tener.</td></tr>
+            <tr><td class="mono">10</td><td>Segunda Mesa de Re-Evolución, esta vez con formato de <strong>auditoría en vivo</strong>. Grabarla y trocearla: sale un mes entero de contenido de un solo evento.</td></tr>
+            <tr><td class="mono">11</td><td>Documentar los SOPs del sistema completo (módulo Management Mastery): cómo se produce, cómo se responde un privado, cómo se hace un Loom, cómo se carga en el CRM. Sin esto no se puede delegar nunca.</td></tr>
+            <tr><td class="mono">12</td><td>Balance de los 90 días contra las métricas de abajo. Decidir si va la fase 2 —programa grupal y plataforma de comunidad— o si el trimestre 2 es repetir esto con más volumen. <strong>Casi siempre la respuesta correcta es repetir con más volumen.</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 12 ================= -->
+<section class="cream">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-num">12 / Control</span>
+      <h2>Qué se mide y quién hace qué.</h2>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Las cinco métricas, diez minutos los lunes</h3>
+        <ul class="plainlist">
+          <li><strong>Conversaciones nuevas iniciadas</strong> — la métrica madre. Si esta sube, todo lo demás sube después.</li>
+          <li><strong>Llamadas agendadas</strong></li>
+          <li><strong>Llamadas realizadas</strong> y porcentaje de asistencia</li>
+          <li><strong>Propuestas enviadas</strong></li>
+          <li><strong>Cierres</strong> — auditorías y programas, contados por separado</li>
+        </ul>
+        <div class="callout warn" style="margin-top:22px">
+          <span class="lbl">Lo que no se mira</span>
+          <p>Seguidores, views, likes, alcance. AXIS es explícito en esto y tienen razón: son las mismas métricas de vanidad que ustedes le critican a otras agencias en el contenido que van a publicar. Sería incoherente medirse con ellas.</p>
+        </div>
+      </div>
+      <div>
+        <h3>Reparto</h3>
+        <div class="roles" style="margin-top:14px">
+          <div class="role">
+            <span class="who">Nacho</span>
+            <span class="what">La cara y la venta</span>
+            <ul class="plainlist">
+              <li>Los 3 posts de LinkedIn y los 3 reels</li>
+              <li>Historias diarias y respuesta de privados</li>
+              <li>Prospección en Sales Navigator</li>
+              <li>Llamadas de diagnóstico y cierre</li>
+            </ul>
+          </div>
+          <div class="role">
+            <span class="who">Valen</span>
+            <span class="what">El dato y el sistema</span>
+            <ul class="plainlist">
+              <li>El post técnico semanal</li>
+              <li>Los Looms de auditoría personalizados</li>
+              <li>CRM en Notion, ManyChat y automatizaciones</li>
+              <li>Newsletter quincenal y métricas del lunes</li>
+            </ul>
+          </div>
+        </div>
+        <p style="margin-top:18px" class="ash">El reparto está pensado para que <strong>nadie tenga que hacer lo que peor le sale</strong>. Nacho no arma automatizaciones, Valen no graba tres reels por semana. Eso es lo que hace que un plan de 90 días sobreviva a la semana 4.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CIERRE ================= -->
+<section class="closing">
+  <div class="wrap">
+    <h2>El plan no falla por estrategia.<br>Falla en la semana tres.</h2>
+    <p>Ya tienen el método, las herramientas, los casos reales, el VSL y una agencia que factura. Lo único que no tienen todavía es la constancia sostenida, y eso no se arregla con un plan mejor: se arregla bajando el piso hasta un punto que sea imposible de no cumplir.</p>
+    <p>Así que este es el piso. La semana que se pudra —y va a haber semanas que se pudran— no hacen el plan completo. Hacen esto:</p>
+
+    <div class="floor">
+      <span class="lbl">El mínimo innegociable</span>
+      <ul>
+        <li>Un post en LinkedIn</li>
+        <li>Historias tres días</li>
+        <li>Responder todos los privados</li>
+      </ul>
+    </div>
+
+    <p style="margin-top:30px">Eso solo, sostenido seis meses, los deja mejor parados que el plan completo abandonado en el mes dos.</p>
+  </div>
+</section>
+
+<footer>
+  <span>Dilema Creative · Plan de social business</span>
+  <span>Documento de estrategia · Septiembre 2026</span>
+</footer>
