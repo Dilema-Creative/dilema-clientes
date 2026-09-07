@@ -9,69 +9,44 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#004071;
-  --navy-deep:#012A4A;
-  --navy-2:#0A3A5C;
-  --cyan:#0092CF;
-  --green:#00AC6C;
-  --orange:#F15922;
-  --gold:#9D7E3F;
+  color-scheme:dark;
+  /* DP World brand system — LOCKED DARK (violet/indigo) */
+  --navy:#3E3C90;        /* violet-deep */
+  --navy-deep:#171243;   /* nav / deep panels */
+  --navy-2:#312A82;      /* mid indigo, gradient middle */
+  --cyan:#8487E0;        /* primary violet accent on dark (links, borders, info) */
+  --green:#2FD39A;       /* positive */
+  --orange:#FF6A45;      /* coral — flags, section codes, dest node */
+  --gold:#8E8CE8;        /* soft violet */
 
-  --paper:#FFFFFF;
-  --paper-2:#F2F7FA;
-  --surface:#FFFFFF;
-  --ink:#0C2233;
-  --ink-soft:#3E566A;
-  --muted:#6E8496;
-  --line:#DCE6EC;
-  --line-strong:#C2D2DD;
+  --violet:#8487E0;
+  --violet-deep:#5154B6;
+  --indigo:#1E1450;
+  --indigo-900:#1E1343;
+  --lilac:#C7C5F4;       /* hero highlight on the gradient */
+  --lilac-100:#ECECFF;
+  --brand-green:#00E68C; /* bright accent for the hero lines */
+  --grad-brand:linear-gradient(120deg,#5154B6 0%,#312A82 55%,#1E1343 100%);
 
-  --good:#0E8E5A;
-  --warn:#9C6B14;
-  --crit:#C43D2A;
-  --crit-soft:#FBECE8;
+  --paper:#0E0B26;       /* deep indigo-black page */
+  --paper-2:#191340;     /* raised dark panels, inputs */
+  --surface:#171241;     /* cards */
+  --ink:#ECECFF;         /* near-white lilac text */
+  --ink-soft:#C6C4EC;
+  --muted:#8F8DBA;
+  --line:#2C2860;
+  --line-strong:#3C387C;
 
-  --shadow:0 1px 2px rgba(1,42,74,.06),0 14px 40px -22px rgba(1,42,74,.35);
+  --good:#2FD39A;
+  --warn:#E6B50B;
+  --crit:#FF6A6A;
+  --crit-soft:#2A1030;
+
+  --shadow:0 1px 2px rgba(0,0,0,.45),0 22px 52px -26px rgba(0,0,0,.85);
   --maxw:1120px;
   --col:68ch;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --paper:#071A28;
-    --paper-2:#0C2637;
-    --surface:#0E2A3D;
-    --ink:#E7EFF4;
-    --ink-soft:#AEC5D3;
-    --muted:#7B95A6;
-    --line:#173A4E;
-    --line-strong:#22506A;
-    --cyan:#38ABE0;
-    --green:#2CC088;
-    --orange:#FB7247;
-    --good:#33BE84;
-    --warn:#D4A24C;
-    --crit:#E77059;
-    --crit-soft:#2C1A16;
-    --shadow:0 1px 2px rgba(0,0,0,.35),0 18px 46px -24px rgba(0,0,0,.75);
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#071A28;
-  --paper-2:#0C2637;
-  --surface:#0E2A3D;
-  --ink:#E7EFF4;
-  --ink-soft:#AEC5D3;
-  --muted:#7B95A6;
-  --line:#173A4E;
-  --line-strong:#22506A;
-  --cyan:#38ABE0;
-  --green:#2CC088;
-  --orange:#FB7247;
-  --good:#33BE84;
-  --warn:#D4A24C;
-  --crit:#E77059;
-  --crit-soft:#2C1A16;
-  --shadow:0 1px 2px rgba(0,0,0,.35),0 18px 46px -24px rgba(0,0,0,.75);
+  --r-card:3px;          /* sharp corporate corners */
+  --r-pill:999px;        /* DP World pill controls */
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -82,7 +57,7 @@ body{
   line-height:1.62;font-size:17px;font-weight:400;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
-::selection{background:var(--orange);color:#fff}
+::selection{background:var(--violet);color:#fff}
 h1,h2,h3,h4{font-family:"Archivo","Helvetica Neue",Arial,sans-serif;line-height:1.06;text-wrap:balance;letter-spacing:-.02em}
 p{margin:0}
 a{color:var(--cyan);text-underline-offset:2px}
@@ -95,11 +70,11 @@ img{max-width:100%}
 
 /* Dilema logo + co-brand */
 .dlogo{display:block}
-.logo-chip{display:inline-flex;align-items:center;background:#fff;border-radius:12px;padding:10px 16px;box-shadow:0 10px 30px -14px rgba(0,0,0,.5)}
+.logo-chip{display:inline-flex;align-items:center;background:#fff;border-radius:4px;padding:10px 16px;box-shadow:0 10px 30px -14px rgba(0,0,0,.5)}
 .logo-chip img{height:38px;display:block}
 .cobrand{display:flex;align-items:center;gap:18px;margin-bottom:32px;flex-wrap:wrap}
-.cobrand .x{font-family:"IBM Plex Mono",monospace;color:rgba(234,243,248,.55);font-size:22px;font-weight:400}
-.cobrand .client{font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:#EAF3F8;line-height:1.35}
+.cobrand .x{font-family:"IBM Plex Mono",monospace;color:rgba(236,236,255,.55);font-size:22px;font-weight:400}
+.cobrand .client{font-family:"IBM Plex Mono",monospace;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:#ECECFF;line-height:1.35}
 .cobrand .client b{display:block;font-weight:600;color:#fff;letter-spacing:.1em;font-size:15px}
 
 /* NAV */
@@ -107,40 +82,38 @@ nav{
   position:fixed;top:0;left:0;right:0;z-index:100;height:58px;
   background:color-mix(in srgb,var(--navy-deep) 94%,transparent);
   backdrop-filter:blur(12px) saturate(1.3);
-  border-bottom:1px solid rgba(0,146,207,.22);
+  border-bottom:1px solid rgba(184,182,235,.22);
   display:flex;align-items:center;
 }
 nav .wrap{display:flex;align-items:center;justify-content:space-between;width:100%}
-.nav-brand{display:flex;align-items:center;gap:13px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(234,243,248,.85)}
-.nav-brand img{height:22px;display:block;filter:brightness(0) invert(1)}
-.nav-brand .div{width:1px;height:18px;background:rgba(234,243,248,.28)}
+.nav-brand{display:flex;align-items:center;gap:13px;font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(236,236,255,.85)}
+.nav-brand img{height:26px;display:block}
+.nav-brand .div{width:1px;height:18px;background:rgba(236,236,255,.28)}
 .nav-links{display:flex;gap:26px}
-.nav-links a{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(234,243,248,.55);text-decoration:none;transition:color .2s}
-.nav-links a:hover{color:var(--cyan)}
-.ttoggle{appearance:none;border:1px solid rgba(234,243,248,.28);background:transparent;color:#EAF3F8;width:34px;height:30px;border-radius:5px;cursor:pointer;font-size:14px;display:grid;place-items:center}
-.ttoggle:hover{border-color:var(--cyan);color:var(--cyan)}
+.nav-links a{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(236,236,255,.55);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--lilac)}
 @media(max-width:820px){.nav-links{display:none}}
 
 /* HERO */
-.hero{position:relative;background:var(--navy-deep);color:#EAF3F8;overflow:hidden;padding:118px 0 72px}
+.hero{position:relative;background:var(--grad-brand);color:#ECECFF;overflow:hidden;padding:118px 0 72px}
 #flow{position:absolute;inset:0;width:100%;height:100%;opacity:.9}
 .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),var(--green),var(--orange),transparent);opacity:.6}
 .hero .wrap{position:relative;z-index:2}
-.hero-manifest{display:flex;flex-wrap:wrap;gap:0;border:1px solid rgba(146,193,220,.25);border-radius:8px;background:rgba(2,20,36,.5);overflow:hidden;backdrop-filter:blur(2px)}
-.hero-manifest > div{flex:1 1 180px;min-width:150px;padding:12px 18px;border-right:1px solid rgba(146,193,220,.18)}
+.hero-manifest{display:flex;flex-wrap:wrap;gap:0;border:1px solid rgba(184,182,235,.25);border-radius:3px;background:rgba(20,14,56,.5);overflow:hidden;backdrop-filter:blur(2px)}
+.hero-manifest > div{flex:1 1 180px;min-width:150px;padding:12px 18px;border-right:1px solid rgba(184,182,235,.18)}
 .hero-manifest > div:last-child{border-right:0}
-.hero-manifest .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(180,210,228,.7);display:block;margin-bottom:5px}
-.hero-manifest .v{font-family:"IBM Plex Mono",monospace;font-size:13px;color:#EAF3F8;font-weight:500;line-height:1.3}
+.hero-manifest .k{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(198,196,236,.7);display:block;margin-bottom:5px}
+.hero-manifest .v{font-family:"IBM Plex Mono",monospace;font-size:13px;color:#ECECFF;font-weight:500;line-height:1.3}
 h1.thesis{margin-top:38px;font-size:clamp(34px,6.6vw,74px);font-weight:900;max-width:16ch;color:#fff}
-h1.thesis .hl{color:var(--cyan);position:relative;white-space:nowrap}
-.hero .lede{margin-top:24px;max-width:60ch;font-size:clamp(17px,2.3vw,20px);color:rgba(224,236,244,.86);line-height:1.55}
+h1.thesis .hl{color:var(--lilac);position:relative;white-space:nowrap}
+.hero .lede{margin-top:24px;max-width:60ch;font-size:clamp(17px,2.3vw,20px);color:rgba(236,236,255,.86);line-height:1.55}
 .hero .lede b{color:#fff;font-weight:700}
 .hero .lede .flag{color:var(--orange);font-weight:700}
-.statstrip{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(146,193,220,.2);border:1px solid rgba(146,193,220,.2);border-radius:8px;overflow:hidden}
-.stat{background:rgba(2,22,40,.55);padding:20px}
+.statstrip{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(184,182,235,.2);border:1px solid rgba(184,182,235,.2);border-radius:3px;overflow:hidden}
+.stat{background:rgba(20,14,56,.55);padding:20px}
 .stat .n{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(28px,4.4vw,44px);line-height:1;color:#fff}
 .stat .n.flag{color:var(--orange)}
-.stat .l{margin-top:8px;font-size:13px;color:rgba(200,220,232,.82);line-height:1.4}
+.stat .l{margin-top:8px;font-size:13px;color:rgba(206,204,240,.82);line-height:1.4}
 @media(max-width:620px){.statstrip{grid-template-columns:1fr}}
 
 /* reveal */
@@ -167,11 +140,11 @@ section{padding:clamp(46px,7vw,70px) 0}
 @media(max-width:840px){.g3{grid-template-columns:1fr}}
 @media(max-width:680px){.g2{grid-template-columns:1fr}}
 
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:var(--shadow)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:24px;box-shadow:var(--shadow)}
 .card h3{font-size:19px;font-weight:800;margin-bottom:8px;color:var(--ink)}
 .card p{color:var(--ink-soft);font-size:15px;line-height:1.55}
 
-.chip{display:inline-flex;align-items:center;gap:7px;font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:5px;margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:7px;font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;margin-bottom:14px}
 .chip::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
 .chip.crit{color:var(--crit);background:var(--crit-soft)}
 .chip.opp{color:var(--orange);background:color-mix(in srgb,var(--orange) 12%,var(--surface))}
@@ -182,7 +155,7 @@ section{padding:clamp(46px,7vw,70px) 0}
 .statement{border-left:4px solid var(--orange);padding:8px 0 8px 26px;font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(22px,3.3vw,33px);line-height:1.15;max-width:24ch;color:var(--ink)}
 .statement small{display:block;font-family:"Manrope",sans-serif;font-weight:500;font-size:16px;color:var(--muted);margin-top:14px;letter-spacing:0;line-height:1.5}
 
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);-webkit-overflow-scrolling:touch}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:3px;box-shadow:var(--shadow);-webkit-overflow-scrolling:touch}
 table{border-collapse:collapse;width:100%;background:var(--surface);font-size:14.5px;min-width:440px}
 th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line)}
 thead th{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--paper-2)}
@@ -192,28 +165,28 @@ td .no{color:var(--crit);font-weight:700}
 .figtable td.num{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
 tr.hi td{background:color-mix(in srgb,var(--orange) 7%,var(--surface))}
 
-.audit{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.audit{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden}
 .audit .row{background:var(--surface);display:grid;grid-template-columns:1fr auto;gap:14px;padding:14px 20px;align-items:center}
 .audit .row .q{font-weight:500;font-size:15px}
 .audit .row .s{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--crit);text-align:right;white-space:nowrap}
 .audit .row .s.ok{color:var(--good)}
 
 /* COTIZADOR */
-.quoter-shell{background:var(--surface);border:1px solid var(--line-strong);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
+.quoter-shell{background:var(--surface);border:1px solid var(--line-strong);border-radius:3px;box-shadow:var(--shadow);overflow:hidden}
 .quoter-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 20px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,var(--navy),var(--navy-2))}
-.quoter-top .t{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#EAF3F8;display:flex;align-items:center;gap:9px}
+.quoter-top .t{font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#ECECFF;display:flex;align-items:center;gap:9px}
 .quoter-top .t .led{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(0,172,108,.3)}
-.quoter-top .demo{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(234,243,248,.75);border:1px solid rgba(234,243,248,.3);padding:3px 8px;border-radius:5px}
+.quoter-top .demo{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(236,236,255,.75);border:1px solid rgba(236,236,255,.3);padding:3px 8px;border-radius:999px}
 .quoter-body{display:grid;grid-template-columns:1.05fr .95fr}
 @media(max-width:820px){.quoter-body{grid-template-columns:1fr}}
 .q-form{padding:26px;border-right:1px solid var(--line)}
 @media(max-width:820px){.q-form{border-right:0;border-bottom:1px solid var(--line)}}
 .field{margin-bottom:18px}
 .field label{display:block;font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
-select,input[type=number]{width:100%;appearance:none;background:var(--paper-2);color:var(--ink);border:1px solid var(--line-strong);border-radius:7px;padding:11px 13px;font-family:"Manrope",sans-serif;font-size:15.5px;font-weight:500}
+select,input[type=number]{width:100%;appearance:none;background:var(--paper-2);color:var(--ink);border:1px solid var(--line-strong);border-radius:3px;padding:11px 13px;font-family:"Manrope",sans-serif;font-size:15.5px;font-weight:500}
 select:focus,input:focus{outline:2px solid var(--cyan);outline-offset:1px;border-color:var(--cyan)}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.seg button{appearance:none;cursor:pointer;background:var(--paper-2);color:var(--ink-soft);border:1px solid var(--line-strong);border-radius:7px;padding:10px 6px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:500;transition:.15s}
+.seg button{appearance:none;cursor:pointer;background:var(--paper-2);color:var(--ink-soft);border:1px solid var(--line-strong);border-radius:3px;padding:10px 6px;font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:500;transition:.15s}
 .seg button[aria-pressed=true]{background:var(--navy);color:#fff;border-color:var(--navy)}
 .seg button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
 .q-out{padding:26px;display:flex;flex-direction:column;gap:18px;background:linear-gradient(180deg,transparent,color-mix(in srgb,var(--cyan) 5%,transparent))}
@@ -224,17 +197,17 @@ select:focus,input:focus{outline:2px solid var(--cyan);outline-offset:1px;border
 .route .node small{font-size:10px;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;text-align:center}
 .route .path{flex:1;height:0;border-top:2px dashed var(--line-strong);position:relative}
 .route .path .days{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--surface);padding:0 8px;font-size:11px;color:var(--cyan);white-space:nowrap}
-.readout{border:1px solid var(--line);border-radius:10px;background:var(--surface);overflow:hidden}
+.readout{border:1px solid var(--line);border-radius:3px;background:var(--surface);overflow:hidden}
 .readout .main{padding:18px 20px 16px}
 .readout .lbl{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 .readout .val{font-family:"Archivo",sans-serif;font-weight:800;font-size:clamp(26px,4.4vw,38px);font-variant-numeric:tabular-nums;line-height:1.05;margin-top:5px;color:var(--ink)}
 .readout .val .cur{font-size:.5em;color:var(--muted);font-weight:600;vertical-align:.35em;margin-right:4px}
 .readout .sub{margin-top:6px;font-size:13px;color:var(--ink-soft)}
 .readout .foot{border-top:1px solid var(--line);padding:11px 20px;font-size:12px;color:var(--muted);background:var(--paper-2);line-height:1.45}
-.q-cta{appearance:none;cursor:pointer;width:100%;background:var(--orange);color:#fff;border:0;border-radius:8px;padding:14px;font-family:"Manrope",sans-serif;font-weight:700;font-size:15.5px;transition:.15s}
-.q-cta:hover{filter:brightness(1.06)}
+.q-cta{appearance:none;cursor:pointer;width:100%;background:var(--violet);color:#fff;border:0;border-radius:999px;padding:14px;font-family:"Manrope",sans-serif;font-weight:700;font-size:15.5px;letter-spacing:.01em;transition:.18s;box-shadow:0 10px 24px -12px rgba(30,20,80,.7)}
+.q-cta:hover{background:var(--violet-deep);transform:translateY(-1px)}
 .q-cta:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-.speedmsg{border:1px dashed var(--green);background:color-mix(in srgb,var(--green) 8%,var(--surface));border-radius:8px;padding:14px 16px;font-size:14px;color:var(--ink);display:none}
+.speedmsg{border:1px dashed var(--green);background:color-mix(in srgb,var(--green) 8%,var(--surface));border-radius:3px;padding:14px 16px;font-size:14px;color:var(--ink);display:none}
 .speedmsg.show{display:block;animation:pop .4s ease}
 .speedmsg b{color:var(--good)}
 .speedmsg small{display:block;margin-top:6px;color:var(--muted);font-size:12px}
@@ -254,29 +227,29 @@ select:focus,input:focus{outline:2px solid var(--cyan);outline-offset:1px;border
 .phase li{margin:4px 0}
 
 /* WORK SEQUENCE (no pricing) */
-.seqcard{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:24px;box-shadow:var(--shadow)}
+.seqcard{background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:24px;box-shadow:var(--shadow)}
 .seqstep{display:flex;gap:16px;padding:16px 0;border-bottom:1px dashed var(--line)}
 .seqstep:last-child{border-bottom:0}
 .seqstep .num{font-family:"Archivo",sans-serif;font-weight:800;font-size:24px;color:var(--cyan);line-height:1;min-width:28px}
 .seqstep .num.o{color:var(--orange)}
 .seqstep h4{font-size:16.5px;font-weight:800;margin-bottom:4px;color:var(--ink)}
 .seqstep p{font-size:14.5px;color:var(--ink-soft);line-height:1.5}
-.pending{margin-top:18px;padding:16px 20px;border:1px dashed var(--line-strong);border-radius:10px;background:var(--paper-2);font-size:14.5px;color:var(--ink-soft)}
+.pending{margin-top:18px;padding:16px 20px;border:1px dashed var(--line-strong);border-radius:3px;background:var(--paper-2);font-size:14.5px;color:var(--ink-soft)}
 .pending b{color:var(--ink)}
 .args{display:grid;gap:12px}
-.arg{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.arg{background:var(--paper-2);border:1px solid var(--line);border-radius:3px;padding:16px 18px}
 .arg .t{font-weight:700;margin-bottom:5px;font-size:15.5px;color:var(--ink)}
 .arg p{font-size:14px;color:var(--ink-soft);line-height:1.5}
 
 /* CLOSE */
-.close{position:relative;overflow:hidden;background:var(--navy-deep);color:#EAF3F8;border-radius:14px;padding:clamp(30px,6vw,54px);text-align:center}
-.close::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 0%,rgba(0,146,207,.22),transparent 60%),radial-gradient(circle at 80% 100%,rgba(241,89,34,.16),transparent 55%)}
+.close{position:relative;overflow:hidden;background:var(--grad-brand);color:#ECECFF;border-radius:3px;padding:clamp(30px,6vw,54px);text-align:center}
+.close::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 22% 0%,rgba(0,230,140,.20),transparent 55%),radial-gradient(circle at 85% 100%,rgba(255,60,20,.16),transparent 55%)}
 .close > *{position:relative;z-index:2}
-.close .kicker{color:rgba(180,210,228,.75)}
+.close .kicker{color:rgba(198,196,236,.75)}
 .close h2{font-size:clamp(24px,4.4vw,40px);font-weight:900;max-width:22ch;margin:14px auto 0;color:#fff}
-.close p{max-width:52ch;margin:16px auto 0;color:rgba(224,236,244,.85);font-size:16.5px}
+.close p{max-width:52ch;margin:16px auto 0;color:rgba(236,236,255,.85);font-size:16.5px}
 .close .steps{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
-.close .steps span{font-family:"IBM Plex Mono",monospace;font-size:12px;color:#EAF3F8;border:1px solid rgba(146,193,220,.35);border-radius:20px;padding:8px 15px}
+.close .steps span{font-family:"IBM Plex Mono",monospace;font-size:12px;color:#ECECFF;border:1px solid rgba(184,182,235,.35);border-radius:999px;padding:8px 15px}
 
 footer{padding:38px 0 56px;border-top:1px solid var(--line);margin-top:20px}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
@@ -290,16 +263,14 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
 
 <nav>
   <div class="wrap">
-    <div class="nav-brand"><img src="logo-dilema.png" alt="Dilema Creative"><span class="div"></span>DP World</div>
+    <div class="nav-brand"><img src="logo-dilema-white.png" alt="Dilema Creative"><span class="div"></span>DP World</div>
     <div class="nav-links">
       <a href="#diagnostico">Diagnóstico</a>
       <a href="#activo">El activo</a>
       <a href="#motor">El motor</a>
       <a href="#plan">Plan</a>
-      <a href="#cotizador">Cotizador</a>
-      <a href="#trabajo">Cómo trabajamos</a>
+      <a href="#cotizador">La posibilidad</a>
     </div>
-    <button class="ttoggle" id="tt" aria-label="Cambiar tema">◐</button>
   </div>
 </nav>
 
@@ -307,7 +278,7 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
   <canvas id="flow" aria-hidden="true"></canvas>
   <div class="wrap">
     <div class="cobrand reveal">
-      <span class="logo-chip"><img src="logo-dilema.png" alt="Dilema Creative"></span>
+      <span class="logo-chip"><img src="logo-dilema-trim.png" alt="Dilema Creative"></span>
       <span class="x">×</span>
       <span class="client">Propuesta para<b>DP World Argentina</b></span>
     </div>
@@ -315,12 +286,12 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
       <div><span class="k">Documento</span><span class="v">Motor de demanda<br>Freight Forwarding</span></div>
       <div><span class="k">Para</span><span class="v">DP World Argentina<br>Oficina logística BA</span></div>
       <div><span class="k">Preparado por</span><span class="v">Dilema Creative</span></div>
-      <div><span class="k">Fecha · Ref</span><span class="v">02·09·2026<br>AR-FF-01</span></div>
+      <div><span class="k">Fecha · Ref</span><span class="v">07·09·2026<br>AR-FF-01</span></div>
     </div>
 
-    <h1 class="thesis reveal">El único operador de Argentina que es <span class="hl">dueño del puerto</span> por donde pasa la carga.</h1>
+    <h1 class="thesis reveal">El único forwarder de Argentina que es <span class="hl">dueño de la terminal</span> por donde entra la carga.</h1>
 
-    <p class="lede reveal">Abrieron la unidad de forwarding hace nueve meses, con la mejor infraestructura del país: uno de cada cuatro contenedores entra por su terminal. Lo que falta es el motor comercial. La demanda que necesitan <b>ya está identificada, con nombre y apellido, en la data pública de aduana</b> — y hoy <span class="flag">nadie la está yendo a buscar.</span> Esta propuesta es ese motor.</p>
+    <p class="lede reveal">Abrieron la unidad de forwarding hace nueve meses, con la mejor infraestructura del país: uno de cada cuatro contenedores entra por su terminal. Lo que falta es el motor comercial. La demanda que necesitan <b>ya está identificada, con nombre y apellido, en la data pública de aduana</b>. Y hoy, <span class="flag">nadie la está yendo a buscar.</span> Esta propuesta es ese motor.</p>
 
     <div class="statstrip reveal">
       <div class="stat"><div class="n">~25%</div><div class="l">de la carga contenerizada de Argentina entra por TRP, su terminal</div></div>
@@ -336,12 +307,12 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
     <div class="sec-head reveal"><span class="sec-code">§ 01</span><h2 class="sec-title">Diagnóstico</h2></div>
     <div class="grid g2">
       <div class="prose reveal">
-        <p><strong>DP World dejó de ser un operador portuario.</strong> Desde 2023 abrió más de 180 oficinas logísticas en el mundo, 35 en América. Es un rollout global de freight forwarding montado sobre su red de puertos, no un experimento local.</p>
+        <p><strong>DP World dejó de ser un operador portuario.</strong> Desde 2023 abrió más de 180 oficinas logísticas en el mundo, decenas de ellas en América. Es un despliegue global de freight forwarding montado sobre su red de puertos, no un experimento local.</p>
         <p>En Argentina hay dos piezas. Una es <strong>Terminales Río de la Plata (TRP)</strong>, Puerto Nuevo: la terminal de contenedores más grande del país, 430.000 m². La otra es la <strong>oficina logística de Buenos Aires, abierta el 26 de noviembre de 2025</strong>: marítimo y aéreo FCL y LCL, transporte doméstico, despacho aduanero, seguro de carga, depósito fiscal y no fiscal.</p>
         <p>La unidad tiene nueve meses, cero cartera propia de forwarding y cero forma de generar demanda local. Y hay un dato que ordena toda la estrategia: <strong>el grueso de la demanda de forwarding no busca en Google</strong>, ya tiene proveedor. Al que factura hay que identificarlo e ir a buscarlo. Por eso el centro de esta propuesta es un motor de prospección, no una campaña.</p>
       </div>
       <div class="grid" style="align-content:start">
-        <div class="card reveal"><span class="chip info">Contexto de mercado</span><h3>La ventana está abierta ahora</h3><p>El mercado de freight y logística argentino ronda los USD 29,7 mil millones en 2026. Importaciones proyectadas: USD 81.498 millones, récord histórico. La desregulación 2024–2026 abrió una franja de importadores nuevos que antes no existía como mercado.</p></div>
+        <div class="card reveal"><span class="chip info">Contexto de mercado</span><h3>La ventana está abierta ahora</h3><p>El mercado logístico argentino se mide en decenas de miles de millones de dólares y las importaciones vienen en niveles récord. La desregulación 2024–2026 abrió una franja de importadores nuevos que antes no existía como mercado. Es el momento de tomar posición.</p></div>
         <div class="card reveal"><span class="chip good">El dato que ordena todo</span><h3>La demanda no viene: se va a buscar</h3><p>Las importaciones argentinas son data pública, con nombre del importador. Se sabe qué trae cada empresa, desde dónde, cuánto y con qué frecuencia. Para un forwarder eso es un mapa exacto de su mercado, y ningún competidor local lo está explotando de forma sistemática.</p></div>
       </div>
     </div>
@@ -356,7 +327,7 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
         <div class="row"><span class="q">Blog o contenido local para el importador</span><span class="s">No existe</span></div>
         <div class="row"><span class="q">Casos de éxito locales</span><span class="s">No existe</span></div>
       </div>
-      <p class="note">El plan ataca esta lista en orden de retorno: primero el motor de prospección, que no depende de ningún activo digital existente. La capa web llega al final (§ 08).</p>
+      <p class="note">El plan ataca esta lista en orden de retorno: primero el motor de prospección, que no depende de ningún activo digital existente. La capa web llega al final (§ 07).</p>
     </div>
   </div>
 </section>
@@ -368,12 +339,12 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
     <p class="sec-sub reveal">Seis cosas que salieron de investigar el negocio y la presencia digital. Las primeras dos abren la puerta, la tercera la mantiene abierta sin conflicto.</p>
 
     <div class="grid g3">
-      <div class="card reveal"><span class="chip opp">Oportunidad única</span><h3>Son dueños del puerto</h3><p>Operan la terminal por donde pasa uno de cada cuatro contenedores del país. Previsibilidad, menos demoras y estadía, trazabilidad real y un solo interlocutor del barco a la puerta. Ningún otro forwarder argentino puede decir esto.</p></div>
-      <div class="card reveal"><span class="chip crit">Crítico</span><h3>La captura está tapiada</h3><p>La página de contacto de Argentina solo tiene teléfono, mail y horario 9 a 18. Sin formulario, sin cotizador, sin blog, sitio mayormente en inglés. Cada consulta que no encuentra por dónde entrar es una operación que cierra otro.</p></div>
+      <div class="card reveal"><span class="chip opp">Oportunidad única</span><h3>Son dueños de la terminal</h3><p>Operan la terminal por donde pasa cerca de uno de cada cuatro contenedores del país. Previsibilidad, menos demoras y estadía, trazabilidad real y un solo interlocutor del barco a la puerta. Ningún otro forwarder argentino puede decir esto.</p></div>
+      <div class="card reveal"><span class="chip crit">A resolver</span><h3>Hoy no hay dónde capturar la consulta</h3><p>El contacto local pasa por teléfono y mail, en horario de oficina. No hay un canal que capture y registre la consulta cuando entra, ni un sistema que la derive al vendedor. Cada consulta que no encuentra por dónde entrar es una operación que atiende otro.</p></div>
       <div class="card reveal"><span class="chip risk">Riesgo a manejar</span><h3>Conflicto de canal</h3><p>Los forwarders que operan por TRP son clientes y ahora competidores. La salida limpia, y conviene que salga de nosotros: targetear con data pública de aduana, nunca con data de terminal. Segmento: dueño de la carga, no intermediarios.</p></div>
-      <div class="card reveal"><span class="chip info">Brecha</span><h3>El branding global no sirve acá</h3><p>DP World Tour de golf hasta 2035, cricket, "Beyond Boundaries". Nada de eso le habla al jefe de comex de una PyME de Villa Martelli. Tienen la marca resuelta y cero motor de demanda local. No tocamos la marca: construimos la máquina de leads.</p></div>
-      <div class="card reveal"><span class="chip opp">Palanca a confirmar</span><h3>CARGOES Finance</h3><p>La plataforma de DP World que financia comercio a PyMEs. En Argentina, donde el dolor número uno del importador es el capital de trabajo, un forwarder que además financia es una propuesta durísima. Sería el mejor lead magnet posible.</p></div>
-      <div class="card reveal"><span class="chip risk">Competencia</span><h3>Andreani arranca al lado</h3><p>Andreani Global Logistic lanzó como agente de carga internacional. Es el competidor local más peligroso porque arranca con más de 100.000 PyMEs ya clientes del grupo. La ventana no es infinita.</p></div>
+      <div class="card reveal"><span class="chip info">La marca ya está resuelta</span><h3>Falta la demanda local</h3><p>Los sponsorships globales (golf, cricket, "Beyond Boundaries") construyen marca a nivel mundial. Es una fortaleza: liberan el foco local para lo único que falta, que es generar demanda en el jefe de comex argentino. No tocamos la marca: construimos la máquina de leads.</p></div>
+      <div class="card reveal"><span class="chip opp">Palanca a confirmar</span><h3>CARGOES Finance</h3><p>Si la plataforma de financiamiento de comercio de DP World está habilitada en el país, cambia el juego: en Argentina el dolor número uno del importador es el capital de trabajo, y un forwarder que además financia es una propuesta durísima. Sería un lead magnet potentísimo.</p></div>
+      <div class="card reveal"><span class="chip risk">Competencia</span><h3>Andreani arranca al lado</h3><p>Andreani Global Logistic lanzó como agente de carga internacional. Es el competidor local más peligroso porque arranca con una base enorme de PyMEs ya clientes del grupo. La ventana no es infinita.</p></div>
     </div>
 
     <div style="margin-top:38px" class="statement reveal">
@@ -387,9 +358,9 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
 <section id="motor">
   <div class="wrap">
     <div class="sec-head reveal"><span class="sec-code">§ 03</span><h2 class="sec-title">El motor: prospección integrada</h2></div>
-    <p class="sec-sub reveal">El centro de la propuesta. Un solo flujo que arranca en la data de aduana y termina en una conversación con el decisor correcto, con LinkedIn, email y cotización integrados, y filtrado automático en el medio. Los vendedores no administran planillas: atienden conversaciones.</p>
+    <p class="sec-sub reveal">El centro de la propuesta: un solo flujo que arranca en la data de aduana y termina en una conversación con el decisor correcto. LinkedIn, email y cotización integrados, con filtrado automático en el medio. Los vendedores no manejan planillas: atienden conversaciones.</p>
 
-    <div class="grid g2" style="align-items:start">
+    <div class="grid">
       <div class="seqcard reveal">
         <div class="seqstep"><span class="num o">1</span><div><h4>Radar de aduana</h4><p>El universo completo de importadores, armado desde data pública: qué trae cada empresa, desde qué origen, cuánto y con qué frecuencia. El filtrado es automático: solo pasan los perfiles que encajan con los lanes y el tipo de cliente que definamos juntos.</p></div></div>
         <div class="seqstep"><span class="num">2</span><div><h4>Identificación del decisor</h4><p>Para cada empresa filtrada, la persona correcta: dueño, gerente de compras o jefe de comex, con su perfil de LinkedIn y su casilla corporativa verificada. Sales Navigator y enriquecimiento de datos, integrados al flujo.</p></div></div>
@@ -397,13 +368,6 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
         <div class="seqstep"><span class="num">4</span><div><h4>Secuencia de email</h4><p>El seguimiento sale de la casilla corporativa real del vendedor, a ritmo bajo y sostenido, con opt-out en cada envío. Ningún mensaje sale de un dominio inventado ni en nombre de nadie.</p></div></div>
         <div class="seqstep"><span class="num">5</span><div><h4>La cotización como respuesta</h4><p>Cuando el prospecto muestra interés, el vendedor no propone "una llamada para ver": manda un rango concreto para su lane, al instante. El diferencial de ser dueños de la terminal se demuestra en el primer intercambio, y se ahorra un paso entero del ciclo.</p></div></div>
         <div class="seqstep"><span class="num">6</span><div><h4>Orquestación y medición</h4><p>Todo corre sobre automatizaciones propias: quién está en qué paso, quién respondió, alerta inmediata al vendedor y cada conversación registrada con su origen. Nada depende de la memoria de nadie.</p></div></div>
-      </div>
-
-      <div class="grid" style="align-content:start">
-        <div class="card reveal"><span class="chip good">Reparto de roles</span><h3>Dilema entrega conversaciones, sus vendedores venden</h3><p>Dilema arma la lista, escribe las secuencias, opera la máquina y mide todo. Nadie externo habla en nombre de DP World: cada mensaje sale del perfil y la casilla de una persona real del equipo.</p></div>
-        <div class="card reveal"><span class="chip info">Por qué este formato</span><h3>El único que pasa el filtro de una multinacional</h3><p>Nunca desde el dominio principal: quemar dpworld.com sería un problema global. El híbrido LinkedIn más casilla corporativa real es el formato que IT y compliance pueden aprobar sin fricción, y escala cuando la operación lo pida.</p></div>
-        <div class="card reveal"><span class="chip info">Nota legal, mejor adelantarla</span><h3>Ley 25.326</h3><p>La data de aduana es pública, pero el envío comercial no solicitado cae bajo Protección de Datos Personales. B2B a casillas corporativas es práctica habitual, pero toda secuencia lleva opt-out visible. En una empresa con compliance, adelantarse suma.</p></div>
-        <div class="card reveal"><span class="chip risk">No mezclar</span><h3>Prospección ≠ email marketing</h3><p>Son sistemas distintos: herramienta, dominio, base y métrica diferentes. La prospección busca la primera respuesta; el email marketing nutre al que ya dejó sus datos. Mezclarlos quema la entregabilidad de los dos.</p></div>
       </div>
     </div>
   </div>
@@ -415,7 +379,7 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
     <div class="sec-head reveal"><span class="sec-code">§ 04</span><h2 class="sec-title">Google Ads: la red para la intención</h2></div>
     <p class="sec-sub reveal">El complemento del motor. La minoría que sí busca activamente un forwarder es la demanda más caliente que existe, y hoy no hay nadie de DP World esperándola del otro lado.</p>
     <div class="grid g3">
-      <div class="card reveal"><span class="chip good">Fondo del embudo</span><h3>Solo intención de compra</h3><p>Búsquedas que solo hace alguien que necesita mover carga: cotización de flete internacional, agente de carga, despacho de aduana. Cero volumen genérico, cero curiosos. Presupuesto quirúrgico donde la decisión ya está en marcha.</p></div>
+      <div class="card reveal"><span class="chip good">Fondo del embudo</span><h3>Solo intención de compra</h3><p>Búsquedas que solo hace alguien que necesita mover carga: cotización de flete internacional, agente de carga, despacho de aduana. Cero volumen genérico, cero curiosos. Presupuesto acotado, puesto donde la decisión ya está en marcha.</p></div>
       <div class="card reveal"><span class="chip opp">Comparación directa</span><h3>Marca de competidores</h3><p>Quien busca un forwarder por nombre está en modo proveedor. Aparecer en esa búsqueda con el diferencial de la terminal es de las inversiones más rentables del canal.</p></div>
       <div class="card reveal"><span class="chip info">Siempre encendido</span><h3>Retargeting</h3><p>El que cotizó y no cerró, el que visitó y no dejó datos. En un ciclo de compra largo como el de logística, quedarse presente convierte varias veces mejor que el tráfico frío.</p></div>
     </div>
@@ -426,7 +390,7 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
 <section id="sistema">
   <div class="wrap">
     <div class="sec-head reveal"><span class="sec-code">§ 05</span><h2 class="sec-title">El sistema a medida: donde vive la operación</h2></div>
-    <p class="sec-sub reveal">El motor genera conversaciones, cotizaciones y clientes. Todo eso necesita un lugar donde vivir, y no tiene por qué ser una herramienta enlatada ni depender de aprobaciones regionales: se construye a medida de la unidad, empezando por lo mínimo y creciendo por módulos según lo que la operación pida.</p>
+    <p class="sec-sub reveal">El motor genera conversaciones, cotizaciones y clientes, y todo eso necesita un lugar donde vivir. No tiene por qué ser un software cerrado ni depender de aprobaciones regionales: se construye a medida de la unidad, arrancando por lo mínimo y creciendo por módulos según lo que la operación pida.</p>
     <div class="grid g2">
       <div class="card reveal"><span class="chip good">Núcleo</span><h3>El CRM del flujo</h3><p>El pipeline completo de la prospección: cada empresa, cada conversación con su historial, en qué paso está y de dónde salió. Alertas al vendedor, estados claros y atribución de cada cliente nuevo a su origen. Nace integrado al motor, no pegado después.</p></div>
       <div class="card reveal"><span class="chip info">Módulo</span><h3>Integraciones de IA</h3><p>Clasificación automática de respuestas, priorización de prospectos, redacción asistida de secuencias, resúmenes de cuenta antes de cada llamada. La IA trabaja adentro del sistema, sobre los datos reales de la operación.</p></div>
@@ -444,49 +408,20 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
 
     <div class="phases reveal">
       <div class="phase zero"><span class="pcode">FASE 00</span><h3>El motor de prospección integrada</h3><p>Lo de la § 03 funcionando de punta a punta: universo de aduana armado y filtrado, decisores identificados, secuencias aprobadas por ustedes, orquestación y registro de cada conversación. Es el canal de mayor retorno inmediato y no espera rankings ni algoritmos.</p></div>
-      <div class="phase"><span class="pcode">FASE 01</span><h3>LinkedIn orgánico, en paralelo</h3><p>El canal natural del comprador corporativo. Presencia sostenida de los vendedores con dirección editorial nuestra, y la cara visible de la unidad al frente. Los posts de personas alcanzan 5 a 10 veces más que los de página. Después, ABM pago sobre la misma lista del motor.</p></div>
-      <div class="phase"><span class="pcode">FASE 02</span><h3>Google Ads de intención</h3><p>La red del fondo del embudo (§ 04): búsquedas de compra, marca de competidores y retargeting siempre encendido.</p></div>
+      <div class="phase"><span class="pcode">FASE 01</span><h3>LinkedIn de los vendedores, en paralelo</h3><p>El canal natural del comprador corporativo, con los vendedores y la cara visible de la unidad al frente. Los posts de personas alcanzan mucho más que los de una página de empresa. La parte de contenido se coordina con su departamento de social media: ellos ya manejan la marca, nosotros ponemos el ángulo comercial y la lista de a quién llegarle. Después, publicidad dirigida a esas mismas empresas.</p></div>
+      <div class="phase"><span class="pcode">FASE 02</span><h3>Google Ads de intención</h3><p>La red del fondo del embudo (§ 04): búsquedas de compra, marca de competidores y retargeting siempre encendido. Es también el canal que arranca más rápido: se enciende y captura demanda desde el primer día.</p></div>
       <div class="phase"><span class="pcode">FASE 03</span><h3>Sistema a medida, por módulos</h3><p>El CRM del flujo nace con el motor. Desde ahí, los módulos que la operación pida (§ 05): IA, finanzas, reporting regional.</p></div>
-      <div class="phase"><span class="pcode">FASE 04</span><h3>SEO y GEO en castellano</h3><p>Nada de "qué es un freight forwarder". Por lane, por producto y por dolor: "Importar desde Ningbo a Buenos Aires", "Cómo evitar demoras y estadía en el Puerto" (autoridad única: es su terminal). Cuando alguien le pregunta a ChatGPT cuánto sale traer algo, el que tiene estas páginas es el citado.</p></div>
-      <div class="phase"><span class="pcode">FASE 05</span><h3>Ecosistema</h3><p>Programa formal de referidos con despachantes de aduana y contadores de comex (rinden 3 a 5 veces más que los informales, y DP World ya tiene la relación por la terminal). Ferias con protocolo digital, Expo Logisti-k. Contenido en inglés para captar nominaciones del exterior.</p></div>
-      <div class="phase"><span class="pcode">FASE 06</span><h3>La capa web con cotizador</h3><p>La frutilla del postre (§ 08): la puerta de entrada pública que hoy ningún operador local tiene. Todo lo anterior funciona sin ella; con ella, el sistema queda completo.</p></div>
+      <div class="phase"><span class="pcode">FASE 04</span><h3>Ecosistema</h3><p>Programa formal de referidos con despachantes de aduana y contadores de comex (rinden mucho más que los informales, y DP World ya tiene la relación por la terminal). Ferias con protocolo digital, Expo Logisti-k.</p></div>
+      <div class="phase"><span class="pcode">POSIBILIDAD</span><h3>La capa web: un sitio propio</h3><p>La frutilla del postre (§ 07). Un sitio local con cotizador es la puerta de entrada pública que hoy ningún operador argentino tiene, y es lo único que abre SEO y visibilidad en IA. Queda al final y como posibilidad a evaluar juntos: todo lo anterior funciona sin ella.</p></div>
     </div>
   </div>
 </section>
 
-<!-- 07 MATEMATICA -->
-<section id="matematica">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 07</span><h2 class="sec-title">La matemática</h2></div>
-    <p class="sec-sub reveal">En logística el reflejo es tratar al marketing como gasto. La cuenta hecha lo pone donde va: adquisición.</p>
-    <div class="grid g2">
-      <div class="tablewrap reveal">
-        <table class="figtable">
-          <thead><tr><th>Métrica de la industria</th><th style="text-align:right">Referencia</th></tr></thead>
-          <tbody>
-            <tr><td>Margen bruto por contenedor</td><td class="num">USD 300–1.000</td></tr>
-            <tr><td>Importador de 2 FCL/mes, margen anual</td><td class="num">USD 7.000–24.000</td></tr>
-            <tr><td>CAC sano de un forwarder mediano</td><td class="num">&lt; USD 2.000</td></tr>
-            <tr><td>Ratio LTV:CAC objetivo</td><td class="num">5 : 1</td></tr>
-            <tr><td>Conversión cotización → embarque</td><td class="num">15–30%</td></tr>
-            <tr><td>MQLs/mes de un forwarder mediano</td><td class="num">30–80</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="prose reveal">
-        <p><strong>Un cliente vale muchísimo más que un lead.</strong> El negocio es recurrente y de relación: nadie cambia de forwarder por 50 dólares. Se puede pagar tranquilamente USD 100 a 300 por lead calificado y seguir con la ecuación sana.</p>
-        <p>Con 3 o 4 clientes nuevos por mes, cada uno con USD 7.000 a 24.000 de margen bruto anual recurrente, son unos 40 clientes al año y entre <strong>USD 280.000 y 960.000 de margen</strong>.</p>
-        <div class="statement" style="font-size:clamp(20px,2.8vw,26px);margin-top:22px">Con conseguir 3 o 4 clientes nuevos por mes, todo lo demás está pago.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 08 COTIZADOR -->
+<!-- 07 COTIZADOR -->
 <section id="cotizador">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 08</span><h2 class="sec-title">La frutilla del postre: el cotizador</h2></div>
-    <p class="sec-sub reveal">Todo lo anterior funciona sin tocar el sitio. Esta es la capa final: la puerta de entrada pública que hoy ningún operador local tiene. Y tiene una virtud clave: <strong>no necesita esperar a nada para trabajar</strong>. Como herramienta con link propio, los vendedores la pueden mandar dentro del flujo desde el primer día, precargada con el lane del prospecto.</p>
+    <div class="sec-head reveal"><span class="sec-code">§ 07</span><h2 class="sec-title">La frutilla del postre: un sitio propio</h2></div>
+    <p class="sec-sub reveal">Todo lo anterior funciona sin tocar el sitio. Esta es la capa final y va como <strong>posibilidad a evaluar juntos</strong>: generar un sitio local propio, la puerta de entrada pública que hoy ningún operador argentino tiene. Con él se abren dos cosas que sin él no existen: el cotizador embebido y la visibilidad orgánica (SEO y GEO). Y el cotizador tiene una virtud aparte: <strong>no necesita el sitio para trabajar</strong>. Como herramienta con link propio, los vendedores lo pueden mandar dentro del flujo desde el primer día, precargado con el lane del prospecto.</p>
 
     <div style="margin-bottom:26px" class="reveal">
       <p class="kicker" style="margin-bottom:14px">Cotización online · DP World vs. la competencia</p>
@@ -503,7 +438,7 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
           </tbody>
         </table>
       </div>
-      <p class="note">El 78% de los compradores B2B elige al primer proveedor que responde. Flexport pasó de cero a USD 8.000 millones con "cotización en menos de 24 horas". DHL, Kuehne+Nagel y DSV convergieron todos a lo mismo.</p>
+      <p class="note">En B2B, la mayoría de las operaciones las gana el proveedor que responde primero. Flexport se construyó sobre la cotización instantánea, y DHL, Kuehne+Nagel y DSV convergieron todos a lo mismo. Es el estándar de la industria; DP World Argentina todavía no lo tiene.</p>
     </div>
 
     <div class="quoter-shell reveal">
@@ -558,7 +493,7 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
           </div>
           <button class="q-cta" id="qcta">Recibir cotización en firme →</button>
           <div class="speedmsg" id="speed">
-            <b>✓ Consulta registrada.</b> En la versión real, un vendedor de DP World recibe la alerta y te contacta en <b>menos de 15 minutos</b>. Ese es el cambio de proceso que gana el 78% de las operaciones.
+            <b>✓ Consulta registrada.</b> En la versión real, un vendedor de DP World recibe la alerta y te contacta en <b>menos de 15 minutos</b>. Responder primero es lo que gana la operación.
             <small>Demo. No se envía ni se guarda ningún dato.</small>
           </div>
         </div>
@@ -568,51 +503,26 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
     <div class="grid g3" style="margin-top:22px">
       <div class="card reveal"><h3 style="font-size:16px">Herramienta, no landing</h3><p>Vive en un link propio. Puede embeberse en una página local cuando corresponda, o viajar en el flujo de prospección como lo que es: una demostración del diferencial.</p></div>
       <div class="card reveal"><h3 style="font-size:16px">SLA de 15 minutos</h3><p>Alerta al vendedor y contacto inmediato. Es un cambio de proceso, no de marketing, y es el de mayor impacto de toda la lista.</p></div>
-      <div class="card reveal"><h3 style="font-size:16px">Motor de GEO</h3><p>Cada lane y producto puede ser una página con el cotizador embebido. Cuando alguien le pregunta a una IA cuánto sale traer algo, el que tiene estas páginas es el citado. Hoy no lo tomó nadie.</p></div>
+      <div class="card reveal"><h3 style="font-size:16px">SEO y visibilidad en IA</h3><p>Con el sitio se abre otro canal: rankear por lane y producto en castellano, y trabajar para aparecer en las respuestas de las IA, donde hoy se cita a la competencia. Es una posibilidad que depende del sitio, no algo que exista sin él.</p></div>
     </div>
   </div>
 </section>
 
-<!-- 09 COMO TRABAJAMOS -->
-<section id="trabajo">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 09</span><h2 class="sec-title">Cómo trabajamos</h2></div>
-    <p class="sec-sub reveal">A una multinacional no se le vende un "proyecto de 3 meses y después vemos". Se invierte la secuencia: compran algo concreto, no una promesa. Cada paso baja el riesgo percibido.</p>
-
-    <div class="grid g2" style="align-items:start">
-      <div class="seqcard reveal">
-        <div class="seqstep"><span class="num o">1</span><div><h4>Fase 0, proyecto cerrado</h4><p>El motor de prospección funcionando: universo de aduana armado y filtrado, decisores identificados, secuencias aprobadas, orquestación y registro de conversaciones operativos, con el CRM del flujo como base.</p></div></div>
-        <div class="seqstep"><span class="num">2</span><div><h4>Piloto de 90 días</h4><p>Operación con KPIs cerrados por escrito: conversaciones abiertas, leads calificados, costo por lead, pipeline generado. Si no funciona, se corta antes de quemar la relación.</p></div></div>
-        <div class="seqstep"><span class="num">3</span><div><h4>Contrato anual renovable</h4><p>Una vez que el piloto muestra la curva. La operación completa: prospección, campañas, sistema a medida, contenido y reporting.</p></div></div>
-        <div class="pending"><b>La inversión se define en conjunto.</b> El alcance exacto de la Fase 0 y el esquema de contratación se cierran en la próxima conversación, y los rangos se ajustan ahí.</div>
-      </div>
-
-      <div class="args">
-        <div class="arg reveal"><div class="t">Queda por debajo del piso de su propio sector</div><p>Un forwarder mediano invierte 3% a 7% de su facturación en marketing. Contra lo que proyecte facturar la unidad, cualquier propuesta seria queda por debajo de ese benchmark.</p></div>
-        <div class="arg reveal"><div class="t">La cuenta de retorno</div><p>40 clientes nuevos al año, cada uno USD 7.000 a 24.000 de margen recurrente. Entre 280.000 y 960.000 de margen bruto anual. La adquisición se paga varias veces.</p></div>
-        <div class="arg reveal"><div class="t">El scope es quirúrgico a propósito</div><p>No pedimos aprobación de marca global ni tocamos ningún activo global. El motor entero corre sobre herramientas propias y perfiles del equipo local. Eso baja la fricción de IT y la política interna.</p></div>
-        <div class="arg reveal"><div class="t">Se empieza por donde más retorno hay</div><p>La prospección integrada no espera rankings ni fases de aprendizaje de algoritmos: las primeras conversaciones con importadores reales llegan durante el piloto.</p></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 10 DILEMA -->
+<!-- 08 DILEMA -->
 <section id="dilema">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="sec-code">§ 10</span><h2 class="sec-title">Qué aporta Dilema</h2></div>
+    <div class="sec-head reveal"><span class="sec-code">§ 08</span><h2 class="sec-title">Qué aporta Dilema</h2></div>
     <p class="sec-sub reveal">No es una cuenta de "manejame Meta". Es un sistema de adquisición completo, y ahí Dilema tiene todo el stack en un solo lugar.</p>
     <div class="tablewrap reveal">
       <table>
         <thead><tr><th>Necesidad</th><th>Qué ponemos</th></tr></thead>
         <tbody>
           <tr><td>Prospección integrada: data de aduana, filtrado, secuencias, orquestación</td><td>Prospecting + Automatizaciones</td></tr>
-          <tr><td>Google Ads de intención, retargeting, LinkedIn ABM</td><td>Paid Media</td></tr>
+          <tr><td>Google Ads de intención, retargeting y publicidad dirigida en LinkedIn</td><td>Paid Media</td></tr>
           <tr><td>Sistema a medida: CRM del flujo, módulos financieros, integraciones de IA</td><td>Programador Web</td></tr>
-          <tr><td>Contenido en castellano que rankea y que citan las IA</td><td>SEO &amp; GEO + Creativo &amp; Copy</td></tr>
           <tr><td>Nurturing por tipo de carga y estacionalidad</td><td>Email Marketing</td></tr>
-          <tr><td>Cotizador, captura web y tracking con atribución</td><td>Programador Web</td></tr>
-          <tr><td>Panel de MQL, CAC, cotizaciones y embarques por fuente</td><td>Reporting &amp; Analytics</td></tr>
+          <tr><td>Cotizador y, como posibilidad, un sitio propio con captura y atribución</td><td>Programador Web</td></tr>
+          <tr><td>Panel de leads, costo por lead, cotizaciones y embarques por fuente</td><td>Reporting &amp; Analytics</td></tr>
         </tbody>
       </table>
     </div>
@@ -624,29 +534,19 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
     <div class="close reveal">
       <p class="kicker">El pitch, en una frase</p>
       <h2>Cada importador del país figura en la data pública de aduana. Construimos el motor que los va a buscar, con sus vendedores al frente.</h2>
-      <p>No pedimos aprobación de marca global. Pedimos presupuesto local de generación de demanda, con KPI de conversaciones, leads y pipeline. Empezamos por la Fase 0: el motor andando y midiendo desde el primer día.</p>
-      <div class="steps">
-        <span>01 · Fase 0 · el motor andando</span>
-        <span>02 · Piloto 90 días</span>
-        <span>03 · Anual</span>
-      </div>
     </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <div class="foot-brand"><span class="logo-chip"><img src="logo-dilema.png" alt="Dilema Creative"></span></div>
-    <div class="meta">Motor de demanda · DP World Argentina<br>REF AR-FF-01 · 02·09·2026 · Documento de trabajo</div>
+    <div class="foot-brand"><span class="logo-chip"><img src="logo-dilema-trim.png" alt="Dilema Creative"></span></div>
+    <div class="meta">Motor de demanda · DP World Argentina<br>REF AR-FF-01 · 07·09·2026 · Documento de trabajo</div>
   </div>
 </footer>
 
 <script>
 (function(){
-  var tt=document.getElementById('tt');
-  function cur(){return document.documentElement.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');}
-  tt.addEventListener('click',function(){document.documentElement.setAttribute('data-theme',cur()==='dark'?'light':'dark');});
-
   var rm=matchMedia('(prefers-reduced-motion:reduce)').matches;
   var els=document.querySelectorAll('.reveal');
   if(rm||!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});}
@@ -656,7 +556,7 @@ footer .meta{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--
   var cv=document.getElementById('flow'),ctx=cv&&cv.getContext('2d');
   if(cv&&ctx){
     var W,H,dpr,t=0,lines,raf;
-    var cols=['#0092CF','#00AC6C','#F15922','#9D7E3F','#3AA0D8'];
+    var cols=['#8B8FE0','#00E68C','#FF3C14','#B8B6EB','#00C6AD'];
     function build(){
       lines=[];
       var n=cols.length;
