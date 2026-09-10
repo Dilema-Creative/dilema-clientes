@@ -1912,7 +1912,7 @@ function renderIvaFact(el){
 // material se retire. Con saldo en cero el acopio queda terminado y se abre el siguiente.
 // Reemplaza la v2 por articulo con lista de precios. Los acopios viejos con articulos se siguen viendo:
 // su saldo es el mismo calculo (total menos remitos no anulados).
-let acFiltro={material:'',verTerminados:false};
+let acFiltro={material:'',proveedor:'',verTerminados:false,orden:'fecha_asc'};
 function remitosVivos(a){return (a.descuentos||[]).filter(d=>!d.anulado);}
 function retiradoAcopio(a){return remitosVivos(a).reduce((s,d)=>s+(d.monto||0),0);}
 function saldoAcopio(a){return (a.total||0)-retiradoAcopio(a);}
@@ -1927,28 +1927,67 @@ function detalleRemito(d){const its=(d.items||[]).map(x=>(x.cant||0).toLocaleStr
   return [its,d.detalle||''].filter(Boolean).join(' - ');}
 // Filtro por indice (no por texto) para no meter el nombre del material dentro de un onclick.
 function acFiltroMat(i){const mats=materialesAcopio();acFiltro.material=i<0?'':(mats[i]||'');render();}
+function provsAcopio(){const m={};S.acopios.forEach(a=>{if(a.proveedor)m[a.proveedor]=1;});
+  return Object.keys(m).sort((x,y)=>(nombrePorCodigo(x)||x).localeCompare(nombrePorCodigo(y)||y,'es'));}
+function acFiltroProv(i){const ps=provsAcopio();acFiltro.proveedor=i<0?'':(ps[i]||'');render();}
+function acLimpiarFiltros(){acFiltro.material='';acFiltro.proveedor='';render();}
+// Grupos (pedido de Vivi 10/09): a la vista lo que esta en uso y lo proximo a usarse; los terminados quedan abajo.
+// En uso = ya tuvo algun remito. Proximos = abierto pero sin retiros todavia (a veces arrancan 20 dias despues).
+function acopioEnUso(a){return remitosVivos(a).length>0;}
+function ultimoRemito(a){return remitosVivos(a).map(d=>d.fecha||'').sort().pop()||'';}
+const AC_ORDENES=[['fecha_asc','Fecha: mas viejos primero'],['fecha_desc','Fecha: mas nuevos primero'],['material','Material'],['proveedor','Proveedor']];
+function acSetOrden(v){if(AC_ORDENES.some(o=>o[0]===v))acFiltro.orden=v;render();}
+function acOrdenar(list){const porFecha=(a,b)=>(a.fecha||'').localeCompare(b.fecha||'');const arr=list.slice();
+  if(acFiltro.orden==='fecha_desc')arr.sort((a,b)=>porFecha(b,a));
+  else if(acFiltro.orden==='material')arr.sort((a,b)=>(a.material||'').localeCompare(b.material||'','es')||porFecha(a,b));
+  else if(acFiltro.orden==='proveedor')arr.sort((a,b)=>provAcopio(a).localeCompare(provAcopio(b),'es')||porFecha(a,b));
+  else arr.sort(porFecha);
+  return arr;}
+function acSeccion(titulo,sub,lista,puedeCargar){
+  return '<div class="card" style="margin-top:14px"><div class="card-head"><h2>'+titulo+'</h2><div class="sub">'+sub+'</div></div>'+
+    lista.map(a=>acopioCard(a,puedeCargar)).join('')+'</div>';}
 function acVerTerminados(){acFiltro.verTerminados=!acFiltro.verTerminados;render();}
 
 function renderAcopios(el,puedeCargar){
-  const mats=materialesAcopio();
+  const mats=materialesAcopio(),provs=provsAcopio();
   if(acFiltro.material&&mats.indexOf(acFiltro.material)<0)acFiltro.material='';
-  const vis=S.acopios.filter(a=>!acFiltro.material||a.material===acFiltro.material);
-  const activos=vis.filter(a=>!acopioTerminado(a)),terminados=vis.filter(acopioTerminado);
+  if(acFiltro.proveedor&&provs.indexOf(acFiltro.proveedor)<0)acFiltro.proveedor='';
+  const pasaProv=a=>!acFiltro.proveedor||a.proveedor===acFiltro.proveedor;
+  const pasaMat=a=>!acFiltro.material||a.material===acFiltro.material;
+  const vis=S.acopios.filter(a=>pasaProv(a)&&pasaMat(a));
+  const activos=vis.filter(a=>!acopioTerminado(a)),terminados=acOrdenar(vis.filter(acopioTerminado));
+  const enUso=acOrdenar(activos.filter(acopioEnUso)),proximos=acOrdenar(activos.filter(a=>!acopioEnUso(a)));
   const quedaDe=list=>list.filter(a=>!acopioTerminado(a)).reduce((s,a)=>s+saldoAcopio(a),0);
-  const chips=mats.length?'<div style="display:flex;gap:6px;flex-wrap:wrap;padding:10px 17px;border-bottom:1px solid var(--line)">'+
-    '<button class="btn sm'+(acFiltro.material?'':' primary')+'" onclick="acFiltroMat(-1)">Todos</button>'+
-    mats.map((m,i)=>'<button class="btn sm'+(acFiltro.material===m?' primary':'')+'" onclick="acFiltroMat('+i+')">'+esc(m)+
-      ' <span class="num" style="opacity:.75">'+money(quedaDe(S.acopios.filter(a=>a.material===m)))+'</span></button>').join('')+'</div>':'';
+  const filtrado=!!(acFiltro.material||acFiltro.proveedor);
+  // Filtros por indice (no por texto) para no meter nombres dentro de un onclick. Material y proveedor se combinan:
+  // el saldo de cada boton se calcula dentro del otro filtro activo.
+  const chip=(on,onclick,txt,monto)=>'<button class="btn sm'+(on?' primary':'')+'" onclick="'+onclick+'">'+txt+
+    (monto!=null?' <span class="num" style="opacity:.75">'+money(monto)+'</span>':'')+'</button>';
+  const grupo=(label,botones)=>'<div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center">'+
+    '<span class="muted" style="font-size:12px;font-weight:600;min-width:64px">'+label+'</span>'+botones+'</div>';
+  const barra=S.acopios.length?'<div class="toolbar" style="margin-top:14px;align-items:flex-start">'+
+      '<div class="filters" style="flex-direction:column;align-items:stretch;gap:8px">'+
+        grupo('Material',chip(!acFiltro.material,'acFiltroMat(-1)','Todos')+
+          mats.map((m,i)=>chip(acFiltro.material===m,'acFiltroMat('+i+')',esc(m),quedaDe(S.acopios.filter(a=>a.material===m&&pasaProv(a))))).join(''))+
+        grupo('Proveedor',chip(!acFiltro.proveedor,'acFiltroProv(-1)','Todos')+
+          provs.map((p,i)=>chip(acFiltro.proveedor===p,'acFiltroProv('+i+')',esc(nombrePorCodigo(p)||p),quedaDe(S.acopios.filter(a=>a.proveedor===p&&pasaMat(a))))).join(''))+
+        grupo('Ordenar','<select onchange="acSetOrden(this.value)" aria-label="Ordenar acopios">'+
+          AC_ORDENES.map(o=>'<option value="'+o[0]+'"'+(acFiltro.orden===o[0]?' selected':'')+'>'+o[1]+'</option>').join('')+'</select>')+
+      '</div>'+
+      '<div class="actions">'+(puedeCargar&&S.acopios.some(a=>!acopioTerminado(a))?'<button class="btn sm" onclick="openRemito()">+ Cargar remito</button>':'')+
+        (puedeCargar?'<button class="btn primary sm" onclick="editAcopio()">+ Nuevo acopio</button>':'')+'</div></div>'
+    :'';
+  let cuerpo;
+  if(!S.acopios.length)cuerpo='<div class="card" style="margin-top:14px"><div class="empty">Todavia no hay acopios. Empeza con la factura que lo origina.'+
+    (puedeCargar?'<div style="margin-top:12px"><button class="btn primary sm" onclick="editAcopio()">+ Nuevo acopio</button></div>':'')+'</div></div>';
+  else if(!activos.length)cuerpo='<div class="card" style="margin-top:14px"><div class="empty">No hay acopios en uso ni por usarse'+(filtrado?' con este filtro':'')+'.'+
+    (filtrado?'<div style="margin-top:12px"><button class="btn sm" onclick="acLimpiarFiltros()">Ver todos</button></div>':'')+'</div></div>';
+  else cuerpo=(enUso.length?acSeccion('En uso',enUso.length+' - queda por retirar '+money(quedaDe(enUso)),enUso,puedeCargar):'')+
+    (proximos.length?acSeccion('Proximos a usarse',proximos.length+' - '+money(quedaDe(proximos))+' sin retiros todavia',proximos,puedeCargar):'');
   setHTML(el,'<div class="banner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8v13H3V8M1 3h22v5H1zM10 12h4"/></svg>'+
-    '<div><b>Acopio: una factura pagada por adelantado que se va retirando con remitos.</b> Se abre con la factura (proveedor, material y monto). '+
-    'Cada remito descuenta plata del saldo, sin importar que material se retire. Cuando llega a cero, el acopio queda terminado y se abre el siguiente.</div></div>'+
-    '<div class="card"><div class="card-head"><h2>Acopios abiertos</h2><div class="sub">'+activos.length+' - queda por retirar '+money(quedaDe(activos))+'</div><div class="spacer"></div>'+
-      (puedeCargar&&activos.length?'<button class="btn sm" onclick="openRemito()">+ Cargar remito</button>':'')+
-      (puedeCargar?'<button class="btn primary sm" onclick="editAcopio()">+ Nuevo acopio</button>':'')+'</div>'+
-      chips+
-      (activos.length?activos.map(a=>acopioCard(a,puedeCargar)).join('')
-        :'<div class="empty">'+(S.acopios.length?'No hay acopios abiertos'+(acFiltro.material?' de '+esc(acFiltro.material):'')+'.'
-          :'Todavia no hay acopios. Empeza con "+ Nuevo acopio" y la factura que lo origina.')+'</div>')+'</div>'+
+    '<div><b>Acopio: una factura pagada por adelantado que se va retirando con remitos.</b> Arriba estan los <b>en uso</b> (ya tuvieron retiros) y los <b>proximos a usarse</b> (todavia sin retiros). '+
+    'Cada remito descuenta plata del saldo, sin importar el material. Cuando llega a cero pasa a Terminados.</div></div>'+
+    barra+cuerpo+
     (terminados.length?'<div class="card" style="margin-top:14px"><div class="card-head"><h2>Terminados</h2><div class="sub">'+terminados.length+'</div><div class="spacer"></div>'+
       '<button class="btn ghost sm" onclick="acVerTerminados()">'+(acFiltro.verTerminados?'Ocultar':'Ver')+'</button></div>'+
       (acFiltro.verTerminados?terminados.map(a=>acopioCard(a,puedeCargar)).join(''):'')+'</div>':''));}
@@ -1970,7 +2009,7 @@ function acopioCard(a,puedeCargar){
         '<td class="muted">'+esc(detalleRemito(d))+'</td><td class="r num amt neg">'+money(d.monto)+'</td><td class="r">'+anular(d,i)+'</td></tr>').join('')+'</tbody></table></div>';
   return '<div style="border-bottom:1px solid var(--line);padding:13px 17px">'+
     '<div style="display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap"><b>'+esc(provAcopio(a))+'</b>'+(a.material?'<span class="chip">'+esc(a.material)+'</span>':'')+
-      '<span class="muted" style="font-size:12px">'+(a.factura?'Fact. '+esc(a.factura)+' - ':'')+fdate(a.fecha)+(a.detalle?' - '+esc(a.detalle):'')+'</span><div class="spacer"></div>'+accion+'</div>'+
+      '<span class="muted" style="font-size:12px">'+(a.factura?'Fact. '+esc(a.factura)+' - ':'')+fdate(a.fecha)+(ultimoRemito(a)?' - ultimo remito '+fdate(ultimoRemito(a)):'')+(a.detalle?' - '+esc(a.detalle):'')+'</span><div class="spacer"></div>'+accion+'</div>'+
     '<div style="display:flex;gap:6px 16px;flex-wrap:wrap;align-items:center;margin-top:9px;font-size:12.5px">'+
       '<span class="muted">Acopiado <b class="num" style="color:var(--ink)">'+money(a.total)+'</b></span>'+
       '<span class="muted">Retirado <b class="num" style="color:var(--ink)">'+money(ret)+'</b></span>'+
