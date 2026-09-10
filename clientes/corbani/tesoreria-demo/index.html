@@ -1974,9 +1974,9 @@ function acopioCard(a,puedeCargar){
     '<div style="display:flex;gap:6px 16px;flex-wrap:wrap;align-items:center;margin-top:9px;font-size:12.5px">'+
       '<span class="muted">Acopiado <b class="num" style="color:var(--ink)">'+money(a.total)+'</b></span>'+
       '<span class="muted">Retirado <b class="num" style="color:var(--ink)">'+money(ret)+'</b></span>'+
-      '<span class="chip '+(term?'warn':'pos')+'">'+(term?'Terminado':'Queda '+money(saldo))+'</span></div>'+
+      (saldo<-0.5?'<span class="chip neg">Terminado, excedido en '+money(-saldo)+'</span>':'<span class="chip '+(term?'warn':'pos')+'">'+(term?'Terminado':'Queda '+money(saldo))+'</span>')+'</div>'+
     '<div role="progressbar" aria-label="Retirado del acopio" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'" style="height:6px;border-radius:6px;background:var(--surface-3);margin-top:9px;overflow:hidden">'+
-      '<div style="height:100%;width:'+pct+'%;background:'+(term?'var(--warn)':'var(--accent-ink)')+'"></div></div>'+
+      '<div style="height:100%;width:'+pct+'%;background:'+(saldo<-0.5?'var(--neg)':(term?'var(--warn)':'var(--accent-ink)'))+'"></div></div>'+
     lista+'</div>';}
 
 function editAcopio(desdeId){const prev=desdeId?S.acopios.find(x=>x.id===desdeId):null;
@@ -2016,7 +2016,8 @@ function saveAcopio(){const msg=document.getElementById('ac-msg');const err=t=>{
   if(acFiltro.material&&acFiltro.material!==material)acFiltro.material='';
   save();closePanel();render();toast('Acopio abierto: '+money(total)+' para retirar');}
 
-// Carga de remitos (antes "desacopio"): descuenta plata del acopio, con tope en lo que queda.
+// Carga de remitos (antes "desacopio"): descuenta plata del acopio. Puede pasarse del saldo: el acopio
+// queda en negativo y se marca excedido (pedido de Vivi 10/09).
 function openRemito(aid){const activos=S.acopios.filter(a=>!acopioTerminado(a));
   if(!activos.length){toast('No hay acopios abiertos: primero abri uno con su factura');return;}
   const sel=(aid&&activos.some(a=>a.id===aid))?aid:(activos.length===1?activos[0].id:'');
@@ -2037,7 +2038,7 @@ function remitoSaldo(){const h=document.getElementById('re-hint');if(!h)return;
   if(!a){h.textContent='';h.style.color='';return;}
   const m=num(document.getElementById('re-monto').value),q=saldoAcopio(a);
   if(!(m>0)){h.textContent='Queda '+money(q)+' para retirar';h.style.color='';return;}
-  if(m>q+0.5){h.textContent='Supera lo que queda en este acopio ('+money(q)+')';h.style.color='var(--neg)';return;}
+  if(m>q+0.5){h.textContent='Supera lo que queda ('+money(q)+'): el acopio queda en '+money(q-m);h.style.color='var(--warn)';return;}
   h.textContent='Despues de este remito quedan '+money(Math.max(0,q-m))+(q-m<=0.5?': el acopio se termina':'');h.style.color='';}
 
 function saveRemito(){const msg=document.getElementById('re-msg');const err=t=>{msg.className='form-msg show';msg.textContent=t;};
@@ -2047,14 +2048,12 @@ function saveRemito(){const msg=document.getElementById('re-msg');const err=t=>{
   const falta=[];
   if(!a)falta.push('el acopio');if(!fecha)falta.push('la fecha');if(!rem)falta.push('el N de remito');if(!monto)falta.push('el monto');
   if(falta.length)return err('Falta cargar '+falta.join(', '));
-  const q=saldoAcopio(a);
-  if(monto>q+0.5)return err('En este acopio quedan '+money(q)+'. Si el remito es mayor, carga '+money(q)+' aca y el resto en el acopio siguiente.');
   if(S.acopios.some(x=>codNorm(x.proveedor)===codNorm(a.proveedor)&&remitosVivos(x).some(d=>normTxt(d.remito||'')===normTxt(rem))))
     return err('El remito '+rem+' ya esta cargado para ese proveedor');
   if(!Array.isArray(a.descuentos))a.descuentos=[];
   a.descuentos.push({id:uid(),fecha:fecha,remito:rem,monto:monto,detalle:document.getElementById('re-det').value.trim()});
   save();closePanel();render();
-  if(acopioTerminado(a)){toast('Acopio terminado');editAcopio(a.id);return;}
+  if(acopioTerminado(a)){const s=saldoAcopio(a);toast(s<-0.5?'Acopio terminado, excedido en '+money(-s):'Acopio terminado');editAcopio(a.id);return;}
   toast('Remito cargado: quedan '+money(saldoAcopio(a)));}
 
 // Nada se borra: el remito anulado queda a la vista, tachado, y su monto vuelve al saldo.
