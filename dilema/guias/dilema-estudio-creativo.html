@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Estudio creativo · Dilema creative</title>
+<meta name="description" content="Cómo leer cada anuncio por dentro: qué funcionó, cómo replicarlo y dónde mejorar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --navy:#0E2A47; --verde:#4FA27E; --verde-hondo:#2F7D5E; --papel:#FAF6EE; --crema:#F4EFE6;
+  --celeste:#5BB4D6; --ash:#6B6257; --linea:#D9CFBC; --linea-suave:#E7DECE;
+  --rojo:#B23A2B; --rojo-fondo:#F5E1DC; --ambar:#8A5E10; --ambar-fondo:#F5EAD3; --verde-fondo:#E0EEE6;
+  --serif:'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans:'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+*{ box-sizing:border-box; }
+html{ -webkit-text-size-adjust:100%; }
+body{ margin:0; background:var(--papel); color:var(--navy); font-family:var(--sans); font-size:16px; line-height:1.6; }
+.pagina{ max-width:1100px; margin:0 auto; padding-inline:20px; padding-block:0 64px; }
+.marca{ font-family:var(--serif); font-weight:600; font-size:20px; letter-spacing:-0.01em; }
+.marca i{ color:var(--verde); font-weight:400; }
+.marca b{ color:var(--celeste); font-weight:600; }
+header.top{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding-block:22px; border-bottom:1px solid var(--linea); }
+.top-nota{ font-size:13px; color:var(--ash); }
+h1,h2,h3{ font-family:var(--serif); font-weight:600; letter-spacing:-0.015em; text-wrap:balance; margin:0; }
+h1{ font-size:clamp(40px, 6vw, 64px); line-height:1.02; }
+h2{ font-size:clamp(28px, 3.6vw, 38px); line-height:1.12; }
+h3{ font-size:20px; line-height:1.25; }
+p{ margin:0; }
+.lede{ font-size:clamp(18px, 2vw, 21px); line-height:1.5; color:var(--navy); max-width:34ch; }
+.cuerpo{ max-width:62ch; color:#2B3A4A; }
+.chico{ font-size:13.5px; color:var(--ash); }
+.etiqueta{ font-family:var(--mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--verde-hondo); }
+section{ padding-block:72px; border-bottom:1px solid var(--linea-suave); }
+section:last-of-type{ border-bottom:0; }
+
+/* Hero */
+.hero{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:48px; align-items:center; padding-block:64px 72px; }
+.hero-texto{ display:flex; flex-direction:column; gap:22px; }
+.hero-texto h1 em{ font-style:italic; font-weight:400; color:var(--verde); }
+.hero-pie{ display:flex; gap:10px; align-items:center; font-size:14px; color:var(--ash); }
+
+/* Ficha de ejemplo (componente real, no captura) */
+.ficha{ background:#FFFFFF; border:1px solid var(--linea); border-radius:16px; padding:22px; display:flex; flex-direction:column; gap:14px; box-shadow:0 18px 40px -28px rgba(14,42,71,0.35); }
+.ficha-cab{ display:flex; gap:14px; align-items:center; }
+.pieza{ width:58px; height:86px; border-radius:9px; background:var(--navy); display:grid; place-items:center; flex-shrink:0; }
+.pieza span{ width:0; height:0; border-left:14px solid var(--papel); border-top:9px solid transparent; border-bottom:9px solid transparent; margin-left:4px; }
+.ficha-nombre{ font-weight:600; font-size:15px; }
+.ficha-meta{ font-size:12.5px; color:var(--ash); }
+.muestra{ font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--ash); border:1px solid var(--linea); border-radius:999px; padding:2px 8px; margin-left:auto; align-self:flex-start; }
+.alerta{ border-radius:11px; padding:11px 13px; font-weight:500; font-size:14.5px; line-height:1.4; }
+.alerta.roja{ background:var(--rojo-fondo); color:var(--rojo); }
+.eslabon{ display:grid; grid-template-columns:92px minmax(0,1fr); gap:6px 12px; align-items:center; }
+.eslabon-n{ font-weight:600; font-size:14px; }
+.riel{ position:relative; height:10px; border-radius:5px; background:var(--crema); }
+.riel i{ position:absolute; inset:0 auto 0 0; border-radius:5px; }
+.riel u{ position:absolute; left:50%; top:-4px; width:2px; height:18px; background:var(--navy); opacity:.5; }
+.datos{ grid-column:2; display:flex; flex-wrap:wrap; gap:6px; }
+.dato{ font-size:12px; border-radius:7px; padding:3px 8px; }
+.c-rojo{ background:var(--rojo-fondo); color:var(--rojo); } .c-verde{ background:var(--verde-fondo); color:var(--verde-hondo); } .c-ambar{ background:var(--ambar-fondo); color:var(--ambar); }
+.t-rojo{ color:var(--rojo); } .t-verde{ color:var(--verde-hondo); } .t-ambar{ color:var(--ambar); }
+
+/* Cadena de eslabones */
+.intro{ display:flex; flex-direction:column; gap:16px; margin-bottom:40px; }
+.cadena{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); border:1px solid var(--linea); border-radius:16px; overflow:hidden; background:#FFFFFF; }
+.paso{ padding:24px 22px 26px; display:flex; flex-direction:column; gap:10px; position:relative; }
+.paso + .paso{ border-left:1px solid var(--linea-suave); }
+.paso + .paso::before{ content:""; position:absolute; left:-7px; top:34px; width:12px; height:12px; background:#FFFFFF; border-top:1px solid var(--linea); border-right:1px solid var(--linea); transform:rotate(45deg); }
+.paso-letra{ font-family:var(--mono); font-size:12px; width:28px; height:28px; border-radius:8px; display:grid; place-items:center; background:var(--crema); color:var(--navy); font-weight:500; }
+.paso-pregunta{ font-family:var(--serif); font-size:21px; line-height:1.2; }
+.paso-mide{ font-size:14px; color:var(--ash); }
+.semaforo{ display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:22px; font-size:14px; color:#2B3A4A; }
+.semaforo span{ display:inline-flex; align-items:center; gap:8px; }
+.semaforo i{ width:14px; height:14px; border-radius:4px; display:inline-block; }
+
+/* Qué funcionó */
+.dos{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:56px; align-items:start; }
+.lista-claves{ display:flex; flex-direction:column; gap:26px; margin-top:28px; }
+.lista-claves div{ display:flex; flex-direction:column; gap:6px; padding-left:18px; border-left:2px solid var(--verde); }
+.mapa{ background:#FFFFFF; border:1px solid var(--linea); border-radius:16px; padding:22px 22px 18px; }
+.mapa-grilla{ display:grid; grid-template-columns:1fr 1fr; grid-template-rows:1fr 1fr; gap:8px; aspect-ratio:1.25; margin:10px 0 10px 26px; position:relative; }
+.cuad{ border-radius:10px; padding:14px; display:flex; flex-direction:column; justify-content:space-between; }
+.cuad b{ font-family:var(--serif); font-weight:600; font-size:18px; }
+.cuad small{ font-size:12.5px; line-height:1.35; }
+.q-escalar{ background:var(--verde-fondo); color:var(--verde-hondo); grid-column:2; grid-row:1; }
+.q-sub{ background:var(--crema); color:var(--navy); grid-column:1; grid-row:1; }
+.q-gasta{ background:var(--rojo-fondo); color:var(--rojo); grid-column:2; grid-row:2; }
+.q-desc{ background:#EFE9DD; color:var(--ash); grid-column:1; grid-row:2; }
+.eje-y{ position:absolute; left:-26px; top:50%; transform:translateY(-50%) rotate(-90deg); transform-origin:center; font-size:11.5px; color:var(--ash); white-space:nowrap; width:0; display:flex; justify-content:center; }
+.eje-x{ text-align:center; font-size:11.5px; color:var(--ash); margin-left:26px; }
+
+/* Replicar */
+.transcripcion{ background:#FFFFFF; border:1px solid var(--linea); border-radius:16px; overflow:hidden; }
+.tr-cab{ display:flex; justify-content:space-between; gap:12px; padding:14px 18px; border-bottom:1px solid var(--linea-suave); font-size:13px; color:var(--ash); }
+.tr-fila{ display:grid; grid-template-columns:54px minmax(0,1fr) 64px; gap:12px; padding:11px 18px; align-items:baseline; border-bottom:1px solid var(--linea-suave); font-size:14.5px; }
+.tr-fila:last-child{ border-bottom:0; }
+.tr-fila .t{ font-family:var(--mono); font-size:12px; color:var(--ash); }
+.tr-fila .r{ font-family:var(--mono); font-size:12px; text-align:right; color:var(--navy); }
+.tr-fila.cae{ background:#FBF1EE; }
+.tr-fila.cae .t, .tr-fila.cae .r{ color:var(--rojo); }
+.tr-tag{ display:inline-block; font-size:11.5px; color:var(--verde-hondo); font-weight:500; margin-left:6px; }
+.tr-fila.cae .tr-tag{ color:var(--rojo); }
+.brief{ margin-top:18px; display:flex; flex-direction:column; gap:10px; }
+.brief p{ display:flex; gap:10px; }
+.brief p::before{ content:""; flex-shrink:0; width:8px; height:8px; border-radius:2px; background:var(--verde); margin-top:9px; }
+
+/* Mejorar */
+.mejoras{ display:grid; grid-template-columns:1.3fr 1fr; gap:22px; margin-top:40px; }
+.bloque{ background:#FFFFFF; border:1px solid var(--linea); border-radius:16px; padding:22px; display:flex; flex-direction:column; gap:12px; }
+.bloque.ancho{ grid-row:span 2; }
+.curva svg{ width:100%; height:auto; display:block; }
+.frase-roja{ border-left:3px solid var(--rojo); padding:8px 12px; background:#FBF1EE; font-size:14px; }
+.frase-roja span{ font-family:var(--mono); font-size:12px; color:var(--rojo); margin-right:8px; }
+.embudo{ display:flex; flex-direction:column; gap:7px; }
+.embudo-paso{ display:grid; grid-template-columns:112px minmax(0,1fr) 46px; gap:10px; align-items:center; font-size:13.5px; }
+.embudo-paso i{ height:9px; border-radius:5px; background:var(--navy); display:block; }
+.embudo-paso .v{ font-family:var(--mono); font-size:12px; text-align:right; }
+.embudo-paso.roto i{ background:var(--rojo); }
+.embudo-paso.roto{ color:var(--rojo); }
+.fatiga{ display:flex; gap:18px; flex-wrap:wrap; }
+.fatiga div{ flex:1 1 120px; }
+.fatiga svg{ width:100%; height:48px; display:block; }
+
+/* Semana */
+.semana{ display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:0; margin-top:40px; counter-reset:paso; }
+.semana div{ padding:0 22px 0 0; display:flex; flex-direction:column; gap:10px; }
+.semana div + div{ padding-left:22px; border-left:1px solid var(--linea); }
+.semana b{ font-family:var(--mono); font-weight:500; font-size:12px; color:var(--verde-hondo); letter-spacing:0.08em; }
+.semana h3{ font-size:22px; }
+
+/* Cierre */
+.cierre{ background:var(--navy); color:var(--papel); border-radius:20px; padding:48px; display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:32px; align-items:center; margin-top:8px; }
+.cierre h2{ color:var(--papel); }
+.cierre p{ color:#D9E1E8; }
+.ruta{ font-family:var(--mono); font-size:13px; background:rgba(250,246,238,0.08); border:1px solid rgba(250,246,238,0.18); border-radius:12px; padding:16px 18px; display:flex; flex-direction:column; gap:8px; color:var(--papel); }
+.ruta span::before{ content:"›"; color:var(--verde); margin-right:8px; }
+footer{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; padding-top:28px; font-size:13px; color:var(--ash); }
+
+@media (max-width:900px){
+  .hero, .dos, .mejoras, .cierre{ grid-template-columns:1fr; }
+  .bloque.ancho{ grid-row:auto; }
+  .cadena{ grid-template-columns:1fr 1fr; }
+  .paso:nth-child(3){ border-left:0; }
+  .paso:nth-child(n+3){ border-top:1px solid var(--linea-suave); }
+  .paso + .paso::before{ display:none; }
+  .semana{ grid-template-columns:1fr 1fr; row-gap:28px; }
+  .semana div:nth-child(3){ padding-left:0; border-left:0; }
+  section{ padding-block:56px; }
+  .cierre{ padding:32px 24px; }
+}
+@media (max-width:560px){
+  .cadena, .semana{ grid-template-columns:1fr; }
+  .paso + .paso{ border-left:0; border-top:1px solid var(--linea-suave); }
+  .semana div, .semana div + div{ padding:0; border-left:0; }
+  .top-nota{ display:none; }
+  .eslabon{ grid-template-columns:78px minmax(0,1fr); }
+  .tr-fila{ grid-template-columns:46px minmax(0,1fr) 50px; padding-inline:14px; }
+}
+</style>
+</head>
+<body>
+<div class="pagina">
+
+<header class="top">
+  <span class="marca">Dilema <i>creative</i><b>*</b></span>
+  <span class="top-nota">Estudio creativo, en tu portal</span>
+</header>
+
+<div class="hero">
+  <div class="hero-texto">
+    <h1>Cada anuncio, <em>por dentro.</em></h1>
+    <p class="lede">Qué funcionó, por qué funcionó y qué hay que cambiar para que rinda más. Con tus datos reales de Meta, actualizados cada vez que entrás.</p>
+    <p class="hero-pie">Una sección nueva de tu portal: Estudio creativo.</p>
+  </div>
+
+  <div class="ficha" role="img" aria-label="Ejemplo de la ficha de un anuncio: buen gancho, mala retención">
+    <div class="ficha-cab">
+      <div class="pieza"><span></span></div>
+      <div>
+        <div class="ficha-nombre">Video receta, 20 segundos</div>
+        <div class="ficha-meta">Campaña de ventas, estreno hace 9 días</div>
+      </div>
+      <span class="muestra">Ejemplo</span>
+    </div>
+    <div class="alerta roja">Buen gancho, mala retención: a los 3 segundos quedan 24 de cada 100 que arrancaron.</div>
+    <div class="eslabon">
+      <span class="eslabon-n t-verde">Gancho</span>
+      <div class="riel"><i style="width:74%; background:var(--verde-hondo)"></i><u></u></div>
+    </div>
+    <div class="eslabon">
+      <span class="eslabon-n t-rojo">Retención</span>
+      <div class="riel"><i style="width:18%; background:var(--rojo)"></i><u></u></div>
+      <div class="datos"><span class="dato c-rojo">Tiempo medio 1,8 s (cuenta 3,9 s)</span><span class="dato c-verde">Llegan al final 12% (cuenta 9%)</span></div>
+    </div>
+    <div class="eslabon">
+      <span class="eslabon-n t-ambar">Clic</span>
+      <div class="riel"><i style="width:47%; background:#C98A3A"></i><u></u></div>
+    </div>
+    <div class="eslabon">
+      <span class="eslabon-n t-verde">Conversión</span>
+      <div class="riel"><i style="width:66%; background:var(--verde-hondo)"></i><u></u></div>
+    </div>
+    <p class="chico">La barra muestra a cuántos de tus anuncios le gana. La marca del medio es la mitad de la cuenta.</p>
+  </div>
+</div>
+
+<section>
+  <div class="intro">
+    <h2>El ROAS te dice que algo anda mal. No te dice dónde.</h2>
+    <p class="cuerpo">Por eso partimos cada anuncio en los cuatro pasos que recorre una persona antes de comprar, y comparamos cada paso contra el resto de tus anuncios. Así el problema deja de ser "este anuncio no vende" y pasa a ser un dato concreto que se puede corregir.</p>
+  </div>
+  <div class="cadena">
+    <div class="paso">
+      <span class="paso-letra">G</span>
+      <h3 class="paso-pregunta">¿Frena el scroll?</h3>
+      <p class="paso-mide"><b>Gancho.</b> Cuántas personas miran los primeros 3 segundos de las que lo vieron pasar.</p>
+    </div>
+    <div class="paso">
+      <span class="paso-letra">R</span>
+      <h3 class="paso-pregunta">¿Se quedan a mirar?</h3>
+      <p class="paso-mide"><b>Retención.</b> El tiempo medio de reproducción y cuántos llegan a la mitad y al final.</p>
+    </div>
+    <div class="paso">
+      <span class="paso-letra">C</span>
+      <h3 class="paso-pregunta">¿Les dan ganas de entrar?</h3>
+      <p class="paso-mide"><b>Clic.</b> Qué porcentaje hace clic y cuánto cuesta cada visita.</p>
+    </div>
+    <div class="paso">
+      <span class="paso-letra">$</span>
+      <h3 class="paso-pregunta">¿Compran o consultan?</h3>
+      <p class="paso-mide"><b>Conversión.</b> ROAS, costo por venta o costo por consulta, según el objetivo de tu cuenta.</p>
+    </div>
+  </div>
+  <div class="semaforo">
+    <span><i style="background:var(--verde-fondo); border:1px solid var(--verde)"></i>Verde: le gana a la mayoría de tus anuncios</span>
+    <span><i style="background:var(--ambar-fondo); border:1px solid #C98A3A"></i>Amarillo: en la media</span>
+    <span><i style="background:var(--rojo-fondo); border:1px solid var(--rojo)"></i>Rojo: el dato puntual que está fallando</span>
+  </div>
+</section>
+
+<section>
+  <div class="dos">
+    <div>
+      <h2>Ver qué funcionó, sin adivinar.</h2>
+      <div class="lista-claves">
+        <div>
+          <h3>Ganadores con tu propia regla</h3>
+          <p class="cuerpo">Definimos con vos qué es un anuncio ganador, por ejemplo gasto desde cierto monto y ROAS por encima del de la cuenta. El portal los separa solo, sin planillas.</p>
+        </div>
+        <div>
+          <h3>Estrenos de cada semana</h3>
+          <p class="cuerpo">Cuántas ideas nuevas salieron, cuáles siguen aprendiendo y cuántas se convirtieron en ganadoras. Es la forma de medir si lo que producimos está acertando.</p>
+        </div>
+        <div>
+          <h3>Filtros por el eslabón que falla</h3>
+          <p class="cuerpo">Por ejemplo, todos los anuncios con buen gancho y mala retención: son los que más rápido mejoran cambiando la mitad del video.</p>
+        </div>
+      </div>
+    </div>
+    <figure class="mapa" style="margin:0">
+      <p class="chico">Cada punto es un anuncio. Los cuatro cuadrantes salen de comparar su gasto con su resultado.</p>
+      <div class="mapa-grilla">
+        <span class="eje-y">Resultado</span>
+        <div class="cuad q-sub"><b>Subestimado</b><small>Rinde, pero gasta poco. Merece más presupuesto.</small></div>
+        <div class="cuad q-escalar"><b>Escalar</b><small>Gasta y rinde. Es la base de la cuenta.</small></div>
+        <div class="cuad q-desc"><b>Descartar</b><small>Poco gasto y poco resultado.</small></div>
+        <div class="cuad q-gasta"><b>Gasta sin rendir</b><small>Hay que cambiarlo o apagarlo.</small></div>
+      </div>
+      <figcaption class="eje-x">Gasto</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section>
+  <div class="dos">
+    <div>
+      <h2>Replicar lo que funcionó.</h2>
+      <p class="cuerpo" style="margin-top:18px">Un ganador no se copia a ojo. Cada video tiene su transcripción segundo a segundo, al lado de cuánta gente sigue mirando en ese momento. Se ve qué gancho frenó el scroll, en qué frase se fue la gente y dónde apareció la oferta.</p>
+      <div class="brief">
+        <p class="cuerpo">Con esa estructura armamos la próxima pieza: el mismo gancho con otro producto, la misma historia con otra persona, o el mismo video más corto.</p>
+        <p class="cuerpo">Si un anuncio tiene varias versiones, ves el ROAS de cada video y de cada texto por separado, así sabés cuál sostiene las ventas.</p>
+        <p class="cuerpo">La Biblioteca junta todos los videos transcriptos y se puede buscar por lo que se dice en ellos.</p>
+      </div>
+    </div>
+    <div class="transcripcion" role="img" aria-label="Ejemplo de transcripción con la retención de cada momento">
+      <div class="tr-cab"><span>Transcripción de un video ganador</span><span>Siguen mirando</span></div>
+      <div class="tr-fila"><span class="t">0,0 s</span><span>"¿Llegaste tarde y no sabés qué cocinar?"<span class="tr-tag">Gancho</span></span><span class="r">100%</span></div>
+      <div class="tr-fila"><span class="t">3,1 s</span><span>"Esto se hace en 12 minutos, sin ensuciar nada."</span><span class="r">41%</span></div>
+      <div class="tr-fila cae"><span class="t">7,4 s</span><span>"Primero precalentás el horno a 200 grados…"<span class="tr-tag">Acá se van</span></span><span class="r">19%</span></div>
+      <div class="tr-fila"><span class="t">14,0 s</span><span>"Y listo, así queda."</span><span class="r">16%</span></div>
+      <div class="tr-fila"><span class="t">17,2 s</span><span>"Pedilo hoy y te llega mañana."<span class="tr-tag">Oferta</span></span><span class="r">14%</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="intro" style="margin-bottom:0">
+    <h2>Encontrar dónde mejorar.</h2>
+    <p class="cuerpo">No hace falta rehacer un anuncio que falla en un solo paso. El Estudio marca cuál es y qué cambiar primero.</p>
+  </div>
+  <div class="mejoras">
+    <div class="bloque ancho curva">
+      <h3>El segundo exacto donde se va la gente</h3>
+      <svg viewBox="0 0 520 200" role="img" aria-label="Curva de retención que cae fuerte entre los segundos 6 y 8">
+        <line x1="36" y1="20" x2="510" y2="20" stroke="#E7DECE"/><line x1="36" y1="90" x2="510" y2="90" stroke="#E7DECE"/><line x1="36" y1="160" x2="510" y2="160" stroke="#E7DECE"/>
+        <text x="30" y="24" text-anchor="end" font-size="11" fill="#6B6257" font-family="Inter, sans-serif">100%</text>
+        <text x="30" y="94" text-anchor="end" font-size="11" fill="#6B6257" font-family="Inter, sans-serif">50%</text>
+        <text x="30" y="164" text-anchor="end" font-size="11" fill="#6B6257" font-family="Inter, sans-serif">0%</text>
+        <rect x="36" y="20" width="96" height="140" fill="#0E2A47" opacity="0.05"/>
+        <text x="84" y="36" text-anchor="middle" font-size="11" fill="#6B6257" font-family="Inter, sans-serif">gancho</text>
+        <path d="M36 20 L68 68 L100 96 L132 104 L164 110 L196 114 L228 118 L260 142 L292 146 L324 148 L356 149 L388 150 L420 151 L452 151 L510 152 L510 160 L36 160 Z" fill="#4FA27E" opacity="0.12"/>
+        <polyline points="36,20 68,68 100,96 132,104 164,110 196,114 228,118" fill="none" stroke="#0E2A47" stroke-width="2.5" stroke-linejoin="round"/>
+        <polyline points="228,118 260,142" fill="none" stroke="#B23A2B" stroke-width="4" stroke-linecap="round"/>
+        <polyline points="260,142 292,146 324,148 356,149 388,150 420,151 452,151 510,152" fill="none" stroke="#0E2A47" stroke-width="2.5" stroke-linejoin="round"/>
+        <text x="250" y="124" font-size="12" font-weight="600" fill="#B23A2B" font-family="Inter, sans-serif">-17</text>
+        <text x="36" y="182" font-size="11" fill="#6B6257" font-family="Inter, sans-serif">0 s</text>
+        <text x="132" y="182" text-anchor="middle" font-size="11" fill="#6B6257" font-family="Inter, sans-serif">3 s</text>
+        <text x="244" y="182" text-anchor="middle" font-size="11" fill="#6B6257" font-family="Inter, sans-serif">7 s</text>
+        <text x="510" y="182" text-anchor="end" font-size="11" fill="#6B6257" font-family="Inter, sans-serif">20 s</text>
+      </svg>
+      <p class="frase-roja"><span>7,4 s</span>"Primero precalentás el horno a 200 grados…"</p>
+      <p class="cuerpo">De cada 100 personas que empiezan el video, la curva muestra cuántas siguen en cada segundo. Cuando hay una caída fuerte, aparece en rojo junto con la frase que se estaba diciendo. En este ejemplo, la solución es cortar la explicación y mostrar el plato terminado antes.</p>
+    </div>
+
+    <div class="bloque">
+      <h3>El paso de la compra que se rompe</h3>
+      <div class="embudo" role="img" aria-label="Ejemplo de embudo donde se pierden ventas entre el pago iniciado y la compra">
+        <div class="embudo-paso"><span>Clics</span><i style="width:100%"></i><span class="v">100%</span></div>
+        <div class="embudo-paso"><span>Visitas</span><i style="width:84%"></i><span class="v">84%</span></div>
+        <div class="embudo-paso"><span>Carrito</span><i style="width:36%"></i><span class="v">8%</span></div>
+        <div class="embudo-paso"><span>Pago iniciado</span><i style="width:24%"></i><span class="v">24%</span></div>
+        <div class="embudo-paso roto"><span>Compra</span><i style="width:10%"></i><span class="v">22%</span></div>
+      </div>
+      <p class="cuerpo">Si un anuncio trae buenos clics pero no vende, el problema no es el anuncio: es la página, el carrito o el pago. El Estudio lo compara contra tu cuenta y marca el paso que pierde más.</p>
+    </div>
+
+    <div class="bloque">
+      <h3>Antes de que se gaste</h3>
+      <div class="fatiga" role="img" aria-label="Ejemplo de fatiga: el CTR baja mientras la frecuencia sube">
+        <div><p class="chico">CTR por día</p><svg viewBox="0 0 140 48" preserveAspectRatio="none"><polyline points="0,8 20,10 40,9 60,16 80,24 100,31 120,36 140,40" fill="none" stroke="#B23A2B" stroke-width="2.5"/></svg></div>
+        <div><p class="chico">Frecuencia por día</p><svg viewBox="0 0 140 48" preserveAspectRatio="none"><polyline points="0,40 20,37 40,33 60,27 80,21 100,15 120,11 140,8" fill="none" stroke="#0E2A47" stroke-width="2.5"/></svg></div>
+      </div>
+      <p class="cuerpo">Cuando el CTR baja mientras la misma gente lo ve una y otra vez, el anuncio se está gastando. Y si la cuenta tiene pocas ideas nuevas activas, aparece la alerta para producir más antes de que caigan las ventas.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Cómo lo usamos cada semana.</h2>
+  <div class="semana">
+    <div><b>01</b><h3>Medir</h3><p class="cuerpo">Revisamos los estrenos de la semana, los ganadores y los que gastan sin rendir.</p></div>
+    <div><b>02</b><h3>Entender</h3><p class="cuerpo">Abrimos cada anuncio y encontramos el eslabón que falla y el segundo exacto.</p></div>
+    <div><b>03</b><h3>Producir</h3><p class="cuerpo">Armamos las piezas nuevas sobre la estructura de lo que ya funcionó.</p></div>
+    <div><b>04</b><h3>Escalar</h3><p class="cuerpo">Le damos más presupuesto a lo que gana y cortamos lo que no.</p></div>
+  </div>
+</section>
+
+<div class="cierre">
+  <div>
+    <h2>Todo esto ya está en tu portal.</h2>
+    <p style="margin-top:14px">Entrás con tu usuario de siempre y lo encontrás en el menú de la izquierda. Los números se actualizan cada vez que lo abrís, con el rango de fechas que elijas.</p>
+  </div>
+  <div class="ruta" aria-label="Dónde encontrarlo">
+    <span>portal.dilemacreative.ar</span>
+    <span>Estudio creativo</span>
+    <span>Panorama, Estrenos, Explorador y Biblioteca</span>
+  </div>
+</div>
+
+<footer>
+  <span class="marca" style="font-size:16px">Dilema <i>creative</i><b>*</b></span>
+  <span>Menos relato, más resultado.</span>
+</footer>
+
+</div>
+</body>
+</html>
