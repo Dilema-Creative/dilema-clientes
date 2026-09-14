@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Calendario de contenido El Estudio</title>
+<meta name="description" content="Fechas importantes e ideas de contenido para Librería El Estudio, de septiembre 2026 a marzo 2027.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E2A47'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' font-style='italic' text-anchor='middle' fill='%234FA27E'%3EE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E2A47; --ink-soft:#1B3A5C;
+  --sage:#4FA27E; --sage-deep:#2F7D5E;
+  --cream:#F4EFE6; --paper:#FAF6EE; --paper-2:#EFE8D9;
+  --black:#14161A; --ash:#6B6257; --line:#D9CFBC;
+  --star:#5BB4D6; --warn:#C97B2B;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  --serif:Fraunces,Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--paper);color:var(--black);font:400 15px/1.6 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:inherit}
+
+/* nav */
+nav{position:sticky;top:0;z-index:10;height:56px;background:var(--ink);color:var(--cream);display:flex;align-items:center;justify-content:space-between;gap:16px;padding-inline:clamp(16px,5vw,80px)}
+.brand{font-family:var(--serif);font-size:19px;font-weight:500;letter-spacing:-.01em;white-space:nowrap}
+.brand em{font-style:italic;color:var(--sage)}
+.nav-tag{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--sage);color:var(--cream);padding:4px 10px;border-radius:3px;white-space:nowrap}
+
+/* hero */
+.hero{position:relative;padding:72px clamp(16px,5vw,80px) 56px;border-bottom:1px solid var(--line);background:radial-gradient(circle at 88% 0%,rgba(79,162,126,.09),transparent 45%),var(--paper)}
+.kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.kicker::after{content:"";width:80px;height:1px;background:var(--ash);opacity:.5}
+h1{font-family:var(--serif);font-weight:500;font-size:clamp(48px,8vw,104px);line-height:.92;letter-spacing:-.035em;color:var(--ink)}
+h1 em{display:block;font-style:italic;color:var(--sage)}
+.lede{font-family:var(--serif);font-style:italic;font-size:clamp(18px,2.2vw,22px);line-height:1.45;color:var(--ash);max-width:640px;margin-top:24px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:40px;max-width:980px}
+.stats div{background:#fff;padding:16px 18px}
+.stats .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
+.stats .v{font-family:var(--serif);font-size:24px;font-weight:500;color:var(--ink);line-height:1.2;margin-top:4px}
+
+/* leyenda + indice */
+.tools{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px 32px;margin-top:32px;max-width:980px}
+.legend,.months{display:flex;flex-wrap:wrap;gap:8px}
+.months a{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:#fff;padding:6px 12px;border-radius:999px}
+.months a:hover{border-color:var(--sage);color:var(--sage-deep)}
+
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--c);white-space:nowrap}
+.chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+.t-int{--c:var(--sage-deep)}
+.t-ugc{--c:#2F8DB5}
+.t-rec{--c:var(--ink)}
+.t-pro{--c:#B0661C}
+
+/* meses */
+section{padding:64px clamp(16px,5vw,80px);border-bottom:1px solid var(--line)}
+section.cream{background:var(--cream)}
+.sec-head{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin-bottom:28px}
+.sec-head .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.sec-head h2{font-family:var(--serif);font-weight:500;font-size:clamp(32px,4vw,48px);letter-spacing:-.025em;line-height:1;color:var(--ink)}
+.sec-head h2 em{font-style:italic;color:var(--sage)}
+
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:1180px}
+.card{display:grid;grid-template-columns:96px minmax(0,1fr);gap:22px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px 26px}
+.card.wide{grid-column:1/-1}
+.when{border-right:1px solid var(--line);padding-right:16px;align-self:start}
+.when .pre,.when .post{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);display:block}
+.when .num{font-family:var(--serif);font-weight:600;font-size:46px;line-height:1;letter-spacing:-.03em;color:var(--ink);display:block;margin:4px 0}
+.when .num.sm{font-size:30px;margin:8px 0 6px}
+.card h3{font-family:var(--serif);font-weight:500;font-size:23px;line-height:1.15;letter-spacing:-.015em;color:var(--ink)}
+.card .win{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage-deep);margin-top:6px}
+.ideas{list-style:none;margin-top:14px;display:grid}
+.ideas li{display:grid;grid-template-columns:118px minmax(0,1fr);align-items:start;gap:12px;padding:10px 0;border-top:1px dashed var(--line);font-size:14.5px}
+.ideas li .chip{padding-top:4px}
+
+/* tarjeta protagonista */
+.card.star{background:var(--ink);border-color:var(--ink);color:var(--cream)}
+.card.star .when{border-color:rgba(244,239,230,.18)}
+.card.star .when .num,.card.star h3{color:var(--cream)}
+.card.star h3 em{font-style:italic;color:var(--sage)}
+.card.star .when .pre,.card.star .when .post{color:#B9C3CC}
+.card.star .win{color:var(--sage)}
+.card.star .ideas{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 28px}
+.card.star .ideas li{grid-template-columns:1fr;gap:6px;border-top:1px solid rgba(244,239,230,.18);padding:14px 0}
+.card.star .t-int{--c:#7CC7A4}
+.card.star .t-ugc{--c:#7CC6E2}
+.card.star .t-rec{--c:#F4EFE6}
+.card.star .t-pro{--c:#E9A866}
+
+.note{max-width:1180px;margin-top:20px;border-left:3px solid var(--sage);padding:4px 0 4px 16px;font-size:14px;color:var(--ash)}
+.note b{color:var(--black);font-weight:600}
+
+footer{background:var(--ink);color:#B9C3CC;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;text-align:center;padding:28px 16px}
+footer em{font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:0;font-size:14px;color:var(--sage)}
+
+@media (max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .card.star .ideas{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  nav .nav-tag{display:none}
+  .hero{padding-top:48px}
+  section{padding-block:48px}
+  .card{grid-template-columns:1fr;gap:12px;padding:20px 18px}
+  .when{border-right:none;border-bottom:1px solid var(--line);padding:0 0 10px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .card.star .when{border-color:rgba(244,239,230,.18)}
+  .when .num,.when .num.sm{font-size:30px;margin:0}
+  .ideas li{grid-template-columns:1fr;gap:4px}
+  .ideas li .chip{padding-top:0}
+}
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  nav{position:static}
+  .months{display:none}
+  .card{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">Dilema <em>creative</em></div>
+  <div class="nav-tag">El Estudio · Sep 26 → Mar 27</div>
+</nav>
+
+<header class="hero">
+  <div class="kicker">Calendario de contenido · Librería El Estudio</div>
+  <h1>Fechas para <em>jugar.</em></h1>
+  <p class="lede">Efemérides y excusas para charlar con el barrio, de la primavera a la vuelta al cole. Cada fecha trae dos o tres ideas listas para bajar a piezas.</p>
+
+  <div class="stats">
+    <div><div class="k">Fechas</div><div class="v">16</div></div>
+    <div><div class="k">Período</div><div class="v">Sep → Mar</div></div>
+    <div><div class="k">Fecha más fuerte</div><div class="v">Vuelta al cole</div></div>
+    <div><div class="k">Formatos</div><div class="v">Reels · historias</div></div>
+  </div>
+
+  <div class="tools">
+    <div class="legend">
+      <span class="chip t-int">Interacción</span>
+      <span class="chip t-ugc">UGC</span>
+      <span class="chip t-rec">Reconocimiento</span>
+      <span class="chip t-pro">Promo</span>
+    </div>
+    <div class="months">
+      <a href="#sep">Sep</a><a href="#oct">Oct</a><a href="#nov">Nov</a><a href="#dic">Dic</a><a href="#ene">Ene</a><a href="#feb">Feb</a><a href="#mar">Mar</a>
+    </div>
+  </div>
+</header>
+
+<!-- SEPTIEMBRE -->
+<section id="sep">
+  <div class="sec-head"><span class="n">01 / Sep 2026</span><h2>Septiembre</h2></div>
+  <div class="grid">
+    <article class="card">
+      <div class="when"><span class="pre">Jueves</span><span class="num">17</span><span class="post">Sep</span></div>
+      <div>
+        <h3>Día del Profesor</h3>
+        <div class="win">Publicar el 15 o 16/9</div>
+        <ul class="ideas">
+          <li><span class="chip t-int">Interacción</span><span>Historia con sticker de preguntas: <b>“¿Qué profe te marcó?”</b> Se repostean las respuestas.</span></li>
+          <li><span class="chip t-rec">Reconocimiento</span><span>Carrusel <b>“El escritorio de un profe”</b> con marcadores, correctores, carpetas y sellos del local, dedicado a los docentes del barrio.</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="when"><span class="pre">Lunes</span><span class="num">21</span><span class="post">Sep</span></div>
+      <div>
+        <h3>Día del Estudiante y la Primavera</h3>
+        <div class="win">Arrancar el 17/9</div>
+        <ul class="ideas">
+          <li><span class="chip t-int">Interacción</span><span>Sorteo <b>“Etiquetá a tu compañero de banco”</b>: ganan los dos un kit de picnic creativo (cuaderno, lapiceras y stickers).</span></li>
+          <li><span class="chip t-ugc">UGC</span><span><b>“Mostranos tu cartuchera”</b>: los chicos suben su foto etiquetando al local y se elige la más original.</span></li>
+          <li><span class="chip t-pro">Promo</span><span>Centro de copiado: <b>“Anillamos tus apuntes mientras vos te vas de picnic.”</b></span></li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- OCTUBRE -->
+<section id="oct" class="cream">
+  <div class="sec-head"><span class="n">02 / Oct 2026</span><h2>Octubre</h2></div>
+  <div class="grid">
+    <article class="card">
+      <div class="when"><span class="pre">Domingo</span><span class="num">18</span><span class="post">Oct</span></div>
+      <div>
+        <h3>Día de la Madre</h3>
+        <div class="win">Arrancar el 5/10</div>
+        <ul class="ideas">
+          <li><span class="chip t-pro">Promo</span><span>Reel <b>armando un regalo en el mostrador</b>: vela, aromatizante y tarjeta impresa, envuelto y listo.</span></li>
+          <li><span class="chip t-int">Interacción</span><span><b>“Hacé la tarjeta para mamá”</b>: una plantilla para pintar que los chicos retiran en el local.</span></li>
+          <li><span class="chip t-ugc">UGC</span><span>Pedir fotos de las tarjetas terminadas y armar un <b>carrusel con todas</b>.</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="when"><span class="pre">Sábado</span><span class="num">31</span><span class="post">Oct</span></div>
+      <div>
+        <h3>Halloween</h3>
+        <div class="win">Arrancar el 20/10</div>
+        <ul class="ideas">
+          <li><span class="chip t-int">Interacción</span><span>Concurso <b>“Calabaza de papel”</b>: decorarla con materiales de artística y votar la ganadora en historias.</span></li>
+          <li><span class="chip t-pro">Promo</span><span>Carrusel de <b>disfraces caseros en 3 pasos</b> con goma eva, cartulina y témperas, más el cotillón del local.</span></li>
+          <li><span class="chip t-rec">Reconocimiento</span><span><b>“Pasá disfrazado el 31”</b> y llevate una golosina o un sticker. Las fotos de los chicos van a historias.</span></li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- NOVIEMBRE -->
+<section id="nov">
+  <div class="sec-head"><span class="n">03 / Nov 2026</span><h2>Noviembre</h2></div>
+  <div class="grid">
+    <article class="card wide star">
+      <div class="when"><span class="pre">Semana del</span><span class="num">2</span><span class="post">Nov → Ene</span></div>
+      <div>
+        <h3>Llegaron las <em>agendas 2027</em></h3>
+        <div class="win">Lanzamiento, y se sostiene hasta enero</div>
+        <ul class="ideas">
+          <li><span class="chip t-ugc">UGC</span><span>Gente de la zona (una estudiante, una mamá, alguien de oficina) graba el <b>unboxing</b> y <b>“cómo organizo mi semana”</b> con su agenda.</span></li>
+          <li><span class="chip t-int">Interacción</span><span>Encuestas en historias: <b>¿semanal o diaria? ¿tapa dura o espiral?</b> Cada respuesta muestra un modelo.</span></li>
+          <li><span class="chip t-pro">Promo</span><span><b>Tu agenda con tu nombre</b>: personalización de la tapa con vinilo, hecha en el local.</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card wide">
+      <div class="when"><span class="pre">Mediados</span><span class="num sm">Nov</span><span class="post">→ mediados dic</span></div>
+      <div>
+        <h3>Temporada de entregas y finales</h3>
+        <div class="win">Facultad y secundario</div>
+        <ul class="ideas">
+          <li><span class="chip t-pro">Promo</span><span>Reel del <b>centro de copiado a full</b>: planos hasta A1, anillados e impresiones color. <b>“Mandalo por WhatsApp y retiralo listo.”</b></span></li>
+          <li><span class="chip t-rec">Reconocimiento</span><span><b>“Esto salió de acá”</b>: repostear láminas, maquetas y carpetas terminadas de los estudiantes, con su permiso.</span></li>
+          <li><span class="chip t-int">Interacción</span><span>Encuesta con humor: <b>“¿Cuántas horas dormiste esta semana?”</b></span></li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- DICIEMBRE -->
+<section id="dic" class="cream">
+  <div class="sec-head"><span class="n">04 / Dic 2026</span><h2>Diciembre</h2></div>
+  <div class="grid">
+    <article class="card">
+      <div class="when"><span class="pre">Martes</span><span class="num">8</span><span class="post">Dic</span></div>
+      <div>
+        <h3>Armado del arbolito</h3>
+        <div class="win">Publicar el 5 o 6/12</div>
+        <ul class="ideas">
+          <li><span class="chip t-int">Interacción</span><span>Reel corto de <b>adornos de papel y goma eva</b> paso a paso, con materiales del local.</span></li>
+          <li><span class="chip t-ugc">UGC</span><span><b>“Mostranos tu arbolito”</b> con al menos un adorno hecho a mano. Van todos a historias.</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="when"><span class="pre">Mediados</span><span class="num sm">Dic</span><span class="post">Fin de clases</span></div>
+      <div>
+        <h3>Fin de clases y egresos</h3>
+        <div class="win">Arrancar el 1/12</div>
+        <ul class="ideas">
+          <li><span class="chip t-pro">Promo</span><span><b>Regalo para la seño</b>: ideas armadas con vela o taza y una tarjeta impresa.</span></li>
+          <li><span class="chip t-rec">Reconocimiento</span><span>Mostrar los <b>diplomas y tarjetas de egreso</b> impresos para jardines y escuelas de la zona.</span></li>
+          <li><span class="chip t-int">Interacción</span><span><b>“La cartuchera de marzo vs. la de diciembre”</b>: humor, e invitar a que suban la suya.</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="when"><span class="pre">Jueves</span><span class="num">24</span><span class="post">Dic</span></div>
+      <div>
+        <h3>Navidad</h3>
+        <div class="win">Arrancar el 10/12</div>
+        <ul class="ideas">
+          <li><span class="chip t-pro">Promo</span><span><b>Guía de regalos por perfil</b>: para el que dibuja, para la oficina, para los chicos y para el amigo invisible.</span></li>
+          <li><span class="chip t-rec">Reconocimiento</span><span><b>“Envolvemos gratis”</b> con un reel del equipo envolviendo y saludando. Las reseñas ya nombran a Lucas: que aparezca.</span></li>
+          <li><span class="chip t-int">Interacción</span><span>Amigo invisible: <b>“¿Cuál es el tope de este año?”</b> en encuesta, y ideas según lo que se vote.</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="when"><span class="pre">Jueves</span><span class="num">31</span><span class="post">Dic</span></div>
+      <div>
+        <h3>Fin de año</h3>
+        <div class="win">Del 26/12 al 3/1</div>
+        <ul class="ideas">
+          <li><span class="chip t-ugc">UGC</span><span><b>“La primera página de tu 2027”</b>: la gente muestra lo que escribió en su agenda nueva.</span></li>
+          <li><span class="chip t-rec">Reconocimiento</span><span>Video de <b>gracias por el año</b> con reseñas reales de clientes en pantalla y el equipo del local.</span></li>
+          <li><span class="chip t-int">Interacción</span><span>Plantilla para historias <b>“Mis propósitos 2027”</b> con el sticker “Agregá la tuya”.</span></li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ENERO -->
+<section id="ene">
+  <div class="sec-head"><span class="n">05 / Ene 2027</span><h2>Enero</h2></div>
+  <div class="grid">
+    <article class="card">
+      <div class="when"><span class="pre">Miércoles</span><span class="num">6</span><span class="post">Ene</span></div>
+      <div>
+        <h3>Día de Reyes</h3>
+        <div class="win">Publicar el 2 o 3/1</div>
+        <ul class="ideas">
+          <li><span class="chip t-pro">Promo</span><span>Carrusel de <b>juguetes y libros para chicos</b>, con reserva por WhatsApp.</span></li>
+          <li><span class="chip t-int">Interacción</span><span>Nostalgia en historias: <b>“¿Qué te trajeron los Reyes cuando eras chico?”</b></span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="when"><span class="pre">Todo</span><span class="num sm">Ene</span><span class="post">Vacaciones</span></div>
+      <div>
+        <h3>Vacaciones y colonia</h3>
+        <div class="win">Contenido liviano, todo el mes</div>
+        <ul class="ideas">
+          <li><span class="chip t-pro">Promo</span><span><b>Kit para el viaje o la colonia</b>: libro de actividades, lápices y un juego de mesa chico.</span></li>
+          <li><span class="chip t-ugc">UGC</span><span><b>Desafío de dibujo de verano</b>: una consigna por semana y se repostea todo lo que manden.</span></li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- FEBRERO -->
+<section id="feb" class="cream">
+  <div class="sec-head"><span class="n">06 / Feb 2027</span><h2>Febrero</h2></div>
+  <div class="grid">
+    <article class="card">
+      <div class="when"><span class="pre">Lun y mar</span><span class="num">8–9</span><span class="post">Feb</span></div>
+      <div>
+        <h3>Carnaval</h3>
+        <div class="win">Publicar el 4 o 5/2</div>
+        <ul class="ideas">
+          <li><span class="chip t-int">Interacción</span><span>Reel de 30 segundos: <b>antifaz casero</b> con cartulina y brillos.</span></li>
+          <li><span class="chip t-pro">Promo</span><span>Todo el <b>cotillón de carnaval</b> en una sola pieza: antifaces, serpentinas y papel picado.</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="when"><span class="pre">Domingo</span><span class="num">14</span><span class="post">Feb</span></div>
+      <div>
+        <h3>San Valentín</h3>
+        <div class="win">Arrancar el 9/2</div>
+        <ul class="ideas">
+          <li><span class="chip t-pro">Promo</span><span><b>Regalería</b>: velas, aromatizantes y tarjetas, para la pareja y también para los amigos.</span></li>
+          <li><span class="chip t-ugc">UGC</span><span><b>“Escribile a alguien”</b>: una tarjeta en blanco para completar a mano. Se repostean las que manden.</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card wide star">
+      <div class="when"><span class="pre">Desde el</span><span class="num">15</span><span class="post">Feb → Mar</span></div>
+      <div>
+        <h3>Vuelta <em>al cole</em></h3>
+        <div class="win">La fecha más fuerte del año para la librería</div>
+        <ul class="ideas">
+          <li><span class="chip t-pro">Promo</span><span><b>“Mandanos la lista y te la preparamos”</b>: reel con el paso a paso del pedido por WhatsApp, del mensaje a la bolsa lista.</span></li>
+          <li><span class="chip t-ugc">UGC</span><span>Familias grabando el retiro: <b>“llegué, pagué y me fui en cinco minutos”</b>, sin hacer fila.</span></li>
+          <li><span class="chip t-pro">Promo</span><span><b>Etiquetas con nombre</b> para los útiles, impresas en autoadhesivo en el local.</span></li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- MARZO -->
+<section id="mar">
+  <div class="sec-head"><span class="n">07 / Mar 2027</span><h2>Marzo</h2></div>
+  <div class="grid">
+    <article class="card wide">
+      <div class="when"><span class="pre">1ª semana</span><span class="num sm">Mar</span><span class="post">Inicio de clases</span></div>
+      <div>
+        <h3>Primer día de clases</h3>
+        <div class="win">Fecha según el calendario escolar de la Provincia</div>
+        <ul class="ideas">
+          <li><span class="chip t-ugc">UGC</span><span><b>“La foto del primer día”</b> con la mochila puesta. Se arma el álbum del barrio en un carrusel.</span></li>
+          <li><span class="chip t-int">Interacción</span><span>Encuesta: <b>“¿Quién estaba más nervioso, vos o tu hijo?”</b></span></li>
+          <li><span class="chip t-rec">Reconocimiento</span><span><b>Bienvenida a las escuelas y docentes de la zona</b>, etiquetando a cada institución.</span></li>
+        </ul>
+      </div>
+    </article>
+  </div>
+  <p class="note"><b>A confirmar:</b> el fin de clases de diciembre y el inicio de marzo dependen del calendario escolar 2027 de la Provincia de Buenos Aires. Las ventanas de publicación son orientativas.</p>
+</section>
+
+<footer>Dilema <em>creative</em> · Calendario de contenido · Librería El Estudio · Septiembre 2026</footer>
+
+</body>
+</html>
