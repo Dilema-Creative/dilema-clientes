@@ -75,9 +75,10 @@ h1 em{display:block;font-style:italic;font-weight:500;color:var(--green)}
 /* production sections */
 .prod{padding-top:64px;display:grid;gap:30px}
 .prod-head{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:end}
-.ratio{display:grid;place-items:center;border-radius:8px;font:500 .72rem/1.2 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.06em;text-align:center}
-.ratio.sq{width:86px;height:86px;background:var(--blush-soft);color:var(--blush);border:1.5px solid var(--blush)}
-.ratio.vt{width:62px;height:110px;background:var(--sage-soft);color:var(--sage);border:1.5px solid var(--sage)}
+.shapes{display:flex;align-items:flex-end;gap:10px}
+.ratio{display:grid;place-items:center;border-radius:7px;font:500 .72rem/1.2 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.06em;text-align:center;background:var(--accent-soft);color:var(--accent);border:1.5px solid var(--accent)}
+.ratio.sq{width:62px;height:62px}
+.ratio.vt{width:62px;height:110px}
 .prod-head .t{display:grid;gap:8px}
 .prod-head h2{font-size:clamp(2rem,4.4vw,2.9rem);line-height:1;font-weight:600}
 .prod-head p{max-width:60ch;color:var(--text)}
@@ -118,7 +119,7 @@ footer .sig sup{color:var(--star);font-size:.8em;margin-left:1px}
   .index a,.index a + a{padding-left:0;border-left:0;border-bottom:1px solid var(--line)}
   .notes,.formats,.bank{grid-template-columns:1fr}
   .prod-head{grid-template-columns:1fr}
-  .ratio.sq{width:64px;height:64px}
+  .ratio.sq{width:46px;height:46px}
   .ratio.vt{width:46px;height:82px}
 }
 @media print{
@@ -177,7 +178,7 @@ footer .sig sup{color:var(--star);font-size:.8em;margin-left:1px}
 
 <section class="prod" id="estaticos">
   <div class="prod-head">
-    <div class="ratio sq" aria-hidden="true">1:1<br>9:16</div>
+    <div class="shapes" aria-hidden="true"><div class="ratio sq">1:1</div><div class="ratio vt">9:16</div></div>
     <div class="t">
       <span class="kicker">Imágenes</span>
       <h2>Estáticos</h2>
@@ -264,7 +265,7 @@ footer .sig sup{color:var(--star);font-size:.8em;margin-left:1px}
 
 <section class="prod" id="videos">
   <div class="prod-head">
-    <div class="ratio vt" aria-hidden="true">9:16<br>7-15 s</div>
+    <div class="shapes" aria-hidden="true"><div class="ratio vt">9:16</div></div>
     <div class="t">
       <span class="kicker">Reels e historias</span>
       <h2>Videos</h2>
@@ -293,7 +294,7 @@ footer .sig sup{color:var(--star);font-size:.8em;margin-left:1px}
     </div>
     <div class="fmt">
       <h3>Antes y después</h3>
-      <p>Girar la cabeza para ver la sillita vs. mirar la pantalla. Pantalla partida, 10 segundos, sin voz.</p>
+      <p>Girar la cabeza para ver la sillita vs. mirar la pantalla. Pantalla partida, no hace falta voz.</p>
     </div>
     <div class="fmt">
       <h3>¿Mi auto es compatible?</h3>
@@ -305,11 +306,11 @@ footer .sig sup{color:var(--star);font-size:.8em;margin-left:1px}
     </div>
     <div class="fmt">
       <h3>Perros</h3>
-      <p>El perro en el asiento de atrás, visto en la pantalla del auto en los primeros 2 segundos.</p>
+      <p>El perro en el asiento de atrás, visto en la pantalla del auto apenas arranca el video.</p>
     </div>
     <div class="fmt">
       <h3>Unboxing</h3>
-      <p>Qué trae la caja en 15 segundos, y cierre con el producto andando en la pantalla.</p>
+      <p>Qué trae la caja y cómo queda armado, con cierre en el producto andando en la pantalla.</p>
     </div>
     <div class="fmt">
       <h3>"3 cosas para el auto"</h3>
@@ -319,7 +320,7 @@ footer .sig sup{color:var(--star);font-size:.8em;margin-left:1px}
 
   <div class="bank">
     <div style="display:grid;gap:10px">
-      <span class="kicker label">Banco de ganchos · primeros 3 segundos</span>
+      <span class="kicker label">Banco de ganchos · para arrancar el video</span>
       <ul class="hooks">
         <li>Dejá de darte vuelta en cada semáforo para ver la sillita</li>
         <li>Así veo la sillita sin girar la cabeza<small>En voz de quien filma, sobre sí misma</small></li>
@@ -355,9 +356,9 @@ footer .sig sup{color:var(--star);font-size:.8em;margin-left:1px}
       <div class="panel">
         <span class="kicker">Cómo filmar</span>
         <ul class="plain">
-          <li>Vertical 9:16 desde el principio, entre 7 y 15 segundos.</li>
+          <li>Vertical 9:16 desde el principio. Sin límite de duración: que dure lo que necesita la historia.</li>
           <li>Primer cuadro: la pantalla del auto con el bebé ya visible.</li>
-          <li>Subtítulos grandes, cortes cada 2 o 3 segundos, logo solo al final.</li>
+          <li>Subtítulos grandes, sin tomas quietas largas, logo solo al final.</li>
           <li>Celular, luz natural y voz real. Nada de locutor ni voz de IA.</li>
           <li><b>Sin música de la biblioteca de Instagram:</b> no deja promocionar el reel. Mandarnos también el archivo sin música.</li>
           <li>Auto detenido o alguien más grabando. Permiso de la familia para mostrar al bebé.</li>
