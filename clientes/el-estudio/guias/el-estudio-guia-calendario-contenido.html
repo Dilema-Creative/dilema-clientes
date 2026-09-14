@@ -85,11 +85,18 @@ section.cream{background:var(--cream)}
 .card.star .when .pre,.card.star .when .post{color:#B9C3CC}
 .card.star .win{color:var(--sage)}
 .card.star .ideas{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 28px}
-.card.star .ideas li{grid-template-columns:1fr;gap:6px;border-top:1px solid rgba(244,239,230,.18);padding:14px 0}
+.card.star .ideas li{grid-template-columns:1fr;align-content:start;gap:6px;border-top:1px solid rgba(244,239,230,.18);padding:14px 0}
 .card.star .t-int{--c:#7CC7A4}
 .card.star .t-ugc{--c:#7CC6E2}
 .card.star .t-rec{--c:#F4EFE6}
 .card.star .t-pro{--c:#E9A866}
+.script{margin-top:18px;background:var(--ink-soft);border-radius:10px;padding:18px 20px}
+.script ol{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 28px;margin-top:12px}
+.script li{display:grid;gap:4px;align-content:start;font-size:14.5px}
+.script .step{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:#B9C3CC}
+.script q{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.35;color:var(--cream);quotes:"“" "”"}
+.script .alt{margin-top:14px;padding-top:12px;border-top:1px solid rgba(244,239,230,.18);font-size:13.5px;color:#B9C3CC}
+.script .alt q{font-size:15px}
 
 .note{max-width:1180px;margin-top:20px;border-left:3px solid var(--sage);padding:4px 0 4px 16px;font-size:14px;color:var(--ash)}
 .note b{color:var(--black);font-weight:600}
@@ -99,7 +106,7 @@ footer em{font-family:var(--serif);font-style:italic;text-transform:none;letter-
 
 @media (max-width:900px){
   .grid{grid-template-columns:1fr}
-  .card.star .ideas{grid-template-columns:1fr}
+  .card.star .ideas,.script ol{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:560px){
@@ -221,15 +228,24 @@ footer em{font-family:var(--serif);font-style:italic;text-transform:none;letter-
   <div class="sec-head"><span class="n">03 / Nov 2026</span><h2>Noviembre</h2></div>
   <div class="grid">
     <article class="card wide star">
-      <div class="when"><span class="pre">Semana del</span><span class="num">2</span><span class="post">Nov → Ene</span></div>
+      <div class="when"><span class="pre">Todo</span><span class="num sm">Nov</span><span class="post">Agendas 2027</span></div>
       <div>
         <h3>Llegaron las <em>agendas 2027</em></h3>
-        <div class="win">Lanzamiento, y se sostiene hasta enero</div>
+        <div class="win">Todo noviembre, antes de que arranquen los regalos de fin de año</div>
         <ul class="ideas">
-          <li><span class="chip t-ugc">UGC</span><span>Gente de la zona (una estudiante, una mamá, alguien de oficina) graba el <b>unboxing</b> y <b>“cómo organizo mi semana”</b> con su agenda.</span></li>
+          <li><span class="chip t-ugc">UGC</span><span>Chicas de la zona graban el <b>video con su agenda 2027</b> siguiendo el guion de abajo. Una estudiante, una mamá, alguien de oficina.</span></li>
           <li><span class="chip t-int">Interacción</span><span>Encuestas en historias: <b>¿semanal o diaria? ¿tapa dura o espiral?</b> Cada respuesta muestra un modelo.</span></li>
           <li><span class="chip t-pro">Promo</span><span><b>Tu agenda con tu nombre</b>: personalización de la tapa con vinilo, hecha en el local.</span></li>
         </ul>
+        <div class="script">
+          <div class="script-head"><span class="chip t-ugc">Guion UGC · 20 a 30 segundos</span></div>
+          <ol>
+            <li><span class="step">Gancho</span><q>Si sos una chica organizada como yo, que todo lo anota en su agenda…</q></li>
+            <li><span class="step">Muestra</span><span>Hojea la agenda y cuenta cómo arma su semana: colores, stickers, la lista de pendientes.</span></li>
+            <li><span class="step">Cierre</span><q>Conseguila en El Estudio, tu librería en Parque Leloir.</q></li>
+          </ol>
+          <p class="alt">Otros ganchos: <q>Si sos de las que anotan hasta la lista del súper…</q> · <q>Mi 2027 ya tiene agenda, ¿y el tuyo?</q></p>
+        </div>
       </div>
     </article>
 
