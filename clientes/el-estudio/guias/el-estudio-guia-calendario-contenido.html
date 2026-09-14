@@ -84,7 +84,7 @@ section.cream{background:var(--cream)}
 .card.star h3 em{font-style:italic;color:var(--sage)}
 .card.star .when .pre,.card.star .when .post{color:#B9C3CC}
 .card.star .win{color:var(--sage)}
-.card.star .ideas{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 28px}
+.card.star .ideas{grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:0 28px}
 .card.star .ideas li{grid-template-columns:1fr;align-content:start;gap:6px;border-top:1px solid rgba(244,239,230,.18);padding:14px 0}
 .card.star .t-int{--c:#7CC7A4}
 .card.star .t-ugc{--c:#7CC6E2}
@@ -106,7 +106,8 @@ footer em{font-family:var(--serif);font-style:italic;text-transform:none;letter-
 
 @media (max-width:900px){
   .grid{grid-template-columns:1fr}
-  .card.star .ideas,.script ol{grid-template-columns:1fr}
+  .card.star .ideas{grid-auto-flow:row}
+  .script ol{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:560px){
@@ -234,9 +235,7 @@ footer em{font-family:var(--serif);font-style:italic;text-transform:none;letter-
         <div class="win">Todo noviembre, antes de que arranquen los regalos de fin de año</div>
         <ul class="ideas">
           <li><span class="chip t-ugc">UGC</span><span>Chicas de la zona graban el <b>video con su agenda 2027</b> siguiendo el guion de abajo. Una estudiante, una mamá, alguien de oficina.</span></li>
-          <li><span class="chip t-int">Interacción</span><span>Encuestas en historias: <b>¿semanal o diaria? ¿tapa dura o espiral?</b> Cada respuesta muestra un modelo.</span></li>
-          <li><span class="chip t-pro">Promo</span><span><b>Tu agenda con tu nombre</b>: personalización de la tapa con vinilo, hecha en el local.</span></li>
-        </ul>
+          <li><span class="chip t-int">Interacción</span><span>Encuestas en historias: <b>¿semanal o diaria? ¿tapa dura o espiral?</b> Cada respuesta muestra un modelo.</span></li>        </ul>
         <div class="script">
           <div class="script-head"><span class="chip t-ugc">Guion UGC · 20 a 30 segundos</span></div>
           <ol>
