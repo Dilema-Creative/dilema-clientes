@@ -158,6 +158,7 @@
   .who { display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--dos-blue); background:var(--white); border:1px solid var(--line); border-radius:20px; padding:4px 11px; margin-bottom:10px; }
   .who .dot { width:7px; height:7px; border-radius:50%; background:var(--dos-mauve); }
   .who.labs .dot { background:var(--acc); }
+  .svc-grid.obj { grid-template-columns:repeat(3,1fr); }
   .pay { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.14); border-radius:12px; overflow:hidden; margin-bottom:14px; }
 
   /* CIERRE */
@@ -193,6 +194,7 @@
     footer { flex-direction:column; align-items:flex-start; padding:40px 24px; }
     .foot-contact { text-align:left; }
   }
+  @media (max-width:900px) { .svc-grid.obj { grid-template-columns:1fr; } }
   @media (max-width:760px) { .price-grid { grid-template-columns:1fr; gap:26px; } }
   @media (max-width:560px) {
     nav { padding:0 16px; }
@@ -219,7 +221,7 @@
     <div class="nav-sub">DOS Argentina · Sitio web</div>
   </div>
   <div class="nav-links">
-    <a href="#hoy">Hoy</a><a href="#proceso">Proceso</a><a href="#entregables">Entregables</a><a href="#inversion">Inversión</a>
+    <a href="#hoy">Hoy</a><a href="#objetivos">Objetivos</a><a href="#proceso">Proceso</a><a href="#entregables">Entregables</a><a href="#inversion">Inversión</a>
   </div>
 </nav>
 
@@ -231,8 +233,8 @@
       <span class="hero-mark-for">para DOS Argentina</span>
     </div>
     <div class="brand-tag"><span class="dot"></span>Renovación del sitio web · dosargentina.com.ar</div>
-    <h1>Un sitio nuevo para que las empresas entiendan rápido <em>qué resuelve DOS</em> y consulten.</h1>
-    <p class="hero-sub">Renovamos dosargentina.com.ar en dos etapas: primero el diseño, que ustedes validan antes de avanzar, y después la construcción del sitio nuevo, con las campañas de Google midiendo desde el primer día.</p>
+    <h1>Un sitio nuevo para que las empresas entiendan rápido <em>qué resuelve <span style="white-space:nowrap">DOS Argentina</span></em> y consulten.</h1>
+    <p class="hero-sub">Renovamos dosargentina.com.ar en dos etapas: primero el diseño, que ustedes validan antes de avanzar, y después la construcción del sitio nuevo, con una estética más actual, un formulario pensado para Google Ads y una sección para cada servicio que aparezca cuando las empresas lo buscan en Google.</p>
     <div class="hero-meta"><div><div class="hm-label">Proyecto</div><div class="hm-value">Diseño + desarrollo web</div></div><div><div class="hm-label">Diseño</div><div class="hm-value">PORA Diseño</div></div><div><div class="hm-label">Desarrollo</div><div class="hm-value">Dilema Labs</div></div><div><div class="hm-label">Fecha</div><div class="hm-value">17 / 09 / 2026</div></div></div>
   </div>
 </header>
@@ -241,21 +243,50 @@
   <div class="wrap">
     <div class="kicker">01 · Dónde estamos</div>
     <h2 class="section-title">La información está.<br>Falta que el sitio <em>ordene el recorrido</em>.</h2>
-    <p class="lead">El sitio actual cuenta bien los servicios y muestra los datos que dan confianza. Lo que proponemos es que quien llega desde una búsqueda encuentre su servicio, entienda cómo trabaja DOS y consulte sin vueltas.</p>
+    <p class="lead">El sitio actual cuenta bien los servicios y muestra los datos que dan confianza. Lo que proponemos es que quien llega desde una búsqueda encuentre su servicio, entienda cómo trabaja DOS Argentina y consulte sin vueltas.</p>
     <div class="diag">
       <div class="diag-col ok"><h3>Lo que ya está</h3><ul><li><strong>Los cinco servicios explicados</strong>: personal eventual, búsqueda y selección, tercerización, administración de RRHH y marketing promocional.</li><li><strong>Datos que dan confianza</strong>: habilitación del Ministerio de Trabajo, CUIT, dirección y teléfono.</li><li>Formulario de contacto y botones de WhatsApp.</li><li>Medición conectada con las campañas de Google Ads.</li></ul></div>
-      <div class="diag-col gap"><h3>Lo que mejoramos</h3><ul><li><strong>Todo vive en una sola página larga.</strong> Cada servicio merece su propio espacio para explicar cómo funciona y a quién le sirve.</li><li><strong>Empresas y candidatos comparten el mismo recorrido.</strong> «Ofertas laborales» y «Sumate a nuestra base de talento» aparecen en medio de la información para empresas.</li><li><strong>El formulario no pide teléfono ni servicio</strong>, así que cada consulta llega sin los datos para responderla rápido.</li><li><strong>La carga es lenta.</strong> La foto principal pesa mucho y en nuestra prueba la página tardó aprox. 7 segundos en cargar completa.</li></ul></div>
+      <div class="diag-col gap"><h3>Lo que mejoramos</h3><ul><li><strong>La estética quedó vieja.</strong> Fotos de banco de imágenes y un diseño de plantilla que no transmite la experiencia de DOS Argentina.</li><li><strong>Todo vive en una sola página larga.</strong> Cada servicio merece su propio espacio para explicar cómo funciona y a quién le sirve.</li><li><strong>Empresas y candidatos comparten el mismo recorrido.</strong> «Ofertas laborales» y «Sumate a nuestra base de talento» aparecen en medio de la información para empresas.</li><li><strong>El formulario no pide teléfono ni servicio</strong>, así que cada consulta llega sin los datos para responderla rápido.</li><li><strong>La carga es lenta.</strong> La foto principal pesa mucho y en nuestra prueba la página tardó aprox. 7 segundos en cargar completa.</li></ul></div>
     </div>
   </div>
 </section>
 
-<section class="alt" id="proceso">
+<section class="alt" id="objetivos">
   <div class="wrap">
-    <div class="kicker">02 · Cómo trabajamos</div>
+    <div class="kicker">02 · Qué buscamos con el sitio nuevo</div>
+    <h2 class="section-title">Más actual, más fácil de medir<br>y <em>más fácil de encontrar</em>.</h2>
+    <p class="lead">La renovación no es solo visual. El sitio nuevo tiene que verse a la altura de DOS Argentina, sumar consultas desde las campañas y empezar a posicionarse solo en Google.</p>
+    <div class="svc-grid obj">
+      <div class="svc new"><div class="svc-head"><h3>Estética nueva</h3></div><p class="svc-role">Un diseño actual, con la identidad de DOS Argentina, que transmita confianza a una empresa que busca un proveedor de RRHH.</p></div>
+      <div class="svc new"><div class="svc-head"><h3>Mejor rendimiento en Google Ads</h3></div><p class="svc-role">Formulario y página pensados para convertir. Cada consulta llega con teléfono y servicio, y se registra como conversión. Con más datos, Google Ads optimiza mejor las campañas.</p></div>
+      <div class="svc new"><div class="svc-head"><h3>Base para SEO</h3></div><p class="svc-role">Cada servicio tiene su sección con dirección propia y textos alineados con las palabras que las empresas buscan en Google. Así el sitio puede aparecer en los resultados orgánicos, sin pagar por cada clic.</p></div>
+    </div>
+    <div style="height:34px"></div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Sección</th><th>Dirección</th><th>Búsquedas a las que apunta</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Personal eventual</strong></td><td>dosargentina.com.ar/personal-eventual</td><td>personal eventual · empresa de servicios eventuales · personal eventual para eventos</td></tr>
+        <tr><td><strong>Búsqueda y selección</strong></td><td>dosargentina.com.ar/busqueda-y-seleccion</td><td>búsqueda y selección de personal · consultora de selección</td></tr>
+        <tr><td><strong>Tercerización</strong></td><td>dosargentina.com.ar/tercerizacion</td><td>tercerización de personal · outsourcing de personal</td></tr>
+        <tr><td><strong>Administración de RRHH</strong></td><td>dosargentina.com.ar/administracion-de-personal</td><td>administración de personal · liquidación de sueldos</td></tr>
+        <tr><td><strong>Marketing promocional</strong></td><td>dosargentina.com.ar/marketing-promocional</td><td>promotoras para eventos · personal para acciones promocionales</td></tr>
+        <tr><td><strong>Ofertas laborales</strong></td><td>dosargentina.com.ar/ofertas-laborales</td><td>Para candidatos, separada del recorrido de las empresas.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout">
+      <h3>Una landing, con secciones que funcionan solas.</h3>
+      <p>El sitio sigue siendo una landing, pero cada sección tiene su propia dirección. Así los anuncios de cada servicio llevan directo a la sección que corresponde, y Google puede mostrar cada una en los resultados de búsqueda.</p>
+    </div>
+  </div>
+</section>
+
+<section id="proceso">
+  <div class="wrap">
+    <div class="kicker">03 · Cómo trabajamos</div>
     <h2 class="section-title">Primero se valida el esqueleto,<br>después <em>se construye</em>.</h2>
-    <p class="lead">No se programa nada hasta que DOS apruebe el diseño. Así los cambios se hacen cuando todavía son fáciles de hacer.</p>
-    <div class="step"><div class="step-label">Etapa 1 · Paso 1</div><div><span class="who"><span class="dot"></span>PORA Diseño</span><h3>Baja fidelidad</h3><p>Diseñamos la landing completa en Figma. Arrancamos con una versión de baja fidelidad, con la estructura y la base del diseño, para que validen el esqueleto antes de avanzar.</p><div class="tags"><span class="tag">Estructura</span><span class="tag">Orden de contenidos</span><span class="tag">Validación de DOS</span></div></div></div>
-    <div class="step"><div class="step-label">Etapa 1 · Paso 2</div><div><span class="who"><span class="dot"></span>PORA Diseño</span><h3>Prototipo responsive funcional</h3><p>Una vez aprobado, pasamos al prototipo navegable, ya con la identidad de DOS aplicada y resuelto para celular, tablet y computadora.</p><div class="tags"><span class="tag">Identidad DOS</span><span class="tag">Mobile · Tablet · Desktop</span><span class="tag">Aprobación final</span></div></div></div>
+    <p class="lead">No se programa nada hasta que DOS Argentina apruebe el diseño. Así los cambios se hacen cuando todavía son fáciles de hacer.</p>
+    <div class="step"><div class="step-label">Etapa 1 · Paso 1</div><div><span class="who"><span class="dot"></span>PORA Diseño</span><h3>Baja fidelidad</h3><p>Diseñamos la landing completa en Figma. Arrancamos con una versión de baja fidelidad, con la estructura y la base del diseño, para que validen el esqueleto antes de avanzar.</p><div class="tags"><span class="tag">Estructura</span><span class="tag">Orden de contenidos</span><span class="tag">Validación de DOS Argentina</span></div></div></div>
+    <div class="step"><div class="step-label">Etapa 1 · Paso 2</div><div><span class="who"><span class="dot"></span>PORA Diseño</span><h3>Prototipo responsive funcional</h3><p>Una vez aprobado, pasamos al prototipo navegable, ya con la identidad de DOS Argentina aplicada y resuelto para celular, tablet y computadora.</p><div class="tags"><span class="tag">Identidad DOS Argentina</span><span class="tag">Mobile · Tablet · Desktop</span><span class="tag">Aprobación final</span></div></div></div>
     <div class="step"><div class="step-label">Etapa 2 · Paso 3</div><div><span class="who labs"><span class="dot"></span>Dilema Labs</span><h3>Construcción del sitio</h3><p>Con el diseño aprobado, construimos el sitio nuevo. El código que exporta Figma es el punto de partida, y lo convertimos en un sitio real, liviano y preparado para las campañas.</p><div class="tags"><span class="tag">Desarrollo</span><span class="tag">Formulario</span><span class="tag">WhatsApp</span><span class="tag">Medición</span></div></div></div>
     <div class="step"><div class="step-label">Etapa 2 · Paso 4</div><div><span class="who labs"><span class="dot"></span>Dilema Labs</span><h3>Puesta online</h3><p>Publicamos el sitio en el dominio actual y revisamos que se registren todas las consultas y los clics a WhatsApp. Además, redirigimos las direcciones viejas para no perder visitas.</p><div class="tags"><span class="tag">dosargentina.com.ar</span><span class="tag">Pruebas</span><span class="tag">Redirecciones</span></div></div></div>
     <div class="callout">
@@ -265,9 +296,9 @@
   </div>
 </section>
 
-<section id="entregables">
+<section class="alt" id="entregables">
   <div class="wrap">
-    <div class="kicker">03 · Qué entregamos</div>
+    <div class="kicker">04 · Qué entregamos</div>
     <h2 class="section-title">Dos equipos,<br>un <em>mismo sitio</em>.</h2>
     <p class="lead">El diseño está a cargo de PORA Diseño, estudio aliado de Dilema. El desarrollo y la puesta online los hace Dilema Labs, el área de Dilema que construye sitios y sistemas.</p>
     <div class="svc-grid">
@@ -281,7 +312,7 @@
         <div class="svc-head"><h3>Desarrollo y puesta online</h3><span class="svc-state">Dilema Labs</span></div>
         <p class="svc-role">El sitio nuevo, construido a partir del diseño aprobado y publicado en el dominio actual.</p>
         <div class="svc-label">Qué incluye</div>
-        <ul><li>Sitio adaptado a celular, tablet y computadora.</li><li>Formulario de contacto con teléfono y servicio de interés.</li><li>Botones de WhatsApp.</li><li>Medición de Google Analytics y conversiones de Google Ads funcionando desde el primer día.</li><li>Sección de ofertas laborales separada del recorrido de las empresas.</li><li>Carga rápida y SEO básico: títulos, descripciones, imágenes livianas y redirecciones.</li></ul>
+        <ul><li>Sitio adaptado a celular, tablet y computadora.</li><li>Formulario de contacto con teléfono y servicio de interés.</li><li>Botones de WhatsApp.</li><li>Medición de Google Analytics y conversiones de Google Ads funcionando desde el primer día.</li><li>Una sección por servicio con dirección propia (/personal-eventual, /busqueda-y-seleccion y las demás), lista para usar en los anuncios.</li><li>Sección de ofertas laborales separada del recorrido de las empresas.</li><li>Base de SEO: textos, títulos y descripciones alineados con las palabras clave que se buscan en Google.</li><li>Carga rápida, imágenes livianas y redirecciones de las direcciones viejas.</li></ul>
       </div>
     </div>
   </div>
@@ -289,7 +320,7 @@
 
 <section class="dark" id="inversion">
   <div class="wrap">
-    <div class="kicker">04 · Inversión</div>
+    <div class="kicker">05 · Inversión</div>
     <h2 class="section-title">Diseño y desarrollo,<br><em>en un solo proyecto</em>.</h2>
     <p class="lead">Un pago único por el proyecto completo, dividido en dos partes.</p>
 
@@ -303,12 +334,12 @@
       <div class="price-card">
         <div class="price-type">Etapa 2 · Dilema Labs</div>
         <h4>Desarrollo y puesta online</h4>
-        <ul><li>Construcción del sitio</li><li>Formulario y WhatsApp</li><li>Medición y conversiones</li><li>Carga rápida y SEO básico</li></ul>
+        <ul><li>Construcción del sitio</li><li>Secciones con dirección propia</li><li>Formulario y medición para Google Ads</li><li>Base de SEO y carga rápida</li></ul>
         <div class="price-num">$300.000</div>
       </div>
       <div class="price-card featured"><div class="price-badge">Proyecto completo</div>
         <div class="price-type">Etapas 1 + 2</div>
-        <h4>Sitio nuevo de DOS</h4>
+        <h4>Sitio nuevo de DOS Argentina</h4>
         <ul><li>Diseño de PORA Diseño</li><li>Desarrollo de Dilema Labs</li><li>Publicado en dosargentina.com.ar</li></ul>
         <div class="price-num">$700.000</div>
         <div class="price-save">Pago único · <b>total del proyecto</b></div>
@@ -317,7 +348,7 @@
 
     <div class="pr-sub"><h3>Forma de pago</h3><span>50% y 50%</span></div>
     <div class="pay"><div class="fee"><div class="k">Al aprobar la propuesta · 50%</div><div class="v">$350.000</div></div><div class="fee"><div class="k">A la entrega del sitio · 50%</div><div class="v">$350.000</div></div></div>
-    <div class="note">No incluye hosting ni dominio (siguen a nombre de DOS), redacción de textos nuevos, producción de fotos ni mantenimiento mensual.</div>
+    <div class="note">No incluye hosting ni dominio (siguen a nombre de DOS Argentina), redacción de textos nuevos, producción de fotos ni mantenimiento mensual.</div>
   </div>
 </section>
 
