@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meta desde cero · Dilema Creative</title>
+<meta name="description" content="Instructivo de Dilema Creative para crear un portfolio empresarial de Meta desde cero y darle acceso a la agencia con control total.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0E2A47;--ink-soft:#1B3A5C;--sage:#4FA27E;--sage-deep:#2F7D5E;--cream:#F4EFE6;--paper:#FAF6EE;--paper-2:#EFE8D9;--black:#14161A;--ash:#6B6257;--line:#D9CFBC;--bad:#B23A2B;--warn:#C97B2B;--tap:#E0452B}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.6;color:var(--black);background:var(--paper)}
+a{color:var(--sage-deep)}
+nav{position:sticky;top:0;z-index:20;height:56px;background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 32px;gap:16px}
+.brand{font-family:'Fraunces',serif;font-size:20px;color:var(--cream);font-weight:500;text-decoration:none;white-space:nowrap}
+.brand em{color:var(--sage);font-style:italic}
+.ntag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--cream);border:1px solid var(--sage);padding:4px 10px;border-radius:3px;white-space:nowrap}
+.hero{padding:72px 80px 64px;background:radial-gradient(circle at 92% 0%,rgba(79,162,126,.09),transparent 45%),var(--paper);border-bottom:1px solid var(--line)}
+.kicker{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.kicker::after{content:"";width:80px;height:1px;background:var(--ash);opacity:.5}
+h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(44px,7vw,96px);line-height:.92;letter-spacing:-.035em;color:var(--ink);max-width:14ch}
+h1 em{display:block;font-style:italic;color:var(--sage)}
+.lede{font-family:'Fraunces',serif;font-style:italic;font-size:21px;line-height:1.45;color:var(--ash);max-width:720px;margin-top:26px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:40px}
+.stats>div{background:#fff;padding:16px 18px}
+.k{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);margin-bottom:6px}
+.v{font-family:'Fraunces',serif;font-size:19px;color:var(--ink);line-height:1.25}
+.mail{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--cream);font-family:'JetBrains Mono',monospace;font-size:14px;padding:10px 12px 10px 16px;border-radius:999px;margin-top:6px;flex-wrap:wrap}
+.copy{font:inherit;font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--sage);color:#fff;border:0;border-radius:999px;padding:5px 11px;cursor:pointer}
+.copy:hover{background:var(--sage-deep)}
+section{padding:72px 80px;border-bottom:1px solid var(--line)}
+section.cream{background:var(--cream)}
+section.dark{background:var(--ink);color:var(--cream)}
+.wrap{max-width:900px}
+.sh{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);margin-bottom:12px}
+.dark .sh{color:var(--sage)}
+h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1.02;letter-spacing:-.025em;color:var(--ink);margin-bottom:22px}
+h2 em{font-style:italic;color:var(--sage)}
+.dark h2{color:var(--cream)}
+h3{font-family:'Fraunces',serif;font-weight:500;font-size:24px;letter-spacing:-.015em;color:var(--ink);margin:0 0 8px}
+p+p{margin-top:12px}
+.intro{font-size:16px;max-width:720px;margin-bottom:8px}
+.dark .intro{color:#E6DFD2}
+.route{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:rgba(244,239,230,.18);border:1px solid rgba(244,239,230,.18);border-radius:6px;overflow:hidden;margin-top:26px;counter-reset:r}
+.route>div{background:var(--ink);padding:18px 18px 20px;counter-increment:r}
+.route>div::before{content:counter(r,decimal-leading-zero);display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;color:var(--sage);margin-bottom:8px}
+.route b{display:block;font-family:'Fraunces',serif;font-weight:500;font-size:18px;color:var(--cream);margin-bottom:4px}
+.route span{font-size:13px;color:#C9C1B3;line-height:1.5}
+.step{display:grid;grid-template-columns:72px 1fr;gap:8px 20px;padding:34px 0;border-top:1px dashed var(--line)}
+.step:first-of-type{border-top:0;padding-top:12px}
+.body{min-width:0}
+.num{font-family:'Fraunces',serif;font-size:44px;font-weight:600;line-height:1;color:var(--sage);letter-spacing:-.02em}
+.body>p,.body>ul,.body>ol{max-width:700px}
+.body ol,.body ul{padding-left:20px;margin:10px 0}
+.body li{margin:5px 0}
+.body li::marker{color:var(--sage-deep);font-weight:600}
+b,strong{font-weight:600;color:var(--ink)}
+.dark b,.dark strong{color:#fff}
+.ui{font-weight:600;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:4px;padding:0 6px;white-space:nowrap}
+.path{font-family:'JetBrains Mono',monospace;font-size:12px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:10px 14px;margin:12px 0;color:var(--ink);line-height:1.7}
+.path i{font-style:normal;color:var(--sage-deep);padding:0 4px}
+.note{border-left:4px solid var(--sage);background:#fff;padding:14px 18px;margin:16px 0;border-radius:0 6px 6px 0;max-width:720px}
+.note.warn{border-left-color:var(--warn)}
+.note.bad{border-left-color:var(--bad)}
+.note .lab{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);margin-bottom:4px}
+.cream .note{background:var(--paper)}
+.tw{border:1px solid var(--line);border-radius:6px;overflow-x:auto;margin:16px 0;background:#fff}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:620px}
+th{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);text-align:left;background:var(--paper-2);padding:10px 14px;font-weight:500}
+td{padding:12px 14px;border-top:1px solid var(--line);vertical-align:top}
+td:first-child{font-weight:600;color:var(--ink)}
+.cases{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:18px 0}
+.case{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px 20px}
+.case .tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-deep);margin-bottom:6px}
+.case h4{font-family:'Fraunces',serif;font-weight:500;font-size:20px;color:var(--ink);margin-bottom:8px;line-height:1.15}
+.case ul{padding-left:18px;margin:6px 0 0;font-size:14px}
+.case li{margin:4px 0}
+.case .res{margin-top:10px;font-size:13px;color:var(--ash);border-top:1px dashed var(--line);padding-top:8px}
+.checklist{list-style:none;padding:0!important;margin:14px 0}
+.checklist li{padding:10px 0 10px 32px;position:relative;border-bottom:1px dashed var(--line)}
+.checklist li::before{content:"";position:absolute;left:2px;top:13px;width:16px;height:16px;border:2px solid var(--sage);border-radius:4px}
+.dark .checklist li{border-color:rgba(244,239,230,.2)}
+details{border:1px solid var(--line);background:#fff;border-radius:6px;margin:10px 0;max-width:780px}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;color:var(--ink);list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:'JetBrains Mono',monospace;color:var(--sage-deep)}
+details[open] summary::after{content:"–"}
+details>div{padding:0 18px 16px;font-size:14.5px}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:18px 0}
+.opt-card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:18px 20px}
+.opt-card.rec{border:2px solid var(--sage)}
+.opt-card .tag{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);margin-bottom:6px}
+.opt-card.rec .tag{color:var(--sage-deep)}
+.opt-card h4{font-family:'Fraunces',serif;font-weight:500;font-size:20px;color:var(--ink);margin-bottom:6px}
+.opt-card p{font-size:14px}
+.closing{text-align:center;padding:80px}
+.closing h2{max-width:700px;margin:0 auto 16px}
+.closing p{max-width:620px;margin:0 auto;color:#E6DFD2}
+footer{background:#081B30;color:#9FB0C2;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:22px 80px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:#C9D6E3}
+
+/* ---------- Pantallas ilustradas ---------- */
+figure.shot{margin:18px 0 6px;max-width:760px}
+.win{border:1px solid #C9CDD3;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 10px 30px -18px rgba(14,42,71,.45);font-family:'Inter',system-ui,sans-serif;font-size:12.5px;line-height:1.4;color:#1C1E21}
+.bar{height:32px;background:#ECEEF1;border-bottom:1px solid #D8DBE0;display:flex;align-items:center;gap:6px;padding:0 12px}
+.bar i{width:9px;height:9px;border-radius:50%;background:#C9CDD3;display:block}
+.url{flex:1;margin-left:10px;background:#fff;border-radius:999px;height:20px;display:flex;align-items:center;padding:0 12px;font-size:11px;color:#5F6368;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.scr{display:grid;grid-template-columns:190px 1fr;min-height:200px}
+.scr.full{grid-template-columns:1fr}
+.sb{background:#F6F7F9;border-right:1px solid #E4E6EB;padding:12px 8px}
+.sb .g{font-size:10px;font-weight:600;color:#65676B;text-transform:uppercase;letter-spacing:.05em;margin:10px 8px 4px}
+.sb .g:first-child{margin-top:2px}
+.sb .it{padding:6px 9px;border-radius:6px;margin:1px 0}
+.sb .it.sub{padding-left:20px}
+.sb .it.on{background:#E7F0FF;color:#0866FF;font-weight:600}
+.mn{padding:16px 18px;min-width:0}
+.mh{font-weight:700;font-size:15px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.mut{color:#65676B;font-size:11.5px}
+.b{display:inline-block;padding:6px 13px;border-radius:6px;background:#0866FF;color:#fff;font-weight:600;font-size:12px;white-space:nowrap}
+.b.gr{background:#E4E6EB;color:#1C1E21}
+.b.ln{background:#fff;color:#0866FF;border:1px solid #CCD0D5}
+.r{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #EEF0F2}
+.r:last-child{border-bottom:0}
+.av{width:26px;height:26px;border-radius:50%;background:#D8DADF;flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff}
+.av.s{background:#4FA27E}
+.who{display:flex;align-items:center;gap:9px}
+.f{margin:9px 0}
+.f label{display:block;font-size:11px;font-weight:600;color:#444950;margin-bottom:4px}
+.in{border:1px solid #CCD0D5;border-radius:6px;padding:7px 10px;background:#fff;min-height:31px}
+.in.sel::after{content:"▾";float:right;color:#65676B}
+.op{border:1px solid #CCD0D5;border-radius:8px;padding:9px 11px;margin:7px 0;display:flex;gap:10px;align-items:flex-start}
+.op.on{border-color:#0866FF;background:#F2F7FF}
+.rd{width:14px;height:14px;border-radius:50%;border:2px solid #8A8D91;flex:none;margin-top:1px}
+.op.on .rd{border-color:#0866FF;background:#0866FF;box-shadow:inset 0 0 0 2px #fff}
+.op b{color:#1C1E21;display:block}
+.cb{width:14px;height:14px;border-radius:3px;border:2px solid #8A8D91;flex:none;display:inline-block;vertical-align:-2px}
+.cb.on{background:#0866FF;border-color:#0866FF;position:relative}
+.cb.on::after{content:"";position:absolute;left:3px;top:0;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.tg{width:30px;height:17px;border-radius:9px;background:#BEC3C9;position:relative;flex:none;display:inline-block}
+.tg::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:#fff}
+.tg.on{background:#0866FF}
+.tg.on::after{left:15px}
+.tabs{display:flex;gap:16px;border-bottom:1px solid #E4E6EB;margin-bottom:10px}
+.tabs span{padding:7px 0;color:#65676B}
+.tabs span.on{color:#0866FF;border-bottom:2px solid #0866FF;font-weight:600}
+.modal{background:rgba(28,30,33,.28);padding:18px;display:flex;justify-content:center}
+.dlg{background:#fff;border-radius:10px;width:100%;max-width:470px;padding:16px 18px;box-shadow:0 12px 32px rgba(0,0,0,.2)}
+.dlg .t{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.foot{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.steps-mini{display:flex;gap:6px;margin-bottom:10px}
+.steps-mini span{flex:1;height:4px;border-radius:2px;background:#E4E6EB}
+.steps-mini span.on{background:#0866FF}
+.cols2{display:grid;grid-template-columns:150px 1fr;gap:0;border:1px solid #E4E6EB;border-radius:8px;overflow:hidden}
+.cols2 .l{background:#F6F7F9;border-right:1px solid #E4E6EB;padding:6px}
+.cols2 .l div{padding:6px 8px;border-radius:5px}
+.cols2 .l div.on{background:#E7F0FF;color:#0866FF;font-weight:600}
+.cols2 .rr{padding:8px 12px}
+.pill{display:inline-block;font-size:10.5px;padding:2px 8px;border-radius:999px;background:#E4E6EB;color:#444950}
+/* tema Google */
+.gg .sb{background:#fff}
+.gg .sb .it.on{background:#E8F0FE;color:#1967D2}
+.gg .b{background:#1A73E8;border-radius:18px;padding:7px 16px}
+.gg .b.gr{background:#fff;color:#1A73E8;border:1px solid #DADCE0}
+.gg .b.ln{background:#fff;color:#1A73E8;border:0}
+.gg .op.on{border-color:#1A73E8;background:#F3F8FE}
+.gg .op.on .rd{border-color:#1A73E8;background:#1A73E8}
+.gg .cb.on{background:#1A73E8;border-color:#1A73E8}
+.gg .tabs span.on{color:#1A73E8;border-color:#1A73E8}
+.gg .in{border-color:#DADCE0;border-radius:4px}
+.gtop{height:44px;border-bottom:1px solid #E4E6EB;display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:10px}
+.glogo{font-weight:600;color:#3C4043;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.glogo i{width:18px;height:18px;border-radius:4px;background:linear-gradient(135deg,#4285F4 0 50%,#FBBC04 50% 100%);display:inline-block}
+.glogo i.m{background:linear-gradient(135deg,#34A853 0 50%,#4285F4 50% 100%)}
+.gid{font-size:11px;color:#5F6368;text-align:right;line-height:1.3}
+.gid b{color:#202124;font-weight:600;display:block;font-size:11.5px}
+.rail{background:#fff;border-right:1px solid #E4E6EB;padding:10px 4px;display:flex;flex-direction:column;gap:4px;align-items:stretch}
+.rail div{font-size:9.5px;text-align:center;padding:7px 2px;border-radius:10px;color:#3C4043}
+.rail div::before{content:"";display:block;width:18px;height:18px;margin:0 auto 3px;border-radius:5px;background:#DADCE0}
+.rail div.on{color:#1967D2;font-weight:600}
+.rail div.on::before{background:#D2E3FC}
+.scr.rl{grid-template-columns:86px 170px 1fr}
+.scr.rl2{grid-template-columns:86px 1fr}
+/* Marcador "tocá acá" */
+.tap{position:relative;outline:2.5px solid var(--tap);outline-offset:3px;border-radius:6px;z-index:1}
+.tap::after{content:attr(data-n);position:absolute;top:-13px;right:-13px;width:21px;height:21px;border-radius:50%;background:var(--tap);color:#fff;font:700 11px/21px 'Inter',sans-serif;text-align:center;box-shadow:0 0 0 3px #fff}
+.tap.l::after{right:auto;left:-13px}
+figcaption{display:flex;gap:12px;align-items:baseline;margin-top:10px;font-size:13.5px;color:var(--ash)}
+figcaption .lb{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--tap);white-space:nowrap}
+.legend{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ash);margin-top:14px}
+.legend i{width:18px;height:18px;border-radius:50%;background:var(--tap);color:#fff;font:700 10px/18px Inter;text-align:center;font-style:normal}
+
+@media (max-width:760px){
+  nav{padding:0 16px}.ntag{display:none}
+  .hero{padding:48px 16px 44px}section{padding:48px 16px}.closing{padding:56px 16px}footer{padding:20px 16px}
+  .stats{grid-template-columns:1fr 1fr}
+  .step{grid-template-columns:1fr;gap:4px}.num{font-size:34px}
+  .cases{grid-template-columns:1fr}
+  .scr{grid-template-columns:118px 1fr}.scr.rl{grid-template-columns:48px 100px 1fr}.scr.rl2{grid-template-columns:48px 1fr}.rail div{font-size:0!important}.rail div::before{margin-bottom:0}.op{padding:7px 8px}
+  .win{font-size:11px}.mn{padding:12px}.sb{padding:8px 4px}.rail div{font-size:8.5px}
+  .cols2{grid-template-columns:100px 1fr}
+  .lede{font-size:18px}
+}
+@media print{
+  @page{size:A4;margin:12mm 0}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  nav{position:static}.copy{display:none}
+  .step,figure.shot,.case,details{break-inside:avoid}
+  details>div{display:block}
+}
+</style>
+</head>
+<body>
+<nav><a class="brand" href="#">Dilema <em>creative</em></a><span class="ntag">Instructivo · Meta</span></nav>
+<header class="hero">
+  <div class="kicker">Instructivo para clientes · Meta</div>
+  <h1>Crear tu cuenta de Meta <em>desde cero.</em></h1>
+  <p class="lede">Para cuando tu marca todavía no tiene portfolio empresarial. Creamos el portfolio, la página, Instagram, la cuenta publicitaria, el método de pago y el píxel, y al final nos invitás con control total.</p>
+  <div class="stats"><div><div class="k">Tiempo</div><div class="v">Aprox. 30 minutos</div></div><div><div class="k">Dónde</div><div class="v">Computadora + app de Instagram</div></div><div><div class="k">Al final nos das</div><div class="v">Control total + activos</div></div><div><div class="k">Nuestro mail</div><div class="v">equipo@dilemacreative.ar</div></div></div>
+  <div class="legend"><i>1</i> En las pantallas ilustradas, el círculo marca dónde tocar. Meta y Google cambian nombres y colores seguido: si algo no coincide del todo, guiate por la palabra en negrita.</div>
+</header>
+<section class="dark" id="s1"><div class="wrap"><div class="sh">01 / Resumen</div><h2>Armamos tu cuenta de Meta <em>desde cero.</em></h2>
+<p class="intro">Si tu marca nunca tuvo un portfolio empresarial (antes “Business Manager”), lo creamos ahora. Al final vas a tener todo ordenado a nombre de tu empresa, y nosotros vamos a quedar invitados como <b>persona con control total</b>.</p>
+<div class="route">
+<div><b>Portfolio</b><span>Lo creás con tu Facebook personal.</span></div>
+<div><b>Página + Instagram</b><span>Los sumás o los creás.</span></div>
+<div><b>Cuenta publicitaria</b><span>En pesos y con hora de Buenos Aires.</span></div>
+<div><b>Método de pago</b><span>Tu tarjeta, a nombre de la empresa.</span></div>
+<div><b>Píxel</b><span>Para medir lo que pasa en la web.</span></div>
+<div><b>Nos invitás</b><span>equipo@dilemacreative.ar, control total.</span></div>
+</div>
+<div class="note" style="background:rgba(255,255,255,.06);color:#E6DFD2"><div class="lab" style="color:var(--sage)">Antes de crear, chequeá</div>Entrá a <b>business.facebook.com</b>. Si arriba a la izquierda ya aparece el nombre de una empresa, <b>ya tenés portfolio</b>: no crees otro y seguí el instructivo <a href="dilema-guia-accesos-meta-portfolio-existente.html" style="color:var(--sage)">Meta · Ya tenés portfolio</a>.</div>
+</div></section><section class="cream" id="s2"><div class="wrap"><div class="sh">02 / Antes de empezar</div><h2>Lo que <em>necesitás.</em></h2>
+<ul class="checklist">
+<li><b>Tu perfil personal de Facebook</b>, con tu nombre real. Meta no deja crear portfolios sin un perfil detrás; el perfil no se ve públicamente en los anuncios.</li>
+<li><b>Autenticación en dos pasos activada</b> en ese perfil (Centro de cuentas › Contraseña y seguridad). Evita bloqueos.</li>
+<li><b>Un mail de la empresa</b> al que tengas acceso siempre (no el de un empleado que se puede ir).</li>
+<li><b>El usuario y la contraseña del Instagram</b> de la marca.</li>
+<li><b>Una tarjeta</b> para los anuncios, y los datos fiscales de la empresa (razón social y CUIT) si querés que figuren.</li>
+<li><b>Una computadora.</b> La mayoría de estos pasos no se pueden hacer desde el celular.</li>
+</ul>
+<div class="note warn"><div class="lab">Un consejo que ahorra problemas</div>Hacelo todo en una sola sesión, sin crear y borrar cosas varias veces. Meta desconfía de las cuentas nuevas que cambian mucho en poco tiempo y a veces las restringe.</div>
+</div></section><section class="" id="s3"><div class="wrap"><div class="sh">03 / Paso a paso · Crear</div><h2>Todo lo que tu marca necesita <em>en Meta.</em></h2><div class="step"><div class="num">01</div><div class="body"><h3>Creá el portfolio empresarial</h3>
+<p>Andá a <b>business.facebook.com/overview</b>, iniciá sesión con tu Facebook personal y tocá <span class="ui">Crear un portfolio</span> (en algunas pantallas dice <span class="ui">Crear una cuenta</span>).</p>
+<ol>
+<li><b>Nombre del portfolio:</b> el nombre de tu marca o de tu empresa, tal como te conocen.</li>
+<li><b>Nombre y apellido:</b> los tuyos.</li>
+<li><b>Correo del negocio:</b> el mail de la empresa.</li>
+<li>Tocá <span class="ui">Crear</span> y abrí el mail de confirmación que te manda Meta.</li>
+</ol>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">business.facebook.com/overview</div></div><div class="scr full"><div class="modal"><div class="dlg"><div class="t">Crear un portfolio empresarial</div><div class="mut" style="margin-bottom:6px">Reuní tus páginas, cuentas publicitarias y personas en un solo lugar.</div><div class="f"><label>Nombre del portfolio empresarial</label><div class="in tap" data-n="1">Tu Empresa</div></div><div class="f"><label>Nombre y apellido</label><div class="in">Tu Nombre Tu Apellido</div></div><div class="f"><label>Correo electrónico del negocio</label><div class="in tap" data-n="2">hola@tuempresa.com</div></div><div class="foot"><span class="b gr">Cancelar</span><span class="b tap" data-n="3">Crear</span></div></div></div></div></div><figcaption><span class="lb">Pantalla</span><span>Nombre de tu marca, tu nombre y un mail al que tengas acceso siempre. Tocá <b>Crear</b> y confirmá el mail que te llega.</span></figcaption></figure></div></div><div class="step"><div class="num">02</div><div class="body"><h3>Sumá o creá la página de Facebook</h3>
+<p>Entrá a <b>Configuración</b> (engranaje abajo a la izquierda) › <b>Cuentas › Páginas</b> › <span class="ui">+ Agregar</span>:</p>
+<ul>
+<li><b>Ya tenés página:</b> elegí <b>Agregar una página existente</b> y escribí su nombre. Tenés que ser administrador de esa página.</li>
+<li><b>No tenés página:</b> elegí <b>Crear una nueva página</b>: nombre de la marca, categoría (por ejemplo “Tienda de ropa” o “Servicio de limpieza”) y una descripción corta. Después cargale logo y portada.</li>
+</ul>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">business.facebook.com/latest/settings</div></div><div class="scr "><div class="sb"><div class="g">Usuarios</div><div class="it">Personas</div><div class="it">Socios</div><div class="it">Usuarios del sistema</div><div class="g">Cuentas</div><div class="it on tap" data-n="1">Páginas</div><div class="it">Cuentas publicitarias</div><div class="it">Cuentas de Instagram</div><div class="it">Cuentas de WhatsApp</div><div class="g">Orígenes de datos</div><div class="it">Conjuntos de datos</div><div class="it">Catálogos</div><div class="g">Otros</div><div class="it">Información del negocio</div><div class="it">Facturación y pagos</div><div class="it">Centro de seguridad</div></div><div class="mn"><div class="mh">Páginas <span class="b tap" data-n="2">+ Agregar</span></div><div class="op"><span class="rd"></span><span><b>Agregar una página existente</b><span class="mut">Ya tenés la página y sos administrador.</span></span></div><div class="op"><span class="rd"></span><span><b>Solicitar acceso a una página</b><span class="mut">La página es de otra empresa (no es tu caso).</span></span></div><div class="op on"><span class="rd"></span><span><b>Crear una nueva página</b><span class="mut">Si tu marca todavía no tiene página.</span></span></div></div></div></div><figcaption><span class="lb">Pantalla</span><span><b>Cuentas › Páginas › + Agregar</b>. Elegí <b>Agregar una página existente</b> si ya la tenés, o <b>Crear una nueva página</b>.</span></figcaption></figure></div></div><div class="step"><div class="num">03</div><div class="body"><h3>Pasá Instagram a profesional y conectalo</h3>
+<p><b>Primero, desde la app de Instagram</b> en el celular: tu perfil › <b>☰</b> › <b>Tipo de cuenta y herramientas</b> › <b>Cambiar a cuenta profesional</b> › <b>Empresa</b>. Si ya es profesional, salteá esto.</p>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">App de Instagram › tu perfil › ☰</div></div><div class="scr full" style="background:#fafafa"><div class="mn" style="max-width:360px;margin:0 auto"><div class="mh">Configuración y actividad</div><div class="r"><span>Centro de cuentas</span><span class="mut">›</span></div><div class="r"><span>Privacidad de la cuenta</span><span class="mut">›</span></div><div class="r tap" data-n="1" style="padding:9px 6px"><span>Tipo de cuenta y herramientas</span><span class="mut">›</span></div><div class="r" style="padding:9px 6px"><span class="b ln tap" data-n="2" style="border:0;padding:0">Cambiar a cuenta profesional</span></div><div class="op on tap" data-n="3"><span class="rd"></span><span><b>Empresa</b><span class="mut">Recomendado para marcas y comercios.</span></span></div></div></div></div><figcaption><span class="lb">Pantalla</span><span>En la app de Instagram: <b>☰ › Tipo de cuenta y herramientas › Cambiar a cuenta profesional › Empresa</b>.</span></figcaption></figure>
+<p style="margin-top:18px"><b>Después, en la computadora:</b> Configuración › <b>Cuentas › Cuentas de Instagram</b> › <span class="ui">+ Agregar</span> e iniciá sesión con el Instagram de la marca. Si te pregunta, conectalo también a la página de Facebook.</p>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">business.facebook.com/latest/settings</div></div><div class="scr "><div class="sb"><div class="g">Usuarios</div><div class="it">Personas</div><div class="it">Socios</div><div class="it">Usuarios del sistema</div><div class="g">Cuentas</div><div class="it">Páginas</div><div class="it">Cuentas publicitarias</div><div class="it on tap" data-n="1">Cuentas de Instagram</div><div class="it">Cuentas de WhatsApp</div><div class="g">Orígenes de datos</div><div class="it">Conjuntos de datos</div><div class="it">Catálogos</div><div class="g">Otros</div><div class="it">Información del negocio</div><div class="it">Facturación y pagos</div><div class="it">Centro de seguridad</div></div><div class="mn"><div class="mh">Cuentas de Instagram <span class="b tap" data-n="2">+ Agregar</span></div><div class="mut" style="margin-bottom:8px">Conectá tu cuenta de Instagram para anunciar y responder mensajes desde acá.</div><div class="op" style="max-width:380px"><span class="av" style="background:#C13584">IG</span><span><b>Iniciá sesión en Instagram</b><span class="mut">Se abre una ventana: entrá con usuario y contraseña de la cuenta de la marca.</span></span></div></div></div></div><figcaption><span class="lb">Pantalla</span><span><b>Cuentas › Cuentas de Instagram › + Agregar</b> e iniciá sesión con la cuenta de la marca.</span></figcaption></figure></div></div><div class="step"><div class="num">04</div><div class="body"><h3>Creá la cuenta publicitaria</h3>
+<p>Configuración › <b>Cuentas › Cuentas publicitarias</b> › <span class="ui">+ Agregar</span> › <b>Crear una nueva cuenta publicitaria</b>.</p>
+<ol>
+<li><b>Nombre:</b> “Tu Empresa – Anuncios”.</li>
+<li><b>Zona horaria:</b> <b>(GMT-03:00) America/Buenos_Aires</b>.</li>
+<li><b>Moneda:</b> <b>ARS – Peso argentino</b> (salvo que vendas y factures en dólares y te lo hayamos indicado).</li>
+<li>¿Para quién es la cuenta? <b>Mi portfolio empresarial</b>.</li>
+<li>Asignate a vos mismo con <b>Control total</b> y tocá <span class="ui">Crear</span>.</li>
+</ol>
+<div class="note bad"><div class="lab">Esto no se puede cambiar después</div>La <b>moneda</b> y la <b>zona horaria</b> quedan fijas para siempre. Si se cargan mal, hay que crear otra cuenta. Revisalas dos veces antes de confirmar.</div>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">business.facebook.com/latest/settings</div></div><div class="scr full"><div class="modal"><div class="dlg"><div class="t">Crear una nueva cuenta publicitaria</div><div class="f"><label>Nombre de la cuenta publicitaria</label><div class="in">Tu Empresa – Anuncios</div></div><div class="f"><label>Zona horaria</label><div class="in sel tap" data-n="1">(GMT-03:00) America/Buenos_Aires</div></div><div class="f"><label>Moneda</label><div class="in sel tap" data-n="2">ARS – Peso argentino</div></div><div class="mut">La zona horaria y la moneda no se pueden cambiar después.</div><div class="foot"><span class="b gr">Cancelar</span><span class="b tap" data-n="3">Siguiente</span></div></div></div></div></div><figcaption><span class="lb">Pantalla</span><span>Zona horaria <b>Buenos Aires</b> y moneda <b>ARS</b>. Después elegí <b>Mi portfolio empresarial</b> y asignate a vos con control total.</span></figcaption></figure></div></div><div class="step"><div class="num">05</div><div class="body"><h3>Cargá el método de pago</h3>
+<p>Andá a <b>Facturación y pagos</b> (en el menú de configuración, o en <b>business.facebook.com/billing_hub</b>), elegí la cuenta publicitaria que acabás de crear y tocá <span class="ui">Agregar método de pago</span>.</p>
+<ul>
+<li><b>Recomendado: tarjeta de crédito</b> a nombre de la empresa o del titular. Meta cobra automáticamente cada vez que el gasto llega a un umbral o una vez por mes.</li>
+<li><b>Tarjeta de débito:</b> funciona, pero se rechaza más seguido (límites diarios, compras en el exterior). Si la usás, verificá con tu banco que esté habilitada para compras online internacionales.</li>
+<li>Si Meta te ofrece <b>saldo prepago</b> u otro medio en tu país, sirve también: cargás antes y los anuncios se frenan cuando se termina.</li>
+</ul>
+<p>En <b>Información de la empresa</b> completá los datos para los comprobantes:</p>
+<div class="cases">
+<div class="case"><div class="tag">Persona física / monotributo</div><h4>Anunciás a tu nombre</h4><ul><li>Nombre: tu nombre y apellido.</li><li>Dirección: tu domicilio fiscal.</li><li>Identificación fiscal: tu CUIT (o CUIL si no estás inscripto).</li></ul></div>
+<div class="case"><div class="tag">Responsable inscripto / sociedad</div><h4>Anuncia la empresa</h4><ul><li>Nombre: la razón social exacta, tal como figura en ARCA (con “S.R.L.” o “S.A.”).</li><li>Dirección: el domicilio fiscal.</li><li>Identificación fiscal: el CUIT de la empresa.</li></ul></div>
+</div>
+<div class="note"><div class="lab">Sobre impuestos</div>Meta factura desde el exterior. Por eso, en el resumen de tu tarjeta el banco suele sumar el <b>IVA de servicios digitales (21%)</b> y, según tu caso, otras percepciones. Tu contador te dice cómo computarlas. Lo que invertís en anuncios va a ser un poco menos que lo que ves en el resumen.</div>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">business.facebook.com/billing_hub/payment_settings</div></div><div class="scr "><div class="sb"><div class="g">Usuarios</div><div class="it">Personas</div><div class="it">Socios</div><div class="it">Usuarios del sistema</div><div class="g">Cuentas</div><div class="it">Páginas</div><div class="it">Cuentas publicitarias</div><div class="it">Cuentas de Instagram</div><div class="it">Cuentas de WhatsApp</div><div class="g">Orígenes de datos</div><div class="it">Conjuntos de datos</div><div class="it">Catálogos</div><div class="g">Otros</div><div class="it">Información del negocio</div><div class="it on tap" data-n="1">Facturación y pagos</div><div class="it">Centro de seguridad</div></div><div class="mn"><div class="mh">Configuración de pagos <span class="mut">Cuenta: Tu Empresa – Anuncios ▾</span></div><div class="r"><span>Métodos de pago</span><span class="b tap" data-n="1">Agregar método de pago</span></div><div class="op on"><span class="rd"></span><span><b>Tarjeta de crédito o débito</b><span class="mut">Visa, Mastercard, American Express.</span></span></div><div class="op"><span class="rd"></span><span><b>Otras opciones disponibles en tu país</b><span class="mut">Saldo prepago u otros medios, según lo que te ofrezca Meta.</span></span></div><div class="r" style="margin-top:6px"><span>Información de la empresa (datos fiscales)</span><span class="b gr tap" data-n="2">Editar</span></div></div></div></div><figcaption><span class="lb">Pantalla</span><span><b>Facturación y pagos</b>: elegí la cuenta publicitaria, tocá <b>Agregar método de pago</b> y completá los datos de la empresa.</span></figcaption></figure></div></div><div class="step"><div class="num">06</div><div class="body"><h3>Creá el conjunto de datos (píxel)</h3>
+<p>Es el código que mide qué hace la gente en tu web después de ver un anuncio. Configuración › <b>Orígenes de datos › Conjuntos de datos</b> › <span class="ui">+ Agregar</span>, ponele el nombre de la marca y tocá <span class="ui">Crear</span>. <b>No hace falta instalarlo:</b> eso lo hacemos nosotros. Si no tenés web, salteá este paso.</p>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">business.facebook.com/latest/settings</div></div><div class="scr "><div class="sb"><div class="g">Usuarios</div><div class="it">Personas</div><div class="it">Socios</div><div class="it">Usuarios del sistema</div><div class="g">Cuentas</div><div class="it">Páginas</div><div class="it">Cuentas publicitarias</div><div class="it">Cuentas de Instagram</div><div class="it">Cuentas de WhatsApp</div><div class="g">Orígenes de datos</div><div class="it on tap" data-n="1">Conjuntos de datos</div><div class="it">Catálogos</div><div class="g">Otros</div><div class="it">Información del negocio</div><div class="it">Facturación y pagos</div><div class="it">Centro de seguridad</div></div><div class="mn"><div class="mh">Conjuntos de datos <span class="b tap" data-n="2">+ Agregar</span></div><div class="f" style="max-width:340px"><label>Nombre del conjunto de datos</label><div class="in">Tu Empresa – Web</div></div><div class="mut">Después lo instalamos nosotros en tu web.</div></div></div></div><figcaption><span class="lb">Pantalla</span><span><b>Orígenes de datos › Conjuntos de datos › + Agregar</b>. Ponele el nombre de la marca y tocá <b>Crear</b>.</span></figcaption></figure></div></div></div></section><section class="cream" id="s4"><div class="wrap"><div class="sh">04 / Paso a paso · Invitarnos</div><h2>Ahora sí, invitanos con <em>control total.</em></h2><div class="step"><div class="num">07</div><div class="body"><h3>Configuración › Personas › Invitar personas</h3>
+<p>Ahora que el portfolio tiene todo adentro, invitanos. En <b>Configuración › Usuarios › Personas</b> tocá <span class="ui">+ Invitar personas</span>.</p>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">business.facebook.com/latest/settings</div></div><div class="scr "><div class="sb"><div class="g">Usuarios</div><div class="it on tap" data-n="1">Personas</div><div class="it">Socios</div><div class="it">Usuarios del sistema</div><div class="g">Cuentas</div><div class="it">Páginas</div><div class="it">Cuentas publicitarias</div><div class="it">Cuentas de Instagram</div><div class="it">Cuentas de WhatsApp</div><div class="g">Orígenes de datos</div><div class="it">Conjuntos de datos</div><div class="it">Catálogos</div><div class="g">Otros</div><div class="it">Información del negocio</div><div class="it">Facturación y pagos</div><div class="it">Centro de seguridad</div></div><div class="mn"><div class="mh">Personas <span class="b tap" data-n="2">+ Invitar personas</span></div><div class="r"><span class="who"><span class="av">T</span>Vos (Tu Nombre)</span><span class="pill">Control total</span></div><div class="r"><span class="who"><span class="av">M</span>Otra persona del equipo</span><span class="pill">Acceso parcial</span></div></div></div></div><figcaption><span class="lb">Pantalla</span><span>En el menú de la izquierda, dentro de <b>Usuarios</b>, tocá <b>Personas</b> y después el botón azul <b>+ Invitar personas</b>.</span></figcaption></figure></div></div><div class="step"><div class="num">08</div><div class="body"><h3>Nuestro mail y control total</h3>
+<p>Escribí <b>equipo@dilemacreative.ar</b>, elegí <b>Control total</b> (en algunas cuentas figura como <b>Acceso total</b> o <b>Administrador</b>) y tocá <span class="ui">Siguiente</span>.</p>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">business.facebook.com/latest/settings</div></div><div class="scr full"><div class="modal"><div class="dlg"><div class="steps-mini"><span class="on"></span><span></span><span></span></div><div class="t">Invitar personas a tu portfolio empresarial</div><div class="f"><label>Dirección de correo electrónico</label><div class="in tap" data-n="1">equipo@dilemacreative.ar</div></div><div class="f"><label>Acceso al portfolio empresarial</label><div class="op"><span class="rd"></span><span><b>Acceso parcial</b><span class="mut">Solo trabaja en los activos que le asignes.</span></span></div><div class="op on tap" data-n="2"><span class="rd"></span><span><b>Control total</b><span class="mut">Puede administrar todo: activos, personas y configuración.</span></span></div></div><div class="foot"><span class="b gr">Cancelar</span><span class="b tap" data-n="3">Siguiente</span></div></div></div></div></div><figcaption><span class="lb">Pantalla</span><span>Escribí <b>equipo@dilemacreative.ar</b>, elegí <b>Control total</b> y tocá <b>Siguiente</b>.</span></figcaption></figure></div></div><div class="step"><div class="num">09</div><div class="body"><h3>Asignanos cada activo que creaste</h3>
+<p>Por cada tipo de activo de la izquierda (<b>Páginas</b>, <b>Cuentas publicitarias</b>, <b>Cuentas de Instagram</b>, <b>Conjuntos de datos</b> y, si tenés tienda, <b>Catálogos</b>): tocá el tipo, marcá el activo y prendé <b>Control total</b>. Sin este paso, aunque nos invites no vemos nada.</p>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">business.facebook.com/latest/settings</div></div><div class="scr full"><div class="modal"><div class="dlg" style="max-width:560px"><div class="steps-mini"><span class="on"></span><span class="on"></span><span></span></div><div class="t">Asignar activos a equipo@dilemacreative.ar</div><div class="mut" style="margin-bottom:8px">Elegí un tipo de activo, marcalo y activá el control total.</div><div class="cols2"><div class="l"><div class="">Páginas</div><div class="on tap" data-n="1">Cuentas publicitarias</div><div class="">Cuentas de Instagram</div><div class="">Conjuntos de datos</div><div class="">Catálogos</div></div><div class="rr"><div class="r tap" data-n="2" style="padding:7px 6px"><span><span class="cb on"></span> Tu Empresa – Cuenta publicitaria</span></div><div style="margin-top:8px;font-weight:600">Control total</div><div class="r"><span>Administrar la cuenta publicitaria</span><span class="tg on tap" data-n="3"></span></div><div class="mut" style="margin-top:4px">Acceso parcial ▾ (no hace falta tocar)</div></div></div><div class="foot"><span class="b gr">Atrás</span><span class="b">Siguiente</span></div></div></div></div></div><figcaption><span class="lb">Pantalla</span><span>Por cada tipo de activo: tocá el tipo a la izquierda, marcá el activo y prendé el interruptor de <b>Control total</b>. Repetí con todos los tipos antes de seguir.</span></figcaption></figure>
+<div class="tw"><table>
+<tr><th>Activo</th><th>Qué es</th><th>Para qué lo usamos</th><th>Permiso</th></tr>
+<tr><td>Página de Facebook</td><td>La página de tu marca</td><td>Publicar anuncios con tu nombre, responder comentarios</td><td>Control total</td></tr>
+<tr><td>Cuenta de Instagram</td><td>Tu perfil profesional</td><td>Que los anuncios salgan desde tu Instagram</td><td>Control total</td></tr>
+<tr><td>Cuenta publicitaria</td><td>Donde se crean y se pagan las campañas</td><td>Armar, pausar y optimizar campañas</td><td>Control total</td></tr>
+<tr><td>Conjunto de datos (píxel)</td><td>El código que mide qué pasa en tu web</td><td>Medir ventas, consultas y armar públicos</td><td>Control total</td></tr>
+<tr><td>Catálogo</td><td>Lista de productos (si tenés tienda online)</td><td>Anuncios de catálogo y compras</td><td>Control total</td></tr>
+<tr><td>Cuenta de WhatsApp</td><td>WhatsApp Business conectado (si lo usás)</td><td>Anuncios que abren chat de WhatsApp</td><td>Control total</td></tr>
+</table></div>
+</div></div><div class="step"><div class="num">10</div><div class="body"><h3>Enviá la solicitud</h3>
+<p>Revisá el resumen y tocá <span class="ui">Enviar solicitud</span>. Nos llega un mail, la aceptamos y te confirmamos.</p>
+<figure class="shot"><div class="win"><div class="bar"><i></i><i></i><i></i><div class="url">business.facebook.com/latest/settings</div></div><div class="scr full"><div class="modal"><div class="dlg"><div class="steps-mini"><span class="on"></span><span class="on"></span><span class="on"></span></div><div class="t">Revisar y enviar</div><div class="r"><span>Persona</span><b>equipo@dilemacreative.ar</b></div><div class="r"><span>Acceso al portfolio</span><b>Control total</b></div><div class="r"><span>Activos</span><b>Página, Instagram, cuenta publicitaria, conjunto de datos, catálogo</b></div><div class="foot"><span class="b gr">Atrás</span><span class="b tap" data-n="1">Enviar solicitud</span></div></div></div></div></div><figcaption><span class="lb">Pantalla</span><span>Revisá el resumen y tocá <b>Enviar solicitud</b>. Nos llega un mail y nosotros la aceptamos.</span></figcaption></figure></div></div></div></section><section class="" id="s5"><div class="wrap"><div class="sh">05 / Preguntas frecuentes</div><h2>Lo que suele <em>trabar.</em></h2>
+<details><summary>Meta no me deja crear el portfolio</summary><div>Pasa con perfiles muy nuevos, con perfiles que no tienen nombre real o si ya creaste varios portfolios hace poco. Esperá 24 horas, verificá tu perfil (foto, nombre real, dos pasos) y volvé a probar. Si sigue, avisanos.</div></details>
+<details><summary>Ya tenía anuncios hechos con “Promocionar” desde la página</summary><div>Esa es una cuenta publicitaria personal. Lo ordenado es crear una nueva dentro del portfolio (paso 4). Si querés conservar la vieja, se puede sumar al portfolio con su identificador, pero <b>es permanente</b>: consultanos antes.</div></details>
+<details><summary>Me rechazan la tarjeta</summary><div>Probá con tarjeta de <b>crédito</b>, confirmá con el banco que tenga habilitadas las compras online en el exterior y que el domicilio cargado sea el del resumen. Si sigue, borrala y cargala de nuevo en vez de editarla.</div></details>
+<details><summary>La cuenta publicitaria quedó restringida o inhabilitada</summary><div>No crees otra. Mandanos una captura del aviso: se pide una revisión desde el Centro de calidad de la cuenta y en general se resuelve.</div></details>
+<details><summary>¿Tengo que pasarles mi contraseña o mi tarjeta?</summary><div><b>No, nunca.</b> Todo queda a tu nombre y nosotros entramos con nuestro propio usuario. Podés sacarnos el acceso cuando quieras desde <b>Personas</b>.</div></details>
+</div></section><section class="cream" id="s6"><div class="wrap"><div class="sh">06 / Qué nos tenés que mandar</div><h2>Cuando termines, <em>avisanos.</em></h2>
+<ul class="checklist">
+<li>“Listo, ya los invité” y el <b>nombre del portfolio</b>.</li>
+<li>El <b>identificador de la cuenta publicitaria</b> (número largo en <b>Cuentas publicitarias</b>).</li>
+<li>El nombre de la <b>página</b> y el usuario de <b>Instagram</b> que conectaste.</li>
+<li>Si tenés web: la dirección y quién la administra (para instalar el píxel).</li>
+<li>Cualquier paso que no te haya salido, con una captura.</li>
+</ul>
+</div></section>
+<section class="dark closing"><div class="sh">Listo</div><h2>Tu marca ya tiene <em>su casa en Meta.</em></h2><p>Todo queda a nombre de tu empresa y bajo tu control. Cuando aceptemos la invitación te confirmamos y arrancamos con las campañas.</p><p style="margin-top:22px"><span class="mail">equipo@dilemacreative.ar<button class="copy" data-copy="equipo@dilemacreative.ar">Copiar</button></span></p></section>
+<footer><span>Dilema Creative · Instructivos para clientes</span><span>Septiembre 2026</span></footer>
+
+<script>
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+  var t=b.getAttribute('data-copy');
+  function ok(){var o=b.textContent;b.textContent='¡Copiado!';setTimeout(function(){b.textContent=o},1600)}
+  if(navigator.clipboard){navigator.clipboard.writeText(t).then(ok,function(){})}else{ok()}
+})});
+</script>
+
+</body>
+</html>
