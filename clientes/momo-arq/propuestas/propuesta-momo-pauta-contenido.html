@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Momo Arquitectura · Propuesta de contenido y pauta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b1b1a;
+  --char:#2c2c2b;
+  --char-2:#353534;
+  --paper:#f5f4f0;
+  --white:#ffffff;
+  --line:#dcdad3;
+  --line-dark:#474745;
+  --mute:#6f6d67;
+  --mute-dark:#a8a69f;
+  --soft:#ebe9e3;
+  --display:'Jost',system-ui,sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --wrap:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(44,44,43,.96);backdrop-filter:blur(8px);color:var(--white);border-bottom:1px solid var(--line-dark)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.nav-id{display:flex;align-items:center;gap:14px;font-family:var(--display);font-size:15px;letter-spacing:.02em;white-space:nowrap}
+.nav-id b{font-weight:500}
+.nav-id i{width:1px;height:18px;background:var(--line-dark)}
+.nav-id span{font-weight:300;color:var(--mute-dark)}
+.nav-links{display:flex;gap:22px;font-size:13px}
+.nav-links a{text-decoration:none;color:var(--mute-dark);transition:color .2s}
+.nav-links a:hover{color:var(--white)}
+
+/* HERO */
+.hero{position:relative;background:var(--char);color:var(--white);overflow:hidden;padding:96px 0 88px}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(90deg,transparent 0%,#000 55%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 55%)}
+.hero-sketch{position:absolute;right:-40px;top:40px;width:500px;max-width:55%;opacity:.38;pointer-events:none}
+.hero .wrap{position:relative}
+.kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.hero .kicker{color:var(--mute-dark)}
+.hero h1{font-family:var(--display);font-weight:300;font-size:clamp(38px,6vw,68px);line-height:1.04;letter-spacing:-.02em;margin:22px 0 26px;max-width:760px}
+.hero h1 b{font-weight:500}
+.hero p{max-width:560px;color:#cfcdc6;font-size:17px}
+.hero-parts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-dark);border:1px solid var(--line-dark);margin-top:56px;max-width:760px}
+.hero-part{background:var(--char);padding:22px 24px;text-decoration:none;transition:background .2s}
+.hero-part:hover{background:var(--char-2)}
+.hero-part .kicker{color:var(--mute-dark)}
+.hero-part h3{font-family:var(--display);font-weight:400;font-size:21px;margin-top:8px}
+.hero-part p{font-size:14px;color:var(--mute-dark);margin-top:4px}
+
+/* SECTIONS */
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+section.white{background:var(--white)}
+section.dark{background:var(--char);color:var(--white);border-bottom-color:var(--line-dark)}
+section.dark .kicker{color:var(--mute-dark)}
+.sec-head{display:grid;grid-template-columns:260px 1fr;gap:40px;margin-bottom:48px}
+.sec-head h2{font-family:var(--display);font-weight:300;font-size:clamp(30px,3.6vw,42px);line-height:1.1;letter-spacing:-.015em}
+.sec-head h2 b{font-weight:500}
+.sec-head .lead{margin-top:16px;color:var(--mute);max-width:620px}
+section.dark .sec-head .lead{color:var(--mute-dark)}
+
+/* PART DIVIDER */
+.part{background:var(--ink);color:var(--white);padding:64px 0}
+.part .wrap{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.part-letter{font-family:var(--display);font-weight:300;font-size:clamp(80px,12vw,140px);line-height:.8;color:transparent;-webkit-text-stroke:1px #6a6864}
+.part h2{font-family:var(--display);font-weight:300;font-size:clamp(30px,4vw,46px);line-height:1.08;margin-top:14px}
+.part p{color:var(--mute-dark);max-width:440px;font-size:15px}
+
+/* CARDS */
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--paper);padding:28px 26px}
+section.white .card{background:var(--white)}
+section.dark .grid{background:var(--line-dark);border-color:var(--line-dark)}
+section.dark .card{background:var(--char)}
+.card .num{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.1em}
+section.dark .card .num{color:var(--mute-dark)}
+.card h3{font-family:var(--display);font-weight:500;font-size:19px;line-height:1.25;margin:14px 0 8px}
+.card p{font-size:14.5px;color:var(--mute)}
+section.dark .card p{color:var(--mute-dark)}
+
+/* CHANNEL BLOCK */
+.channel{display:grid;grid-template-columns:260px 1fr;gap:40px;padding:40px 0;border-top:1px solid var(--line)}
+.channel:first-of-type{border-top:none;padding-top:0}
+.channel-name{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.1}
+.channel-role{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-top:10px}
+.channel-body p{color:var(--mute);margin-bottom:18px;max-width:640px}
+.list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 32px}
+.list li{position:relative;padding-left:20px;font-size:14.5px}
+.list li::before{content:"";position:absolute;left:0;top:.72em;width:10px;height:1px;background:var(--ink)}
+section.dark .list li::before{background:var(--white)}
+
+/* FLOW */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line-dark)}
+.flow-step{padding:26px 20px;border-right:1px solid var(--line-dark);position:relative}
+.flow-step:last-child{border-right:none}
+.flow-step .num{font-family:var(--mono);font-size:11px;color:var(--mute-dark)}
+.flow-step h4{font-family:var(--display);font-weight:500;font-size:17px;margin:12px 0 6px}
+.flow-step p{font-size:13.5px;color:var(--mute-dark)}
+.flow-step .tag{display:inline-block;margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;border:1px solid var(--line-dark);padding:3px 8px;color:#d8d6cf}
+
+/* FINDINGS TABLE */
+.table{width:100%;border-collapse:collapse;font-size:14.5px}
+.table th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);text-align:left;font-weight:400;padding:0 16px 12px 0;border-bottom:1px solid var(--ink)}
+.table td{padding:16px 16px 16px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.table td:first-child{font-weight:500;width:32%}
+.table td:last-child{color:var(--mute)}
+.note{margin-top:28px;padding:20px 22px;border-left:2px solid var(--ink);background:var(--soft);font-size:14.5px;color:var(--ink)}
+section.dark .note{background:var(--char-2);border-left-color:var(--white);color:#e3e1da}
+
+/* EDITORIAL */
+.angle{background:var(--white);padding:30px 26px;display:flex;flex-direction:column}
+.angle .ph{height:120px;border:1px solid var(--line);margin-bottom:20px;position:relative;overflow:hidden;background:linear-gradient(var(--soft) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,var(--soft) 1px,transparent 1px) 0 0/24px 24px}
+.angle .ph svg{position:absolute;inset:0;width:100%;height:100%}
+.angle h3{font-family:var(--display);font-weight:500;font-size:19px;margin-bottom:6px}
+.angle p{font-size:14.5px;color:var(--mute)}
+.angle .fmt{margin-top:auto;padding-top:16px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-dark);border:1px solid var(--line-dark)}
+.price{background:var(--char);padding:30px 26px;display:flex;flex-direction:column}
+.price-name{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute-dark)}
+.price-val{font-family:var(--display);font-weight:300;font-size:44px;line-height:1;margin:18px 0 4px}
+.price-val span{font-size:15px;color:var(--mute-dark);margin-left:4px}
+.price-anchor{font-size:13px;color:var(--mute-dark);text-decoration:line-through;min-height:20px}
+.price p{font-size:14px;color:var(--mute-dark);margin-top:14px}
+.price ul{list-style:none;margin-top:18px;padding-top:18px;border-top:1px solid var(--line-dark)}
+.price li{font-size:13.5px;padding:4px 0 4px 18px;position:relative;color:#dcdad3}
+.price li::before{content:"";position:absolute;left:0;top:.95em;width:8px;height:1px;background:var(--white)}
+.combos{display:grid;grid-template-columns:1fr 1.25fr;gap:1px;background:var(--line-dark);border:1px solid var(--line-dark);border-top:none}
+.price.featured{background:var(--white);color:var(--ink)}
+.price.featured .price-name,.price.featured .price-val span,.price.featured .price-anchor,.price.featured p{color:var(--mute)}
+.price.featured li{color:var(--ink)}
+.price.featured li::before{background:var(--ink)}
+.price.featured ul{border-top-color:var(--line)}
+.badge{align-self:flex-start;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--white);padding:4px 10px;margin-bottom:16px}
+.save{font-family:var(--mono);font-size:11px;color:var(--ink);margin-top:6px}
+.price:not(.featured) .save{color:#dcdad3}
+
+.extra{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap;background:var(--char);border:1px solid var(--line-dark);border-top:none;padding:30px 26px}
+.extra h3{font-family:var(--display);font-weight:500;font-size:19px;margin:10px 0 6px}
+.extra p{font-size:14px;color:var(--mute-dark);max-width:520px}
+.extra .price-val{margin:0;white-space:nowrap}
+
+/* BRANDS */
+.brands{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.brands li{background:var(--white);padding:26px 16px;text-align:center;font-family:var(--display);font-weight:400;font-size:17px;letter-spacing:.01em;color:var(--char);display:flex;align-items:center;justify-content:center;min-height:84px}
+
+/* CONDITIONS */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink)}
+.step{padding:24px 22px 0 0;position:relative}
+.step::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--paper);border:1px solid var(--ink);border-radius:50%}
+.step.key::before{background:var(--ink)}
+.step .num{font-family:var(--mono);font-size:11px;color:var(--mute)}
+.step h4{font-family:var(--display);font-weight:500;font-size:17px;margin:8px 0 6px}
+.step p{font-size:14px;color:var(--mute)}
+.terms{margin-top:56px}
+.terms .table td:first-child{width:28%}
+
+/* FOOTER */
+footer{background:var(--ink);color:var(--white);padding:64px 0 32px}
+.foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid var(--line-dark)}
+.foot-brand{font-family:var(--display);font-size:24px;font-weight:500}
+.foot-brand span{font-weight:300;color:var(--mute-dark)}
+.foot-tag{max-width:420px;color:var(--mute-dark);font-size:14px;margin-top:12px}
+.foot-contact{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.foot-contact a{text-decoration:none;color:#dcdad3}
+.foot-contact a:hover{color:var(--white)}
+.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:24px;font-family:var(--mono);font-size:11px;color:var(--mute-dark);letter-spacing:.06em}
+
+/* REVEAL */
+@media (prefers-reduced-motion:no-preference){
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+}
+
+/* RESPONSIVE */
+@media (max-width:960px){
+  .nav-links{display:none}
+  .sec-head,.channel{grid-template-columns:1fr;gap:14px}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .brands{grid-template-columns:repeat(4,1fr)}
+  .g3{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .flow-step{border-right:none;border-bottom:1px solid var(--line-dark)}
+  .flow-step:last-child{border-bottom:none}
+  .price-grid,.combos{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr;row-gap:28px}
+  .hero-sketch{opacity:.22;max-width:90%}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  section{padding:64px 0}
+  .hero{padding:64px 0}
+  .hero-parts,.g2,.g4,.list{grid-template-columns:1fr}
+  .brands{grid-template-columns:repeat(2,1fr)}
+  .brands li{font-size:15px;padding:18px 10px;min-height:68px}
+  .extra .price-val{font-size:36px}
+  .steps{grid-template-columns:1fr;border-top:none;border-left:1px solid var(--ink);padding-left:20px}
+  .step{padding:0 0 24px}
+  .step::before{left:-25px;top:4px}
+  .table thead{display:none}
+  .table tr{display:block;padding:14px 0;border-bottom:1px solid var(--line)}
+  .table td{display:block;border:none;padding:2px 0;width:auto!important}
+  .nav-id span{display:none}
+  .nav-id i{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="nav-id"><b>Dilema Creative</b><i></i><span>Propuesta Momo Arquitectura</span></div>
+    <div class="nav-links">
+      <a href="#contenido">Contenido</a>
+      <a href="#pauta">Publicidad</a>
+      <a href="#fee-contenido">Inversión</a>
+      <a href="#condiciones">Condiciones</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid"></div>
+  <svg class="hero-sketch" viewBox="0 0 520 420" fill="none" stroke="#bdbbb4" stroke-width="1" aria-hidden="true">
+    <path d="M60 380 H480"/><path d="M40 380 H500" stroke-dasharray="2 6"/>
+    <path d="M100 380 V120 H440 V380"/>
+    <path d="M100 120 L130 70 H410 L440 120"/>
+    <path d="M130 70 V50 H410 V70"/>
+    <path d="M120 200 H420"/><path d="M120 210 H420" stroke-dasharray="3 4"/>
+    <rect x="140" y="230" width="110" height="150"/><rect x="290" y="230" width="110" height="150"/>
+    <path d="M195 230 V380"/><path d="M345 230 V380"/>
+    <rect x="150" y="135" width="60" height="50"/><rect x="240" y="135" width="60" height="50"/><rect x="330" y="135" width="60" height="50"/>
+    <path d="M100 400 V410 M440 400 V410 M100 405 H440"/>
+    <text x="252" y="418" fill="#bdbbb4" stroke="none" font-family="JetBrains Mono,monospace" font-size="9">12.40</text>
+    <path d="M470 120 H485 M470 380 H485 M478 120 V380"/>
+    <text x="490" y="255" fill="#bdbbb4" stroke="none" font-family="JetBrains Mono,monospace" font-size="9">7.20</text>
+    <path d="M20 60 L90 100" stroke-dasharray="1 5"/><path d="M450 30 L510 90" stroke-dasharray="1 5"/>
+    <circle cx="270" cy="60" r="3"/>
+  </svg>
+  <div class="wrap">
+    <div class="kicker">Propuesta · Septiembre 2026</div>
+    <h1>Contenido y publicidad para <b>Momo Arquitectura</b></h1>
+    <p>Momo trabaja para marcas grandes. La idea es que la comunicación esté a la misma altura: contenido corporativo que muestre cómo se diseñan y construyen sus espacios, y pauta que genere consultas de empresas.</p>
+    <div class="hero-parts">
+      <a class="hero-part" href="#contenido">
+        <div class="kicker">Parte A</div>
+        <h3>Contenido orgánico</h3>
+        <p>Instagram y LinkedIn</p>
+      </a>
+      <a class="hero-part" href="#pauta">
+        <div class="kicker">Parte B</div>
+        <h3>Publicidad</h3>
+        <p>Meta Ads, Google Ads y Pinterest Ads</p>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- PUNTO DE PARTIDA -->
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">00 · Punto de partida</div>
+      <div>
+        <h2>Lo que <b>hablamos</b></h2>
+        <p class="lead">Un resumen de la reunión, para que todo lo que sigue tenga el mismo punto de partida.</p>
+      </div>
+    </div>
+    <div class="grid g4">
+      <div class="card rv"><div class="num">01</div><h3>Clientes de primer nivel</h3><p>Topper, WeWork, Universal Assistance, Atomik y otras marcas, con obras en varios países. La comunicación tiene que reflejar ese nivel.</p></div>
+      <div class="card rv"><div class="num">02</div><h3>Un tono corporativo</h3><p>Contenido prolijo y profesional, pensado para el público de empresas.</p></div>
+      <div class="card rv"><div class="num">03</div><h3>Salir de lo de siempre</h3><p>Nada del antes y después que muestran todos los estudios. Buscamos formatos propios.</p></div>
+      <div class="card rv"><div class="num">04</div><h3>Movimiento y consultas</h3><p>Más alcance y seguidores, consultas de empresas y seguimiento a quienes ya conocieron a Momo.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTE A -->
+<div class="part" id="contenido">
+  <div class="wrap">
+    <div>
+      <div class="kicker" style="color:var(--mute-dark)">Parte A</div>
+      <h2>Contenido orgánico<br>para Instagram y LinkedIn</h2>
+    </div>
+    <div style="display:flex;align-items:flex-end;gap:28px;flex-wrap:wrap">
+      <p>Diseñamos las piezas, grabamos al equipo en obra, planificamos y publicamos. El contenido que se produce también alimenta los anuncios de la parte B.</p>
+      <div class="part-letter" aria-hidden="true">A</div>
+    </div>
+  </div>
+</div>
+
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">A.01 · Línea editorial</div>
+      <div>
+        <h2>Cómo <b>mostramos</b> a Momo</h2>
+        <p class="lead">Un tono corporativo y sin fórmulas repetidas. Estos son los ejes de contenido sobre los que se arma el calendario.</p>
+      </div>
+    </div>
+    <div class="grid g3">
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#8a8881" stroke-width="1"><path d="M30 100 V40 H130 V100" stroke-dasharray="3 4"/><path d="M30 40 L80 18 L130 40" stroke-dasharray="3 4"/><path d="M150 60 H170 M164 54 L170 60 L164 66"/><rect x="190" y="40" width="90" height="60" fill="#dcdad3" stroke="#2c2c2b"/><rect x="205" y="58" width="24" height="42" fill="#2c2c2b" stroke="none"/><rect x="241" y="58" width="24" height="24" fill="#fff"/></svg></div>
+        <h3>Del plano a la obra</h3>
+        <p>La transición entre el boceto o el render y el espacio terminado. Ya es un recurso propio de Momo y se puede llevar a video.</p>
+        <div class="fmt">Reel · Carrusel</div>
+      </div>
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2c2c2b" stroke-width="1"><path d="M20 95 H280"/><circle cx="60" cy="95" r="4" fill="#2c2c2b"/><circle cx="130" cy="95" r="4" fill="#2c2c2b"/><circle cx="200" cy="95" r="4" fill="#fff"/><circle cx="260" cy="95" r="4" fill="#fff"/><path d="M60 90 V40 M130 90 V55 M200 90 V30 M260 90 V65" stroke="#8a8881" stroke-dasharray="2 3"/><text x="48" y="32" font-family="JetBrains Mono" font-size="9" fill="#6f6d67" stroke="none">D1</text><text x="116" y="48" font-family="JetBrains Mono" font-size="9" fill="#6f6d67" stroke="none">D12</text><text x="186" y="24" font-family="JetBrains Mono" font-size="9" fill="#6f6d67" stroke="none">D30</text></svg></div>
+        <h3>Obra en marcha</h3>
+        <p>El proceso real: plazos de apertura, coordinación de gremios, trabajo de noche en shoppings. Lo que una marca tiene que saber antes de elegir estudio.</p>
+        <div class="fmt">Reel · Historias</div>
+      </div>
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2c2c2b" stroke-width="1"><circle cx="150" cy="60" r="40"/><circle cx="150" cy="60" r="22" stroke="#8a8881" stroke-dasharray="2 3"/><path d="M178 88 L230 110"/><path d="M40 30 H100 M40 42 H85 M40 54 H95" stroke="#8a8881"/></svg></div>
+        <h3>En detalle</h3>
+        <p>Materiales, iluminación, mobiliario y resolución de encuentros. El nivel de terminación que buscan las marcas.</p>
+        <div class="fmt">Carrusel · Foto</div>
+      </div>
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2c2c2b" stroke-width="1"><rect x="40" y="30" width="70" height="60"/><rect x="190" y="30" width="70" height="60"/><path d="M110 60 H190" stroke-dasharray="3 4"/><text x="53" y="64" font-family="Jost" font-size="12" fill="#2c2c2b" stroke="none">MARCA</text><text x="203" y="64" font-family="Jost" font-size="12" fill="#2c2c2b" stroke="none">ESPACIO</text></svg></div>
+        <h3>La marca detrás del espacio</h3>
+        <p>Cada proyecto contado desde el negocio del cliente: qué necesitaba la marca y cómo lo resolvió el diseño.</p>
+        <div class="fmt">Carrusel · LinkedIn</div>
+      </div>
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2c2c2b" stroke-width="1"><circle cx="90" cy="50" r="14"/><path d="M62 100 C62 76 118 76 118 100"/><circle cx="150" cy="46" r="14"/><path d="M122 100 C122 72 178 72 178 100"/><circle cx="210" cy="50" r="14"/><path d="M182 100 C182 76 238 76 238 100"/></svg></div>
+        <h3>Equipo y oficio</h3>
+        <p>Quiénes hacen cada obra y cómo trabajan. Más de 25 años en arquitectura comercial contados por su gente.</p>
+        <div class="fmt">Reel · LinkedIn</div>
+      </div>
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2c2c2b" stroke-width="1"><path d="M40 90 H260" stroke="#8a8881"/><rect x="60" y="50" width="26" height="40" fill="#2c2c2b"/><rect x="120" y="30" width="26" height="60" fill="#2c2c2b"/><rect x="180" y="62" width="26" height="28" fill="#dcdad3"/><rect x="232" y="42" width="26" height="48" fill="#dcdad3"/></svg></div>
+        <h3>Momo en números</h3>
+        <p>Metros construidos, países, aperturas por año y marcas atendidas. Datos concretos para el público corporativo de LinkedIn.</p>
+        <div class="fmt">Post · LinkedIn</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">A.02 · Servicio</div>
+      <div>
+        <h2>Qué incluye <b>el contenido</b></h2>
+      </div>
+    </div>
+
+    <div class="channel rv">
+      <div>
+        <div class="channel-name">Diseño</div>
+        <div class="channel-role">Piezas del mes</div>
+      </div>
+      <div class="channel-body">
+        <p>Un paquete mensual de piezas, en tres tamaños: 8, 12 o 16 por mes.</p>
+        <ul class="list">
+          <li>Posteos e historias: imágenes, carruseles y reels</li>
+          <li>Edición de reels con el material grabado y el de archivo</li>
+          <li>Estética visual alineada a la marca Momo</li>
+          <li>Piezas para anuncios, en los formatos de cada plataforma</li>
+          <li>Adaptaciones para Instagram, LinkedIn y Pinterest</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel rv">
+      <div>
+        <div class="channel-name">Grabación</div>
+        <div class="channel-role">Por media jornada</div>
+      </div>
+      <div class="channel-body">
+        <p>Vamos a la obra o al estudio a registrar al equipo de Momo hablando y trabajando. Se contrata por media jornada, los meses que haga falta según el ritmo de obras.</p>
+        <ul class="list">
+          <li>Foto y video en cada media jornada</li>
+          <li>Proceso, detalle y equipo, para reels e historias</li>
+          <li>Registro de hitos: inicio, avance, montaje y apertura</li>
+          <li>Coordinación previa con el equipo de obra</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel rv">
+      <div>
+        <div class="channel-name">Fotografía de obra</div>
+        <div class="channel-role">Con la fotógrafa de Momo</div>
+      </div>
+      <div class="channel-body">
+        <p>El registro profesional de cada obra terminada, en foto y video, lo trabajamos en conjunto con la fotógrafa de Momo. El portfolio ya tiene una calidad puntual y la idea es sostenerla.</p>
+        <ul class="list">
+          <li>Coordinación con ella de qué se registra en cada obra</li>
+          <li>Tomas pensadas también para redes y anuncios</li>
+          <li>Ese material se suma a las piezas del mes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel rv">
+      <div>
+        <div class="channel-name">Gestión</div>
+        <div class="channel-role">Community management</div>
+      </div>
+      <div class="channel-body">
+        <ul class="list">
+          <li>Calendario mensual de contenido, con aprobación de ustedes antes de publicar</li>
+          <li>Redacción de textos para cada publicación</li>
+          <li>Publicación en Instagram y LinkedIn</li>
+          <li>Posteos corporativos para la página de empresa en LinkedIn</li>
+          <li>Seguimiento de comentarios y mensajes</li>
+          <li>Lectura mensual de qué contenido funciona mejor</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note rv"><strong>TikTok, en una segunda etapa:</strong> arrancamos por Instagram y LinkedIn. Los videos se graban y editan en formato vertical, así que quedan listos para sumar TikTok más adelante sin volver a producir.</div>
+  </div>
+</section>
+
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">A.03 · Equipo de diseño</div>
+      <div>
+        <h2>Con quiénes <b>trabajaron</b></h2>
+        <p class="lead">Las piezas las produce el estudio de diseño con el que trabajamos, con más de 15 años de trayectoria en branding, redes, foto y video. Estas son algunas de las marcas que ya trabajaron con ellas.</p>
+      </div>
+    </div>
+    <ul class="brands rv">
+      <li>Mondelēz International</li><li>Grupo Bimbo</li><li>La Virginia</li><li>Andreani</li><li>RE/MAX</li>
+      <li>Nikon</li><li>Nestlé</li><li>Red Bull</li><li>Monkey 47</li><li>Century 21</li>
+      <li>Keller Williams</li><li>Vital</li><li>Nación Servicios</li><li>Leo Paparella</li><li>Harley Street Clinic</li>
+      <li>Mizu</li><li>Olivio</li><li>Delicity</li><li>M Coffee and Food</li><li>Talleres Sustentables</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">A.04 · De su lado</div>
+      <div>
+        <h2>Lo que necesitamos <b>de ustedes</b></h2>
+      </div>
+    </div>
+    <div class="grid g4">
+      <div class="card rv"><div class="num">01</div><h3>Acceso a las obras</h3><p>Aviso de los hitos de cada obra y permiso para grabar en el lugar.</p></div>
+      <div class="card rv"><div class="num">02</div><h3>Autorización de marcas</h3><p>Confirmación de qué proyectos y clientes se pueden mostrar.</p></div>
+      <div class="card rv"><div class="num">03</div><h3>Material y fotógrafa</h3><p>Renders, planos y fotos de proyectos anteriores, y el contacto con su fotógrafa para coordinar el registro de cada obra.</p></div>
+      <div class="card rv"><div class="num">04</div><h3>Accesos</h3><p>Instagram, LinkedIn, Meta Business, sitio web y cuentas publicitarias.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="fee-contenido">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">A.05 · Inversión</div>
+      <div>
+        <h2>Fee mensual <b>de contenido</b></h2>
+        <p class="lead">Tres planes según la cantidad de piezas por mes. Los tres incluyen la gestión: calendario, textos, publicación y seguimiento. La grabación se suma por media jornada, los meses que haga falta.</p>
+      </div>
+    </div>
+
+    <div class="price-grid">
+      <div class="price rv">
+        <div class="price-name">Plan 8</div>
+        <div class="price-val">USD 270<span>/mes</span></div>
+        <p>8 piezas por mes.</p>
+        <ul>
+          <li>Posteos e historias: imágenes, carruseles y reels</li>
+          <li>Dos publicaciones por semana</li>
+        </ul>
+      </div>
+      <div class="price featured rv">
+        <span class="badge">Recomendado</span>
+        <div class="price-name">Plan 12</div>
+        <div class="price-val">USD 370<span>/mes</span></div>
+        <p>12 piezas por mes.</p>
+        <ul>
+          <li>Posteos e historias: imágenes, carruseles y reels</li>
+          <li>Tres publicaciones por semana, entre Instagram y LinkedIn</li>
+          <li>Margen para sumar piezas de anuncios</li>
+        </ul>
+      </div>
+      <div class="price rv">
+        <div class="price-name">Plan 16</div>
+        <div class="price-val">USD 470<span>/mes</span></div>
+        <p>16 piezas por mes.</p>
+        <ul>
+          <li>Posteos e historias: imágenes, carruseles y reels</li>
+          <li>Cuatro publicaciones por semana</li>
+          <li>Para meses con varias obras y aperturas en simultáneo</li>
+        </ul>
+      </div>
+    </div>
+    <div class="extra rv">
+      <div>
+        <div class="price-name">Grabación · adicional</div>
+        <h3>Media jornada de foto y video</h3>
+        <p>En obra o en el estudio, con el equipo de Momo hablando y trabajando. Se suma al plan el mes que se graba.</p>
+      </div>
+      <div class="price-val">USD 250<span>/media jornada</span></div>
+    </div>
+
+    <div class="note" style="margin-top:32px"><strong>Fotografía profesional de obra:</strong> se trabaja en conjunto con la fotógrafa de Momo y no forma parte de este fee.</div>
+  </div>
+</section>
+
+<!-- PARTE B -->
+<div class="part" id="pauta">
+  <div class="wrap">
+    <div>
+      <div class="kicker" style="color:var(--mute-dark)">Parte B</div>
+      <h2>Publicidad en<br>Meta, Google y Pinterest</h2>
+    </div>
+    <div style="display:flex;align-items:flex-end;gap:28px;flex-wrap:wrap">
+      <p>Tres canales, cada uno con un rol. Se trabajan como un solo sistema: lo que pasa en uno alimenta a los otros.</p>
+      <div class="part-letter" aria-hidden="true">B</div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.01 · Objetivos</div>
+      <div>
+        <h2>Qué buscamos <b>con la pauta</b></h2>
+      </div>
+    </div>
+    <div class="grid g4">
+      <div class="card rv"><div class="num">A</div><h3>Movimiento en redes</h3><p>Que más empresas y profesionales conozcan a Momo y sumen seguidores de calidad al perfil.</p></div>
+      <div class="card rv"><div class="num">B</div><h3>Consultas calificadas</h3><p>Formularios que piden los datos necesarios para saber quién consulta y qué proyecto tiene.</p></div>
+      <div class="card rv"><div class="num">C</div><h3>Demanda activa</h3><p>Aparecer cuando una empresa busca en Google quién le diseñe y construya un local, una oficina o un stand.</p></div>
+      <div class="card rv"><div class="num">D</div><h3>Remarketing</h3><p>Volver a mostrarse a quienes visitaron el sitio o interactuaron con Momo y todavía no consultaron.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.02 · Canales</div>
+      <div>
+        <h2>El rol de <b>cada canal</b></h2>
+        <p class="lead">Lo que gestionamos en cada plataforma, de la configuración a la optimización.</p>
+      </div>
+    </div>
+
+    <div class="channel rv">
+      <div>
+        <div class="channel-name">Meta Ads</div>
+        <div class="channel-role">Instagram · Facebook</div>
+      </div>
+      <div class="channel-body">
+        <p>Es el canal principal para generar movimiento y consultas. Ponemos el trabajo de Momo frente a quienes deciden la apertura de locales y oficinas, y después volvemos a mostrarlo a quienes ya se interesaron.</p>
+        <ul class="list">
+          <li>Configuración completa de la cuenta publicitaria y del píxel</li>
+          <li>Campañas de consultas con formulario dentro de Meta</li>
+          <li>Preguntas del formulario que filtran por tipo de proyecto y empresa</li>
+          <li>Campaña para sumar alcance y seguidores al perfil</li>
+          <li>Remarketing a visitantes del sitio y a quienes interactuaron en Instagram</li>
+          <li>Segmentación orientada a empresas, retail y expansión de marcas</li>
+          <li>Rotación de anuncios con las obras de Momo</li>
+          <li>Optimización semanal</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel rv">
+      <div>
+        <div class="channel-name">Google Ads</div>
+        <div class="channel-role">Búsqueda · YouTube · Display</div>
+      </div>
+      <div class="channel-body">
+        <p>Capta a quien ya está buscando. Una empresa que tiene que abrir un local o armar una oficina busca en Google, y ahí tiene que aparecer Momo. También sirve para volver a impactar a quienes conocieron a Momo en Meta y entraron al sitio.</p>
+        <ul class="list">
+          <li>Configuración de la cuenta y medición de conversiones</li>
+          <li>Campañas de búsqueda por servicio: locales, oficinas, stands, viviendas</li>
+          <li>Remarketing en YouTube y en la red de Display a quienes visitaron el sitio</li>
+          <li>Protección de la búsqueda de la marca Momo</li>
+          <li>Revisión de en qué búsquedas se va el presupuesto, para cortar las que no son clientes</li>
+          <li>Optimización semanal</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel rv">
+      <div>
+        <div class="channel-name">Pinterest Ads</div>
+        <div class="channel-role">Descubrimiento visual</div>
+      </div>
+      <div class="channel-body">
+        <p>Pinterest es donde se buscan referencias de diseño, interiorismo y arquitectura comercial. Con un presupuesto menor, lo usamos para mostrar el lado más estético del trabajo de Momo y llevar ese tráfico al sitio y a Instagram.</p>
+        <ul class="list">
+          <li>Configuración de la cuenta de empresa y de la etiqueta de medición</li>
+          <li>Tableros organizados por tipo de proyecto</li>
+          <li>Campañas con piezas visuales: renders, detalles y obras terminadas</li>
+          <li>Tráfico dirigido al sitio y al perfil de Instagram</li>
+          <li>Optimización mensual</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.03 · Recorrido</div>
+      <div>
+        <h2>Cómo trabajan <b>juntos</b></h2>
+        <p class="lead">Una empresa rara vez consulta la primera vez que ve a un estudio. Los tres canales acompañan todo el recorrido, del primer contacto a la consulta.</p>
+      </div>
+    </div>
+    <div class="flow">
+      <div class="flow-step rv"><div class="num">01</div><h4>Descubre</h4><p>Ve una obra de Momo en Instagram o una referencia en Pinterest.</p><span class="tag">Meta · Pinterest</span></div>
+      <div class="flow-step rv"><div class="num">02</div><h4>Busca</h4><p>Cuando tiene un proyecto, busca un estudio en Google y encuentra a Momo.</p><span class="tag">Google</span></div>
+      <div class="flow-step rv"><div class="num">03</div><h4>Conoce</h4><p>Entra al sitio, mira los proyectos y sigue el perfil.</p><span class="tag">Sitio · Instagram</span></div>
+      <div class="flow-step rv"><div class="num">04</div><h4>Recuerda</h4><p>Vuelve a ver a Momo mientras decide.</p><span class="tag">Remarketing</span></div>
+      <div class="flow-step rv"><div class="num">05</div><h4>Consulta</h4><p>Deja sus datos y los del proyecto en un formulario.</p><span class="tag">Formulario</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.04 · Sitio web</div>
+      <div>
+        <h2>Ajustes al <b>sitio</b></h2>
+        <p class="lead">La pauta lleva gente al sitio, así que el sitio tiene que estar listo para recibir y medir consultas. Revisamos momoarq.ar y encontramos estos puntos.</p>
+      </div>
+    </div>
+    <table class="table">
+      <thead><tr><th>Qué encontramos</th><th>Qué hacemos</th></tr></thead>
+      <tbody>
+        <tr><td>No hay un formulario propio de contacto. El actual es genérico, está en inglés y solo pide mail y mensaje.</td><td>Formulario en castellano que pide nombre, empresa, teléfono, tipo de proyecto y ubicación. Cada consulta llega ordenada y se mide como conversión.</td></tr>
+        <tr><td>El sitio no tiene Google Analytics ni etiqueta de Google. El píxel de Meta sí está instalado.</td><td>Instalación de la medición de Google, necesaria para medir las consultas y hacer remarketing en Google.</td></tr>
+        <tr><td>En Google, el sitio aparece con el título "momoarq" y la descripción "Cargo", que es el nombre de la plataforma donde está armado.</td><td>Título y descripción que dicen quién es Momo y qué hace, en cada página.</td></tr>
+        <tr><td>El sitio está marcado en inglés y casi no tiene texto. Google no tiene de dónde saber qué servicios ofrece Momo.</td><td>Textos breves por servicio: locales, oficinas, stands y viviendas.</td></tr>
+        <tr><td>Las 40 imágenes de la portada no tienen descripción, y la página de contacto todavía se titula "CS Arquitectura".</td><td>Descripción de las imágenes y corrección de títulos.</td></tr>
+        <tr><td>El sitio y el perfil de Instagram muestran direcciones de correo distintas.</td><td>Unificar los datos de contacto en todos los canales.</td></tr>
+      </tbody>
+    </table>
+    <div class="note"><strong>Incluido en la configuración inicial:</strong> el formulario, la medición y los ajustes de títulos, textos e imágenes de esta tabla. Un trabajo de posicionamiento en Google más profundo, con páginas nuevas y contenido periódico, se cotiza aparte si les interesa.</div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.05 · Servicio</div>
+      <div>
+        <h2>Qué incluye <b>la gestión</b></h2>
+      </div>
+    </div>
+    <div class="grid g3">
+      <div class="card rv"><div class="num">01</div><h3>Configuración completa</h3><p>Cuentas, píxeles, etiquetas, formularios y campañas, listos antes del lanzamiento.</p></div>
+      <div class="card rv"><div class="num">02</div><h3>Optimización continua</h3><p>Seguimiento semanal de cada campaña: qué rinde, qué se corta y dónde conviene poner más presupuesto.</p></div>
+      <div class="card rv"><div class="num">03</div><h3>Seguimiento de consultas</h3><p>Control de la calidad de los contactos que llegan, para ajustar las campañas hacia las empresas que buscan.</p></div>
+      <div class="card rv"><div class="num">04</div><h3>Reporte y reunión mensual</h3><p>Resultados del mes, lectura de los números y próximos pasos, en una reunión con ustedes.</p></div>
+      <div class="card rv"><div class="num">05</div><h3>Portal de cliente</h3><p>Acceso a los resultados en todo momento, con las métricas que les sirvan a ustedes.</p></div>
+      <div class="card rv"><div class="num">06</div><h3>Formatos probados</h3><p>Documento con los formatos de anuncio que mejor funcionan, para orientar la producción de piezas.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="fee-pauta">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.06 · Inversión</div>
+      <div>
+        <h2>Fee mensual <b>de publicidad</b></h2>
+        <p class="lead">Pueden arrancar con un canal o combinarlos. El fee cubre el servicio completo descripto en esta parte.</p>
+      </div>
+    </div>
+
+    <div class="price-grid">
+      <div class="price rv">
+        <div class="price-name">Meta Ads</div>
+        <div class="price-val">USD 350<span>/mes</span></div>
+        <div class="price-anchor"></div>
+        <p>Movimiento, seguidores, consultas y remarketing en Instagram y Facebook.</p>
+      </div>
+      <div class="price rv">
+        <div class="price-name">Google Ads</div>
+        <div class="price-val">USD 350<span>/mes</span></div>
+        <div class="price-anchor"></div>
+        <p>Búsqueda activa y remarketing en YouTube y Display.</p>
+      </div>
+      <div class="price rv">
+        <div class="price-name">Pinterest Ads</div>
+        <div class="price-val">USD 250<span>/mes</span></div>
+        <div class="price-anchor"></div>
+        <p>Contenido visual que lleva tráfico al sitio y a Instagram.</p>
+      </div>
+    </div>
+    <div class="combos">
+      <div class="price rv">
+        <div class="price-name">Meta + Google</div>
+        <div class="price-val">USD 600<span>/mes</span></div>
+        <div class="price-anchor">Por separado: USD 700</div>
+        <div class="save">Ahorro de USD 100 por mes</div>
+        <ul>
+          <li>Todo lo de Meta Ads y Google Ads</li>
+          <li>Remarketing cruzado entre los dos canales</li>
+          <li>Presupuesto repartido según qué canal trae mejores consultas</li>
+        </ul>
+      </div>
+      <div class="price featured rv">
+        <span class="badge">Recomendado</span>
+        <div class="price-name">Meta + Google + Pinterest</div>
+        <div class="price-val">USD 800<span>/mes</span></div>
+        <div class="price-anchor">Por separado: USD 950</div>
+        <div class="save">Ahorro de USD 150 por mes</div>
+        <ul>
+          <li>Los tres canales gestionados como un solo sistema</li>
+          <li>Todo el recorrido cubierto: descubrimiento, búsqueda, remarketing y consulta</li>
+          <li>Una sola lectura de resultados para los tres canales</li>
+          <li>Reporte, reunión mensual y portal de cliente</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top:32px"><strong>Inversión en plataformas, aparte del fee:</strong> es lo que Meta, Google y Pinterest cobran por mostrar los anuncios y se paga directamente a cada plataforma. La definimos con ustedes al arrancar, según los servicios que quieran priorizar y las zonas donde buscan clientes.</div>
+  </div>
+</section>
+
+<!-- CONDICIONES -->
+<section id="condiciones">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Condiciones comerciales</div>
+      <div>
+        <h2>Cómo <b>arrancamos</b></h2>
+        <p class="lead">Aplican a los dos servicios, por separado o en conjunto.</p>
+      </div>
+    </div>
+    <div class="steps">
+      <div class="step rv"><div class="num">01</div><h4>Elección del servicio</h4><p>Definen el plan de contenido y el paquete de publicidad.</p></div>
+      <div class="step rv"><div class="num">02</div><h4>Pago del primer mes</h4><p>El pago es por adelantado y da inicio al trabajo.</p></div>
+      <div class="step rv"><div class="num">03</div><h4>Configuración</h4><p>Cuentas, medición, formulario, sitio y campañas.</p></div>
+      <div class="step key rv"><div class="num">04</div><h4>Lanzamiento</h4><p>Desde este día corre el mes de servicio.</p></div>
+    </div>
+
+    <div class="terms">
+      <table class="table">
+        <tbody>
+          <tr><td>Forma de pago</td><td>Mensual y por adelantado.</td></tr>
+          <tr><td>Inicio del mes de servicio</td><td>El mes empieza a contar el día que se lanzan las campañas o sale la primera publicación, no el día del pago. Así, los días de configuración no se descuentan del servicio.</td></tr>
+          <tr><td>Facturación</td><td>Los meses siguientes se facturan el mismo día del mes en que arrancó el servicio.</td></tr>
+          <tr><td>Grabación</td><td>Las medias jornadas se coordinan con anticipación y se facturan junto con el fee del mes en que se graba. Traslados y viáticos fuera de AMBA se presupuestan aparte.</td></tr>
+          <tr><td>Moneda</td><td>En dólares, o en pesos al tipo de cambio oficial del Banco Santander del día del pago.</td></tr>
+          <tr><td>Inversión en plataformas</td><td>No forma parte del fee. Se paga directamente a Meta, Google y Pinterest con el medio de pago de Momo.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">Dilema <span>Creative</span></div>
+        <div class="foot-tag">Agencia de marketing digital. Trabajamos el contenido y la pauta como un solo sistema, con pocos clientes y dedicación completa a cada uno.</div>
+      </div>
+      <div class="foot-contact">
+        <div class="kicker" style="color:var(--mute-dark);margin-bottom:6px">Contacto</div>
+        <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a>
+        <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+        <a href="https://instagram.com/dilema.creative" target="_blank" rel="noopener">@dilema.creative</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>Dilema Creative · 2026 · Propuesta para Momo Arquitectura</div>
+      <div>Buenos Aires · Argentina</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
