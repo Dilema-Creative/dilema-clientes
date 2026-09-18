@@ -30,6 +30,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
+[id]{scroll-margin-top:60px}
 body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;font-variant-numeric:lining-nums;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::selection{background:var(--ink);color:var(--paper)}
 a:focus-visible{outline:1px solid currentColor;outline-offset:3px}
@@ -742,11 +743,24 @@ footer{background:var(--d-paper);color:var(--d-ink);padding:64px 0 32px;border-t
 <script>
 (function(){
   // siempre abrir desde el inicio: el celular restaura la ultima posicion de scroll al reabrir el link
-  if(location.hash) return;
+  // y si la URL quedo con #seccion de un toque anterior en el menu, el navegador baja solo hasta ahi: se limpia
   if('scrollRestoration' in history) history.scrollRestoration='manual';
+  var hadHash=!!location.hash;
+  if(location.hash && history.replaceState) history.replaceState(null,'',location.pathname+location.search);
   var top=function(){window.scrollTo({top:0,left:0,behavior:'instant'})};
   top();
   window.addEventListener('pageshow',top);
+  window.addEventListener('load',top);
+  if(hadHash){setTimeout(top,0);setTimeout(top,150);}
+  // los links internos scrollean sin dejar el # en la URL
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var t=document.getElementById(a.getAttribute('href').slice(1));
+    if(!t) return;
+    e.preventDefault();
+    t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
 })();
 (function(){
   var els=document.querySelectorAll('.rv');
