@@ -741,6 +741,14 @@ footer{background:var(--d-paper);color:var(--d-ink);padding:64px 0 32px;border-t
 
 <script>
 (function(){
+  // siempre abrir desde el inicio: el celular restaura la ultima posicion de scroll al reabrir el link
+  if(location.hash) return;
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  var top=function(){window.scrollTo({top:0,left:0,behavior:'instant'})};
+  top();
+  window.addEventListener('pageshow',top);
+})();
+(function(){
   var els=document.querySelectorAll('.rv');
   if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
   var io=new IntersectionObserver(function(entries){
