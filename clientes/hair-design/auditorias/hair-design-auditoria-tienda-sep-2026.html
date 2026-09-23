@@ -12,12 +12,11 @@
 :root{
   --ink:#231c15; --char:#2b231b; --paper:#f6f1e9; --white:#fffdf9;
   --line:#e2d9cc; --line-dark:#4a3f34; --mute:#7a6d60; --mute-dark:#b3a797;
-  --terra:#b5623c; --olive:#6f6a3c; --mauve:#8A5F6E;
+  --terra:#b5623c; --olive:#6f6a3c;
   --display:'Newsreader',Georgia,serif; --body:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',ui-monospace,monospace;
-  --wrap:940px;
+  --wrap:880px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
 body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.62;font-variant-numeric:lining-nums;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 ::selection{background:var(--terra);color:var(--white)}
 h1,h2,h3,h4{text-wrap:balance}
@@ -26,95 +25,71 @@ a{color:inherit}
 .kicker{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
 
 /* HERO */
-.hero{background:var(--char);color:var(--white);padding:78px 0 70px;position:relative;overflow:hidden}
+.hero{background:var(--char);color:var(--white);padding:74px 0 66px;position:relative;overflow:hidden}
 .hero-glow{position:absolute;top:-180px;right:-140px;width:600px;height:600px;background:radial-gradient(circle,rgba(138,95,110,.32) 0%,transparent 68%);pointer-events:none}
 .hero .wrap{position:relative}
 .hero .kicker{color:var(--mute-dark)}
-.hero h1{font-family:var(--display);font-weight:300;font-size:clamp(38px,6.6vw,66px);line-height:1.02;letter-spacing:-.022em;margin:20px 0 22px}
-.hero h1 b{font-weight:500}
+.hero h1{font-family:var(--display);font-weight:300;font-size:clamp(38px,6.6vw,64px);line-height:1.02;letter-spacing:-.022em;margin:20px 0 20px}
 .hero h1 em{font-style:italic;color:#d9a7b4}
-.hero p{max-width:580px;color:#d9cfc2;font-size:16.5px}
+.hero p{max-width:560px;color:#d9cfc2;font-size:16.5px}
 
 /* SECTIONS */
-section{padding:66px 0;border-bottom:1px solid var(--line)}
+section{padding:60px 0;border-bottom:1px solid var(--line)}
 section.white{background:var(--white)}
-.sec-head{margin-bottom:34px;padding-top:16px;border-top:1px solid var(--ink)}
-.sec-head h2{font-family:var(--display);font-weight:300;font-size:clamp(28px,3.6vw,40px);line-height:1.08;letter-spacing:-.018em;margin-top:26px}
+.sec-head{margin-bottom:30px;padding-top:16px;border-top:1px solid var(--ink)}
+.sec-head h2{font-family:var(--display);font-weight:300;font-size:clamp(27px,3.5vw,38px);line-height:1.08;letter-spacing:-.018em;margin-top:24px}
 .sec-head h2 b{font-weight:500}
-.sec-head .lead{margin-top:14px;color:var(--mute);max-width:640px}
-p+p{margin-top:14px}
-.body-copy{max-width:660px}
+.sec-head .lead{margin-top:13px;color:var(--mute);max-width:620px}
+.body-copy{max-width:640px}
+.body-copy p+p{margin-top:13px}
 .body-copy b{font-weight:600}
 
-/* TABLA EMBUDO */
-table{width:100%;border-collapse:collapse;margin:8px 0 26px;font-size:15px}
-th,td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--line)}
+/* TABLA */
+table{width:100%;border-collapse:collapse;margin:4px 0 24px;font-size:15px}
+th,td{text-align:left;padding:12px 13px;border-bottom:1px solid var(--line)}
 th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);font-weight:400;border-bottom-color:var(--ink)}
 td.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
 tr.key td{background:rgba(181,98,60,.07)}
 tr.key td.n{color:var(--terra);font-weight:500}
 td.ok{color:var(--olive)}
 
-/* BLOQUES DE PROBLEMA */
-.issue{border-top:1px solid var(--line);padding:26px 0 4px;display:grid;grid-template-columns:44px 1fr;gap:20px;align-items:start}
-.issue:first-of-type{border-top:1px solid var(--ink)}
-.issue .num{font-family:var(--display);font-weight:300;font-size:36px;line-height:1;color:transparent;-webkit-text-stroke:1px var(--terra)}
-.issue h3{font-family:var(--display);font-weight:500;font-size:22px;line-height:1.24;margin-bottom:9px}
-.issue p{font-size:15px;color:var(--char)}
-.issue p.q{color:var(--mute)}
-.evi{margin-top:16px;border:1px solid var(--line);background:var(--white)}
-section.white .evi{background:var(--paper)}
-.evi div{display:grid;grid-template-columns:minmax(120px,.85fr) 1.6fr;gap:14px;padding:11px 15px;border-bottom:1px solid var(--line);font-size:14px}
-.evi div:last-child{border-bottom:0}
-.evi span:first-child{font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);padding-top:3px}
-.evi b{font-weight:600;color:var(--terra)}
-
-/* LISTA CORTA */
-.mini{list-style:none;display:grid;gap:11px;margin-top:6px}
-.mini li{position:relative;padding-left:20px;font-size:15px;color:var(--char);max-width:700px}
-.mini li::before{content:"";position:absolute;left:0;top:.72em;width:10px;height:1px;background:var(--terra)}
-.mini li b{font-weight:600}
-
-/* PLAN */
-.plan-group{margin-bottom:46px}
-.plan-group:last-child{margin-bottom:0}
-.plan-group > .kicker{color:var(--terra)}
-.plan-group h3{font-family:var(--display);font-weight:400;font-size:26px;margin:8px 0 6px}
-.plan-group .when{font-size:14.5px;color:var(--mute);margin-bottom:22px;max-width:560px}
-.plan{list-style:none;counter-reset:p;border-top:1px solid var(--ink)}
-.plan li{counter-increment:p;border-bottom:1px solid var(--line);padding:20px 0 20px 46px;position:relative;max-width:740px}
-.plan li::before{content:counter(p);position:absolute;left:0;top:19px;font-family:var(--mono);font-size:11.5px;color:var(--terra);border:1px solid var(--line);width:26px;height:26px;display:grid;place-items:center;border-radius:50%}
-.plan h4{font-family:var(--body);font-weight:600;font-size:17px;line-height:1.35;margin-bottom:5px}
-.plan p{font-size:14.8px;color:var(--mute);line-height:1.55}
-.plan p b{color:var(--char);font-weight:600}
+/* LISTA ÚNICA DE ARREGLOS */
+.fix{list-style:none;counter-reset:f;border-top:1px solid var(--ink)}
+.fix > li{counter-increment:f;border-bottom:1px solid var(--line);padding:24px 0 24px 48px;position:relative}
+.fix > li::before{content:counter(f);position:absolute;left:0;top:23px;font-family:var(--mono);font-size:11.5px;color:var(--terra);border:1px solid var(--line);width:27px;height:27px;display:grid;place-items:center;border-radius:50%}
+.fix h3{font-family:var(--display);font-weight:500;font-size:22px;line-height:1.24;margin-bottom:8px}
+.fix .tag{display:inline-block;font-family:var(--mono);font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--terra);border:1px solid var(--terra);border-radius:20px;padding:2px 9px;margin-bottom:9px}
+.fix p{font-size:15px;color:var(--char);max-width:660px}
+.fix p+p{margin-top:11px}
+.fix .do{color:var(--mute);border-left:2px solid var(--line);padding-left:14px}
+.fix .do b{color:var(--ink);font-weight:600}
+.fix .cita{font-family:var(--mono);font-size:13px;color:var(--terra)}
 
 /* CIERRE */
 .close{background:var(--char);color:var(--white);border-bottom:0}
 .close .sec-head{border-top-color:#7a6d60}
 .close h2{color:var(--white)}
-.close p{color:#d9cfc2;max-width:640px;font-size:16.5px}
-.close p+p{margin-top:14px}
+.close p{color:#d9cfc2;max-width:620px;font-size:16.5px}
+.close p+p{margin-top:13px}
 .close b{color:var(--white);font-weight:600}
 
 /* FOOTER */
-footer{background:var(--ink);color:var(--mute-dark);padding:46px 0 34px;font-size:13.5px}
-footer .top{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;padding-bottom:26px;border-bottom:1px solid var(--line-dark)}
+footer{background:var(--ink);color:var(--mute-dark);padding:44px 0 32px;font-size:13.5px}
+footer .top{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid var(--line-dark)}
 footer img{display:block;width:auto;height:52px}
 footer .tag{max-width:330px;margin-top:12px;line-height:1.55}
 footer .contact{display:grid;gap:5px;text-align:right}
 footer .contact a{text-decoration:none;color:var(--mute-dark)}
 footer .contact a:hover{color:var(--white)}
-footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:22px;font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase}
+footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;padding-top:20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.07em;text-transform:uppercase}
 
 @media(max-width:720px){
-  section{padding:50px 0}
-  .plan li{padding-left:38px}
-  .issue{grid-template-columns:1fr;gap:10px}
-  .issue .num{font-size:30px}
-  .evi div{grid-template-columns:1fr;gap:4px}
+  section{padding:46px 0}
+  .fix > li{padding-left:38px}
+  .fix > li::before{width:24px;height:24px;font-size:10.5px}
   footer .contact{text-align:left}
   table{font-size:14px}
-  th,td{padding:11px 9px}
+  th,td{padding:10px 8px}
 }
 </style>
 </head>
@@ -123,9 +98,9 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
 <header class="hero">
   <div class="hero-glow"></div>
   <div class="wrap">
-    <div class="kicker">Hair Design Recoleta · Auditoría de la tienda · 23 de septiembre de 2026</div>
+    <div class="kicker">Hair Design Recoleta · Auditoría de la tienda · Septiembre 2026</div>
     <h1>111 carritos.<br><em>Ninguna venta.</em></h1>
-    <p>Recorrimos hairdesign.com.ar de punta a punta desde un celular, comprando como una clienta: ficha, carrito, envío, checkout y pago. Esto es lo que encontramos y en qué orden conviene arreglarlo.</p>
+    <p>Recorrimos hairdesign.com.ar de punta a punta desde un celular, comprando como una clienta: ficha, carrito, envío, checkout y pago. Esto es lo que frena la venta, en orden de impacto.</p>
   </div>
 </header>
 
@@ -134,7 +109,7 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
     <div class="sec-head">
       <div class="kicker">El dato</div>
       <h2>El problema no está en la visita.<br><b>Está debajo del carrito.</b></h2>
-      <p class="lead">Datos de la tienda del 14 al 23 de septiembre, sumando todo el tráfico (campañas, Instagram y orgánico).</p>
+      <p class="lead">Del 14 al 23 de septiembre, sumando todo el tráfico: campañas, Instagram y orgánico.</p>
     </div>
 
     <table>
@@ -150,8 +125,7 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
 
     <div class="body-copy">
       <p>Los dos primeros pasos funcionan: la gente entra, mira productos y <b>111 personas pusieron algo en el carrito en 8 días</b>. Eso es demanda real y es la parte difícil.</p>
-      <p>De esas 111, solo 18 llegaron a la pantalla de pago y <b>ninguna terminó comprando</b>. Una tienda que funciona bien convierte entre el 40% y el 60% de los carritos en inicios de pago, y entre el 40% y el 70% de esos en ventas. <b>Con esos mismos 111 carritos, deberían haber sido unas 25 ventas.</b></p>
-      <p>No hace falta más presupuesto ni mejores anuncios para llegar a eso. Hace falta arreglar lo que pasa entre el carrito y el botón de pagar.</p>
+      <p>De esas 111, solo 18 llegaron a la pantalla de pago y ninguna compró. Una tienda que funciona bien convierte entre el 40% y el 60% de los carritos en inicios de pago, y entre el 40% y el 70% de esos en ventas. <b>Con esos mismos 111 carritos, deberían haber sido unas 25 ventas.</b></p>
     </div>
   </div>
 </section>
@@ -159,162 +133,77 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
 <section>
   <div class="wrap">
     <div class="sec-head">
-      <div class="kicker">Lo que rompe la venta</div>
-      <h2>Cinco cosas, <b>por orden de impacto</b></h2>
+      <div class="kicker">Qué arreglar</div>
+      <h2>Nueve cosas, <b>en orden</b></h2>
+      <p class="lead">Las primeras cinco son las que cambian el resultado. Conviene tenerlas resueltas antes de volver a invertir en la tienda.</p>
     </div>
 
-    <div class="issue">
-      <div class="num">01</div>
-      <div>
-        <h3>El envío dice "gratis" en la ficha y cobra $7.500 al pagar</h3>
-        <p>Es el más caro de todos y la explicación más probable de que solo el 16% de los carritos llegue a pagar. Probamos con la Crema Alisadora Lumino Liss 250g ($29.947) y un código postal de CABA:</p>
-        <div class="evi">
-          <div><span>En la ficha</span><span>"Llega mañana <b>gratis</b> con Envío a CABA"</span></div>
-          <div><span>En el carrito</span><span>"<b>$7.500</b> – Envío a CABA" · "Gratis – Andreani Domicilio"</span></div>
-          <div><span>En el checkout</span><span>Andreani aparece <b>sin precio y sin plazo</b></span></div>
-        </div>
-        <p style="margin-top:16px">La clienta lee "gratis", agrega el producto y en el último paso le aparece un costo que es <b>el 25% de lo que está comprando</b>. Ahí se va.</p>
-        <p class="q">Además hay 5 opciones de entrega sin jerarquía, una dice "Envío a GBA – <b>desde</b> $8000" (o sea, no sabe cuánto va a pagar) y otra dice "a convenir, el envío se coordina luego de realizar la compra", que es pedirle que pague sin saber el total.</p>
-      </div>
-    </div>
+    <ol class="fix">
 
-    <div class="issue">
-      <div class="num">02</div>
-      <div>
-        <h3>La cotización no reconoce el código postal</h3>
-        <p>Cargamos el <b>código postal 5000, que es Córdoba capital</b>, y el checkout contestó:</p>
-        <div class="evi"><div><span>Respuesta</span><span>"Estamos cotizando el envío a <b>CABA</b> (5000)"</span></div></div>
-        <p style="margin-top:16px">Y ofreció "Envío a GBA" como opción de entrega. Las zonas están mal configuradas: cualquier clienta del interior ve una cotización que no tiene nada que ver con su ciudad. La tienda vende a todo el país, así que esto afecta a la mayoría de los pedidos posibles.</p>
-      </div>
-    </div>
+      <li>
+        <span class="tag">Urgente</span>
+        <h3>Pedir el DNI y validarlo con AFIP frena la compra</h3>
+        <p>En el último paso, con todo ya cargado, la tienda pide el documento y además lo valida contra AFIP. Si esa validación no pasa, aparece <span class="cita">"El DNI/CUIT debe ser validado por AFIP antes de continuar"</span> y la compra queda trabada ahí mismo. Es el punto más probable donde se cayeron las 18 personas que llegaron a pagar.</p>
+        <p class="do"><b>Qué hacer:</b> sacar el documento del checkout o dejarlo opcional, y pedirlo solamente a quien necesita Factura A.</p>
+      </li>
 
-    <div class="issue">
-      <div class="num">03</div>
-      <div>
+      <li>
+        <span class="tag">Urgente</span>
+        <h3>El envío dice tres cosas distintas según dónde mires</h3>
+        <p>Con un carrito de $59.332 y un código postal de CABA:</p>
+        <p class="cita">En la ficha: "Llega hoy gratis con Envío a CABA"<br>
+        En el carrito: "$7.500 – Envío a CABA"<br>
+        Arriba del checkout: "Envío gratis a partir de $300.000"</p>
+        <p>Y encima el sistema cotiza <b>Andreani gratis a domicilio</b> sobre ese mismo carrito de $59.332, que está muy por debajo de los $300.000 que anuncia la propia tienda. La clienta lee "gratis", agrega el producto y en el último paso le puede aparecer un costo que es el 25% de lo que está comprando.</p>
+        <p class="do"><b>Qué hacer:</b> definir una sola política de envío y que diga exactamente lo mismo en la ficha, en el carrito y en el checkout. Nuestra recomendación: <b>gratis desde $80.000</b> (que son dos o tres productos juntos, y de paso les sube el valor del pedido) y un precio fijo y visible por debajo de eso. Si Andreani va gratis sin mínimo, hay que saberlo, porque ese envío se lleva toda la ganancia de un pedido de $30.000.</p>
+      </li>
+
+      <li>
+        <span class="tag">Urgente</span>
+        <h3>Los códigos postales están mal configurados</h3>
+        <p>Cargamos el <b>5000, que es Córdoba capital</b>, y el checkout contestó <span class="cita">"Estamos cotizando el envío a CABA (5000)"</span> y ofreció "Envío a GBA" como opción de entrega. Le pasa a cualquier clienta del interior, que es adonde más se podría vender.</p>
+        <p class="do"><b>Qué hacer:</b> revisar la configuración de zonas por código postal con Heaven.</p>
+      </li>
+
+      <li>
+        <span class="tag">Urgente</span>
         <h3>El 5% por transferencia no se descuenta</h3>
-        <div class="evi">
-          <div><span>En la ficha</span><span>"Transferencia 5% OFF <b>$28.450</b>"</span></div>
-          <div><span>En el checkout</span><span>Total con transferencia elegida: <b>$29.947</b></span></div>
-        </div>
-        <p style="margin-top:16px">El descuento no baja el total en pantalla. Prometer un precio y mostrar otro al momento de pagar es uno de los motivos de abandono más caros que hay, incluso si después el descuento se aplica por fuera.</p>
-      </div>
-    </div>
+        <p>La ficha promete $28.450 y el checkout tiene un cartel propio que dice "5% OFF por transferencia o efectivo". Pero al elegir transferencia, el total no se mueve: sigue igual. La clienta siente que le están cobrando de más.</p>
+        <p class="do"><b>Qué hacer:</b> que el descuento baje el total en pantalla al elegir el medio de pago.</p>
+      </li>
 
-    <div class="issue">
-      <div class="num">04</div>
-      <div>
-        <h3>Son seis pantallas hasta pagar, y piden el DNI</h3>
-        <p>El recorrido completo hoy es: <b>mail → cómo la recibís → cargar dirección → confirmar dirección → medio de pago → nombre, apellido, teléfono, tipo y número de documento → recién ahí MercadoPago</b>.</p>
-        <p style="margin-top:14px">Las tiendas que mejor convierten lo resuelven en dos o tres pasos. Dos detalles que suman fricción de más:</p>
-        <ul class="mini" style="margin-top:14px">
-          <li>Se pide <b>DNI o CUIT obligatorio</b> para comprar un shampoo de $30.000. Es un dato sensible que nadie espera dar en una tienda que recién conoce, y no hace falta para cobrar.</li>
-          <li>La primera pantalla está en blanco y solo pide el mail: no muestra qué se está comprando, ni cuántos pasos faltan, ni los medios de pago, ni ninguna señal de compra segura.</li>
-        </ul>
-      </div>
-    </div>
+      <li>
+        <span class="tag">Urgente</span>
+        <h3>Las opciones de entrega no se entienden</h3>
+        <p>Son cinco y ninguna se explica bien: Andreani Domicilio y Andreani Sucursal aparecen <b>sin precio y sin plazo</b>, "Envío a GBA" dice "desde $8000" (o sea que no se sabe cuánto va a pagar), y hay una opción que dice <span class="cita">"A convenir: el envío se coordina luego de realizar la compra"</span>, que es pedirle que pague sin saber el total.</p>
+        <p class="do"><b>Qué hacer:</b> dejar dos o tres opciones, cada una con su precio y su plazo de entrega a la vista.</p>
+      </li>
 
-    <div class="issue">
-      <div class="num">05</div>
-      <div>
-        <h3>No se puede pagar con tarjeta en la tienda</h3>
-        <p>Las opciones son <b>Pago en local</b>, <b>Transferencia</b> y <b>MercadoPago</b>, y esta última aclara: "luego de finalizar la compra podrás pagar con tu cuenta de MercadoPago".</p>
-        <p style="margin-top:14px">La clienta nunca ve el formulario de tarjeta ni puede elegir en cuántas cuotas. El cartel de <b>"3 cuotas sin interés"</b> aparece en todo el sitio pero <b>no aparece nunca dentro del checkout</b>. Quien entró a financiar la Multistyler de $313.635 no encuentra dónde hacerlo, y ese es justo el producto de mayor ticket.</p>
-      </div>
-    </div>
-  </div>
-</section>
+      <li>
+        <h3>La tarjeta y las cuotas recién aparecen afuera de la tienda</h3>
+        <p>Hay que confirmar el pedido para recién después ir a MercadoPago y pagar. El cartel de <b>"3 cuotas sin interés"</b> está en todo el sitio pero no aparece nunca dentro del checkout, así que quien entró a financiar la Multistyler de $313.635 no encuentra dónde.</p>
+        <p class="do"><b>Qué hacer:</b> habilitar el pago con tarjeta adentro de la tienda, con las cuotas a la vista antes de confirmar.</p>
+      </li>
 
-<section class="white">
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker">Además</div>
-      <h2>Cosas más chicas <b>que también restan</b></h2>
-    </div>
-    <ul class="mini">
-      <li><b>El checkout muestra "$ 0" arriba</b> mientras el pedido es de $29.947. Y el detalle dice "Total sin impuestos $ 24750.00", sin formato de precio.</li>
-      <li><b>Hay errores de programación en todas las páginas.</b> Un archivo llamado <code>newProductRules.js</code> falta y da error 404 en cada carga (inicio, ficha, carrito y checkout), y hay otro error repetido en <code>custom.js</code>. Es para pasarle a Heaven.</li>
-      <li><b>El inicio pesa 14 MB y tarda unos 10 segundos</b> en un celular la primera vez. Solo las imágenes de arriba suman 3,2 MB, todas sin comprimir. Casi todo el tráfico entra desde el celular con datos móviles.</li>
-      <li><b>Google Analytics no está midiendo</b>: el código está instalado pero sin el identificador cargado. Hoy no hay forma de ver el comportamiento de la tienda más allá de lo que mide Meta.</li>
-      <li><b>No hay ni una reseña</b> en toda la tienda, incluyendo productos de $274.000 y $313.000. Es la palanca de confianza más fuerte que tienen sin usar: hay clientas reales en el salón todos los días.</li>
-      <li><b>"Puede interesarte" recomienda el mismo producto</b> que la clienta está mirando, en lugar de ofrecerle algo complementario.</li>
-      <li><b>Hay datos que se contradicen dentro de la misma ficha.</b> En la Multistyler, la descripción dice cable de 1,80 m y las especificaciones dicen 1,5 m; también aparece "temperatura máxima 0 °C". Y quedaron a la vista campos internos de la importación de Mercado Libre ("syi pymes id", "Motivo de GTIN vacío", "Regalable vppfull").</li>
-      <li><b>Al agregar un producto al carrito no hay camino para seguir:</b> el botón se convierte en el texto "Se agregó al carrito" y no aparece ningún "Ir al carrito" ni "Finalizar compra".</li>
-      <li><b>El carrito está vacío de ayudas:</b> no sugiere productos, no dice "te faltan $X para el envío gratis" y no recuerda el descuento por transferencia.</li>
-    </ul>
-  </div>
-</section>
+      <li>
+        <h3>Hay tres errores para pasarle a Heaven</h3>
+        <p>Uno: desde el celular, la pantalla de pago muestra <b>"$ 0"</b> arriba mientras el pedido es de $59.332. Dos: en el resumen dice "Total sin impuestos $ 49035.00", sin formato de precio. Tres: falta un archivo del sitio (<code>newProductRules.js</code>) que da error en todas las páginas, y hay otro error que corta el script del encabezado.</p>
+        <p class="do"><b>Qué hacer:</b> reportarlos al soporte de Heaven, son de ellos.</p>
+      </li>
 
-<section>
-  <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker">Plan</div>
-      <h2>Qué hay que hacer</h2>
-      <p class="lead">Doce cosas. Las primeras siete son las que cambian el resultado y conviene tenerlas resueltas antes de volver a invertir en la tienda.</p>
-    </div>
+      <li>
+        <h3>No hay ni una reseña en toda la tienda</h3>
+        <p>Ni testimonios ni fotos reales de clientas, incluyendo los productos de $274.000 y $313.000. Es la palanca de confianza más fuerte que tienen sin usar: hay clientas reales en el salón todos los días.</p>
+        <p class="do"><b>Qué hacer:</b> cargar diez o quince reseñas de clientas del salón en los productos que más se promocionan. Un video de 15 segundos de alguien usando la Multistyler en el local convence más que toda la ficha técnica.</p>
+      </li>
 
-    <div class="plan-group">
-      <div class="kicker">Primero</div>
-      <h3>Lo que hay que resolver ya</h3>
-      <p class="when">Sin esto, cualquier peso que pongamos en la tienda se pierde en el último paso.</p>
-      <ol class="plan">
-        <li>
-          <h4>Poner un solo precio de envío y que diga lo mismo en todos lados</h4>
-          <p>Hoy la ficha dice "gratis" y al momento de pagar aparecen $7.500. Nuestra recomendación: <b>envío gratis desde $80.000</b> (que son dos o tres productos juntos, y de paso les sube el valor del pedido) y un precio fijo y visible por debajo de ese monto.</p>
-        </li>
-        <li>
-          <h4>Arreglar los códigos postales</h4>
-          <p>Si alguien de Córdoba pone su código postal, la tienda le cotiza como si viviera en CABA. Pasa con todo el interior, que es adonde más se podría vender.</p>
-        </li>
-        <li>
-          <h4>Definir si Andreani va gratis o no</h4>
-          <p>Hoy figura gratis a domicilio sin monto mínimo. Si es así, el envío se lleva toda la ganancia de un pedido de $30.000. Y si no es así, la tienda está prometiendo algo que después no se va a poder cumplir. Hay que decidirlo.</p>
-        </li>
-        <li>
-          <h4>Que el 5% por transferencia se descuente en pantalla</h4>
-          <p>La ficha promete $28.450 y en el checkout sigue diciendo $29.947. La clienta siente que le cobraron de más.</p>
-        </li>
-        <li>
-          <h4>Sacar el DNI obligatorio</h4>
-          <p>Hoy hay que darlo para comprar un shampoo. Dejarlo solamente para quien pide Factura A.</p>
-        </li>
-        <li>
-          <h4>Pasarle tres errores a Heaven</h4>
-          <p>El "$ 0" que aparece arriba en la pantalla de pago, un archivo del sitio que falta y da error en todas las páginas, y otro error que se repite en cada carga.</p>
-        </li>
-        <li>
-          <h4>Cargar el número de Google Analytics</h4>
-          <p>Está instalado pero vacío. Hoy no hay forma de ver qué hace la gente dentro de la tienda.</p>
-        </li>
-      </ol>
-    </div>
+      <li>
+        <h3>Quedaron detalles sueltos en las fichas</h3>
+        <p>En la Multistyler, "Puede interesarte" muestra el mismo producto que la clienta está mirando. La descripción dice cable de 1,80 m y las especificaciones dicen 1,5 m. Figura "temperatura máxima 0 °C". Y quedó a la vista un campo interno de la importación de Mercado Libre ("syi pymes id"). En un producto de $313.000, cada uno de esos detalles resta.</p>
+        <p class="do"><b>Qué hacer:</b> repasar las fichas de los productos caros, que son los que más necesitan confianza.</p>
+      </li>
 
-    <div class="plan-group">
-      <div class="kicker">Después</div>
-      <h3>Lo que suma una vez resuelto lo de arriba</h3>
-      <p class="when">Ninguna de estas es urgente, pero las cinco juntas hacen que la tienda se sienta confiable.</p>
-      <ol class="plan" style="counter-reset:p 7">
-        <li>
-          <h4>Achicar las fotos de la página de inicio</h4>
-          <p>Hoy pesa 14 MB y tarda unos 10 segundos en abrir desde el celular. Es lo más barato de arreglar y lo que más se nota, porque casi todo el mundo entra desde el teléfono.</p>
-        </li>
-        <li>
-          <h4>Dejar pagar con tarjeta ahí mismo</h4>
-          <p>Hoy hay que salir a MercadoPago recién después de terminar la compra, y las 3 cuotas sin interés nunca aparecen dentro del checkout.</p>
-        </li>
-        <li>
-          <h4>Sumar el botón "Ir al carrito"</h4>
-          <p>Cuando alguien agrega un producto, hoy no le aparece ningún camino para seguir comprando ni para pagar.</p>
-        </li>
-        <li>
-          <h4>Pedirles reseñas a las clientas del salón</h4>
-          <p>Con diez o quince alcanza. Un video de 15 segundos de una clienta usando la Multistyler en el local convence más que toda la ficha técnica.</p>
-        </li>
-        <li>
-          <h4>Contar quiénes son en "Quiénes somos"</h4>
-          <p>Los años del salón, el equipo, fotos reales. Tienen un local en Recoleta y 3.300 seguidores, y eso hoy no está contado en ningún lugar de la tienda.</p>
-        </li>
-      </ol>
-    </div>
+    </ol>
   </div>
 </section>
 
@@ -325,7 +214,7 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
       <h2>La demanda ya está.</h2>
     </div>
     <p>En ocho días, <b>111 personas quisieron comprar</b> y llegaron hasta el carrito. La tienda no cerró ninguna venta.</p>
-    <p>No hace falta más inversión ni mejores anuncios para mover ese número: hace falta que <b>el precio final sea el mismo en la ficha y en el checkout</b>, que <b>el envío se entienda</b> y que <b>se pueda pagar con tarjeta</b>. Con eso solo, esos mismos 111 carritos valen alrededor de 25 ventas.</p>
+    <p>No hace falta más inversión ni mejores anuncios para mover ese número: hace falta que <b>se pueda terminar de comprar</b>, que <b>el precio final sea el mismo en la ficha y en el checkout</b> y que <b>el envío se entienda</b>. Con eso solo, esos mismos 111 carritos valen alrededor de 25 ventas.</p>
   </div>
 </section>
 
