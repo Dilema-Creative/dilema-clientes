@@ -1,0 +1,4 @@
+# Material de clientes de Dilema Creative.
+# Paginas privadas por acuerdo: no se indexan.
+User-agent: *
+Disallow: /
