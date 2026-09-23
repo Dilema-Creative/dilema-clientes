@@ -75,15 +75,18 @@ section.white .evi{background:var(--paper)}
 .mini li::before{content:"";position:absolute;left:0;top:.72em;width:10px;height:1px;background:var(--terra)}
 .mini li b{font-weight:600}
 
-/* CHECKLIST */
-.todo{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:6px}
-.todo-col{background:var(--white);padding:26px 24px 28px}
-section:not(.white) .todo-col{background:var(--paper)}
-.todo-col h3{font-family:var(--display);font-weight:400;font-size:23px;margin:10px 0 18px}
-.todo-col ol{list-style:none;counter-reset:t;display:grid;gap:12px}
-.todo-col li{counter-increment:t;position:relative;padding-left:30px;font-size:14.8px;line-height:1.5}
-.todo-col li::before{content:counter(t);position:absolute;left:0;top:.06em;font-family:var(--mono);font-size:11px;color:var(--terra);border:1px solid var(--line);width:20px;height:20px;display:grid;place-items:center;border-radius:50%}
-.todo-col li b{font-weight:600}
+/* PLAN */
+.plan-group{margin-bottom:46px}
+.plan-group:last-child{margin-bottom:0}
+.plan-group > .kicker{color:var(--terra)}
+.plan-group h3{font-family:var(--display);font-weight:400;font-size:26px;margin:8px 0 6px}
+.plan-group .when{font-size:14.5px;color:var(--mute);margin-bottom:22px;max-width:560px}
+.plan{list-style:none;counter-reset:p;border-top:1px solid var(--ink)}
+.plan li{counter-increment:p;border-bottom:1px solid var(--line);padding:20px 0 20px 46px;position:relative;max-width:740px}
+.plan li::before{content:counter(p);position:absolute;left:0;top:19px;font-family:var(--mono);font-size:11.5px;color:var(--terra);border:1px solid var(--line);width:26px;height:26px;display:grid;place-items:center;border-radius:50%}
+.plan h4{font-family:var(--body);font-weight:600;font-size:17px;line-height:1.35;margin-bottom:5px}
+.plan p{font-size:14.8px;color:var(--mute);line-height:1.55}
+.plan p b{color:var(--char);font-weight:600}
 
 /* CIERRE */
 .close{background:var(--char);color:var(--white);border-bottom:0}
@@ -105,7 +108,7 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
 
 @media(max-width:720px){
   section{padding:50px 0}
-  .todo{grid-template-columns:1fr}
+  .plan li{padding-left:38px}
   .issue{grid-template-columns:1fr;gap:10px}
   .issue .num{font-size:30px}
   .evi div{grid-template-columns:1fr;gap:4px}
@@ -121,7 +124,7 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
   <div class="hero-glow"></div>
   <div class="wrap">
     <div class="kicker">Hair Design Recoleta · Auditoría de la tienda · 23 de septiembre de 2026</div>
-    <h1>111 carritos.<br><em>1 venta.</em></h1>
+    <h1>111 carritos.<br><em>Ninguna venta.</em></h1>
     <p>Recorrimos hairdesign.com.ar de punta a punta desde un celular, comprando como una clienta: ficha, carrito, envío, checkout y pago. Esto es lo que encontramos y en qué orden conviene arreglarlo.</p>
   </div>
 </header>
@@ -141,13 +144,13 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
         <tr><td>Miró un producto</td><td class="n">1.458</td><td class="n ok">40%</td><td class="n">bien</td></tr>
         <tr><td>Agregó al carrito</td><td class="n">111</td><td class="n">7,6%</td><td class="n">5-10%</td></tr>
         <tr class="key"><td>Llegó a pagar</td><td class="n">18</td><td class="n">16%</td><td class="n">40-60%</td></tr>
-        <tr class="key"><td>Compró</td><td class="n">1</td><td class="n">6%</td><td class="n">40-70%</td></tr>
+        <tr class="key"><td>Compró</td><td class="n">0</td><td class="n">0%</td><td class="n">40-70%</td></tr>
       </tbody>
     </table>
 
     <div class="body-copy">
       <p>Los dos primeros pasos funcionan: la gente entra, mira productos y <b>111 personas pusieron algo en el carrito en 8 días</b>. Eso es demanda real y es la parte difícil.</p>
-      <p>De esas 111, solo 18 llegaron a la pantalla de pago y una sola terminó comprando. Una tienda que funciona bien convierte entre el 40% y el 60% de los carritos en inicios de pago, y entre el 40% y el 70% de esos en ventas. <b>Con esos mismos 111 carritos, deberían haber sido unas 25 ventas.</b></p>
+      <p>De esas 111, solo 18 llegaron a la pantalla de pago y <b>ninguna terminó comprando</b>. Una tienda que funciona bien convierte entre el 40% y el 60% de los carritos en inicios de pago, y entre el 40% y el 70% de esos en ventas. <b>Con esos mismos 111 carritos, deberían haber sido unas 25 ventas.</b></p>
       <p>No hace falta más presupuesto ni mejores anuncios para llegar a eso. Hace falta arreglar lo que pasa entre el carrito y el botón de pagar.</p>
     </div>
   </div>
@@ -245,34 +248,72 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
   <div class="wrap">
     <div class="sec-head">
       <div class="kicker">Plan</div>
-      <h2>Qué hacemos, <b>en qué orden</b></h2>
-      <p class="lead">Los siete primeros son los que cambian el resultado. Conviene tenerlos listos antes de volver a invertir en la tienda.</p>
+      <h2>Qué hay que hacer</h2>
+      <p class="lead">Doce cosas. Las primeras siete son las que cambian el resultado y conviene tenerlas resueltas antes de volver a invertir en la tienda.</p>
     </div>
-    <div class="todo">
-      <div class="todo-col">
-        <div class="kicker">Prioridad</div>
-        <h3>Esta semana</h3>
-        <ol>
-          <li><b>Una sola política de envío</b>, que diga exactamente lo mismo en la ficha, en el carrito y en el checkout. Nuestra recomendación: envío gratis desde $80.000 o $100.000 (que es un combo de dos o tres productos y les sube el ticket) y un precio fijo y visible por debajo de ese monto.</li>
-          <li><b>Arreglar las zonas por código postal.</b> Hoy Córdoba cotiza como si fuera CABA.</li>
-          <li><b>Definir qué pasa con Andreani.</b> Hoy figura gratis a domicilio sin monto mínimo. Si es real, se lleva todo el margen de un pedido de $30.000; si no lo es, la tienda está prometiendo algo que después no se va a poder cumplir. Las dos situaciones hay que resolverlas.</li>
-          <li><b>Que el 5% por transferencia baje el total</b> en la pantalla de pago.</li>
-          <li><b>Sacar el DNI obligatorio</b> y dejarlo solo para quien pide Factura A.</li>
-          <li><b>Pasarle a Heaven</b> el archivo que falta, el error repetido y el "$ 0" del encabezado del checkout.</li>
-          <li><b>Cargar el identificador de Google Analytics.</b></li>
-        </ol>
-      </div>
-      <div class="todo-col">
-        <div class="kicker">Después</div>
-        <h3>Semana siguiente</h3>
-        <ol>
-          <li><b>Comprimir las imágenes del inicio.</b> Es lo más barato de hacer y lo que más cambia el primer contacto desde el celular.</li>
-          <li><b>Habilitar el pago con tarjeta dentro de la tienda</b>, con el selector de cuotas a la vista.</li>
-          <li><b>Sumar el botón "Ir al carrito"</b> después de agregar un producto.</li>
-          <li><b>Cargar 10 o 15 reseñas reales</b> de clientas del salón en los productos que más se promocionan. Un video de 15 segundos usando la Multistyler en el local vale más que toda la ficha técnica.</li>
-          <li><b>Reescribir "Quiénes somos"</b> con los años del salón, el equipo, la dirección y fotos reales. Tienen un local en Recoleta y 3.300 seguidores: eso hoy no está contado en ningún lado de la tienda.</li>
-        </ol>
-      </div>
+
+    <div class="plan-group">
+      <div class="kicker">Primero</div>
+      <h3>Lo que hay que resolver ya</h3>
+      <p class="when">Sin esto, cualquier peso que pongamos en la tienda se pierde en el último paso.</p>
+      <ol class="plan">
+        <li>
+          <h4>Poner un solo precio de envío y que diga lo mismo en todos lados</h4>
+          <p>Hoy la ficha dice "gratis" y al momento de pagar aparecen $7.500. Nuestra recomendación: <b>envío gratis desde $80.000</b> (que son dos o tres productos juntos, y de paso les sube el valor del pedido) y un precio fijo y visible por debajo de ese monto.</p>
+        </li>
+        <li>
+          <h4>Arreglar los códigos postales</h4>
+          <p>Si alguien de Córdoba pone su código postal, la tienda le cotiza como si viviera en CABA. Pasa con todo el interior, que es adonde más se podría vender.</p>
+        </li>
+        <li>
+          <h4>Definir si Andreani va gratis o no</h4>
+          <p>Hoy figura gratis a domicilio sin monto mínimo. Si es así, el envío se lleva toda la ganancia de un pedido de $30.000. Y si no es así, la tienda está prometiendo algo que después no se va a poder cumplir. Hay que decidirlo.</p>
+        </li>
+        <li>
+          <h4>Que el 5% por transferencia se descuente en pantalla</h4>
+          <p>La ficha promete $28.450 y en el checkout sigue diciendo $29.947. La clienta siente que le cobraron de más.</p>
+        </li>
+        <li>
+          <h4>Sacar el DNI obligatorio</h4>
+          <p>Hoy hay que darlo para comprar un shampoo. Dejarlo solamente para quien pide Factura A.</p>
+        </li>
+        <li>
+          <h4>Pasarle tres errores a Heaven</h4>
+          <p>El "$ 0" que aparece arriba en la pantalla de pago, un archivo del sitio que falta y da error en todas las páginas, y otro error que se repite en cada carga.</p>
+        </li>
+        <li>
+          <h4>Cargar el número de Google Analytics</h4>
+          <p>Está instalado pero vacío. Hoy no hay forma de ver qué hace la gente dentro de la tienda.</p>
+        </li>
+      </ol>
+    </div>
+
+    <div class="plan-group">
+      <div class="kicker">Después</div>
+      <h3>Lo que suma una vez resuelto lo de arriba</h3>
+      <p class="when">Ninguna de estas es urgente, pero las cinco juntas hacen que la tienda se sienta confiable.</p>
+      <ol class="plan" style="counter-reset:p 7">
+        <li>
+          <h4>Achicar las fotos de la página de inicio</h4>
+          <p>Hoy pesa 14 MB y tarda unos 10 segundos en abrir desde el celular. Es lo más barato de arreglar y lo que más se nota, porque casi todo el mundo entra desde el teléfono.</p>
+        </li>
+        <li>
+          <h4>Dejar pagar con tarjeta ahí mismo</h4>
+          <p>Hoy hay que salir a MercadoPago recién después de terminar la compra, y las 3 cuotas sin interés nunca aparecen dentro del checkout.</p>
+        </li>
+        <li>
+          <h4>Sumar el botón "Ir al carrito"</h4>
+          <p>Cuando alguien agrega un producto, hoy no le aparece ningún camino para seguir comprando ni para pagar.</p>
+        </li>
+        <li>
+          <h4>Pedirles reseñas a las clientas del salón</h4>
+          <p>Con diez o quince alcanza. Un video de 15 segundos de una clienta usando la Multistyler en el local convence más que toda la ficha técnica.</p>
+        </li>
+        <li>
+          <h4>Contar quiénes son en "Quiénes somos"</h4>
+          <p>Los años del salón, el equipo, fotos reales. Tienen un local en Recoleta y 3.300 seguidores, y eso hoy no está contado en ningún lugar de la tienda.</p>
+        </li>
+      </ol>
     </div>
   </div>
 </section>
@@ -283,7 +324,7 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
       <div class="kicker">En una línea</div>
       <h2>La demanda ya está.</h2>
     </div>
-    <p>En ocho días, <b>111 personas quisieron comprar</b> y llegaron hasta el carrito. La tienda cerró una sola venta.</p>
+    <p>En ocho días, <b>111 personas quisieron comprar</b> y llegaron hasta el carrito. La tienda no cerró ninguna venta.</p>
     <p>No hace falta más inversión ni mejores anuncios para mover ese número: hace falta que <b>el precio final sea el mismo en la ficha y en el checkout</b>, que <b>el envío se entienda</b> y que <b>se pueda pagar con tarjeta</b>. Con eso solo, esos mismos 111 carritos valen alrededor de 25 ventas.</p>
   </div>
 </section>
