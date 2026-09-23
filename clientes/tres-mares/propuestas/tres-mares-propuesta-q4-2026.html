@@ -154,6 +154,22 @@
   .note strong { color:#fff; font-family:'Poppins',sans-serif; font-weight:600; }
   .note.hi { border-left:3px solid var(--acc-light); }
 
+  /* STATS */
+  .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:12px; overflow:hidden; margin-top:26px; }
+  .stat { background:var(--white); padding:26px 22px; }
+  .stat-num { font-family:'Poppins',sans-serif; font-weight:700; font-size:30px; letter-spacing:-.03em; color:var(--navy); line-height:1; }
+  .stat-num span { font-size:13px; font-weight:400; color:var(--ash); letter-spacing:0; }
+  .stat-lab { font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--acc-deep); margin-top:12px; }
+  .stat-sub { font-size:12.5px; color:var(--ash); margin-top:7px; line-height:1.5; }
+  .vs { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:24px; background:var(--white); border:1px solid var(--line); border-radius:14px; padding:34px 30px; margin-top:26px; }
+  .vs-side { text-align:center; }
+  .vs-side .n { font-family:'Poppins',sans-serif; font-weight:700; font-size:clamp(24px,4vw,38px); letter-spacing:-.03em; line-height:1; color:var(--navy); }
+  .vs-side.big .n { color:var(--green-deep); }
+  .vs-side .l { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--acc-deep); margin-top:10px; }
+  .vs-side .s { font-size:12.5px; color:var(--ash); margin-top:6px; }
+  .vs-mid { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ash); white-space:nowrap; }
+  @media (max-width:760px) { .stats { grid-template-columns:1fr 1fr; } .vs { grid-template-columns:1fr; gap:18px; } }
+
   /* CIERRE */
   .closing { background:var(--acc-ink); padding:110px 60px; text-align:center; position:relative; overflow:hidden; }
   .closing::before { content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:760px; height:420px;
@@ -212,8 +228,8 @@
     <div class="nav-sub">Tres Mares · Q4 2026</div>
   </div>
   <div class="nav-links">
-    <a href="#hoy">Hoy</a><a href="#calendario">Calendario</a><a href="#servicios">Servicios</a>
-    <a href="#resultados">Resultados</a><a href="#plan">Plan</a><a href="#inversion">Inversión</a>
+    <a href="#hoy">Hoy</a><a href="#meli">Mercado Libre</a><a href="#calendario">Calendario</a><a href="#servicios">Servicios</a>
+    <a href="#resultados">Resultados</a><a href="#plan">Plan</a><a href="#porque">Por qué</a><a href="#inversion">Inversión</a>
   </div>
 </nav>
 
@@ -226,38 +242,90 @@
     </div>
     <div class="brand-tag"><span class="dot"></span>Plan de crecimiento · Octubre a diciembre 2026</div>
     <h1>Cerrar el año vendiendo en <em>todos los lugares</em> donde se compra tecnología.</h1>
-    <p class="hero-sub">Google ya vende y Meta arrancó en septiembre. Para el último trimestre proponemos sumar los dos canales que faltan, Mercado Libre y email, para llegar a CyberMonday, Black Friday y las fiestas con toda la operación conectada.</p>
-    <div class="hero-meta"><div><div class="hm-label">Período</div><div class="hm-value">Octubre – Diciembre 2026</div></div><div><div class="hm-label">Hoy</div><div class="hm-value">Google + Meta</div></div><div><div class="hm-label">Suma</div><div class="hm-value">Mercado Libre Ads + Email</div></div><div><div class="hm-label">Fecha</div><div class="hm-value">17 / 09 / 2026</div></div></div>
+    <p class="hero-sub">Google ya vende y Meta arrancó en septiembre. Para el último trimestre proponemos sumar los dos canales que faltan. Uno de ellos, Mercado Libre, ya es el canal que más vende de Tres Mares y hoy funciona sin una sola campaña.</p>
+    <div class="hero-meta"><div><div class="hm-label">Período</div><div class="hm-value">Octubre – Diciembre 2026</div></div><div><div class="hm-label">Hoy</div><div class="hm-value">Google + Meta</div></div><div><div class="hm-label">Suma</div><div class="hm-value">Mercado Libre Ads + Email</div></div><div><div class="hm-label">Fecha</div><div class="hm-value">23 / 09 / 2026</div></div></div>
   </div>
 </header>
 
 <section id="hoy">
   <div class="wrap">
     <div class="kicker">01 · Dónde estamos</div>
-    <h2 class="section-title">Google vende.<br>Hay <em>dos canales</em> sin trabajar.</h2>
+    <h2 class="section-title">Google vende.<br>El canal <em>más grande</em> no tiene pauta.</h2>
     <p class="lead">Tres Mares tiene lo más difícil resuelto: catálogo grande, tienda propia, local en Recoleta y una campaña de Google que da resultado. Lo que falta es aprovechar a la gente que ya los conoce y el lugar donde más se busca tecnología en Argentina.</p>
     <div class="diag">
-      <div class="diag-col ok"><h3>Lo que ya funciona</h3><ul><li>En agosto, Google Ads trajo <strong>17 ventas online y $4,91 millones facturados</strong>, con un retorno de <strong>4,65x</strong>: con la misma inversión que julio, las ventas se duplicaron.</li><li>La campaña que más vende (Performance Max) <strong>todavía pierde apariciones por falta de presupuesto</strong>: hay demanda sin atender.</li><li>La medición de Meta quedó reparada: se registra todo el recorrido de compra, con el valor de cada venta.</li><li>Un catálogo de <strong>más de 11.000 productos</strong> conectado a Google y a Meta.</li><li>Tienda en Mercado Libre activa, con <strong>más de 1.400 seguidores</strong>.</li></ul></div>
-      <div class="diag-col gap"><h3>Lo que queda sin aprovechar</h3><ul><li><strong>Mercado Libre vende solo con lo orgánico.</strong> Nadie empuja las publicaciones en las búsquedas, que es donde se decide buena parte de la compra de tecnología.</li><li><strong>4 de cada 10 pesos en órdenes de la tienda no se terminan cobrando</strong> (496 órdenes, octubre 2025 a agosto 2026). Una parte es fraude, pero otra son compradores reales que no terminan de pagar y a los que nadie les escribe.</li><li>Quien deja un carrito o se suscribe al newsletter <strong>no recibe una secuencia automática</strong> que lo traiga de vuelta.</li><li>En el celular se compra <strong>aprox. la mitad</strong> que en la computadora (0,30% contra 0,65% de las visitas). El email ayuda a cerrar después la compra que empezó en el teléfono.</li></ul></div>
+      <div class="diag-col ok"><h3>Lo que ya funciona</h3><ul><li>En agosto, Google Ads trajo <strong>17 ventas online y $4,91 millones facturados</strong>, con un retorno de <strong>4,65x</strong>: con la misma inversión que julio, las ventas se duplicaron.</li><li>La campaña que más vende (Performance Max) <strong>todavía pierde apariciones por falta de presupuesto</strong>: hay demanda sin atender.</li><li>La medición de Meta quedó reparada: se registra todo el recorrido de compra, con el valor de cada venta.</li><li>Un catálogo de <strong>más de 11.000 productos</strong> conectado a Google y a Meta.</li><li>Mercado Libre factura <strong>$248 millones por mes</strong> sin pauta, solo con posicionamiento orgánico y reputación.</li></ul></div>
+      <div class="diag-col gap"><h3>Lo que queda sin aprovechar</h3><ul><li><strong>El canal más grande del negocio no tiene una sola campaña.</strong> Mercado Libre vende únicamente con lo orgánico: nadie empuja las publicaciones en las búsquedas, que es donde se decide la compra de tecnología.</li><li><strong>4 de cada 10 pesos en órdenes de la tienda no se terminan cobrando</strong> (496 órdenes, octubre 2025 a agosto 2026). Una parte es fraude, pero otra son compradores reales que no terminan de pagar y a los que nadie les escribe.</li><li>Quien deja un carrito o se suscribe al newsletter <strong>no recibe una secuencia automática</strong> que lo traiga de vuelta.</li><li>En el celular se compra <strong>aprox. la mitad</strong> que en la computadora (0,30% contra 0,65% de las visitas). El email ayuda a cerrar después la compra que empezó en el teléfono.</li></ul></div>
     </div>
   </div>
 </section>
 
-<section class="alt" id="calendario">
+<section class="alt" id="meli">
   <div class="wrap">
-    <div class="kicker">02 · El calendario del Q4</div>
+    <div class="kicker">02 · El canal sin pauta</div>
+    <h2 class="section-title">Mercado Libre no es un canal más.<br>Es <em>el canal</em>.</h2>
+    <p class="lead">Analizamos el reporte de ventas que nos pasaron: 62.702 unidades y casi tres años de historial, producto por producto. El resumen es simple: Tres Mares ya tiene resuelto lo más difícil, que es vender. Lo que no tiene es nadie empujando.</p>
+
+    <div class="stats">
+      <div class="stat"><div class="stat-num">$248 M<span> / mes</span></div><div class="stat-lab">Facturación 2026</div><div class="stat-sub">Ritmo de los últimos nueve meses, solo en Mercado Libre.</div></div>
+      <div class="stat"><div class="stat-num">66<span> / día</span></div><div class="stat-lab">Unidades vendidas</div><div class="stat-sub">Todos los días del año, sin pauta que las empuje.</div></div>
+      <div class="stat"><div class="stat-num">3.059</div><div class="stat-lab">Productos vendidos</div><div class="stat-sub">De los cuales 100 concentran el 41% de la ganancia.</div></div>
+      <div class="stat"><div class="stat-num">0</div><div class="stat-lab">Campañas activas</div><div class="stat-sub">Ni una sola publicación promocionada hasta hoy.</div></div>
+    </div>
+
+    <div class="vs">
+      <div class="vs-side"><div class="n">$4,91 M</div><div class="l">Google Ads, agosto</div><div class="s">El canal que hoy consideramos el motor.</div></div>
+      <div class="vs-mid">50 veces más</div>
+      <div class="vs-side big"><div class="n">$248 M</div><div class="l">Mercado Libre, por mes</div><div class="s">El canal que hoy no recibe inversión.</div></div>
+    </div>
+
+    <div class="callout">
+      <h3>Lo que esto significa</h3>
+      <p>Poner pauta en Mercado Libre no es probar un canal nuevo: es poner una palanca arriba del 95% del negocio que hoy corre solo. Es, por lejos, el peso con mayor apalancamiento de todo el trimestre.</p>
+    </div>
+
+    <h3 style="font-family:'Poppins',sans-serif;font-weight:600;font-size:20px;color:var(--navy);margin:48px 0 8px;letter-spacing:-.01em;">Por dónde arrancamos</h3>
+    <p class="lead" style="margin-bottom:22px;">No se pauta un catálogo de 11.000 productos. Se pautan los que combinan tres cosas: que ya vendan, que dejen buen margen y que tengan volumen suficiente para sostener una campaña. Estos salieron del análisis:</p>
+
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>Producto</th><th>Unidades vendidas</th><th>Ticket promedio</th><th>Por qué entra</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Philips BG3007</strong></td><td>1.124</td><td>$65.824</td><td>El producto más rentable con volumen alto de todo el catálogo. Además es regalo: sirve para Día de la Madre, Black Friday y fiestas.</td></tr>
+        <tr><td><strong>TP-Link TL-WA850RE</strong></td><td>1.471</td><td>$32.826</td><td>El más vendido de la casa. Ticket bajo, rotación altísima y margen por encima del promedio.</td></tr>
+        <tr><td><strong>Pronext FU6V1000</strong></td><td>987</td><td>$23.303</td><td>El mejor margen porcentual del top 20. Ideal como accesorio para subir el carrito.</td></tr>
+        <tr><td><strong>TP-Link CPE510 / CPE210 / CPE220</strong></td><td>1.025</td><td>$87.000 aprox.</td><td>Línea profesional de enlaces. Márgenes de los más altos del catálogo y comprador que repite compra.</td></tr>
+        <tr><td><strong>Ubiquiti NS-5AC-L y LOCOM</strong></td><td>929</td><td>$118.000 aprox.</td><td>Misma lógica: instaladores y proveedores de internet que compran de a varios.</td></tr>
+        <tr><td><strong>Omron, línea tensiómetros</strong></td><td>713</td><td>$115.000 aprox.</td><td>Marca de referencia médica y producto de regalo para el Día de la Madre.</td></tr>
+        <tr><td><strong>TurboSaver BR-2205P y BR-2805P</strong></td><td>2.416</td><td>$19.800 aprox.</td><td>Volumen muy alto con buen margen. Productos de entrada al catálogo de gastronomía.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="callout" style="border-left-color:var(--acc-deep);">
+      <h3>Y por dónde no</h3>
+      <p>El mismo análisis mostró marcas grandes que generan mucha facturación y dejan muy poco o directamente pierden plata. No se pautan: harían subir el gasto sin mover la ganancia. Es tan importante decidir qué promocionar como decidir qué dejar afuera, y esa decisión hoy solo se puede tomar mirando el reporte producto por producto.</p>
+    </div>
+
+    <div class="callout">
+      <h3>Cómo lo vamos a controlar</h3>
+      <p>Todo se mide con el ACOS, que es cuánto se invierte en pauta por cada peso vendido. Con los márgenes del reporte calculamos el punto de equilibrio real de Tres Mares y fijamos un techo por campaña bastante por debajo de ese número. Ninguna campaña se deja corriendo arriba del techo, aunque esté vendiendo: vender a pérdida también es vender.</p>
+    </div>
+  </div>
+</section>
+
+<section id="calendario">
+  <div class="wrap">
+    <div class="kicker">03 · El calendario del Q4</div>
     <h2 class="section-title">Las fechas que <em>mueven la venta</em><br>de acá a fin de año.</h2>
     <p class="lead">El cuarto trimestre concentra las fechas más fuertes del año para el comercio electrónico. La idea es llegar a cada una con los canales ya armados, no armarlos sobre la marcha.</p>
     <div class="tbl-wrap"><table>
       <thead><tr><th>Cuándo</th><th>Momento</th><th>Qué hacemos</th></tr></thead>
-      <tbody><tr><td><strong>Octubre</strong></td><td><strong>Preparación</strong></td><td>Alta de Mercado Libre Ads, automatizaciones de email funcionando y catálogo de Google afinado antes de los picos.</td></tr><tr><td><strong>Dom 18/10</strong></td><td><strong>Día de la Madre</strong></td><td>Tecnología para regalar: tensiómetros, envasadoras, auriculares y pequeños electrodomésticos. Selección de regalos en Meta y email.</td></tr><tr class="peak"><td><strong>Principios de nov.</strong></td><td><strong>CyberMonday</strong><span class="pill">Pico</span></td><td>Fecha a confirmar por la CACE. Presupuesto reforzado en Google y Mercado Libre, aviso previo por email a toda la base y remarketing en Meta.</td></tr><tr class="peak"><td><strong>Vie 27/11</strong></td><td><strong>Black Friday</strong><span class="pill">Pico</span></td><td>Segundo pico. Repetimos lo que mejor funcionó en CyberMonday y ajustamos lo que no.</td></tr><tr><td><strong>Mediados de dic.</strong></td><td><strong>Aguinaldo y cierre de año</strong></td><td>Empresas que cierran presupuesto: equipamiento de oficina y redes (routers, UPS, monitores). Particulares con aguinaldo que compran para las fiestas.</td></tr><tr><td><strong>24 y 31/12</strong></td><td><strong>Fiestas</strong></td><td>Avisos de último día de envío y de retiro gratis en el local de Recoleta.</td></tr></tbody>
+      <tbody><tr><td><strong>Octubre</strong></td><td><strong>Preparación</strong></td><td>Alta de Mercado Libre Ads, automatizaciones de email funcionando y catálogo de Google afinado antes de los picos.</td></tr><tr><td><strong>Dom 18/10</strong></td><td><strong>Día de la Madre</strong></td><td>Tecnología para regalar, con los productos que ya son los más vendidos de la casa: afeitadoras y cortabarbas Philips, tensiómetros Omron y envasadoras. Selección de regalos en Meta y email.</td></tr><tr class="peak"><td><strong>Principios de nov.</strong></td><td><strong>CyberMonday</strong><span class="pill">Pico</span></td><td>Fecha a confirmar por la CACE. Presupuesto reforzado en Google y Mercado Libre, aviso previo por email a toda la base y remarketing en Meta.</td></tr><tr class="peak"><td><strong>Vie 27/11</strong></td><td><strong>Black Friday</strong><span class="pill">Pico</span></td><td>Segundo pico. Repetimos lo que mejor funcionó en CyberMonday y ajustamos lo que no.</td></tr><tr><td><strong>Mediados de dic.</strong></td><td><strong>Aguinaldo y cierre de año</strong></td><td>El mejor momento del año para el canal de empresas: las que cierran presupuesto compran equipamiento de oficina y redes. Kits armados en Meta y envío separado a la base de empresas. Particulares con aguinaldo que compran para las fiestas.</td></tr><tr><td><strong>24 y 31/12</strong></td><td><strong>Fiestas</strong></td><td>Avisos de último día de envío y de retiro gratis en el local de Recoleta.</td></tr></tbody>
     </table></div>
   </div>
 </section>
 
-<section id="servicios">
+<section class="alt" id="servicios">
   <div class="wrap">
-    <div class="kicker">03 · Qué hace cada servicio</div>
+    <div class="kicker">04 · Qué hace cada servicio</div>
     <h2 class="section-title">Cuatro canales,<br>cada uno con un <em>rol distinto</em>.</h2>
     <p class="lead">Google encuentra a quien ya está buscando. Meta llega a quien todavía no los conoce y trae de vuelta a quien los visitó. Mercado Libre los pone donde se compara precio. El email convierte a los que ya pasaron por la tienda sin volver a pagar por traerlos.</p>
     <div class="svc-grid">
@@ -270,16 +338,16 @@
       </div>
       <div class="svc">
         <div class="svc-head"><h3>Meta Ads</h3><span class="svc-state">Ya activo</span></div>
-        <p class="svc-role">Genera demanda y trae de vuelta a quien visitó la tienda.</p>
+        <p class="svc-role">Genera demanda, trae de vuelta a quien visitó la tienda y abre el canal de empresas.</p>
         <div class="svc-label">Qué sumamos en el Q4</div>
-        <ul><li>Anuncios de catálogo sobre las marcas más fuertes.</li><li>Remarketing de productos vistos y carritos sin terminar.</li><li>Campañas de regalo para el Día de la Madre y las fiestas.</li><li>Públicos parecidos a los compradores reales.</li></ul>
+        <ul><li><strong>Campañas separadas por línea de producto</strong>, cada una con su presupuesto: regalo, salud, redes hogar, redes profesional y gastronomía.</li><li><strong>Una campaña para empresas</strong>, con kits armados para quien necesita equipar una oficina entera y no un producto suelto.</li><li>Remarketing de productos vistos y carritos sin terminar.</li><li>Campañas de regalo para el Día de la Madre y las fiestas, sobre los productos que ya demostraron que se venden.</li><li>Públicos parecidos a los compradores reales.</li></ul>
         <div class="svc-fee">Fee suelto <b>USD&nbsp;300 / mes</b></div>
       </div>
       <div class="svc new">
         <div class="svc-head"><h3>Mercado Libre Ads</h3><span class="svc-state">Nuevo</span></div>
         <p class="svc-role">Pone las publicaciones arriba en las búsquedas de Mercado Libre, donde se compara precio antes de comprar.</p>
         <div class="svc-label">Qué hacemos</div>
-        <ul><li>Product Ads sobre las publicaciones con mejor reputación y margen.</li><li>Presupuesto por categoría y control del ACOS (cuánto se invierte por cada peso vendido).</li><li>Mejora de títulos, fotos y fichas de las publicaciones que se pautan.</li><li>Campañas especiales para los eventos de Mercado Libre (CyberMonday, Black Friday).</li><li>Reporte mensual junto con el resto de los canales.</li></ul>
+        <ul><li>Product Ads sobre la <strong>lista de productos seleccionada del reporte de ventas</strong>, no sobre el catálogo entero.</li><li>Techo de ACOS por campaña calculado con los márgenes reales, para no pagar por ventas que el orgánico ya traía.</li><li>Exclusión de las marcas que facturan mucho y dejan poco.</li><li>Mejora de títulos, fotos y fichas de las publicaciones que se pautan.</li><li>Campañas especiales para los eventos de Mercado Libre (CyberMonday, Black Friday).</li><li>Reporte mensual junto con el resto de los canales.</li></ul>
         <div class="svc-fee">Fee suelto <b>USD&nbsp;300 / mes</b></div>
       </div>
       <div class="svc new">
@@ -293,14 +361,14 @@
   </div>
 </section>
 
-<section class="alt" id="resultados">
+<section id="resultados">
   <div class="wrap">
-    <div class="kicker">04 · Resultados potenciales</div>
+    <div class="kicker">05 · Resultados potenciales</div>
     <h2 class="section-title">Dónde esperamos<br><em>mover los números</em>.</h2>
     <p class="lead">Estas son las palancas del trimestre y cómo vamos a saber si funcionan. Los números de referencia son del mercado, no de Tres Mares: los ajustamos con los datos reales del primer mes.</p>
     <div class="tbl-wrap"><table>
       <thead><tr><th>Palanca</th><th>Qué esperamos mejorar</th><th>Cómo lo medimos</th></tr></thead>
-      <tbody><tr><td><strong>Mercado Libre Ads</strong></td><td>Más visitas y ventas en las publicaciones que ya tienen reputación, sin depender solo del posicionamiento orgánico.</td><td>Ventas por Product Ads y ACOS por categoría.</td></tr><tr><td><strong>Recordatorio de pago</strong></td><td>Recuperar una parte de las órdenes reales que hoy quedan sin cobrar y terminan archivadas.</td><td>Órdenes pendientes que pasan a cobradas.</td></tr><tr><td><strong>Carrito abandonado</strong></td><td>Como referencia del mercado, estas secuencias recuperan aprox. entre el 5% y el 10% de los carritos que reciben el mail.</td><td>Ventas atribuidas a la automatización.</td></tr><tr><td><strong>Google por líneas</strong></td><td>Menos gasto en clics que no compran y más presupuesto en los productos que dejan margen.</td><td>Retorno por línea de producto.</td></tr><tr><td><strong>Picos con 4 canales</strong></td><td>Llegar a CyberMonday y Black Friday con la base avisada y el remarketing activo, no solo con la búsqueda.</td><td>Ventas del evento, canal por canal.</td></tr></tbody>
+      <tbody><tr><td><strong>Campañas por línea</strong></td><td>Dejar de medir Meta como un bloque y ver qué línea de producto deja plata y cuál no, para mover el presupuesto con criterio.</td><td>Ganancia estimada por línea, no solo retorno general.</td></tr><tr><td><strong>Canal empresas</strong></td><td>Abrir una fuente de consultas de empresas que hoy no existe, con formulario de calificación para que el equipo no pierda el día cotizando consultas de una unidad.</td><td>Consultas calificadas y costo por consulta.</td></tr><tr><td><strong>Mercado Libre Ads</strong></td><td>Más visitas y ventas en las publicaciones que ya tienen reputación, sin depender solo del posicionamiento orgánico.</td><td>Ventas por Product Ads y ACOS por categoría.</td></tr><tr><td><strong>Recordatorio de pago</strong></td><td>Recuperar una parte de las órdenes reales que hoy quedan sin cobrar y terminan archivadas.</td><td>Órdenes pendientes que pasan a cobradas.</td></tr><tr><td><strong>Carrito abandonado</strong></td><td>Como referencia del mercado, estas secuencias recuperan aprox. entre el 5% y el 10% de los carritos que reciben el mail.</td><td>Ventas atribuidas a la automatización.</td></tr><tr><td><strong>Google por líneas</strong></td><td>Menos gasto en clics que no compran y más presupuesto en los productos que dejan margen.</td><td>Retorno por línea de producto.</td></tr><tr><td><strong>Picos con 4 canales</strong></td><td>Llegar a CyberMonday y Black Friday con la base avisada y el remarketing activo, no solo con la búsqueda.</td><td>Ventas del evento, canal por canal.</td></tr></tbody>
     </table></div>
     <div class="callout">
       <h3>Referencias, no promesas.</h3>
@@ -309,18 +377,55 @@
   </div>
 </section>
 
-<section id="plan">
+<section class="alt" id="plan">
   <div class="wrap">
-    <div class="kicker">05 · Plan mes a mes</div>
+    <div class="kicker">06 · Plan mes a mes</div>
     <h2 class="section-title">Octubre se prepara,<br>noviembre y diciembre <em>se venden</em>.</h2>
     <p class="lead">Los canales nuevos se arman en octubre para que en noviembre ya tengan datos y estén listos para los picos.</p>
-    <div class="step"><div class="step-label">Octubre</div><div><h3>Armado y primeras pruebas</h3><p>Alta de Mercado Libre Ads y elección de las publicaciones a pautar. Conexión de la herramienta de email con la tienda y automatizaciones funcionando: pago pendiente, carrito y bienvenida. Títulos del catálogo y división de la Performance Max. Día de la Madre en Meta y email.</p><div class="tags"><span class="tag">Meli Ads</span><span class="tag">Herramienta de email</span><span class="tag">3 automatizaciones</span><span class="tag">Catálogo Google</span><span class="tag">Día de la Madre</span></div></div></div><div class="step"><div class="step-label">Noviembre</div><div><h3>Los picos del año</h3><p>CyberMonday y Black Friday en los cuatro canales: email de preventa a la base, presupuesto reforzado en Google y Mercado Libre, remarketing en Meta. Seguimiento diario durante cada evento.</p><div class="tags"><span class="tag">CyberMonday</span><span class="tag">Black Friday</span><span class="tag">Seguimiento diario</span></div></div></div><div class="step"><div class="step-label">Diciembre</div><div><h3>Cierre de año</h3><p>Campañas para empresas que cierran presupuesto, compras con aguinaldo y regalos de fiestas. A fin de mes, reporte del trimestre con lo que funcionó en cada canal y el plan para el verano.</p><div class="tags"><span class="tag">Empresas</span><span class="tag">Fiestas</span><span class="tag">Reporte del trimestre</span></div></div></div>
+    <div class="step"><div class="step-label">Octubre</div><div><h3>Armado y primeras pruebas</h3><p>Alta de Mercado Libre Ads y elección de las publicaciones a pautar. Conexión de la herramienta de email con la tienda y automatizaciones andando: pago pendiente, carrito y bienvenida. Separación de Meta en campañas por línea de producto. Títulos del catálogo y división de la Performance Max. Día de la Madre en Meta y email.</p><div class="tags"><span class="tag">Meli Ads</span><span class="tag">Herramienta de email</span><span class="tag">3 automatizaciones</span><span class="tag">Campañas por línea</span><span class="tag">Catálogo Google</span><span class="tag">Día de la Madre</span></div></div></div><div class="step"><div class="step-label">Noviembre</div><div><h3>Los picos del año</h3><p>CyberMonday y Black Friday en los cuatro canales: email de preventa a la base, presupuesto reforzado en Google y Mercado Libre, remarketing en Meta. Seguimiento diario durante cada evento.</p><div class="tags"><span class="tag">CyberMonday</span><span class="tag">Black Friday</span><span class="tag">Seguimiento diario</span></div></div></div><div class="step"><div class="step-label">Diciembre</div><div><h3>Cierre de año</h3><p>Campañas para empresas que cierran presupuesto, con los kits de equipamiento armados. Compras con aguinaldo y regalos de fiestas. A fin de mes, reporte del trimestre con lo que funcionó en cada canal, qué línea de producto dejó más y el plan para el verano.</p><div class="tags"><span class="tag">Empresas</span><span class="tag">Fiestas</span><span class="tag">Reporte del trimestre</span></div></div></div>
+  </div>
+</section>
+
+<section id="porque">
+  <div class="wrap">
+    <div class="kicker">07 · Por qué ahora</div>
+    <h2 class="section-title">El trimestre <em>no se improvisa</em>.<br>Se llega armado o no se llega.</h2>
+    <p class="lead">Estas son las tres razones por las que creemos que este es el momento, y no enero.</p>
+
+    <div class="step">
+      <div class="step-label">Razón 1</div>
+      <div>
+        <h3>La plata más fácil está en lo que ya funciona</h3>
+        <p>No estamos proponiendo inventar un canal. Mercado Libre ya vende $248 millones por mes sin ayuda. Subirle un punto a algo de ese tamaño rinde más que duplicar un canal chico. Y el email trabaja sobre compradores que ya eligieron Tres Mares: son las 496 órdenes que quedaron sin cobrar y los carritos que se abandonan todos los días. En los dos casos la demanda ya existe y ya está pagada.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Razón 2</div>
+      <div>
+        <h3>Los canales nuevos no rinden el primer mes</h3>
+        <p>Mercado Libre Ads necesita algunas semanas para encontrar el ACOS correcto por categoría. La herramienta de email necesita conectarse a la tienda, y el dominio de envío necesita calentarse antes de la primera campaña grande o los mails caen en spam. Si esto arranca en noviembre, llega crudo a CyberMonday. Si arranca en octubre, llega con datos. Es literalmente la diferencia entre gastar en aprender durante el pico o gastar en vender.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-label">Razón 3</div>
+      <div>
+        <h3>El trabajo de análisis ya está hecho</h3>
+        <p>Antes de pasar esta propuesta nos sentamos con el reporte de ventas y lo analizamos entero: 3.059 productos, marca por marca, para saber cuáles conviene promocionar, cuáles no y cuál es el techo de inversión de cada uno. También revisamos la tienda y encontramos qué está midiendo mal. No arrancamos de cero en octubre: arrancamos con la lista hecha.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>Lo que pasa si no se hace nada</h3>
+      <p>El Q4 va a vender igual, porque el orgánico de Mercado Libre y Google funcionan. La diferencia es que se va a vender lo mismo que el año pasado, y las órdenes que hoy quedan sin cobrar van a seguir quedando sin cobrar, en el trimestre en que más órdenes entran.</p>
+    </div>
   </div>
 </section>
 
 <section class="dark" id="inversion">
   <div class="wrap">
-    <div class="kicker">06 · Inversión</div>
+    <div class="kicker">08 · Inversión</div>
     <h2 class="section-title">Cuantos más canales,<br>más <em>conviene</em> el paquete.</h2>
     <p class="lead">Hoy Tres Mares tiene Google y Meta en un paquete de USD 500. Estas son las opciones para sumar canales; en cada una se ve cuánto se ahorra frente a contratarlos sueltos y cuánto se suma a lo que pagan hoy.</p>
 
@@ -377,7 +482,7 @@
 <footer>
   <div>
     <div class="foot-brand">Dilema <em>Creative</em></div>
-    <div class="foot-tag">Propuesta para Tres Mares · 17 de septiembre de 2026</div>
+    <div class="foot-tag">Propuesta para Tres Mares · 23 de septiembre de 2026</div>
   </div>
   <div class="foot-contact">
     <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a><br>
