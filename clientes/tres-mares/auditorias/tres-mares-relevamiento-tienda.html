@@ -264,10 +264,10 @@
       <span class="hero-mark-for">para Tres Mares</span>
     </div>
     <div class="brand-tag"><span class="dot"></span>Relevamiento de tienda · 23 de septiembre de 2026</div>
-    <h1>La tienda está bien hecha.<br><em>No está bien medida.</em></h1>
-    <p class="hero-sub">Recorrimos tresmares.com.ar como lo hace un comprador: portada, ficha de producto, carrito y checkout, en computadora y en celular. La ficha y el checkout están mejor que el promedio del rubro. El problema serio está en lo que las campañas pueden ver, y hoy no ven casi nada.</p>
+    <h1>La tienda está bien hecha.<br>El embudo <em>se corta en un punto.</em></h1>
+    <p class="hero-sub">Recorrimos tresmares.com.ar como lo hace un comprador, en computadora y en celular, y además consultamos los datos que Meta tiene registrados de la tienda. La ficha y el checkout están mejor que el promedio del rubro y la medición funciona. Pero el recorrido de compra se corta en un punto muy concreto.</p>
     <div class="hero-meta">
-      <div><div class="hm-label">Qué revisamos</div><div class="hm-value">Portada, ficha, carrito, checkout</div></div>
+      <div><div class="hm-label">Qué revisamos</div><div class="hm-value">Tienda + datos de Meta</div></div>
       <div><div class="hm-label">Dispositivos</div><div class="hm-value">Computadora y celular</div></div>
       <div><div class="hm-label">Hallazgos</div><div class="hm-value">3 críticos · 5 importantes</div></div>
       <div><div class="hm-label">Fecha</div><div class="hm-value">23 / 09 / 2026</div></div>
@@ -278,45 +278,47 @@
 <section id="critico">
   <div class="wrap">
     <div class="kicker">01 · Crítico</div>
-    <h2 class="section-title">Meta <em>no registra nada</em><br>de lo que pasa en los productos.</h2>
-    <p class="lead">Es el hallazgo principal y condiciona buena parte de lo que se puede hacer en publicidad. Lo probamos en dos fichas distintas, esperando varios segundos después de que la página terminara de cargar.</p>
+    <h2 class="section-title">La medición <em>funciona</em>.<br>El embudo se corta en un punto.</h2>
+    <p class="lead">Consultamos directamente los datos que Meta tiene registrados de la tienda. Los eventos llegan: se registra la visita, se registra cuándo alguien mira un producto, cuándo lo agrega al carrito, cuándo inicia el pago y cuándo compra. Eso está bien configurado. Lo que muestran los números es otra cosa.</p>
 
     <div class="tbl-wrap"><table>
-      <thead><tr><th>Página</th><th>Visita</th><th>Vio el producto</th><th>Agregó al carrito</th><th>Inició el pago</th></tr></thead>
+      <thead><tr><th>Paso</th><th>Cantidad</th><th>Pasa al siguiente</th><th>Referencia del rubro</th></tr></thead>
       <tbody>
-        <tr><td><strong>Portada</strong></td><td>Sí</td><td>–</td><td>–</td><td>–</td></tr>
-        <tr><td><strong>Ficha de producto</strong></td><td><strong>No</strong></td><td><strong>No</strong></td><td><strong>No</strong></td><td>–</td></tr>
-        <tr><td><strong>Carrito</strong></td><td>Sí</td><td>–</td><td>–</td><td>–</td></tr>
-        <tr><td><strong>Checkout</strong></td><td>Sí</td><td>–</td><td>–</td><td>Sí</td></tr>
+        <tr><td><strong>Visitas</strong></td><td>734</td><td>–</td><td>–</td></tr>
+        <tr><td><strong>Miró un producto</strong></td><td>338</td><td>–</td><td>–</td></tr>
+        <tr class="peak"><td><strong>Agregó al carrito</strong></td><td>7</td><td><strong>2%</strong></td><td><strong>5% a 10%</strong></td></tr>
+        <tr><td><strong>Inició el pago</strong></td><td>5</td><td>71%</td><td>40% a 60%</td></tr>
+        <tr><td><strong>Compró</strong></td><td>1</td><td>20%</td><td>30% a 50%</td></tr>
       </tbody>
     </table></div>
+    <p class="lead" style="margin-top:14px;font-size:13.5px;">Datos tomados de Meta el 23/09/2026, sobre la última semana registrada.</p>
 
     <div class="item hi" style="margin-top:26px;">
       <span class="sev hi">Crítico 1</span>
-      <h3>El pixel carga pero no dispara ningún evento en la ficha</h3>
-      <p>El archivo del pixel y su configuración <strong>sí se cargan</strong> en la página de producto, pero no se emite un solo evento: la cola de envío queda vacía y no sale ningún dato hacia Meta. La causa es que la tienda no avisa al sistema de etiquetas cuándo alguien mira un producto ni cuándo lo agrega al carrito, así que las etiquetas nunca se activan.</p>
-      <p><b>Qué significa en la práctica:</b></p>
+      <h3>De cada 100 personas que miran un producto, 2 lo agregan al carrito</h3>
+      <p>La referencia del comercio electrónico está entre 5 y 10. Es el salto más angosto de todo el recorrido y el que más ventas cuesta: el resto del embudo funciona bien, porque de los que agregan al carrito el 71% llega a iniciar el pago.</p>
+      <p>Hay dos explicaciones posibles y conviene distinguirlas antes de tocar nada:</p>
       <ul>
-        <li>No se le puede mostrar a alguien <strong>el producto exacto que miró</strong>. Es el anuncio que mejor convierte en comercio electrónico y hoy es imposible.</li>
-        <li>Los anuncios de catálogo no tienen información para decidir qué mostrarle a cada persona.</li>
-        <li>No se puede armar ni siquiera un público de "gente que visitó productos", porque no queda registro de la visita.</li>
-        <li>Las campañas automáticas de Meta quedan a ciegas en toda la mitad del recorrido de compra.</li>
+        <li><strong>Que sea real:</strong> la ficha de producto no termina de convencer. Ahí entran las mejoras de la sección 3 de este documento.</li>
+        <li><strong>Que el evento no se registre siempre:</strong> en nuestras pruebas el agregado al carrito no quedó registrado en todos los casos. Que el paso siguiente dé 71%, muy por encima de lo normal, apunta en esa dirección: si se contaran todos los agregados, ese número bajaría.</li>
       </ul>
-      <div class="fixbox"><b>Cómo se arregla:</b> la tienda tiene que avisar dos momentos, cuando se ve un producto y cuando se agrega al carrito, incluyendo el código del producto, el precio y la moneda. Las etiquetas del otro lado las dejamos armadas nosotros. El código del producto tiene que ser <strong>exactamente el mismo</strong> que usa el catálogo, o los anuncios terminan mostrando productos equivocados. Es trabajo del desarrollador de la tienda y lleva pocas horas.</div>
+      <div class="fixbox"><b>Cómo se distingue:</b> la tienda ya tiene grabaciones de sesión instaladas. Mirando una tarde de grabaciones se ve si la gente aprieta el botón y no pasa nada, o si directamente no lo aprieta. Son dos horas de trabajo y definen si el problema es de la ficha o de la medición.</div>
     </div>
 
     <div class="item hi">
       <span class="sev hi">Crítico 2</span>
-      <h3>La compra confirmada está sin verificar</h3>
-      <p>No se puede comprobar sin hacer una compra real. Si la compra tampoco se registra, el retorno que hoy muestra Meta no existe y estaríamos tomando decisiones sobre números que no son.</p>
-      <div class="fixbox"><b>Cómo se verifica:</b> una orden de prueba, o mirar las ventas reales de las próximas 24 horas con el panel de pruebas de Meta abierto. Es media hora de trabajo y despeja la duda más cara de todas.</div>
+      <h3>Todo se mide solo desde el navegador</h3>
+      <p>De cada 1.051 eventos registrados en la última semana, <strong>1.050 vienen del navegador de quien compra y 1 del servidor</strong>. Es decir que el envío desde el servidor, que existe como posibilidad y está a medio configurar, en la práctica no está funcionando.</p>
+      <p>Importa porque entre iPhone y bloqueadores de publicidad se pierde <strong>entre el 20% y el 30% de las ventas</strong>: ventas que existen, que Meta no ve, y que por lo tanto no se le atribuyen a la campaña que las generó. En la misma semana hubo 142 visitas desde iPhone, que es justo donde más se pierde.</p>
+      <div class="fixbox"><b>Cómo se arregla:</b> terminar de conectar el envío desde el servidor, que es a prueba de bloqueadores, con un control para que ninguna venta se cuente dos veces. Como el checkout pide el email al principio, hay buenos datos para hacerlo bien. Lo hacemos nosotros.</div>
     </div>
 
     <div class="item hi">
       <span class="sev hi">Crítico 3</span>
-      <h3>Todo se mide solo desde el navegador</h3>
-      <p>Hoy la información viaja únicamente desde el navegador de quien compra. Entre iPhone y bloqueadores de publicidad se pierde <strong>entre el 20% y el 30% de las ventas</strong>: ventas que existen, que Meta no ve, y que por lo tanto no se le atribuyen a la campaña que las generó.</p>
-      <div class="fixbox"><b>Cómo se arregla:</b> sumar el envío desde el servidor, que es a prueba de bloqueadores, con un control para que ninguna venta se cuente dos veces. Como el checkout pide el email al principio, hay buenos datos para hacerlo bien. Lo hacemos nosotros.</div>
+      <h3>El formulario de empresas no queda registrado como consulta</h3>
+      <p>La página de atención a empresas registra la visita, pero no avisa cuándo alguien completa y envía el formulario. Sin ese aviso no se puede saber cuánto cuesta conseguir una consulta de empresa, ni pedirle a Meta que busque más gente parecida a la que consulta.</p>
+      <p>Es condición para encender la campaña de empresas: sin esto, la campaña gasta a ciegas.</p>
+      <div class="fixbox"><b>Cómo se arregla:</b> agregar el aviso de consulta enviada, por navegador y por servidor. Lo hacemos nosotros.</div>
     </div>
   </div>
 </section>
@@ -420,6 +422,7 @@
       <div class="okitem"><b>El 5% por transferencia está bien resuelto</b>Se muestra el monto final en pesos, no un porcentaje que el comprador tiene que calcular.</div>
       <div class="okitem"><b>El checkout pide el email primero</b>Es exactamente lo que hay que hacer: habilita recuperar al que abandona y al que no termina de pagar.</div>
       <div class="okitem"><b>Hay grabaciones de sesión instaladas</b>La tienda tiene Microsoft Clarity andando. Cada punto de este documento se puede confirmar mirando gente real, sin suponer.</div>
+      <div class="okitem"><b>La medición está configurada</b>Meta registra visita, producto visto, agregado al carrito, inicio de pago y compra. La base para hacer publicidad de producto está puesta.</div>
       <div class="okitem"><b>La velocidad está sana</b>La ficha pesa poco y carga en poco más de dos segundos en celular. No es el cuello de botella.</div>
     </div>
   </div>
@@ -432,25 +435,25 @@
     <div class="tbl-wrap"><table>
       <thead><tr><th>#</th><th>Qué</th><th>Quién</th><th>Cuándo</th></tr></thead>
       <tbody>
-        <tr><td><strong>1</strong></td><td>Avisar al sistema de etiquetas cuándo se ve un producto y cuándo se agrega al carrito</td><td>Desarrollador de la tienda, con las etiquetas armadas por Dilema</td><td>1ª semana de octubre</td></tr>
-        <tr><td><strong>2</strong></td><td>Confirmar que la compra se registra, con una orden de prueba</td><td>Dilema</td><td>1ª semana de octubre</td></tr>
+        <tr><td><strong>1</strong></td><td>Revisar grabaciones de sesión para definir si el carrito no se usa o no se registra</td><td>Dilema</td><td>1ª semana de octubre</td></tr>
+        <tr><td><strong>2</strong></td><td>Registrar la consulta enviada desde el formulario de empresas</td><td>Dilema</td><td>1ª semana de octubre</td></tr>
         <tr><td><strong>3</strong></td><td>Dominio de envío de correo propio y su calentamiento</td><td>Dilema</td><td>1ª semana de octubre</td></tr>
-        <tr><td><strong>4</strong></td><td>Medición desde el servidor, a prueba de bloqueadores</td><td>Dilema</td><td>2ª semana de octubre</td></tr>
+        <tr><td><strong>4</strong></td><td>Terminar la medición desde el servidor, a prueba de bloqueadores</td><td>Dilema</td><td>2ª semana de octubre</td></tr>
         <tr><td><strong>5</strong></td><td>Rehacer la página de empresas</td><td>Dilema</td><td>2ª semana, antes de la campaña de empresas</td></tr>
         <tr><td><strong>6</strong></td><td>Barra de envío gratis y productos complementarios</td><td>Desarrollador de la tienda</td><td>3ª semana de octubre</td></tr>
         <tr><td><strong>7</strong></td><td>Zoom en celular, contador del carrito, formato de precios, error de la portada</td><td>Desarrollador de la tienda</td><td>Cuando puedan</td></tr>
       </tbody>
     </table></div>
     <div class="callout">
-      <h3>Los tres primeros son los que mandan</h3>
-      <p>Sin ellos no se puede mostrar publicidad del producto que la persona miró, ni recuperar carritos por correo, ni saber con certeza cuánto vende cada campaña. Son pocas horas de trabajo y condicionan todo el trimestre.</p>
+      <h3>El primero es el que más vale</h3>
+      <p>El salto de mirar un producto a agregarlo al carrito es donde hoy se pierde casi todo. Saber si es un problema de la ficha o de la medición cambia por completo qué conviene hacer después, y se resuelve en una tarde mirando grabaciones. Lo demás mejora la atribución y abre el canal de empresas.</p>
     </div>
   </div>
 </section>
 
 <div class="closing">
-  <h2>La tienda ya vende.<br>Falta que se pueda ver <em>quién</em> y <em>por qué</em>.</h2>
-  <p>Con estos arreglos, cada peso invertido en publicidad se puede rastrear hasta la venta que generó.</p>
+  <h2>La tienda ya vende y ya mide.<br>Falta <em>ensanchar el cuello</em> del embudo.</h2>
+  <p>El tramo entre mirar un producto y agregarlo al carrito es donde está la mayor oportunidad del trimestre.</p>
 </div>
 
 <footer>
