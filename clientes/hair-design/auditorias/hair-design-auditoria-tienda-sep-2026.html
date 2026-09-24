@@ -136,6 +136,7 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
       <div class="kicker">Qué arreglar</div>
       <h2>Nueve cosas, <b>en orden</b></h2>
       <p class="lead">Las primeras cinco son las que cambian el resultado. Conviene tenerlas resueltas antes de volver a invertir en la tienda.</p>
+      <p class="lead" style="font-size:14px;opacity:.8;">Revisado de nuevo el 24 de septiembre, punto por punto, sobre la tienda en vivo. El mínimo de envío ya se corrigió; el resto sigue igual.</p>
     </div>
 
     <ol class="fix">
@@ -149,13 +150,13 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
 
       <li>
         <span class="tag">Urgente</span>
-        <h3>El envío dice tres cosas distintas según dónde mires</h3>
-        <p>Con un carrito de $59.332 y un código postal de CABA:</p>
-        <p class="cita">En la ficha: "Llega hoy gratis con Envío a CABA"<br>
-        En el carrito: "$7.500 – Envío a CABA"<br>
-        Arriba del checkout: "Envío gratis a partir de $300.000"</p>
-        <p>Y encima el sistema cotiza <b>Andreani gratis a domicilio</b> sobre ese mismo carrito de $59.332, que está muy por debajo de los $300.000 que anuncia la propia tienda. La clienta lee "gratis", agrega el producto y en el último paso le puede aparecer un costo que es el 25% de lo que está comprando.</p>
-        <p class="do"><b>Qué hacer:</b> definir una sola política de envío y que diga exactamente lo mismo en la ficha, en el carrito y en el checkout. Nuestra recomendación: <b>gratis desde $80.000</b> (que son dos o tres productos juntos, y de paso les sube el valor del pedido) y un precio fijo y visible por debajo de eso. Si Andreani va gratis sin mínimo, hay que saberlo, porque ese envío se lleva toda la ganancia de un pedido de $30.000.</p>
+        <h3>El mínimo de envío gratis no se respeta</h3>
+        <p>Desde la primera versión de este documento bajaron el mínimo de $300.000 a <b>$150.000</b>, que era parte de lo que habíamos recomendado. Pero el problema de fondo sigue: <b>el mínimo no se aplica</b>.</p>
+        <p class="cita">Carrito de prueba: $59.332<br>
+        La tienda anuncia: "Envío gratis a partir de $150.000"<br>
+        El checkout, con Andreani Domicilio: <b>GRATIS</b></p>
+        <p>O sea que un pedido de $59.332 viaja sin cargo igual, muy por debajo del mínimo anunciado. En un pedido chico ese envío se lleva toda la ganancia. Y al revés, la clienta que sí junta $150.000 no está recibiendo ningún beneficio real, porque ya lo tenía sin llegar al monto.</p>
+        <p class="do"><b>Qué hacer:</b> que el mínimo de $150.000 se aplique de verdad, y que por debajo de ese monto el costo del envío se vea desde la ficha, no recién en el último paso. Si Andreani va gratis sin mínimo porque así está contratado, conviene saberlo y decirlo como beneficio, en vez de anunciar un mínimo que no existe.</p>
       </li>
 
       <li>
@@ -186,8 +187,8 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
       </li>
 
       <li>
-        <h3>Hay tres errores para pasarle a Heaven</h3>
-        <p>Uno: desde el celular, la pantalla de pago muestra <b>"$ 0"</b> arriba mientras el pedido es de $59.332. Dos: en el resumen dice "Total sin impuestos $ 49035.00", sin formato de precio. Tres: falta un archivo del sitio (<code>newProductRules.js</code>) que da error en todas las páginas, y hay otro error que corta el script del encabezado.</p>
+        <h3>Dos cosas para pasarle a Heaven</h3>
+        <p>Una: en el resumen del checkout dice <b>"Total sin impuestos $ 49035.00"</b>, sin puntos de mil y con el decimal al revés, justo en la pantalla donde la clienta decide si paga. Dos: falta un archivo del sitio (<code>newProductRules.js</code>) que responde 404 en todas las páginas de producto.</p>
         <p class="do"><b>Qué hacer:</b> reportarlos al soporte de Heaven, son de ellos.</p>
       </li>
 
@@ -208,6 +209,18 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
 </section>
 
 <section class="close">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Una aclaración</div>
+      <h2>Es la misma plataforma.<br>Lo que cambia es <b>la configuración</b>.</h2>
+    </div>
+    <p>Tres Mares y Hair Design corren sobre el mismo sistema y con el mismo desarrollador, así que la pregunta es lógica: por qué en una tienda pasa y en la otra no.</p>
+    <p>La respuesta es que casi nada de esta lista es código. Las <b>zonas por código postal</b>, el <b>mínimo de envío gratis</b>, <b>qué medios de pago están habilitados</b>, si el <b>descuento por transferencia</b> se aplica al total y si se pide el documento en el checkout son ajustes que se hacen tienda por tienda. En una están resueltos y en la otra no.</p>
+    <p>La prueba está en el único punto de esta lista que sí es de la plataforma: el archivo que falta. Ese aparece igual en las dos tiendas, porque ese sí viene de Heaven. Todo lo demás existe solo acá, y por eso se puede arreglar acá.</p>
+  </div>
+</section>
+
+<section>
   <div class="wrap">
     <div class="sec-head">
       <div class="kicker">En una línea</div>
