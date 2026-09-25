@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>López Taibo · Propuesta de Meta Ads y Google Ads</title>
+<meta name="description" content="Propuesta de gestión de Meta Ads y Google Ads para López Taibo. Dilema Creative.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300..500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b1b1a;
+  --char:#2c2c2b;
+  --char-2:#353534;
+  --paper:#f5f4f0;
+  --white:#ffffff;
+  --line:#dcdad3;
+  --line-dark:#474745;
+  --mute:#6f6d67;
+  --mute-dark:#a8a69f;
+  --soft:#ebe9e3;
+  --d-ink:#0E2A47;
+  --d-sage:#2F7D5E;
+  --d-paper:#FAF6EE;
+  --display:'Newsreader',Georgia,'Times New Roman',serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --wrap:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;color-scheme:light}
+[id]{scroll-margin-top:60px}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;font-variant-numeric:lining-nums;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--ink);color:var(--paper)}
+a:focus-visible{outline:1px solid currentColor;outline-offset:3px}
+h1,h2,h3,h4{text-wrap:balance}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(250,246,238,.97);color:var(--d-ink);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.nav-id{display:flex;align-items:center;gap:14px;font-family:var(--display);font-size:17px;letter-spacing:.02em;white-space:nowrap}
+.nav-id i{width:1px;height:22px;background:var(--line)}
+.nav-logo{display:block;width:auto;height:38px}
+.nav-id span{font-weight:400;color:var(--mute)}
+.nav-links{display:flex;gap:22px;font-size:13px}
+.nav-links a{text-decoration:none;color:var(--mute);transition:color .2s}
+.nav-links a:hover{color:var(--d-ink)}
+
+/* HERO */
+.hero{position:relative;background:var(--char);color:var(--white);overflow:hidden;padding:88px 0 80px}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(90deg,transparent 0%,#000 60%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 60%)}
+.hero .wrap{position:relative}
+.hero-mark{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hero-mark img{display:block;height:34px;width:auto;opacity:.92}
+.hero-mark .sep{width:1px;height:26px;background:#5a5a57}
+.kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.hero .kicker{color:var(--mute-dark)}
+.hero h1{font-family:var(--display);font-weight:300;font-size:clamp(38px,5.6vw,64px);line-height:1.06;letter-spacing:-.022em;margin:26px 0 22px;max-width:780px}
+.hero h1 b{font-weight:500}
+.hero .sub{max-width:580px;color:#cfcdc6;font-size:17px}
+.hero-parts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-dark);border:1px solid var(--line-dark);margin-top:52px;max-width:760px}
+.hero-part{background:var(--char);padding:22px 24px}
+.hero-part h3{font-family:var(--display);font-weight:400;font-size:23px;margin-top:8px}
+.hero-part p{font-size:14px;color:var(--mute-dark);margin-top:4px}
+.hero-part .kicker{color:var(--mute-dark)}
+
+/* SECTIONS */
+section{padding:84px 0;border-bottom:1px solid var(--line)}
+section.white{background:var(--white)}
+section.dark{background:var(--char);color:var(--white);border-bottom-color:var(--line-dark)}
+section.dark .kicker{color:var(--mute-dark)}
+.sec-head{margin-bottom:44px;padding-top:18px;border-top:1px solid var(--ink)}
+section.dark .sec-head{border-top-color:#6a6864}
+.sec-head h2{font-family:var(--display);font-weight:300;font-size:clamp(30px,3.6vw,44px);line-height:1.08;letter-spacing:-.018em;margin-top:26px;max-width:780px}
+.sec-head h2 b{font-weight:500}
+.sec-head .lead{margin-top:16px;color:var(--mute);max-width:660px}
+section.dark .sec-head .lead{color:var(--mute-dark)}
+
+/* GRIDS + CARDS */
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--paper);padding:28px 26px}
+section.white .card{background:var(--white)}
+section.dark .grid{background:var(--line-dark);border-color:var(--line-dark)}
+section.dark .card{background:var(--char)}
+.card h3{font-family:var(--display);font-weight:500;font-size:21px;line-height:1.2;margin:0 0 10px}
+.card p{font-size:14.5px;color:var(--mute)}
+section.dark .card p{color:var(--mute-dark)}
+.card .num{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.1em;margin-bottom:14px}
+section.dark .card .num{color:var(--mute-dark)}
+
+/* COLUMN LISTS */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.col{background:var(--white);padding:30px 28px}
+section:not(.white) .col{background:var(--paper)}
+.col h3{font-family:var(--display);font-weight:500;font-size:22px;margin:0 0 4px}
+.col .sub{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:20px}
+.ticks{list-style:none;display:grid;gap:12px;padding-top:18px;border-top:1px solid var(--line)}
+.ticks li{position:relative;padding-left:20px;font-size:14.5px;line-height:1.55;color:var(--ink)}
+.ticks li::before{content:"";position:absolute;left:0;top:.78em;width:10px;height:1px;background:var(--d-sage)}
+
+/* TIERS */
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.tier{background:var(--white);padding:26px 24px 24px;display:flex;flex-direction:column}
+.tier .rng{font-family:var(--mono);font-size:13px;letter-spacing:-.01em;color:var(--d-ink)}
+.tier h3{font-family:var(--display);font-weight:500;font-size:20px;line-height:1.2;margin:14px 0 8px}
+.tier p{font-size:14px;color:var(--mute);margin-bottom:20px}
+.tier .flag{margin-top:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border:1px solid var(--line);color:var(--mute);align-self:flex-start}
+.tier.on{background:var(--d-ink);color:var(--white)}
+.tier.on .rng{color:#9fc3dd}
+.tier.on p{color:#b9c6d3}
+.tier.on .flag{border-color:#3d5a76;color:#d8e3ec}
+
+/* CHANNEL ROWS */
+.channel{display:grid;grid-template-columns:240px 1fr;gap:40px;padding:38px 0;border-top:1px solid var(--line-dark)}
+.channel:first-of-type{border-top:none;padding-top:0}
+.channel-name{font-family:var(--display);font-weight:400;font-size:30px;letter-spacing:-.01em;line-height:1.1}
+.channel-share{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute-dark);margin-top:10px}
+.channel-body p{color:var(--mute-dark);margin-bottom:20px;max-width:640px}
+.list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:11px 32px}
+.list li{position:relative;padding-left:20px;font-size:14.5px}
+.list li::before{content:"";position:absolute;left:0;top:.74em;width:10px;height:1px;background:var(--white)}
+
+/* FLOW */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line)}
+.flow-step{padding:26px 20px;border-right:1px solid var(--line);background:var(--white)}
+.flow-step:last-child{border-right:none}
+.flow-step .num{font-family:var(--mono);font-size:11px;color:var(--mute)}
+.flow-step h4{font-family:var(--display);font-weight:500;font-size:19px;margin:12px 0 6px}
+.flow-step p{font-size:13.5px;color:var(--mute)}
+
+/* TABLE */
+.table{width:100%;border-collapse:collapse;font-size:14.5px}
+.table th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);text-align:left;font-weight:400;padding:0 16px 12px 0;border-bottom:1px solid var(--ink)}
+.table td{padding:18px 16px 18px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+.table td:first-child{font-weight:500}
+.table .amount{font-family:var(--mono);font-size:15px;white-space:nowrap;text-align:right;width:34%;font-weight:400}
+.table .strike td{color:var(--mute)}
+.table .strike .amount{text-decoration:line-through}
+.table tr.total td{background:var(--d-ink);color:var(--white);border-bottom-color:var(--d-ink);padding-left:20px;font-size:16px}
+.table tr.total .amount{font-size:23px;color:var(--white);padding-right:20px}
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #4a6b8a;color:#bcd2e3;padding:3px 8px;margin-left:10px;vertical-align:middle}
+.note{margin-top:28px;padding:22px 24px;border:1px solid var(--line);background:var(--soft);font-size:14.5px;color:var(--ink)}
+.note b{font-weight:600}
+section.dark .note{background:var(--char-2);border-color:var(--line-dark);color:#e3e1da}
+
+/* FOOTER */
+footer{background:var(--d-paper);color:var(--d-ink);padding:60px 0 30px;border-top:1px solid var(--line)}
+.foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:36px;border-bottom:1px solid var(--line)}
+.foot-logo{display:block;width:auto;height:72px}
+.foot-tag{max-width:420px;color:#4b5b6c;font-size:14px;margin-top:18px}
+.foot-contact{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.foot-contact a{text-decoration:none;color:var(--d-ink)}
+.foot-contact a:hover{color:var(--d-sage)}
+.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;font-family:var(--mono);font-size:11px;color:#4b5b6c;letter-spacing:.06em}
+
+/* REVEAL */
+@media (prefers-reduced-motion:no-preference){
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+}
+
+/* RESPONSIVE */
+@media (max-width:960px){
+  .nav-links{display:none}
+  .channel{grid-template-columns:1fr;gap:16px}
+  .tiers,.g4{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .flow-step{border-right:none;border-bottom:1px solid var(--line)}
+  .flow-step:last-child{border-bottom:none}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  section{padding:60px 0}
+  .hero{padding:60px 0 56px}
+  .hero-parts,.cols,.tiers,.g2,.g4,.list{grid-template-columns:1fr}
+  .nav-logo{height:32px}
+  .nav-id span,.nav-id i{display:none}
+  .table thead{display:none}
+  .table tr{display:block;padding:14px 0;border-bottom:1px solid var(--line)}
+  .table td{display:block;border:none;padding:3px 0;width:auto!important;text-align:left}
+  .table .amount{text-align:left;width:auto}
+  .table tr.total{background:var(--d-ink);color:var(--white);padding:18px;border-bottom:none}
+  .table tr.total td{background:transparent;padding:3px 0}
+  .table tr.total .amount{padding-right:0}
+  .tag{margin-left:0;margin-top:10px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="nav-id"><img class="nav-logo" src="logos/dilema-creative.webp" alt="Dilema Creative" width="104" height="38"><i></i><span>Propuesta López Taibo</span></div>
+    <div class="nav-links">
+      <a href="#partida">Punto de partida</a>
+      <a href="#meta">Meta</a>
+      <a href="#google">Google</a>
+      <a href="#local">Los locales</a>
+      <a href="#inversion">Inversión</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-mark">
+      <img src="logos/lopez-taibo.png" alt="López Taibo" width="275" height="31">
+      <span class="sep" aria-hidden="true"></span>
+      <span class="kicker">Dilema Creative</span>
+    </div>
+    <h1>Meta y Google, <b>una sola estrategia</b>.</h1>
+    <p class="sub">Los dos canales gestionados por el mismo equipo, con la misma medición para la tienda online y para los dos locales.</p>
+    <div class="hero-parts">
+      <div class="hero-part">
+        <div class="kicker">Canal 01</div>
+        <h3>Meta Ads</h3>
+        <p>Ventas online, ticket alto y tráfico a Corrientes y Alvear.</p>
+      </div>
+      <div class="hero-part">
+        <div class="kicker">Canal 02</div>
+        <h3>Google Ads</h3>
+        <p>La demanda que ya existe y hoy no está cubierta.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="white" id="partida">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">Punto de partida</div>
+      <h2>Lo que se ve desde afuera, <b>sin acceso todavía a las cuentas</b>.</h2>
+      <p class="lead">Esto sale de la tienda, de los 26 anuncios activos en la Biblioteca de Anuncios de Meta y de la competencia directa, al 25 de septiembre. Con acceso a las cuentas el diagnóstico se completa la primera semana.</p>
+    </div>
+    <div class="cols rv">
+      <div class="col">
+        <h3>La tienda</h3>
+        <div class="sub">lopeztaibo.com.ar</div>
+        <ul class="ticks">
+          <li>Tiendanube con cuatro escalones de precio bien distintos, de $70.000 a $1.500.000.</li>
+          <li>Píxel de Meta, GA4, etiqueta de Google Ads, GTM y píxel de TikTok ya instalados.</li>
+          <li>La ficha de producto publica precio y stock en un formato que Google Shopping puede leer.</li>
+          <li>Dos sucursales que el sitio nombra en un cartel, pero no describe con datos de local.</li>
+          <li>El dominio responde con www y sin www, y los anuncios apuntan sólo a una de las dos versiones.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Los anuncios activos en Meta</h3>
+        <div class="sub">26 al 25 de septiembre</div>
+        <ul class="ticks">
+          <li>Los 26 son de calzado de hombre. Indumentaria y marroquinería no tienen ninguno.</li>
+          <li>Un aviso del Día del Padre sigue en circulación desde el 17 de junio y ofrece envío gratis desde $200.000, cuando la tienda hoy dice $300.000.</li>
+          <li>El Final Sale que anuncia la web no aparece en ningún anuncio.</li>
+          <li>Casi todos llevan a la categoría de calzado, no a la ficha del producto que muestra el video.</li>
+          <li>No hay anuncios de catálogo ni ninguna campaña que empuje gente a los locales.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note rv"><b>La competencia tampoco está muy avanzada, y ahí está la ventaja.</b> Briganti pone la financiación y el descuento en el título de cada anuncio. Guido tiene cuatro anuncios activos. Nadie en la categoría está trabajando el recorrido completo, y ninguno tiene 129 años de historia para contar.</div>
+  </div>
+</section>
+
+<section id="escalera">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2>Toda la pauta está concentrada <b>en un solo escalón de precio</b>.</h2>
+      <p class="lead">El catálogo cubre cuatro rangos de ticket que se venden a públicos distintos, en momentos distintos y con argumentos distintos. Hoy se pauta uno.</p>
+    </div>
+    <div class="tiers rv">
+      <div class="tier">
+        <div class="rng">$70.000 a $120.000</div>
+        <h3>Cinturones y billeteras</h3>
+        <p>La compra de regalo y la puerta de entrada a la marca. Es el escalón que genera frecuencia y volumen de datos.</p>
+        <div class="flag">Sin anuncios</div>
+      </div>
+      <div class="tier on">
+        <div class="rng">$240.000 a $420.000</div>
+        <h3>Calzado</h3>
+        <p>Mocasines, oxford, derby, botinetas y zapatillas. El corazón del negocio y el único escalón con pauta.</p>
+        <div class="flag">26 anuncios activos</div>
+      </div>
+      <div class="tier">
+        <div class="rng">$550.000 a $1.050.000</div>
+        <h3>Portafolios y bolsos</h3>
+        <p>Marroquinería de oficina y de viaje. Ticket alto, decisión más larga y competencia mucho más chica.</p>
+        <div class="flag">Sin anuncios</div>
+      </div>
+      <div class="tier">
+        <div class="rng">$700.000 a $1.500.000</div>
+        <h3>Camperas y trench</h3>
+        <p>El ticket más alto de la casa. Una sola venta acá equivale a cuatro pares de zapatos.</p>
+        <div class="flag">Sin anuncios</div>
+      </div>
+    </div>
+    <div class="note rv">El escalón de abajo es el que alimenta al algoritmo con compras frecuentes y el que se vende solo en noviembre y diciembre. El de arriba es el que mueve la facturación. <b>Hoy no se pauta ninguno de los dos.</b> Ese es el primer cambio.</div>
+  </div>
+</section>
+
+<section class="dark" id="meta">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">Canal 01</div>
+      <h2>Meta Ads: <b>una campaña que vende y dos que la alimentan</b>.</h2>
+      <p class="lead">Con $2.000.000 por mes, abrir diez campañas es lo que rompe el aprendizaje del algoritmo. La estructura es corta a propósito, para que toda la señal de compra caiga en el mismo lugar.</p>
+    </div>
+
+    <div class="channel rv">
+      <div>
+        <div class="channel-name">Ventas</div>
+        <div class="channel-share">70% de la inversión</div>
+      </div>
+      <div class="channel-body">
+        <p>El motor. Catálogo conectado y anuncios que llevan a la ficha exacta del producto que muestra el video, no a la categoría entera. Los creativos cubren los cuatro escalones de precio y el algoritmo decide a quién le muestra cada uno.</p>
+        <ul class="list">
+          <li>Catálogo de Tiendanube conectado y anuncios dinámicos por producto</li>
+          <li>Cuotas, envío gratis y descuento por transferencia dentro del anuncio</li>
+          <li>Camperas, portafolios y billeteras entran a la pauta por primera vez</li>
+          <li>Recuperación de carrito y de ficha vista dentro de la misma campaña</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel rv">
+      <div>
+        <div class="channel-name">Los locales</div>
+        <div class="channel-share">20% de la inversión</div>
+      </div>
+      <div class="channel-body">
+        <p>Corrientes 350 y Alvear 1902 son dos de las mejores esquinas de la ciudad y hoy no hay una sola campaña que las use. Un conjunto por sucursal, con radio propio sobre Microcentro y sobre Recoleta.</p>
+        <ul class="list">
+          <li>Anuncios con dirección, horario y botón de cómo llegar</li>
+          <li>Producto que está disponible en ese local, no el catálogo entero</li>
+          <li>Público de oficina en Microcentro, público de barrio en Recoleta</li>
+          <li>Código de campaña para que lo que entra por acá se pueda medir</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="channel rv">
+      <div>
+        <div class="channel-name">Marca</div>
+        <div class="channel-share">10% de la inversión</div>
+      </div>
+      <div class="channel-body">
+        <p>129 años, el Príncipe de Gales entre los clientes y la medalla de oro de Bruselas en 1958. Ese archivo es el activo más fuerte de la casa y el menos usado. Acá se construye el público que después cierran las otras dos campañas.</p>
+        <ul class="list">
+          <li>El oficio, el taller y el archivo contados en video</li>
+          <li>Contenido de terceros que validan la calidad del cuero</li>
+          <li>Lanzamiento de Pedra i Pell y de cada temporada nueva</li>
+          <li>Sostiene el alcance sin competir por la compra inmediata</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note rv"><b>Una aclaración honesta sobre el arranque.</b> Con el ticket actual y $2.000.000 por mes, el volumen de compras del primer tramo no alcanza para alimentar bien la optimización de Meta. Por eso los escalones de $70.000 y $120.000 son parte de la estrategia y no un detalle: dan la frecuencia de compra que el algoritmo necesita para después vender lo caro.</div>
+  </div>
+</section>
+
+<section class="white" id="google">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">Canal 02</div>
+      <h2>Google Ads: <b>acá no hay que crear la demanda</b>, ya existe.</h2>
+      <p class="lead">Hay gente buscando zapatos de cuero, camperas de cuero y la marca por su nombre. Con $1.200.000 por mes la prioridad es cubrir esa búsqueda, no repartir el presupuesto entre diez frentes.</p>
+    </div>
+    <div class="grid g3 rv">
+      <div class="card">
+        <div class="num">15% de la inversión</div>
+        <h3>Marca</h3>
+        <p>Quien busca López Taibo por su nombre tiene que encontrar la tienda propia primero, no a un revendedor ni a un competidor comprando la marca. Es el tráfico más barato de toda la cuenta y el que mejor convierte.</p>
+      </div>
+      <div class="card">
+        <div class="num">55% de la inversión</div>
+        <h3>Catálogo</h3>
+        <p>El feed de productos compitiendo en Shopping, YouTube, Gmail y Display, con Google eligiendo qué modelo mostrarle a cada persona. Es la pieza que hoy falta y donde va el grueso del presupuesto.</p>
+      </div>
+      <div class="card">
+        <div class="num">30% de la inversión</div>
+        <h3>Categoría</h3>
+        <p>Zapatos de cuero, mocasines, camperas, portafolios y los términos de ocasión, como casamiento o regalo. Gente con intención declarada que hoy termina comprándole a otro.</p>
+      </div>
+    </div>
+    <div class="note rv"><b>Un extra que viene con el feed.</b> Dejar el catálogo aprobado en Merchant Center también habilita las fichas gratuitas de Shopping: presencia orgánica de todo el catálogo, sin costo por click, que hoy no existe.</div>
+  </div>
+</section>
+
+<section id="conexion">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2>Por qué los dos canales <b>juntos rinden más que separados</b>.</h2>
+      <p class="lead">Google trae la intención, Meta la cierra y el local remata. Si los gestionan dos personas distintas, cada una se atribuye la misma venta y nadie ve el recorrido completo.</p>
+    </div>
+    <div class="flow rv">
+      <div class="flow-step">
+        <div class="num">01</div>
+        <h4>Google</h4>
+        <p>Busca "zapatos de cuero hombre" y entra al sitio.</p>
+      </div>
+      <div class="flow-step">
+        <div class="num">02</div>
+        <h4>El sitio</h4>
+        <p>GA4 y los píxeles registran qué modelo miró y no compró.</p>
+      </div>
+      <div class="flow-step">
+        <div class="num">03</div>
+        <h4>Meta</h4>
+        <p>Vuelve a ver ese modelo exacto, con cuotas y envío.</p>
+      </div>
+      <div class="flow-step">
+        <div class="num">04</div>
+        <h4>El local</h4>
+        <p>Si trabaja a diez cuadras, el anuncio lo invita a probárselo.</p>
+      </div>
+      <div class="flow-step">
+        <div class="num">05</div>
+        <h4>La venta</h4>
+        <p>Online o en mostrador. Las dos quedan medidas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="local">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2>Cómo se mide <b>lo que pasa en el mostrador</b>.</h2>
+      <p class="lead">Si parte del fee depende de la facturación, la tienda física tiene que ser medible. No alcanza con suponer que la gente vio el anuncio y fue.</p>
+    </div>
+    <div class="cols rv">
+      <div class="col">
+        <h3>Lo que montamos nosotros</h3>
+        <div class="sub">Dentro del fee</div>
+        <ul class="ticks">
+          <li>Los dos Perfiles de Empresa de Google al día: horarios, fotos, productos y categoría correcta.</li>
+          <li>Campañas con radio propio sobre Microcentro y sobre Recoleta, con horario y cómo llegar.</li>
+          <li>Un código por campaña, visible en el anuncio, que funciona como beneficio en el local.</li>
+          <li>El reporte mensual separa lo que facturó la tienda online de lo que entró por los locales.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Lo que necesitamos de ustedes</h3>
+        <div class="sub">Sin esto no se puede medir</div>
+        <ul class="ticks">
+          <li>Que el personal de salón pregunte y registre el código al cerrar la venta.</li>
+          <li>El número de facturación mensual de cada canal, tienda online y locales.</li>
+          <li>Acceso a la administración de Tiendanube, al Business Manager y a Google Ads.</li>
+          <li>Que el stock de local esté al día, para no anunciar lo que no se puede ir a buscar.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="objetivo">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2>El objetivo de facturación <b>se define antes de arrancar</b>.</h2>
+      <p class="lead">El 10% variable se calcula sobre lo que se factura por encima de un número acordado. Ese número lo fijamos juntos con los datos reales de la cuenta, no después de ver cómo viene el mes.</p>
+    </div>
+    <div class="grid g3 rv">
+      <div class="card">
+        <div class="num">01</div>
+        <h3>La base</h3>
+        <p>Promedio de los últimos tres meses cerrados de facturación, con la tienda online y los locales contados por separado.</p>
+      </div>
+      <div class="card">
+        <div class="num">02</div>
+        <h3>El objetivo</h3>
+        <p>La base más el crecimiento que acordemos, contemplando la estacionalidad del rubro. Queda escrito antes de la primera campaña.</p>
+      </div>
+      <div class="card">
+        <div class="num">03</div>
+        <h3>El variable</h3>
+        <p>10% sobre lo que se factura por encima de ese objetivo. Si el mes no lo supera, no se cobra nada adicional.</p>
+      </div>
+    </div>
+    <div class="note rv"><b>Lo que hay que dejar andando en la primera semana</b>, porque de esto depende que los números sean discutibles: la API de Conversiones de Meta con el evento de compra sin duplicar, la compra con valor como conversión principal en Google Ads, el feed de productos aprobado en Merchant Center y el registro del código de campaña en la facturación de los locales.</div>
+  </div>
+</section>
+
+<section class="white" id="alcance">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2>Qué entra en el fee <b>y qué no</b>.</h2>
+    </div>
+    <div class="cols rv">
+      <div class="col">
+        <h3>Dentro del fee</h3>
+        <div class="sub">Los dos canales</div>
+        <ul class="ticks">
+          <li>Gestión diaria de Meta Ads y de Google Ads.</li>
+          <li>Estructura de campañas, reparto de presupuesto y decisiones de escalado.</li>
+          <li>Copies y armado de todos los anuncios de los dos canales.</li>
+          <li>Briefs creativos: qué filmar y fotografiar, con qué ángulo y para qué campaña.</li>
+          <li>Calendario comercial del año: Día de la Madre, Black Friday, Navidad, Reyes, Día del Padre y liquidaciones.</li>
+          <li>Catálogo, feed de productos y medición: montaje y control permanente.</li>
+          <li>Los dos Perfiles de Empresa de Google.</li>
+          <li>Portal de cliente a medida, reporte mensual y revisión semanal.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Fuera del fee</h3>
+        <div class="sub">A presupuestar si les interesa</div>
+        <ul class="ticks">
+          <li>Producción de fotos y video. Nosotros damos el brief, no filmamos.</li>
+          <li>Email marketing sobre la base de clientes de la tienda.</li>
+          <li>Trabajo sobre la ficha de producto y el checkout de Tiendanube.</li>
+          <li>TikTok Ads. El píxel ya está puesto en el sitio y la cuenta no se está usando.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="inversion">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <h2>Inversión</h2>
+      <p class="lead">El fee es el servicio de Dilema. La inversión en pauta va aparte y se paga directo a cada plataforma.</p>
+    </div>
+    <table class="table rv">
+      <thead>
+        <tr><th>Servicio</th><th style="text-align:right">Por mes</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Meta Ads, gestión mensual</td><td class="amount">USD 350</td></tr>
+        <tr><td>Google Ads, gestión mensual</td><td class="amount">USD 350</td></tr>
+        <tr class="strike"><td>Contratados por separado suman</td><td class="amount">USD 700</td></tr>
+        <tr class="total"><td>Los dos canales juntos <span class="tag">Precio López Taibo</span></td><td class="amount">USD 550</td></tr>
+        <tr><td>Variable sobre resultados</td><td class="amount">10% por encima del objetivo</td></tr>
+      </tbody>
+    </table>
+    <div class="note rv"><b>Por qué el paquete y no los canales sueltos.</b> Los dos se trabajan con la misma estrategia, la misma medición y el mismo objetivo de facturación. Separarlos duplica el trabajo de análisis y rompe la lectura del recorrido completo, que es justamente donde está la ganancia de centralizar todo en un solo equipo.</div>
+    <div class="note rv"><b>La inversión en pauta no forma parte del fee.</b> Los $2.000.000 mensuales de Meta y los $1.200.000 de Google son presupuesto de medios: se cargan en cada plataforma y nosotros los administramos. El reparto por campaña que figura en esta propuesta es el punto de partida y se ajusta con los datos de los primeros meses.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <img class="foot-logo" src="logos/dilema-creative.webp" alt="Dilema Creative" width="196" height="72">
+        <div class="foot-tag">Agencia de marketing digital. Trabajamos la pauta, la medición y el contenido como un solo sistema, con pocos clientes y dedicación completa a cada uno.</div>
+      </div>
+      <div class="foot-contact">
+        <div class="kicker" style="color:var(--d-sage);margin-bottom:6px">Contacto</div>
+        <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a>
+        <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+        <a href="https://instagram.com/dilema.creative" target="_blank" rel="noopener">@dilema.creative</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>Dilema Creative · 2026 · Propuesta para López Taibo</div>
+      <div>Buenos Aires · Argentina</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  var hadHash=!!location.hash;
+  if(location.hash && history.replaceState) history.replaceState(null,'',location.pathname+location.search);
+  var top=function(){window.scrollTo({top:0,left:0,behavior:'instant'})};
+  top();
+  window.addEventListener('pageshow',top);
+  window.addEventListener('load',top);
+  if(hadHash){setTimeout(top,0);setTimeout(top,150);}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var t=document.getElementById(a.getAttribute('href').slice(1));
+    if(!t) return;
+    e.preventDefault();
+    t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+})();
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
