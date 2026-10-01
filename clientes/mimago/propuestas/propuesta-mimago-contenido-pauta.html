@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Mimago · Propuesta de contenido y publicidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@200;300;400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#131112;
+  --char:#2a211b;
+  --char-2:#352a22;
+  --paper:#f6f2ea;
+  --white:#ffffff;
+  --line:#e0d8cc;
+  --line-dark:#4a3d33;
+  --mute:#726a60;
+  --mute-dark:#ab9f92;
+  --soft:#ece5d9;
+  --sky:#00a3e3;
+  --sky-deep:#00729e;
+  --d-ink:#0E2A47;
+  --d-sage:#2F7D5E;
+  --d-paper:#FAF6EE;
+  --display:'Raleway',system-ui,sans-serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --wrap:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+[id]{scroll-margin-top:60px}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;font-variant-numeric:lining-nums;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--ink);color:var(--paper)}
+a:focus-visible{outline:1px solid currentColor;outline-offset:3px}
+h1,h2,h3,h4{text-wrap:balance}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(250,246,238,.97);color:var(--d-ink);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.nav-id{display:flex;align-items:center;gap:14px;font-family:var(--display);font-size:17px;letter-spacing:.02em;white-space:nowrap}
+.nav-id i{width:1px;height:22px;background:var(--line)}
+.nav-logo{display:block;width:auto;height:38px}
+.nav-id span{font-weight:400;color:var(--mute)}
+.nav-links{display:flex;gap:22px;font-size:13px}
+.nav-links a{text-decoration:none;color:var(--mute);transition:color .2s}
+.nav-links a:hover{color:var(--sky-deep)}
+
+/* HERO */
+.hero{position:relative;background:var(--char);color:var(--white);overflow:hidden;padding:88px 0 88px}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(90deg,transparent 0%,#000 55%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 55%)}
+.hero-sketch{position:absolute;right:-24px;top:104px;width:470px;max-width:52%;opacity:.44;pointer-events:none}
+.hero .wrap{position:relative}
+.hero-mark{display:block;width:auto;height:64px;margin-bottom:34px}
+.kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.hero .kicker{color:var(--mute-dark)}
+.hero h1{font-family:var(--display);font-weight:200;font-size:clamp(38px,6vw,70px);line-height:1.05;letter-spacing:-.02em;margin:18px 0 26px;max-width:760px}
+.hero h1 b{font-weight:600}
+.hero p{max-width:580px;color:#d6cec4;font-size:17px}
+.hero-parts{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-dark);border:1px solid var(--line-dark);margin-top:56px;max-width:860px}
+.hero-part{background:var(--char);padding:22px 24px;text-decoration:none;transition:background .2s}
+.hero-part:hover{background:var(--char-2)}
+.hero-part .kicker{color:var(--mute-dark)}
+.hero-part h3{font-family:var(--display);font-weight:500;font-size:22px;margin-top:8px}
+.hero-part p{font-size:13.5px;color:var(--mute-dark);margin-top:4px}
+
+/* SECTIONS */
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+section.white{background:var(--white)}
+section.dark{background:var(--char);color:var(--white);border-bottom-color:var(--line-dark)}
+section.dark .kicker{color:var(--mute-dark)}
+.sec-head{margin-bottom:48px;padding-top:18px;border-top:1px solid var(--ink)}
+section.dark .sec-head{border-top-color:#6a5c50}
+.sec-head h2{font-family:var(--display);font-weight:200;font-size:clamp(31px,3.7vw,45px);line-height:1.1;letter-spacing:-.016em;margin-top:30px;max-width:760px}
+.sec-head h2 b{font-weight:600}
+.sec-head .lead{margin-top:16px;color:var(--mute);max-width:640px}
+section.dark .sec-head .lead{color:var(--mute-dark)}
+
+/* PART DIVIDER */
+.part{background:var(--ink);color:var(--white);padding:64px 0}
+.part .wrap{display:grid;grid-template-columns:auto minmax(0,1.9fr) minmax(0,1fr);gap:44px;align-items:end}
+.part-letter{font-family:var(--display);font-weight:200;font-size:clamp(88px,11vw,148px);line-height:.74;color:transparent;-webkit-text-stroke:1px var(--sky)}
+.part h2{font-family:var(--display);font-weight:200;font-size:clamp(29px,3.9vw,45px);line-height:1.1;margin-top:14px}
+.part p{color:var(--mute-dark);max-width:440px;font-size:15px;padding-bottom:6px;justify-self:end}
+
+/* CARDS */
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--paper);padding:28px 26px}
+section.white .card{background:var(--white)}
+section.dark .grid{background:var(--line-dark);border-color:var(--line-dark)}
+section.dark .card{background:var(--char)}
+.card .num{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.1em}
+section.dark .card .num{color:var(--mute-dark)}
+.card h3{font-family:var(--display);font-weight:600;font-size:20px;line-height:1.22;margin:14px 0 8px;min-height:2.44em}
+.card p{font-size:14.5px;color:var(--mute)}
+section.dark .card p{color:var(--mute-dark)}
+
+/* SERVICE COLUMNS */
+.svc{padding:30px 26px 32px}
+.svc h3{font-family:var(--display);font-weight:500;font-size:24px;line-height:1.15;letter-spacing:-.01em;margin:0;min-height:2.3em}
+.svc .role{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:10px 0 20px}
+.svc .desc{font-size:14.5px;color:var(--ink);margin:0 0 18px;min-height:3.2em}
+section.dark .svc .desc{color:#e3dcd3}
+.ticks{list-style:none;display:grid;gap:10px;padding-top:18px;border-top:1px solid var(--line)}
+section.dark .ticks{border-top-color:var(--line-dark)}
+.ticks li{position:relative;padding-left:18px;font-size:14px;line-height:1.5;color:var(--char)}
+section.dark .ticks li{color:#d6cec4}
+.ticks li::before{content:"";position:absolute;left:0;top:.75em;width:9px;height:1px;background:var(--sky)}
+.findings{margin-bottom:36px;gap:14px 48px}
+.findings li{font-size:15px;color:var(--char)}
+.options .card{padding:32px 30px}
+.options .card h3{font-size:24px;font-weight:500;min-height:0}
+.incl{border:1px solid var(--line-dark);border-top:none;padding:26px}
+.incl ul{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:10px 32px;margin-top:16px}
+.incl li{position:relative;padding-left:18px;font-size:14px;color:#dcd5cb}
+.incl li::before{content:"";position:absolute;left:0;top:.75em;width:9px;height:1px;background:var(--sky)}
+
+/* FLOW */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line-dark)}
+.flow-step{padding:26px 20px;border-right:1px solid var(--line-dark);position:relative;display:flex;flex-direction:column;align-items:flex-start}
+.flow-step:last-child{border-right:none}
+.flow-step .num{font-family:var(--mono);font-size:11px;color:var(--mute-dark)}
+.flow-step h4{font-family:var(--display);font-weight:600;font-size:19px;line-height:1.2;margin:12px 0 6px;min-height:2.4em}
+.flow-step p{font-size:13.5px;color:var(--mute-dark);margin-bottom:16px}
+.flow-step .tag{display:inline-block;margin-top:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;border:1px solid var(--sky);padding:3px 8px;color:#bfe7f8}
+
+/* TABLE + NOTE */
+.table{width:100%;border-collapse:collapse;font-size:14.5px}
+.table th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);text-align:left;font-weight:400;padding:0 16px 12px 0;border-bottom:1px solid var(--ink)}
+.table td{padding:16px 16px 16px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.table td:first-child{font-weight:500;width:32%}
+.table td:last-child{color:var(--mute)}
+.note{margin-top:28px;padding:20px 24px;border:1px solid var(--line);background:var(--soft);font-size:14.5px;color:var(--ink)}
+section.dark .note{background:var(--char-2);border-color:var(--line-dark);color:#e3dcd3}
+
+/* EDITORIAL */
+.angle{background:var(--white);padding:30px 26px;display:flex;flex-direction:column}
+.angle .ph{height:120px;border:1px solid var(--line);margin-bottom:20px;position:relative;overflow:hidden;background:linear-gradient(var(--soft) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,var(--soft) 1px,transparent 1px) 0 0/24px 24px}
+.angle .ph svg{position:absolute;inset:0;width:100%;height:100%}
+.angle h3{font-family:var(--display);font-weight:600;font-size:20px;margin-bottom:6px}
+.angle p{font-size:14.5px;color:var(--mute)}
+.angle .fmt{margin-top:auto;padding-top:16px;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+
+/* PRICING */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-dark);border:1px solid var(--line-dark)}
+.price-grid.p2{grid-template-columns:repeat(2,1fr)}
+.price{background:var(--char);padding:30px 26px;display:flex;flex-direction:column}
+.price-name{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute-dark)}
+.price-val{font-family:var(--display);font-weight:200;font-size:45px;line-height:1;letter-spacing:-.015em;margin:20px 0 4px}
+.price-val span{font-family:var(--body);font-size:14px;letter-spacing:0;color:var(--mute-dark);margin-left:6px}
+.price-anchor{font-size:13px;color:var(--mute-dark);text-decoration:line-through}
+.price p{font-size:14px;color:var(--mute-dark);margin-top:14px}
+.price ul{list-style:none;margin-top:18px;padding-top:18px;border-top:1px solid var(--line-dark)}
+.price li{font-size:13.5px;padding:4px 0 4px 18px;position:relative;color:#dcd5cb}
+.price li::before{content:"";position:absolute;left:0;top:.95em;width:8px;height:1px;background:var(--sky)}
+.combo{border:1px solid var(--line-dark);border-top:none}
+.price.featured{background:var(--white);color:var(--ink)}
+.price.featured .price-name,.price.featured .price-val span,.price.featured .price-anchor,.price.featured p{color:var(--mute)}
+.price.featured li{color:var(--ink)}
+.price.featured li::before{background:var(--sky-deep)}
+.price.featured ul{border-top-color:var(--line);grid-template-columns:repeat(3,1fr);display:grid;gap:0 32px}
+.price-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:26px}
+.badge{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--white);padding:4px 10px;white-space:nowrap}
+.save{font-family:var(--mono);font-size:11px;color:var(--sky-deep);margin-top:6px}
+.price:not(.featured) .save{color:#bfe7f8}
+
+.extra{display:grid;grid-template-columns:repeat(3,1fr);background:var(--char);border:1px solid var(--line-dark);border-top:none}
+.extra-text{grid-column:span 2;padding:30px 26px}
+.extra-price{padding:30px 26px;border-left:1px solid var(--line-dark);display:flex;flex-direction:column;justify-content:center}
+.extra h3{font-family:var(--display);font-weight:600;font-size:20px;margin:10px 0 6px}
+.extra p{font-size:14px;color:var(--mute-dark);max-width:520px}
+.extra .price-val{margin:0}
+.extra .price-val span{display:block;margin:8px 0 0}
+
+/* BUDGET */
+.budget{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.bud{background:var(--white);padding:30px 26px}
+.bud .price-name{color:var(--mute)}
+.bud .val{font-family:var(--display);font-weight:200;font-size:40px;line-height:1;letter-spacing:-.015em;margin:18px 0 6px;color:var(--ink)}
+.bud .val span{font-family:var(--body);font-size:14px;color:var(--mute);margin-left:6px;letter-spacing:0}
+.bud p{font-size:14.5px;color:var(--mute);margin-top:14px}
+
+/* BRANDS */
+.brands{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.brands li{background:var(--white);padding:0 24px;display:flex;align-items:center;justify-content:center;height:128px}
+.brands img{display:block;max-width:100%;height:auto;filter:brightness(.62)}
+
+/* CONDITIONS */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink)}
+.step{padding:24px 22px 0 0;position:relative}
+.step::before{content:"";position:absolute;top:-5px;left:0;width:9px;height:9px;background:var(--paper);border:1px solid var(--ink);border-radius:50%}
+.step.key::before{background:var(--sky);border-color:var(--sky)}
+.step .num{font-family:var(--mono);font-size:11px;color:var(--mute)}
+.step h4{font-family:var(--display);font-weight:600;font-size:19px;margin:8px 0 6px}
+.step p{font-size:14px;color:var(--mute)}
+.terms{margin-top:56px}
+.terms .table td:first-child{width:28%}
+
+/* FOOTER */
+footer{background:var(--d-paper);color:var(--d-ink);padding:64px 0 32px;border-top:1px solid var(--line)}
+.foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid var(--line)}
+.foot-logo{display:block;width:auto;height:72px}
+.foot-tag{max-width:420px;color:#4b5b6c;font-size:14px;margin-top:18px}
+.foot-contact{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.foot-contact a{text-decoration:none;color:var(--d-ink)}
+.foot-contact a:hover{color:var(--d-sage)}
+.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:24px;font-family:var(--mono);font-size:11px;color:#4b5b6c;letter-spacing:.06em}
+
+.list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 32px}
+.list li{position:relative;padding-left:20px;font-size:14.5px}
+.list li::before{content:"";position:absolute;left:0;top:.72em;width:10px;height:1px;background:var(--sky-deep)}
+
+/* REVEAL */
+@media (prefers-reduced-motion:no-preference){
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+}
+
+/* RESPONSIVE */
+@media (max-width:960px){
+  .nav-links{display:none}
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:1fr}
+  .hero-parts{grid-template-columns:1fr}
+  .incl ul{grid-template-columns:1fr 1fr}
+  .svc .desc{min-height:0}
+  .flow{grid-template-columns:1fr}
+  .flow-step{border-right:none;border-bottom:1px solid var(--line-dark)}
+  .flow-step:last-child{border-bottom:none}
+  .price-grid,.price-grid.p2,.extra,.budget{grid-template-columns:1fr}
+  .price.featured ul{grid-template-columns:1fr}
+  .extra-text{grid-column:auto;padding-bottom:0}
+  .extra-price{border-left:none}
+  .part .wrap{grid-template-columns:auto 1fr;gap:28px 32px}
+  .part p{grid-column:1/-1;justify-self:start;max-width:560px}
+  .steps{grid-template-columns:1fr 1fr;row-gap:28px}
+  .hero-sketch{opacity:.2;max-width:88%}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  section{padding:64px 0}
+  .hero{padding:56px 0 64px}
+  .g2,.g4,.list,.findings{grid-template-columns:1fr}
+  .brands{grid-template-columns:repeat(2,1fr)}
+  .incl ul{grid-template-columns:1fr}
+  .nav-logo{height:32px}
+  .hero-mark{height:42px}
+  .brands li{height:100px;padding:0 24px}
+  .brands img{max-width:86%}
+  .part-letter{font-size:72px}
+  .steps{grid-template-columns:1fr;border-top:none;border-left:1px solid var(--ink);padding-left:20px}
+  .step{padding:0 0 24px}
+  .step::before{left:-25px;top:4px}
+  .table thead{display:none}
+  .table tr{display:block;padding:14px 0;border-bottom:1px solid var(--line)}
+  .table td{display:block;border:none;padding:2px 0;width:auto!important}
+  .nav-id span{display:none}
+  .nav-id i{display:none}
+  .card h3,.svc h3,.flow-step h4{min-height:0}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="nav-id"><img class="nav-logo" src="logos-equipo/dilema-creative.webp" alt="Dilema Creative" width="104" height="38"><i></i><span>Propuesta Mimago</span></div>
+    <div class="nav-links">
+      <a href="#contenido">Contenido</a>
+      <a href="#pauta">Publicidad</a>
+      <a href="#futuro">Marca y punto de venta</a>
+      <a href="#condiciones">Condiciones</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid"></div>
+  <svg class="hero-sketch" viewBox="0 0 520 420" fill="none" stroke="#c6b9ac" stroke-width="1" aria-hidden="true">
+    <path d="M60 392 H480"/><path d="M40 392 H500" stroke-dasharray="2 6"/>
+    <path d="M118 392 V250 C118 198 152 168 210 168 C268 168 302 198 302 250 V392"/>
+    <path d="M118 262 H302" stroke-dasharray="3 4"/>
+    <path d="M150 392 V262 M182 392 V262 M214 392 V262 M246 392 V262 M278 392 V262" stroke="#9b8c7d" stroke-dasharray="2 5"/>
+    <path d="M330 392 V246 C330 208 352 186 392 186 C432 186 454 208 454 246 V392"/>
+    <path d="M330 258 H454" stroke-dasharray="3 4"/>
+    <path d="M118 410 V418 M302 410 V418 M118 414 H302"/>
+    <text x="196" y="408" fill="#c6b9ac" stroke="none" font-family="JetBrains Mono,monospace" font-size="9">650 g</text>
+    <path d="M478 168 H492 M478 392 H492 M485 168 V392"/>
+    <g stroke="#c6b9ac">
+      <path d="M392 150 V40"/>
+      <path d="M392 64 C378 56 372 42 374 28 C388 30 396 42 392 56"/>
+      <path d="M392 64 C406 56 412 42 410 28 C396 30 388 42 392 56"/>
+      <path d="M392 92 C378 84 372 70 374 56 C388 58 396 70 392 84"/>
+      <path d="M392 92 C406 84 412 70 410 56 C396 58 388 70 392 84"/>
+      <path d="M392 120 C378 112 372 98 374 84 C388 86 396 98 392 112"/>
+      <path d="M392 120 C406 112 412 98 410 84 C396 86 388 98 392 112"/>
+    </g>
+    <path d="M30 60 L100 104" stroke-dasharray="1 5"/>
+    <circle cx="210" cy="150" r="3"/>
+  </svg>
+  <div class="wrap">
+    <img class="hero-mark" src="assets/logo-w.png" alt="Mimago" width="106" height="64">
+    <div class="kicker">Propuesta · Octubre 2026</div>
+    <h1>Que la gente sepa <br>que existe <b>Mimago</b></h1>
+    <p>Fargo y Bimbo van a seguir siendo los primeros. El lugar que está en juego es el segundo, y hoy lo ocupa una marca que es del mismo grupo. Esta propuesta es para ganarlo.</p>
+    <div class="hero-parts">
+      <a class="hero-part" href="#contenido">
+        <div class="kicker">Parte A</div>
+        <h3>Contenido</h3>
+        <p>Instagram y Facebook</p>
+      </a>
+      <a class="hero-part" href="#pauta">
+        <div class="kicker">Parte B</div>
+        <h3>Publicidad</h3>
+        <p>Meta Ads y Google Ads</p>
+      </a>
+      <a class="hero-part" href="#futuro">
+        <div class="kicker">Parte C</div>
+        <h3>Marca y punto de venta</h3>
+        <p>Para analizar más adelante</p>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- PUNTO DE PARTIDA -->
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">00 · Punto de partida</div>
+      <h2>Lo que <b>hablamos</b></h2>
+    </div>
+    <div class="grid g4">
+      <div class="card rv"><div class="num">01</div><h3>Que los conozcan</h3><p>El objetivo no se mide en ventas del mes: se mide en que la gente sepa que Mimago existe.</p></div>
+      <div class="card rv"><div class="num">02</div><h3>El mejor segundo</h3><p>El primer lugar ya tiene dueño. El segundo está en disputa y es el que se puede ganar.</p></div>
+      <div class="card rv"><div class="num">03</div><h3>De panificadora a alimenticia</h3><p>Hoy el fuerte es lactal, hamburguesa y pancho. Atrás vienen alfajores, conitos y galletitas.</p></div>
+      <div class="card rv"><div class="num">04</div><h3>Capacidad para el doble</h3><p>Planta nueva, máquina nueva y otro lote ya señado. La demanda tiene que crecer al mismo ritmo.</p></div>
+    </div>
+    <div class="note rv"><strong>El punto de partida real:</strong> hoy Mimago no tiene ni un anuncio publicado, ni activo ni histórico. El sitio no tiene medición de ningún tipo. Todo lo que se haga de acá en adelante se mide contra cero, y eso juega a favor: cualquier movimiento se ve.</div>
+  </div>
+</section>
+
+<!-- PARTE A -->
+<div class="part" id="contenido">
+  <div class="wrap">
+    <div class="part-letter" aria-hidden="true">A</div>
+    <div>
+      <div class="kicker" style="color:var(--mute-dark)">Parte A</div>
+      <h2>Contenido<br>para Instagram y Facebook</h2>
+    </div>
+    <p>Diseñamos, grabamos, planificamos y publicamos. Lo que se produce también alimenta los anuncios.</p>
+  </div>
+</div>
+
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">A.01 · Línea editorial</div>
+      <h2>Cómo <b>mostramos</b> a Mimago</h2>
+      <p class="lead">Seis ejes sobre los que se arma el calendario del mes. Hoy la cuenta publica casi solo placas de producto con el packaging: informan, pero no dan ganas.</p>
+    </div>
+    <div class="grid g3">
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2a211b" stroke-width="1"><path d="M40 92 H260" stroke="#9b8c7d"/><path d="M96 92 V54 C96 38 110 28 132 28 C154 28 168 38 168 54 V92"/><path d="M96 58 H168" stroke-dasharray="3 4"/><path d="M186 92 V62 C186 50 196 42 212 42 C228 42 238 50 238 62 V92"/><path d="M186 66 H238" stroke-dasharray="3 4"/><circle cx="70" cy="80" r="9" stroke="#9b8c7d"/></svg></div>
+        <h3>El producto en la mesa</h3>
+        <p>La rodaja, el sándwich, la hamburguesa armada. Que dé ganas, no que muestre el envase.</p>
+        <div class="fmt">Reel · Foto</div>
+      </div>
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2a211b" stroke-width="1"><rect x="40" y="38" width="220" height="56"/><path d="M40 70 H260" stroke="#9b8c7d" stroke-dasharray="3 4"/><circle cx="78" cy="70" r="13"/><circle cx="150" cy="70" r="13"/><circle cx="222" cy="70" r="13"/><path d="M40 38 V26 H90 V38 M210 38 V26 H260 V38"/><path d="M60 94 V104 M240 94 V104"/></svg></div>
+        <h3>Adentro de la planta</h3>
+        <p>Diez mil metros, las máquinas, la gente y la madrugada. Es la prueba de que atrás hay una industria.</p>
+        <div class="fmt">Reel · Historias</div>
+      </div>
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2a211b" stroke-width="1"><rect x="34" y="42" width="54" height="54"/><circle cx="150" cy="69" r="27"/><path d="M123 69 H177" stroke-dasharray="3 4"/><rect x="212" y="42" width="54" height="54" rx="27"/><path d="M34 26 H266" stroke="#9b8c7d" stroke-dasharray="2 5"/></svg></div>
+        <h3>Más que pan</h3>
+        <p>Alfajores, conitos y galletitas. El paso de panificadora a alimenticia se cuenta, no se asume.</p>
+        <div class="fmt">Carrusel · Reel</div>
+      </div>
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2a211b" stroke-width="1"><circle cx="150" cy="60" r="38"/><path d="M150 36 V60 L168 70" stroke-width="1.4"/><path d="M60 30 H104 M60 44 H92 M60 58 H100" stroke="#9b8c7d"/><path d="M200 70 H244 M200 84 H232" stroke="#9b8c7d"/></svg></div>
+        <h3>Resuelto en cinco minutos</h3>
+        <p>Qué hacer con el pan de molde, el de pancho y el de hamburguesa un martes a las nueve de la noche.</p>
+        <div class="fmt">Reel · Carrusel</div>
+      </div>
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2a211b" stroke-width="1"><circle cx="96" cy="48" r="14"/><path d="M68 98 C68 74 124 74 124 98"/><circle cx="156" cy="44" r="14"/><path d="M128 98 C128 70 184 70 184 98"/><circle cx="216" cy="48" r="14"/><path d="M188 98 C188 74 244 74 244 98"/><path d="M40 20 H260" stroke="#9b8c7d" stroke-dasharray="2 5"/></svg></div>
+        <h3>La familia detrás</h3>
+        <p>Cincuenta años de oficio y una empresa argentina en una categoría que quedó en manos de una multinacional.</p>
+        <div class="fmt">Reel · Foto</div>
+      </div>
+      <div class="angle rv">
+        <div class="ph"><svg viewBox="0 0 300 120" fill="none" stroke="#2a211b" stroke-width="1"><path d="M150 100 C150 100 118 72 118 50 C118 32 132 20 150 20 C168 20 182 32 182 50 C182 72 150 100 150 100Z"/><circle cx="150" cy="48" r="10"/><path d="M50 60 H100" stroke="#9b8c7d" stroke-dasharray="3 4"/><path d="M200 60 H250" stroke="#9b8c7d" stroke-dasharray="3 4"/></svg></div>
+        <h3>Dónde conseguirlo</h3>
+        <p>En qué cadenas está y cómo pedirlo. Es la pregunta que más se repite y hoy no tiene respuesta.</p>
+        <div class="fmt">Post · Historias</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">A.02 · Servicio</div>
+      <h2>Qué incluye <b>el contenido</b></h2>
+    </div>
+    <div class="grid g4">
+      <div class="card svc rv">
+        <h3>Diseño</h3><div class="role">Piezas del mes</div>
+        <ul class="ticks">
+          <li>8, 12 o 16 piezas por mes</li>
+          <li>Posteos, historias, carruseles y reels</li>
+          <li>Edición de reels</li>
+          <li>Piezas para anuncios y adaptaciones por red</li>
+        </ul>
+      </div>
+      <div class="card svc rv">
+        <h3>Grabación</h3><div class="role">Por media jornada</div>
+        <ul class="ticks">
+          <li>Foto y video en la planta o en estudio</li>
+          <li>Producto, proceso, equipo y línea nueva</li>
+          <li>Coordinación previa con ustedes</li>
+          <li>Se contrata los meses que haga falta</li>
+        </ul>
+      </div>
+      <div class="card svc rv">
+        <h3>Fotografía de producto</h3><div class="role">La hacemos nosotros</div>
+        <ul class="ticks">
+          <li>Producto en mesa, en plato y en uso</li>
+          <li>Sirve para redes, anuncios y catálogo</li>
+          <li>Material propio, no fotos de banco</li>
+          <li>Se produce en las jornadas de grabación</li>
+        </ul>
+      </div>
+      <div class="card svc rv">
+        <h3>Gestión</h3><div class="role">Community management</div>
+        <ul class="ticks">
+          <li>Calendario mensual, con aprobación de ustedes</li>
+          <li>Textos y publicación en Instagram y Facebook</li>
+          <li>Comentarios y mensajes</li>
+          <li>Lectura mensual de qué funciona</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note rv"><strong>TikTok, segunda etapa:</strong> los videos se producen en vertical y quedan listos para sumarlo más adelante, sin volver a producir.</div>
+  </div>
+</section>
+
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">A.03 · Equipo de diseño</div>
+      <h2>Con quiénes <b>trabajaron</b></h2>
+      <p class="lead">Las piezas las produce el estudio de diseño con el que trabajamos: más de 15 años en branding, redes, foto y video, con varias marcas de consumo masivo y alimentos.</p>
+    </div>
+    <ul class="brands rv">
+      <li><img src="logos-equipo/mondelez.webp" alt="Mondelēz International" width="134" height="32" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/nestle.webp" alt="Nestlé" width="123" height="35" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/la-virginia.webp" alt="La Virginia" width="100" height="43" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/vital.webp" alt="Vital" width="101" height="43" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/red-bull.webp" alt="Red Bull" width="84" height="51" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/andreani.webp" alt="Andreani" width="157" height="27" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/nikon.webp" alt="Nikon" width="124" height="34" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/remax.webp" alt="RE/MAX" width="153" height="28" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/monkey-47.webp" alt="Monkey 47" width="149" height="29" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/delicity.webp" alt="Delicity" width="122" height="35" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/olivio.webp" alt="Olivio" width="134" height="32" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/m-coffee-and-food.webp" alt="M Coffee and Food" width="66" height="66" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/mizu.webp" alt="Mizu" width="109" height="40" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/leo-paparella.webp" alt="Leo Paparella" width="164" height="26" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/nacion-servicios.webp" alt="Nación Servicios" width="114" height="38" loading="lazy" decoding="async"></li>
+      <li><img src="logos-equipo/talleres-sustentables.webp" alt="Talleres Sustentables" width="168" height="14" loading="lazy" decoding="async"></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">A.04 · De su lado</div>
+      <h2>Lo que necesitamos <b>de ustedes</b></h2>
+    </div>
+    <div class="grid g4">
+      <div class="card rv"><div class="num">01</div><h3>Acceso a la planta</h3><p>Días de grabación acordados y permiso para filmar la línea y al equipo.</p></div>
+      <div class="card rv"><div class="num">02</div><h3>Producto</h3><p>Muestras de cada línea para las jornadas de foto, incluida la que todavía no salió.</p></div>
+      <div class="card rv"><div class="num">03</div><h3>Una persona de contacto</h3><p>Alguien que apruebe el calendario y responda las dudas de producto.</p></div>
+      <div class="card rv"><div class="num">04</div><h3>Accesos</h3><p>Instagram, Facebook, Meta Business, el sitio y las cuentas publicitarias.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="fee-contenido">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">A.05 · Inversión</div>
+      <h2>Fee mensual <b>de contenido</b></h2>
+      <p class="lead">Tres planes según la cantidad de piezas. Todos incluyen la gestión. La grabación se suma por media jornada.</p>
+    </div>
+
+    <div class="price-grid">
+      <div class="price rv">
+        <div class="price-head"><div class="price-name">Plan 8</div></div>
+        <div class="price-val">USD 270<span>/mes</span></div>
+        <p>8 piezas por mes.</p>
+        <ul>
+          <li>Dos publicaciones por semana</li>
+          <li>Para sostener una presencia constante en redes</li>
+        </ul>
+      </div>
+      <div class="price featured rv">
+        <div class="price-head"><div class="price-name">Plan 12</div><span class="badge">Recomendado</span></div>
+        <div class="price-val">USD 370<span>/mes</span></div>
+        <p>12 piezas por mes.</p>
+        <ul style="grid-template-columns:1fr">
+          <li>Tres publicaciones por semana</li>
+          <li>Con margen para sumar piezas para los anuncios</li>
+        </ul>
+      </div>
+      <div class="price rv">
+        <div class="price-head"><div class="price-name">Plan 16</div></div>
+        <div class="price-val">USD 470<span>/mes</span></div>
+        <p>16 piezas por mes.</p>
+        <ul>
+          <li>Cuatro publicaciones por semana</li>
+          <li>Para meses con lanzamientos o temporada</li>
+        </ul>
+      </div>
+    </div>
+    <div class="extra rv">
+      <div class="extra-text">
+        <div class="price-name">Grabación · adicional</div>
+        <h3>Media jornada de foto y video</h3>
+        <p>En la planta o en estudio. Se suma al plan el mes que se graba.</p>
+      </div>
+      <div class="extra-price"><div class="price-val">USD 250<span>por media jornada</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARTE B -->
+<div class="part" id="pauta">
+  <div class="wrap">
+    <div class="part-letter" aria-hidden="true">B</div>
+    <div>
+      <div class="kicker" style="color:var(--mute-dark)">Parte B</div>
+      <h2>Publicidad en<br>Meta y Google</h2>
+    </div>
+    <p>Dos canales con dos trabajos distintos: uno construye la marca, el otro trae distribuidores.</p>
+  </div>
+</div>
+
+<section class="white">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.01 · Canales</div>
+      <h2>El rol de <b>cada canal</b></h2>
+      <p class="lead">En los dos: configuración de la cuenta, medición desde cero y optimización semanal.</p>
+    </div>
+    <div class="grid g2">
+      <div class="card svc rv">
+        <h3>Meta Ads</h3><div class="role">Instagram · Facebook</div>
+        <p class="desc">Para que la marca se vea, se mueva y deje de ser desconocida en la góndola.</p>
+        <ul class="ticks">
+          <li>Campañas de reconocimiento en las zonas donde ya están en góndola</li>
+          <li>Crecimiento de seguidores y comunidad en Instagram</li>
+          <li>El contenido del mes se convierte en anuncios, sin producir aparte</li>
+          <li>Seguimiento a quienes ya vieron la marca, para que no se olvide</li>
+          <li>Base de público propia para cada lanzamiento</li>
+        </ul>
+      </div>
+      <div class="card svc rv">
+        <h3>Google Ads</h3><div class="role">Búsqueda</div>
+        <p class="desc">Para que el distribuidor que está buscando proveedor los encuentre a ustedes.</p>
+        <ul class="ticks">
+          <li>Búsquedas de quien busca proveedor o distribución de panificados</li>
+          <li>Tráfico dirigido al formulario de "Quiero ser distribuidor"</li>
+          <li>Control estricto de en qué búsquedas se va el presupuesto</li>
+          <li>Protección de las búsquedas de la marca Mimago</li>
+          <li>Aviso de cada consulta que entra, para que no se pierda ninguna</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.02 · Recorrido</div>
+      <h2>Por qué la publicidad al consumidor <b>les abre góndola</b></h2>
+      <p class="lead">Es la parte contraintuitiva y es la más importante: ustedes no le venden al consumidor, le venden a la cadena y al distribuidor. Pero lo que define cuánto espacio les dan es que el producto rote.</p>
+    </div>
+    <div class="flow">
+      <div class="flow-step rv"><div class="num">01</div><h4>La ve</h4><p>Aparece un video de Mimago en Instagram, entre contenido que no parece publicidad.</p><span class="tag">Meta</span></div>
+      <div class="flow-step rv"><div class="num">02</div><h4>La reconoce</h4><p>La vuelve a ver. En la góndola ya no es una marca que no conoce.</p><span class="tag">Meta</span></div>
+      <div class="flow-step rv"><div class="num">03</div><h4>La elige</h4><p>Está buscando una alternativa más barata y ahora tiene una con cara.</p><span class="tag">Góndola</span></div>
+      <div class="flow-step rv"><div class="num">04</div><h4>Rota</h4><p>El producto se mueve y el comprador de la cadena lo ve en sus números.</p><span class="tag">Cadena</span></div>
+      <div class="flow-step rv"><div class="num">05</div><h4>Les dan más espacio</h4><p>Y al distribuidor nuevo le pueden decir: en tu zona, la demanda la ponemos nosotros.</p><span class="tag">Negociación</span></div>
+    </div>
+    <div class="note rv"><strong>Lo que se desbloquea:</strong> hoy, cuando van a buscar un distribuidor, les ofrecen producto. Con pauta corriendo en su zona, les ofrecen producto y demanda. Es la diferencia entre ser un proveedor más y ser un socio, y es un argumento que hoy no pueden usar porque no pautan.</div>
+  </div>
+</section>
+
+<section class="white" id="sitio">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.03 · Sitio web</div>
+      <h2>El sitio, <b>para analizar</b></h2>
+      <p class="lead">Google lleva gente a mimago.com.ar, y hoy el sitio pierde consultas. Hay dos caminos. Ninguno forma parte del fee: analícenlo y nos dicen si quieren presupuesto.</p>
+    </div>
+    <ul class="list findings rv">
+      <li>No tiene ninguna medición instalada: ni Meta, ni Google Analytics, ni etiquetas. No hay forma de saber cuántos entran ni de dónde vienen.</li>
+      <li>El formulario de "Quiero ser distribuidor" no avisa a nadie. Hoy nadie está mirando lo que entra por ahí.</li>
+      <li>No hay buscador de dónde comprar. El que ve el producto y lo quiere, no sabe a qué súper ir.</li>
+      <li>En Google el sitio se describe como "La magia del sabor": no dice qué venden, ni a quién, ni dónde.</li>
+    </ul>
+    <div class="grid g2 options">
+      <div class="card rv"><div class="num">Opción 1</div><h3>Ajustar el sitio actual</h3><p>Medición completa, formulario de distribuidores que avise por mail y quede registrado, buscador de puntos de venta, y los textos y títulos que hoy no dicen nada, sobre el sitio que ya tienen.</p></div>
+      <div class="card rv"><div class="num">Opción 2</div><h3>Un sitio nuevo</h3><p>Pensado para la pauta y para el salto a alimenticia: una página por línea de producto, sección de distribuidores con su propio formulario, dónde comprar y medición completa desde el primer día.</p></div>
+    </div>
+    <div class="note rv"><strong>Incluido en la configuración inicial:</strong> las etiquetas de medición que necesitan las campañas para funcionar. El resto se presupuesta aparte, si les interesa.</div>
+  </div>
+</section>
+
+<section class="dark" id="fee-pauta">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.04 · Inversión</div>
+      <h2>Fee mensual <b>de publicidad</b></h2>
+      <p class="lead">Pueden arrancar con un canal o con los dos.</p>
+    </div>
+
+    <div class="price-grid p2">
+      <div class="price rv">
+        <div class="price-head"><div class="price-name">Meta Ads</div></div>
+        <div class="price-val">USD 300<span>/mes</span></div>
+        <p>Reconocimiento de marca, comunidad y seguimiento en Instagram y Facebook.</p>
+      </div>
+      <div class="price rv">
+        <div class="price-head"><div class="price-name">Google Ads</div></div>
+        <div class="price-val">USD 300<span>/mes</span></div>
+        <p>Búsqueda activa de proveedor, dirigida al formulario de distribuidores.</p>
+      </div>
+    </div>
+    <div class="combo">
+      <div class="price featured rv">
+        <div class="price-head"><div class="price-name">Meta + Google</div><span class="badge">Recomendado</span></div>
+        <div class="price-val">USD 550<span>/mes</span></div>
+        <div class="price-anchor">Por separado: USD 600</div>
+        <div class="save">Ahorro de USD 50 por mes</div>
+        <ul>
+          <li>Todo lo de Meta Ads y todo lo de Google Ads</li>
+          <li>Los dos canales como un solo sistema</li>
+          <li>Presupuesto repartido según qué canal rinde</li>
+          <li>Seguimiento cruzado entre los dos</li>
+          <li>Una sola lectura de resultados</li>
+          <li>Una sola reunión mensual</li>
+        </ul>
+      </div>
+    </div>
+    <div class="incl rv">
+      <div class="price-name">Todos los paquetes incluyen</div>
+      <ul>
+        <li>Configuración completa</li><li>Medición desde cero</li><li>Optimización semanal</li>
+        <li>Reporte y reunión mensual</li><li>Portal de cliente</li><li>Documento de formatos probados</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="inversion">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">B.05 · Inversión en plataformas</div>
+      <h2>Cuánto poner <b>en pauta</b></h2>
+      <p class="lead">Esto va aparte del fee y se paga directo a Meta y a Google con el medio de pago de Mimago. Los dos arrancan distinto a propósito, porque hacen trabajos distintos.</p>
+    </div>
+    <div class="budget rv">
+      <div class="bud">
+        <div class="price-name">Meta Ads</div>
+        <div class="val">USD 400 a 600<span>por mes</span></div>
+        <p>Es el que necesita volumen. El objetivo es que mucha gente vea la marca varias veces, y eso se compra con alcance. Por debajo de ese piso el mensaje llega a tan poca gente que no mueve el reconocimiento.</p>
+      </div>
+      <div class="bud">
+        <div class="price-name">Google Ads</div>
+        <div class="val">USD 150 a 250<span>por mes</span></div>
+        <p>Arranca bajo a propósito. En este rubro se busca poco y muy específico: se trabaja con una lista larga de búsquedas excluidas para no pagar por el que busca pan para comer. Pocas consultas, pero de empresas.</p>
+      </div>
+    </div>
+    <div class="note rv"><strong>Es un punto de partida, no un número cerrado.</strong> Se arranca ahí para medir con datos propios y, a partir del segundo mes, se ajusta con los números reales: si Google trae consultas buenas se le sube, y si el reconocimiento necesita más alcance, el peso va a Meta.</div>
+  </div>
+</section>
+
+<!-- PARTE C -->
+<div class="part" id="futuro">
+  <div class="wrap">
+    <div class="part-letter" aria-hidden="true">C</div>
+    <div>
+      <div class="kicker" style="color:var(--mute-dark)">Parte C</div>
+      <h2>Marca y<br>punto de venta</h2>
+    </div>
+    <p>Lo que hace falta para el salto a alimenticia. No entra en los fees de arriba: queda planteado para que lo analicen.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">C.01 · Más adelante</div>
+      <h2>Los frentes que <b>vienen después</b></h2>
+      <p class="lead">Mimago está dejando de ser una panificadora para ser una alimenticia, y eso no se resuelve solo con publicidad. Estos son los frentes que se abren, en el orden en que los haríamos.</p>
+    </div>
+    <div class="grid g3">
+      <div class="card rv"><div class="num">01</div><h3>Plataforma de marca</h3><p>Qué dice Mimago, a quién y con qué tono, escrito y cerrado. Hoy el único mensaje de marca es "la magia del sabor", y no alcanza para sostener una línea nueva.</p></div>
+      <div class="card rv"><div class="num">02</div><h3>Material de punto de venta</h3><p>Exhibidores, cenefas, zócalos y material de góndola. Es donde se decide la compra y hoy, frente a la primera marca, Mimago llega sin nada.</p></div>
+      <div class="card rv"><div class="num">03</div><h3>La línea alimenticia</h3><p>Alfajores, conitos y galletitas compiten contra otras marcas y otro consumidor. Necesitan hablar distinto sin dejar de ser Mimago.</p></div>
+      <div class="card rv"><div class="num">04</div><h3>Dónde comprar</h3><p>Buscador de puntos de venta en el sitio y un código en el envase. Es el único canal directo que un fabricante tiene con el que lo consume.</p></div>
+      <div class="card rv"><div class="num">05</div><h3>Creadores de contenido</h3><p>Ya probaron una colaboración y funcionó. Sistematizarlo con cuentas chicas del nicho es la forma más barata de que hablen de la marca.</p></div>
+      <div class="card rv"><div class="num">06</div><h3>Canal gastronómico</h3><p>Tienen el kit completo de una hamburguesería: papa, brioche, viena de hamburguesa, de pancho y tortillas. Hoy no le hablan al canal.</p></div>
+    </div>
+    <div class="note rv"><strong>Nada de esto está incluido en los fees de las partes A y B.</strong> Lo dejamos planteado para que lo analicen con tiempo y, si les interesa alguno, lo presupuestamos aparte.</div>
+  </div>
+</section>
+
+<!-- CONDICIONES -->
+<section class="white" id="condiciones">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker">Condiciones comerciales</div>
+      <h2>Cómo <b>arrancamos</b></h2>
+    </div>
+    <div class="steps">
+      <div class="step rv"><div class="num">01</div><h4>Elección del servicio</h4><p>Definen el plan de contenido y el paquete de publicidad.</p></div>
+      <div class="step rv"><div class="num">02</div><h4>Pago del primer mes</h4><p>El pago es por adelantado y da inicio al trabajo.</p></div>
+      <div class="step rv"><div class="num">03</div><h4>Configuración</h4><p>Cuentas, medición, formulario y campañas.</p></div>
+      <div class="step key rv"><div class="num">04</div><h4>Lanzamiento</h4><p>Desde este día corre el mes de servicio.</p></div>
+    </div>
+
+    <div class="terms">
+      <table class="table">
+        <tbody>
+          <tr><td>Forma de pago</td><td>Mensual y por adelantado.</td></tr>
+          <tr><td>Inicio del mes de servicio</td><td>Corre desde el lanzamiento de las campañas o la primera publicación, no desde el pago. Los días de configuración no se descuentan.</td></tr>
+          <tr><td>Facturación</td><td>El mismo día de cada mes en que arrancó el servicio.</td></tr>
+          <tr><td>Grabación</td><td>Se factura con el fee del mes en que se graba. Traslados y viáticos fuera de AMBA, aparte.</td></tr>
+          <tr><td>Moneda</td><td>Dólares, o pesos al oficial del Banco Santander del día del pago.</td></tr>
+          <tr><td>Inversión en plataformas</td><td>Aparte del fee. Se paga directo a Meta y a Google con el medio de pago de Mimago.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <img class="foot-logo" src="logos-equipo/dilema-creative.webp" alt="Dilema Creative" width="196" height="72">
+        <div class="foot-tag">Agencia de marketing digital. Trabajamos el contenido y la pauta como un solo sistema, con pocos clientes y dedicación completa a cada uno.</div>
+      </div>
+      <div class="foot-contact">
+        <div class="kicker" style="color:var(--d-sage);margin-bottom:6px">Contacto</div>
+        <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a>
+        <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+        <a href="https://instagram.com/dilema.creative" target="_blank" rel="noopener">@dilema.creative</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>Dilema Creative · 2026 · Propuesta para Mimago</div>
+      <div>Buenos Aires · Argentina</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  // siempre abrir desde el inicio: el celular restaura la ultima posicion de scroll al reabrir el link
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  var hadHash=!!location.hash;
+  if(location.hash && history.replaceState) history.replaceState(null,'',location.pathname+location.search);
+  var top=function(){window.scrollTo({top:0,left:0,behavior:'instant'})};
+  top();
+  window.addEventListener('pageshow',top);
+  window.addEventListener('load',top);
+  if(hadHash){setTimeout(top,0);setTimeout(top,150);}
+  // los links internos scrollean sin dejar el # en la URL
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var t=document.getElementById(a.getAttribute('href').slice(1));
+    if(!t) return;
+    e.preventDefault();
+    t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+})();
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
