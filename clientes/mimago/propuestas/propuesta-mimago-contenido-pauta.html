@@ -187,6 +187,14 @@ section.dark .note{background:var(--char-2);border-color:var(--line-dark);color:
 .bud .val{font-family:var(--display);font-weight:200;font-size:40px;line-height:1;letter-spacing:-.015em;margin:18px 0 6px;color:var(--ink)}
 .bud .val span{font-family:var(--body);font-size:14px;color:var(--mute);margin-left:6px;letter-spacing:0}
 .bud p{font-size:14.5px;color:var(--mute);margin-top:14px}
+.total{display:grid;grid-template-columns:repeat(2,1fr);background:var(--white);border:1px solid var(--line);border-top:none}
+.total-text{padding:30px 26px}
+.total-price{padding:30px 26px;border-left:1px solid var(--line);display:flex;flex-direction:column;justify-content:center}
+.total h3{font-family:var(--display);font-weight:600;font-size:20px;margin:10px 0 6px}
+.total p{font-size:14px;color:var(--mute);max-width:560px}
+.total .val{font-family:var(--display);font-weight:200;font-size:40px;line-height:1;letter-spacing:-.015em;color:var(--ink)}
+.total .val span{display:block;font-family:var(--body);font-size:14px;color:var(--mute);margin-top:8px;letter-spacing:0}
+.total .price-name{color:var(--mute)}
 
 /* BRANDS */
 .brands{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
@@ -235,10 +243,11 @@ footer{background:var(--d-paper);color:var(--d-ink);padding:64px 0 32px;border-t
   .flow{grid-template-columns:1fr}
   .flow-step{border-right:none;border-bottom:1px solid var(--line-dark)}
   .flow-step:last-child{border-bottom:none}
-  .price-grid,.price-grid.p2,.extra,.budget{grid-template-columns:1fr}
+  .price-grid,.price-grid.p2,.extra,.budget,.total{grid-template-columns:1fr}
   .price.featured ul{grid-template-columns:1fr}
   .extra-text{grid-column:auto;padding-bottom:0}
-  .extra-price{border-left:none}
+  .total-text{padding-bottom:0}
+  .extra-price,.total-price{border-left:none}
   .part .wrap{grid-template-columns:auto 1fr;gap:28px 32px}
   .part p{grid-column:1/-1;justify-self:start;max-width:560px}
   .steps{grid-template-columns:1fr 1fr;row-gap:28px}
@@ -683,21 +692,28 @@ footer{background:var(--d-paper);color:var(--d-ink);padding:64px 0 32px;border-t
     <div class="sec-head">
       <div class="kicker">B.05 · Inversión en plataformas</div>
       <h2>Cuánto poner <b>en pauta</b></h2>
-      <p class="lead">Esto va aparte del fee y se paga directo a Meta y a Google con el medio de pago de Mimago. Los dos arrancan distinto a propósito, porque hacen trabajos distintos.</p>
+      <p class="lead">Esto va aparte del fee y se paga directo a Meta y a Google con el medio de pago de Mimago. Para arrancar no hace falta mucho: ninguna de las dos es una campaña de venta, y eso cambia por completo lo que cuesta.</p>
     </div>
     <div class="budget rv">
       <div class="bud">
         <div class="price-name">Meta Ads</div>
-        <div class="val">USD 400 a 600<span>por mes</span></div>
-        <p>Es el que necesita volumen. El objetivo es que mucha gente vea la marca varias veces, y eso se compra con alcance. Por debajo de ese piso el mensaje llega a tan poca gente que no mueve el reconocimiento.</p>
+        <div class="val">USD 250<span>por mes</span></div>
+        <p>No son campañas de venta, son de marca: mostrar el anuncio cuesta mucho menos y con poco se llega a mucha gente. Alcanza para sostener presencia todos los días del mes en las zonas donde ya están en góndola.</p>
       </div>
       <div class="bud">
         <div class="price-name">Google Ads</div>
-        <div class="val">USD 150 a 250<span>por mes</span></div>
-        <p>Arranca bajo a propósito. En este rubro se busca poco y muy específico: se trabaja con una lista larga de búsquedas excluidas para no pagar por el que busca pan para comer. Pocas consultas, pero de empresas.</p>
+        <div class="val">USD 150<span>por mes</span></div>
+        <p>En este rubro se busca poco y muy específico, así que no hace falta más. Se trabaja con una lista larga de búsquedas excluidas para no pagar por el que busca pan para comer: pocas consultas, pero de empresas.</p>
       </div>
     </div>
-    <div class="note rv"><strong>Es un punto de partida, no un número cerrado.</strong> Se arranca ahí para medir con datos propios y, a partir del segundo mes, se ajusta con los números reales: si Google trae consultas buenas se le sube, y si el reconocimiento necesita más alcance, el peso va a Meta.</div>
+    <div class="total rv">
+      <div class="total-text">
+        <div class="price-name">Los dos canales</div>
+        <h3>Total para arrancar</h3>
+        <p>Es un punto de partida, no un número cerrado. Se arranca con esto para medir con datos propios y, a partir del segundo mes, se ajusta: si Google trae consultas buenas se le sube, y si conviene empujar el reconocimiento, el peso va a Meta.</p>
+      </div>
+      <div class="total-price"><div class="val">USD 400<span>por mes</span></div></div>
+    </div>
   </div>
 </section>
 
