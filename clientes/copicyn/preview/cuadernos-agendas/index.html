@@ -218,6 +218,15 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
 .fab{position:fixed;right:22px;bottom:22px;z-index:60;width:60px;height:60px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(68,163,155,.45);transition:.2s}
 .fab:hover{transform:scale(1.08)}
 .fab svg{width:32px;height:32px}
+/* FAQ (acordeón) */
+.faq{max-width:780px;margin:0 auto}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-of-type{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.15rem 0;font-family:'Poppins';font-weight:600;font-size:1.08rem;color:var(--navy)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.5rem;font-weight:400;color:var(--teal);transition:transform .25s ease;line-height:1}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .fa-body{padding:0 0 1.25rem;color:var(--muted);font-size:1.02rem;line-height:1.6;max-width:70ch}
 
 @media(max-width:860px){
   .prod{grid-template-columns:1fr;gap:26px}
@@ -422,6 +431,19 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
     </div>
   </div>
 </section>
+
+<!-- FAQ: responde objeciones + FAQPage schema (SEO/AI Overviews) -->
+<section class="blk" id="faq">
+  <div class="wrap sr">
+    <div class="head"><h2>Preguntas frecuentes</h2></div>
+    <div class="faq">
+      <details><summary>¿Puedo imprimir los cuadernos y agendas con mi marca?</summary><div class="fa-body">Sí. Imprimimos tapa e interior con tu logo o diseño. Es ideal para empresas, eventos y regalos corporativos.</div></details>
+      <details><summary>¿Qué tipo de anillado ofrecen?</summary><div class="fa-body">De alambre, que queda más compacto, o de plástico, que se reabre para sumar o sacar hojas.</div></details>
+      <details><summary>¿Desde qué cantidad imprimen?</summary><div class="fa-body">Desde tiradas chicas hasta lotes para toda la empresa.</div></details>
+      <details><summary>¿Qué diferencia hay entre el cuaderno y la agenda?</summary><div class="fa-body">El cuaderno trae 80 hojas rayadas para el día a día. La agenda trae 100 hojas con vista semanal: al abrirla ves los siete días de la semana.</div></details>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer>
@@ -545,6 +567,16 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
           "position": 2,
           "name": "Cuadernos y agendas"
         }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://copicyn.com.ar/cuadernos-agendas/#faq",
+      "mainEntity": [
+        {"@type":"Question","name":"¿Puedo imprimir los cuadernos y agendas con mi marca?","acceptedAnswer":{"@type":"Answer","text":"Sí. Imprimimos tapa e interior con tu logo o diseño. Es ideal para empresas, eventos y regalos corporativos."}},
+        {"@type":"Question","name":"¿Qué tipo de anillado ofrecen?","acceptedAnswer":{"@type":"Answer","text":"De alambre, que queda más compacto, o de plástico, que se reabre para sumar o sacar hojas."}},
+        {"@type":"Question","name":"¿Desde qué cantidad imprimen?","acceptedAnswer":{"@type":"Answer","text":"Desde tiradas chicas hasta lotes para toda la empresa."}},
+        {"@type":"Question","name":"¿Qué diferencia hay entre el cuaderno y la agenda?","acceptedAnswer":{"@type":"Answer","text":"El cuaderno trae 80 hojas rayadas para el día a día. La agenda trae 100 hojas con vista semanal: al abrirla ves los siete días de la semana."}}
       ]
     }
   ]

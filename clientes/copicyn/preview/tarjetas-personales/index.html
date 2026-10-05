@@ -212,6 +212,15 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
 .fab{position:fixed;right:22px;bottom:22px;z-index:60;width:60px;height:60px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 30px rgba(68,163,155,.45);transition:.2s}
 .fab:hover{transform:scale(1.08)}
 .fab svg{width:32px;height:32px}
+/* FAQ (acordeón) */
+.faq{max-width:780px;margin:0 auto}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-of-type{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.15rem 0;font-family:'Poppins';font-weight:600;font-size:1.08rem;color:var(--navy)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:1.5rem;font-weight:400;color:var(--teal);transition:transform .25s ease;line-height:1}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq .fa-body{padding:0 0 1.25rem;color:var(--muted);font-size:1.02rem;line-height:1.6;max-width:70ch}
 
 @media(max-width:860px){
   .uses{grid-template-columns:1fr}
@@ -457,6 +466,19 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
     </div>
   </div>
 </section>
+
+<!-- FAQ: responde objeciones + FAQPage schema (SEO/AI Overviews) -->
+<section class="blk mist" id="faq">
+  <div class="wrap">
+    <div class="head"><h2>Preguntas frecuentes</h2></div>
+    <div class="faq">
+      <details><summary>¿En cuánto tiempo están listas las tarjetas?</summary><div class="fa-body">Imprimimos hasta 300 tarjetas en una hora. Nos mandás el archivo y las podés retirar el mismo día por nuestro local en el microcentro de CABA.</div></details>
+      <details><summary>¿Qué acabados de tarjetas hacen?</summary><div class="fa-body">Clásicas en papel de 350 gramos, laminadas mate o brillante, y con tinta especial metalizada plata y dorada.</div></details>
+      <details><summary>¿Qué necesito para hacer el pedido?</summary><div class="fa-body">El diseño listo en PDF o imagen en buena calidad. Si todavía no lo tenés armado, te damos una mano para dejarlo listo para imprimir.</div></details>
+      <details><summary>¿Puedo retirar en el local o hacen envíos?</summary><div class="fa-body">Podés retirar por el local en 25 de Mayo 759 (CABA) o coordinamos un envío según el destino.</div></details>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer>
@@ -591,6 +613,16 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
           "position": 2,
           "name": "Tarjetas de presentación"
         }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://copicyn.com.ar/tarjetas-personales/#faq",
+      "mainEntity": [
+        {"@type":"Question","name":"¿En cuánto tiempo están listas las tarjetas?","acceptedAnswer":{"@type":"Answer","text":"Imprimimos hasta 300 tarjetas en una hora. Nos mandás el archivo y las podés retirar el mismo día por nuestro local en el microcentro de CABA."}},
+        {"@type":"Question","name":"¿Qué acabados de tarjetas hacen?","acceptedAnswer":{"@type":"Answer","text":"Clásicas en papel de 350 gramos, laminadas mate o brillante, y con tinta especial metalizada plata y dorada."}},
+        {"@type":"Question","name":"¿Qué necesito para hacer el pedido?","acceptedAnswer":{"@type":"Answer","text":"El diseño listo en PDF o imagen en buena calidad. Si todavía no lo tenés armado, te damos una mano para dejarlo listo para imprimir."}},
+        {"@type":"Question","name":"¿Puedo retirar en el local o hacen envíos?","acceptedAnswer":{"@type":"Answer","text":"Podés retirar por el local en 25 de Mayo 759 (CABA) o coordinamos un envío según el destino."}}
       ]
     }
   ]
