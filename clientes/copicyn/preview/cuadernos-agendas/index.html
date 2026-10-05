@@ -93,7 +93,21 @@ header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdro
   radial-gradient(circle at 18% 18%,rgba(107,187,224,.34),transparent 55%),
   radial-gradient(circle at 82% 26%,rgba(68,163,155,.28),transparent 52%),
   linear-gradient(160deg,#f7f9fc 0%,#e6edf7 100%)}
-.hero-logo-bg{position:absolute;z-index:0;left:50%;top:40%;transform:translate(-50%,-50%);width:min(92%,900px);opacity:.09;filter:blur(2px);pointer-events:none;user-select:none}
+/* hero = pagina de cuaderno: espiral + renglones */
+.hero-spiral{position:absolute;top:0;left:0;width:100%;height:46px;z-index:1;display:block}
+.hero-paper{position:absolute;inset:46px 0 0 0;z-index:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,transparent 0,transparent 41px,rgba(33,30,94,.06) 41px,rgba(33,30,94,.06) 42px);
+  -webkit-mask:linear-gradient(180deg,transparent,#000 15%,#000 80%,transparent);mask:linear-gradient(180deg,transparent,#000 15%,#000 80%,transparent)}
+@keyframes riseIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes spiralIn{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:no-preference){
+  .hero .reveal{opacity:0;animation:riseIn .72s cubic-bezier(.16,1,.3,1) forwards}
+  .hero .reveal.d2{animation-delay:.12s}.hero .reveal.d3{animation-delay:.24s}
+  .hero-spiral{opacity:0;animation:spiralIn .8s cubic-bezier(.16,1,.3,1) .04s forwards}
+  .js-anim .sr{opacity:0;transform:translateY(28px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
+  .js-anim .sr.in{opacity:1;transform:none}
+}
+.prod-media{--rx:0deg;--ry:0deg;transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .35s cubic-bezier(.16,1,.3,1)}
 .hero-veil{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(244,247,251,.25),rgba(255,255,255,.42))}
 .hero .wrap{position:relative;z-index:1}
 .hero h1{font-weight:800;font-size:clamp(2.2rem,6vw,4.1rem);line-height:1.04;letter-spacing:-.02em;color:var(--navy);margin:.5rem auto 1.1rem;max-width:15ch;text-transform:uppercase}
@@ -271,13 +285,24 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
 <main id="top">
 <section class="hero">
   <div class="hero-bg"></div>
-  <img class="hero-logo-bg" src="assets/logo.png" alt="" aria-hidden="true">
+  <div class="hero-paper" aria-hidden="true"></div>
+  <svg class="hero-spiral" viewBox="0 0 1200 46" preserveAspectRatio="xMidYMin slice" aria-hidden="true">
+    <defs>
+      <linearGradient id="coilg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b3170"/><stop offset="1" stop-color="#1a1f52"/></linearGradient>
+      <pattern id="coils" width="34" height="46" patternUnits="userSpaceOnUse">
+        <rect x="12.5" y="5" width="9" height="32" rx="4.5" fill="url(#coilg)"/>
+        <rect x="14" y="6.5" width="2.6" height="29" rx="1.3" fill="rgba(255,255,255,.4)"/>
+      </pattern>
+    </defs>
+    <rect x="0" y="19" width="1200" height="6" rx="3" fill="#cfd8ea"/>
+    <rect x="0" y="0" width="1200" height="46" fill="url(#coils)"/>
+  </svg>
   <div class="hero-veil"></div>
   <div class="wrap">
-    <span class="kicker">Gráfica integral · CABA</span>
-    <h1>Cuadernos y agendas</h1>
-    <p class="sub">Dos productos con tu marca. Elegís el <b>cuaderno</b> para el día a día o la <b>agenda</b> para planificar la semana.</p>
-    <div class="hero-cta">
+    <span class="kicker reveal">Gráfica integral · CABA</span>
+    <h1 class="reveal d2">Cuadernos y agendas</h1>
+    <p class="sub reveal d2">Dos productos con tu marca. Elegís el <b>cuaderno</b> para el día a día o la <b>agenda</b> para planificar la semana.</p>
+    <div class="hero-cta reveal d3">
       <a class="btn btn-wa" href="https://wa.me/5491138311287" target="_blank"><svg><use href="#wa"/></svg> Pedí tu presupuesto</a>
       <a class="btn btn-ghost" href="#cuadernos">Ver los productos ↓</a>
     </div>
@@ -286,7 +311,7 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
 
 <!-- PRODUCTO 1: CUADERNOS (media izq / ficha der) -->
 <section class="blk" id="cuadernos">
-  <div class="wrap prod">
+  <div class="wrap prod sr">
     <!-- FOTO: reemplazar .ph-empty por 2 <img> (crossfade automático):
          <img class="is-on" src="assets/cuaderno.jpg" alt="Cuaderno con tapa impresa">
          <img src="assets/cuaderno-2.jpg" alt="Detalle del anillado del cuaderno">
@@ -311,7 +336,7 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
 
 <!-- PRODUCTO 2: AGENDAS (ficha izq / media der, invertido) -->
 <section class="blk mist" id="agendas">
-  <div class="wrap prod rev">
+  <div class="wrap prod rev sr">
     <!-- FOTO: reemplazar .ph-empty por 2 <img> (crossfade automático):
          <img class="is-on" src="assets/agenda.jpg" alt="Agenda con vista semanal">
          <img src="assets/agenda-2.jpg" alt="Interior de la agenda mostrando los 7 días">
@@ -546,6 +571,37 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
       }, 4500);
     }, i * 1500);
   });
+})();
+</script>
+<script>
+// Dinamismo: scroll-reveal (IntersectionObserver) + tilt 3D de los paneles de producto.
+// Solo si el visitante NO pidió reducir movimiento; si no hay JS, todo queda visible/estático.
+(function(){
+  if(!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: no-preference)').matches)) return;
+  document.body.classList.add('js-anim');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {threshold:0.18});
+    document.querySelectorAll('.sr').forEach(function(el){ io.observe(el); });
+  } else {
+    document.querySelectorAll('.sr').forEach(function(el){ el.classList.add('in'); });
+  }
+  // tilt suave siguiendo el mouse (solo punteros finos)
+  if(window.matchMedia('(hover: hover) and (pointer: fine)').matches){
+    document.querySelectorAll('.prod-media').forEach(function(m){
+      m.addEventListener('mousemove', function(ev){
+        var r = m.getBoundingClientRect();
+        var px = (ev.clientX - r.left) / r.width - 0.5;
+        var py = (ev.clientY - r.top) / r.height - 0.5;
+        m.style.setProperty('--ry', (px * 6).toFixed(2) + 'deg');
+        m.style.setProperty('--rx', (-py * 6).toFixed(2) + 'deg');
+      });
+      m.addEventListener('mouseleave', function(){
+        m.style.setProperty('--rx','0deg'); m.style.setProperty('--ry','0deg');
+      });
+    });
+  }
 })();
 </script>
 </body>
