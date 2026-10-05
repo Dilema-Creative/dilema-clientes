@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>López Taibo · Auditoría de Google Ads</title>
+<meta name="description" content="Auditoría de Google Ads de López Taibo, cruce con la PEC 4 de SEM y plan de acción. Dilema Creative.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,300..500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1b1b1a;
+  --char:#2c2c2b;
+  --char-2:#353534;
+  --paper:#f5f4f0;
+  --white:#ffffff;
+  --line:#dcdad3;
+  --line-dark:#474745;
+  --mute:#6f6d67;
+  --mute-dark:#a8a69f;
+  --soft:#ebe9e3;
+  --d-ink:#0E2A47;
+  --d-sage:#2F7D5E;
+  --d-paper:#FAF6EE;
+  --display:'Newsreader',Georgia,'Times New Roman',serif;
+  --body:'Inter',system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --wrap:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;color-scheme:light}
+[id]{scroll-margin-top:60px}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;font-variant-numeric:lining-nums;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--ink);color:var(--paper)}
+a:focus-visible{outline:1px solid currentColor;outline-offset:3px}
+h1,h2,h3,h4{text-wrap:balance}
+a{color:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:50;background:rgba(250,246,238,.97);color:var(--d-ink);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.nav-id{display:flex;align-items:center;gap:14px;font-family:var(--display);font-size:17px;letter-spacing:.02em;white-space:nowrap}
+.nav-id i{width:1px;height:22px;background:var(--line)}
+.nav-logo{display:block;width:auto;height:38px}
+.nav-id span{font-weight:400;color:var(--mute)}
+.nav-links{display:flex;gap:22px;font-size:13px}
+.nav-links a{text-decoration:none;color:var(--mute);transition:color .2s}
+.nav-links a:hover{color:var(--d-ink)}
+
+/* HERO */
+.hero{position:relative;background:var(--char);color:var(--white);overflow:hidden;padding:88px 0 80px}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:48px 48px;mask-image:linear-gradient(90deg,transparent 0%,#000 60%);-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 60%)}
+.hero .wrap{position:relative}
+.hero-mark{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.hero-mark img{display:block;height:34px;width:auto;opacity:.92}
+.hero-mark .sep{width:1px;height:26px;background:#5a5a57}
+.kicker{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.hero .kicker{color:var(--mute-dark)}
+.hero h1{font-family:var(--display);font-weight:300;font-size:clamp(38px,5.6vw,64px);line-height:1.06;letter-spacing:-.022em;margin:26px 0 22px;max-width:780px}
+.hero h1 b{font-weight:500}
+.hero .sub{max-width:580px;color:#cfcdc6;font-size:17px}
+.hero-parts{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line-dark);border:1px solid var(--line-dark);margin-top:52px;max-width:760px}
+.hero-part{background:var(--char);padding:22px 24px}
+.hero-part h3{font-family:var(--display);font-weight:400;font-size:23px;margin-top:8px}
+.hero-part p{font-size:14px;color:var(--mute-dark);margin-top:4px}
+.hero-part .kicker{color:var(--mute-dark)}
+
+/* SECTIONS */
+section{padding:84px 0;border-bottom:1px solid var(--line)}
+section.white{background:var(--white)}
+section.dark{background:var(--char);color:var(--white);border-bottom-color:var(--line-dark)}
+section.dark .kicker{color:var(--mute-dark)}
+.sec-head{margin-bottom:44px;padding-top:18px;border-top:1px solid var(--ink)}
+section.dark .sec-head{border-top-color:#6a6864}
+.sec-head h2{font-family:var(--display);font-weight:300;font-size:clamp(30px,3.6vw,44px);line-height:1.08;letter-spacing:-.018em;margin-top:26px;max-width:780px}
+.sec-head h2 b{font-weight:500}
+.sec-head .lead{margin-top:16px;color:var(--mute);max-width:660px}
+section.dark .sec-head .lead{color:var(--mute-dark)}
+
+/* GRIDS + CARDS */
+.grid{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--paper);padding:28px 26px}
+section.white .card{background:var(--white)}
+section.dark .grid{background:var(--line-dark);border-color:var(--line-dark)}
+section.dark .card{background:var(--char)}
+.card h3{font-family:var(--display);font-weight:500;font-size:21px;line-height:1.2;margin:0 0 10px}
+.card p{font-size:14.5px;color:var(--mute)}
+section.dark .card p{color:var(--mute-dark)}
+.card .num{font-family:var(--mono);font-size:11px;color:var(--mute);letter-spacing:.1em;margin-bottom:14px}
+section.dark .card .num{color:var(--mute-dark)}
+
+/* COLUMN LISTS */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line)}
+.col{background:var(--white);padding:30px 28px}
+section:not(.white) .col{background:var(--paper)}
+.col h3{font-family:var(--display);font-weight:500;font-size:22px;margin:0 0 4px}
+.col .sub{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:20px}
+.ticks{list-style:none;display:grid;gap:12px;padding-top:18px;border-top:1px solid var(--line)}
+.ticks li{position:relative;padding-left:20px;font-size:14.5px;line-height:1.55;color:var(--ink)}
+.ticks li::before{content:"";position:absolute;left:0;top:.78em;width:10px;height:1px;background:var(--d-sage)}
+
+/* TIERS */
+.tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.tier{background:var(--white);padding:26px 24px 24px;display:flex;flex-direction:column}
+.tier .rng{font-family:var(--mono);font-size:13px;letter-spacing:-.01em;color:var(--d-ink)}
+.tier h3{font-family:var(--display);font-weight:500;font-size:20px;line-height:1.2;margin:14px 0 8px}
+.tier p{font-size:14px;color:var(--mute);margin-bottom:20px}
+.tier .flag{margin-top:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:5px 9px;border:1px solid var(--line);color:var(--mute);align-self:flex-start}
+.tier.on{background:var(--d-ink);color:var(--white)}
+.tier.on .rng{color:#9fc3dd}
+.tier.on p{color:#b9c6d3}
+.tier.on .flag{border-color:#3d5a76;color:#d8e3ec}
+
+/* CHANNEL ROWS */
+.channel{display:grid;grid-template-columns:240px 1fr;gap:40px;padding:38px 0;border-top:1px solid var(--line-dark)}
+.channel:first-of-type{border-top:none;padding-top:0}
+.channel-name{font-family:var(--display);font-weight:400;font-size:30px;letter-spacing:-.01em;line-height:1.1}
+.channel-share{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute-dark);margin-top:10px}
+.channel-body p{color:var(--mute-dark);margin-bottom:20px;max-width:640px}
+.list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:11px 32px}
+.list li{position:relative;padding-left:20px;font-size:14.5px}
+.list li::before{content:"";position:absolute;left:0;top:.74em;width:10px;height:1px;background:var(--white)}
+
+/* FLOW */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line)}
+.flow-step{padding:26px 20px;border-right:1px solid var(--line);background:var(--white)}
+.flow-step:last-child{border-right:none}
+.flow-step .num{font-family:var(--mono);font-size:11px;color:var(--mute)}
+.flow-step h4{font-family:var(--display);font-weight:500;font-size:19px;margin:12px 0 6px}
+.flow-step p{font-size:13.5px;color:var(--mute)}
+
+/* TABLE */
+.table{width:100%;border-collapse:collapse;font-size:14.5px}
+.table th{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);text-align:left;font-weight:400;padding:0 16px 12px 0;border-bottom:1px solid var(--ink)}
+.table td{padding:18px 16px 18px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+.table td:first-child{font-weight:500}
+.table .amount{font-family:var(--mono);font-size:15px;white-space:nowrap;text-align:right;width:34%;font-weight:400}
+.table .strike td{color:var(--mute)}
+.table .strike .amount{text-decoration:line-through}
+.table tr.total td{background:var(--d-ink);color:var(--white);border-bottom-color:var(--d-ink);padding-left:20px;font-size:16px}
+.table tr.total .amount{font-size:23px;color:var(--white);padding-right:20px}
+.tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;border:1px solid #4a6b8a;color:#bcd2e3;padding:3px 8px;margin-left:10px;vertical-align:middle}
+.note{margin-top:28px;padding:22px 24px;border:1px solid var(--line);background:var(--soft);font-size:14.5px;color:var(--ink)}
+.note b{font-weight:600}
+section.dark .note{background:var(--char-2);border-color:var(--line-dark);color:#e3e1da}
+
+/* FOOTER */
+footer{background:var(--d-paper);color:var(--d-ink);padding:60px 0 30px;border-top:1px solid var(--line)}
+.foot-top{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap;padding-bottom:36px;border-bottom:1px solid var(--line)}
+.foot-logo{display:block;width:auto;height:72px}
+.foot-tag{max-width:420px;color:#4b5b6c;font-size:14px;margin-top:18px}
+.foot-contact{display:flex;flex-direction:column;gap:6px;font-size:14px}
+.foot-contact a{text-decoration:none;color:var(--d-ink)}
+.foot-contact a:hover{color:var(--d-sage)}
+.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:22px;font-family:var(--mono);font-size:11px;color:#4b5b6c;letter-spacing:.06em}
+
+/* REVEAL */
+@media (prefers-reduced-motion:no-preference){
+  .rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+}
+
+/* RESPONSIVE */
+@media (max-width:960px){
+  .nav-links{display:none}
+  .channel{grid-template-columns:1fr;gap:16px}
+  .tiers,.g4{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .flow-step{border-right:none;border-bottom:1px solid var(--line)}
+  .flow-step:last-child{border-bottom:none}
+}
+@media (max-width:600px){
+  .wrap{padding:0 16px}
+  section{padding:60px 0}
+  .hero{padding:60px 0 56px}
+  .hero-parts,.cols,.tiers,.g2,.g4,.list{grid-template-columns:1fr}
+  .nav-logo{height:32px}
+  .nav-id span,.nav-id i{display:none}
+  .table thead{display:none}
+  .table tr{display:block;padding:14px 0;border-bottom:1px solid var(--line)}
+  .table td{display:block;border:none;padding:3px 0;width:auto!important;text-align:left}
+  .table .amount{text-align:left;width:auto}
+  .table tr.total{background:var(--d-ink);color:var(--white);padding:18px;border-bottom:none}
+  .table tr.total td{background:transparent;padding:3px 0}
+  .table tr.total .amount{padding-right:0}
+  .tag{margin-left:0;margin-top:10px}
+}
+
+/* AUDITORÍA: extras sobre la base de la propuesta */
+.hero-parts.stats{grid-template-columns:repeat(4,1fr);max-width:none}
+.hero-part .v{font-family:var(--display);font-weight:400;font-size:30px;line-height:1.1;margin-top:8px;letter-spacing:-.01em}
+.hero-part .v small{font-size:15px;color:var(--mute-dark)}
+.table-wrap{overflow-x:auto}
+.table.data td,.table.data th{padding-right:18px}
+.table.data td{font-size:14px;vertical-align:top}
+.table.data td.n{font-family:var(--mono);font-size:13.5px;white-space:nowrap;text-align:right}
+.table.data th.n{text-align:right}
+.table.data td:first-child{font-weight:500}
+.table.data td .why{display:block;font-weight:400;color:var(--mute);font-size:13px;margin-top:3px}
+.st{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--line);color:var(--mute);white-space:nowrap}
+.st.ok{border-color:#9cc7b2;color:var(--d-sage);background:#eef6f1}
+.st.warn{border-color:#e2c39c;color:#9a5a17;background:#fbf3e8}
+.st.bad{border-color:#e4b1aa;color:#9b2f22;background:#fbefed}
+.st.new{border-color:#a9bfd3;color:var(--d-ink);background:#eef3f8}
+.find{display:grid;grid-template-columns:64px 1fr;gap:24px;padding:30px 0;border-top:1px solid var(--line-dark)}
+.find:first-child{border-top:none;padding-top:0}
+.find .idx{font-family:var(--mono);font-size:12px;color:var(--mute-dark);letter-spacing:.1em}
+.find .lvl{display:block;margin-top:10px;width:28px;height:3px}
+.find .lvl.r{background:#d1675a}.find .lvl.a{background:#d9a05b}.find .lvl.g{background:#7fb79a}
+.find h3{font-family:var(--display);font-weight:400;font-size:25px;line-height:1.2;margin-bottom:10px}
+.find h3 b{font-weight:500}
+.find p{color:var(--mute-dark);max-width:720px;font-size:15px}
+.find p b{color:var(--white);font-weight:500}
+.phase{display:grid;grid-template-columns:240px 1fr;gap:40px;padding:38px 0;border-top:1px solid var(--line)}
+.phase:first-of-type{border-top:none;padding-top:0}
+.phase .when{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.phase h3{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.1;margin-top:10px;letter-spacing:-.01em}
+.steps{list-style:none;display:grid;gap:0;counter-reset:s}
+.steps li{display:grid;grid-template-columns:44px 1fr;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);counter-increment:s}
+.steps li:last-child{border-bottom:none}
+.steps li::before{content:counter(s,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--d-sage);padding-top:3px}
+.steps li b{font-weight:600}
+.steps li span{display:block;color:var(--mute);font-size:14px;margin-top:3px}
+.steps li .who{display:inline-block;margin-top:8px}
+.alert{margin-top:28px;padding:22px 24px;border:1px solid #e4b1aa;border-left:4px solid #b23a2b;background:#fbefed;font-size:14.5px}
+.alert .kicker{color:#9b2f22;margin-bottom:8px;display:block}
+.alert b{font-weight:600}
+.cols .col p{font-size:14.5px;color:var(--mute);margin-bottom:6px}
+@media (max-width:960px){
+  .hero-parts.stats{grid-template-columns:repeat(2,1fr)}
+  .phase{grid-template-columns:1fr;gap:16px}
+}
+@media (max-width:600px){
+  .hero-parts.stats{grid-template-columns:1fr 1fr}
+  .hero-part .v{font-size:24px}
+  .find{grid-template-columns:1fr;gap:8px}
+  .table.data td.n{text-align:left}
+  .table.data td{padding:3px 0}
+  .table.data td[data-label]::before{content:attr(data-label);display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-top:8px}
+}
+@media print{
+  @page{size:A4;margin:12mm 0}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .nav{position:static}.nav-links{display:none}
+  .rv{opacity:1!important;transform:none!important}
+  section{break-inside:auto}.find,.phase,.steps li,.table tr{break-inside:avoid}
+}
+</style>
+</head>
+
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <div class="nav-id"><img class="nav-logo" src="../propuestas/logos/dilema-creative.webp" alt="Dilema Creative" width="104" height="38"><i></i><span>Auditoría Google Ads · López Taibo</span></div>
+    <div class="nav-links">
+      <a href="#resumen">Resumen</a>
+      <a href="#hoy">Cómo está hoy</a>
+      <a href="#hallazgos">Hallazgos</a>
+      <a href="#cruce">Cruce con la PEC 4</a>
+      <a href="#plan">Plan</a>
+      <a href="#inversion">Inversión</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-mark">
+      <img src="../propuestas/logos/lopez-taibo.png" alt="López Taibo" width="275" height="31">
+      <span class="sep" aria-hidden="true"></span>
+      <span class="kicker">Dilema Creative · Octubre 2026</span>
+    </div>
+    <h1>La cuenta ya vende. <b>Ahora hay que ordenarla para vender más.</b></h1>
+    <p class="sub">Auditoría de Google Ads, Merchant Center y GA4 hecha el 5 de octubre con acceso completo a las cuentas, cruzada con la auditoría académica que nos compartieron (PEC 4 · SEM). Al final, el plan paso a paso.</p>
+    <div class="hero-parts stats">
+      <div class="hero-part"><div class="kicker">Inversión 1/8 al 1/10</div><div class="v">ARS 1,85 M</div><p>Siete campañas, cuatro activas</p></div>
+      <div class="hero-part"><div class="kicker">Compras online atribuidas</div><div class="v">26</div><p>ARS 7,9 M en ventas · ROAS ~4,3x</p></div>
+      <div class="hero-part"><div class="kicker">“Conversiones” que informa Ads</div><div class="v">3.197</div><p>La mayoría son clics en “cómo llegar”</p></div>
+      <div class="hero-part"><div class="kicker">Saldo al 5/10</div><div class="v">ARS 131 k</div><p>Alcanza para ~7 días al ritmo actual</p></div>
+    </div>
+  </div>
+</header>
+
+<section class="white" id="resumen">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">01 · Resumen</div>
+      <h2>Tres cosas para llevarse <b>de esta auditoría</b>.</h2>
+    </div>
+    <div class="grid g3 rv">
+      <div class="card">
+        <div class="num">01</div>
+        <h3>La marca sostiene la cuenta</h3>
+        <p>La búsqueda “López Taibo” trae 16 de las 26 compras (ARS 5,5 M) con ARS 381 k de inversión. Aparece en el 96 % de las búsquedas posibles y los términos están limpios. Hay que cuidarla, no reinventarla.</p>
+      </div>
+      <div class="card">
+        <div class="num">02</div>
+        <h3>El catálogo no está en juego</h3>
+        <p>Hay 2.200 productos aprobados en Merchant Center, pero la campaña de calzado los tiene en un grupo pausado. Hoy se anuncia con textos e imágenes y no con los productos. Es el mayor potencial sin usar.</p>
+      </div>
+      <div class="card">
+        <div class="num">03</div>
+        <h3>La mitad del gasto mide otra cosa</h3>
+        <p>Las dos campañas de los locales (ARS 937 k) optimizan clics en “cómo llegar”, que valen 1 peso cada uno. Ese gesto puede tener valor, pero así infla el reporte y no dice cuánta gente entró al local.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hoy">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">02 · Cómo está hoy</div>
+      <h2>Qué hace cada campaña <b>y qué devuelve</b>.</h2>
+      <p class="lead">Período del 1 de agosto al 1 de octubre de 2026. “Compras” es la conversión de Tiendanube; el resto de las conversiones son acciones locales.</p>
+    </div>
+    <div class="table-wrap rv">
+      <table class="table data">
+        <thead><tr><th>Campaña</th><th class="n">Inversión</th><th class="n">Compras</th><th class="n">Ventas atribuidas</th><th>Qué pasa</th></tr></thead>
+        <tbody>
+          <tr><td>BUSQUEDA TH <span class="why">Búsqueda · solo marca activa</span></td><td data-label="Inversión" class="n">ARS 381 k</td><td data-label="Compras" class="n">16</td><td data-label="Ventas atribuidas" class="n">ARS 5,47 M</td><td data-label="Qué pasa"><span class="st ok">Sana</span><span class="why">La que más vende. Tiene socios de búsqueda activados y un presupuesto que no llega a gastar.</span></td></tr>
+          <tr><td>Máximo Rendimiento calzado <span class="why">Performance Max · ecommerce</span></td><td data-label="Inversión" class="n">ARS 531 k</td><td data-label="Compras" class="n">9</td><td data-label="Ventas atribuidas" class="n">ARS 2,43 M</td><td data-label="Qué pasa"><span class="st bad">Sin catálogo</span><span class="why">El grupo con productos está pausado. Tampoco logra gastar su presupuesto y aparece en búsquedas de marca.</span></td></tr>
+          <tr><td>Visitas a la tienda física · Recoleta <span class="why">Performance Max · local</span></td><td data-label="Inversión" class="n">ARS 569 k</td><td data-label="Compras" class="n">1</td><td data-label="Ventas atribuidas" class="n">—</td><td data-label="Qué pasa"><span class="st warn">Mide “cómo llegar”</span><span class="why">1.880 clics en indicaciones con un objetivo de costo de ARS 290 por clic.</span></td></tr>
+          <tr><td>microcentro max rend <span class="why">Performance Max · local</span></td><td data-label="Inversión" class="n">ARS 368 k</td><td data-label="Compras" class="n">0</td><td data-label="Ventas atribuidas" class="n">—</td><td data-label="Qué pasa"><span class="st warn">Mide “cómo llegar”</span><span class="why">1.292 clics en indicaciones. Limitada por presupuesto.</span></td></tr>
+          <tr><td>Competencia · tienda microcentro · Venta Zapatos <span class="why">Búsqueda</span></td><td data-label="Inversión" class="n">—</td><td data-label="Compras" class="n">—</td><td data-label="Ventas atribuidas" class="n">—</td><td data-label="Qué pasa"><span class="st">Pausadas</span><span class="why">“tienda microcentro” apunta a Corrientes 3508; el local está en Corrientes 350.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="grid g3 rv" style="margin-top:28px">
+      <div class="card"><div class="num">Ritmo de gasto</div><h3>Viene bajando</h3><p>De ARS 1,29 M en junio a ARS 0,80 M en septiembre. En los últimos 14 días la cuenta gastó unos ARS 19 k por día, contra ARS 44,7 k de presupuesto cargado.</p></div>
+      <div class="card"><div class="num">Analytics · 7/7 al 4/10</div><h3>84 compras en total</h3><p>ARS 25 M de ventas online, con un ticket promedio de ~ARS 297 k. Búsqueda paga convierte al 0,36 %; Performance Max solo al 0,04 %.</p></div>
+      <div class="card"><div class="num">Merchant Center</div><h3>Catálogo en orden</h3><p>2.200 productos aprobados y uno solo rechazado. La calidad de la tienda (envíos y devoluciones) figura entre “Genial” y “Excepcional”.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="hallazgos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">03 · Hallazgos</div>
+      <h2>Lo que hay que resolver, <b>de lo más urgente a lo menos</b>.</h2>
+    </div>
+    <div class="rv">
+      <div class="find"><div class="idx">01<i class="lvl r"></i></div><div><h3><b>Saldo prepago</b> para una semana</h3><p>La cuenta se paga a mano. El último pago fue de ARS 500 k el 16 de septiembre y quedan <b>ARS 130.831</b>. Al ritmo actual alcanza para ~7 días; si las campañas gastaran su presupuesto completo, para 3. Sin carga, la cuenta se apaga sola.</p></div></div>
+      <div class="find"><div class="idx">02<i class="lvl r"></i></div><div><h3>Performance Max <b>no usa el catálogo</b></h3><p>Los 2.200 productos figuran como “No apto: grupo de recursos pausado”. En dos meses, el producto que más invirtió gastó <b>ARS 0,03</b>. La campaña de ecommerce se muestra como un anuncio de marca genérico y pierde Shopping, que es donde un comprador de calzado compara modelo y precio.</p></div></div>
+      <div class="find"><div class="idx">03<i class="lvl r"></i></div><div><h3>Las campañas de los locales <b>persiguen el clic más barato</b></h3><p>Optimizan “cómo llegar” y “otras interacciones” con valor de 1 peso y un costo objetivo de <b>ARS 290</b>. El algoritmo hace exactamente lo que se le pidió: conseguir muchas indicaciones baratas. Es un indicador de interés, no una visita ni una venta.</p></div></div>
+      <div class="find"><div class="idx">04<i class="lvl a"></i></div><div><h3>Performance Max <b>compite con la marca</b></h3><p>Entre sus búsquedas aparecen “lópez taibo zapatos” y “lopez zapatos”. Así se queda con ventas que la campaña de marca ya traía más barato y engorda sus propios números.</p></div></div>
+      <div class="find"><div class="idx">05<i class="lvl a"></i></div><div><h3>Un anuncio promete <b>envío gratis desde $200.000</b></h3><p>La tienda hoy lo ofrece desde <b>$300.000</b>. La diferencia también estaba en un anuncio de Meta. Es una promesa que la página no cumple, y Google puede rechazar el anuncio por eso.</p></div></div>
+      <div class="find"><div class="idx">06<i class="lvl a"></i></div><div><h3>Merchant Center <b>depende de otra cuenta</b></h3><p>La cuenta 5516000335 cuelga de una cuenta madre (MCA) que no es de López Taibo. Si esa cuenta se desvincula, el catálogo deja de estar disponible para los anuncios. Conviene confirmar quién la administra.</p></div></div>
+      <div class="find"><div class="idx">07<i class="lvl g"></i></div><div><h3>Detalles <b>de configuración</b></h3><p>La campaña de marca tiene activada la red de socios de búsqueda. “lopez taibo buenos aires” gastó ARS 8.500 en 30 días con un CPC de ARS 473 y ninguna compra. La campaña de calzado está configurada en siete idiomas, incluido chino, y quedan tres borradores sin terminar.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="white" id="cruce">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">04 · Cruce con la PEC 4</div>
+      <h2>Qué coincide, qué sumamos <b>y qué ajustamos</b>.</h2>
+      <p class="lead">La auditoría de la PEC 4 (SEM, Lucía Fusco) trabaja sobre el histórico de diciembre de 2024 a septiembre de 2026 y propone una estructura de cuatro campañas con ARS 1,2 M por mes. Es un buen trabajo de estrategia. Nuestra revisión agrega el estado operativo de la cuenta hoy.</p>
+    </div>
+    <div class="table-wrap rv">
+      <table class="table data">
+        <thead><tr><th>Tema</th><th>PEC 4</th><th>Dilema · 5/10</th><th>Cómo queda</th></tr></thead>
+        <tbody>
+          <tr><td>Las conversiones mezclan compras y acciones locales</td><td data-label="PEC 4">Lo detecta</td><td data-label="Dilema · 5/10">Lo confirmamos: 3.197 conversiones, 26 compras</td><td data-label="Cómo queda"><span class="st ok">Coincidimos</span></td></tr>
+          <tr><td>Campañas de locales: el “CPA” no es costo de una venta</td><td data-label="PEC 4">Lo detecta</td><td data-label="Dilema · 5/10">Además: valor de 1 peso y objetivo de ARS 290</td><td data-label="Cómo queda"><span class="st ok">Coincidimos</span></td></tr>
+          <tr><td>Display activado dentro de la campaña de búsqueda</td><td data-label="PEC 4">ARS 1,29 M sin compras en el histórico</td><td data-label="Dilema · 5/10">Hoy ya no está activado</td><td data-label="Cómo queda"><span class="st ok">Resuelto</span></td></tr>
+          <tr><td>Sacar socios de búsqueda</td><td data-label="PEC 4">Lo propone</td><td data-label="Dilema · 5/10">Sigue activado</td><td data-label="Cómo queda"><span class="st warn">Pendiente</span></td></tr>
+          <tr><td>Pausar “lopez taibo buenos aires”</td><td data-label="PEC 4">Lo propone</td><td data-label="Dilema · 5/10">Sigue gastando, sin compras</td><td data-label="Cómo queda"><span class="st warn">Pendiente</span></td></tr>
+          <tr><td>Búsqueda por categoría (zapatos, mocasines, camperas)</td><td data-label="PEC 4">6 grupos con keywords del Planificador y anuncios A/B</td><td data-label="Dilema · 5/10">No estaba en nuestra revisión</td><td data-label="Cómo queda"><span class="st new">Lo sumamos</span></td></tr>
+          <tr><td>Lista de negativas base</td><td data-label="PEC 4">gratis, reparación, empleo, usado, niños, running, pádel…</td><td data-label="Dilema · 5/10">—</td><td data-label="Cómo queda"><span class="st new">Lo sumamos</span></td></tr>
+          <tr><td>Unificar las dos campañas de locales</td><td data-label="PEC 4">Una sola, con las dos fichas de Business Profile</td><td data-label="Dilema · 5/10">De acuerdo, cambiando el objetivo</td><td data-label="Cómo queda"><span class="st new">Lo sumamos</span></td></tr>
+          <tr><td>Turistas como público de los locales</td><td data-label="PEC 4">Con datos comerciales de la marca</td><td data-label="Dilema · 5/10">Google ya los busca (públicos de “viajes”)</td><td data-label="Cómo queda"><span class="st ok">Coincidimos</span></td></tr>
+          <tr><td>Puja por valor / ROAS</td><td data-label="PEC 4">Como paso siguiente</td><td data-label="Dilema · 5/10">De acuerdo, cuando haya volumen de compras</td><td data-label="Cómo queda"><span class="st new">Lo sumamos</span></td></tr>
+          <tr><td>Remarketing en Display (ARS 120 k/mes)</td><td data-label="PEC 4">Campaña propia</td><td data-label="Dilema · 5/10">Performance Max con catálogo y Meta ya cubren esa función</td><td data-label="Cómo queda"><span class="st">Más adelante</span></td></tr>
+          <tr><td>Catálogo en un grupo pausado</td><td data-label="PEC 4">No lo menciona (habla de 1.321 productos)</td><td data-label="Dilema · 5/10">2.200 productos sin servirse</td><td data-label="Cómo queda"><span class="st bad">Solo en la nuestra</span></td></tr>
+          <tr><td>Saldo · competencia con la marca · envío gratis · cuenta madre de Merchant</td><td data-label="PEC 4">No los menciona</td><td data-label="Dilema · 5/10">Hallazgos 01, 04, 05 y 06</td><td data-label="Cómo queda"><span class="st bad">Solo en la nuestra</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cols rv" style="margin-top:36px">
+      <div class="col">
+        <h3>Lo que tomamos tal cual</h3>
+        <div class="sub">De la PEC 4</div>
+        <ul class="ticks">
+          <li>La lectura separada de cada campaña: compras y ROAS para la tienda online, acciones locales para los locales.</li>
+          <li>La estructura de grupos por categoría con su landing propia.</li>
+          <li>Las palabras clave y la lista de negativas iniciales.</li>
+          <li>Los textos de los anuncios A (producto) y B (historia de la marca) como punto de partida.</li>
+          <li>El tope de ARS 1,2 M por mes como marco de inversión.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Lo que ajustamos</h3>
+        <div class="sub">Y por qué</div>
+        <ul class="ticks">
+          <li><b>La marca en una campaña aparte.</b> Si comparte presupuesto con categorías, palabras de CPC alto le sacan plata a lo que más vende.</li>
+          <li><b>Las categorías como prueba controlada,</b> no con el 40 % desde el primer día. La cuenta ya tuvo grupos de “Cuero” y “Zapatos” que hoy están pausados.</li>
+          <li><b>El catálogo primero.</b> Antes de reordenar el feed hay que lograr que la campaña lo use.</li>
+          <li><b>Display al final,</b> cuando las tres campañas principales estén midiendo bien.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert rv">
+      <span class="kicker">Importante sobre la medición</span>
+      La PEC dejó preparada en Google Tag Manager una etiqueta de compra de Google Ads (AW-11493247063) <b>sin publicar</b>. Las compras ya se miden con la integración nativa de Tiendanube. Si esa etiqueta se publica, <b>cada venta se cuenta dos veces</b> y la puja se desordena. La dejamos sin publicar hasta validarla.
+    </div>
+  </div>
+</section>
+
+<section id="plan">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">05 · Plan paso a paso</div>
+      <h2>Seis semanas, <b>de lo urgente a lo que escala</b>.</h2>
+      <p class="lead">Cada paso se puede volver atrás. Nada se apaga sin antes tener funcionando su reemplazo.</p>
+    </div>
+
+    <div class="phase rv">
+      <div><div class="when">Semana 1</div><h3>Que no se corte y que el catálogo entre</h3></div>
+      <ol class="steps">
+        <li><div><b>Cargar saldo</b> acorde al tope mensual.<span>Con ARS 131 k la cuenta se detiene en pocos días.</span><span class="st new who">López Taibo</span></div></li>
+        <li><div><b>Corregir el anuncio de envío gratis</b> a $300.000.<span>En Google, y revisar el de Meta que dice lo mismo.</span><span class="st ok who">Dilema</span></div></li>
+        <li><div><b>Activar el catálogo en Performance Max:</b> reactivar el grupo con productos o armar uno nuevo con el feed.<span>Calzado y camperas primero, como propone la PEC.</span><span class="st ok who">Dilema</span></div></li>
+        <li><div><b>Excluir la marca de Performance Max.</b><span>Así cada venta de marca se queda en la campaña de marca.</span><span class="st ok who">Dilema</span></div></li>
+        <li><div><b>Sacar socios de búsqueda</b> de la campaña de marca y <b>pausar “lopez taibo buenos aires”</b>.</div></li>
+        <li><div><b>Confirmar quién administra la cuenta madre</b> de Merchant Center.<span class="st new who">López Taibo</span></div></li>
+      </ol>
+    </div>
+
+    <div class="phase rv">
+      <div><div class="when">Semana 2</div><h3>Medir ventas, no clics</h3></div>
+      <ol class="steps">
+        <li><div><b>La compra de Tiendanube como única conversión principal</b> de las campañas online.<span>“Cómo llegar” y llamadas quedan solo como objetivo de los locales.</span></div></li>
+        <li><div><b>Cruzar las compras</b> de Google Ads y de Analytics contra las ventas reales de Tiendanube del último mes.<span>Para saber cuánto de lo que informa Google es venta cobrada.</span><span class="st new who">Necesitamos el reporte de ventas</span></div></li>
+        <li><div><b>La etiqueta de GTM de la PEC queda sin publicar</b> hasta validar que no duplique compras.</div></li>
+      </ol>
+    </div>
+
+    <div class="phase rv">
+      <div><div class="when">Semanas 2 y 3</div><h3>Ordenar la estructura</h3></div>
+      <ol class="steps">
+        <li><div><b>Una sola campaña para los dos locales,</b> con las fichas de Corrientes y Alvear.<span>Con un valor realista para “cómo llegar” en lugar de 1 peso, y lectura por sucursal.</span></div></li>
+        <li><div><b>Campaña de búsqueda por categorías</b> separada de la de marca.<span>Zapatos y mocasines hombre y mujer, y camperas, con las keywords, negativas y anuncios A/B de la PEC. Arranca con ~ARS 8 k por día.</span></div></li>
+        <li><div><b>Limpiar idiomas, borradores y la campaña pausada</b> con la dirección equivocada.</div></li>
+      </ol>
+    </div>
+
+    <div class="phase rv">
+      <div><div class="when">Semanas 4 a 6</div><h3>Escalar lo que funcione</h3></div>
+      <ol class="steps">
+        <li><div><b>Mover presupuesto según ROAS.</b><span>Si las categorías superan un ROAS de 3x, crecen hacia el 30 %. Si no, la plata vuelve al catálogo.</span></div></li>
+        <li><div><b>Pasar Performance Max a puja por valor</b> cuando acumule compras suficientes.</div></li>
+        <li><div><b>Remarketing en Display</b> con las audiencias de la PEC (carrito 14 días, producto 30 días, sin compradores recientes), si todavía hace falta.</div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="dark" id="inversion">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">06 · Inversión</div>
+      <h2>Cómo arrancamos con <b>ARS 1,2 M por mes</b>.</h2>
+      <p class="lead">Es un reparto de partida, no un compromiso de gasto. En la semana 6 se ajusta según las compras, el valor de venta y el ROAS de cada campaña.</p>
+    </div>
+    <div class="table-wrap rv">
+      <table class="table">
+        <thead><tr><th>Campaña</th><th>Función</th><th style="text-align:right">Mensual</th></tr></thead>
+        <tbody>
+          <tr><td>Performance Max · catálogo</td><td>Vender online con los productos del feed</td><td class="amount">ARS 480.000</td></tr>
+          <tr><td>Búsqueda · marca</td><td>Que quien busca López Taibo llegue a la tienda propia</td><td class="amount">ARS 150.000</td></tr>
+          <tr><td>Búsqueda · categorías</td><td>Prueba con gente que busca el producto y todavía no la marca</td><td class="amount">ARS 240.000</td></tr>
+          <tr><td>Performance Max · locales</td><td>Visitas a Corrientes y Alvear, con foco en turistas</td><td class="amount">ARS 240.000</td></tr>
+          <tr><td>Reserva</td><td>Se asigna a lo que mejor rinda en la semana 6</td><td class="amount">ARS 90.000</td></tr>
+          <tr class="total"><td>Total</td><td></td><td class="amount">ARS 1.200.000</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note rv">El reparto respeta la lógica de nuestra propuesta (el catálogo como pieza principal) y el tope que define la marca en la PEC 4. La diferencia con la PEC es que la búsqueda por categorías arranca como prueba y el remarketing en Display entra recién cuando haga falta.</div>
+  </div>
+</section>
+
+<section class="white" id="necesitamos">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="kicker">07 · Próximos pasos</div>
+      <h2>Lo que necesitamos <b>de ustedes</b>.</h2>
+    </div>
+    <div class="cols rv">
+      <div class="col">
+        <h3>Esta semana</h3>
+        <div class="sub">Para no frenar</div>
+        <ul class="ticks">
+          <li>Cargar saldo en Google Ads.</li>
+          <li>Confirmar quién administra la cuenta madre de Merchant Center.</li>
+          <li>El OK para aplicar los pasos de la semana 1.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Próximas dos semanas</h3>
+        <div class="sub">Para medir bien</div>
+        <ul class="ticks">
+          <li>El reporte de ventas online de Tiendanube de septiembre, para cruzarlo con Google.</li>
+          <li>Si lo tienen, cuántas ventas de los locales son de turistas o mencionan Google.</li>
+          <li>Confirmar el tope de ARS 1,2 M por mes para Google.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <img class="foot-logo" src="../propuestas/logos/dilema-creative.webp" alt="Dilema Creative" width="196" height="72">
+        <div class="foot-tag">Agencia de marketing digital. Trabajamos la pauta, la medición y el contenido como un solo sistema, con pocos clientes y dedicación completa a cada uno.</div>
+      </div>
+      <div class="foot-contact">
+        <div class="kicker" style="color:var(--d-sage);margin-bottom:6px">Contacto</div>
+        <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a>
+        <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+        <a href="https://instagram.com/dilema.creative" target="_blank" rel="noopener">@dilema.creative</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>Dilema Creative · Auditoría de Google Ads para López Taibo · 5 de octubre de 2026</div>
+      <div>Buenos Aires · Argentina</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if('scrollRestoration' in history) history.scrollRestoration='manual';
+  var hadHash=!!location.hash;
+  if(location.hash && history.replaceState) history.replaceState(null,'',location.pathname+location.search);
+  var top=function(){window.scrollTo({top:0,left:0,behavior:'instant'})};
+  top();
+  window.addEventListener('pageshow',top);
+  window.addEventListener('load',top);
+  if(hadHash){setTimeout(top,0);setTimeout(top,150);}
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="#"]');
+    if(!a) return;
+    var t=document.getElementById(a.getAttribute('href').slice(1));
+    if(!t) return;
+    e.preventDefault();
+    t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+})();
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
