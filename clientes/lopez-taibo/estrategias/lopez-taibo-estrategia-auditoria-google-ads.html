@@ -232,6 +232,7 @@ footer{background:var(--d-paper);color:var(--d-ink);padding:60px 0 30px;border-t
 .alert{margin-top:28px;padding:22px 24px;border:1px solid #e4b1aa;border-left:4px solid #b23a2b;background:#fbefed;font-size:14.5px}
 .alert .kicker{color:#9b2f22;margin-bottom:8px;display:block}
 .alert b{font-weight:600}
+.find .fix{display:block;margin-top:12px;font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:#9fd3b8}
 .cols .col p{font-size:14.5px;color:var(--mute);margin-bottom:6px}
 @media (max-width:960px){
   .hero-parts.stats{grid-template-columns:repeat(2,1fr)}
@@ -281,7 +282,7 @@ footer{background:var(--d-paper);color:var(--d-ink);padding:60px 0 30px;border-t
       <span class="kicker">Dilema Creative · Octubre 2026</span>
     </div>
     <h1>La cuenta ya vende. <b>Ahora hay que ordenarla para vender más.</b></h1>
-    <p class="sub">Auditoría de Google Ads, Merchant Center y GA4 hecha el 5 de octubre con acceso completo a las cuentas, cruzada con la auditoría académica que nos compartieron (PEC 4 · SEM). Al final, el plan paso a paso.</p>
+    <p class="sub">Auditoría de Google Ads, Merchant Center y GA4 hecha el 5 de octubre con acceso completo a las cuentas, cruzada con la auditoría académica que nos compartieron (PEC 4 · SEM). Al final, el plan paso a paso. Actualizado el mismo día con los primeros cambios aplicados.</p>
     <div class="hero-parts stats">
       <div class="hero-part"><div class="kicker">Inversión 1/8 al 1/10</div><div class="v">ARS 1,85 M</div><p>Siete campañas, cuatro activas</p></div>
       <div class="hero-part"><div class="kicker">Compras online atribuidas</div><div class="v">26</div><p>ARS 7,9 M en ventas · ROAS ~4,3x</p></div>
@@ -352,12 +353,12 @@ footer{background:var(--d-paper);color:var(--d-ink);padding:60px 0 30px;border-t
     </div>
     <div class="rv">
       <div class="find"><div class="idx">01<i class="lvl r"></i></div><div><h3><b>Saldo prepago</b> para una semana</h3><p>La cuenta se paga a mano. El último pago fue de ARS 500 k el 16 de septiembre y quedan <b>ARS 130.831</b>. Al ritmo actual alcanza para ~7 días; si las campañas gastaran su presupuesto completo, para 3. Sin carga, la cuenta se apaga sola.</p></div></div>
-      <div class="find"><div class="idx">02<i class="lvl r"></i></div><div><h3>Performance Max <b>no usa el catálogo</b></h3><p>Los 2.200 productos figuran como “No apto: grupo de recursos pausado”. En dos meses, el producto que más invirtió gastó <b>ARS 0,03</b>. La campaña de ecommerce se muestra como un anuncio de marca genérico y pierde Shopping, que es donde un comprador de calzado compara modelo y precio.</p></div></div>
-      <div class="find"><div class="idx">03<i class="lvl r"></i></div><div><h3>Las campañas de los locales <b>persiguen el clic más barato</b></h3><p>Optimizan “cómo llegar” y “otras interacciones” con valor de 1 peso y un costo objetivo de <b>ARS 290</b>. El algoritmo hace exactamente lo que se le pidió: conseguir muchas indicaciones baratas. Es un indicador de interés, no una visita ni una venta.</p></div></div>
-      <div class="find"><div class="idx">04<i class="lvl a"></i></div><div><h3>Performance Max <b>compite con la marca</b></h3><p>Entre sus búsquedas aparecen “lópez taibo zapatos” y “lopez zapatos”. Así se queda con ventas que la campaña de marca ya traía más barato y engorda sus propios números.</p></div></div>
-      <div class="find"><div class="idx">05<i class="lvl a"></i></div><div><h3>Un anuncio promete <b>envío gratis desde $200.000</b></h3><p>La tienda hoy lo ofrece desde <b>$300.000</b>. La diferencia también estaba en un anuncio de Meta. Es una promesa que la página no cumple, y Google puede rechazar el anuncio por eso.</p></div></div>
+      <div class="find"><div class="idx">02<i class="lvl r"></i></div><div><h3>Performance Max <b>no usa el catálogo</b></h3><p>Los 2.200 productos figuran como “No apto: grupo de recursos pausado”. En dos meses, el producto que más invirtió gastó <b>ARS 0,03</b>. La campaña de ecommerce se muestra como un anuncio de marca genérico y pierde Shopping, que es donde un comprador de calzado compara modelo y precio. La causa: el filtro de productos de la campaña buscaba la categoría “calzado”, que quedó vacía cuando la tienda pasó a ordenar el catálogo como “productos masculinos › calzado”.<span class="fix">✓ Corregido el 5/10: la campaña vuelve a tener 983 productos de calzado de hombre aptos.</span></p></div></div>
+      <div class="find"><div class="idx">03<i class="lvl r"></i></div><div><h3>Las campañas de los locales <b>persiguen el clic más barato</b></h3><p>Optimizan “cómo llegar” y “otras interacciones” con valor de 1 peso y un costo objetivo de <b>ARS 290</b>. El algoritmo hace exactamente lo que se le pidió: conseguir muchas indicaciones baratas. Es un indicador de interés, no una visita ni una venta. Y el desbalance creció: <b>en los últimos 14 días, el 73&nbsp;% de la inversión</b> fue a estas dos campañas, porque la de calzado no podía mostrar productos.</p></div></div>
+      <div class="find"><div class="idx">04<i class="lvl a"></i></div><div><h3>Performance Max <b>compite con la marca</b></h3><p>Entre sus búsquedas aparecen “lópez taibo zapatos” y “lopez zapatos”. Así se queda con ventas que la campaña de marca ya traía más barato y engorda sus propios números.<span class="fix">✓ Corregido el 5/10: marca excluida de Performance Max. Los productos con foto y precio se siguen mostrando en esas búsquedas.</span></p></div></div>
+      <div class="find"><div class="idx">05<i class="lvl a"></i></div><div><h3>Un anuncio promete <b>envío gratis desde $200.000</b></h3><p>La tienda hoy lo ofrece desde <b>$300.000</b>. La diferencia también estaba en un anuncio de Meta. Es una promesa que la página no cumple, y Google puede rechazar el anuncio por eso.<span class="fix">✓ Corregido el 5/10 en Google. Falta revisar el anuncio de Meta.</span></p></div></div>
       <div class="find"><div class="idx">06<i class="lvl a"></i></div><div><h3>Merchant Center <b>depende de otra cuenta</b></h3><p>La cuenta 5516000335 cuelga de una cuenta madre (MCA) que no es de López Taibo. Si esa cuenta se desvincula, el catálogo deja de estar disponible para los anuncios. Conviene confirmar quién la administra.</p></div></div>
-      <div class="find"><div class="idx">07<i class="lvl g"></i></div><div><h3>Detalles <b>de configuración</b></h3><p>La campaña de marca tiene activada la red de socios de búsqueda. “lopez taibo buenos aires” gastó ARS 8.500 en 30 días con un CPC de ARS 473 y ninguna compra. La campaña de calzado está configurada en siete idiomas, incluido chino, y quedan tres borradores sin terminar.</p></div></div>
+      <div class="find"><div class="idx">07<i class="lvl g"></i></div><div><h3>Detalles <b>de configuración</b></h3><p>La campaña de marca tenía activada la red de socios de búsqueda. “lopez taibo buenos aires” gastó ARS 8.500 en 30 días con un CPC de ARS 473 y ninguna compra antes de que se pausara. La campaña de calzado está configurada en siete idiomas, incluido chino, y quedan tres borradores sin terminar.<span class="fix">✓ Socios de búsqueda desactivados el 5/10. La keyword ya estaba pausada.</span></p></div></div>
     </div>
   </div>
 </section>
@@ -376,8 +377,8 @@ footer{background:var(--d-paper);color:var(--d-ink);padding:60px 0 30px;border-t
           <tr><td>Las conversiones mezclan compras y acciones locales</td><td data-label="PEC 4">Lo detecta</td><td data-label="Dilema · 5/10">Lo confirmamos: 3.197 conversiones, 26 compras</td><td data-label="Cómo queda"><span class="st ok">Coincidimos</span></td></tr>
           <tr><td>Campañas de locales: el “CPA” no es costo de una venta</td><td data-label="PEC 4">Lo detecta</td><td data-label="Dilema · 5/10">Además: valor de 1 peso y objetivo de ARS 290</td><td data-label="Cómo queda"><span class="st ok">Coincidimos</span></td></tr>
           <tr><td>Display activado dentro de la campaña de búsqueda</td><td data-label="PEC 4">ARS 1,29 M sin compras en el histórico</td><td data-label="Dilema · 5/10">Hoy ya no está activado</td><td data-label="Cómo queda"><span class="st ok">Resuelto</span></td></tr>
-          <tr><td>Sacar socios de búsqueda</td><td data-label="PEC 4">Lo propone</td><td data-label="Dilema · 5/10">Sigue activado</td><td data-label="Cómo queda"><span class="st warn">Pendiente</span></td></tr>
-          <tr><td>Pausar “lopez taibo buenos aires”</td><td data-label="PEC 4">Lo propone</td><td data-label="Dilema · 5/10">Sigue gastando, sin compras</td><td data-label="Cómo queda"><span class="st warn">Pendiente</span></td></tr>
+          <tr><td>Sacar socios de búsqueda</td><td data-label="PEC 4">Lo propone</td><td data-label="Dilema · 5/10">Desactivado el 5/10</td><td data-label="Cómo queda"><span class="st ok">Resuelto</span></td></tr>
+          <tr><td>Pausar “lopez taibo buenos aires”</td><td data-label="PEC 4">Lo propone</td><td data-label="Dilema · 5/10">Ya pausada (exacta y frase)</td><td data-label="Cómo queda"><span class="st ok">Resuelto</span></td></tr>
           <tr><td>Búsqueda por categoría (zapatos, mocasines, camperas)</td><td data-label="PEC 4">6 grupos con keywords del Planificador y anuncios A/B</td><td data-label="Dilema · 5/10">No estaba en nuestra revisión</td><td data-label="Cómo queda"><span class="st new">Lo sumamos</span></td></tr>
           <tr><td>Lista de negativas base</td><td data-label="PEC 4">gratis, reparación, empleo, usado, niños, running, pádel…</td><td data-label="Dilema · 5/10">—</td><td data-label="Cómo queda"><span class="st new">Lo sumamos</span></td></tr>
           <tr><td>Unificar las dos campañas de locales</td><td data-label="PEC 4">Una sola, con las dos fichas de Business Profile</td><td data-label="Dilema · 5/10">De acuerdo, cambiando el objetivo</td><td data-label="Cómo queda"><span class="st new">Lo sumamos</span></td></tr>
@@ -416,7 +417,7 @@ footer{background:var(--d-paper);color:var(--d-ink);padding:60px 0 30px;border-t
 
     <div class="alert rv">
       <span class="kicker">Importante sobre la medición</span>
-      La PEC dejó preparada en Google Tag Manager una etiqueta de compra de Google Ads (AW-11493247063) <b>sin publicar</b>. Las compras ya se miden con la integración nativa de Tiendanube. Si esa etiqueta se publica, <b>cada venta se cuenta dos veces</b> y la puja se desordena. La dejamos sin publicar hasta validarla.
+      La PEC dejó preparada en Google Tag Manager una etiqueta de compra de Google Ads (AW-11493247063) <b>sin publicar</b>. Usa el mismo identificador que la conversión principal, “Tiendanube Website purchases”, que ya mide las compras con la integración nativa de Tiendanube. Si esa etiqueta se publica, <b>cada venta se cuenta dos veces</b> y la puja se desordena. La dejamos sin publicar hasta validarla.
     </div>
   </div>
 </section>
@@ -433,10 +434,11 @@ footer{background:var(--d-paper);color:var(--d-ink);padding:60px 0 30px;border-t
       <div><div class="when">Semana 1</div><h3>Que no se corte y que el catálogo entre</h3></div>
       <ol class="steps">
         <li><div><b>Cargar saldo</b> acorde al tope mensual.<span>Con ARS 131 k la cuenta se detiene en pocos días.</span><span class="st new who">López Taibo</span></div></li>
-        <li><div><b>Corregir el anuncio de envío gratis</b> a $300.000.<span>En Google, y revisar el de Meta que dice lo mismo.</span><span class="st ok who">Dilema</span></div></li>
-        <li><div><b>Activar el catálogo en Performance Max:</b> reactivar el grupo con productos o armar uno nuevo con el feed.<span>Calzado y camperas primero, como propone la PEC.</span><span class="st ok who">Dilema</span></div></li>
-        <li><div><b>Excluir la marca de Performance Max.</b><span>Así cada venta de marca se queda en la campaña de marca.</span><span class="st ok who">Dilema</span></div></li>
-        <li><div><b>Sacar socios de búsqueda</b> de la campaña de marca y <b>pausar “lopez taibo buenos aires”</b>.</div></li>
+        <li><div><b>Corregir el anuncio de envío gratis</b> a $300.000.<span>En Google, y revisar el de Meta que dice lo mismo.</span><span class="st ok who">Hecho en Google · 5/10</span></div></li>
+        <li><div><b>Activar el catálogo en Performance Max:</b> reactivar el grupo con productos o armar uno nuevo con el feed.<span>El filtro apuntaba a una categoría vacía; ahora toma “productos masculinos › calzado”.</span><span class="st ok who">Hecho · 5/10</span></div></li>
+        <li><div><b>Excluir la marca de Performance Max.</b><span>Así cada venta de marca se queda en la campaña de marca.</span><span class="st ok who">Hecho · 5/10</span></div></li>
+        <li><div><b>Sacar socios de búsqueda</b> de la campaña de marca y <b>pausar “lopez taibo buenos aires”</b>.<span class="st ok who">Hecho · 5/10</span></div></li>
+        <li><div><b>Bajar el presupuesto de los dos locales</b> a ~ARS 8 k por día entre ambos.<span>Hoy se llevan el 73&nbsp;% de la inversión. Lo liberado queda para el catálogo.</span><span class="st ok who">Dilema</span></div></li>
         <li><div><b>Confirmar quién administra la cuenta madre</b> de Merchant Center.<span class="st new who">López Taibo</span></div></li>
       </ol>
     </div>
