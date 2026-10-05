@@ -114,7 +114,7 @@ section.blk{padding:88px 0}
 .head p{color:var(--muted);font-size:1.12rem}
 
 /* usos: 2 columnas (personal / corporativo) */
-.uses{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.uses{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
 .use{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:0 1px 2px rgba(33,30,94,.05),0 12px 30px rgba(33,30,94,.06);transition:transform .25s,box-shadow .25s,border-color .25s;display:flex;flex-direction:column}
 .use:hover{transform:translateY(-6px);box-shadow:0 28px 54px rgba(33,30,94,.16);border-color:var(--mid2)}
 .use .ph{position:relative;aspect-ratio:16/10;overflow:hidden;background:var(--mist)}
@@ -125,6 +125,9 @@ section.blk{padding:88px 0}
 .use .tag{display:inline-block;align-self:flex-start;font-family:'Poppins';font-weight:600;font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--teal);background:rgba(68,163,155,.12);padding:.25rem .6rem;border-radius:7px;margin-bottom:.8rem}
 .use h3{font-weight:700;font-size:1.42rem;color:var(--navy);margin-bottom:.5rem}
 .use p{color:var(--muted);font-size:1rem}
+.use .specs{list-style:none;margin:.15rem 0 0;padding:0;display:flex;flex-direction:column;gap:.5rem}
+.use .specs li{position:relative;padding-left:1.15rem;color:var(--muted);font-size:.97rem;line-height:1.35}
+.use .specs li::before{content:"";position:absolute;left:0;top:.52em;width:6px;height:6px;border-radius:50%;background:var(--teal)}
 
 /* franja del diferencial */
 .claim{background:linear-gradient(120deg,var(--navy),var(--blue2) 55%,var(--blue));color:#fff;padding:48px 0}
@@ -301,55 +304,59 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
   <div class="wrap">
     <div class="head">
       <h2>Tipos de tarjeta</h2>
-      <p>Cuatro acabados, la misma calidad de impresión. Sirven igual para tarjetas personales o para toda la empresa. Contanos cuál te sirve y lo resolvemos.</p>
+      <p>Tres acabados, la misma calidad de impresión. Sirven igual para tarjetas personales o para toda la empresa. Contanos cuál te sirve y lo resolvemos.</p>
     </div>
     <div class="uses">
 
       <div class="use">
         <div class="ph" data-slider>
-          <img class="is-on" src="assets/tarjeta-clasica.jpg" alt="Tarjetas personales clásicas impresas" loading="lazy" decoding="async">
-          <img src="assets/tarjeta-clasica-2.jpg" alt="Tarjeta personal clásica con datos de contacto" loading="lazy" decoding="async">
+          <img class="is-on" src="assets/tarjeta-clasica.jpg" alt="Tarjetas personales clásicas impresas en papel 350 gramos" loading="lazy" decoding="async">
+          <img src="assets/tarjeta-clasica-2.jpg" alt="Tarjeta personal clásica full color frente y dorso" loading="lazy" decoding="async">
         </div>
         <div class="body">
-          <span class="tag">La base</span>
+          <span class="tag">Relación precio-calidad</span>
           <h3>Tarjetas clásicas</h3>
-          <p>El acabado de siempre, sin laminado. La opción más directa y económica cuando lo que importa es tener las tarjetas listas y bien impresas.</p>
+          <ul class="specs">
+            <li>Papel ilustración 350 g/m²</li>
+            <li>Impresión full color frente y dorso</li>
+            <li>Terminación clásica</li>
+          </ul>
         </div>
       </div>
 
       <div class="use">
         <div class="ph" data-slider>
-          <img class="is-on" src="assets/tarjeta-mate.jpg" alt="Tarjetas laminadas mate en blanco y negro" loading="lazy" decoding="async">
+          <img class="is-on" src="assets/tarjeta-mate.jpg" alt="Tarjetas laminadas mate, al tacto suave y sin reflejo" loading="lazy" decoding="async">
+          <img src="assets/tarjeta-brillante.jpg" alt="Tarjetas laminadas brillantes con colores saturados" loading="lazy" decoding="async">
           <img src="assets/tarjeta-mate-2.jpg" alt="Detalle de tarjeta con laminado mate" loading="lazy" decoding="async">
-        </div>
-        <div class="body">
-          <span class="tag">Sobria</span>
-          <h3>Tarjetas laminadas mate</h3>
-          <p>Laminado sin brillo, al tacto suave. No refleja la luz y disimula las marcas de dedos. La que más se pide para estudios, consultorios y profesionales.</p>
-        </div>
-      </div>
-
-      <div class="use">
-        <div class="ph" data-slider>
-          <img class="is-on" src="assets/tarjeta-brillante.jpg" alt="Tarjetas laminadas brillantes con colores saturados" loading="lazy" decoding="async">
           <img src="assets/tarjeta-brillante-2.jpg" alt="Tarjetas laminadas brillantes en naranja y azul" loading="lazy" decoding="async">
         </div>
         <div class="body">
-          <span class="tag">Con impacto</span>
-          <h3>Tarjetas laminadas brillantes</h3>
-          <p>Laminado con brillo: levanta los colores y da más contraste. Ideal si la tarjeta lleva fotos, fondos saturados o una identidad con color fuerte.</p>
+          <span class="tag">Más protección</span>
+          <h3>Laminadas mate o brillante</h3>
+          <ul class="specs">
+            <li>Papel ilustración 350 g/m²</li>
+            <li>Laminado mate o brillante</li>
+            <li>Mayor protección y resistencia</li>
+            <li>Terminación premium</li>
+          </ul>
         </div>
       </div>
 
       <div class="use">
         <div class="ph" data-slider>
-          <img class="is-on" src="assets/tarjeta-especial.jpg" alt="Tarjeta impresa con tinta dorada metalizada" loading="lazy" decoding="async">
-          <img src="assets/tarjeta-especial-2.jpg" alt="Tarjeta con logo impreso en tinta plateada metalizada" loading="lazy" decoding="async">
+          <img class="is-on" src="assets/tarjeta-especial.jpg" alt="Tarjeta impresa con tinta especial dorada metalizada" loading="lazy" decoding="async">
+          <img src="assets/tarjeta-especial-2.jpg" alt="Tarjeta con logo impreso en tinta especial plateada" loading="lazy" decoding="async">
         </div>
         <div class="body">
           <span class="tag">Pocas gráficas lo hacen</span>
-          <h3>Tarjetas especiales</h3>
-          <p>Impresión con tinta metalizada plata y dorada: un acabado que muy pocas gráficas pueden hacer, porque necesita una máquina especial. El brillo se nota en la mano y cambia con la luz. Es el detalle que hace que la tarjeta no se tire.</p>
+          <h3>Tintas especiales plata y dorada</h3>
+          <ul class="specs">
+            <li>Papel ilustración 350 g/m²</li>
+            <li>Tinta especial dorada o plata</li>
+            <li>Ideal para destacar logos y nombres</li>
+            <li>Acabado exclusivo</li>
+          </ul>
         </div>
       </div>
 
@@ -379,7 +386,7 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
         <span class="num">1</span>
         <div class="ic"><svg><use href="#chat"/></svg></div>
         <h3>Elegís qué tarjetas querés</h3>
-        <p>Clásicas, laminadas mate, laminadas brillantes o con tinta plata y dorada. Si no sabés cuál te conviene, te asesoramos.</p>
+        <p>Clásicas, laminadas mate o brillante, o con tinta especial plata y dorada. Si no sabés cuál te conviene, te asesoramos.</p>
       </div>
       <div class="step">
         <span class="num">2</span>
@@ -425,9 +432,8 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
         <div class="field"><label for="f-tipo">¿Qué necesitás?</label><select id="f-tipo" name="tipo">
           <optgroup label="Tipo">
             <option>Tarjetas clásicas</option>
-            <option>Tarjetas laminadas mate</option>
-            <option>Tarjetas laminadas brillantes</option>
-            <option>Tarjetas especiales (tinta plata y dorada)</option>
+            <option>Laminadas mate o brillante</option>
+            <option>Tintas especiales (plata y dorada)</option>
             <option>Las necesito hoy (urgente)</option>
           </optgroup>
           <optgroup label="¿No sabés cuál?">
@@ -470,8 +476,8 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
     <div>
       <h4>Tarjetas</h4>
       <a href="#usos">Clásicas</a>
-      <a href="#usos">Laminadas mate</a>
-      <a href="#usos">Laminadas brillantes</a>
+      <a href="#usos">Laminadas mate o brillante</a>
+      <a href="#usos">Tintas especiales</a>
       <a href="#usos">Tinta plata y dorada</a>
       <a href="#proceso">Cómo trabajamos</a>
       <a href="#presupuesto">Pedir presupuesto</a>
@@ -518,9 +524,8 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
       },
       "knowsAbout": [
         "Tarjetas de presentación",
-        "Tarjetas laminadas mate",
-        "Tarjetas laminadas brillantes",
-        "Tarjetas con tinta metalizada",
+        "Tarjetas laminadas mate o brillante",
+        "Tarjetas con tinta especial plata y dorada",
         "Impresión gráfica",
         "Gráfica integral"
       ],
@@ -537,31 +542,23 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
             "itemOffered": {
               "@type": "Service",
               "name": "Tarjetas clásicas",
-              "description": "Tarjetas de presentación con acabado clásico, sin laminado. La opción más directa y económica, impresas en el día."
+              "description": "Papel ilustración de 350 g/m², impresión full color frente y dorso, terminación clásica. Excelente relación calidad-precio."
             }
           },
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Tarjetas laminadas mate",
-              "description": "Tarjetas con laminado mate, al tacto suave y sin reflejo. No marca los dedos. Las más pedidas por estudios, consultorios y profesionales."
+              "name": "Tarjetas laminadas mate o brillante",
+              "description": "Papel ilustración de 350 g/m² con impresión full color y laminado mate o brillante. Mayor protección y resistencia, terminación premium."
             }
           },
           {
             "@type": "Offer",
             "itemOffered": {
               "@type": "Service",
-              "name": "Tarjetas laminadas brillantes",
-              "description": "Tarjetas con laminado brillante que levanta los colores y da más contraste. Para diseños con fotos, fondos saturados o color fuerte."
-            }
-          },
-          {
-            "@type": "Offer",
-            "itemOffered": {
-              "@type": "Service",
-              "name": "Tarjetas especiales con tinta plata y dorada",
-              "description": "Tarjetas impresas con tinta metalizada plata y dorada. El detalle se nota en la mano y con la luz."
+              "name": "Tarjetas con tinta especial plata y dorada",
+              "description": "Papel de 350 g/m² con impresión full color y aplicación de tinta especial dorada o plata. Ideal para destacar logos, nombres y detalles. Acabado exclusivo."
             }
           }
         ]
@@ -611,8 +608,8 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
     var imgs = ph.querySelectorAll('img');
     if(imgs.length < 2) return;
     if(reduce){ imgs.forEach(function(im){ im.style.transition = 'none'; }); }
-    // La que entra aparece POR ENCIMA deslizando; la que sale queda debajo
-    // hasta que la nueva termina (sin fundido mutuo, no se superponen).
+    // La que entra aparece POR ENCIMA; la que sale queda opaca debajo hasta
+    // que la nueva termina de aparecer (sin fundido mutuo, no se ve el fondo).
     var cur = 0, zTop = 3;
     imgs.forEach(function(im, k){ im.style.zIndex = (k === 0) ? 2 : 1; });
     setTimeout(function(){
@@ -623,13 +620,14 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
         incoming.style.zIndex = ++zTop;   // siempre arriba de todo
         incoming.classList.add('is-on');  // entra deslizando sobre la saliente
         setTimeout(function(){
+          // la saliente ya quedó tapada: la reseteamos abajo (invisible) para reusarla
           outgoing.style.transition = 'none';
           outgoing.classList.remove('is-on');
           void outgoing.offsetWidth;
           outgoing.style.transition = '';
         }, reduce ? 0 : 750);
-      }, 4500);
-    }, i * 1500);
+      }, 2000);
+    }, i * 700);
   });
 })();
 </script>
