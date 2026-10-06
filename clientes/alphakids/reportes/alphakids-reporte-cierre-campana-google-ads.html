@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alpha Kids · Cierre de campaña Google Ads · Dilema Creative</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0E2A47; --ink-soft: #1B3A5C; --sage: #4FA27E; --sage-deep: #2F7D5E;
+    --cream: #F4EFE6; --paper: #FAF6EE; --paper-2: #EFE8D9; --black: #14161A;
+    --ash: #6B6257; --line: #D9CFBC; --good: #2F7D5E; --bad: #B23A2B;
+    --star: #5BB4D6; --warn: #C97B2B;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--paper); color: var(--black); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  nav { position: sticky; top: 0; z-index: 100; background: var(--ink); display: flex; align-items: center; justify-content: space-between; padding: 0 48px; height: 56px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .nav-brand { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--cream); letter-spacing: -0.02em; }
+  .nav-brand em { font-style: italic; color: var(--sage); }
+  .nav-links { display: flex; gap: 6px; list-style: none; }
+  .nav-links a { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(244,239,230,0.55); text-decoration: none; padding: 6px 12px; border-radius: 3px; transition: color .15s, background .15s; }
+  .nav-links a:hover { color: var(--cream); background: rgba(255,255,255,0.06); }
+  .nav-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sage); padding: 4px 10px; border: 1px solid var(--sage); border-radius: 3px; }
+
+  .hero { background: var(--paper); padding: 80px 80px 64px; border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -120px; right: -120px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(79,162,126,0.07) 0%, transparent 70%); pointer-events: none; }
+  .hero-kicker { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ash); margin-bottom: 20px; display: flex; align-items: center; gap: 16px; }
+  .hero-kicker::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: var(--line); }
+  .hero h1 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(56px, 8vw, 112px); line-height: 0.9; letter-spacing: -0.035em; color: var(--ink); margin-bottom: 28px; }
+  .hero h1 em { font-style: italic; color: var(--sage); }
+  .hero-sub { font-family: 'Fraunces', serif; font-size: clamp(18px, 2vw, 24px); font-style: italic; color: var(--ash); max-width: 760px; line-height: 1.4; margin-bottom: 48px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; max-width: 980px; }
+  .hero-stat { background: var(--paper); padding: 20px 24px; }
+  .hero-stat .k { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash); margin-bottom: 6px; }
+  .hero-stat .v { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 600; color: var(--ink); letter-spacing: -0.02em; line-height: 1; }
+  .hero-stat .v.good { color: var(--good); }
+  .hero-stat .delta { font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-top: 6px; color: var(--ash); }
+
+  section { padding: 72px 80px; border-bottom: 1px solid var(--line); }
+  section.dark { background: var(--ink); color: var(--cream); border-bottom-color: rgba(255,255,255,0.08); }
+  section.cream { background: var(--cream); }
+  .sec-head { display: flex; align-items: baseline; gap: 20px; margin-bottom: 40px; padding-bottom: 18px; border-bottom: 1px solid currentColor; }
+  .sec-head .num { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; opacity: 0.5; }
+  .sec-head h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(32px, 4vw, 52px); line-height: 0.95; letter-spacing: -0.025em; }
+  .sec-head h2 em { font-style: italic; color: var(--sage); }
+  .section-lede { font-family: 'Fraunces', serif; font-size: 20px; font-style: italic; color: var(--ash); max-width: 760px; line-height: 1.4; margin-bottom: 36px; }
+  section.dark .section-lede { color: rgba(244,239,230,0.7); }
+  p.body { max-width: 760px; margin-bottom: 16px; }
+
+  .callout { border-left: 4px solid var(--sage); background: var(--paper); padding: 22px 26px; border-radius: 0 6px 6px 0; max-width: 860px; margin-top: 28px; }
+  .callout .lbl { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sage-deep); margin-bottom: 8px; }
+  .callout p { font-size: 15.5px; }
+  .callout.warn { border-left-color: var(--warn); }
+  .callout.warn .lbl { color: var(--warn); }
+
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 26px; }
+  .card .ck { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash); margin-bottom: 10px; }
+  .card .ct { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500; color: var(--ink); letter-spacing: -0.02em; line-height: 1.1; margin-bottom: 10px; }
+  .card .ct em { font-style: italic; color: var(--sage); }
+  .card p { font-size: 14px; color: var(--black); }
+  .card .big { font-family: 'Fraunces', serif; font-size: 44px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; color: var(--ink); margin-bottom: 6px; }
+  .card .big.good { color: var(--good); }
+  .card .big.warn { color: var(--warn); }
+
+  .table-wrap { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .t { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .t th { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ash); text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); background: var(--paper-2); white-space: nowrap; }
+  .t th.r, .t td.r { text-align: right; }
+  .t td { padding: 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  .t tr:last-child td { border-bottom: none; }
+  .t tr.total td { background: var(--paper-2); font-weight: 600; }
+  .t .nm { font-weight: 600; color: var(--ink); }
+  .t .sub { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ash); margin-top: 2px; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .badge { display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; white-space: nowrap; }
+  .badge.green { background: rgba(79,162,126,0.14); color: var(--good); }
+  .badge.grey { background: var(--paper-2); color: var(--ash); }
+  .badge.bad { background: rgba(178,58,43,0.1); color: var(--bad); }
+  .badge.warn { background: rgba(201,123,43,0.12); color: var(--warn); }
+
+  .split { margin-top: 28px; max-width: 860px; }
+  .split-bar { display: flex; height: 34px; border-radius: 4px; overflow: hidden; border: 1px solid var(--line); }
+  .split-bar div { display: flex; align-items: center; padding: 0 10px; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.06em; white-space: nowrap; overflow: hidden; }
+  .split-bar .a { background: var(--sage); color: #fff; }
+  .split-bar .b { background: var(--paper-2); color: var(--ash); }
+  .split-legend { display: flex; gap: 24px; margin-top: 10px; font-size: 13px; color: var(--ash); flex-wrap: wrap; }
+  .split-legend b { color: var(--ink); }
+
+  .timeline { list-style: none; max-width: 860px; }
+  .timeline li { display: grid; grid-template-columns: 110px 1fr; gap: 20px; padding: 16px 0; border-bottom: 1px dashed rgba(244,239,230,0.18); }
+  .timeline li:last-child { border-bottom: none; }
+  .timeline .d { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: var(--sage); padding-top: 2px; }
+  .timeline .x { color: var(--cream); font-size: 15px; }
+  .timeline .x b { color: #fff; }
+  .timeline .x .s { display: block; color: rgba(244,239,230,0.65); font-size: 13.5px; margin-top: 2px; }
+
+  .steps { list-style: none; counter-reset: s; max-width: 900px; }
+  .steps li { counter-increment: s; display: grid; grid-template-columns: 56px 1fr; gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .steps li:last-child { border-bottom: none; }
+  .steps li::before { content: counter(s, decimal-leading-zero); font-family: 'Fraunces', serif; font-size: 34px; font-weight: 600; color: var(--sage); line-height: 1; letter-spacing: -0.02em; }
+  .steps h3 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500; color: var(--ink); letter-spacing: -0.015em; margin-bottom: 6px; line-height: 1.2; }
+  .steps p { font-size: 14.5px; max-width: 720px; }
+  .steps .tag { margin-left: 8px; vertical-align: middle; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .chip { font-family: 'JetBrains Mono', monospace; font-size: 11px; padding: 5px 10px; border: 1px solid var(--line); border-radius: 3px; background: var(--paper); color: var(--ink); }
+
+  footer { background: var(--ink); color: var(--cream); padding: 40px 80px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-brand { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .footer-brand em { font-style: italic; color: var(--sage); }
+  footer .meta-f { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; color: rgba(244,239,230,0.45); text-align: right; line-height: 1.8; }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 16px; height: 52px; }
+    .nav-links { display: none; }
+    .nav-brand { font-size: 16px; }
+    .nav-tag { font-size: 9px; padding: 3px 8px; }
+    .hero { padding: 56px 20px 48px; }
+    .hero h1 { font-size: 54px; line-height: 0.92; }
+    .hero-sub { font-size: 17px; margin-bottom: 32px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .hero-stat { padding: 16px 18px; }
+    .hero-stat .v { font-size: 22px; }
+    section { padding: 48px 20px; }
+    .sec-head { flex-direction: column; gap: 8px; margin-bottom: 28px; }
+    .sec-head h2 { font-size: 32px; line-height: 1; }
+    .section-lede { font-size: 17px; }
+    .three { grid-template-columns: 1fr; }
+    .t th, .t td { padding: 10px 8px; font-size: 12px; }
+    .timeline li { grid-template-columns: 1fr; gap: 4px; }
+    .steps li { grid-template-columns: 40px 1fr; gap: 12px; }
+    .steps li::before { font-size: 26px; }
+    footer { padding: 28px 20px; flex-direction: column; gap: 16px; text-align: center; }
+    footer .meta-f { text-align: center; }
+  }
+  @media print {
+    @page { size: A4; margin: 12mm 0; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    nav { position: static; }
+    .nav-links { display: none; }
+    section { break-inside: avoid-page; }
+    .card, .t tr, .steps li { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Dilema <em>creative</em></div>
+  <ul class="nav-links">
+    <li><a href="#resumen">Resumen</a></li>
+    <li><a href="#resultados">Resultados</a></li>
+    <li><a href="#busquedas">Búsquedas</a></li>
+    <li><a href="#web">La web</a></li>
+    <li><a href="#siguiente">Cómo seguimos</a></li>
+  </ul>
+  <span class="nav-tag">Alpha Kids · Cierre oct 2026</span>
+</nav>
+
+<header class="hero">
+  <div class="hero-kicker">Google Ads · Reino Unido · 15/09 al 03/10/2026</div>
+  <h1>Primera campaña:<br><em>lo que aprendimos</em></h1>
+  <p class="hero-sub">Diecinueve días en el aire para probar si los padres de Reino Unido buscan clases de ábaco online y cuánto cuesta llegar a ellos. El anuncio funcionó. Lo que falta resolver está después del clic.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="k">Inversión</div><div class="v">173,55 €</div><div class="delta">de 215 € aprobados</div></div>
+    <div class="hero-stat"><div class="k">Clics</div><div class="v">103</div><div class="delta">72 con búsqueda de ábaco</div></div>
+    <div class="hero-stat"><div class="k">CTR Abacus Kids</div><div class="v good">10,8%</div><div class="delta">el grupo principal</div></div>
+    <div class="hero-stat"><div class="k">Reservas registradas</div><div class="v">0</div><div class="delta">según Google Ads</div></div>
+  </div>
+</header>
+
+<section id="resumen">
+  <div class="sec-head"><span class="num">01 / RESUMEN</span><h2>En <em>tres</em> frases</h2></div>
+  <div class="three">
+    <div class="card">
+      <div class="ck">La demanda</div>
+      <div class="ct">Existe, pero es <em>chica</em></div>
+      <p>En Reino Unido hay padres que buscan clases de ábaco para sus hijos, pero son pocos y la mayoría busca a escuelas que ya conoce (Aloha, UCMAS). Con el presupuesto disponible, la campaña nunca llegó a gastar todo lo aprobado.</p>
+    </div>
+    <div class="card">
+      <div class="ck">El anuncio</div>
+      <div class="ct">Funciona <em>muy bien</em></div>
+      <p>Cuando alguien busca «abacus classes» o «abacus for kids», el anuncio de Alpha Kids se elige: <b>11 de cada 100 personas</b> que lo vieron hicieron clic. Es un nivel de interés alto para búsqueda.</p>
+    </div>
+    <div class="card">
+      <div class="ck">La reserva</div>
+      <div class="ct">Se corta <em>en la web</em></div>
+      <p>De 72 clics de padres que buscaban ábaco no se registró ninguna reserva. Con ese volumen esperábamos 1 o 2. Al recorrer la web desde un celular encontramos dónde se pierden (sección 05).</p>
+    </div>
+  </div>
+  <div class="callout">
+    <div class="lbl">Lectura del cierre</div>
+    <p>La campaña cumplió su objetivo de prueba: confirmó que <b>el mensaje engancha</b> y mostró que <b>la web todavía no convierte ese interés en reservas</b>. Antes de invertir más en anuncios conviene resolver los cambios de la web que ya están en marcha con el programador.</p>
+  </div>
+</section>
+
+<section id="resultados" class="cream">
+  <div class="sec-head"><span class="num">02 / RESULTADOS</span><h2>Dónde fue <em>cada euro</em></h2></div>
+  <div class="table-wrap">
+    <table class="t">
+      <thead><tr><th>Grupo de anuncios</th><th>Estado</th><th class="r">Impr.</th><th class="r">Clics</th><th class="r">CTR</th><th class="r">CPC prom.</th><th class="r">Inversión</th></tr></thead>
+      <tbody>
+        <tr><td><div class="nm">Abacus Kids</div><div class="sub">Clases de ábaco para chicos</div></td><td><span class="badge green">Activo hasta el cierre</span></td><td class="r mono">535</td><td class="r mono">58</td><td class="r mono">10,8%</td><td class="r mono">1,82 €</td><td class="r mono">105,48 €</td></tr>
+        <tr><td><div class="nm">Abacus Online</div><div class="sub">Clases de ábaco online</div></td><td><span class="badge green">Activo hasta el cierre</span></td><td class="r mono">149</td><td class="r mono">14</td><td class="r mono">9,4%</td><td class="r mono">1,87 €</td><td class="r mono">26,13 €</td></tr>
+        <tr><td><div class="nm">Mental Maths</div><div class="sub">Cálculo mental</div></td><td><span class="badge bad">Detenido el 21/09</span></td><td class="r mono">494</td><td class="r mono">31</td><td class="r mono">6,3%</td><td class="r mono">1,35 €</td><td class="r mono">41,94 €</td></tr>
+        <tr><td><div class="nm">Marca</div><div class="sub">«Alpha Kids» en 9 países</div></td><td><span class="badge grey">Sin búsquedas</span></td><td class="r mono">0</td><td class="r mono">0</td><td class="r mono">—</td><td class="r mono">—</td><td class="r mono">0,00 €</td></tr>
+        <tr><td><div class="nm">Competidores</div><div class="sub">Nombres de otras escuelas</div></td><td><span class="badge bad">Detenida el 21/09</span></td><td class="r mono">0</td><td class="r mono">0</td><td class="r mono">—</td><td class="r mono">—</td><td class="r mono">0,00 €</td></tr>
+        <tr class="total"><td>Total</td><td></td><td class="r mono">1.178</td><td class="r mono">103</td><td class="r mono">8,7%</td><td class="r mono">1,68 €</td><td class="r mono">173,55 €</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="split">
+    <div class="split-bar"><div class="a" style="width:76%">131,61 € · búsquedas de ábaco</div><div class="b" style="width:24%">41,94 €</div></div>
+    <div class="split-legend"><span><b>76%</b> de la inversión fue a padres que buscaban clases de ábaco.</span><span><b>24%</b> se fue en la primera semana en búsquedas de cálculo mental que no servían (apps y tareas del colegio), hasta que detuvimos ese grupo.</span></div>
+  </div>
+</section>
+
+<section id="historia" class="dark">
+  <div class="sec-head"><span class="num">03 / CÓMO FUE</span><h2>La campaña <em>día a día</em></h2></div>
+  <ul class="timeline">
+    <li><span class="d">15/09</span><span class="x"><b>Lanzamiento</b> en Reino Unido, con las ciudades de mayor comunidad india en observación.<span class="s">Medición de la reserva conectada y probada.</span></span></li>
+    <li><span class="d">18/09</span><span class="x"><b>Primera limpieza:</b> +34 búsquedas excluidas (apps de matemática, tareas escolares).<span class="s">Irlanda y Países Bajos no se suman: la campaña de Reino Unido ya gastaba su presupuesto.</span></span></li>
+    <li><span class="d">21/09</span><span class="x"><b>Detuvimos Mental Maths y Competidores.</b> El primero traía búsquedas que no servían; el segundo no apareció ni una vez.<span class="s">Todo el presupuesto pasa a las búsquedas de ábaco.</span></span></li>
+    <li><span class="d">23/09</span><span class="x"><b>Medición directa de Google Ads,</b> para registrar la reserva aunque la persona no acepte las cookies.</span></li>
+    <li><span class="d">24–28/09</span><span class="x"><b>Bache:</b> un cambio en la forma de pujar hizo que la campaña casi no saliera (10 impresiones en 4 días).<span class="s">Lo corregimos el 28/09 y volvió a su ritmo normal.</span></span></li>
+    <li><span class="d">03/10</span><span class="x"><b>Cierre</b> con 173,55 € invertidos y 0 reservas registradas por Google.</span></li>
+  </ul>
+</section>
+
+<section id="busquedas">
+  <div class="sec-head"><span class="num">04 / BÚSQUEDAS</span><h2>Qué escribió <em>la gente</em></h2></div>
+  <p class="section-lede">Google muestra solo las búsquedas con algo de volumen. De los 103 clics, 46 vinieron de búsquedas que Google no detalla por ser muy poco frecuentes.</p>
+  <div class="table-wrap">
+    <table class="t">
+      <thead><tr><th>Búsqueda</th><th class="r">Clics</th><th>Lectura</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">abacus for kids</td><td class="r mono">4</td><td><span class="badge green">Público correcto</span></td></tr>
+        <tr><td class="mono">abacus maths classes</td><td class="r mono">4</td><td><span class="badge green">Público correcto</span></td></tr>
+        <tr><td class="mono">abacus classes near me · abacus class near me for kids</td><td class="r mono">7</td><td><span class="badge warn">Buscan clases presenciales</span></td></tr>
+        <tr><td class="mono">learning abacus · abacus tuition · mental abacus training · online abacus classes</td><td class="r mono">5</td><td><span class="badge green">Público correcto</span></td></tr>
+        <tr><td class="mono">how to learn abacus at home · abacus online practice · abacus classes online free</td><td class="r mono">3</td><td><span class="badge bad">Aprender solos / gratis</span></td></tr>
+        <tr><td class="mono">magma maths · maths whizz · pearson abacus · math trainer</td><td class="r mono">5+</td><td><span class="badge bad">Otras plataformas o el plan escolar</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout">
+    <div class="lbl">Búsquedas excluidas</div>
+    <p>La cuenta queda con <b>184 búsquedas excluidas</b>. Las 13 últimas se cargaron hoy para que la próxima campaña arranque más limpia:</p>
+    <div class="chips"><span class="chip">pearson</span><span class="chip">math trainer</span><span class="chip">maths practice</span><span class="chip">abacus practice</span><span class="chip">practice abacus</span><span class="chip">online practice</span><span class="chip">how to</span><span class="chip">for beginners</span><span class="chip">abacus free</span><span class="chip">free classes</span><span class="chip">online free</span><span class="chip">tutorial</span><span class="chip">huyton</span></div>
+  </div>
+  <div class="callout warn">
+    <div class="lbl">Para decidir juntos</div>
+    <p><b>«Near me»</b> trajo 7 clics: son padres que buscan una academia cerca de su casa. Puede ser público para Alpha Kids si el anuncio deja claro que la clase es online desde casa, o puede ser gente que nunca va a elegir online. En la próxima etapa proponemos probarlo en un grupo separado, con su propio anuncio, para medirlo aparte.</p>
+  </div>
+</section>
+
+<section id="web" class="cream">
+  <div class="sec-head"><span class="num">05 / LA WEB</span><h2>Dónde se <em>pierde</em> la reserva</h2></div>
+  <p class="section-lede">Recorrimos la web desde un celular, como un padre de Londres que toca el anuncio. Estos son los cambios, por orden de impacto.</p>
+  <ol class="steps">
+    <li><div><h3>Que «Book my free lesson» lleve a registrarse <span class="badge warn tag">El más importante</span></h3><p>Hoy abre una pantalla de inicio de sesión («Welcome», email y contraseña), que parece para alumnos que ya tienen cuenta. El padre nuevo tiene que encontrar «Create account». Lo ideal es que llegue directo a crear la cuenta para la clase gratis.</p></div></li>
+    <li><div><h3>Decir qué es Alpha Kids en la primera pantalla <span class="badge warn tag">El más importante</span></h3><p>En el celular, las primeras pantallas son la animación y no dicen «clases de ábaco online», para qué edades ni que la primera clase es gratis. Quien viene de buscar «abacus classes» tiene que confirmarlo en los primeros segundos.</p></div></li>
+    <li><div><h3>Precios en libras para Reino Unido</h3><p>La web arranca en euros. Mostrar libras a quien entra desde Reino Unido hace que el precio se entienda al instante.</p></div></li>
+    <li><div><h3>Reseñas cerca del botón</h3><p>Las 8 reseñas de familias están al final de la página. Subir 2 o 3 de familias de Reino Unido cerca de la clase gratis le da confianza a quien todavía no conoce la marca.</p></div></li>
+    <li><div><h3>Un WhatsApp de Reino Unido o Europa</h3><p>Los números actuales son argentinos (+54). Para un padre en Londres, escribir a un número de otro país genera dudas.</p></div></li>
+  </ol>
+  <div class="callout">
+    <div class="lbl">Bases de SEO para el programador</div>
+    <p>Título principal (H1) como texto real de la página · título de la pestaña con «Online Abacus Classes for Kids» · <span class="mono">lang="en"</span> en lugar de <span class="mono">lang="es"</span> · mapa del sitio propio en <span class="mono">alphakidseu.com/sitemap.xml</span> (hoy el robots.txt apunta a otro dominio) · que el registro con Google también avise que se creó la cuenta, para poder medirlo.</p>
+  </div>
+</section>
+
+<section id="medicion">
+  <div class="sec-head"><span class="num">06 / MEDICIÓN</span><h2>Qué se mide <em>hoy</em></h2></div>
+  <div class="three">
+    <div class="card"><div class="ck">Reserva de clase gratis</div><div class="big good">Instalada</div><p>Cuando un padre confirma la clase en el panel, se avisa a Google Analytics y a Google Ads. Se probó con una reserva de prueba el 15/09.</p></div>
+    <div class="card"><div class="ck">Estado en Google Ads</div><div class="big warn">Inactiva</div><p>Google marca la conversión como «inactiva» hasta que registra la primera reserva desde un anuncio. No es que falte instalarla: se activa sola con la primera.</p></div>
+    <div class="card"><div class="ck">Banner de cookies</div><div class="big">Límite</div><p>Quien no acepta las cookies casi no aparece en Analytics. Por eso cruzar con las reservas reales de la plataforma es la mejor forma de saber qué trajo la campaña.</p></div>
+  </div>
+  <div class="callout warn">
+    <div class="lbl">Nos falta un dato de ustedes</div>
+    <p>¿Cuántas familias crearon cuenta y cuántas reservaron la clase gratis entre el <b>15/09 y el 03/10</b>? Si alguna vino de Google y no figura en Ads, lo revisamos enseguida.</p>
+  </div>
+</section>
+
+<section id="siguiente" class="cream">
+  <div class="sec-head"><span class="num">07 / CÓMO SEGUIMOS</span><h2>Próxima <em>etapa</em></h2></div>
+  <ol class="steps">
+    <li><div><h3>Primero, los cambios 1 y 2 de la web</h3><p>Son los que más pueden mover las reservas con el mismo presupuesto. Volver a invertir antes de eso repetiría el resultado.</p></div></li>
+    <li><div><h3>Relanzar Reino Unido con lo que ya funcionó</h3><p>Abacus Kids y Abacus Online, pago por clic con tope y las 184 exclusiones cargadas. Del orden de 8 a 10 € por día, que es lo que esta demanda absorbe.</p></div></li>
+    <li><div><h3>Probar «near me» por separado</h3><p>Un grupo propio con un anuncio que diga «online, desde casa», para ver si esos padres reservan.</p></div></li>
+    <li><div><h3>Pasar a pujar por reservas cuando haya reservas</h3><p>Google necesita un historial de conversiones para pujar por ellas. Con cero, la campaña deja de salir (lo vimos entre el 24 y el 28/09). Recién con varias reservas registradas conviene el cambio.</p></div></li>
+    <li><div><h3>Irlanda y Países Bajos, más adelante</h3><p>El Planificador de palabras clave muestra poco volumen en esos mercados. Se suman cuando Reino Unido esté convirtiendo.</p></div></li>
+  </ol>
+</section>
+
+<footer>
+  <div class="footer-brand">Dilema <em>creative</em></div>
+  <div class="meta-f">ALPHA KIDS · CIERRE DE CAMPAÑA GOOGLE ADS<br>DATOS DEL 15/09 AL 03/10/2026 · CUENTA 429-767-6786</div>
+</footer>
+
+</body>
+</html>
