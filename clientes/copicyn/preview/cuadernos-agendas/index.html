@@ -142,8 +142,9 @@ section.blk{padding:88px 0}
 /* producto: bloque split (media + ficha), un bloque por producto */
 .prod{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:center}
 .prod.rev .prod-media{order:2}
-.prod-media{position:relative;border-radius:24px;aspect-ratio:4/3;border:1px solid rgba(255,255,255,.1);box-shadow:0 26px 60px rgba(33,30,94,.20);background:linear-gradient(150deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;padding:30px}
-.prod-media img{max-width:100%;max-height:100%;width:auto;height:auto;border-radius:10px;background:#fff;box-shadow:0 16px 36px rgba(0,0,0,.42);opacity:1}
+.prod-media{position:relative;border-radius:24px;aspect-ratio:4/3;border:1px solid rgba(255,255,255,.1);box-shadow:0 26px 60px rgba(33,30,94,.20);background:linear-gradient(150deg,var(--navy),var(--blue))}
+.prod-media img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:calc(100% - 56px);max-height:calc(100% - 56px);width:auto;height:auto;border-radius:10px;background:#fff;box-shadow:0 16px 36px rgba(0,0,0,.42);opacity:0;transition:opacity .9s ease}
+.prod-media img.is-on{opacity:1}
 .prod-info .kicker{margin-bottom:.5rem;display:block}
 .prod-info h2{font-weight:800;font-size:clamp(1.7rem,3.8vw,2.5rem);color:var(--navy);text-transform:uppercase;letter-spacing:-.01em;margin-bottom:.6rem}
 .prod-info h2::after{content:"";display:block;width:56px;height:4px;border-radius:3px;background:linear-gradient(90deg,var(--teal),var(--mid2));margin:14px 0 18px}
@@ -335,12 +336,9 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
 <!-- PRODUCTO 1: CUADERNOS (media izq / ficha der) -->
 <section class="blk" id="cuadernos">
   <div class="wrap prod sr">
-    <!-- FOTO: reemplazar .ph-empty por 2 <img> (crossfade automático):
-         <img class="is-on" src="assets/cuaderno.jpg" alt="Cuaderno con tapa impresa">
-         <img src="assets/cuaderno-2.jpg" alt="Detalle del anillado del cuaderno">
-         y agregar el atributo data-slider al div .prod-media -->
-    <div class="prod-media">
-      <img class="is-on" src="assets/cuaderno.jpg" alt="Cuaderno rayado anillado con espacio para tu logo" loading="lazy" decoding="async">
+    <div class="prod-media" data-slider>
+      <img class="is-on" src="assets/cuaderno-real.jpg" alt="Cuaderno anillado con tapa impresa a medida" loading="lazy" decoding="async">
+      <img src="assets/cuaderno.jpg" alt="Interior del cuaderno rayado con espacio para tu logo" loading="lazy" decoding="async">
     </div>
     <div class="prod-info">
       <span class="kicker">Cuadernos</span>
@@ -360,12 +358,9 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
 <!-- PRODUCTO 2: AGENDAS (ficha izq / media der, invertido) -->
 <section class="blk mist" id="agendas">
   <div class="wrap prod rev sr">
-    <!-- FOTO: reemplazar .ph-empty por 2 <img> (crossfade automático):
-         <img class="is-on" src="assets/agenda.jpg" alt="Agenda con vista semanal">
-         <img src="assets/agenda-2.jpg" alt="Interior de la agenda mostrando los 7 días">
-         y agregar el atributo data-slider al div .prod-media -->
-    <div class="prod-media">
-      <img class="is-on" src="assets/agenda.jpg" alt="Agenda con vista semanal: los siete días al abrir" loading="lazy" decoding="async">
+    <div class="prod-media" data-slider>
+      <img class="is-on" src="assets/agenda-real.jpg" alt="Agenda anillada con tapa impresa a medida" loading="lazy" decoding="async">
+      <img src="assets/agenda.jpg" alt="Interior de la agenda con vista semanal: los siete días al abrir" loading="lazy" decoding="async">
     </div>
     <div class="prod-info">
       <span class="kicker">Agendas</span>
@@ -608,14 +603,23 @@ footer{background:var(--navy);color:#cdd6ee;padding:56px 0 30px}
     var imgs = ph.querySelectorAll('img');
     if(imgs.length < 2) return;
     if(reduce){ imgs.forEach(function(im){ im.style.transition = 'none'; }); }
-    var cur = 0;
+    var cur = 0, zTop = 3;
+    imgs.forEach(function(im, k){ im.style.zIndex = (k === 0) ? 2 : 1; });
     setTimeout(function(){
       setInterval(function(){
-        imgs[cur].classList.remove('is-on');
+        var outgoing = imgs[cur];
         cur = (cur + 1) % imgs.length;
-        imgs[cur].classList.add('is-on');
-      }, 4500);
-    }, i * 1500);
+        var incoming = imgs[cur];
+        incoming.style.zIndex = ++zTop;        // la que entra, arriba
+        incoming.classList.add('is-on');       // fade-in sobre la saliente opaca
+        setTimeout(function(){                 // la saliente queda tapada: apagar sin transparentar el panel
+          outgoing.style.transition = 'none';
+          outgoing.classList.remove('is-on');
+          void outgoing.offsetWidth;
+          outgoing.style.transition = '';
+        }, reduce ? 0 : 920);
+      }, 2000);
+    }, i * 700);
   });
 })();
 </script>
