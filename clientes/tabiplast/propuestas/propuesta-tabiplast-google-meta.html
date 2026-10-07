@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Propuesta Tabiplast · Dilema Creative</title>
+<meta name="description" content="Propuesta de trabajo en Google Ads y Meta Ads para Tabiplast.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --ink:#0E2A47;
+  --ink-2:#2b4a6b;
+  --paper:#FAF6EE;
+  --paper-2:#F2EBDC;
+  --paper-3:#E8DFCC;
+  --line:#ddd2bc;
+  --line-soft:#e9e0cf;
+  --gris:#5d6b78;
+  --amber:#F79E1C;
+  --amber-ink:#8a5306;
+  --verde:#3f7f63;
+  --rojo:#a4432a;
+  --max:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.62;
+  overflow-x:hidden;
+  font-variant-numeric:lining-nums tabular-nums;
+}
+img{max-width:100%;display:block}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 28px}
+
+h1,h2,h3,.disp{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-variant-numeric:lining-nums tabular-nums;
+  font-weight:500;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+h1{font-size:clamp(2.4rem,5vw,3.7rem);line-height:1.06;text-wrap:balance}
+h2{font-size:clamp(1.75rem,3.8vw,2.6rem);line-height:1.1}
+h3{font-size:1.28rem;line-height:1.25;font-weight:600}
+.mono{
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  font-variant-numeric:lining-nums tabular-nums;
+}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:sticky;top:0;z-index:40;
+  background:rgba(250,246,238,.9);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.nav img{height:26px;width:auto}
+.nav .meta{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--gris);white-space:nowrap;
+}
+
+/* ---------- HERO (split asimétrico) ---------- */
+.hero{border-bottom:1px solid var(--line)}
+.hero-grid{
+  display:grid;grid-template-columns:1.15fr .85fr;gap:0;
+  align-items:stretch;min-height:clamp(440px,66vh,620px);
+}
+.hero-txt{padding:56px 48px 56px 0;display:flex;flex-direction:column;justify-content:center}
+.hero-logo{height:58px;width:auto;margin-bottom:30px}
+.hero h1{margin-bottom:22px}
+.hero h1 .amb{color:var(--amber-ink)}
+.hero-sub{font-size:clamp(1rem,1.9vw,1.14rem);color:var(--ink-2);max-width:40ch}
+.hero-img{position:relative;overflow:hidden;background:var(--paper-3)}
+.hero-img img{width:100%;height:100%;object-fit:cover;object-position:center 42%}
+.hero-cap{
+  position:absolute;left:0;right:0;bottom:0;
+  padding:14px 18px;
+  background:linear-gradient(to top,rgba(14,42,71,.82),rgba(14,42,71,0));
+  color:#f3ece0;font-size:12.5px;letter-spacing:.01em;
+}
+
+/* ---------- CIFRAS ---------- */
+.cifras{border-bottom:1px solid var(--line);background:var(--paper-2)}
+.cifras-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.cifras-grid > div{padding:34px 30px 34px 0}
+.cifras-grid > div + div{padding-left:30px;border-left:1px solid var(--line)}
+.cifra{
+  font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:clamp(1.6rem,4vw,2.2rem);line-height:1;
+  color:var(--ink);display:block;margin-bottom:10px;
+}
+.cifras-grid p{font-size:14.5px;color:var(--gris);line-height:1.5}
+
+/* ---------- SECCIONES ---------- */
+section{padding:72px 0;border-bottom:1px solid var(--line)}
+.shead{display:flex;gap:18px;align-items:baseline;margin-bottom:34px}
+.idx{
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
+  color:var(--amber-ink);padding-top:.45em;flex:none;
+}
+.shead .t{max-width:66ch}
+.shead p{color:var(--gris);font-size:16.5px;margin-top:10px}
+
+/* hallazgo 1: tabla de datos */
+.serie{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--ink);margin:30px 0 14px;
+}
+.serie div{padding:22px 16px 20px 0}
+.serie div + div{padding-left:20px;border-left:1px solid var(--line)}
+.serie b{
+  display:block;font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:clamp(1.15rem,2.7vw,1.6rem);line-height:1;margin-bottom:9px;
+}
+.serie .neg b{color:var(--rojo)}
+.serie .pos b{color:var(--verde)}
+.serie span{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--gris)}
+.fuente{font-size:13px;color:var(--gris)}
+.cierre{
+  font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1.2rem,2.6vw,1.55rem);
+  line-height:1.35;color:var(--ink);max-width:48ch;margin-top:30px;
+}
+
+/* hallazgo 2: cita */
+.cita-wrap{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+blockquote{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:clamp(1.35rem,3.1vw,1.95rem);line-height:1.3;
+  color:var(--ink);border-left:2px solid var(--amber);
+  padding-left:26px;
+}
+blockquote .src{
+  display:block;margin-top:18px;font-family:'DM Sans',sans-serif;
+  font-size:13px;line-height:1.5;color:var(--gris);
+}
+.cita-wrap .nota p + p{margin-top:14px}
+.cita-wrap .nota p{color:var(--ink-2);font-size:16.5px}
+
+/* hallazgo 3: dato + texto */
+.dato-split{display:grid;grid-template-columns:.8fr 1.2fr;gap:44px;align-items:start}
+.dato-grande{
+  font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:clamp(3.4rem,10vw,5.6rem);line-height:.9;color:var(--amber-ink);
+}
+.dato-grande small{
+  display:block;font-family:'DM Sans',sans-serif;font-weight:400;
+  font-size:15px;line-height:1.5;color:var(--gris);margin-top:14px;letter-spacing:0;
+}
+.dato-split p + p{margin-top:14px}
+.dato-split .cuerpo p{color:var(--ink-2);font-size:16.5px}
+
+/* canales */
+.canales{display:grid;grid-template-columns:1fr 1fr}
+.canales > div{padding-right:40px}
+.canales > div + div{padding-left:40px;border-left:1px solid var(--line)}
+.canal-top{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.prio{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:var(--amber);color:#2a1a02;padding:4px 9px;border-radius:999px;white-space:nowrap;
+}
+.canal-rol{font-size:14px;color:var(--gris);margin-bottom:16px}
+.canales p.int{color:var(--ink-2);font-size:16px}
+ul.bul{list-style:none;margin-top:20px}
+ul.bul li{
+  position:relative;padding:11px 0 11px 20px;font-size:15.5px;color:var(--ink-2);
+  border-top:1px solid var(--line-soft);
+}
+ul.bul li:first-child{border-top:none}
+ul.bul li::before{
+  content:"";position:absolute;left:0;top:19px;width:7px;height:1px;background:var(--amber);
+}
+
+/* base: imagen + dos listas */
+.base-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.base-img{margin-bottom:30px}
+.base-img img{width:100%;height:230px;object-fit:cover}
+.base-img figcaption{font-size:13px;color:var(--gris);padding-top:10px}
+
+/* trabajo mensual: lista en dos columnas */
+.tareas{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+.tareas article{padding:22px 0;border-top:1px solid var(--line-soft)}
+.tareas article h3{margin-bottom:7px}
+.tareas article p{font-size:15px;color:var(--gris)}
+
+/* banda tintada */
+.banda{background:var(--paper-2)}
+.banda .pair{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.banda .pair > div{padding-top:22px;border-top:2px solid var(--ink)}
+.banda h3{margin-bottom:6px}
+.banda .fuera{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--gris);display:block;margin-bottom:12px;
+}
+.banda p{font-size:15.5px;color:var(--ink-2)}
+
+/* casos */
+.casos{display:grid;grid-template-columns:1fr 1fr;gap:44px}
+.casos > div{padding-top:22px;border-top:1px solid var(--ink)}
+.casos .rub{font-size:13px;color:var(--gris);margin-bottom:12px}
+.casos .num{
+  font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:clamp(1.5rem,3.4vw,2rem);line-height:1;color:var(--verde);margin-bottom:12px;
+}
+.casos h3{margin-bottom:10px}
+.casos p{font-size:15px;color:var(--gris)}
+
+/* inversion */
+.fee{background:var(--ink);color:#f1ece2;padding:46px 44px}
+.fee-top{display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.fee h3{color:#fff;font-size:1.5rem;margin-bottom:0}
+.fee .precio{
+  font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:clamp(2.4rem,7vw,3.4rem);line-height:1;color:#fff;margin:26px 0 4px;
+}
+.fee .precio em{font-style:normal;font-size:.95rem;font-weight:400;color:#9fbcd6;letter-spacing:.02em}
+.fee .prio{background:var(--amber);color:#2a1a02}
+.fee-list{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0 36px;
+  margin-top:34px;
+}
+.fee-list li{
+  list-style:none;padding:12px 0;font-size:14.5px;color:#cfdde9;
+  border-top:1px solid rgba(255,255,255,.16);
+}
+.cond{display:grid;grid-template-columns:1fr 1fr;gap:44px;margin-top:40px}
+.cond > div{padding-top:20px;border-top:1px solid var(--line)}
+.cond h3{margin-bottom:8px}
+.cond p{font-size:15.5px;color:var(--ink-2)}
+.cond p + p{margin-top:12px}
+
+/* pasos */
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.pasos div{padding:24px 28px 0 0;border-top:1px solid var(--ink)}
+.pasos div + div{padding-left:28px;border-left:1px solid var(--line)}
+.pasos .n{
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--amber-ink);
+  display:block;margin-bottom:12px;
+}
+.pasos p{font-size:15.5px;color:var(--ink-2)}
+
+/* footer */
+footer{background:var(--ink);color:#a9c2d8;padding:50px 0 44px}
+footer img{height:30px;width:auto;margin-bottom:20px;filter:brightness(0) invert(1)}
+.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-end}
+footer p{font-size:14.5px;max-width:44ch}
+footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3)}
+.foot-r{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#7f9cb5}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-txt{padding:48px 0 40px;order:2}
+  .hero-img{order:1;min-height:300px;max-height:380px}
+  .hero-img img{object-position:center 38%}
+  .fee-list{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  .wrap{padding:0 20px}
+  section{padding:52px 0}
+  .cifras-grid,.serie,.cita-wrap,.dato-split,.canales,.base-grid,.tareas,.banda .pair,.casos,.cond,.pasos,.fee-list{
+    grid-template-columns:1fr;
+  }
+  .cifras-grid > div{padding:26px 0}
+  .cifras-grid > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line)}
+  .serie div{padding:18px 0}
+  .serie div + div{padding-left:0;border-left:none;border-top:1px solid var(--line-soft)}
+  .canales > div{padding-right:0}
+  .canales > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line);margin-top:40px;padding-top:40px}
+  .pasos div{padding:22px 0 0}
+  .pasos div + div{padding-left:0;border-left:none}
+  .fee{padding:32px 24px}
+  .shead{gap:14px}
+  .dato-grande{font-size:3.6rem}
+  .nav .meta{font-size:9.5px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <img src="assets/logo-dilema.png" alt="Dilema Creative">
+    <span class="meta">Propuesta · Octubre 2026</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-txt">
+        <img class="hero-logo" src="assets/logo-tabiplast.png" alt="Tabiplast">
+        <h1>Publicidad <span class="amb">medida</span><br>en Google y Meta</h1>
+        <p class="hero-sub">Tabiplast fabrica un producto que el mercado busca y que ya valida. Falta capturar esa demanda, atenderla y medirla.</p>
+      </div>
+      <figure class="hero-img">
+        <img src="assets/deposito.jpg" alt="Depósito de Tabiplast con pallets de cajas de niveladores">
+        <figcaption class="hero-cap">Fabricación nacional con stock permanente, el argumento que hoy no llega a quien lo está buscando.</figcaption>
+      </figure>
+    </div>
+  </div>
+</header>
+
+<section class="cifras rv" style="padding:0">
+  <div class="wrap">
+    <div class="cifras-grid">
+      <div>
+        <span class="cifra">+15,5%</span>
+        <p>Creció la venta de materiales de construcción en septiembre contra el mismo mes del año pasado</p>
+      </div>
+      <div>
+        <span class="cifra">4,8 / 150</span>
+        <p>Puntaje y cantidad de reseñas en Google, hoy sin usar en ninguna pieza de comunicación</p>
+      </div>
+      <div>
+        <span class="cifra">0</span>
+        <p>Conversiones medidas en la cuenta de Google Ads que está corriendo ahora mismo</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">01</span>
+      <div class="t">
+        <h2>El sector creció y las ventas quedaron planas</h2>
+        <p>El Índice Construya mide la venta de materiales de construcción al sector privado. Después de dos meses en rojo, septiembre dio un salto fuerte.</p>
+      </div>
+    </div>
+
+    <div class="serie">
+      <div class="neg"><b>-6,5%</b><span>Julio</span></div>
+      <div class="neg"><b>-5,3%</b><span>Agosto</span></div>
+      <div class="pos"><b>+15,5%</b><span>Septiembre</span></div>
+      <div class="pos"><b>+11,1%</b><span>Acumulado 2026</span></div>
+    </div>
+    <p class="fuente">Variación interanual. Fuente: Índice Construya, Grupo Construya.</p>
+
+    <p class="cierre">Si las ventas de Tabiplast se plancharon justo en esa ventana, el problema no es el contexto: esa demanda la está capturando otro.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">02</span>
+      <div class="t">
+        <h2>Hay gente que quiere comprar y no logra contactarlos</h2>
+      </div>
+    </div>
+
+    <div class="cita-wrap">
+      <blockquote>
+        Lo que no es fácil es contactarse con ustedes para poder comprar. No responden preguntas, ni acá ni en mercado libre ni por WhatsApp.
+        <span class="src">Comentario público de una usuaria en el Instagram de Tabiplast, agosto 2026. Google lo tiene indexado y lo muestra como comentario visible en varias publicaciones.</span>
+      </blockquote>
+      <div class="nota">
+        <p>Es un comentario de una sola persona y lo tomamos como lo que es: una señal, no una estadística.</p>
+        <p>Pero marca algo que define todo lo demás. Si hoy entran consultas y no se contestan a tiempo, poner pauta encima acelera la pérdida en vez de resolverla.</p>
+        <p>Por eso la atención entra primero, y entra dentro del trabajo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">03</span>
+      <div class="t">
+        <h2>Hay Google Ads corriendo y no se sabe qué devuelve</h2>
+      </div>
+    </div>
+
+    <div class="dato-split">
+      <div class="dato-grande">
+        0
+        <small>Conversiones configuradas en las páginas de contacto y de presupuesto, que es donde se pide la cotización.</small>
+      </div>
+      <div class="cuerpo">
+        <p>El sitio tiene instalada la etiqueta de Google Ads y los anuncios aparecen en búsquedas como "niveladores para porcelanato". Hasta ahí, bien. Lo que falta es la otra mitad: ninguna analítica instalada y ningún pedido de presupuesto registrado como lo que es, una oportunidad de venta.</p>
+        <p>En concreto: hoy se paga por clics sin saber cuáles terminan en un pedido. No se puede saber qué búsqueda trae clientes y cuál se lleva el presupuesto sin devolver nada.</p>
+        <p>Y Google no puede priorizar lo que no mide, así que la campaña termina compitiendo por clics baratos en lugar de por compradores.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">04</span>
+      <div class="t">
+        <h2>Los dos canales, y por qué Google va primero</h2>
+        <p>Son dos trabajos distintos y resuelven momentos distintos del negocio. Arrancan juntos, pero el peso no es el mismo.</p>
+      </div>
+    </div>
+
+    <div class="canales">
+      <div>
+        <div class="canal-top">
+          <h3>Google Ads</h3>
+          <span class="prio">Prioritario</span>
+        </div>
+        <p class="canal-rol">La demanda que ya existe</p>
+        <p class="int">Todos los días hay gente buscando niveladores, ladrillos de vidrio y proveedores mayoristas. Ahí no hay que convencer a nadie de que necesita el producto: hay que estar, y hay que estar antes que el revendedor.</p>
+        <ul class="bul">
+          <li>Separar al que compra por volumen del que compra para una obra propia, porque no valen lo mismo ni se les habla igual</li>
+          <li>Dejar de pagar por búsquedas que nunca van a terminar en un pedido</li>
+          <li>Llevar cada búsqueda a la página que corresponde, no siempre a la portada</li>
+          <li>Que las 150 reseñas y la condición de fábrica argentina se vean en el anuncio</li>
+          <li>Prioridad de presupuesto por línea de producto, definida con ustedes</li>
+          <li>Cobertura separada para AMBA y para el interior</li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="canal-top">
+          <h3>Meta Ads</h3>
+        </div>
+        <p class="canal-rol">La demanda que todavía no apareció</p>
+        <p class="int">Acá no venimos a producir contenido nuevo. El material que ya se produce hoy llega a poco más de novecientas personas, casi todas conocidas. Con pauta atrás, ese mismo material empieza a buscar colocadores y corralones nuevos.</p>
+        <ul class="bul">
+          <li>Distribuir el material que ya se produce, para que deje de hablarle solo a quien ya los sigue</li>
+          <li>Campaña dirigida a corralones y ferreterías de todo el país, que es donde está el volumen</li>
+          <li>Campaña dirigida al colocador, con el producto trabajando en obra</li>
+          <li>Recuperar a quien visitó el sitio y no consultó, que hoy se pierde entero</li>
+          <li>Entrada directa a WhatsApp, con la consulta ya encaminada</li>
+          <li>Lectura de qué pieza funciona, para que la próxima grabación salga apuntada</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">05</span>
+      <div class="t">
+        <h2>Antes de sumar inversión, que se pueda medir y atender</h2>
+        <p>Esto no se cobra aparte. Va adentro del trabajo mensual porque sin esto lo demás no se puede evaluar.</p>
+      </div>
+    </div>
+
+    <figure class="base-img">
+      <img src="assets/caja.jpg" alt="Caja de niveladores Tabiplast para porcelanato y revestimientos cerámicos">
+      <figcaption>El producto sale de fábrica identificado. La consulta que entra, todavía no.</figcaption>
+    </figure>
+
+    <div class="base-grid">
+      <div>
+        <h3>Medición</h3>
+        <p class="int">Dejar el sitio en condiciones de registrar qué pasa cuando alguien entra: qué mira, desde qué anuncio llegó, y sobre todo cuándo pide un presupuesto o llama por teléfono.</p>
+        <ul class="bul">
+          <li>Analítica instalada y funcionando en todo el sitio</li>
+          <li>El pedido de presupuesto y la llamada contados como una oportunidad de venta</li>
+          <li>Google Ads conectado a esos datos, para que vaya a buscar más de lo que funciona</li>
+          <li>Base de audiencias propia, que hoy no existe y se construye desde cero</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Atención</h3>
+        <p class="int">Que la consulta que entra no se pierda. Esto no reemplaza al equipo comercial: lo ordena para que llegue filtrada y con los datos mínimos.</p>
+        <ul class="bul">
+          <li>WhatsApp con respuesta inmediata, que pregunta si es particular, colocador o corralón, y de qué zona</li>
+          <li>El vendedor toma la conversación sabiendo a quién le habla y qué lista mandarle</li>
+          <li>Un solo lugar donde ver las consultas que entraron y de qué campaña vinieron</li>
+          <li>Revisión de los mensajes de Instagram y Mercado Libre para que nada quede sin respuesta</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">06</span>
+      <div class="t">
+        <h2>Qué hacemos todos los meses</h2>
+      </div>
+    </div>
+
+    <div class="tareas">
+      <article>
+        <h3>Gestión de campañas</h3>
+        <p>Armado, seguimiento y ajuste en Google y Meta. Revisión de en qué se está yendo el presupuesto y corte de lo que no trae clientes.</p>
+      </article>
+      <article>
+        <h3>Anuncios y textos</h3>
+        <p>Redacción de los anuncios y adaptación del material existente a formato publicitario. Pruebas de ángulos distintos para ver cuál responde mejor.</p>
+      </article>
+      <article>
+        <h3>Control de la inversión</h3>
+        <p>Seguimiento del costo por consulta y por pedido de presupuesto, línea por línea, para mover el presupuesto hacia donde rinde.</p>
+      </article>
+      <article>
+        <h3>Reporte mensual</h3>
+        <p>Un informe claro de qué se invirtió, qué entró y qué se decidió. Sin planillas que haya que interpretar.</p>
+      </article>
+      <article>
+        <h3>Portal propio</h3>
+        <p>Acceso para ver los números cuando quieran, configurado con lo que a ustedes les sirva mirar, no con una vista fija igual para todos.</p>
+      </article>
+      <article>
+        <h3>Seguimiento</h3>
+        <p>Reuniones de revisión para decidir juntos el rumbo. Y disponibilidad por WhatsApp en el medio, sin esperar a la reunión.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="banda rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">07</span>
+      <div class="t">
+        <h2>Dos cosas que vimos y no entran en este trabajo</h2>
+        <p>Las dejamos planteadas porque afectan el resultado, pero son decisiones de ustedes. Si quieren que las tomemos nosotros, se cotizan por separado.</p>
+      </div>
+    </div>
+    <div class="pair">
+      <div>
+        <span class="fuera">Fuera del fee</span>
+        <h3>El sitio y su posicionamiento</h3>
+        <p>El sitio no está preparado para aparecer en los resultados gratuitos de Google: le faltan los elementos básicos que el buscador necesita para entender de qué trata cada página. Hoy, cuando alguien busca el producto sin nombrar la marca, Tabiplast no aparece en la lista orgánica. Es el trabajo de retorno más lento, pero es el que después abarata la pauta.</p>
+      </div>
+      <div>
+        <span class="fuera">Decisión de ustedes</span>
+        <h3>La política de canal</h3>
+        <p>En Mercado Libre la marca Tabiplast aparece en muchas publicaciones, y varias de las que más venden son de revendedores, no de la tienda oficial. Antes de empujar tráfico hacia ese canal hay que saber si eso es una decisión tomada para cuidar al corralón o si simplemente pasó. Cambia por completo hacia dónde conviene dirigir la inversión.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">08</span>
+      <div class="t">
+        <h2>Dos casos parecidos al suyo</h2>
+      </div>
+    </div>
+    <div class="casos">
+      <div>
+        <p class="rub">Equipamiento industrial, venta a fabricantes</p>
+        <div class="num">1.508 consultas por mes</div>
+        <h3>Friotex</h3>
+        <p>Fabricante que vendía por recomendación y hoy recibe consultas todos los días por Google y Meta. En el último mes el volumen subió 26% y el costo por consulta bajó 19%. Mismo esquema que proponemos acá: demanda que ya existía y no se estaba capturando.</p>
+      </div>
+      <div>
+        <p class="rub">Comercio, Google y Meta</p>
+        <div class="num">+106% en ventas online</div>
+        <h3>Tres Mares</h3>
+        <p>Llegaron con la medición rota, igual que la situación actual de Tabiplast. Primero se ordenó el seguimiento y después se tocaron las campañas. Las ventas por Google pasaron de 17 a 35 en un mes, con menos inversión que el mes anterior.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">09</span>
+      <div class="t">
+        <h2>Lo que cuesta el trabajo</h2>
+      </div>
+    </div>
+
+    <div class="fee">
+      <div class="fee-top">
+        <h3>Google Ads y Meta Ads</h3>
+        <span class="prio">Todo incluido</span>
+      </div>
+      <div class="precio">USD 500 <em>por mes</em></div>
+      <ul class="fee-list">
+        <li>Gestión de Google Ads, con la prioridad del presupuesto</li>
+        <li>Gestión de Meta Ads e Instagram</li>
+        <li>Medición y analítica, sin costo de instalación</li>
+        <li>Atención de WhatsApp ordenada y filtrada</li>
+        <li>Anuncios, textos y adaptación del material</li>
+        <li>Reporte mensual y portal de seguimiento</li>
+      </ul>
+    </div>
+
+    <div class="cond">
+      <div>
+        <h3>La inversión en las plataformas va aparte</h3>
+        <p>Lo de arriba es el trabajo de Dilema. El presupuesto que se pone en Google y en Meta se paga directo a cada plataforma y queda siempre a nombre de ustedes.</p>
+        <p>No ponemos una cifra todavía a propósito. Ese número se define con ustedes después de ver márgenes, ticket promedio y qué línea conviene empujar primero. Tirar un monto antes de eso sería adivinar.</p>
+      </div>
+      <div>
+        <h3>Google arranca con la prioridad</h3>
+        <p>Los dos canales empiezan juntos, pero el peso del presupuesto arranca cargado en Google, porque ahí la demanda ya existe y el retorno se ve antes.</p>
+        <p>Meta arranca más abajo mientras junta los datos propios que hoy no hay. A medida que se vea qué devuelve cada uno, definimos juntos cómo repartirlo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv" style="border-bottom:none">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">10</span>
+      <div class="t"><h2>Cómo seguimos</h2></div>
+    </div>
+    <div class="pasos">
+      <div>
+        <span class="n">Primero</span>
+        <p>Nos pasan los accesos de Google y Meta, el sitio, y la información de su negocio que necesitamos para dimensionar.</p>
+      </div>
+      <div>
+        <span class="n">Después</span>
+        <p>Dejamos la medición y la atención funcionando antes de poner un peso en pauta.</p>
+      </div>
+      <div>
+        <span class="n">Y salimos</span>
+        <p>Definimos juntos el presupuesto de plataformas y arrancan las campañas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <img src="assets/logo-dilema.png" alt="Dilema Creative">
+      <p>Trabajamos con pocos clientes y nos metemos en el negocio. Si vemos algo que conviene cambiar aunque no esté en el contrato, lo decimos.</p>
+      <p style="margin-top:14px"><a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a></p>
+    </div>
+    <div class="foot-r">Propuesta Tabiplast<br>Octubre 2026</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -50px 0px',threshold:.06});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
