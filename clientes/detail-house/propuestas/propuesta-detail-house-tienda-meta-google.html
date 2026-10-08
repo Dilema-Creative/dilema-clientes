@@ -4,254 +4,302 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<title>Propuesta Detail House · Dilema Creative</title>
+<title>Detail House · Propuesta Tienda Online + Meta + Google</title>
 <meta name="description" content="Tienda online, Meta Ads y Google Ads para Detail House.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  color-scheme: light;
-  --ink:#0E2A47;
-  --ink-2:#2b4a6b;
+  color-scheme: dark;
+  /* Paleta Dilema */
+  --ink:#081726;
+  --navy:#0E2A47;
+  --panel:#0C2238;
+  --panel-2:#102C49;
+  --cel:#5BB4D6;
+  --cel-deep:#3B93B5;
+  --sage:#4FA27E;
   --paper:#FAF6EE;
-  --paper-2:#F2EBDC;
-  --paper-3:#E8DFCC;
-  --line:#ddd2bc;
-  --line-soft:#e9e0cf;
-  --gris:#5d6b78;
-  --azul:#0F6A96;
-  --azul-claro:#1A8CC4;
-  --verde:#3f7f63;
+  --muted:rgba(250,246,238,.62);
+  --muted-2:rgba(250,246,238,.45);
+  --line:rgba(91,180,214,.20);
+  --line-soft:rgba(250,246,238,.12);
+  --r:4px;
   --max:1120px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
+*{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
-  background:var(--paper);
-  color:var(--ink);
-  font-family:'DM Sans',system-ui,sans-serif;
-  font-size:17px;
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--ink);
+  color:var(--paper);
+  font-size:16px;
   line-height:1.62;
   overflow-x:hidden;
-  font-variant-numeric:lining-nums tabular-nums;
+  -webkit-font-smoothing:antialiased;
 }
 img{max-width:100%;height:auto;display:block;align-self:flex-start}
-.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 28px}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 32px}
 
 h1,h2,h3,.disp{
-  font-family:'Cormorant Garamond',Georgia,serif;
-  font-variant-numeric:lining-nums tabular-nums;
+  font-family:'Fraunces',Georgia,serif;
   font-weight:500;
-  letter-spacing:-.01em;
-  color:var(--ink);
+  letter-spacing:-.02em;
+  color:var(--paper);
 }
-h1{font-size:clamp(2.3rem,4.7vw,3.5rem);line-height:1.07;text-wrap:balance}
-h2{font-size:clamp(1.7rem,3.6vw,2.5rem);line-height:1.1}
-h3{font-size:1.26rem;line-height:1.26;font-weight:600}
-.mono{
-  font-family:'JetBrains Mono',ui-monospace,monospace;
-  font-variant-numeric:lining-nums tabular-nums;
+h1{font-size:clamp(2.45rem,5.4vw,4.3rem);line-height:1.03;text-wrap:balance}
+h2{font-size:clamp(1.9rem,4vw,2.9rem);line-height:1.06}
+h3{font-size:1.2rem;line-height:1.3;font-weight:600;letter-spacing:-.01em}
+em.ac{font-style:italic;font-weight:400;color:var(--cel)}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+
+.kick{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--cel);
+  display:block;margin-bottom:18px;
 }
 
 /* ---------- NAV ---------- */
 .nav{
-  position:sticky;top:0;z-index:40;
-  background:rgba(250,246,238,.9);
-  backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--line-soft);
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,23,38,.93);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
 }
-.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
-.nav img{height:26px;width:auto}
-.nav .meta{
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:76px}
+.nav-l{display:flex;align-items:center;gap:18px;min-width:0}
+.nav-div{width:1px;height:22px;background:var(--line-soft);flex:none}
+
+/* Lockup de marca: "Dilema creative*" */
+.wm{
+  font-family:'Fraunces',Georgia,serif;font-weight:700;
+  letter-spacing:-.02em;color:var(--paper);line-height:1;
+  white-space:nowrap;flex:none;
+}
+.wm em{font-style:italic;font-weight:500;color:var(--sage)}
+.wm sup{color:var(--cel);font-size:.5em;top:-.62em;position:relative}
+.nav .wm{font-size:21px}
+.hero-mark .wm{font-size:26px}
+footer .wm{font-size:30px;display:block;margin-bottom:24px}
+.nav-tag{
   font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
-  letter-spacing:.1em;text-transform:uppercase;color:var(--gris);white-space:nowrap;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);white-space:nowrap;
 }
 
 /* ---------- HERO ---------- */
-.hero{border-bottom:1px solid var(--line)}
-.hero-grid{
-  display:grid;grid-template-columns:1.1fr .9fr;gap:0;
-  align-items:stretch;min-height:clamp(420px,62vh,560px);
+.hero{position:relative;overflow:hidden;padding:88px 0 76px;border-bottom:1px solid var(--line)}
+.hero::before{
+  content:'';position:absolute;top:-180px;right:-120px;
+  width:680px;height:680px;pointer-events:none;
+  background:radial-gradient(circle,rgba(91,180,214,.15) 0%,transparent 70%);
 }
-.hero-txt{padding:60px 52px 60px 0;display:flex;flex-direction:column;justify-content:center}
-.marca{
-  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;
-  letter-spacing:.11em;color:var(--gris);margin-bottom:26px;
+.hero .wrap{position:relative}
+.hero-mark{display:flex;align-items:center;gap:16px;margin-bottom:34px;flex-wrap:wrap}
+.hero-mark .ln{width:38px;height:1px;background:var(--line-soft);flex:none}
+.hero-mark .tag{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted-2);
 }
-.marca b{color:var(--ink);font-weight:700}
-.hero h1{margin-bottom:20px}
-.hero h1 .az{color:var(--azul)}
-.hero-sub{font-size:clamp(1rem,1.9vw,1.13rem);color:var(--ink-2);max-width:38ch}
-.hero-panel{
-  background:var(--ink);color:#e9f1f7;
-  padding:46px 40px;display:flex;flex-direction:column;justify-content:center;gap:0;
+.hero h1{margin-bottom:26px;max-width:17ch}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:56ch}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:38px}
+.tags span{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--cel);
+  border:1px solid rgba(91,180,214,.3);background:rgba(91,180,214,.08);
+  border-radius:var(--r);padding:7px 14px;
 }
-.hp-row{padding:20px 0;border-top:1px solid rgba(255,255,255,.17)}
-.hp-row:first-child{border-top:none;padding-top:0}
-.hp-row:last-child{padding-bottom:0}
-.hp-num{
-  font-family:'JetBrains Mono',monospace;font-weight:700;
-  font-size:clamp(1.5rem,3.4vw,1.95rem);line-height:1;color:#fff;
-  display:block;margin-bottom:8px;
+
+/* ---------- STRIP de datos ---------- */
+.strip{background:var(--panel);border-bottom:1px solid var(--line)}
+.strip-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.strip-grid > div{padding:40px 34px 40px 0}
+.strip-grid > div + div{padding-left:34px;border-left:1px solid var(--line-soft)}
+.strip .n{
+  font-family:'Fraunces',serif;font-weight:600;
+  font-size:clamp(1.9rem,4.2vw,2.5rem);line-height:1;color:var(--cel);
+  display:block;margin-bottom:12px;
 }
-.hp-row p{font-size:14px;line-height:1.5;color:#b8cddd}
+.strip p{font-size:14.5px;color:var(--muted);line-height:1.55}
 
 /* ---------- SECCIONES ---------- */
-section{padding:72px 0;border-bottom:1px solid var(--line)}
-.shead{display:flex;gap:18px;align-items:baseline;margin-bottom:34px}
-.idx{
-  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
-  color:var(--azul);padding-top:.45em;flex:none;
-}
-.shead .t{max-width:62ch}
-.shead p{color:var(--gris);font-size:16.5px;margin-top:10px}
+section{padding:88px 0;border-bottom:1px solid var(--line)}
+.shead{margin-bottom:44px;max-width:62ch}
+.shead p{color:var(--muted);font-size:1.02rem;margin-top:16px}
 
-/* 01 tienda: dos columnas de bullets + aside */
-.tienda{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
-.tienda > div + div{padding-left:48px;border-left:1px solid var(--line)}
-ul.bul{list-style:none}
-ul.bul li{
-  position:relative;padding:13px 0 13px 20px;font-size:15.5px;color:var(--ink-2);
-  border-top:1px solid var(--line-soft);
+/* 01 tienda */
+.tienda{display:grid;grid-template-columns:1fr 1fr;gap:0 52px}
+.tienda > div + div{padding-left:52px;border-left:1px solid var(--line-soft)}
+ul.chk{list-style:none}
+ul.chk li{
+  position:relative;padding:14px 0 14px 28px;font-size:15px;color:var(--muted);
+  border-top:1px solid var(--line-soft);line-height:1.55;
 }
-ul.bul li:first-child{border-top:none;padding-top:0}
-ul.bul li:first-child::before{top:8px}
-ul.bul li::before{
-  content:"";position:absolute;left:0;top:21px;width:7px;height:1px;background:var(--azul);
+ul.chk li:first-child{border-top:none;padding-top:0}
+ul.chk li:first-child::before{top:2px}
+ul.chk li::before{
+  content:"\2713";position:absolute;left:0;top:16px;
+  font-size:12px;color:var(--cel);font-weight:700;
 }
 .aside{
-  background:var(--paper-2);border-top:2px solid var(--azul);
-  padding:26px 28px;margin-top:38px;
+  background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--cel);
+  border-radius:var(--r);padding:30px 32px;margin-top:44px;
 }
-.aside h3{margin-bottom:8px}
-.aside p{font-size:15.5px;color:var(--ink-2)}
-.aside p + p{margin-top:12px}
+.aside h3{margin-bottom:12px}
+.aside p{font-size:15px;color:var(--muted)}
+.aside p + p{margin-top:13px}
 
 /* 02 canales */
-.canales{display:grid;grid-template-columns:1fr 1fr}
-.canales > div{padding-right:44px}
-.canales > div + div{padding-left:44px;border-left:1px solid var(--line)}
-.canal-top{display:flex;align-items:baseline;gap:12px;margin-bottom:5px}
-.canal-rol{font-size:14.5px;color:var(--gris);margin-bottom:18px;min-height:3.1em}
+.canales{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.canales > div,.costos > div,.casos > div,.precios > .card{min-width:0}
+.canales > div{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:34px 32px;
+}
+.canal-top{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;margin-bottom:10px;flex-wrap:wrap}
 .pill{
-  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;
-  background:var(--azul);color:#fff;padding:4px 10px;border-radius:999px;white-space:nowrap;
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--cel);
+  border:1px solid rgba(91,180,214,.3);border-radius:999px;padding:5px 11px;white-space:nowrap;
 }
+.canal-rol{font-size:14.5px;color:var(--muted-2);margin-bottom:22px;min-height:3.1em}
 
-/* 03 de su lado: banda tintada, pares */
-.banda{background:var(--paper-2)}
-.costos{display:grid;grid-template-columns:1fr 1fr;gap:38px 48px}
-.costos > div{padding-top:22px;border-top:2px solid var(--ink)}
-.costos > div.ok{border-top-color:var(--verde)}
-.costos h3{margin-bottom:6px}
-.costos .cifra{
-  font-family:'JetBrains Mono',monospace;font-weight:700;
-  font-size:1.35rem;line-height:1;color:var(--azul);display:block;margin:10px 0 12px;
+/* 03 de su lado */
+.costos{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.costos > div{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:30px 30px 32px;
 }
-.costos .cifra.libre{color:var(--verde)}
-.costos p{font-size:15.5px;color:var(--ink-2)}
-.nota-pie{font-size:14px;color:var(--gris);margin-top:34px;max-width:72ch}
+.costos > div.ok{border-color:rgba(79,162,126,.38)}
+.costos h3{margin-bottom:14px}
+.costos .cifra{
+  font-family:'Fraunces',serif;font-weight:600;font-size:1.75rem;line-height:1;
+  color:var(--cel);display:block;margin-bottom:16px;
+}
+.costos .ok .cifra{color:var(--sage)}
+.costos p{font-size:14.5px;color:var(--muted)}
+.nota-pie{font-size:14px;color:var(--muted-2);margin-top:34px;max-width:78ch;line-height:1.6}
 
 /* 04 tareas */
-.tareas{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 44px}
-.tareas article{padding:22px 0;border-top:1px solid var(--line-soft)}
-.tareas article h3{margin-bottom:7px;font-size:1.1rem}
-.tareas article p{font-size:14.5px;color:var(--gris)}
+.tareas{display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px}
+.tareas article{padding:26px 0;border-top:1px solid var(--line-soft)}
+.tareas article h3{margin-bottom:9px;font-size:1.06rem}
+.tareas article p{font-size:14.5px;color:var(--muted-2);line-height:1.55}
 
 /* 05 casos */
-.casos{display:grid;grid-template-columns:1fr 1fr;gap:48px}
-.casos > div{padding-top:22px;border-top:1px solid var(--ink)}
-.casos .rub{font-size:13px;color:var(--gris);margin-bottom:12px}
-.casos .num{
-  font-family:'JetBrains Mono',monospace;font-weight:700;
-  font-size:clamp(1.5rem,3.4vw,2rem);line-height:1;color:var(--verde);margin-bottom:12px;
+.casos{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.casos > div{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:32px 30px;
 }
-.casos h3{margin-bottom:10px}
-.casos p{font-size:15px;color:var(--gris)}
+.casos .rub{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted-2);margin-bottom:18px;
+}
+.casos .num{
+  font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.9rem,4vw,2.4rem);
+  line-height:1;color:var(--sage);margin-bottom:14px;
+}
+.casos h3{margin-bottom:12px}
+.casos p{font-size:14.5px;color:var(--muted)}
 
 /* 06 inversion */
-.tabla{border-top:2px solid var(--ink)}
-.fila{
-  display:grid;grid-template-columns:1fr auto;gap:18px;align-items:baseline;
-  padding:20px 0;border-bottom:1px solid var(--line);
+.precios{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:36px 32px 34px;display:flex;flex-direction:column;
 }
-.fila .q{font-size:16.5px;color:var(--ink)}
-.fila .q small{display:block;font-size:13.5px;color:var(--gris);margin-top:3px;letter-spacing:0}
-.fila .v{
-  font-family:'JetBrains Mono',monospace;font-weight:500;font-size:1.05rem;
-  color:var(--ink);white-space:nowrap;text-align:right;
+.card.feat{border-color:rgba(91,180,214,.5);background:var(--panel-2)}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px 12px;margin-bottom:24px;flex-wrap:wrap}
+.card-lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--muted-2);
 }
-.fila.tach .q,.fila.tach .v{color:var(--gris)}
-.fila.tach .v{text-decoration:line-through}
-.fila.destaca{background:var(--paper-2);padding:22px 20px;margin:0 -20px;border-bottom:none}
-.fila.destaca .q{font-weight:700}
-.fila.destaca .v{font-weight:700;font-size:1.3rem;color:var(--azul)}
+.card .bon{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:#07202f;
+  background:var(--cel);border-radius:999px;padding:5px 11px;white-space:nowrap;
+}
+.antes{
+  font-family:'JetBrains Mono',monospace;font-size:13.5px;color:var(--muted-2);
+  text-decoration:line-through;display:block;margin-bottom:8px;
+}
+.precio{
+  font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.6rem,6vw,3.5rem);
+  line-height:1;color:var(--paper);margin-bottom:6px;
+}
+.precio small{
+  font-family:'Inter',sans-serif;font-size:1rem;font-weight:400;color:var(--muted-2);
+  letter-spacing:0;
+}
+.card .desc{font-size:14.5px;color:var(--muted);margin-bottom:24px;min-height:4.4em}
+.card ul.chk{margin-top:auto}
+.card ul.chk li{font-size:14px}
+
 .total{
-  display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;
-  background:var(--ink);color:#fff;padding:26px 28px;margin-top:30px;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  background:var(--cel);color:#061b29;border-radius:var(--r);
+  padding:30px 34px;margin-top:28px;
 }
-.total .lbl{font-size:15.5px;color:#bcd2e2;max-width:46ch}
+.total .lbl{font-size:15.5px;max-width:52ch;line-height:1.55;color:#07222f}
 .total .big{
-  font-family:'JetBrains Mono',monospace;font-weight:700;
-  font-size:clamp(1.7rem,4.6vw,2.3rem);line-height:1;color:#fff;white-space:nowrap;
+  font-family:'Fraunces',serif;font-weight:700;
+  font-size:clamp(2rem,5vw,2.7rem);line-height:1;color:#061b29;white-space:nowrap;
 }
-.cond{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:40px}
-.cond > div{padding-top:20px;border-top:1px solid var(--line)}
-.cond h3{margin-bottom:8px}
-.cond p{font-size:15.5px;color:var(--ink-2)}
-.cond p + p{margin-top:12px}
+.cond{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:48px}
+.cond > div{padding-top:24px;border-top:1px solid var(--line)}
+.cond h3{margin-bottom:12px}
+.cond p{font-size:15px;color:var(--muted)}
+.cond p + p{margin-top:13px}
 
 /* 07 pasos */
 .pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
-.pasos div{padding:24px 28px 0 0;border-top:1px solid var(--ink)}
-.pasos div + div{padding-left:28px;border-left:1px solid var(--line)}
+.pasos div{padding:26px 32px 0 0;border-top:1px solid var(--line)}
+.pasos div + div{padding-left:32px;border-left:1px solid var(--line-soft)}
 .pasos .n{
-  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--azul);
-  display:block;margin-bottom:12px;
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--cel);display:block;margin-bottom:14px;
 }
-.pasos p{font-size:15.5px;color:var(--ink-2)}
+.pasos p{font-size:15px;color:var(--muted)}
 
 /* footer */
-footer{background:var(--ink);color:#a9c2d8;padding:50px 0 44px}
-footer img{height:30px;width:auto;margin-bottom:20px;filter:brightness(0) invert(1)}
-.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-end}
-footer p{font-size:14.5px;max-width:44ch}
-footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3)}
-.foot-r{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#7f9cb5;text-align:right}
+footer{background:var(--panel);padding:60px 0 54px}
+.foot{display:flex;justify-content:space-between;gap:34px;flex-wrap:wrap;align-items:flex-end}
+footer p{font-size:14.5px;max-width:46ch;color:var(--muted)}
+footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,180,214,.4)}
+.foot-r{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted-2);text-align:right;line-height:1.9;
+}
 
 /* reveal */
-.rv{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.rv{opacity:0;transform:translateY(18px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
 .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
 
 /* ---------- RESPONSIVE ---------- */
 @media (max-width:980px){
-  .hero-grid{grid-template-columns:1fr}
-  .hero-txt{padding:48px 0 38px}
-  .hero-panel{padding:34px 28px;margin-bottom:0}
   .tareas{grid-template-columns:1fr 1fr}
+  .cond{gap:38px}
 }
 @media (max-width:760px){
-  body{font-size:16px}
   .wrap{padding:0 20px}
-  section{padding:52px 0}
-  h1{font-size:clamp(1.95rem,8.6vw,2.3rem)}
-  .tienda,.canales,.costos,.tareas,.casos,.cond,.pasos{grid-template-columns:1fr}
-  .tienda > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line);margin-top:30px;padding-top:30px}
-  .canales > div{padding-right:0}
-  .canales > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line);margin-top:38px;padding-top:38px}
+  section{padding:58px 0}
+  .hero{padding:58px 0 52px}
+  h1{font-size:clamp(2rem,8.4vw,2.6rem)}
+  .nav-in{height:64px}
+  .nav-div,.nav-l .nav-tag{display:none}
+  .nav .wm{font-size:18px}
+  .hero-mark .wm{font-size:22px}
+  .strip-grid,.tienda,.canales,.costos,.tareas,.casos,.precios,.cond,.pasos{grid-template-columns:1fr}
+  .strip-grid > div{padding:28px 0}
+  .strip-grid > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line-soft)}
+  .tienda > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line-soft);margin-top:32px;padding-top:32px}
   .canal-rol{min-height:0}
-  .costos{gap:30px}
-  .pasos div{padding:22px 0 0}
+  .card .desc{min-height:0}
+  .pasos div{padding:24px 0 0}
   .pasos div + div{padding-left:0;border-left:none}
-  .fila{grid-template-columns:1fr;gap:4px}
-  .fila .v{text-align:left}
-  .fila.destaca{margin:0;padding:22px 18px}
-  .total{padding:22px 20px}
+  .total{padding:26px 22px}
   .foot-r{text-align:left}
-  .shead{gap:14px}
 }
 </style>
 </head>
@@ -259,57 +307,70 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
 
 <nav class="nav">
   <div class="wrap nav-in">
-    <img src="assets/logo-dilema.png" alt="Dilema Creative">
-    <span class="meta">Propuesta · Octubre 2026</span>
+    <div class="nav-l">
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      <span class="nav-div"></span>
+      <span class="nav-tag">Propuesta Detail House</span>
+    </div>
+    <span class="nav-tag">Octubre 2026</span>
   </div>
 </nav>
 
 <header class="hero">
   <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-txt">
-        <p class="marca">Dilema Creative <span style="color:#a89d87">para</span> <b>Detail House</b></p>
-        <h1>Tienda online propia,<br>y publicidad que <span class="az">venda</span></h1>
-        <p class="hero-sub">Hoy venden en el local y por WhatsApp. Les sumamos un canal que trabaja las veinticuatro horas.</p>
-      </div>
-      <div class="hero-panel">
-        <div class="hp-row">
-          <span class="hp-num">8.061</span>
-          <p>Seguidores en Instagram. Una audiencia ya armada, a la que todavía no se le puede vender sin contestar un mensaje a mano.</p>
-        </div>
-        <div class="hp-row">
-          <span class="hp-num">1 de octubre</span>
-          <p>Abrieron el local. El momento exacto para montar el canal online, mientras la marca está fresca.</p>
-        </div>
-        <div class="hp-row">
-          <span class="hp-num">Sin tienda</span>
-          <p>El link de la bio va a WhatsApp. Cada venta necesita que alguien esté del otro lado escribiendo.</p>
-        </div>
-      </div>
+    <div class="hero-mark">
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      <span class="ln"></span>
+      <span class="tag">Para Detail House</span>
+    </div>
+    <h1>Hoy venden por <em class="ac">WhatsApp</em> y en el local.<br>El paso siguiente es <em class="ac">vender online</em>.</h1>
+    <p class="hero-sub">Les armamos la tienda con el catálogo que ya tienen cargado en Dux, y las campañas en Meta y Google que le traen compradores.</p>
+    <div class="tags">
+      <span>Tienda online</span>
+      <span>Meta Ads</span>
+      <span>Google Ads</span>
+      <span>Medición y píxel</span>
     </div>
   </div>
 </header>
 
+<section class="strip rv" style="padding:0">
+  <div class="wrap">
+    <div class="strip-grid">
+      <div>
+        <span class="n">8.061</span>
+        <p>Seguidores en Instagram. Una audiencia ya armada, a la que todavía no se le puede vender sin contestar un mensaje a mano.</p>
+      </div>
+      <div>
+        <span class="n">1 de octubre</span>
+        <p>Abrieron el local. El momento exacto para montar el canal online, mientras la marca está fresca.</p>
+      </div>
+      <div>
+        <span class="n">Sin tienda</span>
+        <p>El link de la bio va a WhatsApp. Cada venta necesita que alguien esté del otro lado escribiendo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="idx">01</span>
-      <div class="t">
-        <h2>La tienda online</h2>
-        <p>La armamos nosotros, de cero, y se la entregamos funcionando. Tres semanas desde que tenemos el dominio y los accesos.</p>
-      </div>
+      <span class="kick">01 · La tienda</span>
+      <h2>Una tienda online <em class="ac">armada y probada</em></h2>
+      <p>La hacemos nosotros de cero y se la entregamos funcionando. Tres semanas desde que tenemos el dominio y los accesos.</p>
     </div>
 
     <div class="tienda">
       <div>
-        <ul class="bul">
+        <ul class="chk">
           <li>Tienda armada con la identidad de la marca, probada en celular y en computadora</li>
           <li>Catálogo, precios y stock traídos desde Dux, sin cargar producto por producto a mano</li>
           <li>Los combos y kits que ya venden, cargados como productos propios</li>
         </ul>
       </div>
       <div>
-        <ul class="bul">
+        <ul class="chk">
           <li>Medios de pago y envíos configurados y probados con una compra real antes de abrir</li>
           <li>Dominio propio apuntando a la tienda, a nombre de ustedes</li>
           <li>Botón de WhatsApp en cada producto, para la consulta que hoy ya reciben</li>
@@ -328,18 +389,16 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
 <section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="idx">02</span>
-      <div class="t">
-        <h2>La publicidad: Meta y Google</h2>
-        <p>Dos canales con trabajos distintos. Uno sale a buscar gente, el otro atiende a la que ya está buscando el producto.</p>
-      </div>
+      <span class="kick">02 · La publicidad</span>
+      <h2>Dos canales con <em class="ac">trabajos distintos</em></h2>
+      <p>Uno sale a buscar gente que todavía no los conoce. El otro atiende a la que ya está buscando el producto.</p>
     </div>
 
     <div class="canales">
       <div>
         <div class="canal-top"><h3>Meta</h3><span class="pill">Instagram y Facebook</span></div>
         <p class="canal-rol">Donde la gente descubre que Detail House existe, sin haberlo buscado.</p>
-        <ul class="bul">
+        <ul class="chk">
           <li>Campaña de ventas hacia la tienda, con el catálogo cargado en Meta</li>
           <li>Campaña de mensajes a WhatsApp, que es donde hoy ya cierran ventas</li>
           <li>Público de todo el país para la tienda, y de la zona para el local</li>
@@ -349,7 +408,7 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
       <div>
         <div class="canal-top"><h3>Google</h3><span class="pill">Búsqueda y Maps</span></div>
         <p class="canal-rol">Donde alguien ya escribió lo que quiere comprar y está decidiendo a quién.</p>
-        <ul class="bul">
+        <ul class="chk">
           <li>Campaña de ventas para quien busca el producto o la marca por nombre</li>
           <li>Campaña para aparecer cuando alguien busca detailing cerca del local</li>
           <li>Prioridad de presupuesto por producto, empezando por los que más margen dejan</li>
@@ -366,14 +425,12 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
   </div>
 </section>
 
-<section class="banda rv">
+<section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="idx">03</span>
-      <div class="t">
-        <h2>Lo que necesitan de su lado</h2>
-        <p>Esto no nos lo pagan a nosotros. Son servicios que se contratan a nombre de ustedes y quedan siempre bajo su control.</p>
-      </div>
+      <span class="kick">03 · De su lado</span>
+      <h2>Lo que <em class="ac">contratan ustedes</em></h2>
+      <p>Esto no nos lo pagan a nosotros. Son servicios que se contratan a nombre de ustedes y quedan siempre bajo su control.</p>
     </div>
 
     <div class="costos">
@@ -394,7 +451,7 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
       </div>
       <div class="ok">
         <h3>Hosting: no hace falta</h3>
-        <span class="cifra libre">$0</span>
+        <span class="cifra">$0</span>
         <p>Nos pidieron un hosting barato y la buena noticia es que no van a necesitar ninguno. Tiendanube ya incluye el alojamiento, el certificado de seguridad y el mantenimiento dentro del plan. Pagar un hosting aparte sería pagar dos veces lo mismo.</p>
       </div>
     </div>
@@ -406,10 +463,8 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
 <section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="idx">04</span>
-      <div class="t">
-        <h2>Qué hacemos todos los meses</h2>
-      </div>
+      <span class="kick">04 · El mes a mes</span>
+      <h2>Qué hacemos <em class="ac">todos los meses</em></h2>
     </div>
 
     <div class="tareas">
@@ -444,20 +499,18 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
 <section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="idx">05</span>
-      <div class="t">
-        <h2>Dos tiendas que arrancamos parecido</h2>
-      </div>
+      <span class="kick">05 · Antecedentes</span>
+      <h2>Dos tiendas que <em class="ac">arrancamos parecido</em></h2>
     </div>
     <div class="casos">
       <div>
-        <p class="rub">E-commerce, productos para mamás</p>
+        <p class="rub">E-commerce · productos para mamás</p>
         <div class="num">12,8x de retorno</div>
         <h3>Click It Care</h3>
         <p>Arrancó de cero en julio: tienda nueva, sin historial y sin audiencia, igual que la situación de Detail House. En su mejor semana el retorno llegó a 12,8x y en el tercer mes promedió 8x. De una semana a la otra pasó de 7,3x a 12,8x.</p>
       </div>
       <div>
-        <p class="rub">E-commerce de tecnología, con local a la calle</p>
+        <p class="rub">E-commerce de tecnología · con local a la calle</p>
         <div class="num">+106% en ventas</div>
         <h3>Tres Mares</h3>
         <p>Llegaron sin medición: el píxel no registraba nada. Primero se ordenó el seguimiento y después se tocaron las campañas. Las ventas por Google pasaron de 17 a 35 en un mes, con menos inversión que el mes anterior.</p>
@@ -469,28 +522,37 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
 <section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="idx">06</span>
-      <div class="t">
-        <h2>Lo que cuesta el trabajo</h2>
-      </div>
+      <span class="kick">06 · Inversión</span>
+      <h2>Lo que cuesta <em class="ac">el trabajo</em></h2>
+      <p>Una cosa se paga una sola vez y la otra es mensual. El fee cubre el trabajo de Dilema: la inversión en Meta y en Google va aparte.</p>
     </div>
 
-    <div class="tabla">
-      <div class="fila">
-        <div class="q">Armado de la tienda online<small>Pago único, con el catálogo importado desde Dux y todo probado</small></div>
-        <div class="v">USD 500</div>
+    <div class="precios">
+      <div class="card">
+        <div class="card-top"><span class="card-lbl">La tienda</span></div>
+        <div class="precio">USD 500 <small>pago único</small></div>
+        <p class="desc">Armado completo de la tienda online, con el catálogo importado desde Dux y todo probado antes de abrir.</p>
+        <ul class="chk">
+          <li>Diseño y carga de la tienda</li>
+          <li>Catálogo conectado con Dux</li>
+          <li>Pagos, envíos y dominio configurados</li>
+          <li>Entrega en tres semanas</li>
+        </ul>
       </div>
-      <div class="fila tach">
-        <div class="q">Meta Ads<small>Precio de lista, por separado</small></div>
-        <div class="v">USD 300 por mes</div>
-      </div>
-      <div class="fila tach">
-        <div class="q">Google Ads<small>Precio de lista, por separado</small></div>
-        <div class="v">USD 300 por mes</div>
-      </div>
-      <div class="fila destaca">
-        <div class="q">Combo Meta Ads y Google Ads<small>Precio para Detail House. Les bonificamos USD 100 por tomar los dos canales juntos.</small></div>
-        <div class="v">USD 500 por mes</div>
+      <div class="card feat">
+        <div class="card-top">
+          <span class="card-lbl">La publicidad</span>
+          <span class="bon">Bonificado USD 100</span>
+        </div>
+        <span class="antes">USD 600 por separado</span>
+        <div class="precio">USD 500 <small>por mes</small></div>
+        <p class="desc">Meta Ads y Google Ads gestionados juntos. Por separado son USD 300 cada uno: tomando los dos, les bonificamos USD 100.</p>
+        <ul class="chk">
+          <li>Gestión de Meta Ads e Instagram</li>
+          <li>Gestión de Google Ads</li>
+          <li>Medición y píxel, sin costo de instalación</li>
+          <li>Reporte mensual y portal de seguimiento</li>
+        </ul>
       </div>
     </div>
 
@@ -517,8 +579,8 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
 <section class="rv" style="border-bottom:none">
   <div class="wrap">
     <div class="shead">
-      <span class="idx">07</span>
-      <div class="t"><h2>Cómo seguimos</h2></div>
+      <span class="kick">07 · Arranque</span>
+      <h2>Cómo <em class="ac">seguimos</em></h2>
     </div>
     <div class="pasos">
       <div>
@@ -540,9 +602,9 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
 <footer>
   <div class="wrap foot">
     <div>
-      <img src="assets/logo-dilema.png" alt="Dilema Creative">
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
       <p>Trabajamos con pocos clientes y nos metemos en el negocio. Si vemos algo que conviene cambiar aunque no esté en el contrato, lo decimos.</p>
-      <p style="margin-top:14px"><a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a></p>
+      <p style="margin-top:16px"><a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a></p>
     </div>
     <div class="foot-r">Propuesta Detail House<br>Octubre 2026</div>
   </div>
@@ -556,7 +618,7 @@ footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,25
     en.forEach(function(e){
       if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
     });
-  },{rootMargin:'0px 0px -50px 0px',threshold:.06});
+  },{rootMargin:'0px 0px -60px 0px',threshold:.05});
   els.forEach(function(e){io.observe(e)});
 })();
 </script>
