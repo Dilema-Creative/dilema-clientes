@@ -166,7 +166,7 @@ ul.chk li::before{
 .canal-rol{font-size:14.5px;color:var(--muted-2);margin-bottom:22px;min-height:3.1em}
 
 /* 03 de su lado */
-.costos{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.costos{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .costos > div{
   background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:30px 30px 32px;
 }
@@ -279,6 +279,7 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
 /* ---------- RESPONSIVE ---------- */
 @media (max-width:980px){
   .tareas{grid-template-columns:1fr 1fr}
+  .costos{grid-template-columns:1fr}
   .cond{gap:38px}
 }
 @media (max-width:760px){
@@ -436,27 +437,22 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
     <div class="costos">
       <div>
         <h3>El dominio</h3>
-        <span class="cifra">$8.500 por año</span>
-        <p>Es la dirección de la tienda, del tipo detailhouse.com.ar. Se registra en NIC Argentina con el CUIT de la empresa y se renueva una vez al año. Lo configuramos nosotros, pero la cuenta es de ustedes.</p>
+        <span class="cifra">Una vez al año</span>
+        <p>Es la dirección de la tienda, del tipo detailhouse.com.ar. Se registra en NIC Argentina con el CUIT de la empresa y se renueva anualmente. Es el más barato de los tres y lo configuramos nosotros, pero la cuenta queda a nombre de ustedes.</p>
       </div>
       <div>
         <h3>El plan de Tiendanube</h3>
-        <span class="cifra">$27.999 por mes</span>
-        <p>Es el plan Esencial, el primero que sirve para vender en serio. Pagando el año de una vez queda en $20.999 por mes. El plan gratuito no entra en la cuenta: solo deja usar los medios de pago y envíos propios de Tiendanube.</p>
-      </div>
-      <div>
-        <h3>La conexión con Dux</h3>
-        <span class="cifra">A confirmar con Dux</span>
-        <p>La aplicación que une Dux con Tiendanube tiene un costo propio que no está publicado. Lo averiguamos nosotros y se lo pasamos antes de que contraten nada, para que no haya sorpresas.</p>
+        <span class="cifra">Mensual</span>
+        <p>Tiendanube tiene varios planes y cuál conviene depende del volumen que esperen vender. Lo vemos juntos antes de que contraten. Lo único seguro es que el plan gratuito no sirve: solo deja usar los medios de pago y de envío propios de Tiendanube.</p>
       </div>
       <div class="ok">
         <h3>Hosting: no hace falta</h3>
-        <span class="cifra">$0</span>
+        <span class="cifra">Sin costo</span>
         <p>Nos pidieron un hosting barato y la buena noticia es que no van a necesitar ninguno. Tiendanube ya incluye el alojamiento, el certificado de seguridad y el mantenimiento dentro del plan. Pagar un hosting aparte sería pagar dos veces lo mismo.</p>
       </div>
     </div>
 
-    <p class="nota-pie">Un detalle para tener en cuenta al armar los precios: además del plan, Tiendanube cobra una comisión por cada venta. En el plan Esencial es del 2% si el cliente paga con un medio externo, y hay un cargo desde 2,97% más IVA al retirar la plata de Pago Nube.</p>
+    <p class="nota-pie">Un detalle para tener en cuenta al armar los precios de venta: además del plan, Tiendanube se queda con una comisión por cada venta y con un cargo al retirar el dinero. Los dos porcentajes bajan a medida que sube de plan, así que conviene mirarlos junto con el volumen que esperan.</p>
   </div>
 </section>
 
