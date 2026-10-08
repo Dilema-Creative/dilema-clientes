@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Propuesta Detail House · Dilema Creative</title>
+<meta name="description" content="Tienda online, Meta Ads y Google Ads para Detail House.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --ink:#0E2A47;
+  --ink-2:#2b4a6b;
+  --paper:#FAF6EE;
+  --paper-2:#F2EBDC;
+  --paper-3:#E8DFCC;
+  --line:#ddd2bc;
+  --line-soft:#e9e0cf;
+  --gris:#5d6b78;
+  --azul:#0F6A96;
+  --azul-claro:#1A8CC4;
+  --verde:#3f7f63;
+  --max:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'DM Sans',system-ui,sans-serif;
+  font-size:17px;
+  line-height:1.62;
+  overflow-x:hidden;
+  font-variant-numeric:lining-nums tabular-nums;
+}
+img{max-width:100%;height:auto;display:block;align-self:flex-start}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 28px}
+
+h1,h2,h3,.disp{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-variant-numeric:lining-nums tabular-nums;
+  font-weight:500;
+  letter-spacing:-.01em;
+  color:var(--ink);
+}
+h1{font-size:clamp(2.3rem,4.7vw,3.5rem);line-height:1.07;text-wrap:balance}
+h2{font-size:clamp(1.7rem,3.6vw,2.5rem);line-height:1.1}
+h3{font-size:1.26rem;line-height:1.26;font-weight:600}
+.mono{
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  font-variant-numeric:lining-nums tabular-nums;
+}
+
+/* ---------- NAV ---------- */
+.nav{
+  position:sticky;top:0;z-index:40;
+  background:rgba(250,246,238,.9);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line-soft);
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:64px}
+.nav img{height:26px;width:auto}
+.nav .meta{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--gris);white-space:nowrap;
+}
+
+/* ---------- HERO ---------- */
+.hero{border-bottom:1px solid var(--line)}
+.hero-grid{
+  display:grid;grid-template-columns:1.1fr .9fr;gap:0;
+  align-items:stretch;min-height:clamp(420px,62vh,560px);
+}
+.hero-txt{padding:60px 52px 60px 0;display:flex;flex-direction:column;justify-content:center}
+.marca{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;
+  letter-spacing:.11em;color:var(--gris);margin-bottom:26px;
+}
+.marca b{color:var(--ink);font-weight:700}
+.hero h1{margin-bottom:20px}
+.hero h1 .az{color:var(--azul)}
+.hero-sub{font-size:clamp(1rem,1.9vw,1.13rem);color:var(--ink-2);max-width:38ch}
+.hero-panel{
+  background:var(--ink);color:#e9f1f7;
+  padding:46px 40px;display:flex;flex-direction:column;justify-content:center;gap:0;
+}
+.hp-row{padding:20px 0;border-top:1px solid rgba(255,255,255,.17)}
+.hp-row:first-child{border-top:none;padding-top:0}
+.hp-row:last-child{padding-bottom:0}
+.hp-num{
+  font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:clamp(1.5rem,3.4vw,1.95rem);line-height:1;color:#fff;
+  display:block;margin-bottom:8px;
+}
+.hp-row p{font-size:14px;line-height:1.5;color:#b8cddd}
+
+/* ---------- SECCIONES ---------- */
+section{padding:72px 0;border-bottom:1px solid var(--line)}
+.shead{display:flex;gap:18px;align-items:baseline;margin-bottom:34px}
+.idx{
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
+  color:var(--azul);padding-top:.45em;flex:none;
+}
+.shead .t{max-width:62ch}
+.shead p{color:var(--gris);font-size:16.5px;margin-top:10px}
+
+/* 01 tienda: dos columnas de bullets + aside */
+.tienda{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+.tienda > div + div{padding-left:48px;border-left:1px solid var(--line)}
+ul.bul{list-style:none}
+ul.bul li{
+  position:relative;padding:13px 0 13px 20px;font-size:15.5px;color:var(--ink-2);
+  border-top:1px solid var(--line-soft);
+}
+ul.bul li:first-child{border-top:none;padding-top:0}
+ul.bul li:first-child::before{top:8px}
+ul.bul li::before{
+  content:"";position:absolute;left:0;top:21px;width:7px;height:1px;background:var(--azul);
+}
+.aside{
+  background:var(--paper-2);border-top:2px solid var(--azul);
+  padding:26px 28px;margin-top:38px;
+}
+.aside h3{margin-bottom:8px}
+.aside p{font-size:15.5px;color:var(--ink-2)}
+.aside p + p{margin-top:12px}
+
+/* 02 canales */
+.canales{display:grid;grid-template-columns:1fr 1fr}
+.canales > div{padding-right:44px}
+.canales > div + div{padding-left:44px;border-left:1px solid var(--line)}
+.canal-top{display:flex;align-items:baseline;gap:12px;margin-bottom:5px}
+.canal-rol{font-size:14.5px;color:var(--gris);margin-bottom:18px;min-height:3.1em}
+.pill{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:var(--azul);color:#fff;padding:4px 10px;border-radius:999px;white-space:nowrap;
+}
+
+/* 03 de su lado: banda tintada, pares */
+.banda{background:var(--paper-2)}
+.costos{display:grid;grid-template-columns:1fr 1fr;gap:38px 48px}
+.costos > div{padding-top:22px;border-top:2px solid var(--ink)}
+.costos > div.ok{border-top-color:var(--verde)}
+.costos h3{margin-bottom:6px}
+.costos .cifra{
+  font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:1.35rem;line-height:1;color:var(--azul);display:block;margin:10px 0 12px;
+}
+.costos .cifra.libre{color:var(--verde)}
+.costos p{font-size:15.5px;color:var(--ink-2)}
+.nota-pie{font-size:14px;color:var(--gris);margin-top:34px;max-width:72ch}
+
+/* 04 tareas */
+.tareas{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 44px}
+.tareas article{padding:22px 0;border-top:1px solid var(--line-soft)}
+.tareas article h3{margin-bottom:7px;font-size:1.1rem}
+.tareas article p{font-size:14.5px;color:var(--gris)}
+
+/* 05 casos */
+.casos{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.casos > div{padding-top:22px;border-top:1px solid var(--ink)}
+.casos .rub{font-size:13px;color:var(--gris);margin-bottom:12px}
+.casos .num{
+  font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:clamp(1.5rem,3.4vw,2rem);line-height:1;color:var(--verde);margin-bottom:12px;
+}
+.casos h3{margin-bottom:10px}
+.casos p{font-size:15px;color:var(--gris)}
+
+/* 06 inversion */
+.tabla{border-top:2px solid var(--ink)}
+.fila{
+  display:grid;grid-template-columns:1fr auto;gap:18px;align-items:baseline;
+  padding:20px 0;border-bottom:1px solid var(--line);
+}
+.fila .q{font-size:16.5px;color:var(--ink)}
+.fila .q small{display:block;font-size:13.5px;color:var(--gris);margin-top:3px;letter-spacing:0}
+.fila .v{
+  font-family:'JetBrains Mono',monospace;font-weight:500;font-size:1.05rem;
+  color:var(--ink);white-space:nowrap;text-align:right;
+}
+.fila.tach .q,.fila.tach .v{color:var(--gris)}
+.fila.tach .v{text-decoration:line-through}
+.fila.destaca{background:var(--paper-2);padding:22px 20px;margin:0 -20px;border-bottom:none}
+.fila.destaca .q{font-weight:700}
+.fila.destaca .v{font-weight:700;font-size:1.3rem;color:var(--azul)}
+.total{
+  display:flex;align-items:baseline;justify-content:space-between;gap:20px;flex-wrap:wrap;
+  background:var(--ink);color:#fff;padding:26px 28px;margin-top:30px;
+}
+.total .lbl{font-size:15.5px;color:#bcd2e2;max-width:46ch}
+.total .big{
+  font-family:'JetBrains Mono',monospace;font-weight:700;
+  font-size:clamp(1.7rem,4.6vw,2.3rem);line-height:1;color:#fff;white-space:nowrap;
+}
+.cond{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:40px}
+.cond > div{padding-top:20px;border-top:1px solid var(--line)}
+.cond h3{margin-bottom:8px}
+.cond p{font-size:15.5px;color:var(--ink-2)}
+.cond p + p{margin-top:12px}
+
+/* 07 pasos */
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.pasos div{padding:24px 28px 0 0;border-top:1px solid var(--ink)}
+.pasos div + div{padding-left:28px;border-left:1px solid var(--line)}
+.pasos .n{
+  font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--azul);
+  display:block;margin-bottom:12px;
+}
+.pasos p{font-size:15.5px;color:var(--ink-2)}
+
+/* footer */
+footer{background:var(--ink);color:#a9c2d8;padding:50px 0 44px}
+footer img{height:30px;width:auto;margin-bottom:20px;filter:brightness(0) invert(1)}
+.foot{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;align-items:flex-end}
+footer p{font-size:14.5px;max-width:44ch}
+footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.3)}
+.foot-r{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#7f9cb5;text-align:right}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:980px){
+  .hero-grid{grid-template-columns:1fr}
+  .hero-txt{padding:48px 0 38px}
+  .hero-panel{padding:34px 28px;margin-bottom:0}
+  .tareas{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  .wrap{padding:0 20px}
+  section{padding:52px 0}
+  h1{font-size:clamp(1.95rem,8.6vw,2.3rem)}
+  .tienda,.canales,.costos,.tareas,.casos,.cond,.pasos{grid-template-columns:1fr}
+  .tienda > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line);margin-top:30px;padding-top:30px}
+  .canales > div{padding-right:0}
+  .canales > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line);margin-top:38px;padding-top:38px}
+  .canal-rol{min-height:0}
+  .costos{gap:30px}
+  .pasos div{padding:22px 0 0}
+  .pasos div + div{padding-left:0;border-left:none}
+  .fila{grid-template-columns:1fr;gap:4px}
+  .fila .v{text-align:left}
+  .fila.destaca{margin:0;padding:22px 18px}
+  .total{padding:22px 20px}
+  .foot-r{text-align:left}
+  .shead{gap:14px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <img src="assets/logo-dilema.png" alt="Dilema Creative">
+    <span class="meta">Propuesta · Octubre 2026</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-txt">
+        <p class="marca">Dilema Creative <span style="color:#a89d87">para</span> <b>Detail House</b></p>
+        <h1>Tienda online propia,<br>y publicidad que <span class="az">venda</span></h1>
+        <p class="hero-sub">Hoy venden en el local y por WhatsApp. Les sumamos un canal que trabaja las veinticuatro horas.</p>
+      </div>
+      <div class="hero-panel">
+        <div class="hp-row">
+          <span class="hp-num">8.061</span>
+          <p>Seguidores en Instagram. Una audiencia ya armada, a la que todavía no se le puede vender sin contestar un mensaje a mano.</p>
+        </div>
+        <div class="hp-row">
+          <span class="hp-num">1 de octubre</span>
+          <p>Abrieron el local. El momento exacto para montar el canal online, mientras la marca está fresca.</p>
+        </div>
+        <div class="hp-row">
+          <span class="hp-num">Sin tienda</span>
+          <p>El link de la bio va a WhatsApp. Cada venta necesita que alguien esté del otro lado escribiendo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">01</span>
+      <div class="t">
+        <h2>La tienda online</h2>
+        <p>La armamos nosotros, de cero, y se la entregamos funcionando. Tres semanas desde que tenemos el dominio y los accesos.</p>
+      </div>
+    </div>
+
+    <div class="tienda">
+      <div>
+        <ul class="bul">
+          <li>Tienda armada con la identidad de la marca, probada en celular y en computadora</li>
+          <li>Catálogo, precios y stock traídos desde Dux, sin cargar producto por producto a mano</li>
+          <li>Los combos y kits que ya venden, cargados como productos propios</li>
+        </ul>
+      </div>
+      <div>
+        <ul class="bul">
+          <li>Medios de pago y envíos configurados y probados con una compra real antes de abrir</li>
+          <li>Dominio propio apuntando a la tienda, a nombre de ustedes</li>
+          <li>Botón de WhatsApp en cada producto, para la consulta que hoy ya reciben</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="aside">
+      <h3>Por qué el catálogo sale de Dux</h3>
+      <p>Ya tienen los productos, los precios y el stock cargados en Dux. Tiendanube tiene una conexión oficial con Dux, así que el catálogo se trae desde ahí en vez de escribirlo de nuevo. Es más rápido de montar y, una vez andando, el stock y los precios se actualizan solos desde el sistema que ya usan.</p>
+      <p>Es la razón por la que recomendamos Tiendanube y no otra plataforma: es la que se lleva bien con lo que ustedes ya tienen.</p>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">02</span>
+      <div class="t">
+        <h2>La publicidad: Meta y Google</h2>
+        <p>Dos canales con trabajos distintos. Uno sale a buscar gente, el otro atiende a la que ya está buscando el producto.</p>
+      </div>
+    </div>
+
+    <div class="canales">
+      <div>
+        <div class="canal-top"><h3>Meta</h3><span class="pill">Instagram y Facebook</span></div>
+        <p class="canal-rol">Donde la gente descubre que Detail House existe, sin haberlo buscado.</p>
+        <ul class="bul">
+          <li>Campaña de ventas hacia la tienda, con el catálogo cargado en Meta</li>
+          <li>Campaña de mensajes a WhatsApp, que es donde hoy ya cierran ventas</li>
+          <li>Público de todo el país para la tienda, y de la zona para el local</li>
+          <li>Los videos que ya hacen, adaptados a formato de anuncio</li>
+        </ul>
+      </div>
+      <div>
+        <div class="canal-top"><h3>Google</h3><span class="pill">Búsqueda y Maps</span></div>
+        <p class="canal-rol">Donde alguien ya escribió lo que quiere comprar y está decidiendo a quién.</p>
+        <ul class="bul">
+          <li>Campaña de ventas para quien busca el producto o la marca por nombre</li>
+          <li>Campaña para aparecer cuando alguien busca detailing cerca del local</li>
+          <li>Prioridad de presupuesto por producto, empezando por los que más margen dejan</li>
+          <li>Control de en qué búsquedas se va la plata, para cortar las que no son clientes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="aside">
+      <h3>Lo técnico queda adentro, sin costo de instalación</h3>
+      <p>Antes de poner un peso en pauta dejamos la medición funcionando: el píxel de Meta instalado en la tienda, el dominio verificado en Meta, el WhatsApp conectado a la cuenta publicitaria, el catálogo sincronizado y las compras contadas como compras.</p>
+      <p>Traducido: que cuando alguien compre, Instagram y Google se enteren. Es lo que les permite salir a buscar más gente parecida a la que ya compró, en vez de tirar anuncios a ciegas.</p>
+    </div>
+  </div>
+</section>
+
+<section class="banda rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">03</span>
+      <div class="t">
+        <h2>Lo que necesitan de su lado</h2>
+        <p>Esto no nos lo pagan a nosotros. Son servicios que se contratan a nombre de ustedes y quedan siempre bajo su control.</p>
+      </div>
+    </div>
+
+    <div class="costos">
+      <div>
+        <h3>El dominio</h3>
+        <span class="cifra">$8.500 por año</span>
+        <p>Es la dirección de la tienda, del tipo detailhouse.com.ar. Se registra en NIC Argentina con el CUIT de la empresa y se renueva una vez al año. Lo configuramos nosotros, pero la cuenta es de ustedes.</p>
+      </div>
+      <div>
+        <h3>El plan de Tiendanube</h3>
+        <span class="cifra">$27.999 por mes</span>
+        <p>Es el plan Esencial, el primero que sirve para vender en serio. Pagando el año de una vez queda en $20.999 por mes. El plan gratuito no entra en la cuenta: solo deja usar los medios de pago y envíos propios de Tiendanube.</p>
+      </div>
+      <div>
+        <h3>La conexión con Dux</h3>
+        <span class="cifra">A confirmar con Dux</span>
+        <p>La aplicación que une Dux con Tiendanube tiene un costo propio que no está publicado. Lo averiguamos nosotros y se lo pasamos antes de que contraten nada, para que no haya sorpresas.</p>
+      </div>
+      <div class="ok">
+        <h3>Hosting: no hace falta</h3>
+        <span class="cifra libre">$0</span>
+        <p>Nos pidieron un hosting barato y la buena noticia es que no van a necesitar ninguno. Tiendanube ya incluye el alojamiento, el certificado de seguridad y el mantenimiento dentro del plan. Pagar un hosting aparte sería pagar dos veces lo mismo.</p>
+      </div>
+    </div>
+
+    <p class="nota-pie">Un detalle para tener en cuenta al armar los precios: además del plan, Tiendanube cobra una comisión por cada venta. En el plan Esencial es del 2% si el cliente paga con un medio externo, y hay un cargo desde 2,97% más IVA al retirar la plata de Pago Nube.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">04</span>
+      <div class="t">
+        <h2>Qué hacemos todos los meses</h2>
+      </div>
+    </div>
+
+    <div class="tareas">
+      <article>
+        <h3>Gestión de campañas</h3>
+        <p>Armado, seguimiento y ajuste en Meta y en Google. Se corta lo que no trae ventas y se refuerza lo que sí.</p>
+      </article>
+      <article>
+        <h3>Anuncios y textos</h3>
+        <p>Escribimos los anuncios y adaptamos el material que ustedes graban a formato publicitario.</p>
+      </article>
+      <article>
+        <h3>Control de la inversión</h3>
+        <p>Seguimiento del costo por venta producto por producto, para mover el presupuesto a donde rinde.</p>
+      </article>
+      <article>
+        <h3>Portal propio</h3>
+        <p>Un acceso web para ver sus números cuando quieran. Se configura con lo que a ustedes les sirva mirar.</p>
+      </article>
+      <article>
+        <h3>Reporte mensual</h3>
+        <p>Un informe claro de qué se invirtió, qué entró y qué decidimos. Sin planillas para descifrar.</p>
+      </article>
+      <article>
+        <h3>Seguimiento</h3>
+        <p>Reunión de revisión para decidir juntos el rumbo, y disponibilidad por WhatsApp en el medio.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">05</span>
+      <div class="t">
+        <h2>Dos tiendas que arrancamos parecido</h2>
+      </div>
+    </div>
+    <div class="casos">
+      <div>
+        <p class="rub">E-commerce, productos para mamás</p>
+        <div class="num">12,8x de retorno</div>
+        <h3>Click It Care</h3>
+        <p>Arrancó de cero en julio: tienda nueva, sin historial y sin audiencia, igual que la situación de Detail House. En su mejor semana el retorno llegó a 12,8x y en el tercer mes promedió 8x. De una semana a la otra pasó de 7,3x a 12,8x.</p>
+      </div>
+      <div>
+        <p class="rub">E-commerce de tecnología, con local a la calle</p>
+        <div class="num">+106% en ventas</div>
+        <h3>Tres Mares</h3>
+        <p>Llegaron sin medición: el píxel no registraba nada. Primero se ordenó el seguimiento y después se tocaron las campañas. Las ventas por Google pasaron de 17 a 35 en un mes, con menos inversión que el mes anterior.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">06</span>
+      <div class="t">
+        <h2>Lo que cuesta el trabajo</h2>
+      </div>
+    </div>
+
+    <div class="tabla">
+      <div class="fila">
+        <div class="q">Armado de la tienda online<small>Pago único, con el catálogo importado desde Dux y todo probado</small></div>
+        <div class="v">USD 500</div>
+      </div>
+      <div class="fila tach">
+        <div class="q">Meta Ads<small>Precio de lista, por separado</small></div>
+        <div class="v">USD 300 por mes</div>
+      </div>
+      <div class="fila tach">
+        <div class="q">Google Ads<small>Precio de lista, por separado</small></div>
+        <div class="v">USD 300 por mes</div>
+      </div>
+      <div class="fila destaca">
+        <div class="q">Combo Meta Ads y Google Ads<small>Precio para Detail House. Les bonificamos USD 100 por tomar los dos canales juntos.</small></div>
+        <div class="v">USD 500 por mes</div>
+      </div>
+    </div>
+
+    <div class="total">
+      <div class="lbl">Primer mes, con la tienda incluida. Después quedan los USD 500 por mes del combo.</div>
+      <div class="big">USD 1.000</div>
+    </div>
+
+    <div class="cond">
+      <div>
+        <h3>Arrancamos con dos meses</h3>
+        <p>El combo de publicidad se toma por dos meses. Es el tiempo mínimo para que las campañas junten datos propios y la tienda tenga algo de historial: antes de eso, cualquier conclusión es apurada.</p>
+        <p>Al cierre del segundo mes nos sentamos con los números a la vista y definimos juntos cómo sigue.</p>
+      </div>
+      <div>
+        <h3>Cuánto poner en publicidad lo definimos juntos</h3>
+        <p>La plata que se invierte en Meta y en Google va aparte del trabajo nuestro: se le paga directo a cada plataforma y queda siempre a nombre de ustedes.</p>
+        <p>No les tiramos un número ahora porque sería adivinar. Lo calculamos con ustedes usando nuestra calculadora de presupuesto: se cargan el margen, el ticket promedio y cuánto quieren vender, y sale cuánto hay que invertir para llegar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv" style="border-bottom:none">
+  <div class="wrap">
+    <div class="shead">
+      <span class="idx">07</span>
+      <div class="t"><h2>Cómo seguimos</h2></div>
+    </div>
+    <div class="pasos">
+      <div>
+        <span class="n">Primero</span>
+        <p>Nos dan el visto bueno, registran el dominio y contratan el plan de la tienda. Les pasamos el paso a paso de los dos trámites.</p>
+      </div>
+      <div>
+        <span class="n">Después</span>
+        <p>Nos dan acceso a Dux, a Instagram y a Google, y armamos la tienda. Tres semanas desde ahí.</p>
+      </div>
+      <div>
+        <span class="n">Y salimos</span>
+        <p>Con la tienda andando y la medición funcionando, definimos el presupuesto de publicidad y arrancan las campañas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <img src="assets/logo-dilema.png" alt="Dilema Creative">
+      <p>Trabajamos con pocos clientes y nos metemos en el negocio. Si vemos algo que conviene cambiar aunque no esté en el contrato, lo decimos.</p>
+      <p style="margin-top:14px"><a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a></p>
+    </div>
+    <div class="foot-r">Propuesta Detail House<br>Octubre 2026</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -50px 0px',threshold:.06});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
