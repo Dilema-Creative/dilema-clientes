@@ -165,6 +165,29 @@ ul.chk li::before{
 }
 .canal-rol{font-size:14.5px;color:var(--muted-2);margin-bottom:22px;min-height:3.1em}
 
+/* 02 promocionar vs campana */
+.salto{
+  display:grid;grid-template-columns:1fr 1fr;
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+}
+.salto > div{padding:34px 34px 36px;min-width:0}
+.salto > div + div{border-left:1px solid var(--line);background:rgba(91,180,214,.055)}
+.salto .lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);
+  display:block;margin-bottom:16px;
+}
+.salto > div + div .lbl{color:var(--cel)}
+.salto h3{margin-bottom:14px;font-size:1.3rem}
+.salto p{font-size:15px;color:var(--muted)}
+.salto p + p{margin-top:13px}
+.salto-cierre{
+  font-family:'Fraunces',Georgia,serif;font-weight:500;
+  font-size:clamp(1.25rem,2.6vw,1.6rem);line-height:1.34;
+  color:var(--paper);max-width:50ch;margin-top:38px;
+}
+.salto-cierre em{font-style:italic;font-weight:400;color:var(--cel)}
+
 /* 03 de su lado */
 .costos{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
 .costos > div{
@@ -207,9 +230,12 @@ ul.chk li::before{
 .card{
   background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
   padding:36px 32px 34px;display:flex;flex-direction:column;
+  text-align:center;align-items:center;
 }
-.card.feat{border-color:rgba(91,180,214,.5);background:var(--panel-2)}
-.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px 12px;margin-bottom:24px;flex-wrap:wrap}
+.card-top{
+  display:flex;align-items:center;justify-content:center;gap:10px 12px;
+  margin-bottom:22px;flex-wrap:wrap;min-height:30px;
+}
 .card-lbl{
   font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
   letter-spacing:.13em;text-transform:uppercase;color:var(--muted-2);
@@ -221,8 +247,9 @@ ul.chk li::before{
 }
 .antes{
   font-family:'JetBrains Mono',monospace;font-size:13.5px;color:var(--muted-2);
-  text-decoration:line-through;display:block;margin-bottom:8px;
+  text-decoration:line-through;display:block;margin-bottom:8px;min-height:1.45em;
 }
+.antes.ghost{visibility:hidden}
 .precio{
   font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.6rem,6vw,3.5rem);
   line-height:1;color:var(--paper);margin-bottom:6px;
@@ -231,8 +258,8 @@ ul.chk li::before{
   font-family:'Inter',sans-serif;font-size:1rem;font-weight:400;color:var(--muted-2);
   letter-spacing:0;
 }
-.card .desc{font-size:14.5px;color:var(--muted);margin-bottom:24px;min-height:4.4em}
-.card ul.chk{margin-top:auto}
+.card .desc{font-size:14.5px;color:var(--muted);margin-bottom:26px;min-height:5.9em;max-width:40ch}
+.card ul.chk{margin-top:auto;text-align:left;width:100%}
 .card ul.chk li{font-size:14px}
 
 .total{
@@ -291,7 +318,9 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
   .nav-div,.nav-l .nav-tag{display:none}
   .nav .wm{font-size:18px}
   .hero-mark .wm{font-size:22px}
-  .strip-grid,.tienda,.canales,.costos,.tareas,.casos,.precios,.cond,.pasos{grid-template-columns:1fr}
+  .strip-grid,.tienda,.canales,.costos,.tareas,.casos,.precios,.cond,.pasos,.salto{grid-template-columns:1fr}
+  .salto > div + div{border-left:none;border-top:1px solid var(--line)}
+  .salto > div{padding:28px 24px 30px}
   .strip-grid > div{padding:28px 0}
   .strip-grid > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line-soft)}
   .tienda > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line-soft);margin-top:32px;padding-top:32px}
@@ -390,7 +419,34 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
 <section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="kick">02 · La publicidad</span>
+      <span class="kick">02 · El salto</span>
+      <h2>Promocionar un video <em class="ac">no es una campaña</em></h2>
+      <p>Hoy ya invierten en Meta con el botón de promocionar y les funciona. Por eso vale la pena explicar qué cambia cuando se hace en serio.</p>
+    </div>
+
+    <div class="salto">
+      <div>
+        <span class="lbl">Lo que hacen hoy</span>
+        <h3>El botón de promocionar</h3>
+        <p>Cuando promocionan un video desde Instagram, le están pidiendo a Meta una sola cosa: que lo vea mucha gente. Y lo cumple. Por eso tienen el alcance que tienen y por eso se mueven los combos de $50.000.</p>
+        <p>El tema es que Meta nunca se entera de quién terminó comprando. Está buscando gente que mire el video, no gente que pague.</p>
+      </div>
+      <div>
+        <span class="lbl">Lo que sumamos</span>
+        <h3>Una campaña de ventas</h3>
+        <p>Le pide otra cosa: traer gente que compra. Con el píxel puesto en la tienda, Meta ve cada venta que entra y sale a buscar más personas parecidas a las que ya pagaron.</p>
+        <p>Y ahí se elige dónde cierra la venta. A la <strong>tienda</strong>, que cobra sola a cualquier hora y sirve para el ticket más alto. O al <strong>WhatsApp</strong>, que es donde ustedes hoy ya cierran y donde se puede asesorar al que duda.</p>
+      </div>
+    </div>
+
+    <p class="salto-cierre">El alcance ya lo tienen. Lo que falta es <em>decirle a Meta que lo que importa es la venta</em>, no la vista.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">03 · La publicidad</span>
       <h2>Dos canales con <em class="ac">trabajos distintos</em></h2>
       <p>Uno sale a buscar gente que todavía no los conoce. El otro atiende a la que ya está buscando el producto.</p>
     </div>
@@ -429,7 +485,7 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
 <section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="kick">03 · De su lado</span>
+      <span class="kick">04 · De su lado</span>
       <h2>Lo que <em class="ac">contratan ustedes</em></h2>
       <p>Esto no nos lo pagan a nosotros. Son servicios que se contratan a nombre de ustedes y quedan siempre bajo su control.</p>
     </div>
@@ -459,7 +515,7 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
 <section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="kick">04 · El mes a mes</span>
+      <span class="kick">05 · El mes a mes</span>
       <h2>Qué hacemos <em class="ac">todos los meses</em></h2>
     </div>
 
@@ -495,7 +551,7 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
 <section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="kick">05 · Antecedentes</span>
+      <span class="kick">06 · Antecedentes</span>
       <h2>Dos tiendas que <em class="ac">arrancamos parecido</em></h2>
     </div>
     <div class="casos">
@@ -518,7 +574,7 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
 <section class="rv">
   <div class="wrap">
     <div class="shead">
-      <span class="kick">06 · Inversión</span>
+      <span class="kick">07 · Inversión</span>
       <h2>Lo que cuesta <em class="ac">el trabajo</em></h2>
       <p>Una cosa se paga una sola vez y la otra es mensual. El fee cubre el trabajo de Dilema: la inversión en Meta y en Google va aparte.</p>
     </div>
@@ -526,8 +582,9 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
     <div class="precios">
       <div class="card">
         <div class="card-top"><span class="card-lbl">La tienda</span></div>
+        <span class="antes ghost">&nbsp;</span>
         <div class="precio">USD 500 <small>pago único</small></div>
-        <p class="desc">Armado completo de la tienda online, con el catálogo importado desde Dux y todo probado antes de abrir.</p>
+        <p class="desc">Armado completo de la tienda online, con el catálogo importado desde Dux y todo probado antes de abrir. Se paga una sola vez: no es un abono. El plan mensual de Tiendanube lo contratan ustedes y va aparte.</p>
         <ul class="chk">
           <li>Diseño y carga de la tienda</li>
           <li>Catálogo conectado con Dux</li>
@@ -535,7 +592,7 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
           <li>Entrega en tres semanas</li>
         </ul>
       </div>
-      <div class="card feat">
+      <div class="card">
         <div class="card-top">
           <span class="card-lbl">La publicidad</span>
           <span class="bon">Bonificado USD 100</span>
@@ -575,7 +632,7 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,1
 <section class="rv" style="border-bottom:none">
   <div class="wrap">
     <div class="shead">
-      <span class="kick">07 · Arranque</span>
+      <span class="kick">08 · Arranque</span>
       <h2>Cómo <em class="ac">seguimos</em></h2>
     </div>
     <div class="pasos">
