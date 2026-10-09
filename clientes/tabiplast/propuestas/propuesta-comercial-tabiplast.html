@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Propuesta comercial Tabiplast · Dilema Creative</title>
+<meta name="description" content="Tienda online, Google Ads, Meta Ads y contenido para Tabiplast.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: dark;
+  --ink:#081726;
+  --panel:#0C2238;
+  --panel-2:#102C49;
+  --cel:#5BB4D6;
+  --sage:#4FA27E;
+  --sage-2:#6CC59D;
+  --amber:#F79E1C;
+  --paper:#FAF6EE;
+  --muted:rgba(250,246,238,.66);
+  --muted-2:rgba(250,246,238,.46);
+  --line:rgba(250,246,238,.13);
+  --line-2:rgba(247,158,28,.28);
+  --r:4px;
+  --max:1120px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--ink);color:var(--paper);
+  font-size:16px;line-height:1.62;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;height:auto;display:block;align-self:flex-start}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 32px}
+
+h1,h2,h3,.disp{
+  font-family:'Fraunces',Georgia,serif;font-weight:500;
+  letter-spacing:-.02em;color:var(--paper);font-variant-numeric:lining-nums;
+}
+h1{font-size:clamp(2.5rem,5.4vw,4.2rem);line-height:1.03;text-wrap:balance}
+h2{font-size:clamp(1.9rem,4vw,2.85rem);line-height:1.07;text-wrap:balance}
+h3{font-size:1.2rem;line-height:1.3;font-weight:600;letter-spacing:-.01em}
+em.ac{font-style:italic;font-weight:400;color:var(--amber)}
+.kick{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--amber);
+  display:block;margin-bottom:18px;
+}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(8,23,38,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:72px}
+.nav-l{display:flex;align-items:center;gap:18px;min-width:0}
+.nav-div{width:1px;height:22px;background:var(--line);flex:none}
+.wm{
+  font-family:'Fraunces',Georgia,serif;font-weight:700;
+  letter-spacing:-.02em;color:var(--paper);line-height:1;white-space:nowrap;flex:none;
+}
+.wm em{font-style:italic;font-weight:500;color:var(--sage)}
+.wm sup{color:var(--cel);font-size:.5em;top:-.62em;position:relative}
+.nav .wm{font-size:21px}
+footer .wm{font-size:30px;display:block;margin-bottom:24px}
+.nav-tag{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);white-space:nowrap;
+}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);isolation:isolate}
+.hero-bg{
+  position:absolute;inset:-40px;z-index:-2;
+  background:url('assets/deposito-blur.jpg') center 60%/cover no-repeat;
+  filter:blur(14px) saturate(1.15) brightness(.92);transform:scale(1.08);
+}
+.hero::after{
+  content:'';position:absolute;inset:0;z-index:-1;
+  background:
+    linear-gradient(90deg,rgba(8,23,38,.92) 0%,rgba(8,23,38,.7) 55%,rgba(8,23,38,.35) 100%),
+    linear-gradient(0deg,rgba(8,23,38,1) 0%,rgba(8,23,38,0) 40%);
+}
+.hero-in{padding:84px 0 90px;max-width:760px}
+.hero-mark{display:flex;align-items:center;gap:18px;margin-bottom:40px;flex-wrap:wrap}
+.hero-mark img{height:48px;width:auto;flex:none}
+.hero-mark .x{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted-2)}
+.hero-mark .wm{font-size:24px}
+.hero h1{margin-bottom:26px}
+.hero-sub{font-size:1.08rem;color:var(--muted);max-width:52ch}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+.tags span{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--paper);
+  border:1px solid rgba(250,246,238,.22);background:rgba(250,246,238,.06);
+  border-radius:999px;padding:7px 14px;
+}
+
+/* STRIP */
+.strip{background:var(--panel);border-bottom:1px solid var(--line)}
+.strip-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.strip-grid > div{padding:40px 34px 40px 0;min-width:0}
+.strip-grid > div + div{padding-left:34px;border-left:1px solid var(--line)}
+.strip .n{
+  font-family:'Fraunces',serif;font-weight:600;font-variant-numeric:lining-nums;
+  font-size:clamp(2rem,4.4vw,2.7rem);line-height:1;color:var(--amber);
+  display:block;margin-bottom:12px;
+}
+.strip p{font-size:14.5px;color:var(--muted);line-height:1.55}
+
+/* SECCIONES */
+section{padding:96px 0;border-bottom:1px solid var(--line)}
+.shead{margin-bottom:48px;max-width:64ch}
+.shead p{color:var(--muted);font-size:1.03rem;margin-top:16px}
+
+ul.chk{list-style:none}
+ul.chk li{
+  position:relative;padding:12px 0 12px 26px;font-size:14.5px;color:var(--muted);
+  border-top:1px solid var(--line);line-height:1.55;
+}
+ul.chk li::before{
+  content:"\2713";position:absolute;left:0;top:13px;
+  font-size:12px;color:var(--amber);font-weight:700;
+}
+
+/* 01 competencia */
+.comp{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.comp > div{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:30px 28px 26px;min-width:0;display:flex;flex-direction:column;
+}
+.comp .linea{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin-bottom:10px;
+}
+.comp h3{font-size:1.4rem;font-weight:500;margin-bottom:16px}
+.comp ul.chk{margin-top:auto}
+.comp ul.chk li{font-size:14px}
+.comp ul.chk li:first-child{border-top:1px solid var(--line)}
+.cierre{
+  font-family:'Fraunces',Georgia,serif;font-weight:400;
+  font-size:clamp(1.35rem,2.8vw,1.8rem);line-height:1.32;color:var(--paper);
+  max-width:46ch;margin-top:48px;
+}
+.cierre em{font-style:italic;color:var(--amber)}
+
+/* 02 google */
+.serp-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.serp{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:28px 28px 22px;min-width:0;
+}
+.serp .q{
+  display:flex;align-items:center;gap:12px;
+  border:1px solid rgba(250,246,238,.22);border-radius:999px;padding:10px 18px;
+  font-size:15px;color:var(--paper);margin-bottom:22px;
+}
+.serp .q::before{
+  content:'';width:13px;height:13px;border:2px solid var(--muted-2);border-radius:50%;flex:none;
+}
+.serp .grp{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted-2);margin:6px 0 8px;
+}
+.serp ol{list-style:none}
+.serp li{
+  display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  padding:9px 0;border-top:1px solid var(--line);font-size:14.5px;
+}
+.serp li b{font-weight:500;color:var(--paper);min-width:0}
+.serp li span{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted-2);white-space:nowrap;
+}
+.serp li.ad span{color:var(--amber)}
+.serp .gap{height:14px}
+.serp .fuente{font-size:12.5px;color:var(--muted-2);margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+.serp-txt p{color:var(--muted);font-size:16px}
+.serp-txt p + p{margin-top:14px}
+.serp-txt strong{color:var(--paper);font-weight:600}
+.serp-txt .dest{
+  margin-top:26px;padding:22px 24px;border:1px solid var(--line-2);border-radius:var(--r);
+  background:rgba(247,158,28,.06);
+}
+.serp-txt .dest b{
+  display:block;font-family:'Fraunces',serif;font-weight:600;font-size:2.4rem;line-height:1;
+  color:var(--amber);margin-bottom:8px;font-variant-numeric:lining-nums;
+}
+.serp-txt .dest p{font-size:14.5px}
+
+/* 03 servicios */
+.serv{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.serv > div{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:34px 32px 30px;min-width:0;
+}
+.serv > div.top{border-color:var(--line-2)}
+.serv-top{display:flex;align-items:center;justify-content:space-between;gap:10px 14px;margin-bottom:8px;flex-wrap:wrap}
+.serv-top h3{font-size:1.5rem;font-weight:500}
+.pill{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;
+  border-radius:999px;padding:5px 11px;color:var(--muted);border:1px solid var(--line);
+}
+.pill.on{background:var(--amber);color:#2a1702;border-color:var(--amber)}
+.rol{font-family:'Fraunces',serif;font-style:italic;font-size:1.05rem;color:var(--amber);margin-bottom:14px}
+.serv p.int{color:var(--muted);font-size:15px;min-height:6.2em;margin-bottom:18px}
+
+/* 04 precios */
+.bloque-t{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted-2);margin:0 0 18px;
+}
+.bloque-t + .precios{margin-bottom:56px}
+.precios{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.precios.dos{grid-template-columns:1fr 1fr}
+.card{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:34px 30px 30px;display:flex;flex-direction:column;
+  text-align:center;align-items:center;min-width:0;
+}
+.card-top{
+  display:flex;align-items:center;justify-content:center;gap:10px 12px;
+  margin-bottom:20px;flex-wrap:wrap;min-height:30px;
+}
+.card-lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--muted);
+}
+.bon{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;color:#2a1702;
+  background:var(--amber);border-radius:999px;padding:5px 11px;white-space:nowrap;
+}
+.antes{
+  font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted-2);
+  text-decoration:line-through;display:block;margin-bottom:8px;min-height:1.45em;
+}
+.antes.ghost{visibility:hidden}
+.precio{
+  font-family:'Fraunces',serif;font-weight:600;font-variant-numeric:lining-nums;
+  font-size:clamp(2.4rem,5vw,3.2rem);line-height:1;color:var(--paper);margin-bottom:8px;
+}
+.precio small{font-family:'Inter',sans-serif;font-size:.95rem;font-weight:400;color:var(--muted-2)}
+.card .desc{font-size:14.5px;color:var(--muted);margin-bottom:22px;min-height:4.7em;max-width:38ch}
+.precios.dos .card .desc{min-height:4.7em;max-width:46ch}
+.card ul.chk{margin-top:auto;text-align:left;width:100%}
+.card ul.chk li{font-size:14px}
+
+.cond{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:56px}
+.cond > div{padding-top:24px;border-top:1px solid var(--line);min-width:0}
+.cond h3{margin-bottom:12px}
+.cond p{font-size:15px;color:var(--muted)}
+.cond p + p{margin-top:13px}
+
+/* 05 pasos */
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.pasos div{
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--r);
+  padding:30px 30px 32px;min-width:0;
+}
+.pasos .n{
+  font-family:'Fraunces',serif;font-style:italic;font-size:1.5rem;color:var(--amber);
+  display:block;margin-bottom:12px;line-height:1;
+}
+.pasos p{font-size:15px;color:var(--muted)}
+
+/* footer */
+footer{background:var(--panel);padding:64px 0 56px}
+.foot{display:flex;justify-content:space-between;gap:34px;flex-wrap:wrap;align-items:flex-end}
+footer p{font-size:14.5px;max-width:46ch;color:var(--muted)}
+footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid rgba(91,180,214,.4)}
+.foot-r{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--muted-2);text-align:right;line-height:1.9;
+}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rv.in{opacity:1;transform:none}
+.hero .rv{transition-delay:var(--d,0s)}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* RESPONSIVE */
+@media (max-width:980px){
+  .comp{grid-template-columns:1fr 1fr}
+  .precios{grid-template-columns:1fr 1fr}
+  .precios .card.paq{grid-column:1 / -1}
+  .serp-wrap{gap:40px;grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .wrap{padding:0 20px}
+  section{padding:64px 0}
+  h1{font-size:clamp(2.1rem,9vw,2.7rem)}
+  .nav-in{height:62px}
+  .nav-div,.nav-l .nav-tag{display:none}
+  .nav .wm{font-size:18px}
+  .hero-in{padding:52px 0 60px}
+  .hero-mark{margin-bottom:30px}
+  .hero-mark img{height:36px}
+  .hero-mark .wm{font-size:20px}
+  .hero::after{background:linear-gradient(180deg,rgba(8,23,38,.8) 0%,rgba(8,23,38,.7) 60%,rgba(8,23,38,1) 100%)}
+  .strip-grid,.comp,.serv,.precios,.precios.dos,.cond,.pasos{grid-template-columns:1fr}
+  .precios .card.paq{grid-column:auto}
+  .strip-grid > div{padding:28px 0}
+  .strip-grid > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line)}
+  .comp > div,.serv > div,.card{padding:28px 22px 24px}
+  .serv p.int,.card .desc,.precios.dos .card .desc{min-height:0}
+  .antes.ghost{display:none}
+  .serp{padding:22px 18px 18px}
+  .cond{gap:32px}
+  .foot-r{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <div class="nav-l">
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      <span class="nav-div"></span>
+      <span class="nav-tag">Propuesta comercial Tabiplast</span>
+    </div>
+    <span class="nav-tag">Octubre 2026</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-in">
+      <div class="hero-mark rv">
+        <img src="assets/logo-tabiplast-blanco.png" alt="Tabiplast">
+        <span class="x">×</span>
+        <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      </div>
+      <h1 class="rv" style="--d:.08s">Que a Tabiplast la encuentre <em class="ac">quien busca el producto</em></h1>
+      <p class="hero-sub rv" style="--d:.16s">Tienda online, publicidad en Google y Meta, y contenido para sus redes. Primero, lo que ya está haciendo la competencia.</p>
+      <div class="tags rv" style="--d:.24s">
+        <span>Tienda online</span>
+        <span>Google Ads</span>
+        <span>Meta Ads</span>
+        <span>Contenido y redes</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="strip rv" style="padding:0">
+  <div class="wrap">
+    <div class="strip-grid">
+      <div>
+        <span class="n">2</span>
+        <p>Fabricantes competidores pagan hoy para aparecer primeros en Google cuando alguien busca "niveladores porcelanato".</p>
+      </div>
+      <div>
+        <span class="n">6</span>
+        <p>Anuncios de Nivelatop, el nivelador de Atrim, activos en Instagram y Facebook desde julio.</p>
+      </div>
+      <div>
+        <span class="n">0</span>
+        <p>Fabricantes de niveladores con tienda online propia en Argentina. El lugar está libre.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="kick">01 · La competencia</span>
+      <h2>Lo que ya está haciendo <em class="ac">la competencia</em></h2>
+      <p>Relevamos a las marcas que compiten con Tabiplast en niveladores y en separadores para hormigón: qué pautan, dónde aparecen y qué herramientas le dan al comprador.</p>
+    </div>
+
+    <div class="comp">
+      <div class="rv">
+        <span class="linea">Niveladores · Nivelatop</span>
+        <h3>Atrim</h3>
+        <ul class="chk">
+          <li>Anuncia en Google cuando se busca "niveladores porcelanato"</li>
+          <li>Seis anuncios de Nivelatop activos en Instagram y Facebook</li>
+          <li>Buscador de distribuidores, calculadora por metro cuadrado y videos de colocación</li>
+          <li>Mide cada consulta y cada visita que manda a un distribuidor</li>
+        </ul>
+      </div>
+      <div class="rv" style="transition-delay:.06s">
+        <span class="linea">Niveladores y separadores</span>
+        <h3>Separadores CM</h3>
+        <ul class="chk">
+          <li>Anuncia en Google en la misma búsqueda que Atrim</li>
+          <li>Su anuncio apunta al mayorista: corralones, obras y envíos a todo el país</li>
+          <li>Aparece en Google cuando se busca "separadores para hormigón"</li>
+          <li>Sitio con pedido online por producto, sin pasar por un formulario genérico</li>
+        </ul>
+      </div>
+      <div class="rv" style="transition-delay:.12s">
+        <span class="linea">Niveladores y separadores</span>
+        <h3>Crecchio</h3>
+        <ul class="chk">
+          <li>Anuncios activos en Instagram de separadores para hormigón</li>
+          <li>Un anuncio dedicado a sumar mayoristas y distribuidores nuevos</li>
+          <li>Pide que lo busquen "en tu ferretería de confianza"</li>
+          <li>Mide las visitas a su sitio con Google Analytics</li>
+        </ul>
+      </div>
+      <div class="rv">
+        <span class="linea">Separadores para hormigón</span>
+        <h3>Reiner</h3>
+        <ul class="chk">
+          <li>Catálogo de unos 45 modelos, cada uno con su tabla técnica</li>
+          <li>La marca no pauta, pero su distribuidor sí: anuncios desde el 6 de octubre</li>
+          <li>Esos anuncios le hablan al corralón y a la fábrica de premoldeados</li>
+          <li>Aparece en Google cuando se busca "separadores para hormigón"</li>
+        </ul>
+      </div>
+      <div class="rv" style="transition-delay:.06s">
+        <span class="linea">Brasil · niveladores</span>
+        <h3>Cortag</h3>
+        <ul class="chk">
+          <li>Mide todo: Google Analytics, Google Ads y píxel de Meta</li>
+          <li>En Brasil vende en sus tiendas oficiales de Mercado Libre, Shopee y Amazon</li>
+          <li>Calculadora de materiales y catálogo descargable</li>
+          <li>En Argentina casi no está: no encontramos distribuidor local</li>
+        </ul>
+      </div>
+      <div class="rv" style="transition-delay:.12s">
+        <span class="linea">Niveladores</span>
+        <h3>Ceramicruz, NIVÄ, GT, ILVA</h3>
+        <ul class="chk">
+          <li>Sitios de catálogo o de contacto, ninguno vende online</li>
+          <li>Sin anuncios en Instagram ni en Facebook</li>
+          <li>Redes chicas o sin actividad reciente</li>
+          <li>Se venden casi solo a través de revendedores en Mercado Libre</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="cierre rv">Nadie en el rubro vende online, y los fabricantes que aparecen en Google <em>pagan para estar ahí</em>. Lo que proponemos no es una apuesta: es lo que ya funciona en la categoría, hecho con medición desde el primer día.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="kick">02 · La búsqueda</span>
+      <h2>Qué ve hoy quien busca <em class="ac">niveladores en Google</em></h2>
+    </div>
+
+    <div class="serp-wrap">
+      <div class="serp rv">
+        <div class="q">niveladores porcelanato</div>
+        <p class="grp">Resultados patrocinados</p>
+        <ol>
+          <li class="ad"><b>Atrim · Nivelatop</b><span>Fabricante</span></li>
+          <li class="ad"><b>Separadores CM</b><span>Fabricante</span></li>
+        </ol>
+        <div class="gap"></div>
+        <p class="grp">Primeros resultados</p>
+        <ol>
+          <li><b>Mercado Libre</b><span>Marketplace</span></li>
+          <li><b>Punto Cerámico</b><span>Casa de cerámicos</span></li>
+          <li><b>Decoturner</b><span>Comercio</span></li>
+          <li><b>Instagram</b><span>Video de terceros</span></li>
+          <li><b>Ferretería Express</b><span>Revendedor</span></li>
+          <li><b>YouTube</b><span>Video de terceros</span></li>
+          <li><b>Mercado Libre</b><span>Marketplace</span></li>
+          <li><b>Imcofue</b><span>Comercio</span></li>
+        </ol>
+        <p class="fuente">Google Argentina, búsqueda hecha el 9 de octubre de 2026.</p>
+      </div>
+      <div class="serp-txt rv">
+        <p>Es lo que nos contaron en la reunión: cuando alguien busca el producto, aparece primero quien lo revende y no quien lo fabrica.</p>
+        <p>Arriba de todo, en los lugares pagos, están <strong>dos fabricantes que compiten con Tabiplast</strong>. Abajo, Mercado Libre, casas de cerámicos y ferreterías. El fabricante argentino con stock propio no está en la primera pantalla.</p>
+        <div class="dest">
+          <b>3°</b>
+          <p>Es el lugar de Tabiplast en Google cuando la búsqueda es "niveladores porcelanato mayorista". La base está: falta aparecer en la búsqueda general, que es donde está el volumen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="kick">03 · Los servicios</span>
+      <h2>Cuatro servicios, <em class="ac">un mismo objetivo</em></h2>
+      <p>Se pueden tomar por separado. Si tienen que elegir uno solo para empezar, es Google.</p>
+    </div>
+
+    <div class="serv">
+      <div class="top rv">
+        <div class="serv-top">
+          <h3>Google Ads</h3>
+          <span class="pill on">Si eligen uno, este</span>
+        </div>
+        <p class="rol">La demanda que ya existe</p>
+        <p class="int">Todos los días alguien busca niveladores, separadores y ladrillos de vidrio. Ahí no hay que convencer a nadie: hay que aparecer antes que el revendedor y que la competencia que ya está pagando.</p>
+        <ul class="chk">
+          <li>Campañas por línea de producto y por tipo de comprador</li>
+          <li>Cada pedido de presupuesto y cada llamada medidos como venta</li>
+          <li>Que las 150 reseñas y la fábrica argentina se vean en el anuncio</li>
+        </ul>
+      </div>
+      <div class="rv" style="transition-delay:.06s">
+        <div class="serv-top">
+          <h3>Meta Ads</h3>
+          <span class="pill">Instagram y Facebook</span>
+        </div>
+        <p class="rol">La demanda que todavía no apareció</p>
+        <p class="int">El colocador y el corralón que todavía no conocen la marca. Es lo que hace Atrim con Nivelatop y Crecchio con sus separadores: llegar a quien no está buscando hoy, pero va a comprar.</p>
+        <ul class="chk">
+          <li>Campañas al colocador y al corralón, por separado</li>
+          <li>Captación de nuevos distribuidores en todo el país</li>
+          <li>Recuperar a quien visitó el sitio y no consultó</li>
+        </ul>
+      </div>
+      <div class="rv">
+        <div class="serv-top">
+          <h3>Tienda online</h3>
+          <span class="pill">Tiendanube</span>
+        </div>
+        <p class="rol">El canal que nadie del rubro tiene</p>
+        <p class="int">Ningún fabricante de niveladores vende online en Argentina. Una tienda propia le da al colocador y a la obra chica una forma de comprar directo, y a las campañas un lugar donde medir cada venta.</p>
+        <ul class="chk">
+          <li>La tienda armada con la identidad de Tabiplast</li>
+          <li>Los productos cargados con sus medidas y presentaciones</li>
+          <li>Pagos y envíos a todo el país, probados antes de abrir</li>
+        </ul>
+      </div>
+      <div class="rv" style="transition-delay:.06s">
+        <div class="serv-top">
+          <h3>Contenido y redes</h3>
+          <span class="pill">Grabación y comunidad</span>
+        </div>
+        <p class="rol">Lo que hoy hacen, con la pauta atrás</p>
+        <p class="int">La producción y la gestión de sus redes, pensadas desde el principio para que el mismo material sirva como publicación y como anuncio.</p>
+        <ul class="chk">
+          <li>Jornada de grabación en planta y en obra</li>
+          <li>Reels, carruseles e historias con guión nuestro</li>
+          <li>Publicación y respuesta de comentarios y mensajes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="kick">04 · La inversión</span>
+      <h2>Lo que cuesta <em class="ac">el trabajo</em></h2>
+    </div>
+
+    <p class="bloque-t rv">Publicidad · por mes</p>
+    <div class="precios">
+      <div class="card rv">
+        <div class="card-top">
+          <span class="card-lbl">Google Ads</span>
+          <span class="bon">Si eligen uno</span>
+        </div>
+        <span class="antes ghost">&nbsp;</span>
+        <div class="precio">USD 300 <small>por mes</small></div>
+        <p class="desc">Gestión completa de Google, con la medición de pedidos y llamadas instalada.</p>
+        <ul class="chk">
+          <li>Campañas de búsqueda por línea</li>
+          <li>Medición sin costo de instalación</li>
+          <li>Reporte mensual y portal</li>
+        </ul>
+      </div>
+      <div class="card rv" style="transition-delay:.06s">
+        <div class="card-top">
+          <span class="card-lbl">Meta Ads</span>
+        </div>
+        <span class="antes ghost">&nbsp;</span>
+        <div class="precio">USD 300 <small>por mes</small></div>
+        <p class="desc">Gestión completa de Instagram y Facebook, con el píxel instalado.</p>
+        <ul class="chk">
+          <li>Campañas al colocador y al corralón</li>
+          <li>Píxel sin costo de instalación</li>
+          <li>Reporte mensual y portal</li>
+        </ul>
+      </div>
+      <div class="card paq rv" style="transition-delay:.12s">
+        <div class="card-top">
+          <span class="card-lbl">Google y Meta</span>
+          <span class="bon">Ahorran USD 100</span>
+        </div>
+        <span class="antes">USD 600 por separado</span>
+        <div class="precio">USD 500 <small>por mes</small></div>
+        <p class="desc">Los dos canales juntos, con Google como prioridad del presupuesto.</p>
+        <ul class="chk">
+          <li>Todo lo de Google y de Meta</li>
+          <li>Una sola medición para los dos</li>
+          <li>Reporte mensual y portal</li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="bloque-t rv">Tienda y contenido</p>
+    <div class="precios dos">
+      <div class="card rv">
+        <div class="card-top">
+          <span class="card-lbl">Tienda online</span>
+          <span class="bon">Pago único</span>
+        </div>
+        <div class="precio">USD 350 <small>una sola vez</small></div>
+        <p class="desc">Armado completo de la tienda en Tiendanube. Se paga una sola vez: no es un abono.</p>
+        <ul class="chk">
+          <li>Diseño con la identidad de Tabiplast</li>
+          <li>Productos cargados con medidas y presentaciones</li>
+          <li>Pagos, envíos y dominio configurados y probados</li>
+        </ul>
+      </div>
+      <div class="card rv" style="transition-delay:.06s">
+        <div class="card-top">
+          <span class="card-lbl">Contenido y redes</span>
+          <span class="bon">Todo incluido</span>
+        </div>
+        <div class="precio">USD 450 <small>por mes</small></div>
+        <p class="desc">Producción y gestión de redes. Sin adicionales por jornada de grabación.</p>
+        <ul class="chk">
+          <li>Jornada de grabación mensual en planta y en obra</li>
+          <li>12 piezas por mes: reels, carruseles e historias</li>
+          <li>Publicación y gestión de comentarios y mensajes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cond">
+      <div class="rv">
+        <h3>Lo que va aparte</h3>
+        <p>El presupuesto que se pone en Google y en Meta se paga directo a cada plataforma y queda siempre a nombre de Tabiplast. Lo definimos con ustedes después de ver márgenes y qué línea conviene empujar primero.</p>
+        <p>El plan mensual de Tiendanube y el dominio también los contratan ustedes. Antes de contratar vemos juntos qué plan conviene.</p>
+      </div>
+      <div class="rv" style="transition-delay:.06s">
+        <h3>La tienda y los corralones</h3>
+        <p>La tienda suma un canal, no le compite a la red. Por eso el precio de venta online lo definimos con ustedes antes de abrir, para que el corralón y el distribuidor sigan teniendo su margen.</p>
+        <p>Es la misma lógica que usan Atrim y Cortag: la web empuja la marca y la venta, sin pisar a quien revende.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="border-bottom:none">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="kick">05 · Próximos pasos</span>
+      <h2>Cómo <em class="ac">seguimos</em></h2>
+    </div>
+    <div class="pasos">
+      <div class="rv">
+        <span class="n">Primero</span>
+        <p>Nos dicen qué servicios toman y nos pasan los accesos de Google, Meta y el sitio.</p>
+      </div>
+      <div class="rv" style="transition-delay:.06s">
+        <span class="n">Después</span>
+        <p>Dejamos la medición funcionando y, si va la tienda, la armamos y la probamos antes de abrir.</p>
+      </div>
+      <div class="rv" style="transition-delay:.12s">
+        <span class="n">Y salimos</span>
+        <p>Definimos juntos el presupuesto de plataformas y arrancan las campañas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      <p>Trabajamos con pocos clientes y nos metemos en el negocio. Si vemos algo que conviene cambiar aunque no esté en el contrato, lo decimos.</p>
+      <p style="margin-top:14px"><a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a></p>
+    </div>
+    <div class="foot-r">Propuesta comercial Tabiplast<br>Octubre 2026</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -40px 0px',threshold:.05});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
