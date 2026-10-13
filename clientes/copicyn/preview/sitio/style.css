@@ -1503,3 +1503,7 @@ img { max-width: 100%; }
 header { box-sizing: border-box; }
 .hero { min-height: 100vh; height: auto; box-sizing: border-box; }
 .services-hero, .contact-hero { box-sizing: border-box; }
+
+/* WhatsApp flotante un poco mas grande para que resalte con el numero nuevo (13/10/2026) */
+.whatsapp-widget { width: 4.25rem; height: 4.25rem; font-size: 2.4rem; }
+@media (max-width: 600px) { .whatsapp-widget { width: 3.5rem; height: 3.5rem; font-size: 2rem; } }
