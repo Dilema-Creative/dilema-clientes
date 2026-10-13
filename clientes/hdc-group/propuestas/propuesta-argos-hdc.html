@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Argos · Propuesta para Flia. HDC Group</title>
+<meta name="description" content="Sistema de gestión a medida para Flia. HDC Group: ventas, cobros, bancos, proveedores e informes conectados.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#070D17;
+  --bg-2:#0A1320;
+  --surface:rgba(255,255,255,.035);
+  --surface-2:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.08);
+  --border-2:rgba(255,255,255,.14);
+  --text:#EEF2F6;
+  --muted:#A3B0BF;
+  --faint:#6E7D90;
+  --accent:#5CC79D;
+  --accent-deep:#2F9C74;
+  --accent-soft:rgba(92,199,157,.12);
+  --r:16px;
+  --max:1180px;
+  --sans:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono',ui-monospace,'SFMono-Regular',Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:16.5px;line-height:1.6;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 32px}
+h1,h2,h3{font-weight:600;letter-spacing:-.035em;color:var(--text)}
+h1{font-size:clamp(2.7rem,6.4vw,5.1rem);line-height:1.02;letter-spacing:-.045em}
+h2{font-size:clamp(2rem,4.2vw,3.25rem);line-height:1.06;text-wrap:balance}
+h3{font-size:1.08rem;line-height:1.35;letter-spacing:-.015em}
+.ac{color:var(--accent)}
+.lead{font-size:1.12rem;color:var(--muted);max-width:56ch}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--border-2);background:var(--surface);border-radius:999px;padding:6px 14px 6px 10px}
+.eyebrow i{color:var(--accent);font-size:14px}
+
+/* fondo */
+.bg-glow{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.bg-glow::before{content:'';position:absolute;top:-260px;left:50%;width:1200px;height:760px;transform:translateX(-50%);background:radial-gradient(ellipse at center,rgba(92,199,157,.20),rgba(91,180,214,.07) 42%,transparent 70%);filter:blur(10px)}
+.bg-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 70%)}
+
+/* nav */
+.nav{position:sticky;top:14px;z-index:40;margin-top:14px}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:58px;padding:0 10px 0 18px;border:1px solid var(--border);border-radius:999px;background:rgba(10,19,32,.72);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.argos{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.argos svg{width:24px;height:24px;flex:none;overflow:visible}
+.argos .r1{stroke:rgba(238,242,246,.8);stroke-width:3;fill:none}
+.argos .r2{stroke:rgba(238,242,246,.4);stroke-width:1.8;fill:none}
+.argos .iris{fill:var(--accent)}
+.argos b{font-weight:600;font-size:17px;letter-spacing:-.02em}
+.argos small{font-size:12.5px;color:var(--faint);font-weight:400;margin-left:2px}
+.nav-cliente{font-size:13.5px;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:8px 14px;white-space:nowrap}
+.nav-cliente b{color:var(--text);font-weight:500}
+
+/* hero */
+.hero{position:relative;padding:92px 0 0}
+.hero .wrap{position:relative}
+.hero h1{max-width:13ch;margin:26px 0 22px}
+.hero .lead{margin-bottom:0}
+.hero-meta{display:flex;gap:28px;flex-wrap:wrap;margin-top:34px;font-size:14px;color:var(--muted)}
+.hero-meta span{display:inline-flex;align-items:center;gap:8px}
+.hero-meta i{color:var(--accent);font-size:17px}
+.escena{perspective:2200px;margin-top:64px}
+.marco{position:relative;border-radius:18px;padding:8px;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03));box-shadow:0 60px 120px -40px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.06);transform-origin:50% 0}
+.escena .marco::after{content:'';position:absolute;inset:-40px 0 auto;height:60%;z-index:-1;background:radial-gradient(ellipse at 50% 100%,rgba(92,199,157,.25),transparent 70%);filter:blur(30px)}
+.marco img{border-radius:11px;width:100%}
+.marco video{display:block;width:100%;height:auto;aspect-ratio:16/10;border-radius:11px;background:#F4F6F8;object-fit:cover}
+.video-pie{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:14px}
+.pausa{display:inline-flex;align-items:center;gap:8px;font:inherit;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--border-2);border-radius:999px;padding:7px 14px;cursor:pointer;transition:color .15s ease,border-color .15s ease}
+.pausa:hover{color:var(--text);border-color:var(--accent)}
+.pausa i{font-size:14px}
+.barra{display:flex;align-items:center;gap:7px;padding:4px 8px 10px}
+.barra i{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.14)}
+.barra span{margin-left:12px;font-family:var(--mono);font-size:11.5px;color:var(--faint)}
+@media (prefers-reduced-motion:no-preference){
+  .escena .marco{animation:inclina 1.4s cubic-bezier(.16,1,.3,1) .2s both}
+  @keyframes inclina{from{transform:rotateX(18deg) translateY(40px);opacity:0}to{transform:rotateX(0) translateY(0);opacity:1}}
+}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-top:88px}
+.stats div{padding:34px 0 32px}
+.stats div + div{padding-left:36px;border-left:1px solid var(--border)}
+.stats b{display:block;font-size:clamp(2.2rem,4.4vw,3.2rem);font-weight:600;letter-spacing:-.05em;line-height:1}
+.stats span{display:block;margin-top:10px;color:var(--muted);font-size:14.5px;max-width:30ch}
+
+/* secciones */
+section{position:relative;padding:120px 0}
+.shead{max-width:640px;margin-bottom:56px}
+.shead .lead{margin-top:18px}
+.centro{text-align:center;margin-left:auto;margin-right:auto}
+.centro .lead{margin-left:auto;margin-right:auto}
+
+/* bento pedidos */
+.bento{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
+.celda{position:relative;overflow:hidden;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:30px;min-width:0;display:flex;flex-direction:column}
+.celda .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-size:21px;margin-bottom:22px;border:1px solid rgba(92,199,157,.2)}
+.celda h3{font-size:1.3rem;margin-bottom:8px}
+.celda p{color:var(--muted);font-size:15px;max-width:44ch}
+.c-a{grid-column:span 4;background:linear-gradient(140deg,rgba(92,199,157,.14),rgba(255,255,255,.02) 55%)}
+.c-b{grid-column:span 2}
+.c-c{grid-column:span 2}
+.c-d{grid-column:span 4;background:linear-gradient(220deg,rgba(91,180,214,.12),rgba(255,255,255,.02) 55%)}
+.mini-puente{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;height:120px;margin-top:auto;padding-top:0;margin-top:28px}
+.mini-puente span{position:relative;height:100%}
+.mini-puente i{position:absolute;left:0;right:0;border-radius:5px;background:var(--accent)}
+.mini-puente i.m{background:rgba(232,140,96,.85)}
+.mini-puente i.p{background:rgba(232,140,96,.35)}
+.canales{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:26px}
+.canales span{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;border:1px solid var(--border-2);border-radius:999px;padding:7px 13px 7px 8px;background:rgba(255,255,255,.03)}
+.canales .lg{width:22px;height:22px;border-radius:7px;display:grid;place-items:center;background:#fff;overflow:hidden;flex:none}
+.canales .lg img{width:80%;height:80%;object-fit:contain}
+.canales .lg.m-ml{background:#FFE600}
+.canales .lg.m-ml img{width:92%;height:92%}
+.canales .lg.ico{background:rgba(91,180,214,.16);color:#8CC8E4}
+.canales .lg.ico i{font-size:14px}
+.k-ml{background:#E6B800;color:#2D2A00!important}.k-tn{background:#2B5DE0}.k-fr{background:#D2232A}.k-tb{background:#0F6E8C}.k-my{background:#3A5068}
+.comprobante{margin-top:auto;padding-top:26px;font-family:var(--mono);font-size:12.5px;color:var(--muted);display:grid;gap:6px}
+.comprobante div{display:flex;justify-content:space-between;border-bottom:1px dashed var(--border-2);padding-bottom:6px}
+.comprobante b{color:var(--text);font-weight:500}
+
+/* comparación */
+.compara{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.lado{border:1px solid var(--border);border-radius:var(--r);padding:32px;background:var(--surface)}
+.lado.nuevo{background:linear-gradient(180deg,rgba(92,199,157,.10),rgba(92,199,157,.02));border-color:rgba(92,199,157,.28)}
+.lado .t{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--muted);margin-bottom:22px}
+.lado.nuevo .t{color:var(--accent)}
+.lado .t i{font-size:18px}
+.lista{list-style:none;display:grid;gap:16px}
+.lista li{display:grid;grid-template-columns:22px 1fr;gap:12px;font-size:15.5px;color:var(--muted);line-height:1.5}
+.lista li i{font-size:18px;color:var(--faint);margin-top:2px}
+.lado.nuevo .lista li{color:var(--text)}
+.lado.nuevo .lista li i{color:var(--accent)}
+.frase{margin-top:72px;font-size:clamp(1.6rem,3.2vw,2.4rem);font-weight:500;letter-spacing:-.035em;line-height:1.2;max-width:24ch}
+
+/* recorrido interactivo */
+.tour{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:40px;align-items:start}
+.tabs{display:grid;gap:6px;position:sticky;top:100px}
+.tab{display:grid;grid-template-columns:36px 1fr;gap:14px;text-align:left;padding:16px 18px;border-radius:14px;border:1px solid transparent;background:none;color:var(--muted);cursor:pointer;font:inherit;transition:background .2s,border-color .2s,color .2s}
+.tab i{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:18px;background:var(--surface-2);color:var(--muted);transition:background .2s,color .2s}
+.tab b{display:block;font-weight:500;color:var(--text);font-size:15.5px;letter-spacing:-.01em}
+.tab span{display:block;font-size:13.5px;line-height:1.45;margin-top:3px;max-height:0;overflow:hidden;opacity:0;transition:max-height .35s ease,opacity .25s ease}
+.tab:hover{background:var(--surface)}
+.tab[aria-selected="true"]{background:var(--surface-2);border-color:var(--border-2)}
+.tab[aria-selected="true"] i{background:var(--accent-soft);color:var(--accent)}
+.tab[aria-selected="true"] span{max-height:90px;opacity:1}
+.visor .marco{transform:none}
+.visor .pantalla{position:relative;aspect-ratio:16/10;border-radius:11px;overflow:hidden;background:#0d1622}
+.visor .pantalla img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left;opacity:0;transform:scale(1.01);transition:opacity .45s ease,transform .6s cubic-bezier(.16,1,.3,1)}
+.visor .pantalla img.on{opacity:1;transform:none}
+.visor .pie{display:flex;justify-content:space-between;gap:16px;margin-top:16px;color:var(--muted);font-size:14px}
+.visor .pie b{color:var(--text);font-weight:500}
+.nota{font-family:var(--mono);font-size:12px;color:var(--faint)}
+.pantallas{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,.5fr) minmax(0,.5fr);gap:20px;margin-top:72px;align-items:end}
+.pantallas .marco{transform:none}
+.tel{border-radius:30px;padding:7px;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04));box-shadow:0 40px 80px -30px rgba(0,0,0,.85)}
+.tel img{border-radius:24px}
+.pantallas figcaption{margin-top:14px;font-size:14px;color:var(--muted)}
+.pantallas figcaption b{color:var(--text);font-weight:500}
+
+/* módulos */
+.modulos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.mod{border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:24px 22px;min-width:0;transition:border-color .25s,background .25s,transform .25s}
+.mod:hover{border-color:var(--border-2);background:var(--surface-2);transform:translateY(-2px)}
+.mod .ic{font-size:22px;color:var(--accent);margin-bottom:16px;display:block}
+.mod h3{margin-bottom:12px}
+.mod ul{list-style:none;display:grid;gap:8px}
+.mod li{position:relative;padding-left:14px;font-size:13.8px;color:var(--muted);line-height:1.5}
+.mod li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--faint)}
+
+/* mejoras */
+.mejoras{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.mej{padding:30px 26px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);min-width:0}
+.mej:nth-child(4n){border-right:0}
+.mej:nth-last-child(-n+4){border-bottom:0}
+.mej i{font-size:24px;color:var(--accent)}
+.mej h3{margin:18px 0 8px}
+.mej p{font-size:14.5px;color:var(--muted)}
+
+/* maqueta vs sistema */
+.tabla{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;background:var(--surface)}
+.fila{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr) minmax(0,1.3fr);align-items:center}
+.fila > div{padding:17px 24px;font-size:15px;min-width:0}
+.fila + .fila{border-top:1px solid var(--border)}
+.fila.cab > div{font-size:13px;color:var(--faint);padding-top:15px;padding-bottom:15px;background:rgba(255,255,255,.02)}
+.fila.cab > div:last-child{color:var(--accent)}
+.fila > div:first-child{font-weight:500}
+.fila > div:nth-child(2){color:var(--faint)}
+.fila > div:nth-child(3){color:var(--text);background:rgba(92,199,157,.05);border-left:1px solid rgba(92,199,157,.16);align-self:stretch;display:flex;align-items:center}
+.detras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:20px}
+.det{border:1px solid var(--border);border-radius:var(--r);padding:26px;background:var(--surface);min-width:0}
+.det .tag{display:inline-block;font-family:var(--mono);font-size:11.5px;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:4px 10px;margin-bottom:16px}
+.det h3{margin-bottom:12px}
+.det ul{list-style:none;display:grid;gap:7px}
+.det li{position:relative;padding-left:14px;font-size:14px;color:var(--muted)}
+.det li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--faint)}
+.sub-h{font-size:1.5rem;font-weight:600;letter-spacing:-.03em;margin:72px 0 6px}
+.sub-p{color:var(--muted);margin-bottom:26px;max-width:60ch}
+
+/* etapas */
+.linea{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px;position:relative}
+.linea::before{content:'';position:absolute;top:21px;left:22px;right:22px;height:1px;background:linear-gradient(90deg,var(--accent),rgba(92,199,157,.15))}
+.et{position:relative;min-width:0}
+.et .pt{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:500 14px var(--mono);color:var(--accent);background:var(--bg);border:1px solid rgba(92,199,157,.45);box-shadow:0 0 0 6px var(--bg);margin-bottom:22px;position:relative}
+.et h3{margin-bottom:8px}
+.et p{font-size:14.5px;color:var(--muted)}
+.necesitamos{margin-top:64px;border:1px solid var(--border);border-radius:var(--r);padding:30px 32px;background:var(--surface);display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:32px}
+.necesitamos h3{font-size:1.3rem}
+.necesitamos p{color:var(--muted);font-size:14.5px;margin-top:8px}
+.necesitamos ul{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 24px}
+.necesitamos li{display:grid;grid-template-columns:20px 1fr;gap:10px;font-size:14.5px;color:var(--muted)}
+.necesitamos li i{color:var(--accent);font-size:17px;margin-top:2px}
+
+
+footer{padding:64px 0 56px;border-top:1px solid var(--border)}
+.foot{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;align-items:flex-end}
+.foot p{color:var(--muted);font-size:14.5px;max-width:44ch;margin-top:14px}
+.foot .ct{font-family:var(--mono);font-size:12.5px;color:var(--muted);line-height:2;text-align:right}
+
+/* aparición */
+@media (prefers-reduced-motion:no-preference){
+  .rev{opacity:0;transform:translateY(18px);filter:blur(6px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1),filter .8s cubic-bezier(.16,1,.3,1);transition-delay:var(--d,0s)}
+  .rev.vis{opacity:1;transform:none;filter:none}
+}
+
+/* responsive */
+@media (max-width:1080px){
+  .modulos{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mejoras{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mej:nth-child(4n){border-right:1px solid var(--border)}
+  .mej:nth-child(2n){border-right:0}
+  .mej:nth-last-child(-n+4){border-bottom:1px solid var(--border)}
+  .mej:nth-last-child(-n+2){border-bottom:0}
+  .detras{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tour{grid-template-columns:minmax(0,1fr)}
+  .tabs{position:static;display:flex;overflow-x:auto;gap:8px;padding-bottom:4px;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{grid-template-columns:auto;padding:0;border:0}
+  .tab i{display:none}
+  .tab b{white-space:nowrap;font-size:14px;padding:9px 15px;border-radius:999px;border:1px solid var(--border-2);color:var(--muted)}
+  .tab[aria-selected="true"]{background:none;border:0}
+  .tab[aria-selected="true"] b{background:var(--accent);color:#06281C;border-color:var(--accent)}
+  .tab span{display:none}
+  .linea{grid-template-columns:minmax(0,1fr);gap:28px}
+  .linea::before{top:22px;bottom:22px;left:21px;right:auto;width:1px;height:auto;background:linear-gradient(180deg,var(--accent),rgba(92,199,157,.15))}
+  .et{display:grid;grid-template-columns:44px 1fr;gap:18px}
+  .et .pt{margin-bottom:0}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  .wrap{padding:0 18px}
+  .nav{top:10px;margin-top:10px}
+  .nav-in{height:52px}
+  .argos small,.nav-cliente span{display:none}
+  .hero{padding-top:60px}
+  .escena{margin-top:44px}
+  .stats{grid-template-columns:minmax(0,1fr);margin-top:56px}
+  .stats div{padding:22px 0}
+  .stats div + div{padding-left:0;border-left:0;border-top:1px solid var(--border)}
+  section{padding:84px 0}
+  .bento{grid-template-columns:minmax(0,1fr)}
+  .c-a,.c-b,.c-c,.c-d{grid-column:auto}
+  .celda{padding:24px}
+  .compara{grid-template-columns:minmax(0,1fr)}
+  .lado{padding:24px}
+  .pantallas{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .pantallas > :first-child{grid-column:1 / -1}
+  .modulos,.mejoras,.detras{grid-template-columns:minmax(0,1fr)}
+  .mej,.mej:nth-child(4n),.mej:nth-child(2n){border-right:0}
+  .mej:nth-last-child(-n+4){border-bottom:1px solid var(--border)}
+  .mej:last-child{border-bottom:0}
+  .fila{grid-template-columns:minmax(0,1fr)}
+  .fila.cab{display:none}
+  .fila > div{padding:6px 20px}
+  .fila > div:first-child{padding-top:18px}
+  .fila > div:nth-child(3){border-left:0;background:none;padding-bottom:18px;display:block}
+  .fila > div:nth-child(2)::before{content:'Maqueta: ';color:var(--faint)}
+  .fila > div:nth-child(3)::before{content:'Sistema:\00a0';color:var(--accent)}
+  .necesitamos{grid-template-columns:minmax(0,1fr);padding:24px}
+  .necesitamos ul{grid-template-columns:minmax(0,1fr)}
+  .foot .ct{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="nav" aria-label="Encabezado">
+    <div class="nav-in">
+      <span class="argos" aria-label="Argos, sistema de Dilema Labs"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="r1" cx="24" cy="24" r="22.4"/><circle class="r2" cx="24" cy="24" r="13.7"/><circle class="iris" cx="24" cy="24" r="7.2"/></svg><b>Argos</b><small>de Dilema Labs</small></span>
+      <span class="nav-cliente"><span>Propuesta para </span><b>Flia. HDC Group</b></span>
+    </div>
+  </nav>
+</div>
+
+<header class="hero">
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="eyebrow rev"><i class="ph-fill ph-circle"></i>Sistema de gestión a medida · Octubre 2026</span>
+    <h1 class="rev" style="--d:.05s">Lo que ya usan, con todo <span class="ac">conectado</span>.</h1>
+    <p class="lead rev" style="--d:.1s">Las mismas pantallas que ya conocen, con ventas, cobros, bancos y proveedores que se hablan entre sí.</p>
+    <div class="hero-meta rev" style="--d:.15s">
+      <span><i class="ph ph-check-circle"></i>Mismo orden de trabajo</span>
+      <span><i class="ph ph-check-circle"></i>Informes que cierran</span>
+      <span><i class="ph ph-check-circle"></i>Ventas y facturas automáticas</span>
+    </div>
+    <div class="escena">
+      <div class="marco">
+        <div class="barra" aria-hidden="true"><i></i><i></i><i></i><span>Recorrido por el sistema</span></div>
+        <video id="video-hero" src="assets/video/recorrido.mp4" poster="assets/video/poster.webp" width="1280" height="800" autoplay muted loop playsinline preload="metadata" aria-label="Video del sistema en uso: panel general, centro de ventas, detalle de una venta, buscador con Ctrl K y conciliación de un banco"></video>
+      </div>
+      <div class="video-pie"><span class="nota">Video de la maqueta en uso, con datos de ejemplo.</span><button type="button" class="pausa" id="pausa-video" aria-pressed="false"><i class="ph ph-pause"></i><span>Pausar</span></button></div>
+    </div>
+    <div class="stats">
+      <div class="rev"><b>12</b><span>módulos conectados entre sí, de ventas a impuestos</span></div>
+      <div class="rev" style="--d:.06s"><b>5</b><span>canales de venta que entran solos al sistema</span></div>
+      <div class="rev" style="--d:.12s"><b class="ac">$ 0</b><span>de diferencia sin explicar entre lo vendido y lo acreditado</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Lo que nos pidieron.</h2>
+      <p class="lead">Lo que hablamos en la reunión, y la vara con la que se mide todo lo que sigue.</p>
+    </div>
+    <div class="bento">
+      <div class="celda c-a rev">
+        <span class="ic"><i class="ph ph-chart-bar"></i></span>
+        <h3>Que los números cierren</h3>
+        <p>Que lo vendido y lo cobrado den igual en todos los informes, sin tener que controlar todo dos veces.</p>
+        <div class="mini-puente" aria-hidden="true"><span><i class="t" style="bottom:0%;height:100%"></i></span><span><i class="m" style="bottom:94%;height:6%"></i></span><span><i class="p" style="bottom:85%;height:9%"></i></span><span><i class="t" style="bottom:0%;height:85%"></i></span><span><i class="m" style="bottom:75%;height:10%"></i></span><span><i class="m" style="bottom:70%;height:5%"></i></span><span><i class="p" style="bottom:40%;height:30%"></i></span><span><i class="t" style="bottom:0%;height:40%"></i></span></div>
+      </div>
+      <div class="celda c-b rev" style="--d:.06s">
+        <span class="ic"><i class="ph ph-magnifying-glass"></i></span>
+        <h3>Encontrar todo rápido</h3>
+        <p>Proveedores fáciles de filtrar, con lo que se les debe y lo que se les pagó.</p>
+      </div>
+      <div class="celda c-c rev">
+        <span class="ic"><i class="ph ph-receipt"></i></span>
+        <h3>Facturar solo</h3>
+        <p>Cada venta facturada en ARCA, con el comprobante que corresponde.</p>
+        <div class="comprobante" aria-hidden="true"><div><span>Factura</span><b>A / B</b></div><div><span>CAE</span><b>Automático</b></div></div>
+      </div>
+      <div class="celda c-d rev" style="--d:.06s">
+        <span class="ic"><i class="ph ph-stack"></i></span>
+        <h3>Todas las ventas juntas</h3>
+        <p>Tiendanube, Mercado Libre y las tiendas de bancos en un solo lugar, sin cargar nada a mano.</p>
+        <div class="canales" aria-hidden="true"><span><b class="lg m-ml"><img src="assets/logos/mercadolibre.svg" alt=""></b>Mercado Libre</span><span><b class="lg"><img src="assets/logos/tiendanube.png" alt=""></b>Tiendanube</span><span><b class="lg"><img src="assets/logos/fravega.png" alt=""></b>Frávega</span><span><b class="lg"><img src="assets/logos/mercadopago.svg" alt=""></b>Mercado Pago</span><span><b class="lg ico"><i class="ph ph-bank"></i></b>Tiendas de bancos</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Parecido a lo que usan. <span class="ac">Distinto</span> por dentro.</h2>
+      <p class="lead">Nadie tiene que aprender de cero. El sistema respeta la forma en que ya trabajan y cambia lo que no se ve: cómo se conecta cada dato con el resto.</p>
+    </div>
+    <div class="compara">
+      <div class="lado rev">
+        <div class="t"><i class="ph ph-arrows-clockwise"></i>Lo que se mantiene</div>
+        <ul class="lista">
+          <li><i class="ph ph-check"></i>Arriba, los accesos de siempre: venta, seña y cotización, cajas, precios e informes.</li>
+          <li><i class="ph ph-check"></i>El menú de la izquierda ordenado por módulos, con los canales primero.</li>
+          <li><i class="ph ph-check"></i>El Centro de ventas con sus pestañas para ver lo pendiente, lo cobrado y lo anulado.</li>
+          <li><i class="ph ph-check"></i>Los informes agrupados como ya los conocen.</li>
+        </ul>
+      </div>
+      <div class="lado nuevo rev" style="--d:.08s">
+        <div class="t"><i class="ph ph-sparkle"></i>Lo que cambia</div>
+        <ul class="lista">
+          <li><i class="ph-fill ph-check-circle"></i>Cada venta atada a su factura, a su cobro y a lo que entró al banco.</li>
+          <li><i class="ph-fill ph-check-circle"></i>Todos los informes salen de la misma base: si dos miran lo mismo, dan lo mismo.</li>
+          <li><i class="ph-fill ph-check-circle"></i>Las ventas de los canales y sus facturas se generan solas.</li>
+          <li><i class="ph-fill ph-check-circle"></i>Ctrl K para encontrar cualquier cosa o ir a cualquier pantalla, desde la computadora o el celular.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="frase rev">Mismo orden de trabajo, con números en los que se puede <span class="ac">confiar</span>.</p>
+  </div>
+</section>
+
+<section id="recorrido">
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Así se vería el sistema.</h2>
+      <p class="lead">Armamos una maqueta navegable para que lo puedan ver antes de construirlo. Tocá cada parte para recorrerla.</p>
+    </div>
+    <div class="tour">
+      <div class="tabs" role="tablist" aria-label="Partes del sistema">
+        <button class="tab" role="tab" aria-selected="true" data-i="0"><i class="ph ph-squares-four"></i><div><b>Panel general</b><span>Vendido, cobrado y acreditado con su tendencia diaria, y cada diferencia explicada peso por peso.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="1"><i class="ph ph-receipt"></i><div><b>Centro de ventas</b><span>Todos los canales juntos, cada uno con su logo, y pestañas para lo que falta remitir, cobrar o acreditar.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="2"><i class="ph ph-path"></i><div><b>Detalle de una venta</b><span>Factura, cobro, remito y acreditación, con lo que se descontó en el camino.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="3"><i class="ph ph-truck"></i><div><b>Proveedores y gastos</b><span>Proveedores, servicios, impuestos y sueldos separados, con facturas y pagos juntos.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="4"><i class="ph ph-users"></i><div><b>Clientes</b><span>Cuenta corriente con facturas, cobros y notas de crédito, y el saldo al día.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="5"><i class="ph ph-bank"></i><div><b>Cajas y bancos</b><span>Cada saldo contra su extracto, con lo que falta conciliar señalado.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="6"><i class="ph ph-plus-circle"></i><div><b>Carga de ventas</b><span>Buscador de clientes y productos, precio mayorista y factura A o B según el cliente.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="7"><i class="ph ph-magnifying-glass"></i><div><b>Buscar o ir a, con Ctrl K</b><span>Encuentra cualquier venta, cliente, proveedor o producto, o salta a cualquier pantalla, sin soltar el teclado.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="8"><i class="ph ph-chart-line-up"></i><div><b>Informes</b><span>Agrupados como ya los conocen, desde la misma base y exportables a Excel.</span></div></button>
+      </div>
+      <div class="visor rev">
+        <div class="marco">
+          <div class="barra" aria-hidden="true"><i></i><i></i><i></i><span id="visor-titulo">Panel general</span></div>
+          <div class="pantalla">
+            <img class="on" src="assets/panel.webp" width="2000" height="1250" alt="Panel general">
+            <img src="assets/ventas.webp" width="2000" height="1250" alt="Centro de ventas" loading="lazy">
+            <img src="assets/venta-detalle.webp" width="2000" height="1250" alt="Detalle de una venta" loading="lazy">
+            <img src="assets/proveedor-cuenta.webp" width="2000" height="1250" alt="Cuenta corriente de un proveedor" loading="lazy">
+            <img src="assets/cliente-cuenta.webp" width="2000" height="1250" alt="Cuenta corriente de un cliente" loading="lazy">
+            <img src="assets/caja-conciliacion.webp" width="2000" height="1250" alt="Conciliación de un banco" loading="lazy">
+            <img src="assets/nueva-venta.webp" width="2000" height="1250" alt="Carga de una venta" loading="lazy">
+            <img src="assets/busqueda.webp" width="2000" height="1250" alt="Buscador con Ctrl K" loading="lazy">
+            <img src="assets/informes.webp" width="2000" height="1250" alt="Informes" loading="lazy">
+          </div>
+        </div>
+        <div class="pie"><span id="visor-texto">Vendido, cobrado y acreditado con su tendencia diaria, y cada diferencia explicada peso por peso.</span><span class="nota">Datos de ejemplo</span></div>
+      </div>
+    </div>
+
+    <div class="pantallas">
+      <figure class="rev"><div class="marco"><div class="barra" aria-hidden="true"><i></i><i></i><i></i><span>Modo oscuro</span></div><img src="assets/panel-oscuro.webp" width="2000" height="1250" alt="Panel general en modo oscuro" loading="lazy"></div><figcaption><b>Claro u oscuro, en cualquier pantalla.</b> Con los colores y el logo de HDC.</figcaption></figure>
+      <div class="tel rev" style="--d:.06s"><img src="assets/celular-panel.webp" width="780" height="1688" alt="Panel general en el celular" loading="lazy"></div>
+      <div class="tel rev" style="--d:.12s"><img src="assets/celular-ventas.webp" width="780" height="1688" alt="Centro de ventas en el celular" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Todo lo que hace el sistema.</h2>
+      <p class="lead">Módulo por módulo, lo que van a poder hacer desde el primer día de uso.</p>
+    </div>
+    <div class="modulos">
+      <div class="mod rev"><i class="ph ph-storefront ic"></i><h3>Ventas multicanal</h3><ul><li>Mercado Libre, Tiendanube, Frávega y tiendas de bancos entran solas.</li><li>Mostrador y mayorista con buscador.</li><li>Venta, seña y cotización.</li><li>Remitos, envíos y anulaciones.</li></ul></div>
+      <div class="mod rev" style="--d:.04s"><i class="ph ph-file-text ic"></i><h3>Facturación ARCA</h3><ul><li>Facturas A y B con CAE automático.</li><li>Percepciones según el padrón.</li><li>Notas de crédito y débito.</li><li>PDF con el QR de ARCA.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-hand-coins ic"></i><h3>Cobros y conciliación</h3><ul><li>Cada cobro atado a su venta.</li><li>Liquidaciones de cada canal con su detalle.</li><li>Plata en tránsito con fecha.</li><li>Diferencias siempre a la vista.</li></ul></div>
+      <div class="mod rev" style="--d:.12s"><i class="ph ph-users ic"></i><h3>Clientes</h3><ul><li>CUIT validado y condición de IVA.</li><li>Cuenta corriente unificada.</li><li>Cobros aplicados a lo más viejo.</li><li>Saldos y vencimientos.</li></ul></div>
+      <div class="mod rev"><i class="ph ph-truck ic"></i><h3>Proveedores y pagos</h3><ul><li>Proveedores, servicios, impuestos y sueldos separados.</li><li>Facturas sin duplicados.</li><li>Órdenes de pago con retenciones.</li><li>Vencimientos de la semana.</li></ul></div>
+      <div class="mod rev" style="--d:.04s"><i class="ph ph-bank ic"></i><h3>Cajas, bancos y cheques</h3><ul><li>Bancos, billeteras, efectivo y cheques.</li><li>Saldos contra su extracto.</li><li>Transferencias entre cajas.</li><li>Cartera de cheques.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-package ic"></i><h3>Productos y stock</h3><ul><li>Lista, mayorista, costo y margen.</li><li>Stock en fábrica y en Full.</li><li>Ajustes con motivo.</li><li>Aviso de stock mínimo.</li></ul></div>
+      <div class="mod rev" style="--d:.12s"><i class="ph ph-chart-line-up ic"></i><h3>Informes</h3><ul><li>Ventas por canal y producto.</li><li>Utilidad, saldos y vencimientos.</li><li>Plata en tránsito.</li><li>Todo exportable a Excel.</li></ul></div>
+      <div class="mod rev"><i class="ph ph-scales ic"></i><h3>Impuestos</h3><ul><li>Percepciones y retenciones de IIBB.</li><li>Libros de IVA y Libro de IVA Digital.</li><li>Archivos para SICORE y SIRE.</li><li>Listo para el estudio contable.</li></ul></div>
+      <div class="mod rev" style="--d:.04s"><i class="ph ph-user-gear ic"></i><h3>Usuarios y permisos</h3><ul><li>Usuario y clave por persona.</li><li>Permisos por área.</li><li>Registro de quién hizo qué.</li><li>Computadora, tablet o celular.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-shield-check ic"></i><h3>Respaldo y seguridad</h3><ul><li>Copia diaria cifrada.</li><li>Conexión segura.</li><li>Nada se guarda a medias.</li><li>Los datos son de HDC.</li></ul></div>
+      <div class="mod rev" style="--d:.12s"><i class="ph ph-bell ic"></i><h3>Avisos del día</h3><ul><li>Ventas para remitir.</li><li>Cobros y cheques pendientes.</li><li>Pagos que vencen.</li><li>Diferencias con el banco.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Lo que cambia en el día a día.</h2>
+    </div>
+    <div class="mejoras rev">
+      <div class="mej"><i class="ph ph-check-square"></i><h3>Los informes cierran</h3><p>Vendido, cobrado y acreditado con el motivo de cada peso.</p></div>
+      <div class="mej"><i class="ph ph-equals"></i><h3>Un solo número</h3><p>Todos los informes salen de la misma base.</p></div>
+      <div class="mej"><i class="ph ph-folders"></i><h3>Proveedores ordenados</h3><p>Sueldos, servicios e impuestos en su lugar.</p></div>
+      <div class="mej"><i class="ph ph-warning-circle"></i><h3>Nada a medias</h3><p>Antes de guardar, el sistema avisa qué falta.</p></div>
+      <div class="mej"><i class="ph ph-magnifying-glass"></i><h3>Todo se encuentra</h3><p>Con Ctrl K: por nombre, CUIT, comprobante o monto.</p></div>
+      <div class="mej"><i class="ph ph-lightning"></i><h3>Menos carga manual</h3><p>Ventas, cobros y facturas de los canales, solos.</p></div>
+      <div class="mej"><i class="ph ph-bank"></i><h3>Bancos al día</h3><p>Cada caja comparada con su extracto.</p></div>
+      <div class="mej"><i class="ph ph-device-mobile"></i><h3>Desde cualquier lugar</h3><p>Computadora, tablet o celular, en modo claro u oscuro.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Lo que vieron es la parte <span class="ac">visible</span>.</h2>
+      <p class="lead">La maqueta muestra cómo se va a ver y cómo se va a usar. Por debajo todavía no hay nada conectado: no factura, no lee los canales ni los bancos y los datos son inventados. Construir eso es la mayor parte del trabajo.</p>
+    </div>
+    <div class="tabla rev">
+      <div class="fila cab"><div></div><div>La maqueta</div><div>El sistema</div></div>
+      <div class="fila"><div>Datos</div><div>Ejemplos inventados, en el navegador</div><div>Base propia de HDC, con respaldo diario cifrado</div></div>
+      <div class="fila"><div>Ventas de los canales</div><div>Cargadas de ejemplo</div><div>Entran solas desde Mercado Libre, Tiendanube, Frávega y las tiendas de bancos</div></div>
+      <div class="fila"><div>Facturas</div><div>Numeración simulada</div><div>Emitidas en ARCA con CAE, percepciones y QR</div></div>
+      <div class="fila"><div>Cobros y liquidaciones</div><div>Valores de ejemplo</div><div>Leídos de Mercado Pago, Pago Nube, Frávega y los bancos</div></div>
+      <div class="fila"><div>Bancos</div><div>Una diferencia armada para mostrar</div><div>Extractos de cada banco importados y conciliados</div></div>
+      <div class="fila"><div>Impuestos</div><div>No calcula</div><div>Padrones, alícuotas, percepciones, retenciones y archivos</div></div>
+      <div class="fila"><div>Usuarios</div><div>Uno solo, sin clave</div><div>Cada persona con su usuario, permisos y registro</div></div>
+      <div class="fila"><div>Su información</div><div>No está</div><div>Clientes, proveedores, productos, saldos, stock y cheques migrados</div></div>
+    </div>
+
+    <h3 class="sub-h rev">Lo que hay detrás de cada pantalla</h3>
+    <p class="sub-p rev">Seis frentes de trabajo que no se ven en la maqueta y son los que hacen que el sistema funcione de verdad.</p>
+    <div class="detras">
+      <div class="det rev"><span class="tag">Conexiones</span><h3>Cinco canales, cinco formas de hablar</h3><ul><li>Cada canal entrega ventas y liquidaciones a su manera.</li><li>Permisos y reglas distintas en cada uno.</li><li>Ventas y pagos que no se duplican ni se pierden.</li></ul></div>
+      <div class="det rev" style="--d:.05s"><span class="tag">ARCA</span><h3>Facturación con validez fiscal</h3><ul><li>Certificados, puntos de venta y pruebas.</li><li>Comprobante y percepciones según cada cliente.</li><li>Qué hacer si ARCA no responde.</li></ul></div>
+      <div class="det rev" style="--d:.1s"><span class="tag">Conciliación</span><h3>El cruce de cada peso</h3><ul><li>Venta, cobro y liquidación cruzados.</li><li>Comisiones, envíos, cuotas y retenciones.</li><li>Parciales, devoluciones y cheques.</li></ul></div>
+      <div class="det rev"><span class="tag">Impuestos</span><h3>Reglas de cada organismo</h3><ul><li>Padrones que cambian todos los meses.</li><li>Alícuotas por cliente y jurisdicción.</li><li>Un formato de archivo por presentación.</li></ul></div>
+      <div class="det rev" style="--d:.05s"><span class="tag">Migración</span><h3>Pasar sin perder nada</h3><ul><li>Clientes, proveedores, productos y precios.</li><li>Saldos, cheques y stock al día del cambio.</li><li>Histórico para comparar con el pasado.</li></ul></div>
+      <div class="det rev" style="--d:.1s"><span class="tag">Puesta en marcha</span><h3>Sin cortar la operación</h3><ul><li>Un período en paralelo con el sistema actual.</li><li>Números comparados hasta que coinciden.</li><li>Capacitación por área con sus datos.</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Por etapas, y cada una se prueba con ustedes.</h2>
+      <p class="lead">Mientras se construye, siguen trabajando con su sistema actual. El cambio se hace recién cuando los números coinciden.</p>
+    </div>
+    <div class="linea">
+      <div class="et rev"><span class="pt">1</span><div><h3>Diseño con ustedes</h3><p>Recorremos la maqueta con cada área y ajustamos pantallas y flujos.</p></div></div>
+      <div class="et rev" style="--d:.05s"><span class="pt">2</span><div><h3>Ventas y facturación</h3><p>Canales conectados, Centro de ventas, clientes y ARCA.</p></div></div>
+      <div class="et rev" style="--d:.1s"><span class="pt">3</span><div><h3>Cobros y tesorería</h3><p>Liquidaciones, conciliación, cajas, bancos y cheques.</p></div></div>
+      <div class="et rev" style="--d:.15s"><span class="pt">4</span><div><h3>Compras e impuestos</h3><p>Proveedores, pagos, retenciones, percepciones y archivos.</p></div></div>
+      <div class="et rev" style="--d:.2s"><span class="pt">5</span><div><h3>Migración y marcha</h3><p>Información migrada, período en paralelo y capacitación.</p></div></div>
+    </div>
+    <div class="necesitamos rev">
+      <div><h3>Qué necesitamos de su lado</h3><p>Para conectar cada parte y arrancar sin demoras.</p></div>
+      <ul>
+        <li><i class="ph ph-key"></i>La persona titular de Mercado Libre, para autorizar la conexión.</li>
+        <li><i class="ph ph-storefront"></i>Acceso de vendedor de Frávega y de los portales de las tiendas de bancos.</li>
+        <li><i class="ph ph-certificate"></i>El certificado de ARCA para facturar.</li>
+        <li><i class="ph ph-briefcase"></i>El contacto con su estudio contable.</li>
+        <li><i class="ph ph-user-circle"></i>Una persona de referencia por área.</li>
+        <li><i class="ph ph-database"></i>La exportación completa de su información, pedida por escrito al proveedor actual antes de comunicar el cambio.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <span class="argos"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="r1" cx="24" cy="24" r="22.4"/><circle class="r2" cx="24" cy="24" r="13.7"/><circle class="iris" cx="24" cy="24" r="7.2"/></svg><b>Argos</b><small>de Dilema Labs</small></span>
+      <p>Sistemas de gestión hechos a medida de cada empresa, con su forma de trabajar y sus números.</p>
+    </div>
+    <div class="ct">argos.dilemacreative.ar<br>equipo@dilemacreative.ar</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.rev');
+  if (!('IntersectionObserver' in window) || reduce) { els.forEach(function (e) { e.classList.add('vis'); }); }
+  else {
+    var io = new IntersectionObserver(function (ents) { ents.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('vis'); io.unobserve(en.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (e) { io.observe(e); });
+    setTimeout(function () { els.forEach(function (e) { e.classList.add('vis'); }); }, 5000);
+  }
+
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+  var imgs = Array.prototype.slice.call(document.querySelectorAll('.pantalla img'));
+  var titulo = document.getElementById('visor-titulo');
+  var texto = document.getElementById('visor-texto');
+  function elegir(i, foco, inicial) {
+    tabs.forEach(function (t, k) { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
+    imgs.forEach(function (im, k) { if (k === i) { im.loading = 'eager'; im.classList.add('on'); } else im.classList.remove('on'); });
+    titulo.textContent = tabs[i].querySelector('b').textContent;
+    texto.textContent = tabs[i].querySelector('span').textContent;
+    if (foco) tabs[i].focus();
+    if (!inicial && window.matchMedia('(max-width:1080px)').matches) tabs[i].scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduce ? 'auto' : 'smooth' });
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener('click', function () { elegir(i); });
+    t.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') { e.preventDefault(); elegir((i + 1) % tabs.length, true); }
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') { e.preventDefault(); elegir((i - 1 + tabs.length) % tabs.length, true); }
+    });
+  });
+  elegir(0, false, true);
+
+  var v = document.getElementById('video-hero');
+  var bp = document.getElementById('pausa-video');
+  if (v && bp) {
+    var pausadoPorUsuario = false;
+    var pintar = function () { var pausado = v.paused; bp.setAttribute('aria-pressed', String(pausado)); bp.querySelector('i').className = 'ph ' + (pausado ? 'ph-play' : 'ph-pause'); bp.querySelector('span').textContent = pausado ? 'Reproducir' : 'Pausar'; };
+    if (reduce) { v.removeAttribute('autoplay'); v.pause(); pausadoPorUsuario = true; }
+    bp.addEventListener('click', function () { if (v.paused) { pausadoPorUsuario = false; v.play(); } else { pausadoPorUsuario = true; v.pause(); } });
+    v.addEventListener('play', pintar); v.addEventListener('pause', pintar); pintar();
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { es.forEach(function (en) { if (!en.isIntersecting) v.pause(); else if (!pausadoPorUsuario) { var pr = v.play(); if (pr && pr.catch) pr.catch(function () {}); } }); }, { threshold: 0.25 }).observe(v);
+    }
+  }
+})();
+</script>
+</body>
+</html>
