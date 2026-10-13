@@ -168,6 +168,24 @@ section{position:relative;padding:120px 0}
 .pantallas figcaption{margin-top:14px;font-size:14px;color:var(--muted)}
 .pantallas figcaption b{color:var(--text);font-weight:500}
 
+.vias{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.via{display:flex;flex-direction:column;gap:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:28px;min-width:0}
+.via:first-child{background:linear-gradient(160deg,rgba(92,199,157,.12),rgba(255,255,255,.02) 60%);border-color:rgba(92,199,157,.28)}
+.via-t{display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:1.05rem;letter-spacing:-.015em}
+.via-t i{font-size:19px;color:var(--accent)}
+.via-logos{display:flex;gap:8px;flex-wrap:wrap}
+.via-logos .lg{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:#fff;overflow:hidden}
+.via-logos .lg img{width:80%;height:80%;object-fit:contain}
+.via-logos .lg.m-ml{background:#FFE600}
+.via-logos .lg.m-ml img{width:92%;height:92%}
+.via-logos .lg.ico{background:rgba(91,180,214,.16);color:#8CC8E4}
+.via-logos .lg.ico i{font-size:18px}
+.via p{color:var(--muted);font-size:15px}
+.via-trabajo{margin-top:auto;display:flex;justify-content:space-between;gap:12px;padding-top:16px;border-top:1px solid var(--border);font-size:14px}
+.via-trabajo span{color:var(--faint);white-space:nowrap}
+.via-trabajo b{font-weight:500;color:var(--text);text-align:right}
+.via-nota{margin-top:22px;color:var(--faint);font-size:14px;max-width:70ch}
+
 /* módulos */
 .modulos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .mod{border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:24px 22px;min-width:0;transition:border-color .25s,background .25s,transform .25s}
@@ -242,6 +260,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   .mej:nth-last-child(-n+4){border-bottom:1px solid var(--border)}
   .mej:nth-last-child(-n+2){border-bottom:0}
   .detras{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .vias{grid-template-columns:minmax(0,1fr)}
   .tour{grid-template-columns:minmax(0,1fr)}
   .tabs{position:static;display:flex;overflow-x:auto;gap:8px;padding-bottom:4px;scrollbar-width:none}
   .tabs::-webkit-scrollbar{display:none}
@@ -275,7 +294,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   .lado{padding:24px}
   .pantallas{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .pantallas > :first-child{grid-column:1 / -1}
-  .modulos,.mejoras,.detras{grid-template-columns:minmax(0,1fr)}
+  .modulos,.mejoras,.detras,.vias{grid-template-columns:minmax(0,1fr)}
   .mej,.mej:nth-child(4n),.mej:nth-child(2n){border-right:0}
   .mej:nth-last-child(-n+4){border-bottom:1px solid var(--border)}
   .mej:last-child{border-bottom:0}
@@ -324,7 +343,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
     </div>
     <div class="stats">
       <div class="rev"><b>12</b><span>módulos conectados entre sí, de ventas a impuestos</span></div>
-      <div class="rev" style="--d:.06s"><b>5</b><span>canales de venta que entran solos al sistema</span></div>
+      <div class="rev" style="--d:.06s"><b>3</b><span>canales conectados en vivo, y el resto conciliado solo por mail o archivo</span></div>
       <div class="rev" style="--d:.12s"><b class="ac">$ 0</b><span>de diferencia sin explicar entre lo vendido y lo acreditado</span></div>
     </div>
   </div>
@@ -357,7 +376,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="celda c-d rev" style="--d:.06s">
         <span class="ic"><i class="ph ph-stack"></i></span>
         <h3>Todas las ventas juntas</h3>
-        <p>Tiendanube, Mercado Libre y las tiendas de bancos en un solo lugar, sin cargar nada a mano.</p>
+        <p>Tiendanube, Mercado Libre, Frávega y las tiendas de bancos en un solo lugar, sin cargar las ventas una por una.</p>
         <div class="canales" aria-hidden="true"><span><b class="lg m-ml"><img src="assets/logos/mercadolibre.svg" alt=""></b>Mercado Libre</span><span><b class="lg"><img src="assets/logos/tiendanube.png" alt=""></b>Tiendanube</span><span><b class="lg"><img src="assets/logos/fravega.png" alt=""></b>Frávega</span><span><b class="lg"><img src="assets/logos/mercadopago.svg" alt=""></b>Mercado Pago</span><span><b class="lg ico"><i class="ph ph-bank"></i></b>Tiendas de bancos</span></div>
       </div>
     </div>
@@ -385,7 +404,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
         <ul class="lista">
           <li><i class="ph-fill ph-check-circle"></i>Cada venta atada a su factura, a su cobro y a lo que entró al banco.</li>
           <li><i class="ph-fill ph-check-circle"></i>Todos los informes salen de la misma base: si dos miran lo mismo, dan lo mismo.</li>
-          <li><i class="ph-fill ph-check-circle"></i>Las ventas de los canales y sus facturas se generan solas.</li>
+          <li><i class="ph-fill ph-check-circle"></i>Las ventas de los canales entran al sistema y se facturan solas, sin cargarlas una por una.</li>
           <li><i class="ph-fill ph-check-circle"></i>Ctrl K para encontrar cualquier cosa o ir a cualquier pantalla, desde la computadora o el celular.</li>
         </ul>
       </div>
@@ -446,7 +465,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <p class="lead">Módulo por módulo, lo que van a poder hacer desde el primer día de uso.</p>
     </div>
     <div class="modulos">
-      <div class="mod rev"><i class="ph ph-storefront ic"></i><h3>Ventas multicanal</h3><ul><li>Mercado Libre, Tiendanube, Frávega y tiendas de bancos entran solas.</li><li>Mostrador y mayorista con buscador.</li><li>Venta, seña y cotización.</li><li>Remitos, envíos y anulaciones.</li></ul></div>
+      <div class="mod rev"><i class="ph ph-storefront ic"></i><h3>Ventas multicanal</h3><ul><li>Mercado Libre, Tiendanube y Frávega entran solas; las tiendas de bancos, por mail o archivo.</li><li>Mostrador y mayorista con buscador.</li><li>Venta, seña y cotización.</li><li>Remitos, envíos y anulaciones.</li></ul></div>
       <div class="mod rev" style="--d:.04s"><i class="ph ph-file-text ic"></i><h3>Facturación ARCA</h3><ul><li>Facturas A y B con CAE automático.</li><li>Percepciones según el padrón.</li><li>Notas de crédito y débito.</li><li>PDF con el QR de ARCA.</li></ul></div>
       <div class="mod rev" style="--d:.08s"><i class="ph ph-hand-coins ic"></i><h3>Cobros y conciliación</h3><ul><li>Cada cobro atado a su venta.</li><li>Liquidaciones de cada canal con su detalle.</li><li>Plata en tránsito con fecha.</li><li>Diferencias siempre a la vista.</li></ul></div>
       <div class="mod rev" style="--d:.12s"><i class="ph ph-users ic"></i><h3>Clientes</h3><ul><li>CUIT validado y condición de IVA.</li><li>Cuenta corriente unificada.</li><li>Cobros aplicados a lo más viejo.</li><li>Saldos y vencimientos.</li></ul></div>
@@ -465,6 +484,36 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
 <section>
   <div class="wrap">
     <div class="shead rev">
+      <h2>Cómo entra cada canal.</h2>
+      <p class="lead">No todos los canales dan la misma puerta de entrada. Cada uno se conecta de la mejor forma que permite, y en los tres casos el cruce con las ventas lo hace el sistema.</p>
+    </div>
+    <div class="vias">
+      <div class="via rev">
+        <span class="via-t"><i class="ph ph-lightning"></i>Conectados en vivo</span>
+        <div class="via-logos"><b class="lg m-ml"><img src="assets/logos/mercadolibre.svg" alt="Mercado Libre"></b><b class="lg"><img src="assets/logos/tiendanube.png" alt="Tiendanube"></b><b class="lg"><img src="assets/logos/fravega.png" alt="Frávega"></b><b class="lg"><img src="assets/logos/mercadopago.svg" alt="Mercado Pago"></b></div>
+        <p>Mercado Libre, Tiendanube, Frávega y Mercado Pago. Las ventas, los cobros y las liquidaciones entran solos, a medida que pasan.</p>
+        <div class="via-trabajo"><span>Trabajo de su lado</span><b>Ninguno</b></div>
+      </div>
+      <div class="via rev" style="--d:.06s">
+        <span class="via-t"><i class="ph ph-envelope-simple"></i>Por mail, automático</span>
+        <div class="via-logos"><b class="lg"><img src="assets/logos/tiendanube.png" alt="Pago Nube"></b><b class="lg ico"><i class="ph ph-bank"></i></b></div>
+        <p>Pago Nube y las tiendas de bancos que avisan por mail. Un buzón propio del sistema recibe los avisos y las liquidaciones, y el sistema los lee solo.</p>
+        <div class="via-trabajo"><span>Trabajo de su lado</span><b>Revisar lo que no cierre</b></div>
+      </div>
+      <div class="via rev" style="--d:.12s">
+        <span class="via-t"><i class="ph ph-file-arrow-up"></i>Por archivo</span>
+        <div class="via-logos"><b class="lg ico"><i class="ph ph-bank"></i></b><b class="lg ico"><i class="ph ph-credit-card"></i></b></div>
+        <p>Las tiendas de bancos sin aviso por mail y Payway. Se baja el archivo del portal y se arrastra al sistema, que cruza cada venta con su liquidación por monto, fecha y cuotas.</p>
+        <div class="via-trabajo"><span>Trabajo de su lado</span><b>Minutos por liquidación</b></div>
+      </div>
+    </div>
+    <p class="via-nota rev">Qué canal va por cada vía se confirma en la primera etapa, con el acceso a cada portal. Si un banco habilita una conexión directa, ese canal pasa a estar en vivo.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
       <h2>Lo que cambia en el día a día.</h2>
     </div>
     <div class="mejoras rev">
@@ -473,7 +522,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="mej"><i class="ph ph-folders"></i><h3>Proveedores ordenados</h3><p>Sueldos, servicios e impuestos en su lugar.</p></div>
       <div class="mej"><i class="ph ph-warning-circle"></i><h3>Nada a medias</h3><p>Antes de guardar, el sistema avisa qué falta.</p></div>
       <div class="mej"><i class="ph ph-magnifying-glass"></i><h3>Todo se encuentra</h3><p>Con Ctrl K: por nombre, CUIT, comprobante o monto.</p></div>
-      <div class="mej"><i class="ph ph-lightning"></i><h3>Menos carga manual</h3><p>Ventas, cobros y facturas de los canales, solos.</p></div>
+      <div class="mej"><i class="ph ph-lightning"></i><h3>Menos carga manual</h3><p>Ventas y facturas de los canales, sin cargar una por una.</p></div>
       <div class="mej"><i class="ph ph-bank"></i><h3>Bancos al día</h3><p>Cada caja comparada con su extracto.</p></div>
       <div class="mej"><i class="ph ph-device-mobile"></i><h3>Desde cualquier lugar</h3><p>Computadora, tablet o celular, en modo claro u oscuro.</p></div>
     </div>
@@ -489,9 +538,9 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
     <div class="tabla rev">
       <div class="fila cab"><div></div><div>La maqueta</div><div>El sistema</div></div>
       <div class="fila"><div>Datos</div><div>Ejemplos inventados, en el navegador</div><div>Base propia de HDC, con respaldo diario cifrado</div></div>
-      <div class="fila"><div>Ventas de los canales</div><div>Cargadas de ejemplo</div><div>Entran solas desde Mercado Libre, Tiendanube, Frávega y las tiendas de bancos</div></div>
+      <div class="fila"><div>Ventas de los canales</div><div>Cargadas de ejemplo</div><div>En vivo desde Mercado Libre, Tiendanube y Frávega; las tiendas de bancos, por mail o archivo</div></div>
       <div class="fila"><div>Facturas</div><div>Numeración simulada</div><div>Emitidas en ARCA con CAE, percepciones y QR</div></div>
-      <div class="fila"><div>Cobros y liquidaciones</div><div>Valores de ejemplo</div><div>Leídos de Mercado Pago, Pago Nube, Frávega y los bancos</div></div>
+      <div class="fila"><div>Cobros y liquidaciones</div><div>Valores de ejemplo</div><div>Mercado Pago y Frávega en vivo; Pago Nube, Payway y los bancos por mail o archivo, con cruce automático</div></div>
       <div class="fila"><div>Bancos</div><div>Una diferencia armada para mostrar</div><div>Extractos de cada banco importados y conciliados</div></div>
       <div class="fila"><div>Impuestos</div><div>No calcula</div><div>Padrones, alícuotas, percepciones, retenciones y archivos</div></div>
       <div class="fila"><div>Usuarios</div><div>Uno solo, sin clave</div><div>Cada persona con su usuario, permisos y registro</div></div>
