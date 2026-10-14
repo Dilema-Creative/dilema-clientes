@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Propuesta MATTANO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Propuesta Dilema: hero grafito, secciones numeradas que alternan papel / gris / grafito.
+     Sistema de un solo tema (claro) por decisión de marca: todos los colores van explícitos. */
+  :root {
+    color-scheme: light;
+    --ink: #171A20;          /* grafito de taller */
+    --ink-2: #0F1115;
+    --ink-soft: #252A33;
+    --rombo: #E8B70C;        /* amarillo: acento sobre oscuro */
+    --rombo-deep: #8C6A00;   /* acento sobre claro */
+    --steel: #4B5B6E;
+    --paper: #F6F5F2;
+    --paper-2: #ECEAE4;
+    --white: #FFFFFF;
+    --text: #1F2228;
+    --ash: #646A73;
+    --line: #DCD9D1;
+    --good: #2F7D5E;
+    --bad: #B23A2B;
+    --on-dark: #F2F0EA;
+    --on-dark-2: rgba(242,240,234,.66);
+    --on-dark-3: rgba(242,240,234,.42);
+    --display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { font-family: var(--body); background: var(--paper); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 15px; }
+  a { color: inherit; }
+  a:focus-visible { outline: 2px solid var(--rombo); outline-offset: 3px; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    background: rgba(23,26,32,.97); border-bottom: 1px solid rgba(232,183,12,.25);
+    height: 58px; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .nav-brand { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--on-dark); letter-spacing: -.02em; white-space: nowrap; }
+  .nav-brand em { font-style: italic; color: var(--rombo); font-weight: 500; }
+  .nav-divider { width: 1px; height: 18px; background: rgba(242,240,234,.18); }
+  .nav-sub, .nav-links a { font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; color: var(--on-dark-3); text-decoration: none; white-space: nowrap; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a:hover { color: var(--rombo); }
+
+  /* HERO */
+  .hero { background: var(--ink); padding: 96px 60px 88px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -140px; right: -100px; width: 640px; height: 640px; background: radial-gradient(circle, rgba(232,183,12,.17) 0%, transparent 68%); pointer-events: none; }
+  .hero-inner { position: relative; max-width: 1080px; }
+  .hero-mark { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; flex-wrap: wrap; }
+  .hero-mark-brand { font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: -.02em; color: var(--on-dark); }
+  .hero-mark-brand em { font-style: italic; color: var(--rombo); font-weight: 500; }
+  .hero-mark-line { width: 40px; height: 1px; background: rgba(242,240,234,.25); }
+  .hero-mark-tag { font-family: var(--mono); font-size: 11px; color: var(--on-dark-3); letter-spacing: .14em; text-transform: uppercase; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(232,183,12,.12); border: 1px solid rgba(232,183,12,.34); border-radius: 4px; padding: 6px 14px; font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--rombo); margin-bottom: 30px; }
+  .hero-eyebrow::before { content: ''; width: 7px; height: 7px; background: var(--rombo); transform: rotate(45deg); }
+  .hero h1 { font-family: var(--display); font-weight: 500; font-size: clamp(38px, 5.6vw, 72px); line-height: 1.03; letter-spacing: -.03em; color: var(--on-dark); max-width: 920px; margin-bottom: 24px; text-wrap: balance; }
+  .hero h1 em { font-style: italic; color: var(--rombo); font-weight: 400; }
+  .hero-sub { font-size: 17px; color: var(--on-dark-2); max-width: 690px; font-weight: 300; line-height: 1.7; margin-bottom: 44px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; overflow: hidden; max-width: 980px; }
+  .hero-stat { background: var(--ink); padding: 20px 22px; min-width: 0; }
+  .hero-stat .v { font-family: var(--display); font-weight: 500; font-size: 34px; letter-spacing: -.03em; color: var(--on-dark); line-height: 1; font-variant-numeric: tabular-nums; }
+  .hero-stat .v small { font-size: 16px; color: var(--on-dark-3); }
+  .hero-stat .k { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark-3); margin-top: 10px; line-height: 1.5; }
+
+  /* SECCIONES */
+  section { padding: 80px 60px; }
+  section > * { max-width: 1080px; }
+  section.alt { background: var(--paper-2); }
+  section.white { background: var(--white); }
+  section.dark { background: var(--ink); color: var(--on-dark); }
+  .kicker { font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--rombo-deep); margin-bottom: 14px; }
+  section.dark .kicker { color: var(--rombo); }
+  .title { font-family: var(--display); font-weight: 500; font-size: clamp(30px, 4vw, 50px); line-height: 1.05; letter-spacing: -.025em; color: var(--ink); max-width: 800px; margin-bottom: 16px; text-wrap: balance; }
+  .title em { font-style: italic; color: var(--rombo-deep); }
+  section.dark .title { color: var(--on-dark); }
+  section.dark .title em { color: var(--rombo); }
+  .desc { font-size: 16px; color: var(--ash); max-width: 700px; margin-bottom: 44px; font-weight: 300; line-height: 1.7; }
+  .desc strong { color: var(--text); font-weight: 600; }
+  section.dark .desc { color: var(--on-dark-2); }
+  section.dark .desc strong { color: var(--on-dark); }
+
+  /* DIAGNÓSTICO */
+  .diag-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .diag-col { padding: 32px; min-width: 0; }
+  .diag-col:first-child { border-right: 1px solid var(--line); background: #EEF3EE; }
+  .diag-col:last-child { background: #F6EDEA; }
+  .diag-head { font-family: var(--mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .diag-col:first-child .diag-head { color: var(--good); }
+  .diag-col:last-child .diag-head { color: var(--bad); }
+  .diag-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  .diag-list li { font-size: 14.5px; padding-left: 22px; position: relative; line-height: 1.55; }
+  .diag-list li strong { font-weight: 600; }
+  .diag-col:first-child li::before { content: '✓'; position: absolute; left: 0; color: var(--good); font-weight: 700; }
+  .diag-col:last-child li::before { content: '→'; position: absolute; left: 0; color: var(--bad); font-weight: 700; }
+
+  /* TABLA FICHAS */
+  .sub { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -.02em; color: var(--ink); margin: 52px 0 8px; }
+  .sub em { font-style: italic; color: var(--rombo-deep); }
+  .sub-desc { font-size: 14.5px; color: var(--ash); max-width: 700px; margin-bottom: 20px; }
+  .table-wrap { border: 1px solid var(--line); border-radius: 6px; overflow-x: auto; background: var(--white); }
+  table { width: 100%; border-collapse: collapse; min-width: 680px; }
+  th { font-family: var(--mono); font-size: 9.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--ash); background: var(--paper-2); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  td { padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 14px; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.num { font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+  td .muted { color: var(--ash); font-size: 12.5px; }
+  .chip { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; white-space: nowrap; }
+  .chip.bad { background: #F6E3DF; color: var(--bad); }
+  .chip.ok { background: #E1EFE7; color: var(--good); }
+  .chip.warn { background: #F7EDCB; color: var(--rombo-deep); }
+  tfoot td { background: var(--paper); font-weight: 600; }
+
+  .callout { border-left: 4px solid var(--rombo); background: var(--white); border-radius: 0 6px 6px 0; padding: 22px 26px; margin-top: 24px; max-width: 900px; }
+  .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--rombo-deep); margin-bottom: 8px; }
+  .callout p { font-size: 15px; line-height: 1.7; }
+  .callout p strong { font-weight: 600; }
+
+  /* COMPETENCIA EN MAPS */
+  .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .comp { background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 22px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .comp-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--bad); }
+  .comp-name { font-family: var(--display); font-weight: 500; font-size: 19px; color: var(--ink); letter-spacing: -.015em; }
+  .comp-meta { font-family: var(--mono); font-size: 12px; color: var(--ash); }
+  .comp-copy { font-size: 13.5px; color: var(--text); font-style: italic; border-top: 1px dashed var(--line); padding-top: 10px; }
+
+  /* REPARTO PORA / DILEMA */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .split-card { border-radius: 6px; padding: 30px; min-width: 0; }
+  .split-card.pora { background: var(--white); border: 1px solid var(--line); }
+  .split-card.dilema { background: var(--ink); color: var(--on-dark); }
+  .split-who { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 10px; color: var(--ash); }
+  .split-card.dilema .split-who { color: var(--rombo); }
+  .split-title { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -.02em; margin-bottom: 10px; color: var(--ink); }
+  .split-card.dilema .split-title { color: var(--on-dark); }
+  .split-card p { font-size: 14.5px; color: var(--ash); margin-bottom: 16px; }
+  .split-card.dilema p { color: var(--on-dark-2); }
+  .tick { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .tick li { font-size: 14px; padding-left: 20px; position: relative; line-height: 1.5; }
+  .tick li::before { content: '✓'; position: absolute; left: 0; color: var(--rombo-deep); font-weight: 700; }
+  .split-card.dilema .tick li { color: var(--on-dark-2); }
+  .split-card.dilema .tick li::before { color: var(--rombo); }
+
+  /* FRENTES */
+  .fronts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .front { background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 28px; min-width: 0; display: flex; flex-direction: column; }
+  .front-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
+  .front-title { font-family: var(--display); font-weight: 500; font-size: 22px; letter-spacing: -.02em; color: var(--ink); }
+  .front-aud { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--steel); background: var(--paper-2); padding: 3px 8px; border-radius: 3px; }
+  .front-goal { font-size: 14px; color: var(--ash); margin-bottom: 16px; }
+  .front .tick { margin-bottom: 16px; }
+  .kw { margin-top: auto; display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px dashed var(--line); padding-top: 14px; }
+  .kw span { font-family: var(--mono); font-size: 11px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 3px 8px; }
+
+  /* CALENDARIO */
+  .season { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 36px; }
+  .mo { border-radius: 4px; padding: 12px 8px 10px; text-align: center; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); min-width: 0; }
+  .mo b { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark); font-weight: 500; }
+  .mo span { display: block; font-size: 11.5px; color: var(--on-dark-3); margin-top: 4px; line-height: 1.35; }
+  .mo.setup { border-color: rgba(242,240,234,.25); }
+  .mo.peak { background: rgba(232,183,12,.16); border-color: rgba(232,183,12,.5); }
+  .mo.peak span { color: var(--rombo); }
+  .steps { display: flex; flex-direction: column; }
+  .step { display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 22px 0; border-top: 1px solid rgba(255,255,255,.09); }
+  .step-when { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--rombo); padding-top: 4px; }
+  .step-title { font-family: var(--display); font-weight: 500; font-size: 20px; letter-spacing: -.015em; color: var(--on-dark); margin-bottom: 6px; }
+  .step-desc { font-size: 14.5px; color: var(--on-dark-2); max-width: 720px; }
+
+  /* MEDICIÓN */
+  .measure { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .m { background: var(--white); padding: 22px; min-width: 0; }
+  .m-k { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--rombo-deep); margin-bottom: 8px; }
+  .m-t { font-family: var(--display); font-weight: 500; font-size: 18px; color: var(--ink); margin-bottom: 6px; letter-spacing: -.01em; }
+  .m-d { font-size: 13.5px; color: var(--ash); line-height: 1.55; }
+
+  /* PREGUNTAS */
+  .qs { list-style: none; counter-reset: q; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; }
+  .qs li { counter-increment: q; display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; min-width: 0; }
+  .qs li::before { content: counter(q, decimal-leading-zero); font-family: var(--mono); font-size: 12px; color: var(--rombo-deep); padding-top: 2px; }
+  .qs li span { color: var(--ash); font-size: 13px; display: block; margin-top: 2px; }
+
+  /* NECESITAMOS */
+  .needs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .need { background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 20px; min-width: 0; }
+  .need-t { font-family: var(--display); font-weight: 500; font-size: 16px; color: var(--ink); margin-bottom: 6px; }
+  .need-d { font-size: 13px; color: var(--ash); line-height: 1.55; }
+
+  /* INVERSIÓN */
+  .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1000px; }
+  .card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; padding: 30px; position: relative; display: flex; flex-direction: column; min-width: 0; }
+  .card.featured { border-color: var(--rombo); background: rgba(232,183,12,.08); }
+  .card.featured::before { content: 'Recomendado'; position: absolute; top: -11px; left: 24px; background: var(--rombo); color: var(--ink); font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; }
+  .card-name { font-family: var(--mono); font-weight: 700; font-size: 10.5px; color: var(--on-dark-3); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; }
+  .card-price { font-family: var(--display); font-weight: 500; font-size: 44px; letter-spacing: -.03em; color: var(--on-dark); line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+  .card-price span { font-size: 17px; font-weight: 400; color: var(--on-dark-3); }
+  .card-note { font-size: 13px; color: var(--on-dark-3); margin-bottom: 20px; font-style: italic; min-height: 40px; }
+  .card-div { height: 1px; background: rgba(255,255,255,.1); margin-bottom: 18px; }
+  .card ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .card li { font-size: 13.5px; color: var(--on-dark-2); padding-left: 22px; position: relative; line-height: 1.5; }
+  .card li::before { content: '✓'; position: absolute; left: 0; color: var(--rombo); font-weight: 700; }
+  .oneoff { margin-top: 22px; max-width: 1000px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; border: 1px dashed rgba(232,183,12,.45); border-radius: 6px; padding: 26px 30px; }
+  .oneoff-k { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--rombo); margin-bottom: 6px; }
+  .oneoff-t { font-family: var(--display); font-weight: 500; font-size: 21px; color: var(--on-dark); margin-bottom: 6px; }
+  .oneoff-d { font-size: 14px; color: var(--on-dark-2); max-width: 640px; }
+  .oneoff-p { font-family: var(--display); font-weight: 500; font-size: 38px; color: var(--on-dark); letter-spacing: -.03em; white-space: nowrap; }
+  .oneoff-p span { font-size: 15px; color: var(--on-dark-3); display: block; text-align: right; font-family: var(--mono); letter-spacing: .06em; }
+  .media { margin-top: 22px; max-width: 1000px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; overflow: hidden; }
+  .media > div { background: var(--ink-soft); padding: 20px 22px; min-width: 0; }
+  .media-k { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--on-dark-3); margin-bottom: 8px; }
+  .media-v { font-family: var(--display); font-size: 26px; font-weight: 500; color: var(--on-dark); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .media-n { font-size: 12.5px; color: var(--on-dark-3); margin-top: 4px; }
+  .invest-note { font-size: 14px; color: var(--on-dark-2); line-height: 1.7; max-width: 1000px; margin-top: 22px; }
+  .invest-note strong { color: var(--on-dark); }
+
+  /* CIERRE */
+  .closing { background: var(--ink-2); padding: 96px 60px; text-align: center; position: relative; overflow: hidden; }
+  .closing::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 720px; max-width: 100%; height: 400px; background: radial-gradient(ellipse, rgba(232,183,12,.12) 0%, transparent 70%); pointer-events: none; }
+  .closing h2 { font-family: var(--display); font-weight: 500; font-size: clamp(32px, 4.6vw, 56px); letter-spacing: -.03em; line-height: 1.06; color: var(--on-dark); margin: 0 auto 20px; position: relative; max-width: 820px; text-wrap: balance; }
+  .closing h2 em { font-style: italic; color: var(--rombo); font-weight: 400; }
+  .closing p { font-size: 16px; color: var(--on-dark-3); max-width: 600px; margin: 0 auto; font-weight: 300; line-height: 1.7; position: relative; }
+
+  footer { background: #0B0C0F; color: var(--on-dark-3); padding: 52px 60px 32px; border-top: 1px solid rgba(232,183,12,.14); }
+  .f-top { display: grid; grid-template-columns: 1fr auto; gap: 40px; padding-bottom: 32px; margin-bottom: 26px; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .f-brand { font-family: var(--display); font-weight: 700; font-size: 26px; color: var(--on-dark); letter-spacing: -.02em; margin-bottom: 10px; }
+  .f-brand em { font-style: italic; color: var(--rombo); font-weight: 500; }
+  .f-tag { font-size: 14px; max-width: 380px; font-weight: 300; line-height: 1.65; }
+  .f-contact { display: flex; flex-direction: column; gap: 8px; text-align: right; font-size: 14px; color: var(--on-dark); }
+  .f-contact .lbl { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--on-dark-3); }
+  .f-contact a { text-decoration: none; }
+  .f-contact a:hover { color: var(--rombo); }
+  .f-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; }
+  .f-bottom span { color: var(--rombo); }
+
+  @media (max-width: 1024px) {
+    nav { padding: 0 32px; }
+    .nav-links { display: none; }
+    .hero { padding: 80px 40px 72px; }
+    section { padding: 64px 40px; }
+    .comp-grid, .pricing { grid-template-columns: 1fr; max-width: 600px; }
+    .measure { grid-template-columns: 1fr 1fr; }
+    .needs { grid-template-columns: 1fr 1fr; }
+    .closing { padding: 80px 40px; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; height: 52px; }
+    .nav-divider, .nav-sub { display: none; }
+    .hero { padding: 64px 20px 56px; }
+    .hero-sub { font-size: 15.5px; margin-bottom: 32px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .hero-stat .v { font-size: 28px; }
+    section { padding: 56px 20px; }
+    .desc { font-size: 15px; margin-bottom: 32px; }
+    .diag-grid, .split, .fronts, .qs, .needs { grid-template-columns: 1fr; }
+    .diag-col { padding: 24px; }
+    .diag-col:first-child { border-right: none; border-bottom: 1px solid var(--line); }
+    .season { grid-template-columns: repeat(4, 1fr); }
+    .step { grid-template-columns: 1fr; gap: 6px; }
+    .measure { grid-template-columns: 1fr; }
+    .oneoff { grid-template-columns: 1fr; padding: 22px; }
+    .oneoff-p span { text-align: left; }
+    .media { grid-template-columns: 1fr; }
+    .card { padding: 26px 22px; }
+    .closing { padding: 64px 20px; }
+    footer { padding: 44px 20px 28px; }
+    .f-top { grid-template-columns: 1fr; }
+    .f-contact { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-brand">Dilema <em>Creative</em></div>
+    <div class="nav-divider"></div>
+    <div class="nav-sub">Propuesta MATTANO</div>
+  </div>
+  <div class="nav-links">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#propuesta">Propuesta</a>
+    <a href="#plan">Plan</a>
+    <a href="#reunion">Para charlar</a>
+    <a href="#inversion">Inversión</a>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <span class="hero-mark-brand">Dilema <em>Creative</em></span>
+      <span class="hero-mark-line"></span>
+      <span class="hero-mark-tag">para MATTANO · Servicio Oficial Renault</span>
+    </div>
+    <div class="hero-eyebrow">Propuesta · Octubre 2026 · Google + Meta</div>
+    <h1>Casi mil clientes ya los eligieron.<br>En Google todavía no dice <em>MATTANO</em>.</h1>
+    <p class="hero-sub">Tienen cuatro sedes en CABA, respaldo oficial Renault, un taller móvil que ningún competidor tiene y casi mil reseñas con 4,2 de promedio. Pero esa reputación está repartida en fichas que se llaman «Renault Minuto» y «Renault Servicios», y el Instagram recién arranca. PORA ya está armando la identidad y el contenido. Nuestra propuesta es la otra mitad: que cuando alguien en Devoto, Boedo o San Cristóbal busque un service o un chapista, encuentre a MATTANO y escriba por WhatsApp a la sede correcta. Y que lleguen a noviembre, cuando la gente prepara el auto para viajar, con todo funcionando.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v">995</div><div class="k">Reseñas en Google<br>entre las 4 sedes</div></div>
+      <div class="hero-stat"><div class="v">4,2<small> / 5</small></div><div class="k">Promedio ponderado<br>de las 4 fichas</div></div>
+      <div class="hero-stat"><div class="v">0<small> / 4</small></div><div class="k">Fichas que dicen<br>«MATTANO»</div></div>
+      <div class="hero-stat"><div class="v">0</div><div class="k">Publicaciones en<br>@mattano.renault</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 DIAGNÓSTICO -->
+<section id="diagnostico">
+  <div class="kicker">01 · Diagnóstico</div>
+  <h2 class="title">Lo que vemos <em>desde afuera</em>.</h2>
+  <p class="desc">Recorrimos MATTANO como lo haría alguien que necesita un service: buscamos en Google Maps, entramos al Instagram y al link de la bio, y leímos el brief y el análisis de competencia que armó PORA. Esto es lo que encontramos al 14 de octubre de 2026.</p>
+
+  <div class="diag-grid">
+    <div class="diag-col">
+      <div class="diag-head">Lo que ya tienen</div>
+      <ul class="diag-list">
+        <li><strong>Reputación real:</strong> 995 reseñas en Google entre las cuatro sedes. Boedo tiene 4,5 con 249 opiniones.</li>
+        <li><strong>Respaldo oficial Renault:</strong> repuestos originales, garantía de 1 año en reparaciones y el service oficial que no hace perder la garantía del auto.</li>
+        <li><strong>Tres de las sedes son puntos Renault Minuto</strong> en la web de Renault Argentina: atención sin turno, 25 puntos de control gratis y precios de referencia públicos.</li>
+        <li><strong>Taller móvil para flotas</strong> en todo el AMBA y de todas las marcas. Ni Clama ni Centro Automotores lo ofrecen.</li>
+        <li><strong>Carrocería propia (MH Atelier)</strong> con cabina, laboratorio de color con pintura al agua y trabajo con todas las aseguradoras.</li>
+        <li><strong>Precio intermedio:</strong> más barato que un concesionario y con respaldo que un taller independiente no tiene.</li>
+        <li><strong>Base de contenido lista:</strong> PORA ya definió pilares, tono y diferenciales.</li>
+      </ul>
+    </div>
+    <div class="diag-col">
+      <div class="diag-head">Lo que falta resolver</div>
+      <ul class="diag-list">
+        <li><strong>La marca no aparece donde se elige el taller.</strong> Las cuatro fichas de Google se llaman «Renault Minuto» o «Renault Servicios». Quien deja una reseña no sabe que eligió a MATTANO.</li>
+        <li><strong>3 de las 4 fichas no tienen sitio web</strong> y el link de Instagram (Taplink) solo lista direcciones: no hay botón de WhatsApp, servicios ni promos.</li>
+        <li><strong>Sin sitio propio.</strong> No hay a dónde mandar un anuncio, y las empresas no tienen dónde conocer el taller móvil ni pedir cotización.</li>
+        <li><strong>Instagram en cero:</strong> 5 seguidores y ninguna publicación. Sin pauta, el contenido de PORA va a tardar meses en llegar a la gente del barrio.</li>
+        <li><strong>Talleres independientes pagan por aparecer arriba</strong> en Maps con textos como «somos un taller Renault», justo cuando alguien busca un service Renault en la zona.</li>
+        <li><strong>No se mide nada:</strong> hoy no se puede saber cuántas consultas llegan por sede ni de dónde vienen.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="sub">Las cuatro sedes <em>en Google Maps</em></h3>
+  <p class="sub-desc">Así aparecen hoy en una búsqueda desde CABA. Es la vidriera que más mira alguien que necesita llevar el auto, y hoy no tiene el nombre de la marca.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Sede</th><th>Servicio</th><th>Nombre en Google</th><th>Puntaje</th><th>Reseñas</th><th>Sitio web</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Villa Devoto<br><span class="muted">Av. San Martín 7244</span></td><td>Mecánica</td><td><span class="chip bad">Renault Minuto</span></td><td class="num">4,1</td><td class="num">311</td><td><span class="chip ok">Cargado</span></td></tr>
+        <tr><td>Boedo<br><span class="muted">Av. Independencia 3817</span></td><td>Mecánica</td><td><span class="chip bad">Renault Servicios</span></td><td class="num">4,5</td><td class="num">249</td><td><span class="chip bad">Sin web</span></td></tr>
+        <tr><td>San Cristóbal<br><span class="muted">Av. Jujuy 906</span></td><td>Mecánica</td><td><span class="chip bad">Renault Servicios</span></td><td class="num">4,2</td><td class="num">339</td><td><span class="chip bad">Sin web</span></td></tr>
+        <tr><td>MH Atelier<br><span class="muted">Tejedor 460</span></td><td>Carrocería</td><td><span class="chip bad">Renault Servicios</span> <span class="chip warn">+ ficha «Mh Atelier Srl»</span></td><td class="num">4,2</td><td class="num">96</td><td><span class="chip bad">Sin web</span></td></tr>
+      </tbody>
+      <tfoot>
+        <tr><td colspan="3">Total</td><td class="num">4,2</td><td class="num">995</td><td>1 de 4</td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Lectura</div>
+    <p>El activo más valioso de MATTANO ya existe y nadie lo está usando: <strong>995 personas</strong> los calificaron con <strong>4,2</strong> en promedio. Tarea uno: que esas fichas digan MATTANO (o «MATTANO · Renault Servicios», según lo que permita Renault), que tengan web, WhatsApp, fotos, servicios y respuestas a las reseñas. No cuesta pauta y es lo que más mueve la aguja en un negocio de barrio.</p>
+  </div>
+
+  <h3 class="sub">Quién <em>paga</em> por aparecer arriba</h3>
+  <p class="sub-desc">Estos negocios aparecen como anuncio en Maps cuando alguien busca un service Renault o un chapista en la zona de las sedes.</p>
+  <div class="comp-grid">
+    <div class="comp">
+      <div class="comp-tag">Anuncio · Mecánica</div>
+      <div class="comp-name">Taller Mecánico Florio</div>
+      <div class="comp-meta">4,6 · 67 reseñas · Palermo</div>
+      <div class="comp-copy">Se presenta como «taller Renault con más de 25 años en el rubro». No es oficial.</div>
+    </div>
+    <div class="comp">
+      <div class="comp-tag">Anuncio · Mecánica</div>
+      <div class="comp-name">Taller León Mecánico</div>
+      <div class="comp-meta">4,7 · 54 reseñas · Flores</div>
+      <div class="comp-copy">Pauta por diagnóstico, escáner e inyección, servicios que MATTANO también hace.</div>
+    </div>
+    <div class="comp">
+      <div class="comp-tag">Anuncio · Carrocería</div>
+      <div class="comp-name">Taller ColorPro</div>
+      <div class="comp-meta">4,9 · 468 reseñas · Chapa y pintura</div>
+      <div class="comp-copy">«Igualamos el color 100% garantizado». MATTANO tiene laboratorio de colorimetría y garantía oficial, pero no lo comunica.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 PORA + DILEMA -->
+<section class="alt" id="propuesta">
+  <div class="kicker">02 · Cómo trabajamos con PORA</div>
+  <h2 class="title">PORA arma la marca. Nosotros hacemos que <em>la encuentren</em>.</h2>
+  <p class="desc">El brief y el análisis de competencia de PORA ya marcan el camino: identidad propia en lugar de las placas genéricas de fábrica, reels del taller y foco en posventa, carrocería, taller móvil y multimarca. No duplicamos ese trabajo: lo usamos como materia prima para la pauta y lo llevamos a Google, donde se decide el taller.</p>
+  <div class="split">
+    <div class="split-card pora">
+      <div class="split-who">PORA · Identidad y contenido</div>
+      <div class="split-title">Instagram con identidad propia</div>
+      <p>Lo que ya está en marcha según el brief de septiembre y el análisis de octubre.</p>
+      <ul class="tick">
+        <li>Sistema visual de MATTANO: colores, tipografía y grilla por pilar</li>
+        <li>Calendario de contenidos y copys con llamado a la acción por sede</li>
+        <li>Reels del taller, el equipo, los 25 puntos y el taller móvil</li>
+        <li>Diseño de la landing (si la suman al trabajo)</li>
+      </ul>
+    </div>
+    <div class="split-card dilema">
+      <div class="split-who">Dilema · Pauta, búsqueda y medición</div>
+      <div class="split-title">Que cada peso termine en una consulta</div>
+      <p>Lo que proponemos sumar, coordinado con el calendario de PORA.</p>
+      <ul class="tick">
+        <li>Las 5 fichas de Google ordenadas, con web, WhatsApp y reseñas respondidas</li>
+        <li>Google Ads por sede, carrocería y flotas</li>
+        <li>Meta Ads: los mejores reels de PORA, en un radio corto alrededor de cada sede</li>
+        <li>Landing con las 4 sedes y página para empresas</li>
+        <li>Medición de cada WhatsApp, llamada y formulario, por sede</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 03 FRENTES -->
+<section class="white">
+  <div class="kicker">03 · Los cuatro frentes</div>
+  <h2 class="title">Cuatro públicos, <em>cuatro búsquedas</em> distintas.</h2>
+  <p class="desc">Quien tiene un Sandero en garantía, quien acaba de chocar y quien maneja 40 utilitarios buscan cosas distintas, en momentos distintos. Cada frente tiene su campaña, su mensaje y su destino. Las búsquedas de abajo son ejemplos; el volumen real lo medimos con el Planificador de Google al abrir la cuenta.</p>
+  <div class="fronts">
+    <div class="front">
+      <div class="front-head"><div class="front-title">Service oficial cerca</div><span class="front-aud">Particular Renault</span></div>
+      <div class="front-goal">El pilar central. Capturar a quien busca un service Renault en su barrio y llevarlo al WhatsApp de la sede más cercana.</div>
+      <ul class="tick">
+        <li>Una campaña de búsqueda con anuncios por sede (Devoto, Boedo, San Cristóbal)</li>
+        <li>Mensaje: oficial, sin turno, 25 puntos gratis, 3 cuotas sin interés</li>
+        <li>Respaldo frente al taller independiente: «no perdés la garantía»</li>
+        <li>Extensiones de ubicación y llamada en cada anuncio</li>
+      </ul>
+      <div class="kw"><span>service renault</span><span>service oficial renault caba</span><span>renault minuto</span><span>taller renault devoto</span><span>cambio de aceite renault</span></div>
+    </div>
+    <div class="front">
+      <div class="front-head"><div class="front-title">Chapa y pintura</div><span class="front-aud">MH Atelier</span></div>
+      <div class="front-goal">La búsqueda que más paga la competencia. Quien choca compara y elige en el día: ahí gana el que transmite confianza.</div>
+      <ul class="tick">
+        <li>Campaña propia para la sede de Tejedor 460</li>
+        <li>Mensaje: garantía oficial, pintura al agua original de fábrica, todas las aseguradoras</li>
+        <li>Sacabollos y polarizados como servicios de entrada</li>
+        <li>Antes y después de PORA como anuncio en Meta</li>
+      </ul>
+      <div class="kw"><span>chapa y pintura caba</span><span>chapista boedo</span><span>sacabollos</span><span>taller chapa y pintura seguro</span></div>
+    </div>
+    <div class="front">
+      <div class="front-head"><div class="front-title">Taller móvil para flotas</div><span class="front-aud">Empresas</span></div>
+      <div class="front-goal">El diferencial que nadie tiene. Pocas búsquedas, pero cada empresa vale por decenas de clientes particulares.</div>
+      <ul class="tick">
+        <li>Búsqueda de nicho con formulario de cotización en la landing</li>
+        <li>Mensaje: el taller va a la empresa, sin parar la flota, todas las marcas</li>
+        <li>Cuenta corriente, seguimiento y service Renault en garantía en el lugar</li>
+        <li>Opcional más adelante: LinkedIn para jefes de flota y compras</li>
+      </ul>
+      <div class="kw"><span>mantenimiento de flotas</span><span>taller móvil</span><span>service flota empresa</span><span>mantenimiento utilitarios amba</span></div>
+    </div>
+    <div class="front">
+      <div class="front-head"><div class="front-title">El barrio en Meta</div><span class="front-aud">Particular · multimarca</span></div>
+      <div class="front-goal">Que los vecinos de cada sede los conozcan antes de necesitarlos, con el contenido que produce PORA.</div>
+      <ul class="tick">
+        <li>Reels con mejor rendimiento orgánico, en un radio de pocos kilómetros por sede</li>
+        <li>Anuncios de mensajes que abren el WhatsApp de la sede correcta</li>
+        <li>Promos bimestrales de Renault y chequeo pre-vacaciones en temporada</li>
+        <li>Crecimiento de seguidores reales del barrio, no masivo</li>
+      </ul>
+      <div class="kw"><span>Devoto</span><span>Boedo</span><span>San Cristóbal</span><span>Parque Chacabuco</span><span>radio 3–5 km</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 PLAN -->
+<section class="dark" id="plan">
+  <div class="kicker">04 · Plan y temporada</div>
+  <h2 class="title">Llegar a noviembre <em>con todo andando</em>.</h2>
+  <p class="desc">Según el brief, la demanda sube en <strong>noviembre, diciembre y enero</strong>, cuando la gente prepara el auto para viajar, y otra vez en julio. Si arrancamos en la segunda quincena de octubre, el primer mes de aprendizaje de las campañas cae antes del pico y no durante.</p>
+  <div class="season" aria-label="Calendario de temporada">
+    <div class="mo setup"><b>Oct</b><span>Puesta a punto</span></div>
+    <div class="mo peak"><b>Nov</b><span>Temporada alta</span></div>
+    <div class="mo peak"><b>Dic</b><span>Temporada alta</span></div>
+    <div class="mo peak"><b>Ene</b><span>Temporada alta</span></div>
+    <div class="mo"><b>Feb</b><span>Revisión y ajuste</span></div>
+    <div class="mo"><b>Mar</b><span>Vuelta a la rutina</span></div>
+    <div class="mo"><b>Jul</b><span>Pico de invierno</span></div>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-when">Semana 1</div>
+      <div><div class="step-title">Accesos, fichas y medición</div><div class="step-desc">Reclamamos y ordenamos las cinco fichas de Google (nombre según lo que permita Renault, horarios, servicios, fotos, WhatsApp, respuestas a reseñas). Dejamos midiendo los clics a WhatsApp y las llamadas por sede.</div></div>
+    </div>
+    <div class="step">
+      <div class="step-when">Semanas 2–3</div>
+      <div><div class="step-title">Landing y Google Ads</div><div class="step-desc">Publicamos la landing con las cuatro sedes y la página de flotas, con el diseño de PORA si lo suman. Lanzamos las campañas de service, carrocería y flotas.</div></div>
+    </div>
+    <div class="step">
+      <div class="step-when">Noviembre</div>
+      <div><div class="step-title">Meta con el contenido de PORA</div><div class="step-desc">Cuando el feed tenga las primeras publicaciones, pautamos los reels que mejor funcionen orgánicamente y los anuncios de mensajes por sede. Primer reporte con consultas por sede y costo por consulta.</div></div>
+    </div>
+    <div class="step">
+      <div class="step-when">Dic – Ene</div>
+      <div><div class="step-title">Temporada: chequeo antes de viajar</div><div class="step-desc">Mensaje de temporada con los 25 puntos gratis y las 3 cuotas. Movemos el presupuesto hacia la sede y el servicio que mejor responden, y bajamos donde la capacidad del taller ya está completa.</div></div>
+    </div>
+    <div class="step">
+      <div class="step-when">Febrero</div>
+      <div><div class="step-title">Revisión con números reales</div><div class="step-desc">Con tres meses de datos definimos juntos dónde conviene invertir más: sede, servicio, Google o Meta, y si vale la pena sumar LinkedIn para flotas.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 MEDICIÓN -->
+<section>
+  <div class="kicker">05 · Qué vamos a medir</div>
+  <h2 class="title">Un taller no vende online. <em>Se mide distinto</em>.</h2>
+  <p class="desc">La venta pasa en el mostrador, así que medimos lo que la anticipa. Todo separado por sede, para que cada responsable vea cuánto le está trayendo la pauta.</p>
+  <div class="measure">
+    <div class="m"><div class="m-k">Principal</div><div class="m-t">WhatsApp por sede</div><div class="m-d">Cada clic que abre el WhatsApp de Devoto, Boedo, San Cristóbal o MH Atelier, desde anuncios, fichas y landing.</div></div>
+    <div class="m"><div class="m-k">Principal</div><div class="m-t">Llamadas</div><div class="m-d">Llamadas desde los anuncios y desde las fichas de Google Maps.</div></div>
+    <div class="m"><div class="m-k">Flotas</div><div class="m-t">Pedidos de cotización</div><div class="m-d">Formulario de la página de empresas, con aviso inmediato al responsable del taller móvil.</div></div>
+    <div class="m"><div class="m-k">Cierre</div><div class="m-t">Turnos concretados</div><div class="m-d">Una planilla simple en la que cada sede anota de dónde vino el cliente. Con eso calculamos el costo real por auto que entra al taller.</div></div>
+  </div>
+</section>
+
+<!-- 06 REUNIÓN -->
+<section class="alt" id="reunion">
+  <div class="kicker">06 · Para la reunión</div>
+  <h2 class="title">Lo que necesitamos <em>preguntarles</em>.</h2>
+  <p class="desc">Con estas respuestas cerramos el presupuesto de pauta y el reparto entre sedes. Algunas definen si conviene empujar más un servicio que otro.</p>
+  <ol class="qs">
+    <li><div>¿Qué permite Renault en el nombre de las fichas y en la comunicación?<span>Si pueden figurar como «MATTANO · Renault Servicios» o tiene que quedar el nombre de la red.</span></div></li>
+    <li><div>¿Qué sede tiene más capacidad libre hoy?<span>No tiene sentido llenar una sede que ya trabaja al máximo.</span></div></li>
+    <li><div>¿Cuánto deja un service promedio y cuánto un trabajo de chapa?<span>Para saber cuánto puede costar una consulta y que el número cierre.</span></div></li>
+    <li><div>¿Cuántas flotas atienden hoy con el taller móvil y cuántas más pueden tomar?<span>Define cuánto empujar el frente de empresas.</span></div></li>
+    <li><div>¿Quién responde los WhatsApp de cada sede, y en cuánto tiempo?<span>Una consulta que tarda horas en contestarse se pierde.</span></div></li>
+    <li><div>¿Qué promos de Renault están vigentes y cuándo cambian?<span>Las bimestrales van directo a los anuncios.</span></div></li>
+    <li><div>¿Tienen dominio o sitio propio, aunque esté sin usar?</div></li>
+    <li><div>¿Qué empresas o instituciones podemos nombrar como clientes?<span>Es la prueba más fuerte para el frente de flotas.</span></div></li>
+  </ol>
+</section>
+
+<!-- 07 NECESITAMOS -->
+<section class="white">
+  <div class="kicker">07 · Qué necesitamos para arrancar</div>
+  <h2 class="title">Accesos y material, <em>la primera semana</em>.</h2>
+  <p class="desc">Si alguno no existe, lo creamos nosotros a nombre de MATTANO. Todo lo que armamos queda de ustedes.</p>
+  <div class="needs">
+    <div class="need"><div class="need-t">Fichas de Google</div><div class="need-d">Acceso de administrador a las cinco fichas: las cuatro sedes y «Mh Atelier Srl». Si nadie las tiene a su nombre, las reclamamos.</div></div>
+    <div class="need"><div class="need-t">Cuenta de Google Ads</div><div class="need-d">Si ya existe, acceso de administrador. Si no, la creamos dentro de nuestra cuenta de agencia.</div></div>
+    <div class="need"><div class="need-t">Meta Business</div><div class="need-d">El portfolio comercial donde está el Instagram de MATTANO, con la cuenta publicitaria y un medio de pago.</div></div>
+    <div class="need"><div class="need-t">WhatsApp por sede</div><div class="need-d">Los cuatro números confirmados y, si se puede, en WhatsApp Business con mensaje de bienvenida.</div></div>
+    <div class="need"><div class="need-t">Dominio</div><div class="need-d">Uno propio para la landing (por ejemplo mattano.com.ar) o acceso al que ya tengan.</div></div>
+    <div class="need"><div class="need-t">Fotos y video</div><div class="need-d">Lo que produzca PORA más fotos de cada sede, el equipo y el taller móvil.</div></div>
+  </div>
+</section>
+
+<!-- 08 INVERSIÓN -->
+<section class="dark" id="inversion">
+  <div class="kicker">08 · Inversión</div>
+  <h2 class="title">Tres formas de <em>arrancar</em>.</h2>
+  <p class="desc">El fee mensual cubre la estrategia, el armado de campañas, la optimización semanal, el reporte mensual con reunión y el portal de cliente con los datos en vivo. La puesta a punto se paga una sola vez. La inversión en pauta va aparte y se le paga directo a Google y a Meta.</p>
+  <div class="pricing">
+    <div class="card">
+      <div class="card-name">Solo Google</div>
+      <div class="card-price">USD 350<span> /mes</span></div>
+      <div class="card-note">Aparecer cuando ya buscan un service o un chapista cerca.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Fichas de Google de las 5 sedes, con gestión de reseñas</li>
+        <li>Campañas de service, carrocería y flotas</li>
+        <li>Medición de WhatsApp y llamadas por sede</li>
+        <li>Optimización semanal</li>
+        <li>Reporte, reunión mensual y portal</li>
+      </ul>
+    </div>
+    <div class="card featured">
+      <div class="card-name">Google + Meta</div>
+      <div class="card-price">USD 600<span> /mes</span></div>
+      <div class="card-note">La búsqueda y el barrio trabajando juntos, con el contenido de PORA como combustible.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Todo lo de Google</li>
+        <li>Pauta de los reels de PORA por sede</li>
+        <li>Anuncios de mensajes al WhatsApp de cada sede</li>
+        <li>Calendario de pauta coordinado con PORA</li>
+        <li>Reparto del presupuesto entre canales según resultados</li>
+        <li>Reporte, reunión mensual y portal</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-name">Solo Meta</div>
+      <div class="card-price">USD 350<span> /mes</span></div>
+      <div class="card-note">Hacer crecer la cuenta nueva en los barrios de cada sede.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Puesta en marcha de la cuenta publicitaria</li>
+        <li>Pauta del contenido de PORA</li>
+        <li>Anuncios de mensajes por sede</li>
+        <li>Optimización semanal</li>
+        <li>Reporte, reunión mensual y portal</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="oneoff">
+    <div>
+      <div class="oneoff-k">Pago único · Puesta a punto</div>
+      <div class="oneoff-t">Landing, fichas y medición</div>
+      <div class="oneoff-d">Landing con las cuatro sedes, botón de WhatsApp por sede y página de flotas con formulario; orden completo de las cinco fichas de Google; medición de WhatsApp, llamadas y formularios. Se paga la mitad al arrancar y la mitad al publicar.</div>
+    </div>
+    <div class="oneoff-p">USD 700<span>una vez</span></div>
+  </div>
+
+  <div class="media" aria-label="Pauta sugerida para arrancar">
+    <div><div class="media-k">Pauta Google · sugerida</div><div class="media-v">ARS 450.000</div><div class="media-n">por mes, unos 15.000 por día entre sedes, carrocería y flotas</div></div>
+    <div><div class="media-k">Pauta Meta · sugerida</div><div class="media-v">ARS 300.000</div><div class="media-n">por mes, desde noviembre, cuando el feed tenga contenido</div></div>
+    <div><div class="media-k">Ajuste</div><div class="media-v">Mes a mes</div><div class="media-n">en temporada alta subimos donde el taller tiene lugar</div></div>
+  </div>
+  <p class="invest-note"><strong>Sobre la pauta:</strong> estos montos son un punto de partida para tener datos en el primer mes. El número definitivo lo cerramos con el volumen real de búsquedas de cada barrio, que sale del Planificador de Google al abrir la cuenta, y con el margen de cada servicio que nos compartan en la reunión.</p>
+</section>
+
+<div class="closing">
+  <h2>La reputación ya está.<br>Falta que tenga <em>nombre</em>.</h2>
+  <p>MATTANO tiene lo que más cuesta construir: casi mil clientes que hablan bien de ellos, respaldo oficial y un servicio para empresas que nadie más ofrece. Con PORA dándole identidad y nosotros poniéndolo delante de quien busca, la temporada de vacaciones puede ser la primera en la que cada consulta tenga origen, sede y costo.</p>
+</div>
+
+<footer>
+  <div class="f-top">
+    <div>
+      <div class="f-brand">Dilema <em>Creative</em></div>
+      <div class="f-tag">Agencia de marketing digital. Trabajamos los canales como un sistema, no como esfuerzos sueltos. Pocos clientes, máximo servicio.</div>
+    </div>
+    <div class="f-contact">
+      <span class="lbl">Contacto</span>
+      <span>equipo@dilemacreative.ar</span>
+      <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+      <a href="https://instagram.com/dilema.creative" target="_blank" rel="noopener">@dilema.creative</a>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <div>Dilema Creative <span>·</span> Octubre 2026 <span>·</span> Propuesta para MATTANO</div>
+    <div>Buenos Aires <span>·</span> Argentina</div>
+  </div>
+</footer>
+
+</body>
+</html>
