@@ -134,22 +134,22 @@
   .comp-meta { font-family: var(--mono); font-size: 12px; color: var(--ash); }
   .comp-copy { font-size: 13.5px; color: var(--text); font-style: italic; border-top: 1px dashed var(--line); padding-top: 10px; }
 
-  /* REPARTO PORA / DILEMA */
+  /* DOS CANALES */
   .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   .split-card { border-radius: 6px; padding: 30px; min-width: 0; }
-  .split-card.pora { background: var(--white); border: 1px solid var(--line); }
-  .split-card.dilema { background: var(--ink); color: var(--on-dark); }
+  .split-card.light { background: var(--white); border: 1px solid var(--line); }
+  .split-card.solid { background: var(--ink); color: var(--on-dark); }
   .split-who { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 10px; color: var(--ash); }
-  .split-card.dilema .split-who { color: var(--rombo); }
+  .split-card.solid .split-who { color: var(--rombo); }
   .split-title { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -.02em; margin-bottom: 10px; color: var(--ink); }
-  .split-card.dilema .split-title { color: var(--on-dark); }
+  .split-card.solid .split-title { color: var(--on-dark); }
   .split-card p { font-size: 14.5px; color: var(--ash); margin-bottom: 16px; }
-  .split-card.dilema p { color: var(--on-dark-2); }
+  .split-card.solid p { color: var(--on-dark-2); }
   .tick { list-style: none; display: flex; flex-direction: column; gap: 8px; }
   .tick li { font-size: 14px; padding-left: 20px; position: relative; line-height: 1.5; }
   .tick li::before { content: '✓'; position: absolute; left: 0; color: var(--rombo-deep); font-weight: 700; }
-  .split-card.dilema .tick li { color: var(--on-dark-2); }
-  .split-card.dilema .tick li::before { color: var(--rombo); }
+  .split-card.solid .tick li { color: var(--on-dark-2); }
+  .split-card.solid .tick li::before { color: var(--rombo); }
 
   /* FRENTES */
   .fronts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
@@ -275,6 +275,12 @@
     .f-top { grid-template-columns: 1fr; }
     .f-contact { text-align: left; }
   }
+  /* ESTADO */
+  table.audit { min-width: 760px; }
+  table.audit td:first-child { width: 22%; }
+  table.audit td:nth-child(2) { width: 11%; }
+  table.audit td b { font-weight: 600; color: var(--ink); }
+  .muted-cell { color: var(--ash); }
 </style>
 </head>
 <body>
@@ -287,9 +293,9 @@
   </div>
   <div class="nav-links">
     <a href="#diagnostico">Diagnóstico</a>
+    <a href="#estado">Qué hay hoy</a>
     <a href="#propuesta">Propuesta</a>
     <a href="#plan">Plan</a>
-    <a href="#reunion">Para charlar</a>
     <a href="#inversion">Inversión</a>
   </div>
 </nav>
@@ -301,14 +307,14 @@
       <span class="hero-mark-line"></span>
       <span class="hero-mark-tag">para MATTANO · Servicio Oficial Renault</span>
     </div>
-    <div class="hero-eyebrow">Propuesta · Octubre 2026 · Google + Meta</div>
-    <h1>Casi mil clientes ya los eligieron.<br>En Google todavía no dice <em>MATTANO</em>.</h1>
-    <p class="hero-sub">Tienen cuatro sedes en CABA, respaldo oficial Renault, un taller móvil que ningún competidor tiene y casi mil reseñas con 4,2 de promedio. Pero esa reputación está repartida en fichas que se llaman «Renault Minuto» y «Renault Servicios», y el Instagram recién arranca. PORA ya está armando la identidad y el contenido. Nuestra propuesta es la otra mitad: que cuando alguien en Devoto, Boedo o San Cristóbal busque un service o un chapista, encuentre a MATTANO y escriba por WhatsApp a la sede correcta. Y que lleguen a noviembre, cuando la gente prepara el auto para viajar, con todo funcionando.</p>
+    <div class="hero-eyebrow">Propuesta · Octubre 2026 · Meta + Google</div>
+    <h1>Casi mil clientes ya los eligieron.<br>Falta que el barrio sepa que son <em>MATTANO</em>.</h1>
+    <p class="hero-sub">Tienen cuatro sedes en CABA, respaldo oficial Renault, un taller móvil que ningún competidor ofrece y casi mil reseñas con 4,2 de promedio. Ya tienen el brief de marca, el análisis de la competencia y la identidad de Instagram en marcha. Lo que falta es ponerlo a trabajar: que los vecinos de Devoto, Boedo y San Cristóbal vean a MATTANO en Instagram y les escriban por WhatsApp, y que quien busca un service o un chapista en Google los encuentre. Todo listo para noviembre, cuando la gente prepara el auto para viajar.</p>
     <div class="hero-stats">
       <div class="hero-stat"><div class="v">995</div><div class="k">Reseñas en Google<br>entre las 4 sedes</div></div>
       <div class="hero-stat"><div class="v">4,2<small> / 5</small></div><div class="k">Promedio ponderado<br>de las 4 fichas</div></div>
-      <div class="hero-stat"><div class="v">0<small> / 4</small></div><div class="k">Fichas que dicen<br>«MATTANO»</div></div>
       <div class="hero-stat"><div class="v">0</div><div class="k">Publicaciones en<br>@mattano.renault</div></div>
+      <div class="hero-stat"><div class="v">0</div><div class="k">Anuncios activos<br>en Meta y Google</div></div>
     </div>
   </div>
 </header>
@@ -317,7 +323,7 @@
 <section id="diagnostico">
   <div class="kicker">01 · Diagnóstico</div>
   <h2 class="title">Lo que vemos <em>desde afuera</em>.</h2>
-  <p class="desc">Recorrimos MATTANO como lo haría alguien que necesita un service: buscamos en Google Maps, entramos al Instagram y al link de la bio, y leímos el brief y el análisis de competencia que armó PORA. Esto es lo que encontramos al 14 de octubre de 2026.</p>
+  <p class="desc">Recorrimos MATTANO como lo haría alguien que necesita un service: entramos al Instagram y al link de la bio, buscamos un sitio web, revisamos Google Maps y la Biblioteca de anuncios de Meta, y cruzamos todo con el brief y el análisis de competencia. Esto es lo que encontramos al 14 de octubre de 2026.</p>
 
   <div class="diag-grid">
     <div class="diag-col">
@@ -325,24 +331,50 @@
       <ul class="diag-list">
         <li><strong>Reputación real:</strong> 995 reseñas en Google entre las cuatro sedes. Boedo tiene 4,5 con 249 opiniones.</li>
         <li><strong>Respaldo oficial Renault:</strong> repuestos originales, garantía de 1 año en reparaciones y el service oficial que no hace perder la garantía del auto.</li>
-        <li><strong>Tres de las sedes son puntos Renault Minuto</strong> en la web de Renault Argentina: atención sin turno, 25 puntos de control gratis y precios de referencia públicos.</li>
+        <li><strong>Tres sedes son puntos Renault Minuto</strong> en la web de Renault Argentina: atención sin turno, 25 puntos de control gratis y precios de referencia públicos.</li>
         <li><strong>Taller móvil para flotas</strong> en todo el AMBA y de todas las marcas. Ni Clama ni Centro Automotores lo ofrecen.</li>
         <li><strong>Carrocería propia (MH Atelier)</strong> con cabina, laboratorio de color con pintura al agua y trabajo con todas las aseguradoras.</li>
-        <li><strong>Precio intermedio:</strong> más barato que un concesionario y con respaldo que un taller independiente no tiene.</li>
-        <li><strong>Base de contenido lista:</strong> PORA ya definió pilares, tono y diferenciales.</li>
+        <li><strong>Precio intermedio:</strong> más barato que un concesionario, con un respaldo que un taller independiente no tiene.</li>
+        <li><strong>La estrategia de contenido ya está pensada:</strong> pilares, tono, diferenciales y qué tomar y qué no de la competencia.</li>
       </ul>
     </div>
     <div class="diag-col">
       <div class="diag-head">Lo que falta resolver</div>
       <ul class="diag-list">
+        <li><strong>Nadie los está viendo todavía.</strong> El Instagram tiene 5 seguidores y ninguna publicación, y no hay anuncios activos. Sin pauta, el contenido tarda meses en llegar al barrio.</li>
         <li><strong>La marca no aparece donde se elige el taller.</strong> Las cuatro fichas de Google se llaman «Renault Minuto» o «Renault Servicios». Quien deja una reseña no sabe que eligió a MATTANO.</li>
-        <li><strong>3 de las 4 fichas no tienen sitio web</strong> y el link de Instagram (Taplink) solo lista direcciones: no hay botón de WhatsApp, servicios ni promos.</li>
-        <li><strong>Sin sitio propio.</strong> No hay a dónde mandar un anuncio, y las empresas no tienen dónde conocer el taller móvil ni pedir cotización.</li>
-        <li><strong>Instagram en cero:</strong> 5 seguidores y ninguna publicación. Sin pauta, el contenido de PORA va a tardar meses en llegar a la gente del barrio.</li>
-        <li><strong>Talleres independientes pagan por aparecer arriba</strong> en Maps con textos como «somos un taller Renault», justo cuando alguien busca un service Renault en la zona.</li>
+        <li><strong>No hay un lugar a donde mandar a la gente.</strong> No tienen sitio propio y el link de la bio solo lista direcciones: no hay WhatsApp, servicios, promos ni nada para empresas.</li>
+        <li><strong>Otros pagan por aparecer.</strong> Talleres independientes pautan en Maps con textos como «somos un taller Renault», justo cuando alguien busca un service en la zona.</li>
         <li><strong>No se mide nada:</strong> hoy no se puede saber cuántas consultas llegan por sede ni de dónde vienen.</li>
       </ul>
     </div>
+  </div>
+</section>
+
+<!-- 02 ESTADO -->
+<section class="white" id="estado">
+  <div class="kicker">02 · Qué hay hoy</div>
+  <h2 class="title">Lo que ya está hecho, lo que está en marcha y <em>lo que falta</em>.</h2>
+  <p class="desc">Pieza por pieza, según lo que se ve hoy en el Instagram, el link de la bio, Google y la Biblioteca de anuncios de Meta. Lo que está en verde no hay que tocarlo: hay que aprovecharlo.</p>
+  <div class="table-wrap">
+    <table class="audit">
+      <thead>
+        <tr><th>Pieza</th><th>Estado</th><th>Qué hay</th><th>Qué falta</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><b>Brief y análisis de competencia</b></td><td><span class="chip ok">Hecho</span></td><td>Quiénes son, servicios, sedes, públicos, precios, temporada y qué hacen Clama y Centro Automotores.</td><td class="muted-cell">Nada. Es la base de los anuncios.</td></tr>
+        <tr><td><b>Identidad y calendario de Instagram</b></td><td><span class="chip warn">En marcha</span></td><td>Pilares definidos: posventa, carrocería, taller móvil, multimarca, financiación y respaldo oficial.</td><td>Publicar las primeras piezas y elegir cuáles se pautan.</td></tr>
+        <tr><td><b>Cuenta @mattano.renault</b></td><td><span class="chip warn">A medias</span></td><td>Nombre con «Renault Oficial», bio clara («Mecánica y carrocería en CABA · Respaldo oficial») y link a las sedes.</td><td>0 publicaciones, sin historias destacadas y 5 seguidores.</td></tr>
+        <tr><td><b>Link de la bio (Taplink)</b></td><td><span class="chip warn">A medias</span></td><td>Las cuatro direcciones, con qué hace cada sede.</td><td>La bio promete «Turnos», pero no hay cómo pedirlo. Falta el WhatsApp de cada sede, servicios, promos y flotas.</td></tr>
+        <tr><td><b>Sitio web</b></td><td><span class="chip bad">Falta</span></td><td>No encontramos sitio propio. La ficha de Devoto lleva a renault.com.ar, la web general de Renault.</td><td>Una landing con las cuatro sedes y una página para empresas con formulario.</td></tr>
+        <tr><td><b>Página de Facebook</b></td><td><span class="chip bad">Falta</span></td><td>No encontramos una página de MATTANO.</td><td>Crearla y sumarla al portfolio comercial, junto con Instagram, para pautar en Meta.</td></tr>
+        <tr><td><b>Fichas de Google Maps</b></td><td><span class="chip warn">A medias</span></td><td>Cuatro fichas con 995 reseñas y 4,2 de promedio.</td><td>Que digan MATTANO, web en 3 de las 4, fotos, servicios, respuestas a reseñas y unificar la ficha duplicada de MH Atelier.</td></tr>
+        <tr><td><b>WhatsApp por sede</b></td><td><span class="chip ok">Hecho</span></td><td>Un número por sede, ya definido en el brief.</td><td>Que esté a un toque desde Instagram, las fichas y cada anuncio.</td></tr>
+        <tr><td><b>Pauta en Meta</b></td><td><span class="chip bad">Falta</span></td><td>No hay anuncios de MATTANO en la Biblioteca de anuncios.</td><td>Anuncios de mensajes por sede, reels del taller y promos.</td></tr>
+        <tr><td><b>Pauta en Google</b></td><td><span class="chip bad">Falta</span></td><td>Sin anuncios. Los talleres independientes sí pagan por aparecer.</td><td>Campañas de service, chapa y pintura y flotas.</td></tr>
+        <tr><td><b>Medición</b></td><td><span class="chip bad">Falta</span></td><td>Nada configurado.</td><td>Contar WhatsApp, llamadas y formularios por sede.</td></tr>
+      </tbody>
+    </table>
   </div>
 
   <h3 class="sub">Las cuatro sedes <em>en Google Maps</em></h3>
@@ -353,20 +385,20 @@
         <tr><th>Sede</th><th>Servicio</th><th>Nombre en Google</th><th>Puntaje</th><th>Reseñas</th><th>Sitio web</th></tr>
       </thead>
       <tbody>
-        <tr><td>Villa Devoto<br><span class="muted">Av. San Martín 7244</span></td><td>Mecánica</td><td><span class="chip bad">Renault Minuto</span></td><td class="num">4,1</td><td class="num">311</td><td><span class="chip ok">Cargado</span></td></tr>
+        <tr><td>Villa Devoto<br><span class="muted">Av. San Martín 7244</span></td><td>Mecánica</td><td><span class="chip bad">Renault Minuto</span></td><td class="num">4,1</td><td class="num">311</td><td><span class="chip warn">renault.com.ar</span></td></tr>
         <tr><td>Boedo<br><span class="muted">Av. Independencia 3817</span></td><td>Mecánica</td><td><span class="chip bad">Renault Servicios</span></td><td class="num">4,5</td><td class="num">249</td><td><span class="chip bad">Sin web</span></td></tr>
         <tr><td>San Cristóbal<br><span class="muted">Av. Jujuy 906</span></td><td>Mecánica</td><td><span class="chip bad">Renault Servicios</span></td><td class="num">4,2</td><td class="num">339</td><td><span class="chip bad">Sin web</span></td></tr>
         <tr><td>MH Atelier<br><span class="muted">Tejedor 460</span></td><td>Carrocería</td><td><span class="chip bad">Renault Servicios</span> <span class="chip warn">+ ficha «Mh Atelier Srl»</span></td><td class="num">4,2</td><td class="num">96</td><td><span class="chip bad">Sin web</span></td></tr>
       </tbody>
       <tfoot>
-        <tr><td colspan="3">Total</td><td class="num">4,2</td><td class="num">995</td><td>1 de 4</td></tr>
+        <tr><td colspan="3">Total</td><td class="num">4,2</td><td class="num">995</td><td>0 propias</td></tr>
       </tfoot>
     </table>
   </div>
 
   <div class="callout">
     <div class="callout-label">Lectura</div>
-    <p>El activo más valioso de MATTANO ya existe y nadie lo está usando: <strong>995 personas</strong> los calificaron con <strong>4,2</strong> en promedio. Tarea uno: que esas fichas digan MATTANO (o «MATTANO · Renault Servicios», según lo que permita Renault), que tengan web, WhatsApp, fotos, servicios y respuestas a las reseñas. No cuesta pauta y es lo que más mueve la aguja en un negocio de barrio.</p>
+    <p>Lo difícil ya está: <strong>995 personas</strong> los calificaron con <strong>4,2</strong> y la estrategia de contenido está definida. Lo que falta es lo que convierte eso en consultas: <strong>pauta en Meta para que el barrio los conozca, Google para que los encuentren, y un WhatsApp por sede a un toque de distancia</strong>.</p>
   </div>
 
   <h3 class="sub">Quién <em>paga</em> por aparecer arriba</h3>
@@ -393,96 +425,97 @@
   </div>
 </section>
 
-<!-- 02 PORA + DILEMA -->
+<!-- 03 PROPUESTA -->
 <section class="alt" id="propuesta">
-  <div class="kicker">02 · Cómo trabajamos con PORA</div>
-  <h2 class="title">PORA arma la marca. Nosotros hacemos que <em>la encuentren</em>.</h2>
-  <p class="desc">El brief y el análisis de competencia de PORA ya marcan el camino: identidad propia en lugar de las placas genéricas de fábrica, reels del taller y foco en posventa, carrocería, taller móvil y multimarca. No duplicamos ese trabajo: lo usamos como materia prima para la pauta y lo llevamos a Google, donde se decide el taller.</p>
+  <div class="kicker">03 · La propuesta</div>
+  <h2 class="title">Meta para que los conozcan. <em>Google</em> para que los encuentren.</h2>
+  <p class="desc">Meta es el canal principal: el contenido de Instagram que ya están armando necesita alcance para llegar a los vecinos de cada sede, y los anuncios de mensajes llevan directo al WhatsApp. Google cubre el otro momento, el de quien ya tiene el problema y está buscando dónde llevar el auto. Son dos mercados distintos, y con los dos no se pierde ninguno.</p>
   <div class="split">
-    <div class="split-card pora">
-      <div class="split-who">PORA · Identidad y contenido</div>
-      <div class="split-title">Instagram con identidad propia</div>
-      <p>Lo que ya está en marcha según el brief de septiembre y el análisis de octubre.</p>
+    <div class="split-card solid">
+      <div class="split-who">Canal principal · Meta</div>
+      <div class="split-title">El barrio los conoce antes de necesitarlos</div>
+      <p>Instagram y Facebook, con el contenido propio de MATTANO como protagonista.</p>
       <ul class="tick">
-        <li>Sistema visual de MATTANO: colores, tipografía y grilla por pilar</li>
-        <li>Calendario de contenidos y copys con llamado a la acción por sede</li>
-        <li>Reels del taller, el equipo, los 25 puntos y el taller móvil</li>
-        <li>Diseño de la landing (si la suman al trabajo)</li>
+        <li>Anuncios de mensajes que abren el WhatsApp de la sede más cercana</li>
+        <li>Reels del taller, el equipo y los 25 puntos de control, pautados en un radio corto por sede</li>
+        <li>Promos bimestrales de Renault y 3 cuotas sin interés</li>
+        <li>Volver a aparecerle a quien vio un video o visitó el perfil</li>
+        <li>Formulario para empresas dentro de Meta, para el taller móvil</li>
+        <li>Seguidores reales de los barrios de las sedes</li>
       </ul>
     </div>
-    <div class="split-card dilema">
-      <div class="split-who">Dilema · Pauta, búsqueda y medición</div>
-      <div class="split-title">Que cada peso termine en una consulta</div>
-      <p>Lo que proponemos sumar, coordinado con el calendario de PORA.</p>
+    <div class="split-card light">
+      <div class="split-who">Complemento · Google</div>
+      <div class="split-title">Aparecer cuando ya están buscando</div>
+      <p>El buscador y Maps, para quien tiene el auto con un problema hoy.</p>
       <ul class="tick">
-        <li>Las 5 fichas de Google ordenadas, con web, WhatsApp y reseñas respondidas</li>
-        <li>Google Ads por sede, carrocería y flotas</li>
-        <li>Meta Ads: los mejores reels de PORA, en un radio corto alrededor de cada sede</li>
-        <li>Landing con las 4 sedes y página para empresas</li>
-        <li>Medición de cada WhatsApp, llamada y formulario, por sede</li>
+        <li>Las cinco fichas de Google ordenadas, con web, WhatsApp y reseñas respondidas</li>
+        <li>Anuncios de service oficial por sede</li>
+        <li>Campaña de chapa y pintura para MH Atelier</li>
+        <li>Búsquedas de mantenimiento de flotas para el taller móvil</li>
+        <li>Llamadas y WhatsApp desde el anuncio</li>
       </ul>
     </div>
   </div>
 </section>
 
-<!-- 03 FRENTES -->
+<!-- 04 FRENTES -->
 <section class="white">
-  <div class="kicker">03 · Los cuatro frentes</div>
-  <h2 class="title">Cuatro públicos, <em>cuatro búsquedas</em> distintas.</h2>
-  <p class="desc">Quien tiene un Sandero en garantía, quien acaba de chocar y quien maneja 40 utilitarios buscan cosas distintas, en momentos distintos. Cada frente tiene su campaña, su mensaje y su destino. Las búsquedas de abajo son ejemplos; el volumen real lo medimos con el Planificador de Google al abrir la cuenta.</p>
+  <div class="kicker">04 · Los cuatro frentes</div>
+  <h2 class="title">Cuatro públicos, <em>cuatro mensajes</em> distintos.</h2>
+  <p class="desc">Quien tiene un Sandero en garantía, quien acaba de chocar y quien maneja 40 utilitarios no se convencen con lo mismo. Cada frente tiene su campaña, su mensaje y su destino. Las búsquedas de Google son ejemplos: el volumen real lo medimos con el Planificador de Google al abrir la cuenta.</p>
   <div class="fronts">
     <div class="front">
-      <div class="front-head"><div class="front-title">Service oficial cerca</div><span class="front-aud">Particular Renault</span></div>
-      <div class="front-goal">El pilar central. Capturar a quien busca un service Renault en su barrio y llevarlo al WhatsApp de la sede más cercana.</div>
+      <div class="front-head"><div class="front-title">El barrio</div><span class="front-aud">Meta · Particulares</span></div>
+      <div class="front-goal">El frente principal. Que los vecinos de cada sede conozcan a MATTANO y le escriban por WhatsApp cuando les toque el service.</div>
       <ul class="tick">
-        <li>Una campaña de búsqueda con anuncios por sede (Devoto, Boedo, San Cristóbal)</li>
+        <li>Un conjunto de anuncios por sede, en un radio de 3 a 5 km</li>
         <li>Mensaje: oficial, sin turno, 25 puntos gratis, 3 cuotas sin interés</li>
-        <li>Respaldo frente al taller independiente: «no perdés la garantía»</li>
-        <li>Extensiones de ubicación y llamada en cada anuncio</li>
+        <li>Multimarca: también para quien no tiene un Renault</li>
+        <li>En temporada: el chequeo antes de salir de vacaciones</li>
+      </ul>
+      <div class="kw"><span>Devoto</span><span>Boedo</span><span>San Cristóbal</span><span>Parque Chacabuco</span><span>radio 3–5 km</span></div>
+    </div>
+    <div class="front">
+      <div class="front-head"><div class="front-title">Service oficial cerca</div><span class="front-aud">Google · Renault</span></div>
+      <div class="front-goal">Capturar a quien busca un service Renault en su barrio y llevarlo al WhatsApp de la sede más cercana.</div>
+      <ul class="tick">
+        <li>Anuncios de búsqueda por sede (Devoto, Boedo, San Cristóbal)</li>
+        <li>Frente al taller independiente: «con el service oficial no perdés la garantía»</li>
+        <li>Ubicación y llamada en cada anuncio</li>
       </ul>
       <div class="kw"><span>service renault</span><span>service oficial renault caba</span><span>renault minuto</span><span>taller renault devoto</span><span>cambio de aceite renault</span></div>
     </div>
     <div class="front">
-      <div class="front-head"><div class="front-title">Chapa y pintura</div><span class="front-aud">MH Atelier</span></div>
-      <div class="front-goal">La búsqueda que más paga la competencia. Quien choca compara y elige en el día: ahí gana el que transmite confianza.</div>
+      <div class="front-head"><div class="front-title">Chapa y pintura</div><span class="front-aud">Meta + Google · MH Atelier</span></div>
+      <div class="front-goal">La búsqueda que más paga la competencia. Quien choca compara y elige en el día: gana el que transmite confianza.</div>
       <ul class="tick">
-        <li>Campaña propia para la sede de Tejedor 460</li>
+        <li>Antes y después de trabajos reales, en reels para Meta</li>
+        <li>Campaña de búsqueda para la sede de Tejedor 460</li>
         <li>Mensaje: garantía oficial, pintura al agua original de fábrica, todas las aseguradoras</li>
         <li>Sacabollos y polarizados como servicios de entrada</li>
-        <li>Antes y después de PORA como anuncio en Meta</li>
       </ul>
       <div class="kw"><span>chapa y pintura caba</span><span>chapista boedo</span><span>sacabollos</span><span>taller chapa y pintura seguro</span></div>
     </div>
     <div class="front">
-      <div class="front-head"><div class="front-title">Taller móvil para flotas</div><span class="front-aud">Empresas</span></div>
-      <div class="front-goal">El diferencial que nadie tiene. Pocas búsquedas, pero cada empresa vale por decenas de clientes particulares.</div>
+      <div class="front-head"><div class="front-title">Taller móvil para flotas</div><span class="front-aud">Meta + Google · Empresas</span></div>
+      <div class="front-goal">El diferencial que nadie tiene. Pocas consultas, pero cada empresa vale por decenas de clientes particulares.</div>
       <ul class="tick">
-        <li>Búsqueda de nicho con formulario de cotización en la landing</li>
+        <li>Formulario de cotización en Meta y en la página para empresas</li>
         <li>Mensaje: el taller va a la empresa, sin parar la flota, todas las marcas</li>
         <li>Cuenta corriente, seguimiento y service Renault en garantía en el lugar</li>
-        <li>Opcional más adelante: LinkedIn para jefes de flota y compras</li>
+        <li>Más adelante, si suma: LinkedIn para jefes de flota y compras</li>
       </ul>
       <div class="kw"><span>mantenimiento de flotas</span><span>taller móvil</span><span>service flota empresa</span><span>mantenimiento utilitarios amba</span></div>
-    </div>
-    <div class="front">
-      <div class="front-head"><div class="front-title">El barrio en Meta</div><span class="front-aud">Particular · multimarca</span></div>
-      <div class="front-goal">Que los vecinos de cada sede los conozcan antes de necesitarlos, con el contenido que produce PORA.</div>
-      <ul class="tick">
-        <li>Reels con mejor rendimiento orgánico, en un radio de pocos kilómetros por sede</li>
-        <li>Anuncios de mensajes que abren el WhatsApp de la sede correcta</li>
-        <li>Promos bimestrales de Renault y chequeo pre-vacaciones en temporada</li>
-        <li>Crecimiento de seguidores reales del barrio, no masivo</li>
-      </ul>
-      <div class="kw"><span>Devoto</span><span>Boedo</span><span>San Cristóbal</span><span>Parque Chacabuco</span><span>radio 3–5 km</span></div>
     </div>
   </div>
 </section>
 
-<!-- 04 PLAN -->
+<!-- 05 PLAN -->
 <section class="dark" id="plan">
-  <div class="kicker">04 · Plan y temporada</div>
+  <div class="kicker">05 · Plan y temporada</div>
   <h2 class="title">Llegar a noviembre <em>con todo andando</em>.</h2>
-  <p class="desc">Según el brief, la demanda sube en <strong>noviembre, diciembre y enero</strong>, cuando la gente prepara el auto para viajar, y otra vez en julio. Si arrancamos en la segunda quincena de octubre, el primer mes de aprendizaje de las campañas cae antes del pico y no durante.</p>
+  <p class="desc">La demanda sube en <strong>noviembre, diciembre y enero</strong>, cuando la gente prepara el auto para viajar, y otra vez en julio. Si arrancamos en la segunda quincena de octubre, el primer mes de aprendizaje de las campañas cae antes del pico y no durante.</p>
   <div class="season" aria-label="Calendario de temporada">
     <div class="mo setup"><b>Oct</b><span>Puesta a punto</span></div>
     <div class="mo peak"><b>Nov</b><span>Temporada alta</span></div>
@@ -495,114 +528,115 @@
   <div class="steps">
     <div class="step">
       <div class="step-when">Semana 1</div>
-      <div><div class="step-title">Accesos, fichas y medición</div><div class="step-desc">Reclamamos y ordenamos las cinco fichas de Google (nombre según lo que permita Renault, horarios, servicios, fotos, WhatsApp, respuestas a reseñas). Dejamos midiendo los clics a WhatsApp y las llamadas por sede.</div></div>
+      <div><div class="step-title">Accesos, Meta y medición</div><div class="step-desc">Armamos el portfolio comercial con Instagram y la página de Facebook, conectamos el WhatsApp de cada sede y dejamos midiendo los mensajes y las llamadas por sede. Ordenamos las cinco fichas de Google.</div></div>
     </div>
     <div class="step">
-      <div class="step-when">Semanas 2–3</div>
-      <div><div class="step-title">Landing y Google Ads</div><div class="step-desc">Publicamos la landing con las cuatro sedes y la página de flotas, con el diseño de PORA si lo suman. Lanzamos las campañas de service, carrocería y flotas.</div></div>
+      <div class="step-when">Semana 2</div>
+      <div><div class="step-title">Primeros anuncios en Meta</div><div class="step-desc">Con las primeras publicaciones del feed, lanzamos los anuncios de mensajes por sede y el formulario para empresas. Así el perfil arranca a crecer con gente del barrio desde el día uno.</div></div>
     </div>
     <div class="step">
-      <div class="step-when">Noviembre</div>
-      <div><div class="step-title">Meta con el contenido de PORA</div><div class="step-desc">Cuando el feed tenga las primeras publicaciones, pautamos los reels que mejor funcionen orgánicamente y los anuncios de mensajes por sede. Primer reporte con consultas por sede y costo por consulta.</div></div>
+      <div class="step-when">Semana 3</div>
+      <div><div class="step-title">Landing y Google Ads</div><div class="step-desc">Publicamos la landing con las cuatro sedes y la página de flotas. Lanzamos las campañas de service, chapa y pintura y flotas en Google.</div></div>
     </div>
     <div class="step">
       <div class="step-when">Dic – Ene</div>
-      <div><div class="step-title">Temporada: chequeo antes de viajar</div><div class="step-desc">Mensaje de temporada con los 25 puntos gratis y las 3 cuotas. Movemos el presupuesto hacia la sede y el servicio que mejor responden, y bajamos donde la capacidad del taller ya está completa.</div></div>
+      <div><div class="step-title">Temporada: chequeo antes de viajar</div><div class="step-desc">Mensaje de temporada con los 25 puntos gratis y las 3 cuotas. Movemos el presupuesto hacia la sede y el servicio que mejor responden, y bajamos donde el taller ya está completo.</div></div>
     </div>
     <div class="step">
       <div class="step-when">Febrero</div>
-      <div><div class="step-title">Revisión con números reales</div><div class="step-desc">Con tres meses de datos definimos juntos dónde conviene invertir más: sede, servicio, Google o Meta, y si vale la pena sumar LinkedIn para flotas.</div></div>
+      <div><div class="step-title">Revisión con números reales</div><div class="step-desc">Con tres meses de datos definimos juntos dónde conviene invertir más: sede, servicio, Meta o Google, y si vale la pena sumar LinkedIn para flotas.</div></div>
     </div>
   </div>
 </section>
 
-<!-- 05 MEDICIÓN -->
+<!-- 06 MEDICIÓN -->
 <section>
-  <div class="kicker">05 · Qué vamos a medir</div>
+  <div class="kicker">06 · Qué vamos a medir</div>
   <h2 class="title">Un taller no vende online. <em>Se mide distinto</em>.</h2>
   <p class="desc">La venta pasa en el mostrador, así que medimos lo que la anticipa. Todo separado por sede, para que cada responsable vea cuánto le está trayendo la pauta.</p>
   <div class="measure">
-    <div class="m"><div class="m-k">Principal</div><div class="m-t">WhatsApp por sede</div><div class="m-d">Cada clic que abre el WhatsApp de Devoto, Boedo, San Cristóbal o MH Atelier, desde anuncios, fichas y landing.</div></div>
-    <div class="m"><div class="m-k">Principal</div><div class="m-t">Llamadas</div><div class="m-d">Llamadas desde los anuncios y desde las fichas de Google Maps.</div></div>
-    <div class="m"><div class="m-k">Flotas</div><div class="m-t">Pedidos de cotización</div><div class="m-d">Formulario de la página de empresas, con aviso inmediato al responsable del taller móvil.</div></div>
-    <div class="m"><div class="m-k">Cierre</div><div class="m-t">Turnos concretados</div><div class="m-d">Una planilla simple en la que cada sede anota de dónde vino el cliente. Con eso calculamos el costo real por auto que entra al taller.</div></div>
+    <div class="m"><div class="m-k">Principal</div><div class="m-t">Conversaciones de WhatsApp</div><div class="m-d">Cada chat que se abre con Devoto, Boedo, San Cristóbal o MH Atelier desde los anuncios, Instagram, las fichas y la landing.</div></div>
+    <div class="m"><div class="m-k">Principal</div><div class="m-t">Llamadas</div><div class="m-d">Llamadas desde los anuncios de Google y desde las fichas de Maps.</div></div>
+    <div class="m"><div class="m-k">Flotas</div><div class="m-t">Pedidos de cotización</div><div class="m-d">Formularios de Meta y de la página de empresas, con aviso inmediato al responsable del taller móvil.</div></div>
+    <div class="m"><div class="m-k">Cierre</div><div class="m-t">Autos que entran</div><div class="m-d">Una planilla simple donde cada sede anota de dónde vino el cliente. Con eso calculamos el costo real por auto atendido.</div></div>
   </div>
 </section>
 
-<!-- 06 REUNIÓN -->
+<!-- 07 REUNIÓN -->
 <section class="alt" id="reunion">
-  <div class="kicker">06 · Para la reunión</div>
+  <div class="kicker">07 · Para la reunión</div>
   <h2 class="title">Lo que necesitamos <em>preguntarles</em>.</h2>
-  <p class="desc">Con estas respuestas cerramos el presupuesto de pauta y el reparto entre sedes. Algunas definen si conviene empujar más un servicio que otro.</p>
+  <p class="desc">Con estas respuestas cerramos el presupuesto de pauta y el reparto entre sedes.</p>
   <ol class="qs">
-    <li><div>¿Qué permite Renault en el nombre de las fichas y en la comunicación?<span>Si pueden figurar como «MATTANO · Renault Servicios» o tiene que quedar el nombre de la red.</span></div></li>
+    <li><div>¿Qué permite Renault en el nombre de las fichas y en los anuncios?<span>Si pueden figurar como «MATTANO · Renault Servicios» o tiene que quedar el nombre de la red.</span></div></li>
     <li><div>¿Qué sede tiene más capacidad libre hoy?<span>No tiene sentido llenar una sede que ya trabaja al máximo.</span></div></li>
     <li><div>¿Cuánto deja un service promedio y cuánto un trabajo de chapa?<span>Para saber cuánto puede costar una consulta y que el número cierre.</span></div></li>
     <li><div>¿Cuántas flotas atienden hoy con el taller móvil y cuántas más pueden tomar?<span>Define cuánto empujar el frente de empresas.</span></div></li>
-    <li><div>¿Quién responde los WhatsApp de cada sede, y en cuánto tiempo?<span>Una consulta que tarda horas en contestarse se pierde.</span></div></li>
+    <li><div>¿Quién responde los WhatsApp de cada sede, y en cuánto tiempo?<span>Con anuncios de mensajes, una consulta que tarda horas en contestarse se pierde.</span></div></li>
     <li><div>¿Qué promos de Renault están vigentes y cuándo cambian?<span>Las bimestrales van directo a los anuncios.</span></div></li>
-    <li><div>¿Tienen dominio o sitio propio, aunque esté sin usar?</div></li>
-    <li><div>¿Qué empresas o instituciones podemos nombrar como clientes?<span>Es la prueba más fuerte para el frente de flotas.</span></div></li>
+    <li><div>¿Tienen dominio o página de Facebook, aunque estén sin usar?</div></li>
+    <li><div>¿La cuenta @mattanotalleryneumaticos (Juan B. Justo 7054) es parte del grupo?<span>Comparte el nombre y ya pauta en Meta: conviene saber si se comunica junto o separado.</span></div></li>
   </ol>
 </section>
 
-<!-- 07 NECESITAMOS -->
+<!-- 08 NECESITAMOS -->
 <section class="white">
-  <div class="kicker">07 · Qué necesitamos para arrancar</div>
+  <div class="kicker">08 · Qué necesitamos para arrancar</div>
   <h2 class="title">Accesos y material, <em>la primera semana</em>.</h2>
   <p class="desc">Si alguno no existe, lo creamos nosotros a nombre de MATTANO. Todo lo que armamos queda de ustedes.</p>
   <div class="needs">
+    <div class="need"><div class="need-t">Portfolio comercial de Meta</div><div class="need-d">Con el Instagram, una página de Facebook, la cuenta publicitaria y un medio de pago. Si falta algo, lo armamos.</div></div>
+    <div class="need"><div class="need-t">WhatsApp por sede</div><div class="need-d">Los cuatro números en WhatsApp Business, con mensaje de bienvenida y alguien que responda en horario.</div></div>
     <div class="need"><div class="need-t">Fichas de Google</div><div class="need-d">Acceso de administrador a las cinco fichas: las cuatro sedes y «Mh Atelier Srl». Si nadie las tiene a su nombre, las reclamamos.</div></div>
     <div class="need"><div class="need-t">Cuenta de Google Ads</div><div class="need-d">Si ya existe, acceso de administrador. Si no, la creamos dentro de nuestra cuenta de agencia.</div></div>
-    <div class="need"><div class="need-t">Meta Business</div><div class="need-d">El portfolio comercial donde está el Instagram de MATTANO, con la cuenta publicitaria y un medio de pago.</div></div>
-    <div class="need"><div class="need-t">WhatsApp por sede</div><div class="need-d">Los cuatro números confirmados y, si se puede, en WhatsApp Business con mensaje de bienvenida.</div></div>
     <div class="need"><div class="need-t">Dominio</div><div class="need-d">Uno propio para la landing (por ejemplo mattano.com.ar) o acceso al que ya tengan.</div></div>
-    <div class="need"><div class="need-t">Fotos y video</div><div class="need-d">Lo que produzca PORA más fotos de cada sede, el equipo y el taller móvil.</div></div>
+    <div class="need"><div class="need-t">Fotos y video</div><div class="need-d">El contenido que se va publicando, más fotos de cada sede, el equipo y el taller móvil.</div></div>
   </div>
 </section>
 
-<!-- 08 INVERSIÓN -->
+<!-- 09 INVERSIÓN -->
 <section class="dark" id="inversion">
-  <div class="kicker">08 · Inversión</div>
+  <div class="kicker">09 · Inversión</div>
   <h2 class="title">Tres formas de <em>arrancar</em>.</h2>
-  <p class="desc">El fee mensual cubre la estrategia, el armado de campañas, la optimización semanal, el reporte mensual con reunión y el portal de cliente con los datos en vivo. La puesta a punto se paga una sola vez. La inversión en pauta va aparte y se le paga directo a Google y a Meta.</p>
+  <p class="desc">El fee mensual cubre la estrategia, el armado de campañas, la optimización semanal, el reporte mensual con reunión y el portal de cliente con los datos en vivo. La puesta a punto se paga una sola vez. La inversión en pauta va aparte y se le paga directo a Meta y a Google.</p>
   <div class="pricing">
+    <div class="card">
+      <div class="card-name">Solo Meta</div>
+      <div class="card-price">USD 300<span> /mes</span></div>
+      <div class="card-note">Que el barrio conozca a MATTANO y le escriba por WhatsApp.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Puesta en marcha del portfolio y la cuenta publicitaria</li>
+        <li>Anuncios de mensajes por sede</li>
+        <li>Pauta de los reels y las promos</li>
+        <li>Formulario para empresas</li>
+        <li>Optimización semanal</li>
+        <li>Reporte, reunión mensual y portal</li>
+      </ul>
+    </div>
+    <div class="card featured">
+      <div class="card-name">Meta + Google</div>
+      <div class="card-price">USD 550<span> /mes</span></div>
+      <div class="card-note">Los dos mercados: el barrio que todavía no los conoce y quien ya está buscando.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Todo lo de Meta</li>
+        <li>Todo lo de Google</li>
+        <li>Las 5 fichas de Google, con gestión de reseñas</li>
+        <li>Calendario de pauta atado al calendario de contenido</li>
+        <li>Reparto del presupuesto entre canales según resultados</li>
+        <li>Reporte, reunión mensual y portal</li>
+      </ul>
+    </div>
     <div class="card">
       <div class="card-name">Solo Google</div>
       <div class="card-price">USD 300<span> /mes</span></div>
       <div class="card-note">Aparecer cuando ya buscan un service o un chapista cerca.</div>
       <div class="card-div"></div>
       <ul>
-        <li>Fichas de Google de las 5 sedes, con gestión de reseñas</li>
-        <li>Campañas de service, carrocería y flotas</li>
+        <li>Las 5 fichas de Google, con gestión de reseñas</li>
+        <li>Campañas de service, chapa y pintura y flotas</li>
         <li>Medición de WhatsApp y llamadas por sede</li>
-        <li>Optimización semanal</li>
-        <li>Reporte, reunión mensual y portal</li>
-      </ul>
-    </div>
-    <div class="card featured">
-      <div class="card-name">Google + Meta</div>
-      <div class="card-price">USD 550<span> /mes</span></div>
-      <div class="card-note">La búsqueda y el barrio trabajando juntos, con el contenido de PORA como combustible.</div>
-      <div class="card-div"></div>
-      <ul>
-        <li>Todo lo de Google</li>
-        <li>Pauta de los reels de PORA por sede</li>
-        <li>Anuncios de mensajes al WhatsApp de cada sede</li>
-        <li>Calendario de pauta coordinado con PORA</li>
-        <li>Reparto del presupuesto entre canales según resultados</li>
-        <li>Reporte, reunión mensual y portal</li>
-      </ul>
-    </div>
-    <div class="card">
-      <div class="card-name">Solo Meta</div>
-      <div class="card-price">USD 300<span> /mes</span></div>
-      <div class="card-note">Hacer crecer la cuenta nueva en los barrios de cada sede.</div>
-      <div class="card-div"></div>
-      <ul>
-        <li>Puesta en marcha de la cuenta publicitaria</li>
-        <li>Pauta del contenido de PORA</li>
-        <li>Anuncios de mensajes por sede</li>
         <li>Optimización semanal</li>
         <li>Reporte, reunión mensual y portal</li>
       </ul>
@@ -619,16 +653,16 @@
   </div>
 
   <div class="media" aria-label="Pauta sugerida para arrancar">
-    <div><div class="media-k">Pauta Google · sugerida</div><div class="media-v">ARS 450.000</div><div class="media-n">por mes, unos 15.000 por día entre sedes, carrocería y flotas</div></div>
-    <div><div class="media-k">Pauta Meta · sugerida</div><div class="media-v">ARS 300.000</div><div class="media-n">por mes, desde noviembre, cuando el feed tenga contenido</div></div>
+    <div><div class="media-k">Pauta Meta · sugerida</div><div class="media-v">ARS 400.000</div><div class="media-n">por mes desde la semana 2, unos 100.000 por sede</div></div>
+    <div><div class="media-k">Pauta Google · sugerida</div><div class="media-v">ARS 300.000</div><div class="media-n">por mes, unos 10.000 por día entre service, chapa y flotas</div></div>
     <div><div class="media-k">Ajuste</div><div class="media-v">Mes a mes</div><div class="media-n">en temporada alta subimos donde el taller tiene lugar</div></div>
   </div>
-  <p class="invest-note"><strong>Sobre la pauta:</strong> estos montos son un punto de partida para tener datos en el primer mes. El número definitivo lo cerramos con el volumen real de búsquedas de cada barrio, que sale del Planificador de Google al abrir la cuenta, y con el margen de cada servicio que nos compartan en la reunión.</p>
+  <p class="invest-note"><strong>Sobre la pauta:</strong> estos montos son un punto de partida para tener datos en el primer mes. El número definitivo lo cerramos con el margen de cada servicio que nos compartan en la reunión y, en Google, con el volumen real de búsquedas de cada barrio.</p>
 </section>
 
 <div class="closing">
   <h2>La reputación ya está.<br>Falta que tenga <em>nombre</em>.</h2>
-  <p>MATTANO tiene lo que más cuesta construir: casi mil clientes que hablan bien de ellos, respaldo oficial y un servicio para empresas que nadie más ofrece. Con PORA dándole identidad y nosotros poniéndolo delante de quien busca, la temporada de vacaciones puede ser la primera en la que cada consulta tenga origen, sede y costo.</p>
+  <p>MATTANO tiene lo que más cuesta construir: casi mil clientes que hablan bien de ellos, respaldo oficial, un servicio para empresas que nadie más ofrece y una estrategia de contenido lista para salir. Con pauta en Meta y en Google, la temporada de vacaciones puede ser la primera en la que cada consulta tenga origen, sede y costo.</p>
 </div>
 
 <footer>
