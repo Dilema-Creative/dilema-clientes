@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Guiones God Home</title>
+<meta name="description" content="Guiones, ganchos y llamados a la acción para el contenido de las tres campañas de God Home.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E2A47'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' font-weight='700' text-anchor='middle' fill='%23E2A27F'%3EG%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{
+  --paper:#FAF6EE; --panel:#F2ECE1; --ink:#0E2A47; --text:#23313F; --muted:#6B6257; --line:#DDD3C2;
+  --terra:#B5623C; --terra-soft:#F3E2D8;
+  --sage:#5F7F5A; --sage-soft:#E3EADD;
+  --navy:#2D4F73; --navy-soft:#E1E8F0;
+  --warn:#8A5A12; --warn-bg:#F5EAD3;
+  --star:#5BB4D6;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0D1B2B; --panel:#13253A; --ink:#F2EDE3; --text:#D8D2C7; --muted:#A59C8F; --line:#2A3B50;
+    --terra:#E8A07D; --terra-soft:#3A2419;
+    --sage:#AFC7A2; --sage-soft:#1F3024;
+    --navy:#9DBCE0; --navy-soft:#1B2C42;
+    --warn:#E6BE78; --warn-bg:#382D18;
+    --star:#7CC6E2;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0D1B2B; --panel:#13253A; --ink:#F2EDE3; --text:#D8D2C7; --muted:#A59C8F; --line:#2A3B50;
+  --terra:#E8A07D; --terra-soft:#3A2419;
+  --sage:#AFC7A2; --sage-soft:#1F3024;
+  --navy:#9DBCE0; --navy-soft:#1B2C42;
+  --warn:#E6BE78; --warn-bg:#382D18;
+  --star:#7CC6E2;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--text);font:400 16px/1.65 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-inline:16px}
+.wrap{max-width:960px;margin-inline:auto;padding-block:40px 64px}
+a{color:var(--terra);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--terra);outline-offset:3px;border-radius:2px}
+h1,h2,h3{font-family:Fraunces,Georgia,"Times New Roman",serif;color:var(--ink);text-wrap:balance;margin:0}
+p{margin:0}
+.kicker{font:500 .7rem/1.4 "JetBrains Mono",ui-monospace,Consolas,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+
+header.top{display:grid;gap:22px;padding-bottom:34px}
+.brandline{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.sig{font-family:Fraunces,Georgia,serif;font-size:1rem;color:var(--ink);font-weight:600}
+.sig sup{color:var(--star);font-size:.8em;margin-left:1px}
+.sig em{color:var(--sage);font-weight:500}
+h1{font-size:clamp(2.3rem,6vw,3.9rem);line-height:1.02;font-weight:600;letter-spacing:-.015em}
+h1 em{display:block;font-style:italic;font-weight:500;color:var(--terra)}
+.lede{font-family:Fraunces,Georgia,serif;font-size:clamp(1.05rem,2vw,1.24rem);line-height:1.5;max-width:56ch}
+.index{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--ink)}
+.index a{display:grid;gap:4px;padding:14px 16px 14px 0;text-decoration:none;color:var(--text)}
+.index a + a{padding-left:16px;border-left:1px solid var(--line)}
+.index a b{font-family:Fraunces,Georgia,serif;font-size:1.1rem;color:var(--ink);font-weight:600;line-height:1.25}
+.index a span{font-size:.84rem;color:var(--muted)}
+.index a:hover b{color:var(--terra)}
+
+.ref{background:var(--panel);border-radius:10px;padding:30px clamp(20px,4vw,38px);display:grid;gap:18px}
+.ref h2{font-size:clamp(1.5rem,3vw,2rem);line-height:1.15;font-weight:600}
+.ref .cols{display:grid;grid-template-columns:1.2fr 1fr;gap:26px 40px}
+.ref ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.95rem}
+.ref li::marker{color:var(--terra)}
+
+section.camp{padding-top:60px;display:grid;gap:26px}
+.camp-head{display:grid;gap:8px;padding-bottom:16px;border-bottom:2px solid var(--accent)}
+.camp-head .kicker{color:var(--accent)}
+.camp-head h2{font-size:clamp(1.9rem,4.2vw,2.7rem);line-height:1.05;font-weight:600}
+.camp-head p{max-width:62ch}
+#tienda{--accent:var(--terra);--accent-soft:var(--terra-soft)}
+#sillones{--accent:var(--navy);--accent-soft:var(--navy-soft)}
+#showroom{--accent:var(--sage);--accent-soft:var(--sage-soft)}
+#ofertas{--accent:var(--warn);--accent-soft:var(--warn-bg)}
+
+.scripts{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.script{border:1px solid var(--line);border-radius:10px;padding:20px 22px;display:grid;gap:12px;align-content:start;background:var(--paper)}
+.script .tag{display:inline-flex;gap:8px;align-items:center;font:500 .68rem/1 "JetBrains Mono",ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.script .tag::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent)}
+.script h3{font-size:1.2rem;line-height:1.25;font-weight:600}
+.script ol{margin:0;padding-left:20px;display:grid;gap:7px;font-size:.93rem}
+.script ol li::marker{color:var(--accent);font-weight:600}
+.script .t{font:500 .72rem/1 "JetBrains Mono",ui-monospace,monospace;color:var(--muted);margin-right:4px}
+.say{font-family:Fraunces,Georgia,serif;font-style:italic;color:var(--ink)}
+.meta{font-size:.84rem;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+
+.bank{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px 40px;align-items:start}
+.hooks{margin:0;padding:0;list-style:none;display:grid}
+.hooks li{font-family:Fraunces,Georgia,serif;font-style:italic;font-size:1.04rem;line-height:1.4;color:var(--ink);padding:9px 0 9px 22px;border-bottom:1px solid var(--line);position:relative}
+.hooks li::before{content:"\201C";position:absolute;left:0;top:5px;font-size:1.5rem;line-height:1;color:var(--accent);font-style:normal}
+.panel{background:var(--accent-soft);border-radius:8px;padding:18px 20px;display:grid;gap:10px}
+.panel .kicker{color:var(--accent)}
+.plain{margin:0;padding-left:18px;display:grid;gap:7px;font-size:.92rem}
+.plain li::marker{color:var(--accent)}
+
+.offers{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.offer{background:var(--panel);border-radius:10px;padding:18px 20px;display:grid;gap:8px;align-content:start}
+.offer h3{font-size:1.08rem;font-weight:600}
+.offer p{font-size:.92rem}
+.offer .say{display:block;padding-top:6px;border-top:1px solid var(--line)}
+
+.specs{margin-top:60px;padding:22px 24px;border-radius:10px;background:var(--panel);display:grid;gap:10px}
+.specs ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:.93rem;columns:2;column-gap:40px}
+.specs li{break-inside:avoid}
+
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:baseline}
+footer .sig{font-size:1.05rem}
+
+@media (max-width:820px){
+  .index{grid-template-columns:repeat(2,1fr)}
+  .index a:nth-child(3){padding-left:0;border-left:0}
+  .scripts,.bank,.ref .cols,.offers{grid-template-columns:1fr}
+  .specs ul{columns:1}
+}
+@media (max-width:480px){
+  .wrap{padding-block:28px 52px}
+  .index{grid-template-columns:1fr}
+  .index a,.index a + a{padding-left:0;border-left:0;border-bottom:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="brandline">
+    <span class="sig">Dilema <em>creative</em><sup>*</sup></span>
+    <span class="kicker">GOD home &amp; deco · Octubre 2026</span>
+  </div>
+  <h1>Guiones para las tres campañas <em>qué grabar y qué decir</em></h1>
+  <p class="lede">Una guía corta para producir el contenido de cada campaña: guiones toma por toma, ganchos para los primeros segundos, cierres y cómo sumar las ofertas.</p>
+  <nav class="index" aria-label="Secciones">
+    <a href="#tienda"><b>Tienda online</b><span>Por producto, hasta $300.000</span></a>
+    <a href="#sillones"><b>Sillones y mesas</b><span>A WhatsApp</span></a>
+    <a href="#showroom"><b>Vení al showroom</b><span>A WhatsApp, cerca del local</span></a>
+    <a href="#ofertas"><b>Ofertas</b><span>Cómo usarlas en cada campaña</span></a>
+  </nav>
+</header>
+
+<section class="ref" aria-labelledby="ref-t">
+  <span class="kicker">El video de referencia</span>
+  <h2 id="ref-t">"Canastos por Gabi": el que trajo la venta de Meta</h2>
+  <div class="cols">
+    <p>Es el <a href="https://www.facebook.com/reel/1914923462505499/" target="_blank" rel="noopener">reel que subieron el 8 de julio</a>: Gabi muestra cómo usa los canastos en sus decoraciones, con plantas, mantas, almohadones y juguetes adentro. Dura menos de un minuto y cierra mandando a la tienda, con 15% por transferencia y 6 cuotas. Hoy corre como anuncio de la tienda, y es el que trajo la venta.</p>
+    <div>
+      <p class="kicker" style="margin-bottom:8px">Por qué funciona</p>
+      <ul>
+        <li>Hay una persona real mostrando el producto, no una foto sola.</li>
+        <li>Se ve para qué sirve: lo usa, no lo describe.</li>
+        <li>Se entiende el tamaño real.</li>
+        <li>Cierra con dónde comprar y cómo pagar.</li>
+      </ul>
+    </div>
+  </div>
+  <p>La idea es hacer <b>más videos así</b>: mismo formato, con otro canasto, otro sillón, otra mesa.</p>
+</section>
+
+<!-- TIENDA -->
+<section class="camp" id="tienda" aria-labelledby="tienda-t">
+  <div class="camp-head">
+    <span class="kicker">Campaña 1 · Compra en la tienda online</span>
+    <h2 id="tienda-t">Tienda: una campaña por producto</h2>
+    <p>Cada producto lleva 2 videos y 2 fotos. Productos de hasta $300.000 y con stock para reponer. Arrancamos por canastos (Lazio y Senda).</p>
+  </div>
+  <div class="scripts">
+    <article class="script">
+      <span class="tag">Video 1 · 15 a 20 s</span>
+      <h3>Antes y después</h3>
+      <ol>
+        <li><span class="t">0-2 s</span>Rincón desordenado: mantas tiradas, juguetes, revistas. Texto: <span class="say">"¿Tu living se ve así?"</span></li>
+        <li><span class="t">2-8 s</span>Entra el canasto y se carga. Cámara fija, una sola toma.</li>
+        <li><span class="t">8-14 s</span>Resultado: el rincón ordenado y lindo. Plano de cerca de la trama.</li>
+        <li><span class="t">14-20 s</span>Texto: <span class="say">"Canasto Lazio desde $98.000 · 6 cuotas sin interés"</span>.</li>
+      </ol>
+      <p class="meta">Cierre: "Comprá el tuyo en la tienda". Sin voz o con música sin derechos.</p>
+    </article>
+    <article class="script">
+      <span class="tag">Video 2 · 20 a 40 s</span>
+      <h3>Gabi lo explica</h3>
+      <ol>
+        <li><span class="t">0-3 s</span>Gabi con el canasto en la mano: <span class="say">"Este es el canasto que más uso en casa."</span></li>
+        <li><span class="t">3-15 s</span>De qué está hecho, que es hecho a mano, los tamaños uno al lado del otro.</li>
+        <li><span class="t">15-30 s</span>Dos o tres usos rápidos: con una planta, con mantas, con juguetes.</li>
+        <li><span class="t">Cierre</span><span class="say">"Lo encontrás en la tienda, con envío a todo el país."</span></li>
+      </ol>
+      <p class="meta">Hablado a cámara, natural, sin leer. Es el formato del video de referencia.</p>
+    </article>
+    <article class="script">
+      <span class="tag">Foto 1 · 4:5 y 9:16</span>
+      <h3>Ambientada</h3>
+      <ol>
+        <li>El canasto en uso, en un living o dormitorio lindo (puede ser el local).</li>
+        <li>Que se entienda para qué sirve sin leer nada.</li>
+        <li>Con IA se puede ambientar, pero el producto tiene que ser el real: misma forma, color y tamaño.</li>
+      </ol>
+      <p class="meta">Texto mínimo: nombre del producto o nada.</p>
+    </article>
+    <article class="script">
+      <span class="tag">Foto 2 · 4:5 y 9:16</span>
+      <h3>Producto, precio y oferta</h3>
+      <ol>
+        <li>Producto bien visible, fondo limpio o ambiente simple.</li>
+        <li>Precio "desde", 6 cuotas sin interés, envíos a todo el país.</li>
+        <li>Si hay oferta, va acá y bien grande (ver Ofertas).</li>
+      </ol>
+      <p class="meta">El precio tiene que ser el mismo que en la tienda.</p>
+    </article>
+  </div>
+  <div class="bank">
+    <div>
+      <p class="kicker" style="margin-bottom:6px">Ganchos para los primeros 2 segundos</p>
+      <ul class="hooks">
+        <li>¿Dónde guardás las mantas en invierno?</li>
+        <li>El rincón que se ordena en 5 segundos.</li>
+        <li>Hecho a mano, uno por uno.</li>
+        <li>Lo que le falta a tu living no es un mueble.</li>
+        <li>Orden que también decora.</li>
+      </ul>
+    </div>
+    <aside class="panel">
+      <span class="kicker">Cierres</span>
+      <ul class="plain">
+        <li>Comprá el tuyo en la tienda.</li>
+        <li>Elegí tu tamaño en godhome.com.ar.</li>
+        <li>6 cuotas sin interés y envío a todo el país.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- SILLONES -->
+<section class="camp" id="sillones" aria-labelledby="sillones-t">
+  <div class="camp-head">
+    <span class="kicker">Campaña 2 · Interacción a WhatsApp · Buenos Aires y CABA</span>
+    <h2 id="sillones-t">Sillones y mesas: que escriban</h2>
+    <p>Productos caros no se compran con un clic: se consultan. El objetivo de cada pieza es que manden un WhatsApp. Un mueble por video.</p>
+  </div>
+  <div class="scripts">
+    <article class="script">
+      <span class="tag">Video · 20 a 30 s</span>
+      <h3>Gabi y el sillón</h3>
+      <ol>
+        <li><span class="t">0-3 s</span>Gabi se tira en el sillón: <span class="say">"Este es el sillón que más nos piden."</span></li>
+        <li><span class="t">3-15 s</span>Las placas, la tela easy clean, las medidas, los colores.</li>
+        <li><span class="t">15-25 s</span><span class="say">"Lo tenemos en el local, te lo llevás sin esperar fabricación."</span></li>
+        <li><span class="t">Cierre</span><span class="say">"Escribinos y te pasamos medidas, telas y precio."</span></li>
+      </ol>
+      <p class="meta">Uno por modelo: Sofá Berlin, Sillón Vermont, Bruna.</p>
+    </article>
+    <article class="script">
+      <span class="tag">Video · 15 a 25 s</span>
+      <h3>La mesa armada</h3>
+      <ol>
+        <li><span class="t">0-3 s</span>Plano desde arriba de la mesa puesta. Texto: <span class="say">"¿Para cuántos es tu mesa?"</span></li>
+        <li><span class="t">3-15 s</span>Recorrido alrededor: madera, sillas, medidas, para cuántas personas.</li>
+        <li><span class="t">Cierre</span><span class="say">"Mandanos un WhatsApp y te asesoramos."</span></li>
+      </ol>
+      <p class="meta">Pino Oregón redonda, Toscana o Barco Petiribí.</p>
+    </article>
+    <article class="script">
+      <span class="tag">Video · 15 a 25 s</span>
+      <h3>Exterior, ahora que es temporada</h3>
+      <ol>
+        <li><span class="t">0-3 s</span>Alguien sentado afuera, luz de día. Texto: <span class="say">"Tu galería, lista para el verano."</span></li>
+        <li><span class="t">3-15 s</span>Detalle del material, cómo se arma el set.</li>
+        <li><span class="t">Cierre</span><span class="say">"Escribinos y te contamos todo."</span></li>
+      </ol>
+      <p class="meta">Set Noosa o Palermo.</p>
+    </article>
+    <article class="script">
+      <span class="tag">Foto · 4:5 y 9:16</span>
+      <h3>El mueble en su ambiente</h3>
+      <ol>
+        <li>Sillón o mesa en el ambiente armado del local, con almohadones, manta, vajilla.</li>
+        <li>Poco texto: nombre y "Consultanos por WhatsApp".</li>
+        <li>Si se usa IA, la tela y el color tienen que ser los reales.</li>
+      </ol>
+    </article>
+  </div>
+  <div class="bank">
+    <div>
+      <p class="kicker" style="margin-bottom:6px">Ganchos</p>
+      <ul class="hooks">
+        <li>El sillón que más nos piden.</li>
+        <li>Sin esperar fabricación: está en el local.</li>
+        <li>Se limpia con un paño húmedo.</li>
+        <li>¿Para cuántos es tu mesa?</li>
+        <li>Entra por cualquier escalera o ascensor.</li>
+      </ul>
+    </div>
+    <aside class="panel">
+      <span class="kicker">Cierres</span>
+      <ul class="plain">
+        <li>Escribinos y te asesoramos.</li>
+        <li>Mandanos un WhatsApp y te pasamos medidas y precio.</li>
+        <li>Consultanos y coordinamos para que lo pruebes en el local.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- SHOWROOM -->
+<section class="camp" id="showroom" aria-labelledby="showroom-t">
+  <div class="camp-head">
+    <span class="kicker">Campaña 3 · Interacción a WhatsApp · 10 km del local</span>
+    <h2 id="showroom-t">Vení al showroom</h2>
+    <p>Para la gente que vive cerca. Que se sienta el lugar y den ganas de ir. Siempre con dirección y horario.</p>
+  </div>
+  <div class="scripts">
+    <article class="script">
+      <span class="tag">Video · 10 a 15 s</span>
+      <h3>Gabi te invita</h3>
+      <ol>
+        <li><span class="t">0-3 s</span>Gabi en la puerta del local: <span class="say">"¿Viste que abrimos en Ituzaingó?"</span></li>
+        <li><span class="t">3-10 s</span>Entra caminando, la cámara la sigue por los ambientes.</li>
+        <li><span class="t">Cierre</span><span class="say">"Te esperamos en Presidente Perón 6604, de lunes a sábado de 10 a 19."</span></li>
+      </ol>
+    </article>
+    <article class="script">
+      <span class="tag">Video · 10 a 20 s</span>
+      <h3>Un ambiente por video</h3>
+      <ol>
+        <li><span class="t">0-2 s</span>El ambiente más lindo, de cerca. Texto: <span class="say">"Así se ve en persona."</span></li>
+        <li><span class="t">2-15 s</span>Recorrido lento: living, comedor, dormitorio o exterior. Uno por video.</li>
+        <li><span class="t">Cierre</span><span class="say">"Vení a conocernos."</span> + dirección.</li>
+      </ol>
+    </article>
+    <article class="script">
+      <span class="tag">Video · 10 a 15 s</span>
+      <h3>Con la oferta del local</h3>
+      <ol>
+        <li><span class="t">0-3 s</span>Texto grande: <span class="say">"X% en tu primera compra en el local."</span></li>
+        <li><span class="t">3-10 s</span>Recorrido rápido del local.</li>
+        <li><span class="t">Cierre</span><span class="say">"Decí que venís de Instagram. Hasta el [fecha]."</span></li>
+      </ol>
+    </article>
+    <article class="script">
+      <span class="tag">Foto · 4:5 y 9:16</span>
+      <h3>El local</h3>
+      <ol>
+        <li>Fachada o el ambiente más lindo.</li>
+        <li>Dirección y horario bien legibles.</li>
+        <li>Si hay oferta del local, sumarla.</li>
+      </ol>
+    </article>
+  </div>
+  <div class="bank">
+    <div>
+      <p class="kicker" style="margin-bottom:6px">Ganchos</p>
+      <ul class="hooks">
+        <li>¿Viste que abrimos en Ituzaingó?</li>
+        <li>Una casa armada para que la recorras.</li>
+        <li>Vení a tocar las telas antes de elegir.</li>
+        <li>Somos pet friendly: vení con tu perro.</li>
+        <li>Así se ve en persona.</li>
+      </ul>
+    </div>
+    <aside class="panel">
+      <span class="kicker">Cierres</span>
+      <ul class="plain">
+        <li>Vení a conocernos.</li>
+        <li>Escribinos y coordinamos tu visita.</li>
+        <li>Te esperamos de lunes a sábado de 10 a 19.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<!-- OFERTAS -->
+<section class="camp" id="ofertas" aria-labelledby="ofertas-t">
+  <div class="camp-head">
+    <span class="kicker">Descuentos y ofertas</span>
+    <h2 id="ofertas-t">Cómo usar las ofertas</h2>
+    <p>Una oferta funciona cuando es clara, tiene fecha de fin y se ve en los primeros segundos. Una por pieza, no varias juntas.</p>
+  </div>
+  <div class="offers">
+    <article class="offer">
+      <h3>Tienda</h3>
+      <p>% de descuento en el producto de la campaña, envío gratis desde un monto o más cuotas sin interés.</p>
+      <span class="say">"Canasto Lazio con 15% off hasta el domingo."</span>
+    </article>
+    <article class="offer">
+      <h3>Sillones y mesas</h3>
+      <p>En ticket alto pesa más la cuota que el descuento: más cuotas sin interés, envío y armado incluidos, o % por transferencia.</p>
+      <span class="say">"Tu sillón en 12 cuotas sin interés. Escribinos."</span>
+    </article>
+    <article class="offer">
+      <h3>Showroom</h3>
+      <p>% en la primera compra en el local, con una frase para pedirlo. Así sabemos cuánta gente llega por los anuncios.</p>
+      <span class="say">"X% en tu primera compra. Decí que venís de Instagram."</span>
+    </article>
+  </div>
+  <aside class="panel">
+    <span class="kicker">A tener en cuenta</span>
+    <ul class="plain">
+      <li>La oferta tiene que estar igual en la tienda o en el local. Si el anuncio dice 15% y la web no, se pierde la venta.</li>
+      <li>Con fecha de fin: "hasta el domingo", "solo esta semana".</li>
+      <li>Cuando termina, avísennos para sacarla de los anuncios.</li>
+    </ul>
+  </aside>
+</section>
+
+<section class="specs" aria-labelledby="specs-t">
+  <span class="kicker" id="specs-t">Para todas las piezas</span>
+  <ul>
+    <li>Fotos en 4:5 y 9:16. Videos en 9:16.</li>
+    <li>En 9:16, textos lejos de los bordes de arriba y abajo.</li>
+    <li>Los primeros 2 segundos deciden si la gente sigue mirando.</li>
+    <li>Usuario en las placas: <b>@god_homedeco</b>, con guion bajo.</li>
+    <li>Sin canciones con derechos ni la placa final de CapCut.</li>
+    <li>Solo productos publicados en la tienda y con stock.</li>
+    <li>Los videos, grabados de verdad. La IA, para ambientar fotos.</li>
+    <li>Las piezas listas se suben al portal, en Contenido.</li>
+  </ul>
+</section>
+
+<footer>
+  <span class="sig">Dilema <em>creative</em><sup>*</sup></span>
+  <span class="kicker">Para el equipo de GOD home &amp; deco</span>
+</footer>
+
+</div>
+</body>
+</html>
