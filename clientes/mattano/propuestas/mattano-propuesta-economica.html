@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MATTANO · Propuesta económica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Propuesta Dilema: hero grafito, secciones numeradas que alternan papel / gris / grafito.
+     Sistema de un solo tema (claro) por decisión de marca: todos los colores van explícitos. */
+  :root {
+    color-scheme: light;
+    --ink: #171A20;          /* grafito de taller */
+    --ink-2: #0F1115;
+    --ink-soft: #252A33;
+    --rombo: #E8B70C;        /* amarillo: acento sobre oscuro */
+    --rombo-deep: #8C6A00;   /* acento sobre claro */
+    --steel: #4B5B6E;
+    --paper: #F6F5F2;
+    --paper-2: #ECEAE4;
+    --white: #FFFFFF;
+    --text: #1F2228;
+    --ash: #646A73;
+    --line: #DCD9D1;
+    --good: #2F7D5E;
+    --bad: #B23A2B;
+    --on-dark: #F2F0EA;
+    --on-dark-2: rgba(242,240,234,.66);
+    --on-dark-3: rgba(242,240,234,.42);
+    --display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { font-family: var(--body); background: var(--paper); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 15px; }
+  a { color: inherit; }
+  a:focus-visible { outline: 2px solid var(--rombo); outline-offset: 3px; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50;
+    background: rgba(23,26,32,.97); border-bottom: 1px solid rgba(232,183,12,.25);
+    height: 58px; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .nav-logo { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .nav-brand { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--on-dark); letter-spacing: -.02em; white-space: nowrap; }
+  .nav-brand em { font-style: italic; color: var(--rombo); font-weight: 500; }
+  .nav-divider { width: 1px; height: 18px; background: rgba(242,240,234,.18); }
+  .nav-sub, .nav-links a { font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; color: var(--on-dark-3); text-decoration: none; white-space: nowrap; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-links a:hover { color: var(--rombo); }
+
+  /* HERO */
+  .hero { background: var(--ink); padding: 96px 60px 88px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -140px; right: -100px; width: 640px; height: 640px; background: radial-gradient(circle, rgba(232,183,12,.17) 0%, transparent 68%); pointer-events: none; }
+  .hero-inner { position: relative; max-width: 1080px; }
+  .hero-mark { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; flex-wrap: wrap; }
+  .hero-mark-brand { font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: -.02em; color: var(--on-dark); }
+  .hero-mark-brand em { font-style: italic; color: var(--rombo); font-weight: 500; }
+  .hero-mark-line { width: 40px; height: 1px; background: rgba(242,240,234,.25); }
+  .hero-mark-tag { font-family: var(--mono); font-size: 11px; color: var(--on-dark-3); letter-spacing: .14em; text-transform: uppercase; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(232,183,12,.12); border: 1px solid rgba(232,183,12,.34); border-radius: 4px; padding: 6px 14px; font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--rombo); margin-bottom: 30px; }
+  .hero-eyebrow::before { content: ''; width: 7px; height: 7px; background: var(--rombo); transform: rotate(45deg); }
+  .hero h1 { font-family: var(--display); font-weight: 500; font-size: clamp(38px, 5.6vw, 72px); line-height: 1.03; letter-spacing: -.03em; color: var(--on-dark); max-width: 920px; margin-bottom: 24px; text-wrap: balance; }
+  .hero h1 em { font-style: italic; color: var(--rombo); font-weight: 400; }
+  .hero-sub { font-size: 17px; color: var(--on-dark-2); max-width: 690px; font-weight: 300; line-height: 1.7; margin-bottom: 44px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; overflow: hidden; max-width: 980px; }
+  .hero-stat { background: var(--ink); padding: 20px 22px; min-width: 0; }
+  .hero-stat .v { font-family: var(--display); font-weight: 500; font-size: 34px; letter-spacing: -.03em; color: var(--on-dark); line-height: 1; font-variant-numeric: tabular-nums; }
+  .hero-stat .v small { font-size: 16px; color: var(--on-dark-3); }
+  .hero-stat .k { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark-3); margin-top: 10px; line-height: 1.5; }
+
+  /* SECCIONES */
+  section { padding: 80px 60px; }
+  section > * { max-width: 1080px; }
+  section.alt { background: var(--paper-2); }
+  section.white { background: var(--white); }
+  section.dark { background: var(--ink); color: var(--on-dark); }
+  .kicker { font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--rombo-deep); margin-bottom: 14px; }
+  section.dark .kicker { color: var(--rombo); }
+  .title { font-family: var(--display); font-weight: 500; font-size: clamp(30px, 4vw, 50px); line-height: 1.05; letter-spacing: -.025em; color: var(--ink); max-width: 800px; margin-bottom: 16px; text-wrap: balance; }
+  .title em { font-style: italic; color: var(--rombo-deep); }
+  section.dark .title { color: var(--on-dark); }
+  section.dark .title em { color: var(--rombo); }
+  .desc { font-size: 16px; color: var(--ash); max-width: 700px; margin-bottom: 44px; font-weight: 300; line-height: 1.7; }
+  .desc strong { color: var(--text); font-weight: 600; }
+  section.dark .desc { color: var(--on-dark-2); }
+  section.dark .desc strong { color: var(--on-dark); }
+
+  /* DIAGNÓSTICO */
+  .diag-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .diag-col { padding: 32px; min-width: 0; }
+  .diag-col:first-child { border-right: 1px solid var(--line); background: #EEF3EE; }
+  .diag-col:last-child { background: #F6EDEA; }
+  .diag-head { font-family: var(--mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .diag-col:first-child .diag-head { color: var(--good); }
+  .diag-col:last-child .diag-head { color: var(--bad); }
+  .diag-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  .diag-list li { font-size: 14.5px; padding-left: 22px; position: relative; line-height: 1.55; }
+  .diag-list li strong { font-weight: 600; }
+  .diag-col:first-child li::before { content: '✓'; position: absolute; left: 0; color: var(--good); font-weight: 700; }
+  .diag-col:last-child li::before { content: '→'; position: absolute; left: 0; color: var(--bad); font-weight: 700; }
+
+  /* TABLA FICHAS */
+  .sub { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -.02em; color: var(--ink); margin: 52px 0 8px; }
+  .sub em { font-style: italic; color: var(--rombo-deep); }
+  .sub-desc { font-size: 14.5px; color: var(--ash); max-width: 700px; margin-bottom: 20px; }
+  .table-wrap { border: 1px solid var(--line); border-radius: 6px; overflow-x: auto; background: var(--white); }
+  table { width: 100%; border-collapse: collapse; min-width: 680px; }
+  th { font-family: var(--mono); font-size: 9.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--ash); background: var(--paper-2); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  td { padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 14px; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  td.num { font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+  td .muted { color: var(--ash); font-size: 12.5px; }
+  .chip { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; white-space: nowrap; }
+  .chip.bad { background: #F6E3DF; color: var(--bad); }
+  .chip.ok { background: #E1EFE7; color: var(--good); }
+  .chip.warn { background: #F7EDCB; color: var(--rombo-deep); }
+  tfoot td { background: var(--paper); font-weight: 600; }
+
+  .callout { border-left: 4px solid var(--rombo); background: var(--white); border-radius: 0 6px 6px 0; padding: 22px 26px; margin-top: 24px; max-width: 900px; }
+  .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--rombo-deep); margin-bottom: 8px; }
+  .callout p { font-size: 15px; line-height: 1.7; }
+  .callout p strong { font-weight: 600; }
+
+  /* COMPETENCIA EN MAPS */
+  .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .comp { background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 22px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .comp-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--bad); }
+  .comp-name { font-family: var(--display); font-weight: 500; font-size: 19px; color: var(--ink); letter-spacing: -.015em; }
+  .comp-meta { font-family: var(--mono); font-size: 12px; color: var(--ash); }
+  .comp-copy { font-size: 13.5px; color: var(--text); font-style: italic; border-top: 1px dashed var(--line); padding-top: 10px; }
+
+  /* DOS CANALES */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .split-card { border-radius: 6px; padding: 30px; min-width: 0; }
+  .split-card.light { background: var(--white); border: 1px solid var(--line); }
+  .split-card.solid { background: var(--ink); color: var(--on-dark); }
+  .split-who { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 10px; color: var(--ash); }
+  .split-card.solid .split-who { color: var(--rombo); }
+  .split-title { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -.02em; margin-bottom: 10px; color: var(--ink); }
+  .split-card.solid .split-title { color: var(--on-dark); }
+  .split-card p { font-size: 14.5px; color: var(--ash); margin-bottom: 16px; }
+  .split-card.solid p { color: var(--on-dark-2); }
+  .tick { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .tick li { font-size: 14px; padding-left: 20px; position: relative; line-height: 1.5; }
+  .tick li::before { content: '✓'; position: absolute; left: 0; color: var(--rombo-deep); font-weight: 700; }
+  .split-card.solid .tick li { color: var(--on-dark-2); }
+  .split-card.solid .tick li::before { color: var(--rombo); }
+
+  /* FRENTES */
+  .fronts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .front { background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 28px; min-width: 0; display: flex; flex-direction: column; }
+  .front-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
+  .front-title { font-family: var(--display); font-weight: 500; font-size: 22px; letter-spacing: -.02em; color: var(--ink); }
+  .front-aud { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--steel); background: var(--paper-2); padding: 3px 8px; border-radius: 3px; }
+  .front-goal { font-size: 14px; color: var(--ash); margin-bottom: 16px; }
+  .front .tick { margin-bottom: 16px; }
+  .kw { margin-top: auto; display: flex; flex-wrap: wrap; gap: 6px; border-top: 1px dashed var(--line); padding-top: 14px; }
+  .kw span { font-family: var(--mono); font-size: 11px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 3px 8px; }
+
+  /* CALENDARIO */
+  .season { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 36px; }
+  .mo { border-radius: 4px; padding: 12px 8px 10px; text-align: center; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); min-width: 0; }
+  .mo b { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark); font-weight: 500; }
+  .mo span { display: block; font-size: 11.5px; color: var(--on-dark-3); margin-top: 4px; line-height: 1.35; }
+  .mo.setup { border-color: rgba(242,240,234,.25); }
+  .mo.peak { background: rgba(232,183,12,.16); border-color: rgba(232,183,12,.5); }
+  .mo.peak span { color: var(--rombo); }
+  .steps { display: flex; flex-direction: column; }
+  .step { display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 22px 0; border-top: 1px solid rgba(255,255,255,.09); }
+  .step-when { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--rombo); padding-top: 4px; }
+  .step-title { font-family: var(--display); font-weight: 500; font-size: 20px; letter-spacing: -.015em; color: var(--on-dark); margin-bottom: 6px; }
+  .step-desc { font-size: 14.5px; color: var(--on-dark-2); max-width: 720px; }
+
+  /* MEDICIÓN */
+  .measure { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .m { background: var(--white); padding: 22px; min-width: 0; }
+  .m-k { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--rombo-deep); margin-bottom: 8px; }
+  .m-t { font-family: var(--display); font-weight: 500; font-size: 18px; color: var(--ink); margin-bottom: 6px; letter-spacing: -.01em; }
+  .m-d { font-size: 13.5px; color: var(--ash); line-height: 1.55; }
+
+  /* PREGUNTAS */
+  .qs { list-style: none; counter-reset: q; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; }
+  .qs li { counter-increment: q; display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; min-width: 0; }
+  .qs li::before { content: counter(q, decimal-leading-zero); font-family: var(--mono); font-size: 12px; color: var(--rombo-deep); padding-top: 2px; }
+  .qs li span { color: var(--ash); font-size: 13px; display: block; margin-top: 2px; }
+
+  /* NECESITAMOS */
+  .needs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .need { background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 20px; min-width: 0; }
+  .need-t { font-family: var(--display); font-weight: 500; font-size: 16px; color: var(--ink); margin-bottom: 6px; }
+  .need-d { font-size: 13px; color: var(--ash); line-height: 1.55; }
+
+  /* INVERSIÓN */
+  .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1000px; }
+  .card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; padding: 30px; position: relative; display: flex; flex-direction: column; min-width: 0; }
+  .card.featured { border-color: var(--rombo); background: rgba(232,183,12,.08); }
+  .card.featured::before { content: 'Recomendado'; position: absolute; top: -11px; left: 24px; background: var(--rombo); color: var(--ink); font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; }
+  .card-name { font-family: var(--mono); font-weight: 700; font-size: 10.5px; color: var(--on-dark-3); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; }
+  .card-price { font-family: var(--display); font-weight: 500; font-size: 44px; letter-spacing: -.03em; color: var(--on-dark); line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+  .card-price span { font-size: 17px; font-weight: 400; color: var(--on-dark-3); }
+  .card-note { font-size: 13px; color: var(--on-dark-3); margin-bottom: 20px; font-style: italic; min-height: 40px; }
+  .card-div { height: 1px; background: rgba(255,255,255,.1); margin-bottom: 18px; }
+  .card ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .card li { font-size: 13.5px; color: var(--on-dark-2); padding-left: 22px; position: relative; line-height: 1.5; }
+  .card li::before { content: '✓'; position: absolute; left: 0; color: var(--rombo); font-weight: 700; }
+  .oneoff { margin-top: 22px; max-width: 1000px; display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: center; border: 1px dashed rgba(232,183,12,.45); border-radius: 6px; padding: 26px 30px; }
+  .oneoff-k { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--rombo); margin-bottom: 6px; }
+  .oneoff-t { font-family: var(--display); font-weight: 500; font-size: 21px; color: var(--on-dark); margin-bottom: 6px; }
+  .oneoff-d { font-size: 14px; color: var(--on-dark-2); max-width: 640px; }
+  .oneoff-p { font-family: var(--display); font-weight: 500; font-size: 38px; color: var(--on-dark); letter-spacing: -.03em; white-space: nowrap; }
+  .oneoff-p span { font-size: 15px; color: var(--on-dark-3); display: block; text-align: right; font-family: var(--mono); letter-spacing: .06em; }
+  .media { margin-top: 22px; max-width: 1000px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.1); border-radius: 6px; overflow: hidden; }
+  .media > div { background: var(--ink-soft); padding: 20px 22px; min-width: 0; }
+  .media-k { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--on-dark-3); margin-bottom: 8px; }
+  .media-v { font-family: var(--display); font-size: 26px; font-weight: 500; color: var(--on-dark); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .media-n { font-size: 12.5px; color: var(--on-dark-3); margin-top: 4px; }
+  .invest-note { font-size: 14px; color: var(--on-dark-2); line-height: 1.7; max-width: 1000px; margin-top: 22px; }
+  .invest-note strong { color: var(--on-dark); }
+
+  /* CIERRE */
+  .closing { background: var(--ink-2); padding: 96px 60px; text-align: center; position: relative; overflow: hidden; }
+  .closing::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 720px; max-width: 100%; height: 400px; background: radial-gradient(ellipse, rgba(232,183,12,.12) 0%, transparent 70%); pointer-events: none; }
+  .closing h2 { font-family: var(--display); font-weight: 500; font-size: clamp(32px, 4.6vw, 56px); letter-spacing: -.03em; line-height: 1.06; color: var(--on-dark); margin: 0 auto 20px; position: relative; max-width: 820px; text-wrap: balance; }
+  .closing h2 em { font-style: italic; color: var(--rombo); font-weight: 400; }
+  .closing p { font-size: 16px; color: var(--on-dark-3); max-width: 600px; margin: 0 auto; font-weight: 300; line-height: 1.7; position: relative; }
+
+  footer { background: #0B0C0F; color: var(--on-dark-3); padding: 52px 60px 32px; border-top: 1px solid rgba(232,183,12,.14); }
+  .f-top { display: grid; grid-template-columns: 1fr auto; gap: 40px; padding-bottom: 32px; margin-bottom: 26px; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .f-brand { font-family: var(--display); font-weight: 700; font-size: 26px; color: var(--on-dark); letter-spacing: -.02em; margin-bottom: 10px; }
+  .f-brand em { font-style: italic; color: var(--rombo); font-weight: 500; }
+  .f-tag { font-size: 14px; max-width: 380px; font-weight: 300; line-height: 1.65; }
+  .f-contact { display: flex; flex-direction: column; gap: 8px; text-align: right; font-size: 14px; color: var(--on-dark); }
+  .f-contact .lbl { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--on-dark-3); }
+  .f-contact a { text-decoration: none; }
+  .f-contact a:hover { color: var(--rombo); }
+  .f-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; }
+  .f-bottom span { color: var(--rombo); }
+
+  @media (max-width: 1024px) {
+    nav { padding: 0 32px; }
+    .nav-links { display: none; }
+    .hero { padding: 80px 40px 72px; }
+    section { padding: 64px 40px; }
+    .comp-grid, .pricing { grid-template-columns: 1fr; max-width: 600px; }
+    .measure { grid-template-columns: 1fr 1fr; }
+    .needs { grid-template-columns: 1fr 1fr; }
+    .closing { padding: 80px 40px; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; height: 52px; }
+    .nav-divider, .nav-sub { display: none; }
+    .hero { padding: 64px 20px 56px; }
+    .hero-sub { font-size: 15.5px; margin-bottom: 32px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .hero-stat .v { font-size: 28px; }
+    section { padding: 56px 20px; }
+    .desc { font-size: 15px; margin-bottom: 32px; }
+    .diag-grid, .split, .fronts, .qs, .needs { grid-template-columns: 1fr; }
+    .diag-col { padding: 24px; }
+    .diag-col:first-child { border-right: none; border-bottom: 1px solid var(--line); }
+    .season { grid-template-columns: repeat(4, 1fr); }
+    .step { grid-template-columns: 1fr; gap: 6px; }
+    .measure { grid-template-columns: 1fr; }
+    .oneoff { grid-template-columns: 1fr; padding: 22px; }
+    .oneoff-p span { text-align: left; }
+    .media { grid-template-columns: 1fr; }
+    .card { padding: 26px 22px; }
+    .closing { padding: 64px 20px; }
+    footer { padding: 44px 20px 28px; }
+    .f-top { grid-template-columns: 1fr; }
+    .f-contact { text-align: left; }
+  }
+  /* ESTADO */
+  table.audit { min-width: 760px; }
+  table.audit td:first-child { width: 22%; }
+  table.audit td:nth-child(2) { width: 11%; }
+  table.audit td b { font-weight: 600; color: var(--ink); }
+  .muted-cell { color: var(--ash); }
+  .hero-compact { padding-bottom: 72px; }
+  .hero-compact .hero-stat .v { font-size: 30px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-brand">Dilema <em>Creative</em></div>
+    <div class="nav-divider"></div>
+    <div class="nav-sub">Propuesta económica · MATTANO</div>
+  </div>
+  <div class="nav-links">
+    <a href="#roles">Quién hace qué</a>
+    <a href="#inversion">Inversión</a>
+    <a href="#pauta">Pauta</a>
+    <a href="#condiciones">Condiciones</a>
+  </div>
+</nav>
+
+<header class="hero hero-compact">
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <span class="hero-mark-brand">Dilema <em>Creative</em></span>
+      <span class="hero-mark-line"></span>
+      <span class="hero-mark-tag">para PORA · Cuenta MATTANO</span>
+    </div>
+    <div class="hero-eyebrow">Propuesta económica · Octubre 2026</div>
+    <h1>Pauta y medición para <em>MATTANO</em>.</h1>
+    <p class="hero-sub">Esta es la parte económica de la estrategia de Meta y Google para MATTANO. La estrategia va aparte, sin valores, para presentarle al cliente. Acá está lo que hace cada equipo, qué incluye cada paquete, cuánto sugerimos invertir en pauta y las condiciones de trabajo.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v">USD 550</div><div class="k">Meta + Google<br>por mes · recomendado</div></div>
+      <div class="hero-stat"><div class="v">USD 300</div><div class="k">Un solo canal<br>por mes</div></div>
+      <div class="hero-stat"><div class="v">ARS 700k</div><div class="k">Pauta sugerida por mes<br>la paga el cliente</div></div>
+      <div class="hero-stat"><div class="v">4</div><div class="k">Sedes medidas<br>por separado</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 ROLES -->
+<section id="roles">
+  <div class="kicker">01 · Quién hace qué</div>
+  <h2 class="title">Un solo equipo frente al cliente, <em>dos frentes</em> de trabajo.</h2>
+  <p class="desc">Para MATTANO es un único equipo. Puertas adentro, cada uno se ocupa de lo suyo y todo sale con el mismo calendario.</p>
+  <div class="split">
+    <div class="split-card light">
+      <div class="split-who">PORA</div>
+      <div class="split-title">Marca y contenido</div>
+      <p>Lo que ya está en marcha.</p>
+      <ul class="tick">
+        <li>Identidad visual, grilla y plantillas de Instagram</li>
+        <li>Calendario de contenidos, piezas, reels y copys orgánicos</li>
+        <li>Gestión del perfil y la comunidad</li>
+        <li>Piezas para anuncios a partir del brief que pasamos cada mes</li>
+        <li>Relación diaria con el cliente</li>
+      </ul>
+    </div>
+    <div class="split-card solid">
+      <div class="split-who">Dilema</div>
+      <div class="split-title">Pauta, búsqueda y medición</div>
+      <p>Lo que suma esta propuesta.</p>
+      <ul class="tick">
+        <li>Estructura, segmentación y optimización semanal de las campañas</li>
+        <li>Brief mensual de piezas para pauta y textos de los anuncios</li>
+        <li>Orden y gestión de las cinco fichas de Google</li>
+        <li>Medición de WhatsApp, llamadas y formularios por sede</li>
+        <li>Reporte mensual y portal con los datos en vivo</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 02 INVERSIÓN -->
+<section class="dark" id="inversion">
+  <div class="kicker">02 · Inversión</div>
+  <h2 class="title">Tres formas de <em>arrancar</em>.</h2>
+  <p class="desc">Fee mensual de gestión en dólares. Cubre la estrategia, el armado de campañas, la optimización semanal, el reporte mensual y el portal de cliente. La inversión en pauta va aparte y la paga MATTANO directo a Meta y a Google.</p>
+  <div class="pricing">
+    <div class="card">
+      <div class="card-name">Solo Meta</div>
+      <div class="card-price">USD 300<span> /mes</span></div>
+      <div class="card-note">Que el barrio conozca a MATTANO y le escriba por WhatsApp.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Puesta en marcha del portfolio y la cuenta publicitaria</li>
+        <li>Anuncios de mensajes por sede</li>
+        <li>Pauta de los reels y las promos</li>
+        <li>Formulario para empresas</li>
+        <li>Optimización semanal</li>
+        <li>Reporte mensual y portal</li>
+      </ul>
+    </div>
+    <div class="card featured">
+      <div class="card-name">Meta + Google</div>
+      <div class="card-price">USD 550<span> /mes</span></div>
+      <div class="card-note">Los dos mercados: el barrio que todavía no los conoce y quien ya está buscando.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Todo lo de Meta</li>
+        <li>Todo lo de Google</li>
+        <li>Las 5 fichas de Google, con gestión de reseñas</li>
+        <li>Calendario de pauta atado al calendario de contenido</li>
+        <li>Reparto del presupuesto entre canales según resultados</li>
+        <li>Reporte mensual y portal</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-name">Solo Google</div>
+      <div class="card-price">USD 300<span> /mes</span></div>
+      <div class="card-note">Aparecer cuando ya buscan un service o un chapista cerca.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Las 5 fichas de Google, con gestión de reseñas</li>
+        <li>Campañas de service, chapa y pintura y flotas</li>
+        <li>Medición de WhatsApp y llamadas por sede</li>
+        <li>Optimización semanal</li>
+        <li>Reporte mensual y portal</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 03 PAUTA -->
+<section class="white" id="pauta">
+  <div class="kicker">03 · Pauta sugerida</div>
+  <h2 class="title">Cuánto invertir en <em>medios</em> para arrancar.</h2>
+  <p class="desc">Es un punto de partida para tener datos en el primer mes. Lo ajustamos con el margen de cada servicio que comparta MATTANO y, en Google, con el volumen real de búsquedas de cada barrio. En temporada alta (noviembre a enero) conviene subirlo donde el taller tenga lugar.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Canal</th><th>Por mes</th><th>Desde</th><th>Cómo se reparte</th></tr></thead>
+      <tbody>
+        <tr><td><b>Meta</b></td><td class="num">ARS 400.000</td><td>Semana 2</td><td>Unos 100.000 por sede, con anuncios de mensajes al WhatsApp de cada una</td></tr>
+        <tr><td><b>Google</b></td><td class="num">ARS 300.000</td><td>Semana 3</td><td>Unos 10.000 por día entre service oficial, chapa y pintura y flotas</td></tr>
+      </tbody>
+      <tfoot><tr><td>Total</td><td class="num">ARS 700.000</td><td colspan="2">Lo paga MATTANO directo a cada plataforma, con su medio de pago</td></tr></tfoot>
+    </table>
+  </div>
+</section>
+
+<!-- 04 CONDICIONES -->
+<section class="alt" id="condiciones">
+  <div class="kicker">04 · Condiciones</div>
+  <h2 class="title">Cómo <em>trabajamos</em>.</h2>
+  <p class="desc">Las condiciones habituales de Dilema, adaptadas a trabajar a través de PORA.</p>
+  <div class="needs">
+    <div class="need"><div class="need-t">Fee mensual</div><div class="need-d">En dólares. Empieza a correr cuando las campañas salen al aire.</div></div>
+    <div class="need"><div class="need-t">Pauta aparte</div><div class="need-d">La inversión en medios la paga MATTANO directo a Meta y a Google. No pasa por nosotros.</div></div>
+    <div class="need"><div class="need-t">Cuentas del cliente</div><div class="need-d">Portfolio de Meta, cuenta de Google Ads y fichas quedan a nombre de MATTANO, con nuestro acceso como agencia.</div></div>
+    <div class="need"><div class="need-t">Reporte</div><div class="need-d">Un reporte mensual por sede para que PORA se lo presente al cliente, o lo vemos juntos en una reunión.</div></div>
+    <div class="need"><div class="need-t">Piezas</div><div class="need-d">Cada mes pasamos el brief de piezas para pauta. Si hace falta una pieza fuera del calendario, la pedimos con tiempo.</div></div>
+    <div class="need"><div class="need-t">Facturación</div><div class="need-d">El fee se factura a PORA. Forma de pago y moneda de facturación, a definir entre los dos equipos.</div></div>
+  </div>
+</section>
+
+<!-- 05 ARRANQUE -->
+<section class="white">
+  <div class="kicker">05 · Para arrancar</div>
+  <h2 class="title">Lo que necesitamos <em>la primera semana</em>.</h2>
+  <p class="desc">Si alguno no existe, lo creamos a nombre de MATTANO.</p>
+  <ol class="qs">
+    <li><div>Portfolio comercial de Meta<span>Con el Instagram, una página de Facebook, la cuenta publicitaria y un medio de pago.</span></div></li>
+    <li><div>Los cuatro WhatsApp de las sedes<span>En WhatsApp Business, con alguien que responda en horario.</span></div></li>
+    <li><div>Acceso a las cinco fichas de Google<span>Las cuatro sedes y «Mh Atelier Srl». Si nadie las tiene, las reclamamos.</span></div></li>
+    <li><div>Cuenta de Google Ads<span>Si existe, acceso de administrador. Si no, la creamos en nuestra cuenta de agencia.</span></div></li>
+    <li><div>Calendario de contenido de PORA<span>Para atar la pauta a lo que se publica y elegir qué piezas se impulsan.</span></div></li>
+    <li><div>Promos vigentes de Renault<span>Las bimestrales van directo a los anuncios.</span></div></li>
+  </ol>
+</section>
+
+<div class="closing">
+  <h2>Ustedes le dan <em>la cara</em>.<br>Nosotros, el alcance.</h2>
+  <p>Con la identidad y el contenido de PORA y la pauta y la medición de Dilema, MATTANO llega a la temporada de vacaciones con cada consulta medida por sede.</p>
+</div>
+
+<footer>
+  <div class="f-top">
+    <div>
+      <div class="f-brand">Dilema <em>Creative</em></div>
+      <div class="f-tag">Agencia de marketing digital. Trabajamos los canales como un sistema, no como esfuerzos sueltos. Pocos clientes, máximo servicio.</div>
+    </div>
+    <div class="f-contact">
+      <span class="lbl">Contacto</span>
+      <span>equipo@dilemacreative.ar</span>
+      <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+      <a href="https://instagram.com/dilema.creative" target="_blank" rel="noopener">@dilema.creative</a>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <div>Dilema Creative <span>·</span> Octubre 2026 <span>·</span> Propuesta económica para PORA · MATTANO</div>
+    <div>Buenos Aires <span>·</span> Argentina</div>
+  </div>
+</footer>
+
+</body>
+</html>
