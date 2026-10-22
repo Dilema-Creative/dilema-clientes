@@ -241,6 +241,16 @@ ul.chk li::before{
 }
 .precios.p3{grid-template-columns:repeat(3,1fr);margin-top:28px}
 .p3 .precio small{display:block;margin-top:10px}
+.combo{
+  display:grid;grid-template-columns:1fr 1fr;gap:0 52px;align-items:center;
+  background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--r);
+  padding:38px 40px;margin-top:28px;
+}
+.combo > div{min-width:0}
+@media (min-width:761px) and (max-width:1120px){.p3 .card-top{min-height:62px}}
+.combo .card-top{justify-content:flex-start;margin-bottom:18px}
+.combo .desc{font-size:14.5px;color:var(--muted);margin-top:14px;max-width:44ch}
+.combo .desglose{margin-top:0}
 .precios-sub{
   font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.14em;
   text-transform:uppercase;color:var(--muted-2);margin-top:56px;display:block;
@@ -297,7 +307,7 @@ ul.chk li::before{
   font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
   letter-spacing:.13em;text-transform:uppercase;color:var(--muted-2);
 }
-.card .bon{
+.card .bon,.combo .bon{
   font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;
   letter-spacing:.1em;text-transform:uppercase;color:#1a0d06;
   background:var(--ember);border-radius:999px;padding:5px 11px;white-space:nowrap;
@@ -373,6 +383,7 @@ footer a{color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(22
   .tareas{grid-template-columns:1fr 1fr}
   .costos,.peso,.precios.p3{grid-template-columns:1fr}
   .tres{grid-template-columns:1fr}
+  .combo{grid-template-columns:1fr;row-gap:30px;padding:30px 24px}
   .tres > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line-soft);margin-top:32px;padding-top:32px}
   .recorrido{grid-template-columns:1fr 1fr;row-gap:30px}
   .recorrido > div:nth-child(3){padding-left:0;border-left:none}
@@ -474,7 +485,7 @@ footer a{color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(22
         <p class="marca-rol">Que la marca exista y se mueva, para llegar a los supermercados con nombre propio.</p>
         <div class="fila"><span class="k">Objetivo</span><span class="v">Seguidores, reconocimiento y movimiento en redes</span></div>
         <div class="fila"><span class="k">Le habla a</span><span class="v">Al que come hamburguesas y al comprador del comercio</span></div>
-        <div class="fila"><span class="k">Armamos</span><span class="v">Sitio web, contenido y campañas de marca</span></div>
+        <div class="fila"><span class="k">Armamos</span><span class="v">Sitio web, contenido y campañas de marca en Meta y Google</span></div>
         <div class="fila"><span class="k">Se mide en</span><span class="v">Seguidores, alcance y consultas de comercios</span></div>
       </div>
       <div>
@@ -520,7 +531,7 @@ footer a{color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(22
       </div>
     </div>
 
-    <div class="dos">
+    <div class="tres" style="margin-top:0">
       <div>
         <h3 class="sub">El sitio web</h3>
         <ul class="chk">
@@ -537,6 +548,15 @@ footer a{color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(22
           <li>Campañas de seguidores, para que la cuenta crezca con gente real</li>
           <li>Impulso a las publicaciones que mejor funcionan, para generar movimiento</li>
           <li>Inversión baja: una campaña de marca cuesta mucho menos que una de venta</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub">Google Ads</h3>
+        <ul class="chk">
+          <li>Aparecer cuando un comercio busca un proveedor de hamburguesas</li>
+          <li>Campañas que llevan al formulario para comercios del sitio</li>
+          <li>La marca protegida, para que el que busca First llegue a First</li>
+          <li>Control de en qué búsquedas se va la plata, para cortar las que no son clientes</li>
         </ul>
       </div>
     </div>
@@ -745,7 +765,7 @@ footer a{color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(22
     <div class="shead">
       <span class="kick">07 · Inversión</span>
       <h2>Lo que cuesta <em class="ac">el trabajo</em></h2>
-      <p>El armado se paga una sola vez. El contenido y la publicidad son mensuales. El fee cubre el trabajo de Dilema: lo que se invierte en Meta y en Google va aparte.</p>
+      <p>Son dos marcas con dos cuentas cada una, así que el contenido y la publicidad se cotizan por marca. El armado se paga una sola vez. El fee cubre el trabajo de Dilema: lo que se invierte en Meta y en Google va aparte.</p>
     </div>
 
     <div class="precios">
@@ -773,15 +793,15 @@ footer a{color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(22
       </div>
     </div>
 
-    <span class="precios-sub">La publicidad · por mes</span>
+    <span class="precios-sub">La publicidad · por marca, por mes</span>
     <div class="precios p3">
       <div class="card">
         <div class="card-top"><span class="card-lbl">Meta Ads</span></div>
         <span class="antes ghost">&nbsp;</span>
-        <div class="precio">USD 300 <small>por mes</small></div>
-        <p class="desc">Instagram y Facebook para las dos marcas: seguidores y presencia para Hamburguesas, ventas para Carnes.</p>
+        <div class="precio">USD 300 <small>por marca, por mes</small></div>
+        <p class="desc">Instagram y Facebook de una marca. Seguidores y presencia para Hamburguesas, ventas para Carnes.</p>
         <ul class="chk">
-          <li>Campañas de las dos marcas</li>
+          <li>Campañas de la marca</li>
           <li>Textos de los anuncios</li>
           <li>Reporte y portal</li>
         </ul>
@@ -789,10 +809,10 @@ footer a{color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(22
       <div class="card">
         <div class="card-top"><span class="card-lbl">Google Ads</span></div>
         <span class="antes ghost">&nbsp;</span>
-        <div class="precio">USD 300 <small>por mes</small></div>
-        <p class="desc">Búsqueda y Shopping para First Carnes: el que ya está buscando comprar carne online.</p>
+        <div class="precio">USD 300 <small>por marca, por mes</small></div>
+        <p class="desc">Búsquedas de una marca. Comercios que buscan proveedor para Hamburguesas, gente que quiere comprar carne online para Carnes.</p>
         <ul class="chk">
-          <li>Campañas de la tienda</li>
+          <li>Campañas de la marca</li>
           <li>Control de búsquedas</li>
           <li>Reporte y portal</li>
         </ul>
@@ -800,11 +820,11 @@ footer a{color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(22
       <div class="card">
         <div class="card-top">
           <span class="card-lbl">Meta y Google</span>
-          <span class="bon">Recomendado</span>
+          <span class="bon">Bonificado USD 50</span>
         </div>
         <span class="antes">USD 600 por separado</span>
-        <div class="precio">USD 550 <small>por mes</small></div>
-        <p class="desc">Los dos canales gestionados juntos. Uno sale a buscar gente nueva y el otro atiende al que ya está buscando.</p>
+        <div class="precio">USD 550 <small>por marca, por mes</small></div>
+        <p class="desc">Los dos canales de una marca, gestionados juntos. Uno sale a buscar gente nueva y el otro atiende al que ya está buscando.</p>
         <ul class="chk">
           <li>Todo lo de Meta y Google</li>
           <li>Una sola estrategia</li>
@@ -813,9 +833,27 @@ footer a{color:var(--ember);text-decoration:none;border-bottom:1px solid rgba(22
       </div>
     </div>
 
+    <div class="combo">
+      <div>
+        <div class="card-top">
+          <span class="card-lbl">Las dos marcas · Meta y Google</span>
+          <span class="bon">Recomendado</span>
+        </div>
+        <span class="antes" style="text-align:left">USD 1.200 por separado</span>
+        <div class="precio">USD 1.000 <small>por mes</small></div>
+        <p class="desc">Meta y Google para First Hamburguesas y para First Carnes, con una sola estrategia para las dos marcas. Tomando todo junto, les bonificamos USD 200.</p>
+      </div>
+      <div class="desglose">
+        <div><span>Meta Ads, First Hamburguesas</span><b>USD 300</b></div>
+        <div><span>Google Ads, First Hamburguesas</span><b>USD 300</b></div>
+        <div><span>Meta Ads, First Carnes</span><b>USD 300</b></div>
+        <div><span>Google Ads, First Carnes</span><b>USD 300</b></div>
+      </div>
+    </div>
+
     <div class="total">
-      <div class="lbl">Primer mes con todo: el armado, el contenido y Meta y Google. Después quedan USD 1.450 por mes.</div>
-      <div class="big">USD 2.200</div>
+      <div class="lbl">Primer mes con todo: el armado, el contenido de las dos cuentas y el combo de Meta y Google para las dos marcas. Después quedan USD 1.900 por mes.</div>
+      <div class="big">USD 2.650</div>
     </div>
 
     <div class="cond">
