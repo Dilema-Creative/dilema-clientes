@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Propuesta Café Rotondo</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Propuesta Dilema a medida de Rotondo: hero en el azul del logo, acento manteca (laminados),
+     secciones numeradas que alternan papel / blanco / azul. Sistema de un solo tema por decisión de marca. */
+  :root {
+    color-scheme: light;
+    --ink: #2B3754;          /* azul Rotondo */
+    --ink-2: #1D2640;
+    --ink-soft: #36446A;
+    --butter: #E0AE5C;       /* manteca: acento sobre oscuro */
+    --butter-deep: #8A5F1E;  /* acento sobre claro */
+    --steel: #56627E;
+    --paper: #F5F3EF;
+    --paper-2: #EBE7DF;
+    --white: #FFFFFF;
+    --text: #20242E;
+    --ash: #636876;
+    --line: #DCD7CC;
+    --good: #2F7D5E;
+    --bad: #B23A2B;
+    --on-dark: #F3F1EC;
+    --on-dark-2: rgba(243,241,236,.70);
+    --on-dark-3: rgba(243,241,236,.46);
+    --display: 'Fraunces', Georgia, 'Times New Roman', serif;
+    --body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+    --gx: 60px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { font-family: var(--body); background: var(--paper); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; font-size: 15px; }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--ink); }
+  a { color: inherit; }
+  a:focus-visible { outline: 2px solid var(--butter); outline-offset: 3px; }
+  .gut { padding-left: max(var(--gx), env(safe-area-inset-left, 0px)); padding-right: max(var(--gx), env(safe-area-inset-right, 0px)); }
+
+  /* NAV */
+  nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: rgba(43,55,84,.98); border-bottom: 1px solid rgba(224,174,92,.28); height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .nav-logo { display: flex; align-items: center; gap: 14px; min-width: 0; }
+  .nav-brand { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--on-dark); letter-spacing: -.02em; white-space: nowrap; }
+  .nav-brand em { font-style: italic; color: var(--butter); font-weight: 500; }
+  .nav-divider { width: 1px; height: 18px; background: rgba(243,241,236,.2); }
+  .nav-sub, .nav-links a { font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; color: var(--on-dark-3); text-decoration: none; white-space: nowrap; }
+  .nav-links { display: flex; gap: 22px; }
+  .nav-links a:hover { color: var(--butter); }
+
+  /* HERO */
+  .hero { background: var(--ink); padding-block: 92px 84px; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -160px; right: -120px; width: 660px; height: 660px; background: radial-gradient(circle, rgba(224,174,92,.18) 0%, transparent 68%); pointer-events: none; }
+  .hero-inner { position: relative; max-width: 1080px; }
+  .hero-mark { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; flex-wrap: wrap; }
+  .hero-mark-brand { font-family: var(--display); font-weight: 700; font-size: 20px; letter-spacing: -.02em; color: var(--on-dark); }
+  .hero-mark-brand em { font-style: italic; color: var(--butter); font-weight: 500; }
+  .hero-mark-line { width: 40px; height: 1px; background: rgba(243,241,236,.28); }
+  .hero-mark-tag { font-family: var(--mono); font-size: 11px; color: var(--on-dark-3); letter-spacing: .14em; text-transform: uppercase; }
+  .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(224,174,92,.12); border: 1px solid rgba(224,174,92,.36); border-radius: 4px; padding: 6px 14px; font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--butter); margin-bottom: 30px; }
+  .hero-eyebrow::before { content: ''; width: 7px; height: 7px; background: var(--butter); border-radius: 50%; }
+  .hero h1 { font-family: var(--display); font-weight: 500; font-size: clamp(36px, 5.4vw, 70px); line-height: 1.04; letter-spacing: -.03em; color: var(--on-dark); max-width: 940px; margin-bottom: 24px; text-wrap: balance; }
+  .hero h1 em { font-style: italic; color: var(--butter); font-weight: 400; }
+  .hero-sub { font-size: 17px; color: var(--on-dark-2); max-width: 700px; font-weight: 300; line-height: 1.7; margin-bottom: 44px; }
+  .hero-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.12); border-radius: 6px; overflow: hidden; max-width: 980px; }
+  .hero-stat { background: var(--ink); padding: 20px 22px; min-width: 0; }
+  .hero-stat .v { font-family: var(--display); font-weight: 500; font-size: 34px; letter-spacing: -.03em; color: var(--on-dark); line-height: 1; font-variant-numeric: tabular-nums; }
+  .hero-stat .v small { font-size: 16px; color: var(--on-dark-3); }
+  .hero-stat .k { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark-3); margin-top: 10px; line-height: 1.5; }
+
+  /* SECCIONES */
+  section { padding-block: 80px; }
+  section > * { max-width: 1080px; }
+  section.alt { background: var(--paper-2); }
+  section.white { background: var(--white); }
+  section.dark { background: var(--ink); color: var(--on-dark); }
+  .kicker { font-family: var(--mono); font-size: 10.5px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--butter-deep); margin-bottom: 14px; }
+  section.dark .kicker { color: var(--butter); }
+  .title { font-family: var(--display); font-weight: 500; font-size: clamp(30px, 4vw, 50px); line-height: 1.05; letter-spacing: -.025em; color: var(--ink); max-width: 820px; margin-bottom: 16px; text-wrap: balance; }
+  .title em { font-style: italic; color: var(--butter-deep); }
+  section.dark .title { color: var(--on-dark); }
+  section.dark .title em { color: var(--butter); }
+  .desc { font-size: 16px; color: var(--ash); max-width: 700px; margin-bottom: 44px; font-weight: 300; line-height: 1.7; }
+  .desc strong { color: var(--text); font-weight: 600; }
+  section.dark .desc { color: var(--on-dark-2); }
+  section.dark .desc strong { color: var(--on-dark); }
+
+  /* DIAGNÓSTICO */
+  .diag-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .diag-col { padding: 32px; min-width: 0; }
+  .diag-col:first-child { border-right: 1px solid var(--line); background: #EEF3EE; }
+  .diag-col:last-child { background: #F6EDEA; }
+  .diag-head { font-family: var(--mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+  .diag-col:first-child .diag-head { color: var(--good); }
+  .diag-col:last-child .diag-head { color: var(--bad); }
+  .diag-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+  .diag-list li { font-size: 14.5px; padding-left: 22px; position: relative; line-height: 1.55; }
+  .diag-list li strong { font-weight: 600; }
+  .diag-col:first-child li::before { content: '✓'; position: absolute; left: 0; color: var(--good); font-weight: 700; }
+  .diag-col:last-child li::before { content: '→'; position: absolute; left: 0; color: var(--bad); font-weight: 700; }
+
+  /* TABLAS */
+  .sub { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -.02em; color: var(--ink); margin: 52px 0 8px; }
+  .sub em { font-style: italic; color: var(--butter-deep); }
+  .sub-desc { font-size: 14.5px; color: var(--ash); max-width: 700px; margin-bottom: 20px; }
+  .table-wrap { border: 1px solid var(--line); border-radius: 6px; overflow-x: auto; background: var(--white); }
+  table { width: 100%; border-collapse: collapse; min-width: 760px; }
+  th { font-family: var(--mono); font-size: 9.5px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--ash); background: var(--paper-2); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); }
+  td { padding: 14px 16px; border-bottom: 1px solid var(--line); font-size: 14px; vertical-align: top; }
+  td b { font-weight: 600; color: var(--ink); }
+  tr:last-child td { border-bottom: none; }
+  tr.us td { background: #FBF5EA; }
+  td.num { font-variant-numeric: tabular-nums; font-family: var(--mono); font-size: 13px; white-space: nowrap; }
+  td .muted { color: var(--ash); font-size: 12.5px; }
+  .chip { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; white-space: nowrap; }
+  .chip.bad { background: #F6E3DF; color: var(--bad); }
+  .chip.ok { background: #E1EFE7; color: var(--good); }
+  .chip.warn { background: #F5E8CF; color: var(--butter-deep); }
+  .chip.off { background: var(--paper-2); color: var(--ash); }
+
+  .callout { border-left: 4px solid var(--butter); background: var(--white); border-radius: 0 6px 6px 0; padding: 22px 26px; margin-top: 24px; max-width: 900px; }
+  .callout-label { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--butter-deep); margin-bottom: 8px; }
+  .callout p { font-size: 15px; line-height: 1.7; }
+  .callout p strong { font-weight: 600; }
+
+  /* ANUNCIOS DE LA COMPETENCIA */
+  .comp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .comp { background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 22px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .comp-tag { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--butter-deep); }
+  .comp-name { font-family: var(--display); font-weight: 500; font-size: 19px; color: var(--ink); letter-spacing: -.015em; }
+  .comp-meta { font-family: var(--mono); font-size: 12px; color: var(--ash); }
+  .comp-copy { font-size: 13.5px; color: var(--text); font-style: italic; border-top: 1px dashed var(--line); padding-top: 10px; }
+
+  /* TRES FORMAS DE VENDER */
+  .ways { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .way { border-radius: 6px; padding: 28px; min-width: 0; display: flex; flex-direction: column; background: var(--white); border: 1px solid var(--line); }
+  .way.solid { background: var(--ink); border-color: var(--ink); color: var(--on-dark); }
+  .way-n { font-family: var(--display); font-style: italic; font-size: 40px; line-height: 1; color: var(--butter-deep); margin-bottom: 14px; }
+  .way.solid .way-n { color: var(--butter); }
+  .way-t { font-family: var(--display); font-weight: 500; font-size: 22px; letter-spacing: -.02em; color: var(--ink); margin-bottom: 8px; }
+  .way.solid .way-t { color: var(--on-dark); }
+  .way p { font-size: 14.5px; color: var(--ash); margin-bottom: 16px; }
+  .way.solid p { color: var(--on-dark-2); }
+  .way-m { margin-top: auto; border-top: 1px dashed var(--line); padding-top: 12px; font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--steel); line-height: 1.6; }
+  .way.solid .way-m { border-color: rgba(255,255,255,.18); color: var(--butter); }
+
+  /* DOS CANALES */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .split-card { border-radius: 6px; padding: 30px; min-width: 0; }
+  .split-card.light { background: var(--white); border: 1px solid var(--line); }
+  .split-card.solid { background: var(--ink); color: var(--on-dark); }
+  .split-who { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 10px; color: var(--ash); }
+  .split-card.solid .split-who { color: var(--butter); }
+  .split-title { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -.02em; margin-bottom: 10px; color: var(--ink); }
+  .split-card.solid .split-title { color: var(--on-dark); }
+  .split-card p { font-size: 14.5px; color: var(--ash); margin-bottom: 16px; }
+  .split-card.solid p { color: var(--on-dark-2); }
+  .tick { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .tick li { font-size: 14px; padding-left: 20px; position: relative; line-height: 1.5; }
+  .tick li::before { content: '✓'; position: absolute; left: 0; color: var(--butter-deep); font-weight: 700; }
+  .split-card.solid .tick li { color: var(--on-dark-2); }
+  .split-card.solid .tick li::before { color: var(--butter); }
+
+  /* EL DÍA DE ROTONDO */
+  .day { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .slot { background: var(--white); padding: 24px 22px; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+  .slot-h { font-family: var(--mono); font-size: 12px; letter-spacing: .06em; color: var(--butter-deep); font-variant-numeric: tabular-nums; }
+  .slot-t { font-family: var(--display); font-weight: 500; font-size: 21px; letter-spacing: -.02em; color: var(--ink); line-height: 1.15; }
+  .slot-who { font-size: 13.5px; color: var(--ash); }
+  .slot-msg { font-size: 13.5px; color: var(--text); font-style: italic; border-top: 1px dashed var(--line); padding-top: 10px; }
+  .slot-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .slot-tags span { font-family: var(--mono); font-size: 10.5px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 2px 7px; }
+  .kw { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+  .kw span { font-family: var(--mono); font-size: 11px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 3px; padding: 3px 8px; }
+  .split-card.solid .kw span { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.16); color: var(--on-dark); }
+
+  /* PLAN */
+  .season { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-bottom: 36px; }
+  .mo { border-radius: 4px; padding: 12px 8px 10px; text-align: center; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); min-width: 0; }
+  .mo b { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--on-dark); font-weight: 500; }
+  .mo span { display: block; font-size: 11.5px; color: var(--on-dark-3); margin-top: 4px; line-height: 1.35; }
+  .mo.setup { border-color: rgba(243,241,236,.28); }
+  .mo.peak { background: rgba(224,174,92,.16); border-color: rgba(224,174,92,.5); }
+  .mo.peak span { color: var(--butter); }
+  .steps { display: flex; flex-direction: column; }
+  .step { display: grid; grid-template-columns: 150px 1fr; gap: 24px; padding: 22px 0; border-top: 1px solid rgba(255,255,255,.1); }
+  .step-when { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--butter); padding-top: 4px; }
+  .step-title { font-family: var(--display); font-weight: 500; font-size: 20px; letter-spacing: -.015em; color: var(--on-dark); margin-bottom: 6px; }
+  .step-desc { font-size: 14.5px; color: var(--on-dark-2); max-width: 720px; }
+
+  /* MEDICIÓN */
+  .measure { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+  .m { background: var(--white); padding: 22px; min-width: 0; }
+  .m-k { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--butter-deep); margin-bottom: 8px; }
+  .m-t { font-family: var(--display); font-weight: 500; font-size: 18px; color: var(--ink); margin-bottom: 6px; letter-spacing: -.01em; }
+  .m-d { font-size: 13.5px; color: var(--ash); line-height: 1.55; }
+
+  /* PREGUNTAS */
+  .qs { list-style: none; counter-reset: q; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; }
+  .qs li { counter-increment: q; display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 14.5px; min-width: 0; }
+  .qs li::before { content: counter(q, decimal-leading-zero); font-family: var(--mono); font-size: 12px; color: var(--butter-deep); padding-top: 2px; }
+  .qs li span { color: var(--ash); font-size: 13px; display: block; margin-top: 2px; }
+
+  /* NECESITAMOS */
+  .needs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .need { background: var(--white); border: 1px solid var(--line); border-radius: 6px; padding: 20px; min-width: 0; }
+  .need-t { font-family: var(--display); font-weight: 500; font-size: 16px; color: var(--ink); margin-bottom: 6px; }
+  .need-d { font-size: 13px; color: var(--ash); line-height: 1.55; }
+
+  /* INVERSIÓN */
+  .pricing { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1000px; }
+  .card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12); border-radius: 6px; padding: 30px; position: relative; display: flex; flex-direction: column; min-width: 0; }
+  .card.featured { border-color: var(--butter); background: rgba(224,174,92,.09); }
+  .card.featured::before { content: 'Recomendado'; position: absolute; top: -11px; left: 24px; background: var(--butter); color: var(--ink-2); font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; }
+  .card-name { font-family: var(--mono); font-weight: 700; font-size: 10.5px; color: var(--on-dark-3); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 12px; }
+  .card-price { font-family: var(--display); font-weight: 500; font-size: 44px; letter-spacing: -.03em; color: var(--on-dark); line-height: 1; margin-bottom: 6px; font-variant-numeric: tabular-nums; }
+  .card-price span { font-size: 17px; font-weight: 400; color: var(--on-dark-3); }
+  .card-note { font-size: 13px; color: var(--on-dark-3); margin-bottom: 20px; font-style: italic; min-height: 40px; }
+  .card-div { height: 1px; background: rgba(255,255,255,.12); margin-bottom: 18px; }
+  .card ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .card li { font-size: 13.5px; color: var(--on-dark-2); padding-left: 22px; position: relative; line-height: 1.5; }
+  .card li::before { content: '✓'; position: absolute; left: 0; color: var(--butter); font-weight: 700; }
+  .media { margin-top: 22px; max-width: 1000px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.12); border-radius: 6px; overflow: hidden; }
+  .media > div { background: var(--ink-soft); padding: 20px 22px; min-width: 0; }
+  .media-k { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--on-dark-3); margin-bottom: 8px; }
+  .media-v { font-family: var(--display); font-size: 26px; font-weight: 500; color: var(--on-dark); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .media-n { font-size: 12.5px; color: var(--on-dark-3); margin-top: 4px; }
+  .invest-note { font-size: 14px; color: var(--on-dark-2); line-height: 1.7; max-width: 1000px; margin-top: 22px; }
+  .invest-note strong { color: var(--on-dark); }
+
+  /* CIERRE */
+  .closing { background: var(--ink-2); padding-block: 96px; text-align: center; position: relative; overflow: hidden; }
+  .closing::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 720px; max-width: 100%; height: 400px; background: radial-gradient(ellipse, rgba(224,174,92,.13) 0%, transparent 70%); pointer-events: none; }
+  .closing h2 { font-family: var(--display); font-weight: 500; font-size: clamp(32px, 4.6vw, 56px); letter-spacing: -.03em; line-height: 1.06; color: var(--on-dark); margin: 0 auto 20px; position: relative; max-width: 820px; text-wrap: balance; }
+  .closing h2 em { font-style: italic; color: var(--butter); font-weight: 400; }
+  .closing p { font-size: 16px; color: var(--on-dark-3); max-width: 620px; margin: 0 auto; font-weight: 300; line-height: 1.7; position: relative; }
+
+  footer { background: #151B2E; color: var(--on-dark-3); padding-block: 52px 32px; border-top: 1px solid rgba(224,174,92,.16); }
+  .f-top { display: grid; grid-template-columns: 1fr auto; gap: 40px; padding-bottom: 32px; margin-bottom: 26px; border-bottom: 1px solid rgba(255,255,255,.07); }
+  .f-brand { font-family: var(--display); font-weight: 700; font-size: 26px; color: var(--on-dark); letter-spacing: -.02em; margin-bottom: 10px; }
+  .f-brand em { font-style: italic; color: var(--butter); font-weight: 500; }
+  .f-tag { font-size: 14px; max-width: 380px; font-weight: 300; line-height: 1.65; }
+  .f-contact { display: flex; flex-direction: column; gap: 8px; text-align: right; font-size: 14px; color: var(--on-dark); }
+  .f-contact .lbl { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--on-dark-3); }
+  .f-contact a { text-decoration: none; }
+  .f-contact a:hover { color: var(--butter); }
+  .f-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-family: var(--mono); font-size: 11px; letter-spacing: .08em; }
+  .f-bottom span { color: var(--butter); }
+
+  @media (max-width: 1024px) {
+    :root { --gx: 40px; }
+    .nav-links { display: none; }
+    .hero { padding-block: 80px 72px; }
+    section { padding-block: 64px; }
+    .comp-grid, .pricing, .ways { grid-template-columns: 1fr; max-width: 620px; }
+    .measure, .day, .needs { grid-template-columns: 1fr 1fr; }
+    .closing { padding-block: 80px; }
+  }
+  @media (max-width: 768px) {
+    :root { --gx: 20px; }
+    nav { height: 52px; }
+    .nav-divider, .nav-sub { display: none; }
+    .hero { padding-block: 64px 56px; }
+    .hero-sub { font-size: 15.5px; margin-bottom: 32px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+    .hero-stat .v { font-size: 28px; }
+    section { padding-block: 56px; }
+    .desc { font-size: 15px; margin-bottom: 32px; }
+    .diag-grid, .split, .qs, .needs, .day, .measure { grid-template-columns: 1fr; }
+    .diag-col { padding: 24px; }
+    .diag-col:first-child { border-right: none; border-bottom: 1px solid var(--line); }
+    .season { grid-template-columns: repeat(3, 1fr); }
+    .step { grid-template-columns: 1fr; gap: 6px; }
+    .media { grid-template-columns: 1fr; }
+    .card { padding: 26px 22px; }
+    .closing { padding-block: 64px; }
+    footer { padding-block: 44px 28px; }
+    .f-top { grid-template-columns: 1fr; }
+    .f-contact { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="gut">
+  <div class="nav-logo">
+    <div class="nav-brand">Dilema <em>Creative</em></div>
+    <div class="nav-divider"></div>
+    <div class="nav-sub">Propuesta Café Rotondo</div>
+  </div>
+  <div class="nav-links">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#competencia">Competencia</a>
+    <a href="#como">Cómo se vende</a>
+    <a href="#plan">Plan</a>
+    <a href="#inversion">Inversión</a>
+  </div>
+</nav>
+
+<header class="hero gut">
+  <div class="hero-inner">
+    <div class="hero-mark">
+      <span class="hero-mark-brand">Dilema <em>Creative</em></span>
+      <span class="hero-mark-line"></span>
+      <span class="hero-mark-tag">para Café Rotondo · Family blend</span>
+    </div>
+    <div class="hero-eyebrow">Propuesta · Octubre 2026 · Meta + Google</div>
+    <h1>El mostrador ya convence.<br>Falta que lo vea quien está <em>a tres cuadras</em>.</h1>
+    <p class="hero-sub">Una cafetería no necesita una tienda online para vender con Meta y Google. La venta pasa en el mostrador de Cerviño y de Libertador, y la pauta sirve para que la gente que vive, trabaja o pasa cerca de cada esquina conozca Rotondo, se tiente y vaya. Además, las cajas y las mini cakes se pueden encargar por WhatsApp, y ahí la venta sí se puede contar una por una.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v">14<small> mil</small></div><div class="k">Seguidores en<br>@rotondocafe</div></div>
+      <div class="hero-stat"><div class="v">4,5<small> / 5</small></div><div class="k">Cerviño en Google<br>451 reseñas</div></div>
+      <div class="hero-stat"><div class="v">4,2<small> / 5</small></div><div class="k">Libertador en Google<br>97 reseñas</div></div>
+      <div class="hero-stat"><div class="v">0</div><div class="k">Anuncios activos<br>en Meta y Google</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 DIAGNÓSTICO -->
+<section class="gut" id="diagnostico">
+  <div class="kicker">01 · Diagnóstico</div>
+  <h2 class="title">Lo que vemos <em>desde afuera</em>.</h2>
+  <p class="desc">Recorrimos Rotondo como lo haría alguien que todavía no lo conoce: entramos al Instagram y al link de la bio, buscamos las dos esquinas en Google Maps y revisamos la Biblioteca de anuncios de Meta. Esto es lo que encontramos al 26 de octubre de 2026.</p>
+
+  <div class="diag-grid">
+    <div class="diag-col">
+      <div class="diag-head">Lo que ya tienen</div>
+      <ul class="diag-list">
+        <li><strong>Un producto que se vende solo en foto:</strong> laminados, mini cakes, petites y alfajores. Es justo lo que mejor funciona en un anuncio de Instagram.</li>
+        <li><strong>Fotos profesionales</strong> y una estética cuidada y coherente en el feed.</li>
+        <li><strong>Dos esquinas en Palermo</strong> (Cerviño y Libertador), abiertas todos los días desde las 7 u 8 hasta las 20.</li>
+        <li><strong>Buena reputación en Cerviño:</strong> 4,5 con 451 reseñas que hablan de la pastelería, el pistacho, el avocado toast y el piso de arriba para trabajar.</li>
+        <li><strong>Especiales de temporada</strong> (H Tea, Iced Miso Salted Caramel Latte, Pomelada de jazmín): son novedad, y la novedad es lo que más se comparte.</li>
+        <li><strong>Ya venden para llevar:</strong> la caja degustación del Día de la Madre (20 unidades, cinco sabores) muestra que hay un producto para encargar.</li>
+      </ul>
+    </div>
+    <div class="diag-col">
+      <div class="diag-head">Lo que falta resolver</div>
+      <ul class="diag-list">
+        <li><strong>Nadie paga para que los vean.</strong> No hay anuncios de Rotondo en Meta, mientras Rita y Lharmonie pautan todos los días en la misma zona.</li>
+        <li><strong>El contenido llega a poca gente:</strong> los posteos recientes tienen entre 30 y 200 me gusta sobre 14 mil seguidores. Sin pauta, el algoritmo apenas los muestra.</li>
+        <li><strong>Casi todo es foto fija.</strong> Uno solo de los últimos doce posteos es un reel, y los anuncios que mejor rinden en cafeterías son videos verticales cortos.</li>
+        <li><strong>No hay cómo encargar.</strong> El Linktree tiene los menús y las direcciones, pero ningún WhatsApp para pedir una caja o una torta.</li>
+        <li><strong>Las fichas de Google están incompletas:</strong> sin teléfono, con Instagram como sitio web, y la de Libertador con menos de cien reseñas.</li>
+        <li><strong>Otros aparecen antes que Rotondo, incluso cuando buscan su nombre.</strong> En Maps, al buscar «Rotondo café» salen primero los anuncios de Permiso Café y Capriccio.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 02 COMPETENCIA -->
+<section class="white gut" id="competencia">
+  <div class="kicker">02 · Competencia</div>
+  <h2 class="title">Los que más crecen <em>pagan por aparecer</em>.</h2>
+  <p class="desc">Comparamos a Rotondo con las cuatro cuentas que nos pasaron. Ninguna vende online: lo que hacen con la pauta es que el barrio las tenga presentes y vaya. Los anuncios de Rita y Lharmonie llevan casi todos al perfil de Instagram.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Cuenta</th><th>Tipo</th><th>Seguidores</th><th>Locales</th><th>Pauta en Meta</th><th>Qué hacen</th></tr>
+      </thead>
+      <tbody>
+        <tr class="us"><td><b>Café Rotondo</b><br><span class="muted">@rotondocafe</span></td><td>Base</td><td class="num">14 mil</td><td class="num">2</td><td><span class="chip bad">Sin anuncios</span></td><td>Feed de fotos cuidadas, especiales de temporada, caja del Día de la Madre.</td></tr>
+        <tr><td><b>Rita Specialty Coffee</b><br><span class="muted">@ritaspecialtycoffee</span></td><td>Indirecta</td><td class="num">255 mil</td><td class="num">8</td><td><span class="chip ok">Decenas activas</span></td><td>Un anuncio para cada momento del día: combo desayuno, sopa al mediodía, home office, merienda y finde. Todos con las direcciones en el texto.</td></tr>
+        <tr><td><b>Lharmonie</b><br><span class="muted">@lharmonie___</span></td><td>Indirecta</td><td class="num">61 mil</td><td class="num">4</td><td><span class="chip ok">~6 activos</span></td><td>Videos cortos del local y del día a día («Un café de especialidad en Libertador»). Su local de Libertador 3118 está a pocas cuadras de Rotondo Cerviño.</td></tr>
+        <tr><td><b>Blanca</b><br><span class="muted">@blancadecocafe</span></td><td>Directa</td><td class="num">64 mil</td><td class="num">3</td><td><span class="chip off">Sin anuncios</span></td><td>Concept store: café, panadería y objetos. Crece con contenido propio.</td></tr>
+        <tr><td><b>Oli</b><br><span class="muted">@oli_buenosaires</span></td><td>Directa</td><td class="num">104 mil</td><td class="num">1</td><td><span class="chip off">Sin anuncios</span></td><td>Restaurant, bakery y café de Olivia Saal. Crece con la marca personal de la dueña.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout">
+    <div class="callout-label">Lectura</div>
+    <p>Blanca y Oli crecieron sin pauta, pero con <strong>años de contenido y una cara conocida detrás</strong>. Rita y Lharmonie, que tienen varios locales como Rotondo, eligieron <strong>pagar para estar todos los días en el celular de quien vive o trabaja cerca</strong>. Rita es el ejemplo más claro: no anuncia «la cafetería», anuncia <strong>el desayuno, el almuerzo, la merienda y el lugar para trabajar</strong>, cada uno a su hora.</p>
+  </div>
+
+  <h3 class="sub">Quién paga por aparecer <em>en Google Maps</em></h3>
+  <p class="sub-desc">Buscamos «cafetería de especialidad» y «café» cerca de las dos esquinas, y también el nombre de Rotondo. Estos son los anuncios que salieron arriba de todo.</p>
+  <div class="comp-grid">
+    <div class="comp">
+      <div class="comp-tag">Anuncio · Maps</div>
+      <div class="comp-name">Permiso Café</div>
+      <div class="comp-meta">4,8 · 582 reseñas · Olazábal 5007</div>
+      <div class="comp-copy">Aparece primero en las tres búsquedas, incluso cuando alguien busca «Rotondo café».</div>
+    </div>
+    <div class="comp">
+      <div class="comp-tag">Anuncio · Maps</div>
+      <div class="comp-name">flat&amp;white</div>
+      <div class="comp-meta">4,4 · 1.299 reseñas · Cerrito 1224</div>
+      <div class="comp-copy">«Disfruta de la mejor taza de café en un ambiente acogedor». Está en Retiro y aun así paga por salir en Palermo.</div>
+    </div>
+    <div class="comp">
+      <div class="comp-tag">Orgánico · Cuadra de Cerviño</div>
+      <div class="comp-name">Gorrión, Rimón y Lattente</div>
+      <div class="comp-meta">4,8 · 4,1 · 4,3 · todas sobre Av. Cerviño</div>
+      <div class="comp-copy">Tres cafeterías en la misma avenida. Quien busca «café» en la zona elige entre las primeras que ve en el mapa.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 CÓMO SE VENDE -->
+<section class="alt gut" id="como">
+  <div class="kicker">03 · La duda de la reunión</div>
+  <h2 class="title">Cómo vende una cafetería <em>con Meta</em>, sin tienda online.</h2>
+  <p class="desc">Meta no hace falta para cobrar online. Sirve para que el anuncio le llegue a la persona correcta, en el lugar y el horario en que está por decidir dónde tomar el café. Hay tres formas de hacerlo, y en Rotondo se pueden usar las tres.</p>
+  <div class="ways">
+    <div class="way solid">
+      <div class="way-n">1</div>
+      <div class="way-t">Llevar gente al local</div>
+      <p>Anuncios para quien vive, trabaja o pasa en un radio corto de cada esquina, en la franja del desayuno, del almuerzo y de la merienda. El mostrador hace el resto.</p>
+      <div class="way-m">Se mide en alcance en la zona, clics en «Cómo llegar» y ventas por franja</div>
+    </div>
+    <div class="way">
+      <div class="way-n">2</div>
+      <div class="way-t">Encargos por WhatsApp</div>
+      <p>Cajas degustación, mini cakes y petites para cumpleaños, fiestas y fechas fuertes, más desayunos y regalos para las oficinas de la zona. Cada anuncio abre un chat.</p>
+      <div class="way-m">Se mide en conversaciones y pedidos cerrados, uno por uno</div>
+    </div>
+    <div class="way">
+      <div class="way-n">3</div>
+      <div class="way-t">Clientes que vuelven</div>
+      <p>Mostrarle los especiales de temporada y las novedades a quien ya vio un video, visitó el perfil o sigue la cuenta. Es la forma más barata de que el cliente vuelva.</p>
+      <div class="way-m">Se mide en seguidores de la zona y en quién vuelve a interactuar</div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ESTRATEGIA -->
+<section class="white gut">
+  <div class="kicker">04 · La estrategia</div>
+  <h2 class="title">Meta para que se tienten. <em>Google</em> para que los encuentren.</h2>
+  <p class="desc">Meta es el canal principal, porque el producto de Rotondo entra por los ojos y la decisión se toma en el momento. Google cubre a quien ya está buscando un café cerca, o busca a Rotondo por su nombre, y hoy se lo lleva otro.</p>
+  <div class="split">
+    <div class="split-card solid">
+      <div class="split-who">Canal principal · Meta</div>
+      <div class="split-title">Estar en el celular del barrio</div>
+      <p>Instagram y Facebook, con el material de Rotondo y videos cortos del mostrador.</p>
+      <ul class="tick">
+        <li>Un conjunto de anuncios por local, en un radio de 1 a 2 km de cada esquina</li>
+        <li>Mensaje distinto según la hora: desayuno, mediodía para trabajar, merienda y finde</li>
+        <li>Anuncios de mensajes para encargar cajas y mini cakes por WhatsApp</li>
+        <li>Desayunos y cajas para las empresas y oficinas de la zona</li>
+        <li>Volver a aparecerle a quien vio un video o visitó el perfil</li>
+        <li>Lanzamientos de temporada pautados la semana en que salen</li>
+      </ul>
+      <div class="kw"><span>Palermo Chico</span><span>Botánico</span><span>Barrio Parque</span><span>Plaza Alemania</span><span>radio 1–2 km</span></div>
+    </div>
+    <div class="split-card light">
+      <div class="split-who">Complemento · Google</div>
+      <div class="split-title">Ser la primera opción en el mapa</div>
+      <p>El buscador y Maps, para quien ya está buscando dónde tomar algo.</p>
+      <ul class="tick">
+        <li>Las dos fichas completas: teléfono, WhatsApp, menú, fotos nuevas y reseñas respondidas</li>
+        <li>Un plan para que Libertador sume reseñas y alcance a Cerviño</li>
+        <li>Anuncios en Maps para las búsquedas de café y desayuno cerca de cada local</li>
+        <li>Proteger el nombre: que al buscar «Rotondo» salga Rotondo primero</li>
+        <li>«Cómo llegar» y llamada desde el anuncio</li>
+      </ul>
+      <div class="kw"><span>café de especialidad palermo</span><span>café cerca</span><span>desayuno palermo chico</span><span>cafetería para trabajar</span><span>rotondo café</span></div>
+    </div>
+  </div>
+
+  <h3 class="sub">Un día en Rotondo, <em>en cuatro anuncios</em></h3>
+  <p class="sub-desc">Cada franja tiene un público y un mensaje propios. Los textos son ejemplos para mostrar la idea: los definimos con ustedes y con la carta real.</p>
+  <div class="day">
+    <div class="slot">
+      <div class="slot-h">07:00 – 11:00</div>
+      <div class="slot-t">El desayuno de camino</div>
+      <div class="slot-who">Gente que trabaja en la zona o pasa por Libertador rumbo al centro.</div>
+      <div class="slot-msg">«Así se ve el mostrador a primera hora.» Laminados recién salidos y el café para llevar.</div>
+      <div class="slot-tags"><span>video del mostrador</span><span>laminados</span></div>
+    </div>
+    <div class="slot">
+      <div class="slot-h">11:00 – 15:00</div>
+      <div class="slot-t">El lugar para trabajar</div>
+      <div class="slot-who">Home office y freelancers del barrio.</div>
+      <div class="slot-msg">El piso de arriba de Cerviño, buena luz y un avocado toast para el mediodía.</div>
+      <div class="slot-tags"><span>piso de arriba</span><span>almuerzo</span></div>
+    </div>
+    <div class="slot">
+      <div class="slot-h">15:00 – 20:00</div>
+      <div class="slot-t">La merienda y el finde</div>
+      <div class="slot-who">Vecinos, parejas y grupos de amigos.</div>
+      <div class="slot-msg">Mini cakes, matcha y los especiales iced de la temporada, con las mesas afuera.</div>
+      <div class="slot-tags"><span>especiales 26'</span><span>mini cakes</span></div>
+    </div>
+    <div class="slot">
+      <div class="slot-h">Siempre activo</div>
+      <div class="slot-t">Para encargar</div>
+      <div class="slot-who">Quien tiene un cumpleaños, una reunión o un regalo pendiente.</div>
+      <div class="slot-msg">Cajas degustación y petites por WhatsApp. En diciembre, regalos de fin de año para empresas.</div>
+      <div class="slot-tags"><span>WhatsApp</span><span>cajas</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 PLAN -->
+<section class="dark gut" id="plan">
+  <div class="kicker">05 · Plan y temporada</div>
+  <h2 class="title">Llegar a las fiestas <em>con todo andando</em>.</h2>
+  <p class="desc">Diciembre es el mes fuerte para los encargos: reuniones de fin de año, regalos de empresas y mesas de las fiestas. Si arrancamos en noviembre, las campañas aprenden antes del pico y no durante.</p>
+  <div class="season" aria-label="Calendario de temporada">
+    <div class="mo setup"><b>Nov</b><span>Puesta a punto</span></div>
+    <div class="mo peak"><b>Dic</b><span>Fiestas y empresas</span></div>
+    <div class="mo"><b>Ene</b><span>Verano e iced</span></div>
+    <div class="mo"><b>Feb</b><span>Revisión</span></div>
+    <div class="mo"><b>Mar</b><span>Vuelta a la oficina</span></div>
+    <div class="mo"><b>Abr</b><span>Temporada otoño</span></div>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="step-when">Semana 1</div>
+      <div><div class="step-title">Accesos, fichas y WhatsApp</div><div class="step-desc">Armamos el portfolio comercial de Meta, conectamos el WhatsApp para encargos y completamos las dos fichas de Google con teléfono, menú, fotos y respuestas a las reseñas.</div></div>
+    </div>
+    <div class="step">
+      <div class="step-when">Semana 2</div>
+      <div><div class="step-title">Primeros anuncios en Meta</div><div class="step-desc">Lanzamos los anuncios por local y por franja con el material que ya tienen, y en paralelo grabamos los primeros videos cortos del mostrador.</div></div>
+    </div>
+    <div class="step">
+      <div class="step-when">Semana 3</div>
+      <div><div class="step-title">Google Maps y encargos de fin de año</div><div class="step-desc">Activamos los anuncios en Maps y la protección del nombre. Arranca la campaña de cajas y regalos para empresas, a tiempo para las compras de diciembre.</div></div>
+    </div>
+    <div class="step">
+      <div class="step-when">Diciembre</div>
+      <div><div class="step-title">Fiestas</div><div class="step-desc">Más presupuesto en encargos y en el local que mejor responda. Bajamos donde el mostrador ya trabaja al máximo.</div></div>
+    </div>
+    <div class="step">
+      <div class="step-when">Febrero</div>
+      <div><div class="step-title">Revisión con números reales</div><div class="step-desc">Con tres meses de datos definimos juntos qué local, qué franja y qué canal conviene empujar, y cómo encarar marzo, cuando vuelven las oficinas.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 MEDICIÓN -->
+<section class="gut">
+  <div class="kicker">06 · Qué vamos a medir</div>
+  <h2 class="title">La venta pasa en el mostrador. <em>Se mide distinto</em>.</h2>
+  <p class="desc">Como la mayoría de las ventas no pasan por internet, medimos lo que las anticipa y lo cruzamos con la caja. Todo separado por local.</p>
+  <div class="measure">
+    <div class="m"><div class="m-k">Alcance</div><div class="m-t">Gente de la zona que vio Rotondo</div><div class="m-d">Cuántas personas distintas, dentro del radio de cada esquina, vieron los anuncios en el mes y cuántas veces.</div></div>
+    <div class="m"><div class="m-k">Intención</div><div class="m-t">«Cómo llegar», llamadas y perfil</div><div class="m-d">Clics para llegar al local desde Maps y los anuncios, llamadas y visitas al perfil de Instagram.</div></div>
+    <div class="m"><div class="m-k">Venta directa</div><div class="m-t">Encargos por WhatsApp</div><div class="m-d">Cada conversación que abre un anuncio y cada pedido que se cierra. Con eso sale el costo por encargo.</div></div>
+    <div class="m"><div class="m-k">Cierre</div><div class="m-t">Ventas por franja</div><div class="m-d">Comparamos las ventas de la caja por local y por horario antes y después de la pauta.</div></div>
+  </div>
+</section>
+
+<!-- 07 REUNIÓN -->
+<section class="alt gut" id="reunion">
+  <div class="kicker">07 · Para la próxima charla</div>
+  <h2 class="title">Lo que necesitamos <em>preguntarles</em>.</h2>
+  <p class="desc">Con estas respuestas cerramos el presupuesto de pauta, el reparto entre locales y qué productos van primero.</p>
+  <ol class="qs">
+    <li><div>¿Qué local necesita más gente, y en qué horario?<span>No tiene sentido llenar un mostrador que ya está lleno a esa hora.</span></div></li>
+    <li><div>¿Toman encargos todo el año, o solo en fechas como el Día de la Madre?<span>Cajas, mini cakes, petites, tortas: con cuánta anticipación y en qué cantidades.</span></div></li>
+    <li><div>¿Hacen pedidos para empresas u oficinas?<span>Desayunos de reunión o regalos de fin de año. Diciembre es el momento.</span></div></li>
+    <li><div>¿Cuál es el ticket promedio en el local y en un encargo?<span>Para saber cuánto puede costar traer a una persona y que el número cierre.</span></div></li>
+    <li><div>¿Tienen un WhatsApp para pedidos, y quién lo responde?<span>Con anuncios de mensajes, un chat que tarda horas en contestarse se pierde.</span></div></li>
+    <li><div>¿La caja permite ver las ventas por local y por horario?<span>Es la forma de medir si la pauta trae gente al mostrador.</span></div></li>
+    <li><div>¿Están en PedidosYa o Rappi, o hacen envíos propios?<span>Si hay delivery, se puede sumar como otra forma de venta.</span></div></li>
+    <li><div>¿Ya tienen cuenta publicitaria, página de Facebook o acceso a las fichas de Google?<span>Si no, lo creamos a nombre de Rotondo.</span></div></li>
+  </ol>
+</section>
+
+<!-- 08 NECESITAMOS -->
+<section class="white gut">
+  <div class="kicker">08 · Qué necesitamos para arrancar</div>
+  <h2 class="title">Accesos y material, <em>la primera semana</em>.</h2>
+  <p class="desc">Si alguno no existe, lo creamos nosotros a nombre de Rotondo. Todo lo que armamos queda de ustedes.</p>
+  <div class="needs">
+    <div class="need"><div class="need-t">Portfolio comercial de Meta</div><div class="need-d">Con el Instagram, una página de Facebook, la cuenta publicitaria y un medio de pago.</div></div>
+    <div class="need"><div class="need-t">WhatsApp para encargos</div><div class="need-d">Un número en WhatsApp Business, con mensaje de bienvenida y alguien que responda en horario.</div></div>
+    <div class="need"><div class="need-t">Fichas de Google</div><div class="need-d">Acceso de administrador a las fichas de Cerviño y Libertador. Si nadie las tiene a su nombre, las reclamamos.</div></div>
+    <div class="need"><div class="need-t">Cuenta de Google Ads</div><div class="need-d">Si ya existe, acceso de administrador. Si no, la creamos dentro de nuestra cuenta de agencia.</div></div>
+    <div class="need"><div class="need-t">Carta y precios</div><div class="need-d">La carta de cada local, los combos y los productos para encargar con sus precios.</div></div>
+    <div class="need"><div class="need-t">Fotos y video</div><div class="need-d">El banco de fotos que ya tienen, más videos cortos del mostrador y del local que podemos grabar juntos.</div></div>
+  </div>
+</section>
+
+<!-- 09 INVERSIÓN -->
+<section class="dark gut" id="inversion">
+  <div class="kicker">09 · Inversión</div>
+  <h2 class="title">Tres formas de <em>arrancar</em>.</h2>
+  <p class="desc">El fee es mensual y cubre la estrategia, el armado y la optimización de las campañas. La pauta es aparte, la paga Rotondo directo a Meta y a Google, y el presupuesto lo deciden ustedes.</p>
+  <div class="pricing">
+    <div class="card">
+      <div class="card-name">Solo Meta</div>
+      <div class="card-price">USD 300<span> / mes</span></div>
+      <div class="card-note">Para empezar por Instagram y Facebook.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Anuncios por local y por franja horaria</li>
+        <li>Campaña de encargos por WhatsApp</li>
+        <li>Armado de los anuncios con su material</li>
+        <li>Reporte mensual</li>
+      </ul>
+    </div>
+    <div class="card featured">
+      <div class="card-name">Meta + Google</div>
+      <div class="card-price">USD 550<span> / mes</span></div>
+      <div class="card-note">Los dos momentos: el antojo y la búsqueda.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Todo lo de Meta</li>
+        <li>Fichas de Google completas y reseñas respondidas</li>
+        <li>Anuncios en Maps cerca de cada local</li>
+        <li>Protección del nombre Rotondo</li>
+        <li>Reporte mensual unificado</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-name">Solo Google</div>
+      <div class="card-price">USD 300<span> / mes</span></div>
+      <div class="card-note">Para captar a quien ya está buscando.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Fichas de Google completas</li>
+        <li>Anuncios en Maps y en el buscador</li>
+        <li>Protección del nombre Rotondo</li>
+        <li>Reporte mensual</li>
+      </ul>
+    </div>
+  </div>
+  <div class="media">
+    <div><div class="media-k">Pauta sugerida · Meta</div><div class="media-v">ARS 360 mil</div><div class="media-n">por mes, aprox. 6 mil por día por local</div></div>
+    <div><div class="media-k">Pauta sugerida · Google</div><div class="media-v">ARS 150 mil</div><div class="media-n">por mes, aprox. 5 mil por día entre los dos</div></div>
+    <div><div class="media-k">Total sugerido</div><div class="media-v">ARS 510 mil</div><div class="media-n">por mes, para el plan recomendado</div></div>
+  </div>
+  <p class="invest-note">Los montos de pauta son un punto de partida para los primeros tres meses. <strong>En diciembre conviene subir la parte de encargos</strong> y en febrero los ajustamos con los números reales. El fee arranca cuando las campañas salen al aire, y las cuentas quedan a nombre de Rotondo.</p>
+</section>
+
+<div class="closing gut">
+  <h2>El croissant ya hace su trabajo.<br>Falta que lo <em>vean</em>.</h2>
+  <p>Rotondo tiene lo que más cuesta construir: un producto que la gente fotografía, dos esquinas en Palermo y clientes que vuelven. Con pauta en Meta y Google, cada vecino que pasa cerca puede verlo antes de elegir dónde tomar el café, y cada caja que se encarga queda contada.</p>
+</div>
+
+<footer class="gut">
+  <div class="f-top">
+    <div>
+      <div class="f-brand">Dilema <em>Creative</em></div>
+      <div class="f-tag">Agencia de marketing digital. Trabajamos los canales como un sistema, no como esfuerzos sueltos. Pocos clientes, máximo servicio.</div>
+    </div>
+    <div class="f-contact">
+      <span class="lbl">Contacto</span>
+      <span>equipo@dilemacreative.ar</span>
+      <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+      <a href="https://instagram.com/dilema.creative" target="_blank" rel="noopener">@dilema.creative</a>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <div>Dilema Creative <span>·</span> Octubre 2026 <span>·</span> Propuesta para Café Rotondo</div>
+    <div>Buenos Aires <span>·</span> Argentina</div>
+  </div>
+</footer>
+
+</body>
+</html>
