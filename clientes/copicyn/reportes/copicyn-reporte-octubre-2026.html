@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Copicyn · Octubre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Sistema editorial de Dilema Creative: un solo tema claro, secciones que alternan papel / crema / navy */
+:root{
+  --ink:#0E2A47; --ink-soft:#1B3A5C; --sage:#4FA27E; --sage-deep:#2F7D5E;
+  --cream:#F4EFE6; --paper:#FAF6EE; --paper-2:#EFE8D9;
+  --black:#14161A; --ash:#6B6257; --line:#D9CFBC; --warn:#C97B2B;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+body{background:var(--paper);color:var(--black);font-family:var(--body);font-size:15px;line-height:1.6}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--ink);color:var(--cream)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:56px}
+.brand{font-family:var(--display);font-size:20px;font-weight:500;color:var(--cream)}
+.brand em{color:var(--sage);font-style:italic}
+.tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--sage);color:var(--cream);padding:4px 10px;border-radius:3px;white-space:nowrap}
+header{background:var(--paper);background-image:radial-gradient(circle at 92% 0%,rgba(79,162,126,.09),transparent 45%);border-bottom:1px solid var(--line)}
+header .wrap{padding-block:64px 56px;display:grid;gap:28px}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);display:flex;align-items:center;gap:12px}
+.kicker::after{content:"";width:80px;height:1px;background:var(--line)}
+h1{font-family:var(--display);font-weight:500;font-size:clamp(44px,7vw,96px);line-height:.92;letter-spacing:-.035em;color:var(--ink);margin:0;text-wrap:balance}
+h1 em{font-style:italic;color:var(--sage)}
+.lead{font-family:var(--display);font-style:italic;font-size:clamp(18px,2.2vw,22px);color:var(--ash);max-width:62ch;margin:0}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.stat{background:var(--paper);padding:18px 18px 16px;display:grid;gap:4px;min-width:0}
+.k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
+.v{font-family:var(--display);font-weight:600;font-size:clamp(24px,3vw,32px);letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.s{font-size:12.5px;color:var(--ash)}
+section{border-bottom:1px solid var(--line)}
+section .wrap{padding-block:64px;display:grid;gap:28px}
+section.cream{background:var(--cream)}
+section.dark{background:var(--ink);color:var(--cream)}
+.head{display:grid;gap:8px}
+.num{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.dark .num{color:#9FB3C8}
+h2{font-family:var(--display);font-weight:500;font-size:clamp(28px,3.6vw,46px);line-height:1.02;letter-spacing:-.025em;color:var(--ink);margin:0;text-wrap:balance}
+.dark h2{color:var(--cream)}
+h2 em{font-style:italic;color:var(--sage)}
+p{margin:0;max-width:68ch}
+.callout{border-left:4px solid var(--sage);background:var(--paper);padding:18px 22px;display:grid;gap:6px;border-radius:0 6px 6px 0}
+.cream .callout{background:var(--paper)}
+.callout .k{color:var(--sage-deep)}
+.callout p{font-size:15.5px}
+.chart{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:18px;overflow-x:auto}
+.chart svg{display:block;width:100%;min-width:560px;height:auto}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ash)}
+.legend span{display:inline-flex;align-items:center;gap:8px}
+.sw{width:12px;height:12px;border-radius:2px;display:inline-block}
+.table-wrap{border:1px solid var(--line);border-radius:6px;overflow-x:auto;background:var(--paper)}
+table{width:100%;border-collapse:collapse;min-width:620px;font-variant-numeric:tabular-nums}
+th{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);background:var(--paper-2);text-align:left;padding:12px 14px;font-weight:500}
+td{padding:14px;border-top:1px solid var(--line);vertical-align:top}
+td.n,th.n{text-align:right}
+td b{color:var(--ink)}
+.pill{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px;white-space:nowrap}
+.p-good{background:#DDEFE5;color:var(--sage-deep)}
+.p-mid{background:#F3E4CF;color:#8A5418}
+.p-new{background:#DCE4EE;color:var(--ink-soft)}
+.terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.term{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px;display:grid;gap:10px;align-content:start;min-width:0}
+.term h3{margin:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-deep);font-weight:500}
+.term ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.term li{display:flex;justify-content:space-between;gap:12px;font-size:14px}
+.term li span:last-child{font-family:var(--mono);font-size:12px;color:var(--ash);white-space:nowrap}
+.done{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1px;background:rgba(244,239,230,.18);border:1px solid rgba(244,239,230,.18);border-radius:6px;overflow:hidden}
+.done div{background:var(--ink);padding:20px;display:grid;gap:6px;align-content:start;min-width:0}
+.done h3{margin:0;font-family:var(--display);font-weight:500;font-size:19px;color:var(--cream)}
+.done p{color:#C9D3DE;font-size:14px}
+.next{display:grid;gap:12px;counter-reset:n;padding:0;margin:0;list-style:none}
+.next li{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.next li::before{counter-increment:n;content:counter(n,decimal-leading-zero);font-family:var(--mono);font-size:12px;color:var(--sage-deep);padding-top:3px}
+.next li.urgent{border-color:var(--warn)}
+.next li.urgent::before{color:var(--warn)}
+.next b{color:var(--ink)}
+footer .wrap{padding-block:32px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash)}
+@media (max-width:720px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  header .wrap{padding-block:44px 40px}
+  section .wrap{padding-block:48px}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style>
+
+<style>*{box-sizing:border-box}body{margin:0}</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <span class="brand">Dilema <em>creative</em></span>
+    <span class="tag">Copicyn · Octubre 2026</span>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">Reporte mensual · Google Ads · 1 al 27 de octubre</div>
+    <h1>Más consultas,<br><em>cada una más barata</em></h1>
+    <p class="lead">En octubre las consultas por semana se duplicaron y el costo de cada una bajó cerca de un 30%. Sumamos tarjetas y agendas a la pauta de etiquetas, y ya aportan una de cada tres consultas.</p>
+    <div class="stats">
+      <div class="stat"><span class="k">Inversión</span><span class="v">$198.708</span><span class="s">1 al 27/10</span></div>
+      <div class="stat"><span class="k">Consultas</span><span class="v">57</span><span class="s">49 WhatsApp · 8 formulario</span></div>
+      <div class="stat"><span class="k">Costo por consulta</span><span class="v">$3.486</span><span class="s">septiembre: $5.222</span></div>
+      <div class="stat"><span class="k">Clics al sitio</span><span class="v">334</span><span class="s">a $595 promedio</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="cream">
+  <div class="wrap">
+    <div class="head"><span class="num">01 / Cómo venimos</span><h2>De 4 consultas por semana a <em>17</em></h2></div>
+    <div class="chart">
+      <svg viewBox="0 0 720 300" role="img" aria-label="Consultas y costo por consulta por semana, del 21 de septiembre al 25 de octubre">
+        <g font-family="JetBrains Mono, monospace" font-size="10" fill="#6B6257">
+          <line x1="60" y1="240" x2="700" y2="240" stroke="#D9CFBC"/>
+          <line x1="60" y1="180" x2="700" y2="180" stroke="#E7DFCF"/>
+          <line x1="60" y1="120" x2="700" y2="120" stroke="#E7DFCF"/>
+          <line x1="60" y1="60" x2="700" y2="60" stroke="#E7DFCF"/>
+          <text x="50" y="244" text-anchor="end">0</text>
+          <text x="50" y="184" text-anchor="end">5</text>
+          <text x="50" y="124" text-anchor="end">10</text>
+          <text x="50" y="64" text-anchor="end">15</text>
+        </g>
+        <!-- barras: consultas por semana (escala 12 px por consulta, base 240) -->
+        <g fill="#0E2A47">
+          <rect x="95" y="192" width="64" height="48" rx="2"/>
+          <rect x="223" y="132" width="64" height="108" rx="2"/>
+          <rect x="351" y="132" width="64" height="108" rx="2"/>
+          <rect x="479" y="36" width="64" height="204" rx="2"/>
+          <rect x="607" y="36" width="64" height="204" rx="2"/>
+        </g>
+        <g font-family="Fraunces, Georgia, serif" font-size="16" font-weight="600" fill="#0E2A47" text-anchor="middle">
+          <text x="127" y="184">4</text><text x="255" y="124">9</text><text x="383" y="124">9</text><text x="511" y="28">17</text><text x="639" y="28">17</text>
+        </g>
+        <!-- costo por consulta (línea sage, escala propia: y = 150 − (costo − 3.000) × 0,03) -->
+        <polyline fill="none" stroke="#4FA27E" stroke-width="2.5" points="127,107 255,98 383,95 511,133 639,138"/>
+        <g fill="#4FA27E"><circle cx="127" cy="107" r="4"/><circle cx="255" cy="98" r="4"/><circle cx="383" cy="95" r="4"/><circle cx="511" cy="133" r="4"/><circle cx="639" cy="138" r="5"/></g>
+        <g font-family="JetBrains Mono, monospace" font-size="10" fill="#2F7D5E" text-anchor="middle">
+          <text x="127" y="94">$4.436</text><text x="255" y="85">$4.747</text><text x="383" y="82">$4.846</text><text x="474" y="137" text-anchor="end">$3.563</text><text x="677" y="142" text-anchor="start">$3.400</text>
+        </g>
+        <g font-family="JetBrains Mono, monospace" font-size="10" fill="#6B6257" text-anchor="middle">
+          <text x="127" y="262">21–27/9</text><text x="255" y="262">28/9–4/10</text><text x="383" y="262">5–11/10</text><text x="511" y="262">12–18/10</text><text x="639" y="262">19–25/10</text>
+        </g>
+      </svg>
+      <div class="legend" style="margin-top:12px">
+        <span><i class="sw" style="background:#0E2A47"></i>Consultas por semana</span>
+        <span><i class="sw" style="background:#4FA27E"></i>Costo por consulta</span>
+      </div>
+    </div>
+    <div class="callout">
+      <span class="k">Lectura del mes</span>
+      <p>La semana del 12/10 marca el cambio: con <b>tarjetas y agendas sumadas</b> y los anuncios de etiquetas renovados, las consultas pasaron de <b>9 a 17 por semana</b> y se sostuvieron. El costo por consulta bajó de <b>$4.846 a $3.400</b>.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><span class="num">02 / Por campaña</span><h2>Etiquetas sigue siendo <em>la base</em></h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Campaña</th><th class="n">Inversión</th><th class="n">Clics</th><th class="n">Consultas</th><th class="n">Costo por consulta</th><th>Lectura</th></tr></thead>
+        <tbody>
+          <tr><td><b>Etiquetas Adhesivas</b></td><td class="n">$77.599</td><td class="n">92</td><td class="n">18</td><td class="n">$4.311</td><td><span class="pill p-good">Estable</span> Blancas trae la mayor parte.</td></tr>
+          <tr><td><b>Etiquetas por industria y zona</b></td><td class="n">$77.552</td><td class="n">87</td><td class="n">20</td><td class="n">$3.878</td><td><span class="pill p-good">Estable</span> Frascos, envases y alimentos.</td></tr>
+          <tr><td><b>Tarjetas Personales</b></td><td class="n">$22.480</td><td class="n">83</td><td class="n">15</td><td class="n"><b>$1.499</b></td><td><span class="pill p-new">Nueva · la más eficiente</span></td></tr>
+          <tr><td><b>Cuadernos y Agendas</b></td><td class="n">$21.077</td><td class="n">72</td><td class="n">4</td><td class="n">$5.269</td><td><span class="pill p-mid">Nueva · en ajuste</span> Convierten las agendas.</td></tr>
+          <tr><td><b>Total</b></td><td class="n"><b>$198.708</b></td><td class="n"><b>334</b></td><td class="n"><b>57</b></td><td class="n"><b>$3.486</b></td><td></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--ash);font-size:13.5px">Consultas = clics en el botón de WhatsApp (49) y formularios enviados (8). El clic de WhatsApp abre la conversación: la consulta efectiva la confirma el equipo de Copicyn.</p>
+  </div>
+</section>
+
+<section class="cream">
+  <div class="wrap">
+    <div class="head"><span class="num">03 / Qué busca quien consulta</span><h2>Búsquedas que <em>terminaron en consulta</em></h2></div>
+    <div class="terms">
+      <div class="term"><h3>Etiquetas</h3><ul>
+        <li><span>etiquetas para frascos de vidrio</span><span>3</span></li>
+        <li><span>etiqueta alimentos congelados</span><span>2</span></li>
+        <li><span>etiquetas autoadhesivas</span><span>2</span></li>
+        <li><span>etiquetas adhesivas personalizadas</span><span>1</span></li>
+        <li><span>etiqueta transparente autoadhesiva</span><span>1</span></li>
+        <li><span>etiquetas para viandas</span><span>1</span></li>
+      </ul></div>
+      <div class="term"><h3>Stickers</h3><ul>
+        <li><span>imprimir stickers</span><span>1</span></li>
+        <li><span>impresión de stickers</span><span>1</span></li>
+        <li><span>sticker personalizado</span><span>1</span></li>
+        <li><span>sticker rectangulares</span><span>1</span></li>
+      </ul></div>
+      <div class="term"><h3>Tarjetas y agendas</h3><ul>
+        <li><span>agendas personalizadas</span><span>2</span></li>
+        <li><span>agenda personalizada 2027</span><span>2</span></li>
+        <li><span>impresión de tarjetas personales</span><span>2</span></li>
+        <li><span>tarjetas personales al instante</span><span>2</span></li>
+        <li><span>precio tarjetas personales</span><span>1</span></li>
+      </ul></div>
+    </div>
+    <div class="callout">
+      <span class="k">Lo que nos dice</span>
+      <p>Las consultas llegan de búsquedas muy concretas: <b>un envase, un producto o una urgencia</b> ("al instante"). La gente que busca diseñar sola sus tarjetas o etiquetas gratis queda afuera con palabras negativas, para no pagar clics que no van a comprar.</p>
+    </div>
+  </div>
+</section>
+
+<section class="dark">
+  <div class="wrap">
+    <div class="head"><span class="num">04 / Qué hicimos en octubre</span><h2>Más productos, <em>mejor puntería</em></h2></div>
+    <div class="done">
+      <div><h3>Dos campañas nuevas</h3><p>Tarjetas Personales y Cuadernos y Agendas, armadas con el Planificador de palabras clave de Google para las dos landings nuevas.</p></div>
+      <div><h3>Anuncios renovados</h3><p>Los anuncios de etiquetas pasaron de 6 a 15 títulos, con lo que ofrece la landing: producción en el día, entrega sin cargo a 1,5 km, tipos de etiqueta.</p></div>
+      <div><h3>Extensiones</h3><p>Enlaces a cada servicio, textos destacados y tipos de producto en las cuatro campañas, para ocupar más espacio en el resultado.</p></div>
+      <div><h3>Menos clics que no compran</h3><p>Más de 30 palabras negativas: impresoras térmicas, diseño gratis, ropa, PVC, grabados, otras provincias y competidores.</p></div>
+      <div><h3>Zona y presupuesto</h3><p>Pauta en CABA y Provincia de Buenos Aires, presupuesto total de $8.000 por día y más peso a la campaña que mejor convierte (tarjetas).</p></div>
+      <div><h3>Puja por consultas</h3><p>Las cuatro campañas pujan para conseguir consultas, no solo clics. Nivel de optimización de la cuenta: 83%.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="head"><span class="num">05 / Próximos pasos</span><h2>Lo que viene en <em>noviembre</em></h2></div>
+    <ol class="next">
+      <li class="urgent"><div><b>Saldo de la cuenta.</b> El límite de gasto se termina alrededor del 3 de noviembre. Para que los anuncios no se corten, hace falta subirlo o cargar saldo antes de esa fecha.</div></li>
+      <li><div><b>Campaña de Marca.</b> Para aparecer primeros cuando alguien busca "Copicyn" y no dejarle ese lugar a la competencia. Lista para activar con tu OK.</div></li>
+      <li><div><b>Campaña de Competidores.</b> Aparecer cuando buscan a otras imprentas de etiquetas y tarjetas. También lista, a la espera de tu OK.</div></li>
+      <li><div><b>Revisión del 3/11.</b> Medimos tarjetas y agendas con la nueva puja y movemos presupuesto hacia lo que más consultas trae, sin subir el total.</div></li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap"><span>Dilema Creative · Reporte para Copicyn</span><span>Datos de Google Ads · 1 al 27/10/2026</span></div>
+</footer>
+
+</body>
+</html>
