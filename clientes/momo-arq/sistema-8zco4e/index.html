@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com https://unpkg.com; font-src https://fonts.gstatic.com https://unpkg.com; img-src 'self' data: https://freight.cargo.site; connect-src 'self'; base-uri 'none'; form-action 'none'">
+<link rel="icon" href="data:,">
+<title>Momo · Gestión de obras</title>
+<script src="tema-inicial.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="sidebar" id="sidebar" aria-label="Menú principal">
+    <a class="brand" href="#/inicio" aria-label="Momo, inicio">
+      <img class="logo" src="https://freight.cargo.site/w/300/q/90/i/953545a487f83a7761079ce75d8a108e4992230768a08b7604ef7f76b005e2ce/Logo-Momo_Negativo-sin-bajada.png" alt="MOMO" width="44" height="44">
+      <span class="brand-txt"><b>Momo</b><span>Gestión de obras</span></span>
+    </a>
+    <nav class="nav" id="nav"></nav>
+    <div class="yo" id="yo"></div>
+    <a class="argos-sello" href="https://argos.dilemacreative.ar/?utm_source=sistema-momo&amp;utm_medium=watermark" target="_blank" rel="noopener"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="a-r1" cx="24" cy="24" r="22.4"/><circle class="a-r2" cx="24" cy="24" r="13.7"/><circle class="a-iris" cx="24" cy="24" r="7.2"/></svg><span class="a-txt"><b>Argos</b><span>Sistema de Dilema Labs</span></span></a>
+  </aside>
+  <div class="velo" id="velo" data-accion="cerrar-menu"></div>
+
+  <div class="main">
+    <header class="topbar">
+      <button type="button" class="btn icon ghost solo-movil" data-accion="abrir-menu" aria-label="Abrir menú"><i class="ph ph-list"></i></button>
+      <div class="migas" id="migas"></div>
+      <button type="button" class="buscar-global" data-accion="paleta" aria-label="Buscar (Ctrl+K)"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><span>Buscar obra, cliente, proveedor</span><kbd>Ctrl K</kbd></button>
+      <span class="pill-maqueta">Maqueta con datos ficticios</span>
+      <label class="ver-como">
+        <span>Ver como</span>
+        <select class="input" id="ver-como" aria-label="Ver el sistema como"></select>
+      </label>
+      <button type="button" class="btn icon ghost" data-accion="tema" aria-label="Cambiar tema claro u oscuro"><i class="ph ph-moon tema-luna"></i><i class="ph ph-sun tema-sol"></i></button>
+    </header>
+    <main id="vista" tabindex="-1"></main>
+  </div>
+</div>
+
+<div class="drawer-wrap" id="drawer-wrap" aria-hidden="true">
+  <div class="drawer-velo" data-accion="cerrar-drawer"></div>
+  <aside class="drawer" id="drawer" tabindex="-1" role="dialog" aria-modal="true"></aside>
+</div>
+<div class="modal-wrap" id="modal-wrap" aria-hidden="true">
+  <div class="modal" id="modal" role="dialog" aria-modal="true"></div>
+</div>
+<div class="paleta-wrap" id="paleta-wrap"><div class="paleta" role="dialog" aria-modal="true" aria-label="Buscar"><div class="paleta-in"><i class="ph ph-magnifying-glass" aria-hidden="true"></i><input id="paleta-in" placeholder="Buscar obra, cliente, proveedor o acción" autocomplete="off" aria-label="Buscar"><kbd>Esc</kbd></div><div class="paleta-res" id="paleta-res"></div></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="data.js" defer></script>
+<script src="motor.js" defer></script>
+<script src="app.js" defer></script>
+</body>
+</html>
