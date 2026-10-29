@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Lavatería Fast Tandil · Plan de medios</title>
+<meta name="description" content="Propuesta de Dilema Creative para Lavatería Fast Tandil: Meta Ads y Google Maps para la apertura y los primeros meses.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#081726;
+  --panel:#0C2238;
+  --panel-2:#0A1D30;
+  --paper:#FAF6EE;
+  --ink-2:rgba(250,246,238,.76);
+  --ink-3:rgba(250,246,238,.56);
+  --cel:#5BB4D6;
+  --cel-tint:rgba(91,180,214,.09);
+  --cel-line:rgba(91,180,214,.36);
+  --green:#4FA27E;
+  --green-txt:#6CC49C;
+  --green-tint:rgba(79,162,126,.12);
+  --green-line:rgba(79,162,126,.42);
+  --line:rgba(250,246,238,.13);
+  --line-soft:rgba(250,246,238,.07);
+  --r:4px;
+  --max:1100px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--bg);color:var(--paper);
+  font-size:16px;line-height:1.62;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 32px}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.02em;color:var(--paper)}
+h1{font-size:clamp(2.4rem,5.2vw,4.1rem);line-height:1.06;text-wrap:balance}
+h2{font-size:clamp(1.85rem,3.8vw,2.75rem);line-height:1.1;text-wrap:balance}
+h3{font-size:1.16rem;line-height:1.3;font-weight:600;letter-spacing:-.01em}
+em.ac{font-style:italic;font-weight:400;color:var(--cel);padding-bottom:.04em}
+strong{color:var(--paper);font-weight:600}
+.kick{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--cel);
+  display:block;margin-bottom:18px;
+}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(8,23,38,.9);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:70px}
+.nav-l{display:flex;align-items:center;gap:18px;min-width:0}
+.nav-div{width:1px;height:22px;background:var(--line);flex:none}
+.wm{font-family:'Fraunces',Georgia,serif;font-weight:700;letter-spacing:-.02em;color:var(--paper);line-height:1;white-space:nowrap;flex:none}
+.wm em{font-style:italic;font-weight:500;color:var(--green)}
+.wm sup{color:var(--cel);font-size:.5em;top:-.62em;position:relative}
+.nav .wm{font-size:21px}
+.hero-mark .wm{font-size:26px}
+footer .wm{font-size:30px;display:block;margin-bottom:22px}
+.nav-tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;padding:88px 0 82px}
+.hero::before{content:'';position:absolute;top:-240px;right:-180px;width:760px;height:760px;pointer-events:none;
+  background:radial-gradient(circle,rgba(91,180,214,.16) 0%,rgba(91,180,214,.05) 42%,transparent 70%)}
+.hero::after{content:'';position:absolute;bottom:-280px;left:-220px;width:600px;height:600px;pointer-events:none;
+  background:radial-gradient(circle,rgba(79,162,126,.12) 0%,transparent 68%)}
+.hero .wrap{position:relative;z-index:1}
+.hero-mark{display:flex;align-items:center;gap:16px;margin-bottom:34px;flex-wrap:wrap}
+.hero-mark .ln{width:38px;height:1px;background:var(--line);flex:none}
+.hero-mark .tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.hero h1{margin-bottom:24px;max-width:16ch}
+.hero-sub{font-size:1.1rem;color:var(--ink-2);max-width:54ch}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+.tags span{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--cel);border:1px solid var(--cel-line);background:var(--cel-tint);border-radius:999px;padding:7px 15px}
+.tags span.later{color:var(--ink-3);border-color:var(--line);background:transparent}
+
+/* STRIP */
+.strip{background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.strip-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.strip-grid > div{padding:40px 34px 40px 0;min-width:0}
+.strip-grid > div + div{padding-left:34px;border-left:1px solid var(--line-soft)}
+.strip .n{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(1.9rem,4vw,2.45rem);line-height:1.05;color:var(--cel);display:block;margin-bottom:12px;white-space:nowrap}
+.strip p{font-size:14.5px;color:var(--ink-2);line-height:1.55}
+.fuente{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--ink-3);margin-top:10px;display:block}
+
+/* SECCIONES */
+section{padding:92px 0}
+section + section{border-top:1px solid var(--line-soft)}
+.shead{margin-bottom:44px;max-width:64ch}
+.shead p{color:var(--ink-2);font-size:1.03rem;margin-top:16px}
+
+/* Panel partido */
+.salto{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+.salto > div{padding:36px 36px 38px;min-width:0}
+.salto > div + div{border-left:1px solid var(--cel-line);background:var(--cel-tint)}
+.lbl{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:16px}
+.salto > div + div .lbl{color:var(--cel)}
+.salto h3{margin-bottom:14px;font-size:1.3rem}
+.salto p{font-size:15px;color:var(--ink-2)}
+.salto p + p{margin-top:12px}
+
+/* Tres columnas con filete */
+.disc{display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px}
+.disc.mt{margin-top:52px}
+.disc article{padding-top:24px;border-top:1px solid var(--cel-line);min-width:0}
+.disc h3{margin-bottom:10px}
+.disc p{font-size:14.5px;color:var(--ink-2);line-height:1.58}
+
+.cierre{font-family:'Fraunces',Georgia,serif;font-weight:400;font-size:clamp(1.35rem,2.8vw,1.85rem);line-height:1.34;color:var(--paper);max-width:36ch;margin-top:60px}
+.cierre em{font-style:italic;color:var(--cel)}
+
+/* Competencia */
+.comp{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.comp > div{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:26px 24px 26px;min-width:0;display:flex;flex-direction:column}
+.comp .tipo{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);margin-bottom:12px;display:block}
+.comp h3{font-size:1.12rem;margin-bottom:10px}
+.comp p{font-size:14px;color:var(--ink-2);line-height:1.55}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:16px}
+.chips span{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;border:1px solid var(--line);color:var(--ink-3);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.chips span.si{border-color:var(--green-line);color:var(--green-txt);background:var(--green-tint)}
+.chips span.no{border-color:var(--line);color:var(--ink-3)}
+.comp > div.us{border-color:var(--cel-line);background:var(--cel-tint)}
+.comp > div.us .tipo{color:var(--cel)}
+
+/* Recorrido / fases */
+.camino{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.camino.c4{grid-template-columns:repeat(4,1fr)}
+.camino > div{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:28px 24px 30px;min-width:0}
+.camino > div.hl{background:var(--cel-tint);border-color:var(--cel-line)}
+.camino .num{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--cel);margin-bottom:16px}
+.camino h3{font-size:1.12rem;margin-bottom:8px}
+.camino p{font-size:14.5px;color:var(--ink-2);line-height:1.55}
+
+/* Panel destacado */
+.aside{display:grid;grid-template-columns:auto 1fr;gap:0 32px;align-items:start;background:var(--panel);border:1px solid var(--cel-line);border-radius:var(--r);padding:34px 36px;margin-top:28px}
+.aside .big{font-family:'Fraunces',serif;font-style:italic;font-weight:400;font-size:clamp(1.6rem,3vw,2.1rem);line-height:1.15;color:var(--cel);max-width:9ch}
+.aside h3{margin-bottom:10px}
+.aside p{font-size:15px;color:var(--ink-2)}
+.aside p + p{margin-top:12px}
+
+/* Tabla */
+.tabla{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+.tabla .row{display:grid;grid-template-columns:1.1fr 1fr 1.5fr;border-top:1px solid var(--line-soft)}
+.tabla .row:first-child{border-top:none}
+.tabla .row > div{padding:16px 22px;font-size:14.5px;color:var(--ink-2);min-width:0}
+.tabla .row > div:first-child{color:var(--paper);font-weight:500}
+.tabla .head > div{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--cel)!important;font-weight:500!important;padding-top:18px;padding-bottom:14px}
+.tabla .head{background:var(--panel-2)}
+
+/* Listas */
+ul.chk{list-style:none}
+ul.chk li{position:relative;padding:12px 0 12px 28px;font-size:15px;color:var(--ink-2);border-top:1px solid var(--line-soft);line-height:1.55}
+ul.chk li:first-child{border-top:none;padding-top:0}
+ul.chk li::before{content:"\2713";position:absolute;left:0;top:14px;font-size:12px;color:var(--green-txt);font-weight:700}
+ul.chk li:first-child::before{top:2px}
+
+/* Busquedas */
+.busq{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+.busq span{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:10px 18px;font-size:14.5px;color:var(--paper);width:fit-content;max-width:100%}
+.busq span::before{content:'';width:11px;height:11px;flex:none;border-radius:50%;border:1.6px solid var(--ink-3);box-shadow:4px 4px 0 -3px var(--ink-3)}
+.goog{display:grid;grid-template-columns:1fr 1fr;gap:0 52px}
+.goog > div{min-width:0}
+.goog > div + div{padding-left:52px;border-left:1px solid var(--line)}
+.goog h3{margin-bottom:12px}
+.goog p{font-size:15px;color:var(--ink-2)}
+.goog p + p{margin-top:13px}
+.reco{margin-top:26px;padding:22px 24px;border-radius:var(--r);background:var(--panel-2);border:1px solid var(--line)}
+.reco p{font-size:14.5px;color:var(--ink-2)}
+
+/* Tareas */
+.tareas{display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px}
+.tareas article{padding:26px 0;border-top:1px solid var(--line);min-width:0}
+.tareas h3{margin-bottom:9px;font-size:1.06rem}
+.tareas p{font-size:14.5px;color:var(--ink-2);line-height:1.55}
+
+/* Escenarios */
+.esc{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.esc > div{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:30px 26px 28px;min-width:0;display:flex;flex-direction:column}
+.esc .top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;min-height:26px;margin-bottom:16px}
+.esc .num-big{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2rem,4vw,2.6rem);line-height:1;color:var(--paper);white-space:nowrap}
+.esc .num-big small{font-family:'Inter',sans-serif;font-size:.9rem;font-weight:400;color:var(--ink-3)}
+.esc .sub{font-size:13.5px;color:var(--ink-3);margin:8px 0 20px}
+.esc dl{margin-top:auto;border-top:1px solid var(--line-soft)}
+.esc dl div{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid var(--line-soft);font-size:14px}
+.esc dt{color:var(--ink-2)}
+.esc dd{color:var(--paper);font-weight:500;text-align:right;white-space:nowrap}
+.nota{font-size:13.5px;color:var(--ink-3);margin-top:20px;max-width:80ch}
+
+/* Precios */
+.precios{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.precios.p1{grid-template-columns:1fr}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:34px 28px 30px;display:flex;flex-direction:column;text-align:center;align-items:center;min-width:0}
+.card-top{display:flex;align-items:center;justify-content:center;gap:10px 12px;margin-bottom:18px;flex-wrap:wrap;min-height:28px}
+.card-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.badge{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:5px 12px;white-space:nowrap;color:#081726;background:var(--cel)}
+.badge.soft{color:var(--ink-2);background:transparent;border:1px solid var(--line)}
+.card h3{font-size:1.45rem;margin-bottom:6px}
+.antes{display:block;min-height:1.5em;font-size:14px;color:var(--ink-3);text-decoration:line-through;margin-bottom:4px}
+.antes.ghost{visibility:hidden}
+.precio{font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.4rem,5vw,3.1rem);line-height:1;color:var(--paper);margin-bottom:12px;white-space:nowrap}
+.precio small{font-family:'Inter',sans-serif;font-size:1rem;font-weight:400;color:var(--ink-3);letter-spacing:0}
+.card .desc{font-size:14.5px;color:var(--ink-2);margin-bottom:24px;min-height:4.8em;max-width:38ch}
+.card ul.chk{margin-top:auto;text-align:left;width:100%}
+.card ul.chk li{font-size:14px}
+.card.wide{text-align:left;align-items:stretch;padding:38px 40px 36px}
+.card.wide .wide-in{display:grid;grid-template-columns:1fr 1.6fr;gap:0 48px;align-items:start}
+.card.wide .card-top{justify-content:flex-start}
+.card.wide .desc{min-height:0;margin-bottom:0}
+.card.wide ul.chk{columns:2;column-gap:36px;margin-top:0}
+.card.wide ul.chk li{break-inside:avoid;border-top:none;padding-top:0}
+.card.wide ul.chk li::before{top:2px}
+.condic{margin-top:22px;font-size:14px;color:var(--ink-3);max-width:80ch}
+.condic p + p{margin-top:8px}
+
+/* Pasos */
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.pasos div{padding:26px 32px 0 0;border-top:2px solid var(--cel-line);min-width:0}
+.pasos div + div{padding-left:32px}
+.pasos .n{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--cel);display:block;margin-bottom:14px}
+.pasos p{font-size:15px;color:var(--ink-2)}
+
+/* Footer */
+footer{background:var(--panel-2);border-top:1px solid var(--line);padding:60px 0 54px}
+.foot{display:flex;justify-content:space-between;gap:34px;flex-wrap:wrap;align-items:flex-end}
+footer p{font-size:14.5px;max-width:46ch;color:var(--ink-2)}
+footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid var(--cel-line)}
+.foot-r{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.9}
+
+.rv{opacity:0;transform:translateY(16px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+@media (max-width:980px){
+  .camino.c4,.tareas,.comp{grid-template-columns:1fr 1fr}
+  .disc{grid-template-columns:1fr;gap:0}
+  .disc article{padding:22px 0}
+  .esc,.precios{grid-template-columns:1fr}
+  .card .desc{min-height:0}
+  .card.wide .wide-in{grid-template-columns:1fr;gap:24px}
+}
+@media (max-width:760px){
+  .wrap{padding:0 20px}
+  section{padding:60px 0}
+  .hero{padding:56px 0}
+  h1{font-size:clamp(2.1rem,9vw,2.7rem)}
+  .nav-in{height:62px}
+  .nav-div,.nav-l .nav-tag{display:none}
+  .nav .wm{font-size:18px}
+  .hero-mark .wm{font-size:22px}
+  .strip-grid,.salto,.camino,.camino.c4,.goog,.tareas,.pasos,.comp{grid-template-columns:1fr}
+  .strip-grid > div{padding:28px 0}
+  .strip-grid > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line-soft)}
+  .salto > div{padding:28px 24px 30px}
+  .salto > div + div{border-left:none;border-top:1px solid var(--cel-line)}
+  .aside{grid-template-columns:1fr;gap:14px;padding:28px 24px}
+  .aside .big{max-width:none}
+  .goog > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line);margin-top:30px;padding-top:30px}
+  .tabla .row{grid-template-columns:1fr}
+  .tabla .row > div{padding:4px 20px}
+  .tabla .row > div:first-child{padding-top:16px}
+  .tabla .row > div:last-child{padding-bottom:16px}
+  .tabla .head{display:none}
+  .card{padding:30px 22px 28px}
+  .card.wide{padding:30px 22px 28px}
+  .card.wide ul.chk{columns:1}
+  .pasos div{padding:22px 0 26px}
+  .pasos div + div{padding-left:0}
+  .foot-r{text-align:left}
+}
+
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <div class="nav-l">
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      <span class="nav-div"></span>
+      <span class="nav-tag">Propuesta Lavatería Fast Tandil</span>
+    </div>
+    <span class="nav-tag">Octubre 2026</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-mark">
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      <span class="ln"></span>
+      <span class="tag">Para Lavatería Fast · junto a Nido Creativo</span>
+    </div>
+    <h1>Que todo Tandil sepa que <em class="ac">abre Lavatería</em></h1>
+    <p class="hero-sub">Plan de medios para la apertura del 15 de noviembre y los meses siguientes: Meta para que la ciudad conozca el local y Google Maps para estar primeros cuando alguien busca dónde lavar.</p>
+    <div class="tags">
+      <span>Instagram y Facebook</span>
+      <span>Google Maps</span>
+      <span class="later">Maipú 721 · Tandil</span>
+    </div>
+  </div>
+</header>
+
+<section class="strip rv" style="padding:0">
+  <div class="wrap">
+    <div class="strip-grid">
+      <div>
+        <span class="n">Ninguno</span>
+        <p>De los lavaderos más conocidos de Tandil abre el domingo o antes de las 8. Lavatería abre todos los días, de 6 a 23.</p>
+        <span class="fuente">Horarios en Google Maps · 29/10/2026</span>
+      </div>
+      <div>
+        <span class="n">0 anuncios</span>
+        <p>Ningún lavadero de la ciudad está pautando en Instagram o Facebook. El espacio está libre.</p>
+        <span class="fuente">Biblioteca de anuncios de Meta · 29/10/2026</span>
+      </div>
+      <div>
+        <span class="n">61 reseñas</span>
+        <p>Es lo que tiene el lavadero más reseñado de Tandil en Google Maps. Con poco se puede llegar arriba.</p>
+        <span class="fuente">Google Maps · 29/10/2026</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">01 · La competencia</span>
+      <h2>Cómo se lava hoy <em class="ac">en Tandil</em></h2>
+      <p>Hay cerca de veinte lavaderos en la ciudad. Relevamos los principales: dónde están, qué horario tienen, cómo les va en Google Maps y si pautan.</p>
+    </div>
+
+    <div class="comp">
+      <div>
+        <span class="tipo">Av. Santamarina 246 · a 450 m</span>
+        <h3>Lavandería Tandil</h3>
+        <p>Desde 1991. Entrega en 48 horas y un autoservicio atendido. De lunes a viernes hasta las 19, domingo cerrado.</p>
+        <div class="chips"><span>4,2 · 48 reseñas</span><span class="no">No pauta</span></div>
+      </div>
+      <div>
+        <span class="tipo">Arana 381 y Lobería 1735</span>
+        <h3>Lave.Rap-ido</h3>
+        <p>El mejor puntuado y el de horario más largo: de lunes a sábado hasta las 20:30. Entrega en el día con recargo.</p>
+        <div class="chips"><span>4,6 · 61 reseñas</span><span class="no">No pauta</span></div>
+      </div>
+      <div>
+        <span class="tipo">Fugl 987</span>
+        <h3>Lavandería del Sur</h3>
+        <p>Se deja la ropa y se retira. De lunes a viernes hasta las 17, sábados hasta las 14. Es el lavadero con más seguidores.</p>
+        <div class="chips"><span>4,4 · 59 reseñas</span><span>572 en Instagram</span></div>
+      </div>
+      <div>
+        <span class="tipo">Gral. Rodríguez 23</span>
+        <h3>El Laundry</h3>
+        <p>Entrega en el día. De lunes a viernes de 9 a 17, sábados y domingos cerrado.</p>
+        <div class="chips"><span>4,2 · 33 reseñas</span><span>353 en Instagram</span></div>
+      </div>
+      <div>
+        <span class="tipo">Quintana 1021</span>
+        <h3>Pronto Tintorería</h3>
+        <p>Tintorería y limpieza en seco, con promo para estudiantes. Tiene la cuenta de Instagram más grande del rubro.</p>
+        <div class="chips"><span>4,0 · 24 reseñas</span><span>1.904 en Instagram</span></div>
+      </div>
+      <div class="us">
+        <span class="tipo">Maipú 721 · microcentro</span>
+        <h3>Lavatería Fast</h3>
+        <p>Lavás y secás vos, en el momento, y te llevás la ropa lista en poco más de una hora. Todos los días, de 6 a 23.</p>
+        <div class="chips"><span class="si">Sin turnos</span><span class="si">6 a 23 hs</span><span class="si">Todos los días</span></div>
+      </div>
+    </div>
+
+    <p class="nota">Fuentes: fichas de Google Maps, perfiles públicos de Instagram y Biblioteca de anuncios de Meta, relevados el 29/10/2026.</p>
+
+    <div class="salto" style="margin-top:44px">
+      <div>
+        <span class="lbl">Cómo se lava hoy</span>
+        <h3>Dejar la ropa y volver</h3>
+        <p>Se lleva al lavadero en horario de oficina y se retira al día siguiente o a los dos días. Si trabajás de 9 a 18, el sábado a la mañana es la única ventana.</p>
+      </div>
+      <div>
+        <span class="lbl">Lo que trae Lavatería</span>
+        <h3>Ir cuando te queda bien</h3>
+        <p>Antes de entrar a trabajar, a la noche o el domingo. Sin dejar nada y sin esperar dos días: la ropa sale lavada y seca en el momento.</p>
+      </div>
+    </div>
+
+    <p class="cierre">Nadie en Tandil está contando esto en redes. Es la primera lavandería automática de la ciudad, y la primera que <em>abre cuando el resto cierra</em>.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">02 · La marca</span>
+      <h2>Una red que ya <em class="ac">probó la fórmula</em></h2>
+      <p>Lavatería no llega a Tandil como un experimento. Eso también se cuenta.</p>
+    </div>
+
+    <div class="disc">
+      <article>
+        <span class="lbl">En Brasil</span>
+        <h3>685 locales</h3>
+        <p>Es la red de franquicias que más creció en cantidad de locales en Brasil, según la asociación de franquicias de ese país.</p>
+      </article>
+      <article>
+        <span class="lbl">En Argentina</span>
+        <h3>16 abiertos y 26 en camino</h3>
+        <p>Arrancó en Buenos Aires y sigue por Córdoba, Rosario y Bariloche. El local de Barrio Olímpico tiene 5 estrellas en Google Maps.</p>
+      </article>
+      <article>
+        <span class="lbl">La duda a anticipar</span>
+        <h3>¿Cómo se usa?</h3>
+        <p>En redes aparece el comentario "esto ya se probó y no funcionó". El contenido tiene que mostrar el paso a paso: cuánto tarda, cuánto sale y lo simple que es.</p>
+      </article>
+    </div>
+    <p class="nota">Fuentes: Mercado&amp;Consumo (marzo 2026), L'Express Franchise y On24 (septiembre 2026), Google Maps.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">03 · A quién le hablamos</span>
+      <h2>Una ciudad, <em class="ac">varios motivos</em> para ir</h2>
+      <p>Tandil tiene 145.575 habitantes (Censo 2022). El foco está en el centro y alrededores, abriendo al resto de la ciudad.</p>
+    </div>
+
+    <div class="tabla">
+      <div class="row head"><div>Público</div><div>Por qué viene</div><div>Cuándo pesa más</div></div>
+      <div class="row"><div>Estudiantes e inquilinos</div><div>Departamentos chicos sin lavarropas</div><div>Lanzamiento. En verano muchos estudiantes de la UNICEN se van y baja su peso.</div></div>
+      <div class="row"><div>Trabajadores con poco tiempo</div><div>Ir antes o después del trabajo, sin depender del horario de nadie</div><div>Todo el año. Es el público de la recurrencia.</div></div>
+      <div class="row"><div>Personas mayores que viven solas</div><div>Resolver el lavado sin cargar con un lavarropas</div><div>Todo el año, con un mensaje más simple y directo.</div></div>
+      <div class="row"><div>Familias</div><div>Acolchados, mantas y cortinas que no entran en el lavarropas de casa</div><div>Cambio de estación y antes de las fiestas.</div></div>
+      <div class="row"><div>Turistas</div><div>Escapadas y cabañas sin lavarropas</div><div>Verano y fines de semana largos: es el público que más crece en la segunda fase.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">04 · Canales</span>
+      <h2>Que te conozcan y que <em class="ac">te encuentren</em></h2>
+    </div>
+
+    <div class="goog">
+      <div>
+        <span class="lbl">Principal</span>
+        <h3>Meta: Instagram y Facebook</h3>
+        <p>Campañas de alcance y reconocimiento en Tandil, para que la mayor cantidad de gente se entere de la apertura y vea el local varias veces en el mes.</p>
+        <p>Sumamos campañas para sumar seguidores locales en Instagram: la comunidad que después sostiene el canal orgánico sin pagar por cada persona.</p>
+      </div>
+      <div>
+        <span class="lbl">Adicional</span>
+        <h3>Google Maps</h3>
+        <p>La ficha de Google optimizada desde el primer día, y anuncios para aparecer arriba en el mapa cuando alguien busca dónde lavar.</p>
+        <div class="busq">
+          <span>lavandería cerca</span>
+          <span>lavadero en Tandil</span>
+          <span>lavar acolchado Tandil</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="aside">
+      <p class="big">Visitas, no solo alcance</p>
+      <div>
+        <h3>Cómo vamos a saber si viene gente</h3>
+        <p>Además de alcance, reproducciones y seguidores, medimos las veces que alguien pide cómo llegar o llama desde Google Maps.</p>
+        <p><strong>Recomendación, fuera del fee:</strong> una promo de primera visita que se canjee en el local, o los datos de clientes nuevos del sistema de cobro si la franquicia los tiene. Con eso se puede medir cuánta gente vino por los anuncios.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">05 · El calendario</span>
+      <h2>Dos fases y un <em class="ac">arranque urgente</em></h2>
+    </div>
+
+    <div class="camino">
+      <div>
+        <span class="num">Ya · antes del 15/11</span>
+        <h3>Preparar el terreno</h3>
+        <p>Configuración de Meta Business y alta de la ficha de Google, que puede tardar días en verificarse. El primer material de Nido tiene que estar listo alrededor del 5 de noviembre.</p>
+      </div>
+      <div class="hl">
+        <span class="num">15 al 30 de noviembre</span>
+        <h3>Lanzamiento</h3>
+        <p>Dos semanas con toda la intensidad: que la ciudad se entere de la apertura y vaya a conocer el local.</p>
+      </div>
+      <div>
+        <span class="num">Diciembre a febrero</span>
+        <h3>Sostenimiento</h3>
+        <p>Menos intensidad y más constancia, para que el que vino vuelva. Más peso en turistas y en los que se quedan en la ciudad en verano.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">06 · Material creativo</span>
+      <h2>Lo que necesitamos <em class="ac">de Nido</em></h2>
+      <p>Formatos, medidas y cantidad de variantes. El material entra 7 días hábiles antes de cada salida.</p>
+    </div>
+
+    <div class="tabla">
+      <div class="row head"><div>Plataforma</div><div>Formato y medida</div><div>Variantes</div></div>
+      <div class="row"><div>Meta · Reels e historias</div><div>Video vertical 9:16, 1080 × 1920, de 10 a 20 segundos</div><div>Lanzamiento: 3 videos. Sostenimiento: 2 nuevos por mes.</div></div>
+      <div class="row"><div>Meta · Feed</div><div>Imagen o carrusel 4:5, 1080 × 1350</div><div>Lanzamiento: 3 piezas. Sostenimiento: 2 nuevas por mes.</div></div>
+      <div class="row"><div>Google Maps · Fotos</div><div>Logo 1:1, portada 16:9 y fotos de al menos 720 × 720</div><div>Unas 10 fotos: frente con cartel, interior, máquinas y el local en uso.</div></div>
+    </div>
+
+    <div class="reco">
+      <p><strong>Lo que mejor funciona para un local que abre:</strong> mostrar el lugar real y cómo se usa. La fachada para que la reconozcan al pasar, el paso a paso de un lavado y el reloj marcando la hora. Les pasamos los textos de los anuncios y una guía con los ángulos para cada público; la producción queda de su lado.</p>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">07 · Inversión en medios</span>
+      <h2>Tres escenarios <em class="ac">para Meta</em></h2>
+      <p>Escala de negocio local: una inversión que se pueda sostener con el volumen de un local de ticket bajo. Se le paga directo a Meta y va aparte de nuestros honorarios.</p>
+    </div>
+
+    <div class="esc">
+      <div>
+        <div class="top"><span class="card-lbl">Mínimo</span></div>
+        <div class="num-big">USD 120 <small>por mes</small></div>
+        <p class="sub">USD 480 en los cuatro meses</p>
+        <dl>
+          <div><dt>Lanzamiento, 15 al 30/11</dt><dd>USD 120</dd></div>
+          <div><dt>Personas alcanzadas por mes</dt><dd>~35.000</dd></div>
+          <div><dt>Veces que lo ve cada una</dt><dd>~2</dd></div>
+        </dl>
+      </div>
+      <div>
+        <div class="top"><span class="card-lbl">Medio</span><span class="badge">Recomendado</span></div>
+        <div class="num-big">USD 200 <small>por mes</small></div>
+        <p class="sub">USD 800 en los cuatro meses</p>
+        <dl>
+          <div><dt>Lanzamiento, 15 al 30/11</dt><dd>USD 200</dd></div>
+          <div><dt>Personas alcanzadas por mes</dt><dd>~45.000</dd></div>
+          <div><dt>Veces que lo ve cada una</dt><dd>~3</dd></div>
+        </dl>
+      </div>
+      <div>
+        <div class="top"><span class="card-lbl">Óptimo</span></div>
+        <div class="num-big">USD 300 <small>por mes</small></div>
+        <p class="sub">USD 1.200 en los cuatro meses</p>
+        <dl>
+          <div><dt>Lanzamiento, 15 al 30/11</dt><dd>USD 300</dd></div>
+          <div><dt>Personas alcanzadas por mes</dt><dd>~55.000</dd></div>
+          <div><dt>Veces que lo ve cada una</dt><dd>~3,5</dd></div>
+        </dl>
+      </div>
+    </div>
+
+    <div class="aside">
+      <p class="big">Google Maps, como adicional</p>
+      <div>
+        <h3>USD 100 por mes, en cualquiera de los tres escenarios</h3>
+        <p>Alcanza para estar primeros en el mapa en las búsquedas de lavandería dentro de Tandil, que son pocas pero de gente que necesita lavar ese día.</p>
+      </div>
+    </div>
+
+    <p class="nota">Las proyecciones son estimadas para Tandil y se ajustan con los datos de las primeras semanas. En la quincena de lanzamiento se invierte lo mismo que en un mes entero, así que la intensidad es el doble. Pasado cierto punto, más inversión no suma gente nueva: solo repite el anuncio a los mismos. Por eso el techo es bajo.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">08 · El trabajo</span>
+      <h2>Qué hacemos <em class="ac">todos los meses</em></h2>
+    </div>
+    <div class="tareas">
+      <article>
+        <h3>Setup completo</h3>
+        <p>Meta Business, cuenta publicitaria, Instagram y Facebook conectados, y la ficha de Google Maps lista y verificada.</p>
+      </article>
+      <article>
+        <h3>Gestión de campañas</h3>
+        <p>Armado, seguimiento y ajuste. Se refuerza lo que más se ve y se recuerda, y se renueva lo que cansa.</p>
+      </article>
+      <article>
+        <h3>Plan de medios y material</h3>
+        <p>Les pasamos a tiempo qué piezas hacen falta, en qué medidas y con qué textos, para que el material llegue listo.</p>
+      </article>
+      <article>
+        <h3>Reporte mensual</h3>
+        <p>Qué se invirtió, a cuánta gente llegamos y qué decidimos. Con conclusiones y recomendaciones, no solo números.</p>
+      </article>
+      <article>
+        <h3>Reunión mensual</h3>
+        <p>Con Nido y con Lavatería, para revisar los resultados y decidir juntos el mes siguiente.</p>
+      </article>
+      <article>
+        <h3>WhatsApp con Nido</h3>
+        <p>Diálogo abierto con el equipo de Nido en el medio, para resolver rápido lo que haga falta.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">09 · Honorarios</span>
+      <h2>Lo que cuesta <em class="ac">el trabajo</em></h2>
+      <p>Abono mensual durante los cuatro meses, con posibilidad de renovar. Sin costo de setup.</p>
+    </div>
+
+    <div class="precios">
+      <div class="card">
+        <div class="card-top"><span class="card-lbl">Principal</span></div>
+        <h3>Meta</h3>
+        <span class="antes ghost">&nbsp;</span>
+        <div class="precio">USD 250 <small>por mes</small></div>
+        <p class="desc">Reconocimiento, alcance y comunidad en Instagram y Facebook para Tandil.</p>
+        <ul class="chk">
+          <li>Configuración de Meta Business</li>
+          <li>Campañas de alcance y seguidores</li>
+          <li>Plan de medios y textos</li>
+          <li>Reporte y reunión mensual</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="card-lbl">Adicional</span></div>
+        <h3>Google Maps</h3>
+        <span class="antes ghost">&nbsp;</span>
+        <div class="precio">USD 250 <small>por mes</small></div>
+        <p class="desc">La ficha optimizada y anuncios para aparecer primeros en el mapa.</p>
+        <ul class="chk">
+          <li>Ficha de Google lista y verificada</li>
+          <li>Anuncios en Maps y en la búsqueda</li>
+          <li>Cómo llegar y llamadas medidos</li>
+          <li>Reporte y reunión mensual</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="card-lbl">Paquete</span><span class="badge">Recomendado</span></div>
+        <h3>Meta + Google Maps</h3>
+        <span class="antes">USD 500 por separado</span>
+        <div class="precio">USD 450 <small>por mes</small></div>
+        <p class="desc">Que la ciudad conozca el local y que lo encuentre cuando lo necesita.</p>
+        <ul class="chk">
+          <li>Todo lo de Meta</li>
+          <li>Todo lo de Google Maps</li>
+          <li>Un solo reporte con los dos canales</li>
+          <li>USD 50 menos por mes</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="condic">
+      <p>Valores en dólares; se pueden pagar en pesos al tipo de cambio del día. La inversión en medios va aparte y se le paga directo a cada plataforma.</p>
+      <p>El material creativo lo produce Nido Creativo.</p>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <h2>Cómo <em class="ac">seguimos</em></h2>
+    </div>
+    <div class="pasos">
+      <div>
+        <span class="n">Primero, esta semana</span>
+        <p>Nos dan el visto bueno, el escenario elegido y los accesos a Instagram, Facebook y la cuenta de Google del local.</p>
+      </div>
+      <div>
+        <span class="n">Después</span>
+        <p>Armamos Meta Business y la ficha de Google, y Nido nos entrega el material del lanzamiento.</p>
+      </div>
+      <div>
+        <span class="n">15 de noviembre</span>
+        <p>Abre el local y sale la campaña el mismo día.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      <p>Trabajamos con pocos clientes y nos metemos en el negocio. Si vemos algo que conviene cambiar aunque no esté en el contrato, lo decimos.</p>
+      <p style="margin-top:16px"><a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a> &nbsp; <a href="https://instagram.com/dilema.creative">@dilema.creative</a></p>
+    </div>
+    <div class="foot-r">Propuesta Lavatería Fast Tandil<br>Octubre 2026</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -60px 0px',threshold:.05});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
