@@ -95,10 +95,13 @@
       h += '</div>';
     }
     setHTML($('#nav'), h);
+    const tb = (href, icono, txt, activo, cuenta) => '<a href="#/' + href + '"' + (activo ? ' aria-current="page"' : '') + '>' + ic(icono) + '<span>' + txt + '</span>' + (cuenta ? '<b>' + cuenta + '</b>' : '') + '</a>';
+    setHTML($('#tabbar'), tb('inicio', 'house', 'Inicio', r === 'inicio') + tb('obras', 'buildings', 'Obras', r === 'obras' || r === 'obra') + '<span class="tb-hueco" aria-hidden="true"></span>' + tb('tareas', 'kanban', 'Tareas', r === 'tareas', vencidas) + (puede('teso') ? tb('tesoreria', 'bank', 'Tesorería', r === 'tesoreria', chq) : tb('clientes', 'users-three', 'Contactos', r === 'clientes' || r === 'proveedores')));
     const u = yo();
-    setHTML($('#yo'), '<span class="av grande">' + esc(iniciales(u)) + '</span><span class="yo-txt"><b>' + esc(u.nombre) + '</b><span>' + esc(PERFIL_TXT[u.perfil]) + '</span></span>');
+    setHTML($('#yo'), '<span class="av grande">' + esc(iniciales(u)) + '</span><span class="yo-txt"><b>' + esc(u.nombre) + '</b><span>' + esc(PERFIL_TXT[u.perfil]) + '</span></span><label class="yo-sel"><span class="sr-only">Ver como</span><select class="input" id="ver-como-2">' + DB.equipo.map((x) => '<option value="' + x.id + '"' + (x.id === UI.usuario ? ' selected' : '') + '>' + esc(x.nombre + ' · ' + PERFIL_TXT[x.perfil]) + '</option>').join('') + '</select></label>');
   }
   function migas(arr) {
+    const tm = $('#titulo-movil'); if (tm) tm.textContent = arr[arr.length - 1][0];
     setHTML($('#migas'), arr.map((m, i) => i === arr.length - 1 ? '<b>' + esc(m[0]) + '</b>' : '<a href="' + m[1] + '">' + esc(m[0]) + '</a>' + ic('caret-right')).join(''));
   }
   function pintarVerComo() {
@@ -127,8 +130,17 @@
       im.addEventListener('load', () => im.classList.add('lista'), { once: true });
       im.addEventListener('error', () => im.closest('.oc-foto, .obra-hero') && im.closest('.oc-foto, .obra-hero').classList.add('sin-foto'), { once: true });
     });
+    etiquetarTablas(document);
     if ($('.kanban')) montarKanban();
     if ($('#grafico-flujo')) montarGrafico();
+  }
+  /* En celular cada fila de tabla se ve como una ficha: cada celda lleva el nombre de su columna */
+  function etiquetarTablas(raiz) {
+    $$('.tabla-wrap table', raiz).forEach((t) => {
+      if (t.closest('.doc')) return;
+      const cab = $$('thead th', t).map((th) => th.textContent.trim());
+      $$('tbody tr, tfoot tr', t).forEach((tr) => { let col = 0; Array.from(tr.children).forEach((td) => { if (!td.hasAttribute('data-label')) td.setAttribute('data-label', td.colSpan > 1 ? '' : (cab[col] || '')); col += td.colSpan || 1; }); });
+    });
   }
   /* ================= toast, modal, drawer ================= */
   let tToast;
@@ -137,7 +149,7 @@
   function abrirDrawer(html) {
     const w = $('#drawer-wrap'); if (!w.classList.contains('abierto')) ultimoFoco = document.activeElement;
     setHTML($('#drawer'), html); w.classList.add('abierto'); w.setAttribute('aria-hidden', 'false');
-    $('#drawer').scrollTop = 0; $('#drawer').focus({ preventScroll: true }); despuesDePintar();
+    $('#drawer').scrollTop = 0; $('#drawer').focus({ preventScroll: true }); despuesDePintar(); etiquetarTablas($('#drawer'));
   }
   function cerrarDrawer() { const w = $('#drawer-wrap'); w.classList.remove('abierto'); w.setAttribute('aria-hidden', 'true'); if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus({ preventScroll: true }); }
   function abrirModal(html, alMontar, ancho) {
@@ -226,7 +238,7 @@
       const prox = cartera[0];
       kpis = '<div class="kpis" data-stagger>' +
         kpi('buildings', 'Obras en curso', String(curso.length), DB.obras.filter((o) => o.estado === 'presupuesto').length + ' presupuestando') +
-        kpi('hand-coins', 'Por cobrar', fmtM(porCobrar.ARS), porCobrar.USD ? 'y ' + fmt(porCobrar.USD, 'USD') : 'de certificados y anticipos') +
+        kpi('hand-coins', 'Por cobrar', fmtM(porCobrar.ARS), porCobrar.USD ? 'y ' + fmt(porCobrar.USD, 'USD') : 'de certificados y anticipos', false, true) +
         kpi('toolbox', 'A pagar a proveedores', fmtM(aPagar.ARS), aPagar.USD ? 'y ' + fmt(aPagar.USD, 'USD') + ' · por avance' : 'por avance certificado') +
         kpi('money', 'Cheques en cartera', fmtM(cartera.reduce((s, c) => s + c.importe, 0)), prox ? cartera.length + ' cheques · el próximo en ' + M.dias(prox.pago) + ' días' : 'sin cheques') + '</div>';
     } else {
@@ -278,7 +290,7 @@
     });
     cont.addEventListener('pointerleave', () => { tip.hidden = true; $$('.col-mes', cont).forEach((c) => c.classList.remove('activa')); });
   }
-  const kpi = (icono, l, v, s, alerta) => '<div class="kpi' + (alerta ? ' alerta' : '') + '"><div class="k-l">' + ic(icono) + esc(l) + '</div><div class="k-v">' + esc(v) + '</div><div class="k-s">' + esc(s) + '</div></div>';
+  const kpi = (icono, l, v, s, alerta, destacado) => '<div class="kpi' + (alerta ? ' alerta' : '') + (destacado ? ' destacado' : '') + '"><div class="k-l">' + ic(icono) + esc(l) + '</div><div class="k-v">' + esc(v) + '</div><div class="k-s">' + esc(s) + '</div></div>';
 
   /* ================= OBRAS ================= */
   function obraCard(o) {
@@ -319,7 +331,7 @@
     const meta = '<a href="#/clientes" data-accion="ver-cliente" data-id="' + cli.id + '">' + ic('user') + esc(cli.razon) + '</a><span>' + ic('map-pin') + esc(o.dir) + '</span>' + (o.inicio ? '<span>' + ic('calendar-blank') + fFecha(o.inicio) + (o.fin ? ' al ' + fFecha(o.fin) : '') + '</span>' : '') + '<span>' + ic('hard-hat') + esc((M.usuario(o.resp) || {}).nombre || 'Sin responsable') + '</span>';
     const cab = '<header class="obra-hero' + (o.foto ? '' : ' sin-foto') + '">' + (o.foto ? '<img class="oh-img" data-foto src="' + esc(o.foto) + '" alt="">' : '') + '<div class="oh-scrim"></div>' +
       '<div class="oh-c"><div class="oh-txt"><div class="oh-top">' + esc(ESTADO_OBRA[o.estado][0]) + ' · Obra ' + o.num + (o.motivo && o.estado === 'archivada' ? ' · ' + esc(o.motivo) : '') + '</div><h1>' + esc(o.nombre) + '</h1><div class="oh-meta">' + meta + '</div></div>' + anillo + '</div>' +
-      (puede('editarPres') ? '<button class="btn oh-editar" data-accion="editar-obra" data-id="' + o.id + '">' + ic('pencil-simple') + 'Editar</button>' : '') + '</header>';
+      (puede('editarPres') ? '<button class="btn oh-editar" data-accion="editar-obra" data-id="' + o.id + '" aria-label="Editar obra">' + ic('pencil-simple') + '<span>Editar</span></button>' : '') + '</header>';
     const T = { resumen: tResumen, presupuesto: tPresupuesto, certificados: tCertificados, proveedores: tProveedores, cuenta: tCuenta, caja: tCaja, tareas: tTareasObra, documentos: tDocs }[tab] || tResumen;
     return cab + tabsHtml + T(o);
   }
@@ -480,7 +492,7 @@
       '<div class="card"><div class="card-h"><h2>Datos</h2></div><div class="card-b"><div class="fila-3"><div class="campo"><label for="ce-fecha">Fecha del certificado</label><input class="input" type="date" id="ce-fecha" value="' + esc(d.fecha) + '"></div><div class="campo"><label for="ce-mes">Índice CAC a aplicar</label><select class="input" id="ce-mes">' + opciones(mesesOpt, d.mesCAC) + '</select><span class="ayuda">Por defecto, el del mes anterior.</span></div><div class="campo"><span class="lbl">Condiciones de la obra</span><span class="suave">Honorarios ' + o.honorarios + '% · CAC ' + o.splitMO + '/' + (100 - o.splitMO) + ' · anticipo ' + (o.anticipo.fecha ? o.anticipo.pct + '%' : 'no') + '</span></div></div></div></div>' +
       '<div class="card"><div class="card-h"><h2>Avance del mes</h2><span class="sub">No deja pasar del 100% acumulado</span>' + (completos ? '<div class="der"><button class="btn sm ghost" data-accion="ver-completos">' + (UI.verCompletos ? 'Ocultar' : 'Mostrar') + ' ' + completos + ' ítems ya completos</button></div>' : '') + '</div><div class="sp"></div><div class="tabla-wrap"><table><thead><tr><th>Ítem</th>' + (verPlata ? '<th class="num">Total ítem</th>' : '') + '<th class="num">Anterior</th><th class="num">Este mes %</th><th class="num">Acumulado</th>' + (verPlata ? '<th class="num">Importe</th>' : '') + '</tr></thead><tbody>' + filas + '</tbody></table></div></div>' +
       '<div class="card" id="ce-ed">' + edHtml(d) + '</div>' +
-      '</div><aside class="cert-panel" id="ce-panel">' + panelCert(d) + '</aside></div>';
+      '</div><aside class="cert-panel" id="ce-panel">' + panelCert(d) + '</aside></div><div class="ce-barra" id="ce-barra">' + barraCert(d) + '</div>';
   }
   function barraAcum(ant, v) { const t = ant + v; return '<div class="avance"><div class="barra doble" data-w="' + Math.min(100, t) + '" data-w2="' + Math.min(100, ant) + '"></div><span class="p">' + (t > 100.0001 ? '<b class="tenue">' + Math.round(t) + '%</b>' : Math.round(t) + '%') + '</span></div>'; }
   function edHtml(d) {
@@ -505,9 +517,14 @@
     h += '<div class="m-f"><button class="btn" data-accion="guardar-cert">' + ic('floppy-disk') + 'Guardar borrador</button>' + (puede('emitir') ? '<button class="btn primary" data-accion="emitir-cert"' + (err.length ? ' disabled' : '') + '>' + ic('seal-check') + 'Emitir</button>' : '') + '</div></div>';
     return h;
   }
+  function barraCert(d) {
+    const k = M.calcCert(d); const err = M.erroresCert(d);
+    return '<div class="cb-txt"><span>' + (puede('plata') ? 'Neto del certificado' : 'Certificado N° ' + d.num) + '</span><b>' + (puede('plata') ? esc(doble({ ARS: k.mon.ARS.subtotal, USD: k.mon.USD.subtotal })) : (err.length ? 'Falta completar' : 'Listo para revisar')) + '</b></div><button class="btn icon" data-accion="guardar-cert" aria-label="Guardar borrador">' + ic('floppy-disk') + '</button>' + (puede('emitir') ? '<button class="btn primary" data-accion="emitir-cert"' + (err.length ? ' disabled' : '') + '>' + ic('seal-check') + 'Emitir</button>' : '');
+  }
   function refrescarCert() {
     const d = UI.certDraft; if (!d) return;
     setHTML($('#ce-panel'), panelCert(d));
+    const cb = $('#ce-barra'); if (cb) setHTML(cb, barraCert(d));
     const ap = M.presAprobado(d.obra);
     ap.items.forEach((i) => {
       const v = Number(d.avances[i.id]) || 0; const ant = M.acumAnterior(d.obra, i.id, d.num);
@@ -1016,6 +1033,24 @@
   $('#paleta-res').addEventListener('mousedown', (e) => { const b = e.target.closest('[data-p]'); if (b) { e.preventDefault(); ejecutarPaleta(palItems[Number(b.dataset.p)]); } });
   $('#paleta-wrap').addEventListener('mousedown', (e) => { if (e.target.id === 'paleta-wrap') cerrarPaleta(); });
 
+  /* ================= carga rápida (botón +) ================= */
+  function accionesRapidas() {
+    const p = ruta(); const o = p[0] === 'obra' ? M.obra(p[1]) : null; const lista = [];
+    if (o) {
+      if (o.estado === 'curso' && M.presAprobado(o.id)) lista.push(['file-plus', 'Cargar avance del mes', 'Nuevo certificado de ' + o.nombre, () => { location.hash = '#/obra/' + o.id + '/certificado/nuevo'; }]);
+      if (puede('plata')) lista.push(['hand-coins', 'Registrar cobro', 'Del cliente de esta obra', () => modalCobro(o.id)], ['money', 'Pagar a un proveedor', 'Con el saldo por avance a la vista', () => modalPago(o.id)]);
+      lista.push(['receipt', 'Gasto de caja chica', 'Flete, ferretería, volquete', () => modalCaja(o.id, 'gasto')], ['check-square', 'Nueva tarea', 'Para esta obra', () => modalTarea(null, o.id)]);
+    } else {
+      DB.obras.filter((x) => x.estado === 'curso' && M.presAprobado(x.id)).forEach((x) => lista.push(['file-plus', 'Cargar avance', x.nombre, () => { location.hash = '#/obra/' + x.id + '/certificado/nuevo'; }]));
+      if (puede('plata')) lista.push(['hand-coins', 'Registrar cobro', 'Elegís obra y comprobante', () => modalCobro(null)], ['money', 'Registrar pago', 'A un proveedor de cualquier obra', () => modalPago(null)]);
+      lista.push(['check-square', 'Nueva tarea', 'Con responsable y vencimiento', () => modalTarea(null)]);
+      if (puede('editarPres')) lista.push(['buildings', 'Nueva obra', 'Arranca con la plantilla de 17 rubros', () => modalObra(null)]);
+    }
+    abrirModal(cabModal(o ? 'Cargar en ' + o.nombre : 'Cargar') + '<div class="m-b"><div class="acciones-lista">' + lista.map((x, k) => '<button type="button" class="accion-item" data-k="' + k + '"><span class="ai-ic">' + ic(x[0]) + '</span><span class="ai-t"><b>' + esc(x[1]) + '</b><span>' + esc(x[2]) + '</span></span>' + ic('caret-right', 'ai-flecha') + '</button>').join('') + '</div></div>', (m) => {
+      $('.acciones-lista', m).addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (!b) return; cerrarModal(); setTimeout(lista[Number(b.dataset.k)][3], 120); });
+    });
+  }
+
   /* ================= acciones ================= */
   document.addEventListener('click', (e) => {
     const ac = e.target.closest('[data-accion]');
@@ -1039,6 +1074,8 @@
         case 'ver-cotiz': verCotizaciones(id); return;
         case 'ver-recibo': verRecibo(id); return;
         case 'paleta': abrirPaleta(); return;
+        case 'acciones-rapidas': accionesRapidas(); return;
+        case 'menu-mas': $('#app').classList.add('menu-abierto'); return;
         case 'rechazar-pres': {
           const pr = DB.presupuestos.find((x) => x.id === id); const o = M.obra(pr.obra);
           abrirModal(cabModal('Presupuesto no aceptado') + '<div class="m-b"><p>La obra pasa a Archivadas y el presupuesto queda guardado como historia (en el sistema actual eran los "Rechazados"). Si el cliente vuelve, se retoma con una versión nueva.</p><div class="campo"><label for="rp-mot">Motivo</label><input class="input" id="rp-mot" placeholder="Ej.: eligió otra propuesta, se posterga, precio"></div></div><div class="m-f"><button class="btn" data-accion="cerrar-modal">Cancelar</button><button class="btn peligro" id="rp-ok">Marcar no aceptado</button></div>', (m) => {
@@ -1151,7 +1188,7 @@
   });
   document.addEventListener('change', (e) => {
     const t = e.target;
-    if (t.id === 'ver-como') { UI.usuario = t.value; try { localStorage.setItem('momo-usuario', t.value); } catch (er) { /* nada */ } cerrarDrawer(); render(true); toast('Viendo el sistema como ' + yo().nombre + ' (' + PERFIL_TXT[perfil()] + ').', 'user'); return; }
+    if (t.id === 'ver-como' || t.id === 'ver-como-2') { UI.usuario = t.value; $('#app').classList.remove('menu-abierto'); pintarVerComo(); try { localStorage.setItem('momo-usuario', t.value); } catch (er) { /* nada */ } cerrarDrawer(); render(true); toast('Viendo el sistema como ' + yo().nombre + ' (' + PERFIL_TXT[perfil()] + ').', 'user'); return; }
     if (t.id === 'ce-fecha' && UI.certDraft) { UI.certDraft.fecha = t.value; refrescarCert(); return; }
     if (t.id === 'ce-mes' && UI.certDraft) { UI.certDraft.mesCAC = t.value; refrescarCert(); return; }
     if (t.dataset.edc && t.tagName === 'SELECT' && UI.certDraft) { const k = Number(t.closest('[data-ed]').dataset.ed); UI.certDraft.ed[k][t.dataset.edc] = t.value; refrescarCert(); return; }
@@ -1170,7 +1207,7 @@
     }
   });
   $('#modal-wrap').addEventListener('mousedown', (e) => { if (e.target.id === 'modal-wrap') cerrarModal(); });
-  window.addEventListener('hashchange', () => { cerrarDrawer(); $('#app').classList.remove('menu-abierto'); render(true); });
+  window.addEventListener('hashchange', () => { cerrarDrawer(); cerrarModal(); cerrarPaleta(); $('#app').classList.remove('menu-abierto'); render(true); });
 
   cargar();
   if (!M.usuario(UI.usuario)) UI.usuario = 'u1';
