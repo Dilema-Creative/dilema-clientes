@@ -239,8 +239,8 @@
       kpis = '<div class="kpis" data-stagger>' +
         kpi('buildings', 'Obras en curso', String(curso.length), DB.obras.filter((o) => o.estado === 'presupuesto').length + ' presupuestando') +
         kpi('hand-coins', 'Por cobrar', fmtM(porCobrar.ARS), porCobrar.USD ? 'y ' + fmt(porCobrar.USD, 'USD') : 'de certificados y anticipos', false, true) +
-        kpi('toolbox', 'A pagar a proveedores', fmtM(aPagar.ARS), aPagar.USD ? 'y ' + fmt(aPagar.USD, 'USD') + ' · por avance' : 'por avance certificado') +
-        kpi('money', 'Cheques en cartera', fmtM(cartera.reduce((s, c) => s + c.importe, 0)), prox ? cartera.length + ' cheques · el próximo en ' + M.dias(prox.pago) + ' días' : 'sin cheques') + '</div>';
+        kpi('toolbox', 'A pagar', fmtM(aPagar.ARS), aPagar.USD ? 'a proveedores, y ' + fmt(aPagar.USD, 'USD') : 'a proveedores, por avance') +
+        kpi('money', 'Cheques', fmtM(cartera.reduce((s, c) => s + c.importe, 0)), prox ? cartera.length + ' cheques · el próximo en ' + M.dias(prox.pago) + ' días' : 'sin cheques') + '</div>';
     } else {
       const mias = DB.tareas.filter((t) => t.resp === UI.usuario && t.col !== 'hecha');
       kpis = '<div class="kpis" data-stagger>' + kpi('buildings', 'Obras en curso', String(curso.length), 'a cargo del estudio') + kpi('list-checks', 'Mis tareas abiertas', String(mias.length), 'en todas las obras') + kpi('clock', 'Vencidas', String(mias.filter((t) => t.vence && M.dias(t.vence) < 0).length), 'para ponerse al día', mias.some((t) => t.vence && M.dias(t.vence) < 0)) + kpi('file-text', 'Certificados para revisar', String(DB.certificados.filter((c) => c.estado === 'borrador').length), 'cargados y sin emitir') + '</div>';
@@ -705,7 +705,7 @@
           const d = M.dias(c.pago); const est = M.estadoCheque(c);
           const venc = (est === 'cartera' || est === 'emitido') ? (d < 0 ? badge('Vencido hace ' + (-d) + ' d', 'b-bad') : d <= 7 ? badge('En ' + d + ' días', 'b-warn') : badge('En ' + d + ' días')) : badge({ depositado: 'Depositado', endosado: 'Endosado', rechazado: 'Rechazado', debitado: 'Debitado' }[est] || est, est === 'rechazado' ? 'b-bad' : 'b-ok');
           const pago = c.tipo === 'propio' ? DB.pagos.find((p) => p.cheque === c.id) : DB.pagos.find((p) => p.cheque === c.id);
-          return '<tr><td><b>' + esc(c.banco) + '</b><span class="sec">N° ' + esc(c.numero) + '</span></td><td>' + esc(c.tipo === 'propio' && pago ? M.prov(pago.prov).razon : c.librador) + '</td><td>' + fFecha(c.emision) + '</td><td>' + fFecha(c.pago) + '</td><td class="num"><b>' + fmt(c.importe) + '</b></td><td>' + venc + '</td><td><div class="acc-fila">' + (est === 'cartera' ? '<button class="btn sm" data-accion="depositar-cheque" data-id="' + c.id + '">Depositar</button>' : '') + ((est === 'cartera' || est === 'depositado') ? '<button class="btn sm ghost peligro" data-accion="rechazar-cheque" data-id="' + c.id + '">Rechazado</button>' : '') + '</div></td></tr>';
+          return '<tr><td><b>' + esc(c.banco) + '</b><span class="sec">N° ' + esc(c.numero) + '</span></td><td>' + esc(c.tipo === 'propio' && pago ? M.prov(pago.prov).razon : c.librador) + '</td><td>' + fFecha(c.emision) + '</td><td>' + fFecha(c.pago) + '</td><td class="num"><b>' + fmt(c.importe) + '</b></td><td>' + venc + '</td><td><div class="acc-fila">' + (est === 'cartera' ? '<button class="btn sm" data-accion="depositar-cheque" data-id="' + c.id + '">Depositar</button>' : '') + ((est === 'cartera' || est === 'depositado') ? '<button class="btn sm peligro" data-accion="rechazar-cheque" data-id="' + c.id + '">Rebotó</button>' : '') + '</div></td></tr>';
         }).join('') + '</tbody></table></div>' : '<div class="card">' + vacio('money-wavy', 'No hay cheques en esta sección.') + '</div>');
     } else {
       const lista = DB.gastos.filter((g) => UI.teso.anulados || !g.anulado).sort((a, b) => b.fecha.localeCompare(a.fecha));

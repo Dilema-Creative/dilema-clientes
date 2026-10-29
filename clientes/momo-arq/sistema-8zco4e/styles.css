@@ -904,3 +904,62 @@ td.wrap .sec{max-width:420px}
 @media (min-width:641px){ td{white-space:normal} td.num,td .badge,td .persona,td .nowrap{white-space:nowrap} td .avance .barra{flex:none;width:64px} td .avance{min-width:0;justify-content:flex-end} }
 @media (min-width:641px){ th{white-space:normal;line-height:1.25;padding-top:6px;padding-bottom:6px} }
 td.wrap .sec{max-width:260px}
+
+
+/* =====================================================================
+   v3.2 · alineación: un solo margen interno (--gx) para todo lo que va adentro
+   de una caja, y la barra superior alineada con el contenido.
+   ===================================================================== */
+:root{--gx:20px}
+@media (min-width:901px){
+  .topbar{padding:0 32px}
+  .topbar>*{flex-shrink:0}
+  .topbar .migas{flex-shrink:1}
+  .buscar-global,.ver-como select,.topbar .btn.icon{height:36px}
+  .topbar .btn.icon{width:36px}
+  .pill-maqueta{height:28px;display:inline-flex;align-items:center}
+}
+.brand{padding:20px 22px 16px}
+/* cajas: mismo margen interno */
+.card-h{padding:14px var(--gx)}
+.card-b{padding:16px var(--gx) 18px}
+.kpi,.cifra{padding:16px var(--gx)}
+.oh-c{padding:22px var(--gx)}
+.d-h{padding-left:var(--gx);padding-right:var(--gx)}
+.m-h,.m-b,.m-f{padding-left:var(--gx);padding-right:var(--gx)}
+@media (min-width:641px){
+  th:first-child,td:first-child{padding-left:var(--gx)}
+  th:last-child,td:last-child{padding-right:var(--gx)}
+}
+/* pestañas que arrancan en el borde del contenido */
+.tabs{gap:26px;padding:0}
+.tabs a{padding:0;gap:7px}
+.tabs a[aria-current="page"]::after{left:0;right:0}
+/* filas de avisos: ícono, texto y botón centrados entre sí */
+.alertas li{align-items:center}
+.alertas .ic{margin-top:0}
+/* etiquetas de KPI en un renglón, así las cifras quedan a la misma altura */
+.kpi .k-l{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi .k-l > *{flex:none}
+/* tarjeta destacada en negro: se distingue sin volverse un bloque blanco */
+:root[data-theme="dark"] .kpi.destacado{background:linear-gradient(160deg,#2A2D30 0%,#18191B 70%);border-color:#3A3E42;color:#fff}
+:root[data-theme="dark"] .kpi.destacado .k-l{color:#C9CCCE}
+:root[data-theme="dark"] .kpi.destacado .k-s{color:#8F9497}
+:root[data-theme="dark"] .kpi.destacado .k-l i{background:#fff;border-color:#fff;color:#121314}
+/* botones de fila: mismo tamaño y estilo */
+.acc-fila .btn{min-width:84px}
+.btn.peligro{color:var(--bad);border-color:color-mix(in srgb,var(--bad) 35%,var(--line-2))}
+.btn.peligro:hover{background:var(--bad-bg)}
+
+@media (max-width:640px){
+  :root{--gx:14px}
+  .alertas li{display:grid;grid-template-columns:30px minmax(0,1fr);column-gap:11px;align-items:start}
+  .alertas .ic{margin-top:1px}
+  .alertas .btn{grid-column:2;justify-self:start;margin:8px 0 0;height:34px}
+  .kpi .k-l{font-size:12px}
+}
+.alertas li,.alertas li:first-child{padding:12px 0}
+.card-b > .alertas{margin:-10px 0 -12px}
+.actividad li,.actividad li:first-child{padding:10px 0}
+.card-b > .actividad{margin:-8px 0 -10px}
+@media (max-width:640px){ .kpi .k-s{white-space:normal} }

@@ -2,6 +2,6 @@
 (function () {
   try {
     var t = localStorage.getItem('momo-tema');
-    if (t === 'claro' || t === 'oscuro') document.documentElement.setAttribute('data-theme', t === 'claro' ? 'light' : 'dark');
-  } catch (e) { /* sin almacenamiento: sigue el sistema */ }
+    document.documentElement.setAttribute('data-theme', t === 'claro' ? 'light' : 'dark');
+  } catch (e) { document.documentElement.setAttribute('data-theme', 'dark'); }
 })();
