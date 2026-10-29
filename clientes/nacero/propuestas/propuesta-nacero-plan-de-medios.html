@@ -198,6 +198,7 @@ ul.chk li:first-child::before{top:2px}
 /* Precios */
 .precios{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .precios.p1{grid-template-columns:1fr}
+.precios.p2{grid-template-columns:1fr 1fr;gap:20px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:34px 28px 30px;display:flex;flex-direction:column;text-align:center;align-items:center;min-width:0}
 .card-top{display:flex;align-items:center;justify-content:center;gap:10px 12px;margin-bottom:18px;flex-wrap:wrap;min-height:28px}
 .card-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
@@ -243,7 +244,7 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid var(--cel
   .camino.c4,.tareas,.comp{grid-template-columns:1fr 1fr}
   .disc{grid-template-columns:1fr;gap:0}
   .disc article{padding:22px 0}
-  .esc,.precios{grid-template-columns:1fr}
+  .esc,.precios,.precios.p2{grid-template-columns:1fr}
   .card .desc{min-height:0}
   .card.wide .wide-in{grid-template-columns:1fr;gap:24px}
 }
@@ -583,9 +584,9 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid var(--cel
     <div class="aside">
       <p class="big">Google, como adicional</p>
       <div>
-        <h3>USD 200 por mes, en cualquiera de los tres escenarios</h3>
+        <h3>USD 200 por mes de inversión, en cualquiera de los tres escenarios</h3>
         <p>Suma presencia en la Play Store, YouTube y el buscador. Estimamos unas 130 descargas más por mes: suele salir algo más barato por descarga porque llega a gente que ya está buscando.</p>
-        <p>No cambia nuestros honorarios: la gestión de Google ya está incluida.</p>
+        <p>Va con el paquete Meta + Google de los honorarios.</p>
       </div>
     </div>
 
@@ -633,25 +634,35 @@ footer a{color:var(--cel);text-decoration:none;border-bottom:1px solid var(--cel
     <div class="shead">
       <span class="kick">09 · Honorarios</span>
       <h2>Lo que cuesta <em class="ac">el trabajo</em></h2>
+      <p>Abono mensual durante los tres meses, con posibilidad de renovar. Sin costo de setup.</p>
     </div>
 
-    <div class="precios p1">
-      <div class="card wide">
-        <div class="wide-in">
-          <div>
-            <div class="card-top"><span class="card-lbl">Meta + Google</span><span class="badge">Todo incluido</span></div>
-            <div class="precio">USD 300 <small>por mes</small></div>
-            <p class="desc">Abono mensual por los tres meses de campaña, con posibilidad de renovar. Sin costo de setup.</p>
-          </div>
-          <ul class="chk">
-            <li>Setup técnico de medición</li>
-            <li>Gestión de campañas en Meta</li>
-            <li>Gestión de Google: Play y YouTube</li>
-            <li>Plan de medios y specs del material</li>
-            <li>Textos de los anuncios</li>
-            <li>Reporte y reunión mensual</li>
-          </ul>
-        </div>
+    <div class="precios p2">
+      <div class="card">
+        <div class="card-top"><span class="card-lbl">Canal principal</span></div>
+        <h3>Meta</h3>
+        <span class="antes ghost">&nbsp;</span>
+        <div class="precio">USD 300 <small>por mes</small></div>
+        <p class="desc">Campañas de descarga en Instagram y Facebook, con la medición de la app incluida.</p>
+        <ul class="chk">
+          <li>Setup de medición de la app en Meta</li>
+          <li>Campañas de descarga en Instagram y Facebook</li>
+          <li>Plan de medios, specs del material y textos</li>
+          <li>Reporte y reunión mensual</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-top"><span class="card-lbl">Paquete</span><span class="badge">Recomendado</span></div>
+        <h3>Meta + Google</h3>
+        <span class="antes ghost">&nbsp;</span>
+        <div class="precio">USD 500 <small>por mes</small></div>
+        <p class="desc">Suma la campaña de app de Google: Play Store, YouTube y el buscador.</p>
+        <ul class="chk">
+          <li>Todo lo de Meta</li>
+          <li>Campaña de app en Google: Play y YouTube</li>
+          <li>Setup de medición de la app en Google</li>
+          <li>Un solo reporte con los dos canales</li>
+        </ul>
       </div>
     </div>
 
