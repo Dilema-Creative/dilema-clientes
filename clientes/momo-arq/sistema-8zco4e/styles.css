@@ -963,3 +963,136 @@ td.wrap .sec{max-width:260px}
 .actividad li,.actividad li:first-child{padding:10px 0}
 .card-b > .actividad{margin:-8px 0 -10px}
 @media (max-width:640px){ .kpi .k-s{white-space:normal} }
+
+
+/* =====================================================================
+   v4 · escala compacta, negro con escalones claros y correcciones por sección
+   ===================================================================== */
+/* --- escala tipográfica más chica (prolija, nada se corta) --- */
+body{font-size:13.5px}
+.encabezado h1{font-size:22px}
+.encabezado p{font-size:13px}
+.obra-hero h1{font-size:23px}
+.card-h h2,.seccion-h h2{font-size:13.5px}
+.card-h .sub{font-size:11.5px}
+.kpi .k-v{font-size:21px;margin-top:10px}
+.kpi .k-l{font-size:12px}
+.kpi .k-s{font-size:12px}
+.cifra .v{font-size:19px}
+.cifra .l{font-size:12px}
+.cifra .s{font-size:12px}
+.nav a{font-size:13px;height:34px}
+.tabs a{font-size:13px;height:38px}
+th{font-size:10.5px;height:36px}
+td{font-size:13px;height:44px}
+td.num{font-size:12.5px}
+td .sec{font-size:11.5px}
+.btn{font-size:13px}
+.btn.sm{font-size:12.5px;height:28px}
+.input,select.input,textarea.input{font-size:13.5px}
+.alertas .t{font-size:13px}
+.alertas .s{font-size:12px}
+.actividad li{font-size:12.5px}
+.desglose{font-size:13px}
+.badge{font-size:11px;height:21px}
+.migas{font-size:12.5px}
+.oh-meta{font-size:12.5px}
+.k-card .t{font-size:13px}
+
+/* --- Inicio: obras en curso como lista dentro de su caja --- */
+.obras-lista{display:flex;flex-direction:column}
+.obra-fila{display:grid;grid-template-columns:56px minmax(0,1fr) 150px auto 16px;align-items:center;gap:14px;padding:11px var(--gx);border-bottom:1px solid var(--line);text-decoration:none;color:inherit;transition:background-color .15s ease}
+.obra-fila:last-child{border-bottom:0}
+.obra-fila:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}
+.of-foto{position:relative;width:56px;height:40px;border-radius:7px;overflow:hidden;background:var(--surface-3)}
+.of-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s var(--ease-out)}
+.of-foto img.lista{opacity:1}
+.of-foto .oc-ph{font-size:18px}
+.of-foto:not(.sin-foto) .oc-ph{opacity:0}
+.of-t{min-width:0;line-height:1.3}
+.of-t b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.of-t span{display:block;font-size:12px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.of-av .avance{min-width:0}
+.of-m{text-align:right;line-height:1.3;white-space:nowrap}
+.of-m span{display:block;font-size:11px;color:var(--ink-faint)}
+.of-m b{font-weight:600;font-variant-numeric:tabular-nums}
+.of-flecha{color:var(--ink-faint)}
+.actividad .cuando{min-width:72px;text-align:right}
+
+/* --- documentos (planilla de costos, liquidación, presupuesto, recibo): nada se sale del recuadro --- */
+.drawer{width:min(860px,100%)}
+.doc{overflow:hidden}
+.doc table{width:100%;table-layout:auto}
+.doc th,.doc td{padding:7px 8px;height:auto;font-size:12px;white-space:normal}
+.doc th{font-size:10px}
+.doc td.num,.doc th.num{white-space:nowrap}
+.doc td .sec{white-space:normal;max-width:none;overflow:visible;text-overflow:clip;line-height:1.35;margin-top:2px}
+.doc th:first-child,.doc td:first-child{padding-left:10px}
+.doc th:last-child,.doc td:last-child{padding-right:10px}
+.doc tr.rubro td{font-size:11.5px;height:30px}
+
+/* --- configuración: formularios a un ancho razonable --- */
+.card .fila-2,.card .fila-3{max-width:820px}
+
+/* --- negro: escalones bien separados (fondo, menú, tarjetas, encabezados, campos y bordes) --- */
+:root[data-theme="dark"]{
+  --bg:#0A0B0C; --surface:#151618; --surface-2:#1C1E21; --surface-3:#26292C;
+  --line:#2B2E33; --line-2:#3A3E44; --ink-soft:#A6ABAF; --ink-faint:#7A7F84;
+  --sb-bg:#050606; --sb-bg-2:#111214; --sb-bg-3:#1D1F22; --sb-line:#1B1D20;
+  --shadow:inset 0 1px 0 rgba(255,255,255,.035),0 1px 2px rgba(0,0,0,.55);
+  --shadow-2:inset 0 1px 0 rgba(255,255,255,.05),0 14px 30px -16px rgba(0,0,0,.9);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A0B0C; --surface:#151618; --surface-2:#1C1E21; --surface-3:#26292C;
+    --line:#2B2E33; --line-2:#3A3E44; --ink-soft:#A6ABAF; --ink-faint:#7A7F84;
+    --sb-bg:#050606; --sb-bg-2:#111214; --sb-bg-3:#1D1F22; --sb-line:#1B1D20;
+    --shadow:inset 0 1px 0 rgba(255,255,255,.035),0 1px 2px rgba(0,0,0,.55);
+    --shadow-2:inset 0 1px 0 rgba(255,255,255,.05),0 14px 30px -16px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"] .topbar{background:color-mix(in srgb,#101113 92%,transparent);border-bottom-color:var(--line)}
+:root[data-theme="dark"] .input,:root[data-theme="dark"] select.input,:root[data-theme="dark"] textarea.input{background:#0F1012;border-color:var(--line-2)}
+:root[data-theme="dark"] .card-h{background:color-mix(in srgb,#fff 1.5%,var(--surface))}
+:root[data-theme="dark"] th{background:var(--surface-2);color:#8A8F94}
+:root[data-theme="dark"] tr.rubro td{background:#1A1C1F;color:var(--ink-2)}
+:root[data-theme="dark"] .m-f{background:#111214}
+:root[data-theme="dark"] .segmentado{background:#0F1012;border:1px solid var(--line)}
+:root[data-theme="dark"] .segmentado button[aria-pressed="true"]{background:var(--surface-3);box-shadow:none}
+:root[data-theme="dark"] .k-col{background:#101113;border-color:var(--line)}
+:root[data-theme="dark"] .k-card{background:var(--surface);border-color:var(--line-2)}
+:root[data-theme="dark"] .bloqueado{background:var(--surface);border-color:var(--line)}
+:root[data-theme="dark"] .desglose .sep{background:var(--line-2)}
+:root[data-theme="dark"] .doc{background:var(--surface);border-color:var(--line)}
+:root[data-theme="dark"] .yo{background:var(--sb-bg-2)}
+
+@media (max-width:640px){
+  .obra-fila{grid-template-columns:52px minmax(0,1fr) auto;grid-template-areas:"f t m" "f a a";row-gap:6px;column-gap:12px}
+  .of-foto{grid-area:f;width:52px;height:52px}
+  .of-t{grid-area:t}
+  .of-m{grid-area:m}
+  .of-av{grid-area:a}
+  .of-flecha{display:none}
+  .drawer{width:100%}
+  .doc{padding:14px}
+  .doc .tabla-wrap{overflow-x:auto}
+}
+
+/* Inicio: columnas que terminan a la misma altura */
+.grilla-2.parejo{align-items:stretch}
+.grilla-2.parejo > .card,.grilla-2.parejo > .pila{height:100%}
+.grilla-2.parejo .pila > .card:last-child{flex:1}
+@media (max-width:1100px){ .grilla-2.parejo > .card,.grilla-2.parejo > .pila{height:auto} }
+.acc-fila .btn.icon{min-width:0}
+.acc-fila{gap:2px;flex-wrap:nowrap}
+
+/* documentos: si no entran, se deslizan de costado en vez de cortarse */
+.doc{overflow-x:auto}
+.doc table{display:table}
+.doc-tabla{overflow-x:auto}
+@media (max-width:640px){
+  .doc{overflow-x:auto}
+  .doc table{min-width:620px}
+  /* presupuesto en celular: solo lo que se mira en obra */
+  .tabla-wrap td[data-label="Unidad"],.tabla-wrap td[data-label="Costo unit."],.tabla-wrap td[data-label="Precio unit."]{display:none}
+}
