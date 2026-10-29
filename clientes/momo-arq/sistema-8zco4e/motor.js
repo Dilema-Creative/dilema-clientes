@@ -226,6 +226,75 @@
     usosProveedor(id) { return DB.presupuestos.reduce((s, p) => s + p.items.filter((i) => i.prov === id).length, 0) + DB.pagos.filter((p) => p.prov === id).length; }
   };
 
+
+  /* ---------- facturación (ventas emitidas en ARCA, compras, IVA del mes) ---------- */
+  /* Comprobantes emitidos: salen de los mismos cargos de la cuenta del cliente (una sola regla) */
+  M.ventas = function () {
+    const out = [];
+    DB.obras.forEach((o) => M.cargos(o.id).filter((c) => c.comp && c.comp !== 'sin').forEach((c) => {
+      const fe = c.tipo === 'anticipo' ? (o.anticipo.fe || {}) : ((M.cert(c.id) || {}).fe || {});
+      const e = M.estadoCargo(c);
+      MON.forEach((k) => {
+        if (!c.importes[k]) return;
+        out.push({ fecha: c.fecha, obra: o, cliente: M.cliente(o.cliente), cargo: c, tipo: 'Factura ' + c.comp, numero: fe.pv ? fe.pv + '-' + fe.nro : '', cae: fe.cae || '', vto: fe.vto || '', mon: k, neto: r2(c.importes[k] - c.iva[k]), iva: c.iva[k], total: c.importes[k], estado: e.estado });
+      });
+    }));
+    (DB.notasCredito || []).forEach((n) => out.push(Object.assign({ estado: 'Emitida' }, n, { obra: M.obra(n.obra), cliente: M.cliente(M.obra(n.obra).cliente) })));
+    return out.sort((a, b) => b.fecha.localeCompare(a.fecha));
+  };
+  /* Facturas de proveedores: el estado sale de los pagos al mismo proveedor en la misma obra, a la más vieja primero */
+  M.compras = function () {
+    const grupos = {}; const estado = {};
+    DB.facturasCompra.filter((f) => !f.anulada).forEach((f) => { const k = f.prov + '|' + (f.obra || ''); (grupos[k] = grupos[k] || []).push(f); });
+    Object.keys(grupos).forEach((k) => {
+      const [prov, obra] = k.split('|');
+      let pagado = DB.pagos.filter((p) => p.prov === prov && (p.obra || '') === obra && p.mon === 'ARS').reduce((s, p) => s + M.pagoVale(p), 0);
+      grupos[k].sort((a, b) => a.fecha.localeCompare(b.fecha)).forEach((f) => {
+        const ap = Math.max(0, Math.min(f.total, pagado)); pagado = r2(pagado - ap);
+        estado[f.id] = { pagado: r2(ap), saldo: r2(f.total - ap), estado: ap >= f.total - 0.5 ? 'Pagada' : ap > 0.5 ? 'Parcial' : 'Pendiente' };
+      });
+    });
+    return DB.facturasCompra.map((f) => Object.assign({}, f, f.anulada ? { pagado: 0, saldo: 0, estado: 'Anulada' } : estado[f.id])).sort((a, b) => b.fecha.localeCompare(a.fecha));
+  };
+  M.facturadoProv = (obraId, provId) => r2(DB.facturasCompra.filter((f) => !f.anulada && f.obra === obraId && f.prov === provId).reduce((s, f) => s + f.neto, 0));
+  M.ivaMensual = function () {
+    const m = {};
+    const mes = (f) => m[f.slice(0, 7)] || (m[f.slice(0, 7)] = { mes: f.slice(0, 7), ventasNeto: 0, debito: 0, comprasNeto: 0, credito: 0, perc: 0 });
+    M.ventas().filter((v) => v.mon === 'ARS').forEach((v) => { const x = mes(v.fecha); x.ventasNeto = r2(x.ventasNeto + v.neto); x.debito = r2(x.debito + v.iva); });
+    DB.facturasCompra.filter((f) => !f.anulada).forEach((f) => { const x = mes(f.fecha); x.comprasNeto = r2(x.comprasNeto + f.neto); x.credito = r2(x.credito + f.iva); x.perc = r2(x.perc + (f.perc || 0)); });
+    return Object.values(m).map((x) => Object.assign(x, { saldo: r2(x.debito - x.credito - x.perc) })).sort((a, b) => b.mes.localeCompare(a.mes));
+  };
+  M.facturaDuplicada = (prov, tipo, numero, salvoId) => DB.facturasCompra.some((f) => f.id !== salvoId && !f.anulada && f.prov === prov && f.tipo === tipo && f.numero === numero);
+
+  /* ---------- bancos y efectivo: saldo de cada cuenta armado con los mismos cobros, pagos, cheques y gastos ---------- */
+  M.bancos = function () {
+    const ctas = DB.cuentas.map((c) => Object.assign({}, c, { movs: [] }));
+    const porNombre = (n) => ctas.find((c) => c.nombre === n) || ctas.find((c) => c.tipo === 'banco');
+    const ef = ctas.find((c) => c.tipo === 'caja');
+    const add = (c, fecha, txt, imp) => { if (c && fecha && imp) c.movs.push({ fecha, txt, imp: r2(imp) }); };
+    DB.cobros.forEach((cb) => {
+      if (cb.mon !== 'ARS' || !M.cobroVale(cb)) return; const cg = M.cargo(cb.cargo); const o = M.obra(cb.obra);
+      const txt = 'Cobro ' + (cg ? cg.nombre : '') + ' · ' + (o ? o.nombre : '');
+      if (cb.medio === 'transferencia') add(porNombre(cb.banco), cb.fecha, txt, cb.importe);
+      else if (cb.medio === 'efectivo') add(ef, cb.fecha, txt, cb.importe);
+    });
+    DB.cheques.filter((c) => c.tipo === 'tercero' && c.estado === 'depositado').forEach((c) => add(porNombre(c.cuentaDeposito || 'Banco Galicia'), c.deposito, 'Depósito cheque ' + c.banco + ' N° ' + c.numero, c.importe));
+    DB.pagos.forEach((p) => {
+      if (p.mon !== 'ARS' || !M.pagoVale(p)) return; const txt = 'Pago a ' + (M.prov(p.prov) || {}).razon;
+      if (p.medio === 'transferencia') add(porNombre(p.banco || 'Banco Galicia'), p.fecha, txt, -p.importe);
+      else if (p.medio === 'efectivo') add(ef, p.fecha, txt, -p.importe);
+    });
+    DB.cheques.filter((c) => c.tipo === 'propio' && M.estadoCheque(c) === 'debitado').forEach((c) => add(porNombre(c.banco), c.pago, 'Débito cheque propio N° ' + c.numero, -c.importe));
+    DB.gastos.filter((g) => !g.anulado).forEach((g) => add(g.medio === 'efectivo' ? ef : porNombre('Banco Galicia'), g.fecha, g.desc, -g.importe));
+    DB.caja.filter((c) => !c.anulado && c.tipo === 'reposicion').forEach((c) => add(ef, c.fecha, 'Fondo caja chica · ' + (M.obra(c.obra) || {}).nombre, -c.importe));
+    ctas.forEach((c) => {
+      c.movs.sort((a, b) => a.fecha.localeCompare(b.fecha)); let s = c.inicial;
+      c.movs.forEach((m) => { s = r2(s + m.imp); m.saldo = s; }); c.saldo = s;
+      c.aDebitar = r2(DB.cheques.filter((q) => q.tipo === 'propio' && M.estadoCheque(q) === 'emitido' && q.banco === c.nombre).reduce((x, q) => x + q.importe, 0));
+    });
+    return ctas;
+  };
+
   /* Cobros de ejemplo marcados "auto": se completan con el saldo exacto del comprobante, en orden */
   M.resolverAutos = function () {
     DB.cobros.forEach((c) => {

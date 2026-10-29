@@ -1096,3 +1096,44 @@ td .sec{font-size:11.5px}
   /* presupuesto en celular: solo lo que se mira en obra */
   .tabla-wrap td[data-label="Unidad"],.tabla-wrap td[data-label="Costo unit."],.tabla-wrap td[data-label="Precio unit."]{display:none}
 }
+
+
+/* =====================================================================
+   v5 · facturación, ARCA y bancos
+   ===================================================================== */
+.cuit-fila{display:flex;gap:6px}
+.cuit-fila .input{flex:1;min-width:0}
+.cuit-fila .btn{flex:none}
+@keyframes gira{to{transform:rotate(360deg)}}
+.gira{animation:gira .8s linear infinite;display:inline-block}
+.arca-lista{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.arca-fila{display:grid;grid-template-columns:minmax(0,1fr) auto 200px;gap:12px;align-items:center;padding:11px 14px;border-bottom:1px solid var(--line)}
+.arca-fila:last-child{border-bottom:0}
+.arca-fila .check{align-items:flex-start;gap:10px;min-width:0}
+.arca-fila .check input{margin-top:2px;flex:none}
+.arca-fila .check > span{min-width:0}
+.arca-fila .sec{display:block;font-size:12px;color:var(--ink-faint);white-space:normal}
+.arca-fila.ya{opacity:.55}
+.arca-fila .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.arca-fila .input{height:34px}
+.cuentas-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:14px}
+.cuenta-card{display:flex;flex-direction:column;gap:3px;text-align:left;padding:16px var(--gx);border:1px solid var(--line);border-radius:var(--r);background:var(--surface);box-shadow:var(--shadow);color:inherit;font:inherit;cursor:pointer;min-width:0;transition:border-color .15s ease,transform .15s var(--ease-out)}
+.cuenta-card:hover{border-color:var(--line-2)}
+.cuenta-card.total{cursor:default;background:var(--surface-2)}
+.cc-t{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px}
+.cc-t i{font-size:16px;color:var(--ink-soft)}
+.cc-n{font-size:12px;color:var(--ink-faint)}
+.cc-s{margin-top:10px;font-size:21px;font-weight:650;letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-m{font-size:12px;color:var(--ink-soft)}
+@media (max-width:1100px){ .cuentas-grid{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:640px){
+  .cuentas-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+  .cc-s{font-size:17px}
+  .arca-fila{grid-template-columns:minmax(0,1fr) auto}
+  .arca-fila .input,.arca-fila .badge{grid-column:1/-1}
+}
+@media (max-width:640px){
+  .tabla-wrap td:not(:first-child):has(> .sec){flex-wrap:wrap;row-gap:0}
+  .tabla-wrap td:not(:first-child) > .sec{flex-basis:100%;text-align:right;margin-top:1px}
+}
+.arca-fila{grid-template-columns:minmax(0,1fr) auto 250px}

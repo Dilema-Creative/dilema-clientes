@@ -171,12 +171,12 @@
       { id: 'cb3', obra: 'o1', cargo: 'ce1', fecha: dia(-40), importe: 0, auto: 'saldo', mon: 'ARS', medio: 'transferencia', banco: 'Banco Galicia', creado: { por: 'u4', ts: ts(-40) } },
       { id: 'cb4', obra: 'o1', cargo: 'ce2', fecha: dia(-9), importe: 8000000, mon: 'ARS', medio: 'cheque', cheque: 'ch2', creado: { por: 'u4', ts: ts(-9) } },
       { id: 'cb5', obra: 'o1', cargo: 'ce2', fecha: dia(-9), importe: 5200000, mon: 'ARS', medio: 'cheque', cheque: 'ch3', creado: { por: 'u4', ts: ts(-9, 11) } },
-      { id: 'cb6', obra: 'o2', cargo: 'ant-o2', fecha: dia(-46), importe: 0, auto: 'ant', mon: 'ARS', medio: 'transferencia', banco: 'Banco Galicia', creado: { por: 'u1', ts: ts(-46) } },
+      { id: 'cb6', obra: 'o2', cargo: 'ant-o2', fecha: dia(-46), importe: 0, auto: 'ant', mon: 'ARS', medio: 'transferencia', banco: 'Banco Santander', creado: { por: 'u1', ts: ts(-46) } },
       { id: 'cb7', obra: 'o2', cargo: 'ant-o2', fecha: dia(-46), importe: 0, auto: 'ant', mon: 'USD', medio: 'efectivo', creado: { por: 'u1', ts: ts(-46, 12) } },
       { id: 'cb8', obra: 'o2', cargo: 'ce3', fecha: dia(-6), importe: 0, auto: 'saldo-usd', mon: 'USD', medio: 'efectivo', creado: { por: 'u1', ts: ts(-6) } },
       { id: 'cb9', obra: 'o4', cargo: 'ant-o4', fecha: dia(-143), importe: 4100000, mon: 'ARS', medio: 'cheque', cheque: 'ch5', creado: { por: 'u4', ts: ts(-143) } },
       { id: 'cb12', obra: 'o4', cargo: 'ant-o4', fecha: dia(-142), importe: 0, auto: 'saldo', mon: 'ARS', medio: 'transferencia', banco: 'Banco Galicia', creado: { por: 'u4', ts: ts(-142) } },
-      { id: 'cb10', obra: 'o4', cargo: 'ce4', fecha: dia(-110), importe: 0, auto: 'saldo', mon: 'ARS', medio: 'transferencia', banco: 'Banco Galicia', creado: { por: 'u4', ts: ts(-110) } },
+      { id: 'cb10', obra: 'o4', cargo: 'ce4', fecha: dia(-110), importe: 0, auto: 'saldo', mon: 'ARS', medio: 'transferencia', banco: 'Banco Santander', creado: { por: 'u4', ts: ts(-110) } },
       { id: 'cb11', obra: 'o4', cargo: 'ce5', fecha: dia(-100), importe: 0, auto: 'saldo', mon: 'ARS', medio: 'transferencia', banco: 'Banco Galicia', creado: { por: 'u4', ts: ts(-100) } }
     ];
 
@@ -189,7 +189,7 @@
       { id: 'pg6', obra: 'o2', prov: 'p1', fecha: dia(-20), importe: 1450000, mon: 'ARS', medio: 'efectivo', detalle: 'Demolición', creado: { por: 'u1', ts: ts(-20) } },
       { id: 'pg7', obra: 'o2', prov: 'p7', fecha: dia(-15), importe: 4000, mon: 'USD', medio: 'efectivo', detalle: 'Anticipo equipos VRV', creado: { por: 'u1', ts: ts(-15) } },
       { id: 'pg8', obra: 'o4', prov: 'p5', fecha: dia(-105), importe: 4100000, mon: 'ARS', medio: 'cheque-tercero', cheque: 'ch5', detalle: 'Endoso cheque Vértice', creado: { por: 'u4', ts: ts(-105) } },
-      { id: 'pg9', obra: 'o4', prov: 'p5', fecha: dia(-100), importe: 3300000, mon: 'ARS', medio: 'transferencia', banco: 'Banco Galicia', detalle: 'Saldo stand', creado: { por: 'u4', ts: ts(-100) } },
+      { id: 'pg9', obra: 'o4', prov: 'p5', fecha: dia(-100), importe: 3300000, mon: 'ARS', medio: 'transferencia', banco: 'Banco Santander', detalle: 'Saldo stand', creado: { por: 'u4', ts: ts(-100) } },
       { id: 'pg10', obra: 'o4', prov: 'p4', fecha: dia(-100), importe: 1850000, mon: 'ARS', medio: 'transferencia', banco: 'Banco Galicia', detalle: 'Iluminación', creado: { por: 'u4', ts: ts(-100) } },
       { id: 'pg11', obra: 'o4', prov: 'p1', fecha: dia(-100), importe: 1600000, mon: 'ARS', medio: 'efectivo', detalle: 'Montaje y fletes', creado: { por: 'u4', ts: ts(-100) } }
     ];
@@ -241,6 +241,32 @@
       { ts: ts(-8, 15), por: 'u3', txt: 'Cargó un gasto de caja chica: Volquete', obra: 'o1' }
     ];
 
+    /* facturas de proveedores ya cargadas: [id, prov, obra, tipo, numero, fecha, neto, alícuota, percepciones, descripción] */
+    const fc = (a) => { const iva = a[3] === 'C' ? 0 : Math.round(a[6] * a[7]) / 100; return { id: a[0], prov: a[1], obra: a[2], tipo: a[3], numero: a[4], fecha: a[5], neto: a[6], alic: a[3] === 'C' ? 0 : a[7], iva, perc: a[8] || 0, total: Math.round((a[6] + iva + (a[8] || 0)) * 100) / 100, desc: a[9], origen: 'manual', creado: { por: 'u4', ts: ts(-1) } }; };
+    const facturasCompra = [
+      ['fc1', 'p2', 'o1', 'A', '0002-00000451', dia(-41), 1983471.07, 21, 0, 'Anticipo cielorrasos y tabiques'],
+      ['fc2', 'p6', 'o1', 'A', '0003-00002210', dia(-31), 2561983.47, 21, 0, 'Anticipo 50% frente vidriado'],
+      ['fc3', 'p4', 'o1', 'A', '0001-00000987', dia(-13), 2000000, 21, 0, 'Tablero seccional y primeras bocas'],
+      ['fc4', 'p5', 'o1', 'A', '0004-00000112', dia(-7), 2809917.36, 21, 0, 'Probadores, avance 60%'],
+      ['fc5', 'p9', 'o1', 'A', '0005-00012811', dia(-25), 620000, 21, 18600, 'Placas, perfiles y masilla'],
+      ['fc6', 'p8', 'o2', 'C', '0002-00000081', dia(-18), 950000, 0, 0, 'Instalación cloacal baño suite, avance']
+    ].map(fc);
+    /* comprobantes que ya figuran en ARCA (Mis Comprobantes) y todavía no se cargaron */
+    const arcaRecibidos = [
+      { id: 'ar1', prov: 'p9', tipo: 'A', numero: '0005-00012876', fecha: dia(-4), neto: 845000, alic: 21, perc: 25350, desc: 'Porcelanato y pegamento', sugerida: 'o1' },
+      { id: 'ar2', prov: 'p3', tipo: 'A', numero: '0001-00000233', fecha: dia(-3), neto: 1500000, alic: 21, perc: 0, desc: 'Pintura de cielorrasos y paredes, avance', sugerida: 'o1' },
+      { id: 'ar3', prov: 'p7', tipo: 'A', numero: '0006-00000412', fecha: dia(-2), neto: 2300000, alic: 21, perc: 0, desc: 'Equipos VRV, primera entrega', sugerida: 'o2' },
+      { id: 'ar4', prov: 'p6', tipo: 'A', numero: '0003-00002210', fecha: dia(-31), neto: 2561983.47, alic: 21, perc: 0, desc: 'Anticipo 50% frente vidriado', sugerida: 'o1' }
+    ].map((x) => Object.assign(x, { iva: Math.round(x.neto * x.alic) / 100, total: Math.round((x.neto + Math.round(x.neto * x.alic) / 100 + x.perc) * 100) / 100 }));
+    const padron = {};
+    padron[cuit(30, 71522418)] = { razon: 'Aberturas Delta SRL', iva: 'Responsable inscripto', dir: 'Av. San Martín 4120, Florida' };
+    padron[cuit(20, 33812774)] = { razon: 'Giménez, Lucas Martín', iva: 'Monotributista', dir: 'Moreno 2210, Ramos Mejía' };
+    const cuentas = [
+      { id: 'galicia', nombre: 'Banco Galicia', tipo: 'banco', numero: 'CC $ 4021-8 033-5', inicial: 2150000 },
+      { id: 'santander', nombre: 'Banco Santander', tipo: 'banco', numero: 'CC $ 112-009871/4', inicial: 640000 },
+      { id: 'efectivo', nombre: 'Efectivo', tipo: 'caja', numero: 'Caja fuerte del estudio', inicial: 9300000 }
+    ];
+
     return {
       version: 1,
       contadores: { obra: 418, id: 1000 },
@@ -248,7 +274,8 @@
       rubros, unidades: ['gl', 'm2', 'ml', 'm3', 'u', 'kg'],
       bancos: ['Banco Galicia', 'Banco Santander', 'Banco Macro', 'Banco Nación', 'Banco Provincia', 'BBVA', 'Banco Credicoop', 'Banco Patagonia', 'Banco Supervielle', 'Banco ICBC'],
       equipo, clientes, proveedores, obras, presupuestos, certificados, indicesCAC,
-      cobros, pagos, cheques, caja, gastos, tareas, documentos, auditoria
+      cobros, pagos, cheques, caja, gastos, tareas, documentos, auditoria,
+      facturasCompra, arcaRecibidos, padron, cuentas, notasCredito: []
     };
   };
 })();

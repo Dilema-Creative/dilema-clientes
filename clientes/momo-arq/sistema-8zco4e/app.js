@@ -28,13 +28,18 @@
   const esMovil = () => window.matchMedia('(max-width: 640px)').matches;
 
   /* ================= base ================= */
-  const KEY = 'momo-argos-maqueta-v2';
+  const KEY = 'momo-argos-maqueta-v3';
   let DB;
   function normalizar(db) {
     db.config.baseCAC = db.config.baseCAC || '2026-03';
     db.certificados.forEach((c) => { if (!c.estado) c.estado = 'emitido'; c.ed = (c.ed || []).map((e) => Object.assign({ mo: 0, mat: e.precio || 0 }, e)); });
     db.presupuestos.forEach((p) => p.items.forEach((i) => { if (i.iibb == null) i.iibb = 0; if (i.interno == null) i.interno = i.costo ? r2((i.venta / i.costo - 1) * 100) : 0; }));
     ['clientes', 'proveedores'].forEach((k) => db[k].forEach((x) => { if (x.archivado == null) x.archivado = false; }));
+    db.facturasCompra = db.facturasCompra || []; db.notasCredito = db.notasCredito || []; db.arcaRecibidos = db.arcaRecibidos || []; db.padron = db.padron || {}; db.cuentas = db.cuentas || [];
+    const fe = [];
+    db.obras.forEach((o) => { if (o.anticipo && o.anticipo.fecha && o.anticipo.comp && o.anticipo.comp !== 'sin' && !o.anticipo.fe) fe.push({ f: o.anticipo.fecha, l: o.anticipo.comp, set: (x) => { o.anticipo.fe = x; } }); });
+    db.certificados.forEach((c) => { if (c.estado === 'emitido' && c.comp && c.comp !== 'sin' && !c.fe) fe.push({ f: c.fecha, l: c.comp, set: (x) => { c.fe = x; } }); });
+    fe.sort((a, b) => a.f.localeCompare(b.f)).forEach((x) => x.set(nuevoFE(db, x.l, x.f)));
     return db;
   }
   function cargar() {
@@ -91,6 +96,7 @@
     if (puede('teso') || puede('config')) {
       h += '<div class="nav-grupo"><h3>Administración</h3>';
       if (puede('teso')) h += item('tesoreria', 'bank', 'Tesorería', r === 'tesoreria', chq);
+      if (puede('teso')) h += item('facturacion', 'receipt', 'Facturación', r === 'facturacion', DB.arcaRecibidos.filter((x) => !M.facturaDuplicada(x.prov, x.tipo, x.numero)).length);
       if (puede('config')) h += item('config', 'gear-six', 'Configuración', r === 'config');
       h += '</div>';
     }
@@ -110,9 +116,9 @@
 
   function render(animar) {
     const p = ruta();
-    const vistas = { inicio: vInicio, obras: vObras, obra: vObra, tareas: vTareas, clientes: vClientes, proveedores: vProveedores, tesoreria: vTesoreria, config: vConfig };
+    const vistas = { inicio: vInicio, obras: vObras, obra: vObra, tareas: vTareas, clientes: vClientes, proveedores: vProveedores, tesoreria: vTesoreria, facturacion: vFacturacion, config: vConfig };
     let V = vistas[p[0]] || vInicio;
-    if ((p[0] === 'tesoreria' && !puede('teso')) || (p[0] === 'config' && !puede('config'))) V = vInicio;
+    if (((p[0] === 'tesoreria' || p[0] === 'facturacion') && !puede('teso')) || (p[0] === 'config' && !puede('config'))) V = vInicio;
     if (p[0] === 'obra' && !M.obra(p[1])) V = vObras;
     const html = V(p);
     setHTML($('#vista'), '<div class="' + (animar ? 'entra' : '') + '">' + html + '</div>');
@@ -450,7 +456,7 @@
         '<span class="sep"></span><span>Subtotal</span><span class="r">' + fmt(x.subtotal, m) + '</span>' + (x.iva ? '<span>IVA ' + DB.config.iva + '%</span><span class="r">' + fmt(x.iva, m) + '</span>' : '') +
         '<span class="total">Total a cobrar' + (m === 'USD' ? ' en dólares' : '') + '</span><span class="r total">' + fmt(x.total, m) + '</span></div>';
     };
-    return '<div class="doc imprimible"><div class="doc-cab"><img class="logo" src="' + esc($('.brand .logo').getAttribute('src')) + '" alt="MOMO"><div><h3>' + certNombre(c) + ' · ' + esc(o.nombre) + '</h3><div class="s">' + esc(cli.razon) + (cli.cuit ? ' · CUIT ' + cuitFmt(cli.cuit) : '') + '</div><div class="s">' + esc(o.dir) + '</div></div><div class="der">' + fLarga(c.fecha) + '<br>Obra ' + o.num + (c.estado === 'emitido' ? '<br>' + esc(compTxt(c.comp)) : '') + '</div></div>' +
+    return '<div class="doc imprimible"><div class="doc-cab"><img class="logo" src="' + esc($('.brand .logo').getAttribute('src')) + '" alt="MOMO"><div><h3>' + certNombre(c) + ' · ' + esc(o.nombre) + '</h3><div class="s">' + esc(cli.razon) + (cli.cuit ? ' · CUIT ' + cuitFmt(cli.cuit) : '') + '</div><div class="s">' + esc(o.dir) + '</div></div><div class="der">' + fLarga(c.fecha) + '<br>Obra ' + o.num + (c.estado === 'emitido' ? '<br>' + esc(compTxt(c.comp)) + (c.fe ? ' N° ' + esc(c.fe.pv + '-' + c.fe.nro) + '<br><span class="mono">CAE ' + esc(c.fe.cae) + '</span>' : '') : '') + '</div></div>' +
       '<table><thead><tr><th>Ítem</th><th class="num">Anterior</th><th class="num">Este mes</th><th class="num">Acumulado</th>' + (conPlata ? '<th class="num">Importe</th>' : '') + '</tr></thead><tbody>' + filas + ed + '</tbody></table>' +
       (conPlata ? '<div class="sp"></div>' + bloquesTotales([des('ARS'), des('USD')]) : '') + '</div>';
   }
@@ -544,7 +550,7 @@
     const datos = { obra: d.obra, num: d.num, fecha: d.fecha, mesCAC: d.mesCAC, avances: Object.fromEntries(Object.entries(d.avances).filter(([, v]) => Number(v) > 0)), ed: d.ed.map((e) => Object.assign({}, e)), estado };
     let c = d.id ? M.cert(d.id) : null;
     if (c) Object.assign(c, datos); else { c = Object.assign({ id: nid('ce'), creado: creado() }, datos); DB.certificados.push(c); }
-    if (estado === 'emitido') { c.comp = comp; c.emitido = creado(); log('Emitió el certificado N° ' + c.num + ' (' + compTxt(comp) + ')', o.id); }
+    if (estado === 'emitido') { c.comp = comp; c.emitido = creado(); if (comp !== 'sin') c.fe = nuevoFE(DB, comp, c.fecha); log('Emitió el certificado N° ' + c.num + ' (' + compTxt(comp) + ')', o.id); }
     else log('Guardó el certificado N° ' + c.num + ' en borrador', o.id);
     guardar(); UI.certDraft = null; return c;
   }
@@ -552,10 +558,10 @@
   /* ---------- proveedores de la obra ---------- */
   function tProveedores(o) {
     const lista = M.provDeObra(o.id);
-    const filas = lista.map((f) => { const p = M.prov(f.prov); return '<tr><td><b>' + esc(p.razon) + '</b>' + (p.interno ? ' <span class="badge">Propio</span>' : '') + '<span class="sec">' + esc(p.rubros.map((r) => M.rubro(r).nombre).join(', ')) + '</span></td><td class="num">' + doble(f.pactado) + '</td><td class="num">' + doble(f.devengado) + '</td><td class="num">' + doble(f.pagado) + '</td><td class="num"><b>' + (f.aPagar.ARS > 0.5 || f.aPagar.USD > 0.5 ? doble({ ARS: Math.max(0, f.aPagar.ARS), USD: Math.max(0, f.aPagar.USD) }) : (f.aPagar.ARS < -0.5 || f.aPagar.USD < -0.5 ? '<span class="badge b-info">Adelantado ' + doble({ ARS: -Math.min(0, f.aPagar.ARS), USD: -Math.min(0, f.aPagar.USD) }) + '</span>' : '<span class="tenue">Al día</span>')) + '</b></td><td class="num">' + doble(f.resta) + '</td><td><button class="btn sm" data-accion="nuevo-pago" data-obra="' + o.id + '" data-prov="' + f.prov + '">' + ic('money') + 'Pagar</button></td></tr>'; }).join('');
+    const filas = lista.map((f) => { const p = M.prov(f.prov); return '<tr><td><b>' + esc(p.razon) + '</b>' + (p.interno ? ' <span class="badge">Propio</span>' : '') + '<span class="sec">' + esc(p.rubros.map((r) => M.rubro(r).nombre).join(', ')) + '</span></td><td class="num">' + doble(f.pactado) + '</td><td class="num">' + doble(f.devengado) + '</td><td class="num">' + (p.interno ? '<span class="tenue">Propio</span>' : (() => { const fa = M.facturadoProv(o.id, f.prov); return fa > f.devengado.ARS + 0.5 && fa > 0 ? '<span class="badge b-warn" title="Facturó más de lo certificado">' + fmt(fa) + '</span>' : fa ? fmt(fa) : '<span class="tenue">Sin facturas</span>'; })()) + '</td><td class="num">' + doble(f.pagado) + '</td><td class="num"><b>' + (f.aPagar.ARS > 0.5 || f.aPagar.USD > 0.5 ? doble({ ARS: Math.max(0, f.aPagar.ARS), USD: Math.max(0, f.aPagar.USD) }) : (f.aPagar.ARS < -0.5 || f.aPagar.USD < -0.5 ? '<span class="badge b-info">Adelantado ' + doble({ ARS: -Math.min(0, f.aPagar.ARS), USD: -Math.min(0, f.aPagar.USD) }) + '</span>' : '<span class="tenue">Al día</span>')) + '</b></td><td class="num">' + doble(f.resta) + '</td><td><button class="btn sm" data-accion="nuevo-pago" data-obra="' + o.id + '" data-prov="' + f.prov + '">' + ic('money') + 'Pagar</button></td></tr>'; }).join('');
     const pagos = M.pagosDe(o.id).filter((p) => UI.teso.anulados || !p.anulado).sort((a, b) => b.fecha.localeCompare(a.fecha)).map((p) => filaPago(p, false)).join('');
     return '<div class="aviso info">' + ic('info') + '<div><b>Cómo se lee:</b> lo pactado sale del presupuesto aprobado (costo de cada ítem asignado). Lo certificado es ese costo por el avance acumulado. A pagar = certificado − pagado. Nada se tipea dos veces.</div></div>' +
-      '<div class="tabla-wrap"><table><thead><tr><th>Proveedor</th><th class="num">Pactado</th><th class="num">Certificado</th><th class="num">Pagado</th><th class="num">A pagar hoy</th><th class="num">Resta del contrato</th><th></th></tr></thead><tbody>' + (filas || '<tr><td colspan="7">' + vacio('toolbox', 'Asigná proveedores a los ítems del presupuesto.') + '</td></tr>') + '</tbody></table></div>' +
+      '<div class="tabla-wrap"><table><thead><tr><th>Proveedor</th><th class="num">Pactado</th><th class="num">Certificado</th><th class="num">Facturado</th><th class="num">Pagado</th><th class="num">A pagar hoy</th><th class="num">Resta del contrato</th><th></th></tr></thead><tbody>' + (filas || '<tr><td colspan="8">' + vacio('toolbox', 'Asigná proveedores a los ítems del presupuesto.') + '</td></tr>') + '</tbody></table></div>' +
       '<div class="sp"></div><div class="toolbar"><div class="filtros"><b>Pagos de la obra</b></div><div class="acciones"><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anulados</label><button class="btn primary" data-accion="nuevo-pago" data-obra="' + o.id + '">' + ic('plus') + 'Registrar pago</button></div></div>' +
       (pagos ? '<div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Proveedor</th><th>Detalle</th><th>Medio</th><th class="num">Importe</th><th>Cargado por</th><th></th></tr></thead><tbody>' + pagos + '</tbody></table></div>' : '<div class="card">' + vacio('money', 'Sin pagos todavía.') + '</div>');
   }
@@ -688,11 +694,17 @@
 
   /* ================= TESORERÍA ================= */
   function vTesoreria(p) {
-    const tab = p[1] || 'cobros'; migas([['Tesorería', '#/tesoreria'], [{ cobros: 'Cobros', pagos: 'Pagos', cheques: 'Cheques', gastos: 'Gastos del estudio' }[tab] || 'Cobros', '']]);
+    const tab = p[1] || 'bancos'; migas([['Tesorería', '#/tesoreria'], [{ bancos: 'Bancos y efectivo', cobros: 'Cobros', pagos: 'Pagos', cheques: 'Cheques', gastos: 'Gastos del estudio' }[tab] || 'Bancos y efectivo', '']]);
     const verSin = puede('sin');
-    const tabs = '<nav class="tabs">' + [['cobros', 'Cobros', 'hand-coins'], ['pagos', 'Pagos', 'money'], ['cheques', 'Cheques', 'money-wavy'], ['gastos', 'Gastos del estudio', 'storefront']].map((t) => '<a href="#/tesoreria/' + t[0] + '"' + (t[0] === tab ? ' aria-current="page"' : '') + '>' + ic(t[2]) + t[1] + '</a>').join('') + '</nav>';
+    const tabs = '<nav class="tabs">' + [['bancos', 'Bancos y efectivo', 'bank'], ['cobros', 'Cobros', 'hand-coins'], ['pagos', 'Pagos', 'money'], ['cheques', 'Cheques', 'money-wavy'], ['gastos', 'Gastos del estudio', 'storefront']].map((t) => '<a href="#/tesoreria/' + t[0] + '"' + (t[0] === tab ? ' aria-current="page"' : '') + '>' + ic(t[2]) + t[1] + '</a>').join('') + '</nav>';
     let cuerpo = '';
-    if (tab === 'cobros') {
+    if (tab === 'bancos') {
+      const ctas = M.bancos(); const total = ctas.reduce((s2, c) => s2 + c.saldo, 0);
+      const cartera = DB.cheques.filter((c) => c.tipo === 'tercero' && c.estado === 'cartera').reduce((s2, c) => s2 + c.importe, 0);
+      cuerpo = '<div class="cuentas-grid" data-stagger>' + ctas.map((c) => '<button type="button" class="cuenta-card" data-accion="ver-cuenta" data-id="' + c.id + '"><span class="cc-t">' + ic(c.tipo === 'caja' ? 'wallet' : 'bank') + esc(c.nombre) + '</span><span class="cc-n">' + esc(c.numero) + '</span><b class="cc-s">' + fmt(c.saldo) + '</b><span class="cc-m">' + (c.aDebitar ? 'Cheques propios por debitar: ' + fmt(c.aDebitar) : c.movs.length + ' movimientos') + '</span></button>').join('') + '<div class="cuenta-card total"><span class="cc-t">' + ic('coins') + 'Disponible total</span><span class="cc-n">Bancos más efectivo</span><b class="cc-s">' + fmt(total) + '</b><span class="cc-m">Más ' + fmt(cartera) + ' en cheques en cartera</span></div></div>' +
+        '<p class="tenue">Cada saldo sale de los mismos cobros, pagos, cheques y gastos que se cargan en el resto del sistema. Tocá una cuenta para ver sus movimientos.</p>' +
+        (() => { const mv = []; ctas.forEach((c) => c.movs.forEach((x) => mv.push(Object.assign({ cta: c.nombre }, x)))); mv.sort((a, b) => b.fecha.localeCompare(a.fecha)); return '<div class="seccion-h"><h2>Últimos movimientos</h2></div><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Movimiento</th><th>Cuenta</th><th class="num">Entra</th><th class="num">Sale</th></tr></thead><tbody>' + mv.slice(0, 12).map((x) => '<tr><td>' + fFecha(x.fecha) + '</td><td>' + esc(x.txt) + '</td><td>' + esc(x.cta) + '</td><td class="num">' + (x.imp > 0 ? '<b>' + fmt(x.imp) + '</b>' : '') + '</td><td class="num">' + (x.imp < 0 ? fmt(-x.imp) : '') + '</td></tr>').join('') + '</tbody></table></div>'; })();
+    } else if (tab === 'cobros') {
       const lista = DB.cobros.filter((c) => (UI.teso.anulados || !c.anulado) && (verSin || (M.cargo(c.cargo) || {}).comp !== 'sin')).sort((a, b) => b.fecha.localeCompare(a.fecha));
       cuerpo = '<div class="toolbar"><div class="filtros"><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anulados</label></div></div><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Obra</th><th>Comprobante</th><th>Medio</th><th class="num">Importe</th><th>Cargado por</th><th></th></tr></thead><tbody>' + lista.map((c) => { const cg = M.cargo(c.cargo); return '<tr class="' + (!M.cobroVale(c) ? 'anulado' : '') + '"><td>' + fFecha(c.fecha) + '</td><td>' + esc(M.obra(c.obra).nombre) + '</td><td>' + esc(cg ? cg.nombre : '') + '</td><td>' + esc(medioTxt(c)) + '</td><td class="num"><b>' + fmt(c.importe, c.mon) + '</b></td><td>' + persona(c.creado.por) + '</td><td>' + (c.anulado ? badge('Anulado') : '<button class="btn sm ghost" data-accion="anular-cobro" data-id="' + c.id + '">Anular</button>') + '</td></tr>'; }).join('') + '</tbody></table></div>';
     } else if (tab === 'pagos') {
@@ -717,6 +729,115 @@
       cuerpo = '<div class="toolbar"><div class="filtros"><span class="suave">Gastos a cargo de Momo, que no son de ninguna obra (alquiler, servicios, movilidad).</span></div><div class="acciones"><button class="btn primary" data-accion="nuevo-gasto">' + ic('plus') + 'Nuevo gasto</button></div></div><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Rubro</th><th>Concepto</th><th>Medio</th><th class="num">Importe</th><th>Cargado por</th></tr></thead><tbody>' + lista.map((g) => '<tr><td>' + fFecha(g.fecha) + '</td><td>' + badge(g.rubro) + '</td><td>' + esc(g.desc) + '</td><td>' + esc({ transferencia: 'Transferencia', efectivo: 'Efectivo', tarjeta: 'Tarjeta' }[g.medio] || g.medio) + '</td><td class="num"><b>' + fmt(g.importe) + '</b></td><td>' + persona(g.creado.por) + '</td></tr>').join('') + '</tbody></table></div>';
     }
     return '<div class="encabezado"><div><h1>Tesorería</h1><p>Todos los cobros y pagos de todas las obras, los cheques y los gastos del estudio.</p></div></div>' + tabs + cuerpo;
+  }
+
+  /* ================= FACTURACIÓN (ARCA simulado en la maqueta) ================= */
+  function descargarCSV(nombre, cols, filas) {
+    const linea = (arr) => arr.map((x) => { const s = typeof x === 'number' ? String(x).replace('.', ',') : String(x == null ? '' : x); return /[";\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }).join(';');
+    const csv = '﻿' + [linea(cols)].concat(filas.map(linea)).join('\r\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' })); a.download = nombre + '.csv';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  }
+  const ESTADO_COMPRA = { Pagada: 'b-ok', Parcial: 'b-warn', Pendiente: 'b-bad', Anulada: '' };
+  function vFacturacion(p) {
+    const tab = p[1] || 'ventas';
+    const nombres = { ventas: 'Facturas emitidas', compras: 'Facturas de proveedores', iva: 'IVA del mes' };
+    migas([['Facturación', '#/facturacion'], [nombres[tab] || nombres.ventas, '']]);
+    const pendArca = DB.arcaRecibidos.filter((r) => !M.facturaDuplicada(r.prov, r.tipo, r.numero)).length;
+    const tabs = '<nav class="tabs">' + [['ventas', 'Facturas emitidas', 'receipt'], ['compras', 'Facturas de proveedores', 'file-arrow-down', pendArca], ['iva', 'IVA del mes', 'percent']].map((t) => '<a href="#/facturacion/' + t[0] + '"' + (t[0] === tab ? ' aria-current="page"' : '') + '>' + ic(t[2]) + t[1] + (t[3] ? '<span class="cuenta">' + t[3] + '</span>' : '') + '</a>').join('') + '</nav>';
+    let cuerpo = '';
+    if (tab === 'ventas') {
+      const v = M.ventas();
+      const tot = v.filter((x) => x.mon === 'ARS').reduce((s, x) => s + x.total, 0);
+      cuerpo = '<div class="aviso info">' + ic('seal-check') + '<div><b>Salen solas de los certificados y anticipos.</b> Al emitir un certificado con factura, el sistema pide el CAE a ARCA y numera el comprobante. Si se anula, emite la nota de crédito. En la maqueta, ARCA está simulado.</div></div>' +
+        '<div class="toolbar"><div class="filtros"><span class="suave">' + v.length + ' comprobantes · <b>' + fmt(tot) + '</b> en pesos</span></div><div class="acciones"><button class="btn" data-accion="exportar-ventas">' + ic('microsoft-excel-logo') + 'Excel</button></div></div>' +
+        (v.length ? '<div class="tabla-wrap"><table><thead><tr><th>Comprobante</th><th>Fecha</th><th>Cliente</th><th>Concepto</th><th class="num">Neto</th><th class="num">IVA</th><th class="num">Total</th><th>CAE</th><th>Cobro</th></tr></thead><tbody>' + v.map((x) => '<tr class="clic"' + (x.cargo && x.cargo.tipo === 'certificado' ? ' data-accion="ver-cert" data-id="' + x.cargo.id + '"' : ' data-ir="#/obra/' + x.obra.id + '/cuenta"') + '><td><b>' + esc(x.tipo) + '</b><span class="sec">' + esc(x.numero || 'sin numerar') + '</span></td><td>' + fFecha(x.fecha) + '</td><td>' + esc(x.cliente.razon) + '<span class="sec">' + (x.cliente.cuit ? 'CUIT ' + cuitFmt(x.cliente.cuit) : esc(x.cliente.iva)) + '</span></td><td>' + esc(x.cargo ? x.cargo.nombre : x.concepto || '') + '<span class="sec">' + esc(x.obra.nombre) + '</span></td><td class="num">' + fmt(x.neto, x.mon) + '</td><td class="num">' + fmt(x.iva, x.mon) + '</td><td class="num"><b>' + fmt(x.total, x.mon) + '</b></td><td><span class="mono">' + esc(x.cae) + '</span><span class="sec">Vence ' + (x.vto ? fFecha(x.vto) : '-') + '</span></td><td>' + badge(x.estado, ESTADO_CARGO[x.estado] || 'b-info') + '</td></tr>').join('') + '</tbody></table></div>' : '<div class="card">' + vacio('receipt', 'Todavía no hay facturas emitidas.') + '</div>');
+    } else if (tab === 'compras') {
+      const l = M.compras().filter((f) => UI.teso.anulados || f.estado !== 'Anulada');
+      const pend = l.filter((f) => f.estado !== 'Anulada').reduce((s, f) => s + f.saldo, 0);
+      cuerpo = (pendArca ? '<div class="aviso warn">' + ic('cloud-arrow-down') + '<div><b>Hay ' + pendArca + ' facturas de proveedores en ARCA que todavía no están cargadas.</b> El sistema las trae de "Mis Comprobantes" y solo falta decir a qué obra van.</div><button class="btn sm" data-accion="traer-arca">Traer de ARCA</button></div>' : '') +
+        '<div class="toolbar"><div class="filtros"><span class="suave">' + l.length + ' facturas · a pagar <b>' + fmt(pend) + '</b></span><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anuladas</label></div><div class="acciones"><button class="btn" data-accion="exportar-compras">' + ic('microsoft-excel-logo') + 'Excel</button><button class="btn" data-accion="traer-arca">' + ic('cloud-arrow-down') + 'Traer de ARCA</button><button class="btn primary" data-accion="nueva-compra">' + ic('plus') + 'Cargar factura</button></div></div>' +
+        (l.length ? '<div class="tabla-wrap"><table><thead><tr><th>Proveedor</th><th>Comprobante</th><th>Fecha</th><th>Imputada a</th><th class="num">Neto</th><th class="num">IVA</th><th class="num">Total</th><th class="num">Saldo</th><th>Estado</th><th></th></tr></thead><tbody>' + l.map((f) => { const pv = M.prov(f.prov) || {}; return '<tr class="' + (f.anulada ? 'anulado' : '') + '"><td><b>' + esc(pv.razon) + '</b><span class="sec">' + (pv.cuit ? 'CUIT ' + cuitFmt(pv.cuit) : 'Sin CUIT') + '</span></td><td>Factura ' + esc(f.tipo) + '<span class="sec">' + esc(f.numero) + (f.origen === 'arca' ? ' · desde ARCA' : '') + '</span></td><td>' + fFecha(f.fecha) + '</td><td>' + (f.obra ? esc(M.obra(f.obra).nombre) : '<span class="tenue">Gasto del estudio</span>') + '<span class="sec">' + esc(f.desc || '') + '</span></td><td class="num">' + fmt(f.neto) + '</td><td class="num">' + fmt(f.iva + (f.perc || 0)) + '</td><td class="num"><b>' + fmt(f.total) + '</b></td><td class="num">' + (f.estado === 'Anulada' ? '-' : fmt(f.saldo)) + '</td><td>' + badge(f.estado, ESTADO_COMPRA[f.estado]) + '</td><td><div class="acc-fila">' + (f.anulada ? '' : (f.saldo > 0.5 && f.obra ? '<button class="btn sm" data-accion="nuevo-pago" data-obra="' + f.obra + '" data-prov="' + f.prov + '">Pagar</button>' : '') + '<button class="btn sm ghost" data-accion="anular-compra" data-id="' + f.id + '">Anular</button>') + '</div></td></tr>'; }).join('') + '</tbody></table></div>' : '<div class="card">' + vacio('file-arrow-down', 'Sin facturas de proveedores.') + '</div>');
+    } else {
+      const meses = M.ivaMensual();
+      cuerpo = '<div class="aviso info">' + ic('percent') + '<div><b>Débito, crédito y saldo de cada mes, sin armar planillas.</b> Sale de las facturas emitidas y de las de proveedores cargadas. En el sistema real se exporta el Libro de IVA Digital para el estudio contable.</div></div>' +
+        '<div class="toolbar"><div class="filtros"></div><div class="acciones"><button class="btn" data-accion="exportar-iva">' + ic('microsoft-excel-logo') + 'Excel</button><button class="btn" data-accion="libro-iva">' + ic('file-text') + 'Libro de IVA Digital</button></div></div>' +
+        '<div class="tabla-wrap"><table><thead><tr><th>Mes</th><th class="num">Ventas netas</th><th class="num">IVA débito</th><th class="num">Compras netas</th><th class="num">IVA crédito</th><th class="num">Percepciones</th><th class="num">Saldo</th></tr></thead><tbody>' + meses.map((x) => '<tr><td><b>' + esc(M.mesTxt(x.mes)) + '</b></td><td class="num">' + fmt(x.ventasNeto) + '</td><td class="num">' + fmt(x.debito) + '</td><td class="num">' + fmt(x.comprasNeto) + '</td><td class="num">' + fmt(x.credito) + '</td><td class="num">' + fmt(x.perc) + '</td><td class="num"><b>' + fmt(Math.abs(x.saldo)) + '</b> ' + (x.saldo > 0.5 ? badge('A pagar', 'b-warn') : badge('A favor', 'b-ok')) + '</td></tr>').join('') + '</tbody></table></div>' +
+        '<p class="tenue">Solo comprobantes con factura y en pesos. Lo facturado en dólares se convierte al tipo de cambio del día del comprobante en el sistema real.</p>';
+    }
+    return '<div class="encabezado"><div><h1>Facturación</h1><p>Lo que se le factura a los clientes, lo que facturan los proveedores y el IVA de cada mes, conectado con ARCA.</p></div></div>' + tabs + cuerpo;
+  }
+  function modalCompra() {
+    const provs = DB.proveedores.filter((p) => !p.archivado && !p.interno).map((p) => [p.id, p.razon]);
+    const obras = [['', 'Gasto del estudio (no es de una obra)']].concat(DB.obras.filter((o) => o.estado === 'curso' || o.estado === 'presupuesto').map((o) => [o.id, o.nombre]));
+    abrirModal(cabModal('Cargar factura de proveedor') + '<div class="m-b">' +
+      '<div class="fila-2"><div class="campo"><label for="fc-prov">Proveedor</label><select class="input" id="fc-prov">' + opciones(provs, '', 'Elegí') + '</select><span class="ayuda" id="fc-prov-msg"></span></div><div class="campo"><label for="fc-obra">Imputar a</label><select class="input" id="fc-obra">' + opciones(obras, 'o1') + '</select></div></div>' +
+      '<div class="fila-3"><div class="campo"><label for="fc-tipo">Tipo</label><select class="input" id="fc-tipo">' + opciones([['A', 'Factura A'], ['B', 'Factura B'], ['C', 'Factura C']], 'A') + '</select></div><div class="campo"><label for="fc-num">Número</label><input class="input" id="fc-num" placeholder="0001-00001234" inputmode="numeric"></div><div class="campo"><label for="fc-fecha">Fecha</label><input class="input" type="date" id="fc-fecha" value="' + hoy() + '"></div></div>' +
+      '<div class="campo"><label for="fc-desc">Detalle</label><input class="input" id="fc-desc" placeholder="Qué se compró o qué trabajo factura"></div>' +
+      '<div class="fila-4"><div class="campo"><label for="fc-neto">Neto</label><input class="input der monto" id="fc-neto" inputmode="decimal"></div><div class="campo"><label for="fc-alic">IVA</label><select class="input" id="fc-alic">' + opciones([['21', '21%'], ['10.5', '10,5%'], ['27', '27%'], ['0', 'Exento']], '21') + '</select></div><div class="campo"><label for="fc-perc">Percepciones</label><input class="input der monto" id="fc-perc" inputmode="decimal" value="0"></div><div class="campo"><span class="lbl">Total</span><div class="total-modal"><b id="fc-total">-</b></div></div></div>' +
+      '</div><div class="m-f"><button class="btn" data-accion="cerrar-modal">Cancelar</button><button class="btn primary" id="fc-ok">Guardar factura</button></div>', (m) => {
+      const calc = () => { const c = val(m, '#fc-tipo') === 'C'; $('#fc-alic', m).disabled = c; if (c) $('#fc-alic', m).value = '0'; const n = num(m, '#fc-neto') || 0, al = Number(val(m, '#fc-alic')), pe = num(m, '#fc-perc') || 0; $('#fc-total', m).textContent = fmt(r2(n + n * al / 100 + pe)); };
+      ['#fc-neto', '#fc-perc'].forEach((s) => $(s, m).addEventListener('input', calc)); ['#fc-tipo', '#fc-alic'].forEach((s) => $(s, m).addEventListener('change', calc)); calc();
+      $('#fc-prov', m).addEventListener('change', () => { const p = M.prov(val(m, '#fc-prov')); $('#fc-prov-msg', m).className = p && M.cuitValido(p.cuit) ? 'ayuda' : 'error'; $('#fc-prov-msg', m).textContent = !p ? '' : M.cuitValido(p.cuit) ? 'CUIT ' + cuitFmt(p.cuit) : 'Sin CUIT válido: completalo para tomar el crédito de IVA.'; });
+      $('#fc-num', m).addEventListener('focusout', () => { const d = val(m, '#fc-num').replace(/\D/g, ''); if (d.length >= 9 && d.length <= 13) $('#fc-num', m).value = d.slice(0, d.length - 8).padStart(4, '0').slice(-5) + '-' + d.slice(-8); });
+      $('#fc-ok', m).addEventListener('click', () => {
+        const err = []; const prov = val(m, '#fc-prov'), tipo = val(m, '#fc-tipo'), numero = val(m, '#fc-num'), neto = num(m, '#fc-neto'), perc = num(m, '#fc-perc') || 0;
+        if (!prov) err.push('proveedor'); if (!/^\d{4,5}-\d{8}$/.test(numero)) err.push('número con el formato 0001-00001234'); if (!(neto > 0)) err.push('neto');
+        if (prov && M.facturaDuplicada(prov, tipo, numero)) err.push('esa factura ya está cargada');
+        if (!mostrarErrores(m, err)) return;
+        const alic = tipo === 'C' ? 0 : Number(val(m, '#fc-alic')); const iva = r2(neto * alic / 100);
+        DB.facturasCompra.push({ id: nid('fc'), prov, obra: val(m, '#fc-obra'), tipo, numero, fecha: val(m, '#fc-fecha'), neto, alic, iva, perc, total: r2(neto + iva + perc), desc: val(m, '#fc-desc'), origen: 'manual', creado: creado() });
+        log('Cargó la factura ' + tipo + ' ' + numero + ' de ' + M.prov(prov).razon, val(m, '#fc-obra')); guardar(); cerrarModal(); render(); toast('Factura cargada. Ya suma al crédito de IVA del mes.');
+      });
+    }, true);
+  }
+  function modalArca() {
+    const obras = [['', 'Gasto del estudio']].concat(DB.obras.filter((o) => o.estado === 'curso' || o.estado === 'presupuesto').map((o) => [o.id, o.nombre]));
+    const filas = DB.arcaRecibidos.map((r) => { const dup = M.facturaDuplicada(r.prov, r.tipo, r.numero); const pv = M.prov(r.prov) || {}; return '<div class="arca-fila' + (dup ? ' ya' : '') + '"><label class="check"><input type="checkbox" data-arca="' + r.id + '"' + (dup ? ' disabled' : ' checked') + '><span><b>' + esc(pv.razon) + '</b><span class="sec">Factura ' + esc(r.tipo) + ' ' + esc(r.numero) + ' · ' + fFecha(r.fecha) + ' · ' + esc(r.desc) + '</span></span></label><b class="num">' + fmt(r.total) + '</b>' + (dup ? '<span class="badge">Ya cargada</span>' : '<select class="input" data-arca-obra="' + r.id + '">' + opciones(obras, r.sugerida) + '</select>') + '</div>'; }).join('');
+    abrirModal(cabModal('Facturas recibidas en ARCA') + '<div class="m-b"><p class="suave">Estas facturas figuran en "Mis Comprobantes" a nombre de Momo. Elegí a qué obra va cada una y se cargan con todos sus datos, sin tipear. Las que ya están cargadas no se repiten.</p><div class="arca-lista">' + filas + '</div><p class="tenue">En la maqueta la lista es de ejemplo. En el sistema real se consulta a ARCA todos los días.</p></div><div class="m-f"><button class="btn" data-accion="cerrar-modal">Cancelar</button><button class="btn primary" id="ar-ok">' + ic('cloud-arrow-down') + 'Cargar seleccionadas</button></div>', (m) => {
+      $('#ar-ok', m).addEventListener('click', () => {
+        let n = 0;
+        $$('[data-arca]', m).forEach((ch) => {
+          if (!ch.checked || ch.disabled) return; const r = DB.arcaRecibidos.find((x) => x.id === ch.dataset.arca); if (M.facturaDuplicada(r.prov, r.tipo, r.numero)) return;
+          const sel = $('[data-arca-obra="' + r.id + '"]', m);
+          DB.facturasCompra.push({ id: nid('fc'), prov: r.prov, obra: sel ? sel.value : '', tipo: r.tipo, numero: r.numero, fecha: r.fecha, neto: r.neto, alic: r.alic, iva: r.iva, perc: r.perc, total: r.total, desc: r.desc, origen: 'arca', creado: creado() }); n++;
+        });
+        if (!n) { toast('No elegiste ninguna factura nueva.', 'info'); return; }
+        log('Trajo ' + n + ' facturas de proveedores desde ARCA'); guardar(); cerrarModal(); render(); toast(n + (n === 1 ? ' factura cargada' : ' facturas cargadas') + ' desde ARCA.', 'cloud-arrow-down');
+      });
+    }, true);
+  }
+  /* número y CAE de un comprobante electrónico (simulado en la maqueta) */
+  function nuevoFE(db, letra, fecha) {
+    db.contadores.fe = db.contadores.fe || { A: 120, B: 40 };
+    const n = ++db.contadores.fe[letra];
+    const d = new Date((fecha || hoy()) + 'T12:00:00'); d.setDate(d.getDate() + 10);
+    return { pv: '0003', nro: String(n).padStart(8, '0'), cae: '7' + String(4412093 + n * 7919).padStart(13, '0').slice(-13), vto: d.toISOString().slice(0, 10) };
+  }
+  function padron(cuit) {
+    const d = String(cuit || '').replace(/\D/g, ''); if (!M.cuitValido(d)) return null;
+    if (DB.padron[d]) return DB.padron[d];
+    const c = DB.clientes.find((x) => x.cuit === d) || DB.proveedores.find((x) => x.cuit === d);
+    return c ? { razon: c.razon, iva: c.iva || 'Responsable inscripto', dir: c.dir || '' } : null;
+  }
+  function consultarArca(m, pref) {
+    const inp = $('#' + pref + '-cuit', m); const msg = $('#' + pref + '-cuit-msg', m); const b = $('#' + pref + '-arca', m);
+    if (!M.cuitValido(inp.value)) { msg.className = 'error'; msg.textContent = 'Primero un CUIT válido.'; return; }
+    b.disabled = true; setHTML(b, ic('circle-notch', 'gira') + 'Consultando');
+    setTimeout(() => {
+      b.disabled = false; setHTML(b, ic('magnifying-glass') + 'ARCA');
+      const r = padron(inp.value);
+      if (!r) { const ej = Object.keys(DB.padron)[0]; msg.className = 'ayuda'; msg.textContent = 'En la maqueta el padrón tiene pocos CUIT de ejemplo. Probá con ' + cuitFmt(ej) + '.'; return; }
+      const razon = $('#' + pref + '-razon', m); if (razon) razon.value = r.razon;
+      const iva = $('#' + pref + '-iva', m); if (iva) iva.value = r.iva;
+      const dir = $('#' + pref + '-dir', m); if (dir && !dir.value) dir.value = r.dir;
+      msg.className = 'ok-txt'; msg.textContent = 'Datos traídos del padrón de ARCA: ' + r.razon + ' · ' + r.iva + '.';
+    }, 650);
+  }
+  function verCuenta(id) {
+    const c = M.bancos().find((x) => x.id === id);
+    abrirDrawer('<div class="d-h"><div><h2>' + esc(c.nombre) + '</h2><div class="sub">' + esc(c.numero) + '</div></div><div class="der"><button class="btn sm icon ghost" data-accion="cerrar-drawer" aria-label="Cerrar">' + ic('x') + '</button></div></div><div class="d-b"><div class="desglose"><span>Saldo inicial</span><span class="r">' + fmt(c.inicial) + '</span><span>Movimientos</span><span class="r">' + c.movs.length + '</span><span class="sep"></span><span class="total">Saldo hoy</span><span class="r total">' + fmt(c.saldo) + '</span>' + (c.aDebitar ? '<span class="nota">Hay ' + fmt(c.aDebitar) + ' en cheques propios por debitar.</span>' : '') + '</div>' +
+      '<div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Movimiento</th><th class="num">Importe</th><th class="num">Saldo</th></tr></thead><tbody>' + c.movs.slice().reverse().map((x) => '<tr><td>' + fFecha(x.fecha) + '</td><td>' + esc(x.txt) + '</td><td class="num">' + (x.imp > 0 ? '' : '') + fmt(x.imp) + '</td><td class="num"><b>' + fmt(x.saldo) + '</b></td></tr>').join('') + '</tbody></table></div><p class="tenue">En el sistema real se importa el extracto del banco y el sistema marca lo que no coincide.</p></div>');
   }
 
   /* ================= CONFIGURACIÓN ================= */
@@ -775,12 +896,13 @@
     const c = id ? M.cliente(id) : null;
     abrirModal(cabModal(c ? 'Editar cliente' : 'Nuevo cliente') + '<div class="m-b">' +
       '<div class="campo"><label for="cl-razon">Razón social o nombre</label><input class="input" id="cl-razon" value="' + esc(c ? c.razon : '') + '"></div>' +
-      '<div class="fila-2"><div class="campo"><label for="cl-iva">Condición frente al IVA</label><select class="input" id="cl-iva">' + opciones(['Responsable inscripto', 'Monotributista', 'Exento', 'Consumidor final'].map((x) => [x, x]), c ? c.iva : 'Responsable inscripto') + '</select></div><div class="campo"><label for="cl-cuit">CUIT</label><input class="input" id="cl-cuit" inputmode="numeric" value="' + esc(c ? cuitFmt(c.cuit) : '') + '" placeholder="30-12345678-9"><span class="ayuda" id="cl-cuit-msg">Se valida el dígito verificador.</span></div></div>' +
+      '<div class="fila-2"><div class="campo"><label for="cl-iva">Condición frente al IVA</label><select class="input" id="cl-iva">' + opciones(['Responsable inscripto', 'Monotributista', 'Exento', 'Consumidor final'].map((x) => [x, x]), c ? c.iva : 'Responsable inscripto') + '</select></div><div class="campo"><label for="cl-cuit">CUIT</label><div class="cuit-fila"><input class="input" id="cl-cuit" inputmode="numeric" value="' + esc(c ? cuitFmt(c.cuit) : '') + '" placeholder="30-12345678-9"><button type="button" class="btn" id="cl-arca">' + ic('magnifying-glass') + 'ARCA</button></div><span class="ayuda" id="cl-cuit-msg">Se valida el dígito verificador.</span></div></div>' +
       '<div class="fila-2"><div class="campo"><label for="cl-contacto">Contacto</label><input class="input" id="cl-contacto" value="' + esc(c ? c.contacto : '') + '"></div><div class="campo"><label for="cl-tel">Teléfono</label><input class="input" id="cl-tel" value="' + esc(c ? c.tel : '') + '"></div></div>' +
       '<div class="fila-2"><div class="campo"><label for="cl-mail">Mail</label><input class="input" id="cl-mail" type="email" value="' + esc(c ? c.mail : '') + '"></div><div class="campo"><label for="cl-dir">Dirección</label><input class="input" id="cl-dir" value="' + esc(c ? c.dir : '') + '"></div></div>' +
       '</div><div class="m-f"><button class="btn" data-accion="cerrar-modal">Cancelar</button><button class="btn primary" id="cl-ok">Guardar</button></div>', (m) => {
       const msg = () => { const v = val(m, '#cl-cuit'); const e = $('#cl-cuit-msg', m); const inp = $('#cl-cuit', m); if (!v) { e.className = 'ayuda'; e.textContent = val(m, '#cl-iva') === 'Consumidor final' ? 'Opcional para consumidor final.' : 'Obligatorio.'; inp.classList.remove('invalido'); return; } const okk = M.cuitValido(v); e.className = okk ? 'ok-txt' : 'error'; e.textContent = okk ? 'CUIT válido.' : 'CUIT inválido: revisá los números (11 dígitos con el verificador).'; inp.classList.toggle('invalido', !okk); };
       $('#cl-cuit', m).addEventListener('input', msg); $('#cl-iva', m).addEventListener('change', msg); msg();
+      $('#cl-arca', m).addEventListener('click', () => consultarArca(m, 'cl'));
       $('#cl-ok', m).addEventListener('click', () => {
         const err = []; const cuit = val(m, '#cl-cuit').replace(/\D/g, ''); const cf = val(m, '#cl-iva') === 'Consumidor final';
         if (!val(m, '#cl-razon')) err.push('razón social');
@@ -798,13 +920,14 @@
   function modalProveedor(id) {
     const p = id ? M.prov(id) : null; const sel = new Set(p ? p.rubros : []);
     abrirModal(cabModal(p ? 'Editar proveedor' : 'Nuevo proveedor') + '<div class="m-b">' +
-      '<div class="fila-2"><div class="campo"><label for="pv-razon">Razón social o nombre</label><input class="input" id="pv-razon" value="' + esc(p ? p.razon : '') + '"></div><div class="campo"><label for="pv-cuit">CUIT</label><input class="input" id="pv-cuit" inputmode="numeric" value="' + esc(p ? cuitFmt(p.cuit) : '') + '"' + (p && p.interno ? ' disabled' : '') + '><span class="ayuda" id="pv-cuit-msg">Obligatorio y validado.</span></div></div>' +
+      '<div class="fila-2"><div class="campo"><label for="pv-razon">Razón social o nombre</label><input class="input" id="pv-razon" value="' + esc(p ? p.razon : '') + '"></div><div class="campo"><label for="pv-cuit">CUIT</label><div class="cuit-fila"><input class="input" id="pv-cuit" inputmode="numeric" value="' + esc(p ? cuitFmt(p.cuit) : '') + '"' + (p && p.interno ? ' disabled' : '') + '><button type="button" class="btn" id="pv-arca"' + (p && p.interno ? ' disabled' : '') + '>' + ic('magnifying-glass') + 'ARCA</button></div><span class="ayuda" id="pv-cuit-msg">Obligatorio y validado.</span></div></div>' +
       '<div class="campo"><span class="lbl">Rubros</span><div class="chips" id="pv-rubros">' + DB.rubros.map((r) => '<button type="button" class="chip" data-rubro="' + r.id + '" aria-pressed="' + sel.has(r.id) + '">' + esc(r.nombre) + '</button>').join('') + '</div></div>' +
       '<div class="fila-3"><div class="campo"><label for="pv-contacto">Contacto</label><input class="input" id="pv-contacto" value="' + esc(p ? p.contacto : '') + '"></div><div class="campo"><label for="pv-tel">Teléfono</label><input class="input" id="pv-tel" value="' + esc(p ? p.tel : '') + '"></div><div class="campo"><label for="pv-cbu">CBU</label><input class="input" id="pv-cbu" inputmode="numeric" value="' + esc(p ? p.cbu : '') + '"><span class="ayuda">22 dígitos.</span></div></div>' +
       '</div><div class="m-f"><button class="btn" data-accion="cerrar-modal">Cancelar</button><button class="btn primary" id="pv-ok">Guardar</button></div>', (m) => {
       $('#pv-rubros', m).addEventListener('click', (e) => { const b = e.target.closest('[data-rubro]'); if (!b) return; const on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', String(on)); if (on) sel.add(b.dataset.rubro); else sel.delete(b.dataset.rubro); });
       const msg = () => { const v = val(m, '#pv-cuit'); const e = $('#pv-cuit-msg', m); if (!v) { e.className = 'ayuda'; e.textContent = 'Obligatorio y validado.'; return; } const okk = M.cuitValido(v); e.className = okk ? 'ok-txt' : 'error'; e.textContent = okk ? 'CUIT válido.' : 'CUIT inválido.'; $('#pv-cuit', m).classList.toggle('invalido', !okk); };
       $('#pv-cuit', m).addEventListener('input', msg); msg();
+      $('#pv-arca', m).addEventListener('click', () => consultarArca(m, 'pv'));
       $('#pv-ok', m).addEventListener('click', () => {
         const err = []; const cuit = val(m, '#pv-cuit').replace(/\D/g, ''); const interno = p && p.interno; const cbu = val(m, '#pv-cbu').replace(/\D/g, '');
         if (!val(m, '#pv-razon')) err.push('razón social');
@@ -1018,6 +1141,7 @@
     DB.obras.filter((o) => o.estado === 'curso' && M.presAprobado(o.id)).forEach((o) => it.push({ g: 'Acciones', i: 'file-plus', t: 'Cargar avance: ' + o.nombre, s: 'Nuevo certificado', ir: '#/obra/' + o.id + '/certificado/nuevo' }));
     if (puede('editarPres')) it.push({ g: 'Acciones', i: 'plus', t: 'Nueva obra', s: '', fn: () => modalObra(null) });
     it.push({ g: 'Acciones', i: 'check-square', t: 'Nueva tarea', s: '', fn: () => modalTarea(null) });
+    if (puede('teso')) it.push({ g: 'Acciones', i: 'file-arrow-down', t: 'Cargar factura de proveedor', s: 'Facturación', fn: () => modalCompra() }, { g: 'Acciones', i: 'cloud-arrow-down', t: 'Traer facturas de ARCA', s: 'Mis Comprobantes', fn: () => modalArca() });
     if (puede('plata')) it.push({ g: 'Acciones', i: 'hand-coins', t: 'Registrar cobro', s: '', fn: () => modalCobro(null) }, { g: 'Acciones', i: 'money', t: 'Registrar pago', s: '', fn: () => modalPago(null) });
     return it.filter((x) => coincide(x.t + ' ' + x.s, q)).slice(0, 12);
   }
@@ -1079,6 +1203,14 @@
         case 'ver-cotiz': verCotizaciones(id); return;
         case 'ver-recibo': verRecibo(id); return;
         case 'paleta': abrirPaleta(); return;
+        case 'nueva-compra': modalCompra(); return;
+        case 'traer-arca': modalArca(); return;
+        case 'ver-cuenta': verCuenta(id); return;
+        case 'anular-compra': { const f = DB.facturasCompra.find((x) => x.id === id); confirmar('Anular factura ' + f.numero, 'Deja de sumar al crédito de IVA y a lo facturado por el proveedor. Queda visible como anulada.', 'Anular factura', () => { f.anulada = creado(); log('Anuló la factura ' + f.tipo + ' ' + f.numero + ' de ' + M.prov(f.prov).razon, f.obra); guardar(); render(); toast('Factura anulada.'); }, true); return; }
+        case 'libro-iva': toast('En el sistema real se descarga el Libro de IVA Digital listo para el estudio contable.', 'file-text'); return;
+        case 'exportar-ventas': descargarCSV('momo-facturas-emitidas', ['Fecha', 'Comprobante', 'Número', 'Cliente', 'CUIT', 'Obra', 'Moneda', 'Neto', 'IVA', 'Total', 'CAE', 'Cobro'], M.ventas().map((x) => [x.fecha, x.tipo, x.numero, x.cliente.razon, x.cliente.cuit, x.obra.nombre, x.mon, x.neto, x.iva, x.total, x.cae, x.estado])); toast('Excel descargado.'); return;
+        case 'exportar-compras': descargarCSV('momo-facturas-proveedores', ['Fecha', 'Proveedor', 'CUIT', 'Tipo', 'Número', 'Imputada a', 'Neto', 'IVA', 'Percepciones', 'Total', 'Saldo', 'Estado'], M.compras().map((f) => [f.fecha, (M.prov(f.prov) || {}).razon, (M.prov(f.prov) || {}).cuit, f.tipo, f.numero, f.obra ? M.obra(f.obra).nombre : 'Gasto del estudio', f.neto, f.iva, f.perc, f.total, f.saldo, f.estado])); toast('Excel descargado.'); return;
+        case 'exportar-iva': descargarCSV('momo-iva-mensual', ['Mes', 'Ventas netas', 'IVA débito', 'Compras netas', 'IVA crédito', 'Percepciones', 'Saldo'], M.ivaMensual().map((x) => [x.mes, x.ventasNeto, x.debito, x.comprasNeto, x.credito, x.perc, x.saldo])); toast('Excel descargado.'); return;
         case 'acciones-rapidas': accionesRapidas(); return;
         case 'menu-mas': $('#app').classList.add('menu-abierto'); return;
         case 'rechazar-pres': {
@@ -1114,7 +1246,7 @@
           confirmar('Aprobar presupuesto', 'Queda congelado como contrato original de ' + o.nombre + ': ya no se edita. Los cambios entran como demasías y economías en los certificados. ' + (M.presAprobado(o.id) ? 'La versión aprobada anterior pasa a reemplazada.' : 'La obra pasa a En curso.'), 'Aprobar', () => {
             const ant = M.presAprobado(o.id); if (ant) ant.estado = 'reemplazado';
             p.estado = 'aprobado'; p.aprobado = creado(); if (o.estado === 'presupuesto') { o.estado = 'curso'; o.inicio = o.inicio || hoy(); }
-            if (o.anticipo.pct > 0 && !o.anticipo.fecha) { const cli = M.cliente(o.cliente); o.anticipo.fecha = hoy(); o.anticipo.comp = cli.iva === 'Responsable inscripto' ? 'A' : 'B'; }
+            if (o.anticipo.pct > 0 && !o.anticipo.fecha) { const cli = M.cliente(o.cliente); o.anticipo.fecha = hoy(); o.anticipo.comp = cli.iva === 'Responsable inscripto' ? 'A' : 'B'; o.anticipo.fe = nuevoFE(DB, o.anticipo.comp, o.anticipo.fecha); }
             UI.presVer = null; log('Aprobó el presupuesto versión ' + p.version, o.id); guardar(); render(); toast('Presupuesto aprobado. ' + (o.anticipo.pct ? 'Se generó el anticipo del ' + o.anticipo.pct + '% en la cuenta del cliente.' : ''), 'seal-check');
           }); return;
         }
@@ -1123,7 +1255,7 @@
         case 'ver-cert': verCert(id); return;
         case 'anular-cert': {
           const c = M.cert(id); if (M.cobrosDe(c.id).some((x) => !x.anulado)) { toast('Tiene cobros: primero hay que anularlos.', 'warning'); return; }
-          confirmar('Anular ' + certNombre(c), 'Se anula y el avance que tenía vuelve a quedar pendiente. Queda en la historia como anulado.', 'Anular certificado', () => { c.estado = 'anulado'; c.anulado = creado(); log('Anuló el certificado N° ' + c.num, c.obra); guardar(); cerrarDrawer(); render(); toast('Certificado anulado.'); }, true); return;
+          confirmar('Anular ' + certNombre(c), 'Se anula y el avance que tenía vuelve a quedar pendiente. Queda en la historia como anulado.', 'Anular certificado', () => { if (c.fe) { const cg = M.cargo(c.id); const nc = nuevoFE(DB, c.comp, hoy()); M.MON.forEach((k) => { if (!cg.importes[k]) return; DB.notasCredito.push({ fecha: c.fecha, obra: c.obra, tipo: 'Factura ' + c.comp, numero: c.fe.pv + '-' + c.fe.nro, cae: c.fe.cae, vto: c.fe.vto, mon: k, neto: r2(cg.importes[k] - cg.iva[k]), iva: cg.iva[k], total: cg.importes[k], concepto: certNombre(c), estado: 'Anulada' }); DB.notasCredito.push({ fecha: hoy(), obra: c.obra, tipo: 'Nota de crédito ' + c.comp, numero: nc.pv + '-' + nc.nro, cae: nc.cae, vto: nc.vto, mon: k, neto: -r2(cg.importes[k] - cg.iva[k]), iva: -cg.iva[k], total: -cg.importes[k], concepto: 'Anula ' + certNombre(c) }); }); } c.estado = 'anulado'; c.anulado = creado(); log('Anuló el certificado N° ' + c.num, c.obra); guardar(); cerrarDrawer(); render(); toast('Certificado anulado.'); }, true); return;
         }
         case 'ver-completos': UI.verCompletos = !UI.verCompletos; render(); return;
         case 'agregar-ed': UI.certDraft.ed.push({ id: nid('ed'), tipo: 'demasia', desc: '', cant: 1, mo: 0, mat: 0, precio: 0, costo: 0, prov: '', mon: 'ARS' }); setHTML($('#ce-ed'), edHtml(UI.certDraft)); refrescarCert(); return;
@@ -1134,7 +1266,7 @@
           if (M.erroresCert(d).length) return;
           abrirModal(cabModal('Emitir certificado N° ' + d.num) + '<div class="m-b"><p>Queda con fecha fija y entra a la cuenta de ' + esc(cli.razon) + '. ¿Con qué comprobante?</p><div class="chips" id="em-comp"><button type="button" class="chip" data-comp="' + letra + '" aria-pressed="true">Factura ' + letra + '</button>' + (puede('sin') ? '<button type="button" class="chip" data-comp="sin" aria-pressed="false">Sin factura</button>' : '') + '</div><p class="tenue">La factura electrónica sale de ARCA en la etapa de integración. En esta maqueta se registra el comprobante.</p></div><div class="m-f"><button class="btn" data-accion="cerrar-modal">Cancelar</button><button class="btn primary" id="em-ok">' + ic('seal-check') + 'Emitir</button></div>', (m) => {
             let comp = letra; $('#em-comp', m).addEventListener('click', (ev) => { const b = ev.target.closest('[data-comp]'); if (!b) return; comp = b.dataset.comp; $$('[data-comp]', m).forEach((x) => x.setAttribute('aria-pressed', String(x === b))); });
-            $('#em-ok', m).addEventListener('click', () => { const c = persistirCert('emitido', comp); cerrarModal(); location.hash = '#/obra/' + c.obra + '/certificados'; setTimeout(() => verCert(c.id), 60); toast('Certificado emitido y cargado en la cuenta del cliente.', 'seal-check'); });
+            $('#em-ok', m).addEventListener('click', () => { const c = persistirCert('emitido', comp); cerrarModal(); location.hash = '#/obra/' + c.obra + '/certificados'; setTimeout(() => verCert(c.id), 60); toast(c.fe ? 'Factura ' + c.comp + ' ' + c.fe.pv + '-' + c.fe.nro + ' autorizada por ARCA (simulado). CAE ' + c.fe.cae + '.' : 'Certificado emitido y cargado en la cuenta del cliente.', 'seal-check'); });
           }); return;
         }
         case 'nuevo-cobro': modalCobro(ac.dataset.obra, ac.dataset.cargo); return;
