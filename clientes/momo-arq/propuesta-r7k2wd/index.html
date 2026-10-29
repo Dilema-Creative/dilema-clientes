@@ -74,8 +74,6 @@ h3{font-size:1.08rem;line-height:1.35;letter-spacing:-.015em}
 .nav-cliente{display:inline-flex;align-items:center;gap:10px;font-size:13.5px;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:6px 14px 6px 8px;white-space:nowrap}
 .nav-cliente img{width:26px;height:26px;border-radius:7px;background:#16181b;padding:3px;object-fit:contain}
 .nav-cliente b{color:var(--text);font-weight:500}
-.nav-maq{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:999px;background:var(--accent);color:#06281C;font-size:14px;font-weight:500;text-decoration:none;white-space:nowrap}
-.nav-maq i{font-size:16px}
 
 /* hero */
 .hero{position:relative;padding:92px 0 0}
@@ -212,6 +210,16 @@ input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(
 .visor .pantalla{position:relative;aspect-ratio:16/10;border-radius:11px;overflow:hidden;background:#0A0B0C}
 .visor .pantalla img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top left;opacity:0;transform:scale(1.01);transition:opacity .45s ease,transform .6s var(--ease)}
 .visor .pantalla img.on{opacity:1;transform:none}
+.explica{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}
+.explica > div{border:1px solid var(--border);border-radius:14px;padding:16px 18px;background:var(--surface);min-width:0}
+.explica .aporta{border-color:rgba(92,199,157,.28);background:linear-gradient(180deg,rgba(92,199,157,.08),rgba(92,199,157,.02))}
+.et-l{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--faint);margin-bottom:6px}
+.aporta .et-l{color:var(--accent)}
+.explica p{font-size:14.5px;line-height:1.55;color:var(--text)}
+.mod .para{font-size:14px;color:var(--text);margin:-4px 0 14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.cierre-lista{list-style:none;display:grid;gap:14px}
+.cierre-lista li{display:flex;gap:10px;align-items:flex-start;font-size:15px;color:var(--text)}
+.cierre-lista i{color:var(--accent);font-size:19px;margin-top:2px}
 .visor .pie{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:16px;color:var(--muted);font-size:14px}
 .visor .pie a{display:inline-flex;align-items:center;gap:6px;color:var(--accent);text-decoration:none;white-space:nowrap;font-weight:500}
 .nota{font-family:var(--mono);font-size:12px;color:var(--faint)}
@@ -315,9 +323,8 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   .wrap{padding:0 16px}
   .nav{top:10px;margin-top:10px}
   .nav-in{height:52px;padding-left:14px}
-  .argos small,.nav-cliente span,.nav-maq span{display:none}
+  .argos small,.nav-cliente span{display:none}
   .nav-cliente{padding:5px 12px 5px 6px}
-  .nav-maq{width:40px;height:40px;padding:0;justify-content:center}
   .hero{padding-top:56px}
   .hero-acciones .cta{flex:1 1 auto;justify-content:center}
   .hero-meta{gap:10px 20px}
@@ -349,7 +356,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   .fila > div:nth-child(3){border-left:0;background:none;padding-bottom:18px}
   .fila > div:nth-child(2)::before{content:attr(data-l);color:var(--faint);margin-right:6px}
   .fila > div:nth-child(3)::before{content:attr(data-l);color:var(--accent)}
-  .visor .pie{flex-direction:column;align-items:flex-start;gap:8px}
+  .explica{grid-template-columns:minmax(0,1fr)}
   .necesitamos{grid-template-columns:minmax(0,1fr);padding:24px}
   .necesitamos ul{grid-template-columns:minmax(0,1fr)}
   .cierre{padding:32px 22px;border-radius:20px}
@@ -365,7 +372,6 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <span class="argos" aria-label="Argos, sistema de Dilema Labs"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="r1" cx="24" cy="24" r="22.4"/><circle class="r2" cx="24" cy="24" r="13.7"/><circle class="iris" cx="24" cy="24" r="7.2"/></svg><b>Argos</b><small>de Dilema Labs</small></span>
       <div class="nav-der">
         <span class="nav-cliente"><img src="https://freight.cargo.site/w/300/q/90/i/953545a487f83a7761079ce75d8a108e4992230768a08b7604ef7f76b005e2ce/Logo-Momo_Negativo-sin-bajada.png" alt="" width="26" height="26"><span>Propuesta para </span><b>Momo</b></span>
-        <a class="nav-maq" href="https://dilema-creative.github.io/dilema-clientes/clientes/momo-arq/sistema-8zco4e/" target="_blank" rel="noopener"><i class="ph ph-arrow-square-out"></i><span>Abrir la maqueta</span></a>
       </div>
     </div>
   </nav>
@@ -379,8 +385,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
     <h1 class="rev" style="--d:.05s">La obra entera, en <span class="ac">un solo lugar</span>.</h1>
     <p class="lead rev" style="--d:.1s">Lo que hoy está repartido entre CSArq, una planilla por obra y Trello, junto y conectado. Cada dato se carga una vez y el resto se arma solo: el certificado, la cuenta del cliente, lo que se le debe a cada proveedor y la factura.</p>
     <div class="hero-acciones rev" style="--d:.15s">
-      <a class="cta pri" href="https://dilema-creative.github.io/dilema-clientes/clientes/momo-arq/sistema-8zco4e/" target="_blank" rel="noopener"><i class="ph ph-cursor-click"></i>Probar la maqueta</a>
-      <a class="cta sec" href="#recorrido"><i class="ph ph-play-circle"></i>Ver el recorrido</a>
+      <a class="cta pri" href="#recorrido"><i class="ph ph-arrow-down"></i>Ver cómo funciona</a>
     </div>
     <div class="hero-meta rev" style="--d:.2s">
       <span><i class="ph ph-check-circle"></i>Mismo circuito de trabajo</span>
@@ -552,22 +557,22 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   <div class="wrap">
     <div class="shead rev">
       <h2>Así se vería el sistema.</h2>
-      <p class="lead">Armamos una maqueta navegable con datos ficticios para que lo vean antes de construirlo. Tocá cada parte para recorrerla, o abrila y probala.</p>
+      <p class="lead">Cada pantalla, con datos de ejemplo. Tocá cada parte para ver para qué sirve y qué les cambia en el día a día.</p>
     </div>
     <div class="tour">
       <div class="tabs" role="tablist" aria-label="Partes del sistema">
-        <button class="tab" role="tab" aria-selected="true" data-i="0"><i class="ph ph-house"></i><div><b>Inicio</b><span>Lo que hay que hacer hoy: cheques para depositar, cobros pendientes, el índice CAC del mes y las tareas de cada uno.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="1"><i class="ph ph-buildings"></i><div><b>Una obra</b><span>Contrato, certificado, cobrado, pagado y margen real, en pesos y dólares por separado.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="2"><i class="ph ph-list-checks"></i><div><b>Presupuesto</b><span>Los 17 rubros con costo, venta, proveedor y avance de cada ítem. Se imprime con o sin importes.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="3"><i class="ph ph-file-text"></i><div><b>Certificado del mes</b><span>Trae el acumulado y solo pide el avance de este mes. No deja pasar del 100%.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="4"><i class="ph ph-scroll"></i><div><b>Liquidación al cliente</b><span>Avance, honorarios, demasías, CAC y anticipo, con número de factura y CAE.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="5"><i class="ph ph-hard-hat"></i><div><b>Proveedores de la obra</b><span>Pactado, certificado, facturado y pagado de cada uno, y lo que corresponde pagar hoy.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="6"><i class="ph ph-user-circle"></i><div><b>Cuenta del cliente</b><span>Anticipo y certificados, con y sin factura, con lo cobrado y el saldo al día.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="7"><i class="ph ph-receipt"></i><div><b>Facturación con ARCA</b><span>Cada factura emitida con su CAE, salida directo de los certificados y anticipos.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="8"><i class="ph ph-cloud-arrow-down"></i><div><b>Facturas de proveedores</b><span>Llegan desde ARCA: solo se elige a qué obra va cada una. Las repetidas no entran.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="9"><i class="ph ph-bank"></i><div><b>Bancos y efectivo</b><span>El saldo de cada cuenta armado con los mismos cobros, pagos y cheques del sistema.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="10"><i class="ph ph-kanban"></i><div><b>Tareas</b><span>El tablero de todas las obras, con responsable y vencimiento. Se arrastran de columna.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="11"><i class="ph ph-magnifying-glass"></i><div><b>Buscar con Ctrl K</b><span>Cualquier obra, cliente, proveedor o acción, sin soltar el teclado.</span></div></button>
+        <button class="tab" role="tab" aria-selected="true" data-i="0" data-aporta="Nadie tiene que acordarse ni revisar planillas para saber qué está pendiente. El sistema lo avisa antes de que sea un problema."><i class="ph ph-house"></i><div><b>Inicio</b><span>Arrancar el día sabiendo qué hay que hacer: cheques para depositar, cobros pendientes, el índice CAC del mes y las tareas de cada uno.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="1" data-aporta="Saber si una obra está ganando o perdiendo plata hoy, no al cierre, sin cruzar tres archivos."><i class="ph ph-buildings"></i><div><b>Una obra</b><span>Ver cómo va cada obra en una sola pantalla: contrato, certificado, cobrado, pagado y margen, en pesos y dólares por separado.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="2" data-aporta="Se carga una sola vez: el mismo presupuesto sirve para cotizar, para certificar y para saber cuánto se le debe a cada proveedor."><i class="ph ph-list-checks"></i><div><b>Presupuesto</b><span>Armar el presupuesto con los 17 rubros, costo, venta y proveedor de cada ítem, e imprimirlo con o sin importes.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="3" data-aporta="Fin de mes deja de ser copiar hojas y conectar fórmulas: se carga un porcentaje por ítem y la liquidación sale sola."><i class="ph ph-file-text"></i><div><b>Certificado del mes</b><span>Cargar el avance del mes por ítem. El sistema trae el acumulado y no deja pasar del 100%.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="4" data-aporta="El mismo armado que usan hoy, sin riesgo de que una fórmula rota cambie el total, y lista para mandar en PDF."><i class="ph ph-scroll"></i><div><b>Liquidación al cliente</b><span>La orden de pago al cliente con avance, honorarios, demasías, CAC y anticipo, con su número de factura y CAE.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="5" data-aporta="Pagar lo justo: avisa si se paga de más, si un pago está repetido o si alguien facturó más de lo certificado."><i class="ph ph-hard-hat"></i><div><b>Proveedores de la obra</b><span>Lo pactado, certificado, facturado y pagado de cada proveedor de la obra, y lo que corresponde pagarle hoy.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="6" data-aporta="El saldo siempre está bien porque se calcula solo: no hay que pasar cada liquidación a otra hoja."><i class="ph ph-user-circle"></i><div><b>Cuenta del cliente</b><span>Anticipo y certificados, con y sin factura, con lo cobrado y el saldo de cada uno.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="7" data-aporta="Facturar deja de ser una tarea aparte: al emitir el certificado, la factura ya está hecha y queda en la cuenta del cliente."><i class="ph ph-receipt"></i><div><b>Facturación con ARCA</b><span>Las facturas emitidas, cada una con su CAE, salidas directo de los certificados y anticipos.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="8" data-aporta="No se tipean: solo se elige a qué obra va cada una. Suman al IVA del mes y las repetidas no entran."><i class="ph ph-cloud-arrow-down"></i><div><b>Facturas de proveedores</b><span>Las facturas que los proveedores emiten a nombre de Momo, traídas desde ARCA.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="9" data-aporta="Saber con cuánta plata se cuenta de verdad, armado con los mismos cobros y pagos que ya se cargaron."><i class="ph ph-bank"></i><div><b>Bancos y efectivo</b><span>El saldo de cada banco y del efectivo, con sus movimientos y los cheques propios por debitar.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="10" data-aporta="Las tareas viven dentro de la obra que corresponde y cada uno recibe el aviso de lo suyo, sin una herramienta aparte."><i class="ph ph-kanban"></i><div><b>Tareas</b><span>El tablero de tareas de todas las obras, con responsable y vencimiento, como en Trello.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="11" data-aporta="Menos clics para todo: lo que se busca aparece con las primeras letras."><i class="ph ph-magnifying-glass"></i><div><b>Buscar con Ctrl K</b><span>Encontrar cualquier obra, cliente, proveedor o acción escribiendo, desde cualquier pantalla.</span></div></button>
       </div>
       <div class="visor rev">
         <div class="marco">
@@ -587,7 +592,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
             <img src="assets/busqueda.webp" width="2000" height="1250" alt="Buscador con Ctrl K" loading="lazy">
           </div>
         </div>
-        <div class="pie"><span id="visor-texto">Lo que hay que hacer hoy: cheques para depositar, cobros pendientes, el índice CAC del mes y las tareas de cada uno.</span><a href="https://dilema-creative.github.io/dilema-clientes/clientes/momo-arq/sistema-8zco4e/" target="_blank" rel="noopener">Probarla<i class="ph ph-arrow-up-right"></i></a></div>
+        <div class="explica"><div><span class="et-l"><i class="ph ph-question"></i>Para qué sirve</span><p id="visor-texto"></p></div><div class="aporta"><span class="et-l"><i class="ph ph-sparkle"></i>Qué les cambia</span><p id="visor-aporta"></p></div></div>
       </div>
     </div>
 
@@ -606,18 +611,18 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <p class="lead">Módulo por módulo, lo que van a poder hacer desde el primer día de uso.</p>
     </div>
     <div class="modulos">
-      <div class="mod rev"><i class="ph ph-buildings ic"></i><h3>Obras y presupuestos</h3><ul><li>Plantilla de 17 rubros editable.</li><li>Costo, venta, % interno e IIBB.</li><li>Versiones, aprobado como contrato.</li><li>PDF con o sin importes y planilla de costos.</li></ul></div>
-      <div class="mod rev" style="--d:.04s"><i class="ph ph-file-text ic"></i><h3>Certificados</h3><ul><li>Avance por ítem con acumulado.</li><li>Honorarios sobre venta y demasías.</li><li>Anticipo descontado en cada uno.</li><li>Liquidación en PDF.</li></ul></div>
-      <div class="mod rev" style="--d:.08s"><i class="ph ph-trend-up ic"></i><h3>Demasías, economías y CAC</h3><ul><li>Mano de obra y materiales por separado.</li><li>Índices cargados una vez por mes.</li><li>Split y base por obra.</li><li>Sin índice, no deja emitir.</li></ul></div>
-      <div class="mod rev" style="--d:.12s"><i class="ph ph-hard-hat ic"></i><h3>Proveedores de la obra</h3><ul><li>Lo pactado sale del presupuesto.</li><li>Pagos en pesos, dólares o cheque.</li><li>Aviso si se paga de más o repetido.</li><li>Recibo de cada pago.</li></ul></div>
-      <div class="mod rev"><i class="ph ph-user-circle ic"></i><h3>Cuenta del cliente</h3><ul><li>Cargos con y sin factura.</li><li>Cobros aplicados a lo más viejo.</li><li>Saldo siempre calculado.</li><li>Pesos y dólares sin mezclar.</li></ul></div>
-      <div class="mod rev" style="--d:.04s"><i class="ph ph-receipt ic"></i><h3>Facturación ARCA</h3><ul><li>Factura A o B según el cliente.</li><li>CAE automático al emitir.</li><li>Nota de crédito al anular.</li><li>PDF con el QR de ARCA.</li></ul></div>
-      <div class="mod rev" style="--d:.08s"><i class="ph ph-cloud-arrow-down ic"></i><h3>Compras e IVA</h3><ul><li>Facturas de proveedores desde ARCA.</li><li>Sin duplicados.</li><li>IVA de cada mes, débito y crédito.</li><li>Libro de IVA Digital y Excel.</li></ul></div>
-      <div class="mod rev" style="--d:.12s"><i class="ph ph-bank ic"></i><h3>Bancos, cheques y caja</h3><ul><li>Saldo de cada banco y del efectivo.</li><li>Cheques de terceros y propios.</li><li>Aviso de diferidos al cobro.</li><li>Caja chica como costo de obra.</li></ul></div>
-      <div class="mod rev"><i class="ph ph-kanban ic"></i><h3>Tareas</h3><ul><li>Tablero por obra y general.</li><li>Responsable y vencimiento.</li><li>Aviso si ya hay una igual.</li><li>"Mis tareas" para cada uno.</li></ul></div>
-      <div class="mod rev" style="--d:.04s"><i class="ph ph-address-book ic"></i><h3>Clientes y proveedores</h3><ul><li>CUIT obligatorio y validado.</li><li>Datos traídos del padrón.</li><li>Archivar sin perder historia.</li><li>Rubros de cada proveedor.</li></ul></div>
-      <div class="mod rev" style="--d:.08s"><i class="ph ph-user-gear ic"></i><h3>Perfiles y registro</h3><ul><li>Socios, Arquitectos y Administración.</li><li>Usuario y clave por persona.</li><li>Quién cargó o cambió cada cosa.</li><li>Computadora, tablet o celular.</li></ul></div>
-      <div class="mod rev" style="--d:.12s"><i class="ph ph-shield-check ic"></i><h3>Respaldo y seguridad</h3><ul><li>Copia diaria cifrada.</li><li>Conexión segura.</li><li>Nada se guarda a medias.</li><li>Los datos son de Momo.</li></ul></div>
+      <div class="mod rev"><i class="ph ph-buildings ic"></i><h3>Obras y presupuestos</h3><p class="para">Un presupuesto que sirve para cotizar y para ejecutar.</p><ul><li>Plantilla de 17 rubros editable.</li><li>Costo, venta, % interno e IIBB.</li><li>Versiones, aprobado como contrato.</li><li>PDF con o sin importes y planilla de costos.</li></ul></div>
+      <div class="mod rev" style="--d:.04s"><i class="ph ph-file-text ic"></i><h3>Certificados</h3><p class="para">Fin de mes en minutos, sin copiar hojas.</p><ul><li>Avance por ítem con acumulado.</li><li>Honorarios sobre venta y demasías.</li><li>Anticipo descontado en cada uno.</li><li>Liquidación en PDF.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-trend-up ic"></i><h3>Demasías, economías y CAC</h3><p class="para">Los ajustes que hoy se calculan aparte, dentro del certificado.</p><ul><li>Mano de obra y materiales por separado.</li><li>Índices cargados una vez por mes.</li><li>Split y base por obra.</li><li>Sin índice, no deja emitir.</li></ul></div>
+      <div class="mod rev" style="--d:.12s"><i class="ph ph-hard-hat ic"></i><h3>Proveedores de la obra</h3><p class="para">Cuánto se le debe a cada uno, sin sumar a mano.</p><ul><li>Lo pactado sale del presupuesto.</li><li>Pagos en pesos, dólares o cheque.</li><li>Aviso si se paga de más o repetido.</li><li>Recibo de cada pago.</li></ul></div>
+      <div class="mod rev"><i class="ph ph-user-circle ic"></i><h3>Cuenta del cliente</h3><p class="para">Qué debe cada cliente, siempre al día.</p><ul><li>Cargos con y sin factura.</li><li>Cobros aplicados a lo más viejo.</li><li>Saldo siempre calculado.</li><li>Pesos y dólares sin mezclar.</li></ul></div>
+      <div class="mod rev" style="--d:.04s"><i class="ph ph-receipt ic"></i><h3>Facturación ARCA</h3><p class="para">La factura sale del certificado, sin cargarla dos veces.</p><ul><li>Factura A o B según el cliente.</li><li>CAE automático al emitir.</li><li>Nota de crédito al anular.</li><li>PDF con el QR de ARCA.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-cloud-arrow-down ic"></i><h3>Compras e IVA</h3><p class="para">El IVA del mes listo para el estudio contable.</p><ul><li>Facturas de proveedores desde ARCA.</li><li>Sin duplicados.</li><li>IVA de cada mes, débito y crédito.</li><li>Libro de IVA Digital y Excel.</li></ul></div>
+      <div class="mod rev" style="--d:.12s"><i class="ph ph-bank ic"></i><h3>Bancos, cheques y caja</h3><p class="para">Cuánta plata hay de verdad y qué cheques vencen.</p><ul><li>Saldo de cada banco y del efectivo.</li><li>Cheques de terceros y propios.</li><li>Aviso de diferidos al cobro.</li><li>Caja chica como costo de obra.</li></ul></div>
+      <div class="mod rev"><i class="ph ph-kanban ic"></i><h3>Tareas</h3><p class="para">Lo que hoy está en Trello, dentro de cada obra.</p><ul><li>Tablero por obra y general.</li><li>Responsable y vencimiento.</li><li>Aviso si ya hay una igual.</li><li>"Mis tareas" para cada uno.</li></ul></div>
+      <div class="mod rev" style="--d:.04s"><i class="ph ph-address-book ic"></i><h3>Clientes y proveedores</h3><p class="para">Datos limpios desde el alta, sin CUIT mal cargados.</p><ul><li>CUIT obligatorio y validado.</li><li>Datos traídos del padrón.</li><li>Archivar sin perder historia.</li><li>Rubros de cada proveedor.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-user-gear ic"></i><h3>Perfiles y registro</h3><p class="para">Cada uno ve lo suyo y queda registrado quién hizo qué.</p><ul><li>Socios, Arquitectos y Administración.</li><li>Usuario y clave por persona.</li><li>Quién cargó o cambió cada cosa.</li><li>Computadora, tablet o celular.</li></ul></div>
+      <div class="mod rev" style="--d:.12s"><i class="ph ph-shield-check ic"></i><h3>Respaldo y seguridad</h3><p class="para">La información de Momo, cuidada y siempre disponible.</p><ul><li>Copia diaria cifrada.</li><li>Conexión segura.</li><li>Nada se guarda a medias.</li><li>Los datos son de Momo.</li></ul></div>
     </div>
   </div>
 </section>
@@ -701,13 +706,14 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   <div class="wrap">
     <div class="cierre rev">
       <div>
-        <h2>El próximo paso: recorrerla juntos.</h2>
-        <p class="lead">La maqueta está abierta para que la usen con tranquilidad. Anoten lo que cambiarían: con eso cerramos el diseño, la inversión y los tiempos.</p>
+        <h2>El próximo paso: recorrerlo juntos.</h2>
+        <p class="lead">Lo vemos pantalla por pantalla con ustedes, anotamos lo que cambiarían y con eso cerramos el alcance, la inversión y los tiempos de cada etapa.</p>
       </div>
-      <div class="cierre-acc">
-        <a class="cta pri" href="https://dilema-creative.github.io/dilema-clientes/clientes/momo-arq/sistema-8zco4e/" target="_blank" rel="noopener"><i class="ph ph-cursor-click"></i>Probar la maqueta</a>
-        <span class="nota">Con datos ficticios. Se puede usar como Socio, Arquitecto o Administración.</span>
-      </div>
+      <ul class="cierre-lista">
+        <li><i class="ph ph-check-circle"></i>Recorrido del sistema con cada perfil</li>
+        <li><i class="ph ph-check-circle"></i>Ajustes de pantallas y cálculos</li>
+        <li><i class="ph ph-check-circle"></i>Alcance, inversión y tiempos por etapa</li>
+      </ul>
     </div>
   </div>
 </section>
@@ -738,11 +744,13 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   var imgs = Array.prototype.slice.call(document.querySelectorAll('.pantalla img'));
   var titulo = document.getElementById('visor-titulo');
   var texto = document.getElementById('visor-texto');
+  var aporta = document.getElementById('visor-aporta');
   function elegir(i, foco, inicial) {
     tabs.forEach(function (t, k) { t.setAttribute('aria-selected', String(k === i)); t.tabIndex = k === i ? 0 : -1; });
     imgs.forEach(function (im, k) { if (k === i) { im.loading = 'eager'; im.classList.add('on'); } else im.classList.remove('on'); });
     titulo.textContent = tabs[i].querySelector('b').textContent;
     texto.textContent = tabs[i].querySelector('span').textContent;
+    aporta.textContent = tabs[i].dataset.aporta;
     if (foco) tabs[i].focus();
     if (!inicial && window.matchMedia('(max-width:1080px)').matches) tabs[i].scrollIntoView({ block: 'nearest', inline: 'center', behavior: reduce ? 'auto' : 'smooth' });
   }
