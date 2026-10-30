@@ -140,6 +140,19 @@
     /* ---------- proveedores de la obra ---------- */
     pagoVale: (p) => p.anulado ? 0 : Number(p.importe) || 0,
     pagosDe: (obraId, provId) => DB.pagos.filter((p) => p.obra === obraId && (!provId || p.prov === provId)),
+    costosDe: (obraId, provId) => DB.costosObra.filter((c) => c.obra === obraId && !c.anulado && (!provId || c.prov === provId)),
+    /* el bloque del proveedor en la planilla: lo pactado y lo pagado, renglón por renglón, con su saldo */
+    fichaProv(obraId, provId, mon) {
+      const p = M.presAprobado(obraId); const filas = [];
+      const items = (p ? p.items : []).filter((i) => i.prov === provId && i.mon === mon);
+      if (items.length) filas.push({ fecha: p.aprobado.ts.slice(0, 10), txt: 'Presupuesto aprobado', sub: items.length + (items.length === 1 ? ' ítem' : ' ítems'), costo: r2(items.reduce((s, i) => s + i.cant * i.costo, 0)), pago: 0 });
+      M.certsDe(obraId).forEach((c) => (c.ed || []).filter((e) => e.prov === provId && e.costo && e.mon === mon).forEach((e) => filas.push({ fecha: c.fecha, txt: (e.tipo === 'demasia' ? 'Demasía: ' : 'Economía: ') + e.desc, sub: 'Certificado N° ' + c.num, costo: r2(e.cant * e.costo) * (e.tipo === 'demasia' ? 1 : -1), pago: 0 })));
+      M.costosDe(obraId, provId).filter((c) => c.mon === mon).forEach((c) => filas.push({ fecha: c.fecha, txt: c.desc, sub: c.obs || '', costo: c.importe, pago: 0, costoId: c.id }));
+      M.pagosDe(obraId, provId).filter((x) => x.mon === mon && !x.anulado).forEach((x) => filas.push({ fecha: x.fecha, txt: 'Pago', sub: x.detalle || '', costo: 0, pago: x.importe }));
+      filas.sort((a, b) => a.fecha.localeCompare(b.fecha)); let s = 0;
+      filas.forEach((f) => { s = r2(s + f.costo - f.pago); f.saldo = s; });
+      return filas;
+    },
     provDeObra(obraId) {
       const p = M.presAprobado(obraId); const map = {};
       const fila = (id) => map[id] || (map[id] = { prov: id, pactado: cero(), devengado: cero(), pagado: cero(), items: 0 });
@@ -152,6 +165,7 @@
         if (!e.prov || !e.costo) return; const f = fila(e.prov); const n = r2(e.cant * e.costo) * (e.tipo === 'demasia' ? 1 : -1);
         f.pactado[e.mon] = r2(f.pactado[e.mon] + n); f.devengado[e.mon] = r2(f.devengado[e.mon] + n);
       }));
+      M.costosDe(obraId).forEach((c) => { const f = fila(c.prov); f.pactado[c.mon] = r2(f.pactado[c.mon] + c.importe); f.devengado[c.mon] = r2(f.devengado[c.mon] + c.importe); });
       M.pagosDe(obraId).forEach((pg) => { const f = fila(pg.prov); f.pagado[pg.mon] = r2(f.pagado[pg.mon] + M.pagoVale(pg)); });
       return Object.values(map).map((f) => {
         f.aPagar = cero(); f.resta = cero();
@@ -181,6 +195,26 @@
         pres: t, aprobado: !!ap, avance: pesoTot ? r2(pesoHecho / pesoTot * 100) : 0, certificado,
         cobrado: M.cobradoObra(obraId, verSin), porCobrar: M.porCobrar(obraId, verSin),
         pactado, pagado, aPagar, caja, cajaSaldo: M.cajaSaldo(obraId), margen
+      };
+    },
+    aDefinirDe: (obraId) => DB.aDefinir.filter((a) => a.obra === obraId),
+    /* el certificado donde ya se cobró algo que estaba a definir */
+    aDefinirCert: (id) => DB.certificados.find((c) => c.estado === 'emitido' && (c.ed || []).some((e) => e.origen === id)),
+    /* cómo viene la obra: lo previsto al aprobar contra lo que pasó hasta hoy, en pesos */
+    balance(obraId, verSin) {
+      const p = M.presAprobado(obraId); if (!p) return null;
+      const t = M.totPres(p).ARS; let ajustes = 0, costoED = 0, ganED = 0;
+      M.certsDe(obraId).forEach((c) => {
+        const k = M.calcCert(c).mon.ARS; ajustes += k.dem - k.eco + k.honED + k.cac;
+        (c.ed || []).filter((e) => e.mon === 'ARS').forEach((e) => { const s = e.tipo === 'demasia' ? 1 : -1; costoED += s * e.cant * e.costo; ganED += s * e.cant * (e.precio - e.costo); });
+      });
+      const extra = M.costosDe(obraId).filter((c) => c.mon === 'ARS').reduce((s, c) => s + c.importe, 0);
+      const caja = M.cajaGastado(obraId); const r = M.resumen(obraId, verSin);
+      const ventaHoy = r2(t.total + ajustes), costoHoy = r2(t.costo + costoED + extra + caja);
+      return {
+        ventaPrev: t.total, costoPrev: t.costo, ganPrev: r2(t.total - t.costo), ventaHoy, costoHoy, ganHoy: r2(ventaHoy - costoHoy),
+        extra: r2(extra), caja, ganED: r2(ganED), enMano: r2(r.cobrado.ARS - r.pagado.ARS - caja),
+        aDefinir: r2(M.aDefinirDe(obraId).filter((a) => a.mon === 'ARS' && !M.aDefinirCert(a.id)).reduce((s, a) => s + a.estimado, 0))
       };
     },
     avanceRubros(obraId) {
@@ -223,7 +257,7 @@
       return v === Number(d[10]);
     },
     usosCliente: (id) => DB.obras.filter((o) => o.cliente === id).length,
-    usosProveedor(id) { return DB.presupuestos.reduce((s, p) => s + p.items.filter((i) => i.prov === id).length, 0) + DB.pagos.filter((p) => p.prov === id).length; }
+    usosProveedor(id) { return DB.costosObra.filter((c) => c.prov === id).length + DB.presupuestos.reduce((s, p) => s + p.items.filter((i) => i.prov === id).length, 0) + DB.pagos.filter((p) => p.prov === id).length; }
   };
 
 

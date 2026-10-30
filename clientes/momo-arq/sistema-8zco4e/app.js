@@ -28,14 +28,14 @@
   const esMovil = () => window.matchMedia('(max-width: 640px)').matches;
 
   /* ================= base ================= */
-  const KEY = 'momo-argos-maqueta-v3';
+  const KEY = 'momo-argos-maqueta-v4';
   let DB;
   function normalizar(db) {
     db.config.baseCAC = db.config.baseCAC || '2026-03';
     db.certificados.forEach((c) => { if (!c.estado) c.estado = 'emitido'; c.ed = (c.ed || []).map((e) => Object.assign({ mo: 0, mat: e.precio || 0 }, e)); });
     db.presupuestos.forEach((p) => p.items.forEach((i) => { if (i.iibb == null) i.iibb = 0; if (i.interno == null) i.interno = i.costo ? r2((i.venta / i.costo - 1) * 100) : 0; }));
     ['clientes', 'proveedores'].forEach((k) => db[k].forEach((x) => { if (x.archivado == null) x.archivado = false; }));
-    db.facturasCompra = db.facturasCompra || []; db.notasCredito = db.notasCredito || []; db.arcaRecibidos = db.arcaRecibidos || []; db.padron = db.padron || {}; db.cuentas = db.cuentas || [];
+    db.facturasCompra = db.facturasCompra || []; db.notasCredito = db.notasCredito || []; db.arcaRecibidos = db.arcaRecibidos || []; db.padron = db.padron || {}; db.cuentas = db.cuentas || []; db.costosObra = db.costosObra || []; db.aDefinir = db.aDefinir || [];
     const fe = [];
     db.obras.forEach((o) => { if (o.anticipo && o.anticipo.fecha && o.anticipo.comp && o.anticipo.comp !== 'sin' && !o.anticipo.fe) fe.push({ f: o.anticipo.fecha, l: o.anticipo.comp, set: (x) => { o.anticipo.fe = x; } }); });
     db.certificados.forEach((c) => { if (c.estado === 'emitido' && c.comp && c.comp !== 'sin' && !c.fe) fe.push({ f: c.fecha, l: c.comp, set: (x) => { c.fe = x; } }); });
@@ -347,7 +347,7 @@
       cifras += cifra('Cobrado (con IVA)', esc(doble(r.cobrado)), 'Por cobrar: ' + doble(r.porCobrar)) +
         cifra('Costo pactado con proveedores', esc(doble(r.pactado)), 'Pagado: ' + doble(r.pagado)) +
         cifra('A pagar por avance', esc(doble(r.aPagar)), 'Lo certificado a cada proveedor menos lo pagado');
-      cifras += puede('margen') ? cifra('Margen previsto', pct(r.margen.ARS), 'Sobre el contrato en pesos' + (r.pres.USD.total ? ' · USD ' + pct(r.margen.USD) : '')) : cifra('Caja chica', esc(fmt(r.cajaSaldo)), 'Gastado en obra: ' + fmt(r.caja));
+      cifras += cifra('Caja chica', esc(fmt(r.cajaSaldo)), 'Gastado en obra: ' + fmt(r.caja));
     } else {
       cifras += cifra('Caja chica', esc(fmt(r.cajaSaldo)), 'Gastado en obra: ' + fmt(r.caja));
     }
@@ -364,7 +364,22 @@
     const nTareas = DB.tareas.filter((t) => t.obra === o.id && t.col !== 'hecha').length;
     if (nTareas) pasos.push(['kanban', nTareas + (nTareas === 1 ? ' tarea abierta' : ' tareas abiertas') + ' de esta obra', '#/tareas', o.id]);
     const pasosHtml = pasos.length ? '<ul class="alertas">' + pasos.map((x) => '<li><span class="ic">' + ic(x[0]) + '</span><div class="t">' + esc(x[1]) + '</div><a class="btn sm" href="' + x[2] + '"' + (x[3] ? ' data-accion="tareas-obra" data-obra="' + x[3] + '"' : '') + '>Ir</a></li>').join('') + '</ul>' : vacio('check-circle', 'Obra al día.');
-    return '<div class="resumen-grid">' + cifras + '</div><div class="grilla-2"><div class="card"><div class="card-h"><h2>Avance por rubro</h2><span class="sub">Ponderado por el precio de cada ítem</span></div><div class="sp"></div>' + rubHtml + '</div><div class="pila"><div class="card"><div class="card-h"><h2>Próximos pasos</h2></div><div class="card-b">' + pasosHtml + '</div></div><div class="card"><div class="card-h"><h2>Actividad de la obra</h2></div><div class="card-b">' + (act ? '<ul class="actividad">' + act + '</ul>' : vacio('clock', 'Sin actividad todavía.')) + '</div></div></div></div>';
+    return '<div class="resumen-grid">' + cifras + '</div>' + cardBalance(o) + '<div class="grilla-2"><div class="card"><div class="card-h"><h2>Avance por rubro</h2><span class="sub">Ponderado por el precio de cada ítem</span></div><div class="sp"></div>' + rubHtml + '</div><div class="pila"><div class="card"><div class="card-h"><h2>Próximos pasos</h2></div><div class="card-b">' + pasosHtml + '</div></div><div class="card"><div class="card-h"><h2>Actividad de la obra</h2></div><div class="card-b">' + (act ? '<ul class="actividad">' + act + '</ul>' : vacio('clock', 'Sin actividad todavía.')) + '</div></div></div></div>';
+  }
+
+  /* lo que en la planilla hay que cruzar a mano: lo previsto contra lo que pasó */
+  function cardBalance(o) {
+    if (!puede('margen')) return '';
+    const b = M.balance(o.id, puede('sin')); if (!b) return '';
+    const dif = (x) => { const r = Math.round(x); return r === 0 ? '<span class="tenue">Igual</span>' : (r > 0 ? '+' : '-') + fmt(Math.abs(r)); };
+    const fila = (t, s, p, h, fuerte) => '<tr' + (fuerte ? ' class="fila-total"' : '') + '><td><b>' + esc(t) + '</b><span class="sec">' + esc(s) + '</span></td><td class="num">' + fmt(p) + '</td><td class="num"><b>' + fmt(h) + '</b></td><td class="num">' + dif(h - p) + '</td></tr>';
+    const ind = (l, v, s) => '<div class="bal-dato"><span>' + esc(l) + '</span><b>' + esc(v) + '</b><small>' + esc(s) + '</small></div>';
+    return '<div class="card balance"><div class="card-h"><h2>Cómo viene la obra</h2><span class="sub">Solo socios. Lo previsto al aprobar contra lo que pasó hasta hoy, en pesos</span></div>' +
+      '<div class="tabla-wrap"><table><thead><tr><th>Concepto</th><th class="num">Previsto</th><th class="num">Hoy</th><th class="num">Diferencia</th></tr></thead><tbody>' +
+      fila('Lo que se le cobra al cliente', 'Contrato con honorarios, más demasías, economías y ajuste CAC', b.ventaPrev, b.ventaHoy) +
+      fila('Lo que cuesta la obra', 'Presupuesto, más demasías, costos sumados y caja chica', b.costoPrev, b.costoHoy) +
+      fila('Lo que le queda a Momo', 'Sin IVA ni gastos del estudio', b.ganPrev, b.ganHoy, true) + '</tbody></table></div>' +
+      '<div class="bal-datos">' + ind('Plata de la obra en mano', fmt(b.enMano), b.enMano >= 0 ? 'Cobrado menos pagado, con IVA' : 'Momo está poniendo plata en esta obra') + ind('Ganancia en demasías', fmt(b.ganED), 'Precio menos costo de cada una') + ind('Costos sumados en obra', fmt(b.extra + b.caja), 'Fuera del presupuesto, con caja chica') + ind('A definir con el cliente', fmt(b.aDefinir), 'Estimado, todavía sin precio') + '</div></div>';
   }
 
   /* ---------- presupuesto ---------- */
@@ -416,7 +431,26 @@
       (sel.estado === 'borrador' && puede('aprobar') ? '<button class="btn primary" data-accion="aprobar-pres" data-id="' + sel.id + '">' + ic('seal-check') + 'Aprobar presupuesto</button>' : '') +
       (sel.estado === 'aprobado' && puede('aprobar') && !M.presBorrador(o.id) ? '<button class="btn" data-accion="nueva-version" data-id="' + sel.id + '">' + ic('copy') + 'Nueva versión</button>' : '') +
       '</div></div>';
-    return aviso + acciones + t.tabla + '<div class="sp"></div>' + t.totales;
+    return aviso + acciones + t.tabla + '<div class="sp"></div>' + t.totales + bloqueADefinir(o);
+  }
+  /* los rubros "EN DEMASIAS" de la planilla: se sabe que van, falta el precio */
+  function bloqueADefinir(o) {
+    const lista = M.aDefinirDe(o.id); const verCosto = puede('costos');
+    if (!lista.length && !puede('editarPres')) return '';
+    const filas = lista.map((a) => { const c = M.aDefinirCert(a.id); return '<tr><td class="wrap"><b>' + esc(a.desc) + '</b><span class="sec">' + esc(M.rubro(a.rubro).nombre) + '</span></td>' + (verCosto ? '<td>' + esc((M.prov(a.prov) || {}).razon || 'Sin asignar') + '</td><td class="num">' + fmt(a.estimado, a.mon) + '</td>' : '') + '<td>' + (c ? badge('Cobrado en certificado N° ' + c.num, 'b-ok') : badge('A definir', 'b-warn')) + '</td></tr>'; }).join('');
+    return '<div class="sp"></div><div class="seccion-h"><h2>A definir con el cliente</h2>' + (puede('editarPres') ? '<button class="btn sm" data-accion="nuevo-adefinir" data-obra="' + o.id + '">' + ic('plus') + 'Agregar</button>' : '') + '</div><p class="tenue">Lo que se sabe que va a estar pero todavía no tiene precio. No entra al contrato ni al margen. Cuando el cliente elige, se pasa a demasía desde el certificado.</p>' +
+      (filas ? '<div class="tabla-wrap"><table><thead><tr><th>Qué falta definir</th>' + (verCosto ? '<th>Proveedor</th><th class="num">Costo estimado</th>' : '') + '<th>Estado</th></tr></thead><tbody>' + filas + '</tbody></table></div>' : '');
+  }
+  function modalADefinir(obraId) {
+    const provs = DB.proveedores.filter((p) => !p.archivado).map((p) => [p.id, p.razon]);
+    abrirModal(cabModal('Agregar a definir') + '<div class="m-b"><div class="campo"><label for="ad-desc">Qué falta definir</label><input class="input" id="ad-desc" placeholder="Ej.: luminarias, griferías, mobiliario"></div><div class="fila-2"><div class="campo"><label for="ad-rubro">Rubro</label><select class="input" id="ad-rubro">' + opciones(DB.rubros.map((r) => [r.id, r.num + '. ' + r.nombre]), '') + '</select></div><div class="campo"><label for="ad-prov">Proveedor posible</label><select class="input" id="ad-prov">' + opciones(provs, '', 'Sin asignar') + '</select></div></div><div class="campo"><label for="ad-est">Costo estimado</label><input class="input der monto" id="ad-est" inputmode="decimal"></div></div><div class="m-f"><button class="btn" data-accion="cerrar-modal">Cancelar</button><button class="btn primary" id="ad-ok">Guardar</button></div>', (m) => {
+      $('#ad-ok', m).addEventListener('click', () => {
+        const err = []; const desc = val(m, '#ad-desc'), est = num(m, '#ad-est');
+        if (!desc) err.push('qué falta definir'); if (!(est > 0)) err.push('costo estimado'); if (!mostrarErrores(m, err)) return;
+        DB.aDefinir.push({ id: nid('ad'), obra: obraId, rubro: val(m, '#ad-rubro'), desc, estimado: est, prov: val(m, '#ad-prov'), mon: 'ARS' });
+        log('Agregó a definir: ' + desc, obraId); guardar(); cerrarModal(); render(); toast('Queda a definir. No suma al contrato.');
+      });
+    });
   }
 
   /* ---------- certificados ---------- */
@@ -501,11 +535,13 @@
   }
   function barraAcum(ant, v) { const t = ant + v; return '<div class="avance"><div class="barra doble" data-w="' + Math.min(100, t) + '" data-w2="' + Math.min(100, ant) + '"></div><span class="p">' + (t > 100.0001 ? '<b class="tenue">' + Math.round(t) + '%</b>' : Math.round(t) + '%') + '</span></div>'; }
   function edHtml(d) {
+    const pend = M.aDefinirDe(d.obra).filter((a) => !M.aDefinirCert(a.id) && !d.ed.some((e) => e.origen === a.id));
+    const pendientes = pend.length ? '<div class="a-definir"><span>A definir con el cliente:</span>' + pend.map((a) => '<button type="button" class="chip" data-accion="pasar-demasia" data-id="' + a.id + '">' + ic('plus') + esc(a.desc) + '</button>').join('') + '</div>' : '';
     const provs = DB.proveedores.filter((p) => !p.archivado).map((p) => [p.id, p.razon]);
     const filas = d.ed.map((e, k) => '<div class="ed-fila" data-ed="' + k + '"><div class="campo"><label>Tipo</label><select class="input" data-edc="tipo">' + opciones([['demasia', 'Demasía'], ['economia', 'Economía']], e.tipo) + '</select></div><div class="campo ed-desc"><label>Descripción</label><input class="input" data-edc="desc" value="' + esc(e.desc) + '" placeholder="Qué se agregó o qué no se hizo"></div><div class="campo"><label>Cant.</label><input class="input der" data-edc="cant" inputmode="decimal" value="' + fmtInput(e.cant) + '"></div><div class="campo"><label>Mano de obra</label><input class="input der" data-edc="mo" inputmode="decimal" value="' + fmtInput(e.mo) + '"></div><div class="campo"><label>Materiales</label><input class="input der" data-edc="mat" inputmode="decimal" value="' + fmtInput(e.mat) + '"></div>' +
       (puede('costos') ? '<div class="campo"><label>Costo Momo</label><input class="input der" data-edc="costo" inputmode="decimal" value="' + fmtInput(e.costo) + '"></div><div class="campo"><label>Proveedor</label><select class="input" data-edc="prov">' + opciones(provs, e.prov, 'Sin proveedor') + '</select></div>' : '<div></div><div></div>') +
       '<button class="btn icon ghost" data-accion="quitar-ed" data-i="' + k + '" aria-label="Quitar renglón">' + ic('x') + '</button><div class="ed-total" data-edtot="' + k + '">Precio unitario al cliente: <b>' + esc(fmt(e.precio, e.mon)) + '</b> · total ' + esc(fmt(e.precio * e.cant, e.mon)) + '</div></div>').join('');
-    return '<div class="card-h"><h2>Demasías y economías del mes</h2><span class="sub">Mano de obra y materiales por separado, como en la planilla. Se cobran completas en este certificado.</span><div class="der"><button class="btn sm" data-accion="agregar-ed">' + ic('plus') + 'Agregar</button></div></div><div class="card-b">' + (filas || '<p class="suave m0">Sin demasías ni economías este mes.</p>') + '</div>';
+    return '<div class="card-h"><h2>Demasías y economías del mes</h2><span class="sub">Mano de obra y materiales por separado, como en la planilla. Se cobran completas en este certificado.</span><div class="der"><button class="btn sm" data-accion="agregar-ed">' + ic('plus') + 'Agregar</button></div></div><div class="card-b">' + pendientes + (filas || '<p class="suave m0">Sin demasías ni economías este mes.</p>') + '</div>';
   }
   function panelCert(d) {
     const o = M.obra(d.obra); const k = M.calcCert(d); const err = M.erroresCert(d);
@@ -552,12 +588,33 @@
   /* ---------- proveedores de la obra ---------- */
   function tProveedores(o) {
     const lista = M.provDeObra(o.id);
-    const filas = lista.map((f) => { const p = M.prov(f.prov); return '<tr><td><b>' + esc(p.razon) + '</b>' + (p.interno ? ' <span class="badge">Propio</span>' : '') + '<span class="sec">' + esc(p.rubros.map((r) => M.rubro(r).nombre).join(', ')) + '</span></td><td class="num">' + doble(f.pactado) + '</td><td class="num">' + doble(f.devengado) + '</td><td class="num">' + (p.interno ? '<span class="tenue">Propio</span>' : (() => { const fa = M.facturadoProv(o.id, f.prov); return fa > f.devengado.ARS + 0.5 && fa > 0 ? '<span class="badge b-warn" title="Facturó más de lo certificado">' + fmt(fa) + '</span>' : fa ? fmt(fa) : '<span class="tenue">Sin facturas</span>'; })()) + '</td><td class="num">' + doble(f.pagado) + '</td><td class="num"><b>' + (f.aPagar.ARS > 0.5 || f.aPagar.USD > 0.5 ? doble({ ARS: Math.max(0, f.aPagar.ARS), USD: Math.max(0, f.aPagar.USD) }) : (f.aPagar.ARS < -0.5 || f.aPagar.USD < -0.5 ? '<span class="badge b-info">Adelantado ' + doble({ ARS: -Math.min(0, f.aPagar.ARS), USD: -Math.min(0, f.aPagar.USD) }) + '</span>' : '<span class="tenue">Al día</span>')) + '</b></td><td class="num">' + doble(f.resta) + '</td><td><button class="btn sm" data-accion="nuevo-pago" data-obra="' + o.id + '" data-prov="' + f.prov + '">' + ic('money') + 'Pagar</button></td></tr>'; }).join('');
+    const filas = lista.map((f) => { const p = M.prov(f.prov); return '<tr class="clic" data-accion="ver-ficha" data-obra="' + o.id + '" data-prov="' + f.prov + '"><td><b>' + esc(p.razon) + '</b>' + (p.interno ? ' <span class="badge">Propio</span>' : '') + '<span class="sec">' + esc(p.rubros.map((r) => M.rubro(r).nombre).join(', ')) + '</span></td><td class="num">' + doble(f.pactado) + '</td><td class="num">' + doble(f.devengado) + '</td><td class="num">' + (p.interno ? '<span class="tenue">Propio</span>' : (() => { const fa = M.facturadoProv(o.id, f.prov); return fa > f.devengado.ARS + 0.5 && fa > 0 ? '<span class="badge b-warn" title="Facturó más de lo certificado">' + fmt(fa) + '</span>' : fa ? fmt(fa) : '<span class="tenue">Sin facturas</span>'; })()) + '</td><td class="num">' + doble(f.pagado) + '</td><td class="num"><b>' + (f.aPagar.ARS > 0.5 || f.aPagar.USD > 0.5 ? doble({ ARS: Math.max(0, f.aPagar.ARS), USD: Math.max(0, f.aPagar.USD) }) : (f.aPagar.ARS < -0.5 || f.aPagar.USD < -0.5 ? '<span class="badge b-info">Adelantado ' + doble({ ARS: -Math.min(0, f.aPagar.ARS), USD: -Math.min(0, f.aPagar.USD) }) + '</span>' : '<span class="tenue">Al día</span>')) + '</b></td><td class="num">' + doble(f.resta) + '</td><td><button class="btn sm" data-accion="nuevo-pago" data-obra="' + o.id + '" data-prov="' + f.prov + '">' + ic('money') + 'Pagar</button></td></tr>'; }).join('');
     const pagos = M.pagosDe(o.id).filter((p) => UI.teso.anulados || !p.anulado).sort((a, b) => b.fecha.localeCompare(a.fecha)).map((p) => filaPago(p, false)).join('');
-    return '<div class="aviso info">' + ic('info') + '<div><b>Cómo se lee:</b> lo pactado sale del presupuesto aprobado (costo de cada ítem asignado). Lo certificado es ese costo por el avance acumulado. A pagar = certificado − pagado. Nada se tipea dos veces.</div></div>' +
+    return '<div class="aviso info">' + ic('info') + '<div><b>Cómo se lee:</b> lo pactado sale del presupuesto aprobado, más las demasías y los costos sumados. A pagar = certificado − pagado. Tocá un proveedor para ver su ficha, renglón por renglón.</div></div>' +
+      '<div class="toolbar"><div class="filtros"></div><div class="acciones"><button class="btn primary" data-accion="sumar-costo" data-obra="' + o.id + '">' + ic('plus') + 'Sumar costo</button></div></div>' +
       '<div class="tabla-wrap"><table><thead><tr><th>Proveedor</th><th class="num">Pactado</th><th class="num">Certificado</th><th class="num">Facturado</th><th class="num">Pagado</th><th class="num">A pagar hoy</th><th class="num">Resta del contrato</th><th></th></tr></thead><tbody>' + (filas || '<tr><td colspan="8">' + vacio('toolbox', 'Asigná proveedores a los ítems del presupuesto.') + '</td></tr>') + '</tbody></table></div>' +
       '<div class="sp"></div><div class="toolbar"><div class="filtros"><b>Pagos de la obra</b></div><div class="acciones"><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anulados</label></div></div>' +
       (pagos ? '<div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Proveedor</th><th>Detalle</th><th>Medio</th><th class="num">Importe</th><th>Cargado por</th><th></th></tr></thead><tbody>' + pagos + '</tbody></table></div>' : '<div class="card">' + vacio('money', 'Sin pagos todavía.') + '</div>');
+  }
+  /* el bloque de la hoja PROVEEDORES: costos y pagos en orden, con el saldo que va quedando */
+  function verFicha(obraId, provId) {
+    const pv = M.prov(provId); const o = M.obra(obraId); const f = M.provDeObra(obraId).find((x) => x.prov === provId);
+    const tabla = (mon) => {
+      const l = M.fichaProv(obraId, provId, mon); if (!l.length) return '';
+      return '<div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Detalle</th><th class="num">Costo</th><th class="num">Pago</th><th class="num">Saldo' + (mon === 'USD' ? ' USD' : '') + '</th><th></th></tr></thead><tbody>' + l.map((x) => '<tr><td>' + fFecha(x.fecha) + '</td><td class="wrap">' + esc(x.txt) + (x.sub ? '<span class="sec">' + esc(x.sub) + '</span>' : '') + '</td><td class="num">' + (x.costo ? fmt(x.costo, mon) : '') + '</td><td class="num">' + (x.pago ? fmt(x.pago, mon) : '') + '</td><td class="num"><b>' + fmt(x.saldo, mon) + '</b></td><td>' + (x.costoId ? '<button class="btn sm ghost" data-accion="anular-costo" data-id="' + x.costoId + '">Anular</button>' : '') + '</td></tr>').join('') + '</tbody></table></div>';
+    };
+    abrirDrawer('<div class="d-h"><div><h2>' + esc(pv.razon) + '</h2><div class="sub">' + esc(o.nombre) + '</div></div><div class="der"><button class="btn sm icon ghost" data-accion="cerrar-drawer" aria-label="Cerrar">' + ic('x') + '</button></div></div><div class="d-b"><div class="desglose"><span>Pactado</span><span class="r">' + doble(f.pactado) + '</span><span>Certificado a la fecha</span><span class="r">' + doble(f.devengado) + '</span><span>Pagado</span><span class="r">' + doble(f.pagado) + '</span><span class="sep"></span><span class="total">Resta del contrato</span><span class="r total">' + doble(f.resta) + '</span></div>' + tabla('ARS') + tabla('USD') + '</div>');
+  }
+  function modalCosto(obraId) {
+    const provs = DB.proveedores.filter((p) => !p.archivado).map((p) => [p.id, p.razon]);
+    abrirModal(cabModal('Sumar costo') + '<div class="m-b"><p class="suave">Para lo que no estaba en un ítem del presupuesto: un arreglo con un contratista, una compra de materiales para varios rubros.</p><div class="fila-2"><div class="campo"><label for="cs-prov">Proveedor</label><select class="input" id="cs-prov">' + opciones(provs, '', 'Elegí') + '</select></div><div class="campo"><label for="cs-fecha">Fecha</label><input class="input" type="date" id="cs-fecha" value="' + hoy() + '"></div></div><div class="campo"><label for="cs-desc">Qué es</label><input class="input" id="cs-desc" placeholder="Ej.: arreglos en subsuelo"></div><div class="fila-2"><div class="campo"><label for="cs-imp">Importe</label><input class="input der monto" id="cs-imp" inputmode="decimal"></div><div class="campo"><label for="cs-mon">Moneda</label><select class="input" id="cs-mon">' + opciones([['ARS', 'Pesos'], ['USD', 'Dólares']], 'ARS') + '</select></div></div><div class="campo"><label for="cs-obs">Detalle (lo que antes iba en el comentario de la celda)</label><textarea class="input" id="cs-obs" rows="2" placeholder="Ej.: carpeta $ 170.000, demolición $ 220.000"></textarea></div></div><div class="m-f"><button class="btn" data-accion="cerrar-modal">Cancelar</button><button class="btn primary" id="cs-ok">Sumar costo</button></div>', (m) => {
+      $('#cs-ok', m).addEventListener('click', () => {
+        const err = []; const prov = val(m, '#cs-prov'), desc = val(m, '#cs-desc'), importe = num(m, '#cs-imp');
+        if (!prov) err.push('proveedor'); if (!desc) err.push('qué es'); if (!(importe > 0)) err.push('importe'); if (!mostrarErrores(m, err)) return;
+        DB.costosObra.push({ id: nid('cs'), obra: obraId, prov, fecha: val(m, '#cs-fecha'), desc, importe, mon: val(m, '#cs-mon'), obs: val(m, '#cs-obs'), creado: creado() });
+        log('Sumó ' + fmt(importe, val(m, '#cs-mon')) + ' a ' + M.prov(prov).razon + ': ' + desc, obraId); guardar(); cerrarModal(); render(); toast('Costo sumado al proveedor y a la obra.');
+      });
+    });
   }
   const medioTxt = (x) => { const ch = x.cheque ? M.cheque(x.cheque) : null; const b = { transferencia: 'Transferencia', efectivo: 'Efectivo', cheque: 'Cheque', echeq: 'E-cheq', 'cheque-propio': 'Cheque propio', 'cheque-tercero': 'Endoso de cheque' }[x.medio] || x.medio; return b + (ch ? ' ' + ch.banco + ' N° ' + ch.numero + (ch.estado === 'rechazado' ? ' (rechazado)' : '') : x.banco ? ' ' + x.banco : ''); };
   function filaPago(p, conObra) {
@@ -1226,6 +1283,7 @@
         }
         case 'ver-completos': UI.verCompletos = !UI.verCompletos; render(); return;
         case 'agregar-ed': UI.certDraft.ed.push({ id: nid('ed'), tipo: 'demasia', desc: '', cant: 1, mo: 0, mat: 0, precio: 0, costo: 0, prov: '', mon: 'ARS' }); setHTML($('#ce-ed'), edHtml(UI.certDraft)); refrescarCert(); return;
+        case 'pasar-demasia': { const a = DB.aDefinir.find((x) => x.id === id); UI.certDraft.ed.push({ id: nid('ed'), tipo: 'demasia', desc: a.desc, cant: 1, mo: 0, mat: 0, precio: 0, costo: a.estimado, prov: a.prov, mon: a.mon, origen: a.id }); setHTML($('#ce-ed'), edHtml(UI.certDraft)); refrescarCert(); toast('Pasó a demasías. Falta poner el precio al cliente.', 'pencil-simple'); return; }
         case 'quitar-ed': UI.certDraft.ed.splice(Number(ac.dataset.i), 1); setHTML($('#ce-ed'), edHtml(UI.certDraft)); refrescarCert(); return;
         case 'guardar-cert': { const c = persistirCert('borrador'); location.hash = '#/obra/' + c.obra + '/certificados'; toast('Borrador guardado. ' + (puede('emitir') ? 'Emitilo cuando esté revisado.' : 'Lo revisa y emite Administración.')); return; }
         case 'emitir-cert': {
@@ -1257,6 +1315,10 @@
         }
         case 'nueva-caja': modalCaja(ac.dataset.obra, ac.dataset.tipo); return;
         case 'anular-caja': { const c = DB.caja.find((x) => x.id === id); confirmar('Anular movimiento', 'Deja de contar en el saldo y en el costo de la obra.', 'Anular', () => { c.anulado = creado(); log('Anuló un movimiento de caja chica: ' + c.desc, c.obra); guardar(); render(); }, true); return; }
+        case 'nuevo-adefinir': modalADefinir(ac.dataset.obra); return;
+        case 'sumar-costo': modalCosto(ac.dataset.obra); return;
+        case 'ver-ficha': verFicha(ac.dataset.obra, ac.dataset.prov); return;
+        case 'anular-costo': { const c = DB.costosObra.find((x) => x.id === id); confirmar('Anular este costo', c.desc + ' por ' + fmt(c.importe, c.mon) + '. Deja de sumar al proveedor y a la obra, y queda registrado.', 'Anular', () => { c.anulado = true; log('Anuló el costo "' + c.desc + '"', c.obra); guardar(); cerrarDrawer(); render(); toast('Costo anulado.'); }, true); return; }
         case 'nueva-tarea': modalTarea(null, ac.dataset.obra); return;
         case 'tareas-obra': UI.tareas.obra = ac.dataset.obra; UI.tareas.vista = 'todas'; return;
         case 'editar-tarea': modalTarea(id); return;

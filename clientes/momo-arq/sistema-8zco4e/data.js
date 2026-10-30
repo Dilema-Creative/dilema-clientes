@@ -267,6 +267,18 @@
       { id: 'efectivo', nombre: 'Efectivo', tipo: 'caja', numero: 'Caja fuerte del estudio', inicial: 9300000 }
     ];
 
+    /* costos que el proveedor suma durante la obra y no estaban en un ítem del presupuesto (cada renglón del bloque de la planilla) */
+    const costosObra = [
+      { id: 'cs1', obra: 'o1', prov: 'p9', fecha: dia(-30), desc: 'Materiales de obra, primera compra', importe: 2150000, mon: 'ARS', obs: 'Placas, perfiles, masilla, cemento y arena. Se reparte entre albañilería y durlock.', creado: { por: 'u4', ts: ts(-30) } },
+      { id: 'cs2', obra: 'o1', prov: 'p1', fecha: dia(-17), desc: 'Arreglos en subsuelo', importe: 620000, mon: 'ARS', obs: 'Recuadro de columna $ 180.000. Relleno de canaletas $ 240.000. Alquiler de puntales $ 200.000.', creado: { por: 'u1', ts: ts(-17) } }
+    ];
+    /* cosas que se sabe que van a estar pero todavía no tienen precio: no entran al contrato y se cobran como demasía cuando el cliente elige (los rubros "EN DEMASIAS" de la planilla) */
+    const aDefinir = [
+      { id: 'ad1', obra: 'o1', rubro: 'r14', desc: 'Luminarias del salón de ventas', estimado: 2400000, prov: 'p4', mon: 'ARS' },
+      { id: 'ad2', obra: 'o1', rubro: 'r13', desc: 'Griferías y sanitarios del baño de personal', estimado: 1100000, prov: 'p8', mon: 'ARS' },
+      { id: 'ad3', obra: 'o1', rubro: 'r07', desc: 'Exhibidores de vidriera', estimado: 1900000, prov: 'p5', mon: 'ARS' }
+    ];
+
     return {
       version: 1,
       contadores: { obra: 418, id: 1000 },
@@ -275,7 +287,7 @@
       bancos: ['Banco Galicia', 'Banco Santander', 'Banco Macro', 'Banco Nación', 'Banco Provincia', 'BBVA', 'Banco Credicoop', 'Banco Patagonia', 'Banco Supervielle', 'Banco ICBC'],
       equipo, clientes, proveedores, obras, presupuestos, certificados, indicesCAC,
       cobros, pagos, cheques, caja, gastos, tareas, documentos, auditoria,
-      facturasCompra, arcaRecibidos, padron, cuentas, notasCredito: []
+      facturasCompra, arcaRecibidos, padron, cuentas, notasCredito: [], costosObra, aDefinir
     };
   };
 })();
