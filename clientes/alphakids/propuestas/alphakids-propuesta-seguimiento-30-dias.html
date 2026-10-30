@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Alpha Kids Seguimiento 30 días</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Mini propuesta de Dilema Creative para Alpha Kids: seguimiento de 30 días de la reactivación de Google Ads.">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* Sistema de propuestas de Dilema (un solo tema) + bloque con colores de Alpha Kids */
+  :root {
+    --navy: #0C1738;
+    --navy-2: #070E22;
+    --blue: #314394;
+    --sky: #6BBBE0;
+    --green-deep: #44A39B;
+    --paper: #F7F9FC;
+    --white: #FFFFFF;
+    --text: #16192B;
+    --ash: #5F6880;
+    --line: #D8E1EC;
+    --on-dark: #FFFFFF;
+    --on-dark-soft: #C3CAD9;
+    --on-dark-faint: #8E98AE;
+    --on-dark-line: #2B3656;
+    --on-dark-card: #151F42;
+    --on-dark-card-hi: #17294F;
+
+    --ak-ink: #111729;
+    --ak-violet: #6100D1;
+    --ak-amber: #FFB703;
+    --ak-cream: #FDFBF7;
+    --ak-cream-2: #F2EEE6;
+    --ak-line: #E0D9CC;
+    --ak-ash: #635C51;
+
+    --display: "Poppins", "Segoe UI", sans-serif;
+    --body: "Montserrat", "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", Consolas, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--body);
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .band { padding-block: 72px; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+  .band.dark { background: var(--navy); color: var(--on-dark); }
+  .band.ak { background: var(--ak-cream); color: var(--ak-ink); }
+  .wrap { max-width: 920px; margin: 0 auto; }
+
+  .kicker { font-family: var(--mono); font-size: 11px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; color: var(--blue); margin-bottom: 16px; }
+  .ak .kicker { color: var(--ak-violet); }
+  .dark .kicker { color: var(--sky); }
+
+  h2 { font-family: var(--display); font-weight: 700; font-size: clamp(26px, 4vw, 38px); line-height: 1.16; letter-spacing: -.02em; margin-bottom: 16px; text-wrap: balance; }
+  h2 em { font-style: normal; color: var(--blue); }
+  .ak h2 em { color: var(--ak-violet); }
+  .dark h2 em { color: var(--sky); }
+
+  .lead { font-size: 16px; color: var(--ash); max-width: 660px; margin-bottom: 34px; }
+  .ak .lead { color: var(--ak-ash); }
+  .dark .lead { color: var(--on-dark-soft); }
+
+  /* HERO */
+  .hero { background: var(--navy); padding-block: 72px 60px; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+  .hero-mark { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; flex-wrap: wrap; }
+  .hero-brand { font-family: var(--display); font-weight: 700; font-size: 15px; color: var(--on-dark); }
+  .hero-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .hero-line { width: 26px; height: 1px; background: var(--on-dark-faint); }
+  .hero-for { font-family: var(--mono); font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--on-dark-soft); }
+  .hero h1 { font-family: var(--display); font-weight: 700; font-size: clamp(32px, 5.6vw, 52px); line-height: 1.1; letter-spacing: -.03em; color: var(--on-dark); margin-bottom: 22px; text-wrap: balance; }
+  .hero h1 em { font-style: normal; color: var(--sky); }
+  .hero-sub { font-size: 17px; color: var(--on-dark-soft); max-width: 640px; margin-bottom: 34px; }
+  .hero-meta { display: flex; gap: 40px; flex-wrap: wrap; padding-top: 26px; border-top: 1px solid var(--on-dark-line); }
+  .hm-label { font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--on-dark-faint); margin-bottom: 4px; }
+  .hm-value { font-family: var(--display); font-weight: 600; font-size: 15px; color: var(--on-dark); }
+
+  /* TABLA */
+  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 12px; }
+  table { width: 100%; border-collapse: collapse; min-width: 560px; background: var(--white); }
+  th { font-family: var(--mono); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; color: var(--blue); text-align: left; padding: 13px 16px; background: #ECF1F7; border-bottom: 1px solid var(--line); }
+  td { padding: 13px 16px; font-size: 14.5px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  tbody tr:last-child td { border-bottom: none; }
+  td:first-child { font-family: var(--display); font-weight: 600; }
+  td.before { color: var(--ash); }
+
+  /* INCLUYE */
+  .ak .inc { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .inc-item { background: var(--white); border: 1px solid var(--ak-line); border-radius: 14px; padding: 24px; }
+  .inc-tag { font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--ak-violet); margin-bottom: 10px; }
+  .inc-item h3 { font-family: var(--display); font-weight: 600; font-size: 17px; letter-spacing: -.01em; margin-bottom: 6px; }
+  .inc-item p { font-size: 14.5px; color: var(--ak-ash); }
+
+  /* PASOS */
+  .step { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: 22px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .step:last-of-type { border-bottom: none; }
+  .step-label { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--blue); padding-top: 4px; }
+  .step h3 { font-family: var(--display); font-weight: 600; font-size: 17px; letter-spacing: -.01em; margin-bottom: 4px; }
+  .step p { font-size: 14.5px; color: var(--ash); }
+
+  /* ESTIMACION */
+  .estim { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-top: 26px; }
+  .e { background: var(--white); padding: 18px 16px; }
+  .e-lab { font-family: var(--mono); font-size: 9px; letter-spacing: .15em; text-transform: uppercase; color: var(--ash); margin-bottom: 6px; }
+  .e-val { font-family: var(--display); font-weight: 700; font-size: 24px; letter-spacing: -.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .e.hi .e-val { color: var(--blue); }
+  .estim-note { font-size: 13px; color: var(--ash); margin-top: 10px; }
+
+  /* INVERSION */
+  .price-grid { display: grid; grid-template-columns: 3fr 2fr; gap: 18px; margin-bottom: 18px; }
+  .price-card { background: var(--on-dark-card); border: 1px solid var(--on-dark-line); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; min-width: 0; }
+  .price-card.featured { border-color: var(--sky); background: var(--on-dark-card-hi); }
+  .price-type { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--sky); margin-bottom: 10px; }
+  .price-card h3 { font-family: var(--display); font-weight: 600; font-size: 19px; letter-spacing: -.01em; margin-bottom: 12px; }
+  .price-card > p { font-size: 14px; color: var(--on-dark-soft); margin-bottom: 22px; }
+  .price-num { font-family: var(--display); font-weight: 700; font-size: 40px; letter-spacing: -.03em; line-height: 1; margin-top: auto; font-variant-numeric: tabular-nums; }
+  .price-num span { font-size: 14px; font-weight: 400; color: var(--on-dark-soft); letter-spacing: 0; }
+  .price-save { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--sky); margin-top: 10px; }
+  .note { border: 1px solid var(--on-dark-line); border-radius: 12px; padding: 18px 22px; font-size: 14.5px; color: var(--on-dark-soft); }
+  .note + .note { margin-top: 12px; }
+  .note strong { color: var(--on-dark); font-weight: 600; }
+
+  /* PIE */
+  footer { background: var(--navy-2); padding-block: 36px; padding-left: max(24px, env(safe-area-inset-left, 0px)); padding-right: max(24px, env(safe-area-inset-right, 0px)); }
+  .foot { max-width: 920px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap; }
+  .foot-brand { font-family: var(--display); font-weight: 700; font-size: 16px; color: var(--on-dark); }
+  .foot-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .foot-contact { font-family: var(--mono); font-size: 11px; line-height: 1.8; color: var(--on-dark-soft); }
+  .foot-contact a { color: inherit; text-decoration: none; }
+  .foot-contact a:hover, .foot-contact a:focus-visible { color: var(--sky); }
+
+  @media (max-width: 720px) {
+    .band { padding-block: 52px; }
+    .hero { padding-block: 52px 44px; }
+    .ak .inc, .price-grid { grid-template-columns: minmax(0, 1fr); }
+    .estim { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .step { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+    .hero-meta { gap: 22px 32px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-mark">
+      <span class="hero-brand">Dilema <em>Creative</em></span>
+      <span class="hero-line"></span>
+      <span class="hero-for">para Alpha Kids</span>
+    </div>
+    <h1>30 días para convertir la reactivación en <em>reservas reales</em>.</h1>
+    <p class="hero-sub">La cuenta ya está armada y la web nueva resuelve la reserva. Lo que falta es acompañar la campaña de cerca para aprovechar el crédito de Google.</p>
+    <div class="hero-meta">
+      <div><div class="hm-label">Plan</div><div class="hm-value">Seguimiento de 30 días</div></div>
+      <div><div class="hm-label">Canal</div><div class="hm-value">Google Ads</div></div>
+      <div><div class="hm-label">Pauta</div><div class="hm-value">Hasta ~310 €</div></div>
+      <div><div class="hm-label">Fee</div><div class="hm-value">USD 200</div></div>
+    </div>
+  </div>
+</header>
+
+<section class="band">
+  <div class="wrap">
+    <div class="kicker">Punto de partida</div>
+    <h2>Esta vez la campaña <em>sale mejor parada</em>.</h2>
+    <p class="lead">En septiembre, 72 de los 103 clics fueron de búsquedas con intención real, pero no se registraron reservas. El paso que pedía crear una cuenta ya no existe.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th style="width:26%">Tema</th><th>Septiembre</th><th>Ahora</th></tr></thead>
+        <tbody>
+          <tr><td>Reserva</td><td class="before">Había que crear una cuenta</td><td>En la misma página y sin cuenta</td></tr>
+          <tr><td>Precios</td><td class="before">Arrancaban en euros</td><td>En libras para Reino Unido</td></tr>
+          <tr><td>WhatsApp</td><td class="before">Números argentinos</td><td>Número de Reino Unido</td></tr>
+          <tr><td>Campaña</td><td class="before">Mental Maths traía clics de tareas y apps</td><td>Mental Maths y Competidores en pausa, negativas cargadas</td></tr>
+          <tr><td>Medición</td><td class="before">Sin reservas para comprobarla</td><td>Etiqueta de Ads como principal y reserva de prueba hecha</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="band ak">
+  <div class="wrap">
+    <div class="kicker">Qué incluye</div>
+    <h2>Optimización y seguimiento, <em>sin crear nada de cero</em>.</h2>
+    <p class="lead">Nos ocupamos de lo que hace que cada euro de la campaña rinda durante los 30 días.</p>
+    <div class="inc">
+      <div class="inc-item">
+        <div class="inc-tag">Cada semana</div>
+        <h3>Términos de búsqueda y negativas</h3>
+        <p>Revisamos qué buscó la gente y sacamos lo que no corresponde.</p>
+      </div>
+      <div class="inc-item">
+        <div class="inc-tag">Todo el período</div>
+        <h3>Presupuesto y puja</h3>
+        <p>Controlamos el ritmo de gasto para aprovechar bien el crédito.</p>
+      </div>
+      <div class="inc-item">
+        <div class="inc-tag">Medición</div>
+        <h3>Que cada reserva se registre</h3>
+        <p>Chequeamos las reservas y, si el programador no llega, resolvemos WhatsApp y el formulario desde Tag Manager.</p>
+      </div>
+      <div class="inc-item">
+        <div class="inc-tag">Al cierre</div>
+        <h3>Informe de resultados</h3>
+        <p>Qué funcionó, cuánto costó cada reserva y nuestra recomendación para seguir.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="kicker">Cómo se ordena</div>
+    <h2>De la puesta a punto <em>a la decisión</em>.</h2>
+    <div class="step">
+      <div class="step-label">Antes de prender</div>
+      <div>
+        <h3>Ajustes finales</h3>
+        <p>Fecha de fin a 30 días, frase de Marca actualizada a 4–14 años y precios de los anuncios confirmados.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-label">Semanas 1 a 4</div>
+      <div>
+        <h3>Campaña en marcha</h3>
+        <p>Puja por clics con tope de 3 €. Pasamos a conversiones recién con unas 15 a 30 reservas registradas.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-label">Día 30</div>
+      <div>
+        <h3>Lectura y decisión</h3>
+        <p>Con el informe en la mano deciden si siguen, y cómo.</p>
+      </div>
+    </div>
+
+    <div class="estim">
+      <div class="e"><div class="e-lab">Pauta máxima</div><div class="e-val">~310 €</div></div>
+      <div class="e"><div class="e-lab">Clics</div><div class="e-val">~185</div></div>
+      <div class="e hi"><div class="e-lab">Reservas</div><div class="e-val">~7</div></div>
+      <div class="e"><div class="e-lab">Alumnos nuevos</div><div class="e-val">~3</div></div>
+    </div>
+    <p class="estim-note">Estimación, no una promesa: gasto completo, clic de 1,68 € como en septiembre, 4% de reserva y 40% de matrícula. El número real lo van a dar estos 30 días.</p>
+  </div>
+</section>
+
+<section class="band dark">
+  <div class="wrap">
+    <div class="kicker">Inversión</div>
+    <h2>Un pago por los 30 días, <em>la pauta aparte</em>.</h2>
+    <p class="lead">Sin permanencia. Al terminar, ustedes deciden si continúan.</p>
+    <div class="price-grid">
+      <div class="price-card featured">
+        <div class="price-type">Fee Dilema · pago único</div>
+        <h3>Seguimiento de 30 días</h3>
+        <p>Precio especial por ser clientes y porque la cuenta ya está armada.</p>
+        <div class="price-num">200 <span>USD</span></div>
+        <div class="price-save">Gestión mensual habitual: USD 300</div>
+      </div>
+      <div class="price-card">
+        <div class="price-type">Pauta · directo a Google</div>
+        <h3>Inversión en anuncios</h3>
+        <p>Se paga desde la cuenta de Alpha Kids, con el crédito de Google.</p>
+        <div class="price-num">~310 <span>€ máx.</span></div>
+        <div class="price-save">9,67 €/día Abacus · 0,67 €/día Marca</div>
+      </div>
+    </div>
+    <div class="note"><strong>Lo que precisamos de ustedes:</strong> la fecha de arranque, las condiciones del crédito (si pide gastar más, ajustamos el presupuesto), la confirmación de los precios por parte de Juan y las reservas reales que vayan entrando, para cruzarlas con lo que marca Google.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot">
+    <div class="foot-brand">Dilema <em>Creative</em></div>
+    <div class="foot-contact">
+      equipo@dilemacreative.ar · <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
