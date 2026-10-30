@@ -58,7 +58,7 @@
     arq: { costos: 0, margen: 0, sin: 0, plata: 0, teso: 0, config: 0, aprobar: 0, editarPres: 0, emitir: 0, archivar: 0 }
   };
   const PERFIL_TXT = { socio: 'Socio', adm: 'Administración', arq: 'Arquitecto' };
-  const UI = { usuario: 'u1', obras: { estado: 'curso', q: '' }, clientes: { tab: 'activos', q: '' }, proveedores: { tab: 'activos', q: '', rubro: '' }, tareas: { vista: 'todas', obra: '' }, teso: { cheques: 'cartera', anulados: false }, certDraft: null };
+  const UI = { usuario: 'u1', obras: { estado: 'curso', q: '' }, clientes: { tab: 'activos', q: '' }, proveedores: { tab: 'activos', q: '', rubro: '' }, tareas: { vista: 'todas', obra: '' }, teso: { cheques: 'cartera', anulados: false, cuenta: '' }, certDraft: null };
   try { const u = localStorage.getItem('momo-usuario'); if (u) UI.usuario = u; } catch (e) { /* nada */ }
   const yo = () => M.usuario(UI.usuario) || DB.equipo[0];
   const perfil = () => yo().perfil;
@@ -102,13 +102,13 @@
     }
     setHTML($('#nav'), h);
     const tb = (href, icono, txt, activo, cuenta) => '<a href="#/' + href + '"' + (activo ? ' aria-current="page"' : '') + '>' + ic(icono) + '<span>' + txt + '</span>' + (cuenta ? '<b>' + cuenta + '</b>' : '') + '</a>';
-    setHTML($('#tabbar'), tb('inicio', 'house', 'Inicio', r === 'inicio') + tb('obras', 'buildings', 'Obras', r === 'obras' || r === 'obra') + '<span class="tb-hueco" aria-hidden="true"></span>' + tb('tareas', 'kanban', 'Tareas', r === 'tareas', vencidas) + (puede('teso') ? tb('tesoreria', 'bank', 'Tesorería', r === 'tesoreria', chq) : tb('clientes', 'users-three', 'Contactos', r === 'clientes' || r === 'proveedores')));
+    setHTML($('#tabbar'), tb('inicio', 'house', 'Inicio', r === 'inicio') + tb('obras', 'buildings', 'Obras', r === 'obras' || r === 'obra') + tb('tareas', 'kanban', 'Tareas', r === 'tareas', vencidas) + (puede('teso') ? tb('tesoreria', 'bank', 'Tesorería', r === 'tesoreria', chq) : tb('clientes', 'users-three', 'Contactos', r === 'clientes' || r === 'proveedores')));
     const u = yo();
     setHTML($('#yo'), '<span class="av grande">' + esc(iniciales(u)) + '</span><span class="yo-txt"><b>' + esc(u.nombre) + '</b><span>' + esc(PERFIL_TXT[u.perfil]) + '</span></span><label class="yo-sel"><span class="sr-only">Ver como</span><select class="input" id="ver-como-2">' + DB.equipo.map((x) => '<option value="' + x.id + '"' + (x.id === UI.usuario ? ' selected' : '') + '>' + esc(x.nombre + ' · ' + PERFIL_TXT[x.perfil]) + '</option>').join('') + '</select></label>');
   }
   function migas(arr) {
     const tm = $('#titulo-movil'); if (tm) tm.textContent = arr[arr.length - 1][0];
-    setHTML($('#migas'), arr.map((m, i) => i === arr.length - 1 ? '<b>' + esc(m[0]) + '</b>' : '<a href="' + m[1] + '">' + esc(m[0]) + '</a>' + ic('caret-right')).join(''));
+    setHTML($('#migas'), arr.length < 2 ? '' : arr.map((m, i) => i === arr.length - 1 ? '<b>' + esc(m[0]) + '</b>' : '<a href="' + m[1] + '">' + esc(m[0]) + '</a>' + ic('caret-right')).join(''));
   }
   function pintarVerComo() {
     setHTML($('#ver-como'), DB.equipo.map((u) => '<option value="' + u.id + '"' + (u.id === UI.usuario ? ' selected' : '') + '>' + esc(u.nombre + ' · ' + PERFIL_TXT[u.perfil]) + '</option>').join(''));
@@ -223,6 +223,7 @@
     }
     DB.presupuestos.filter((p) => p.estado === 'borrador').forEach((p) => { const o = M.obra(p.obra); a.push({ n: '', i: 'list-checks', t: 'Presupuesto de ' + o.nombre + ' en borrador', s: 'Versión ' + p.version + ' · ' + p.items.length + ' ítems' + (puede('aprobar') ? '. Revisalo y aprobalo para arrancar la obra.' : '. Lo aprueba un socio.'), href: '#/obra/' + o.id + '/presupuesto', b: 'Abrir' }); });
     DB.tareas.filter((t) => t.resp === UI.usuario && t.col !== 'hecha' && t.vence && M.dias(t.vence) < 0).forEach((t) => a.push({ n: 'bad', i: 'clock', t: 'Tarea vencida: ' + t.titulo, s: (t.obra ? M.obra(t.obra).nombre + ' · ' : '') + 'venció el ' + fFecha(t.vence), href: '#/tareas', b: 'Ver' }));
+    DB.tareas.filter((t) => t.resp === UI.usuario && t.col !== 'hecha' && t.vence && M.dias(t.vence) >= 0 && M.dias(t.vence) <= 3).forEach((t) => { const d = M.dias(t.vence); a.push({ n: d === 0 ? 'warn' : '', i: 'check-square', t: 'Tarea: ' + t.titulo, s: (t.obra ? M.obra(t.obra).nombre + ' · ' : '') + (d === 0 ? 'vence hoy' : 'vence en ' + d + (d === 1 ? ' día' : ' días')), href: '#/tareas', b: 'Ver' }); });
     if (puede('plata')) {
       const cuit = DB.clientes.filter((c) => !c.archivado && !c.cf && !M.cuitValido(c.cuit)).length + DB.proveedores.filter((p) => !p.archivado && !p.interno && !M.cuitValido(p.cuit)).length;
       if (cuit) a.push({ n: '', i: 'identification-card', t: cuit + ' contactos con CUIT a completar', s: 'No se pueden facturar ni pagar con retenciones hasta completarlo.', href: '#/proveedores', b: 'Completar' });
@@ -252,15 +253,11 @@
       kpis = '<div class="kpis" data-stagger>' + kpi('buildings', 'Obras en curso', String(curso.length), 'a cargo del estudio') + kpi('list-checks', 'Mis tareas abiertas', String(mias.length), 'en todas las obras') + kpi('clock', 'Vencidas', String(mias.filter((t) => t.vence && M.dias(t.vence) < 0).length), 'para ponerse al día', mias.some((t) => t.vence && M.dias(t.vence) < 0)) + kpi('file-text', 'Certificados para revisar', String(DB.certificados.filter((c) => c.estado === 'borrador').length), 'cargados y sin emitir') + '</div>';
     }
     const al = alertas();
-    const alHtml = al.length ? '<ul class="alertas">' + al.slice(0, 8).map((x) => '<li><span class="ic ' + x.n + '">' + ic(x.i) + '</span><div><div class="t">' + esc(x.t) + '</div><div class="s">' + esc(x.s) + '</div></div><a class="btn sm" href="' + x.href + '">' + esc(x.b) + '</a></li>').join('') + '</ul>' : vacio('check-circle', 'Nada pendiente para hoy.');
-    const mias = DB.tareas.filter((t) => t.resp === UI.usuario && t.col !== 'hecha').sort((a, b) => (a.vence || '9').localeCompare(b.vence || '9')).slice(0, 5);
-    const tareasHtml = mias.length ? '<ul class="alertas">' + mias.map((t) => { const d = t.vence ? M.dias(t.vence) : null; return '<li><span class="ic ' + (d != null && d < 0 ? 'bad' : '') + '">' + ic('check-square') + '</span><div><div class="t">' + esc(t.titulo) + '</div><div class="s">' + esc(t.obra ? M.obra(t.obra).nombre : 'General') + (t.vence ? ' · ' + (d < 0 ? 'venció hace ' + (-d) + ' días' : d === 0 ? 'vence hoy' : 'vence en ' + d + ' días') : '') + '</div></div></li>'; }).join('') + '</ul>' : vacio('check-circle', 'No tenés tareas abiertas.');
-    const act = actividadVisible(DB.auditoria).slice(0, 4).map((x) => '<li><span class="av">' + esc(iniciales(M.usuario(x.por))) + '</span><div>' + esc(x.txt) + (x.obra && M.obra(x.obra) ? '<div class="tenue">' + esc(M.obra(x.obra).nombre) + '</div>' : '') + '</div><span class="cuando">' + fRel(x.ts) + '</span></li>').join('');
+    const alHtml = al.length ? '<ul class="alertas">' + al.map((x) => '<li><span class="ic ' + x.n + '">' + ic(x.i) + '</span><div><div class="t">' + esc(x.t) + '</div><div class="s">' + esc(x.s) + '</div></div><a class="btn sm" href="' + x.href + '">' + esc(x.b) + '</a></li>').join('') + '</ul>' : vacio('check-circle', 'Nada pendiente para hoy.');
+    const act = actividadVisible(DB.auditoria).slice(0, 5).map((x) => '<li><span class="av">' + esc(iniciales(M.usuario(x.por))) + '</span><div>' + esc(x.txt) + (x.obra && M.obra(x.obra) ? '<div class="tenue">' + esc(M.obra(x.obra).nombre) + '</div>' : '') + '</div><span class="cuando">' + fRel(x.ts) + '</span></li>').join('');
     const hoyTxt = new Date().toLocaleDateString('es-AR', { weekday: 'long', day: 'numeric', month: 'long' });
-    return '<div class="encabezado"><div><h1>' + saludo + ', ' + esc(u.nombre) + '</h1><p>' + esc(hoyTxt.charAt(0).toUpperCase() + hoyTxt.slice(1)) + ' · ' + al.length + ' avisos para hoy</p></div><div class="acciones"><a class="btn" href="#/tareas">' + ic('kanban') + 'Tareas</a>' + (puede('editarPres') ? '<button class="btn primary" data-accion="nueva-obra">' + ic('plus') + 'Nueva obra</button>' : '') + '</div></div>' + kpis +
-      '<div class="grilla-2 parejo"><div class="card"><div class="card-h"><h2>Para hoy</h2><span class="sub">' + al.length + ' avisos</span></div><div class="card-b">' + alHtml + '</div></div><div class="pila">' + (puede('plata') ? cardFlujo() : '') + '<div class="card"><div class="card-h"><h2>Mis tareas</h2><div class="der"><a class="btn sm ghost" href="#/tareas">Ver todas</a></div></div><div class="card-b">' + tareasHtml + '</div></div></div></div>' +
-      '<div class="grilla-2 parejo"><div class="card"><div class="card-h"><h2>Obras en curso</h2><span class="sub">' + curso.length + ' obras</span><div class="der"><a class="btn sm ghost" href="#/obras">Ver todas' + ic('arrow-right') + '</a></div></div><div class="obras-lista" data-stagger>' + (curso.length ? curso.map(obraFila).join('') : vacio('buildings', 'No hay obras en curso.')) + '</div></div>' +
-      '<div class="card"><div class="card-h"><h2>Actividad reciente</h2><span class="sub">Cada carga queda firmada</span></div><div class="card-b"><ul class="actividad">' + act + '</ul></div></div></div>';
+    return '<div class="encabezado"><div><h1>' + saludo + ', ' + esc(u.nombre) + '</h1><p>' + esc(hoyTxt.charAt(0).toUpperCase() + hoyTxt.slice(1)) + ' · ' + al.length + ' avisos para hoy</p></div></div>' + kpis +
+      '<div class="grilla-2 parejo"><div class="card"><div class="card-h"><h2>Para hoy</h2><span class="sub">' + al.length + ' avisos</span></div><div class="card-b">' + alHtml + '</div></div><div class="pila">' + (puede('plata') ? cardFlujo() : '') + '<div class="card"><div class="card-h"><h2>Actividad reciente</h2><span class="sub">Cada carga queda firmada</span></div><div class="card-b"><ul class="actividad">' + act + '</ul></div></div></div></div>';
   }
   function cardFlujo() {
     const meses = M.flujoMensual(6, puede('sin'));
@@ -306,11 +303,6 @@
       (r.aprobado ? barra(r.avance) : '<div class="oc-sin">' + esc(o.estado === 'archivada' ? (o.motivo || 'Archivada') : 'Presupuesto en preparación') + '</div>') +
       '<div class="oc-pie">' + estadoObra(o) + pie + '</div></div></a>';
   }
-  /* obra como renglón (Inicio): foto chica, nombre, avance y lo que falta cobrar */
-  function obraFila(o) {
-    const r = M.resumen(o.id, puede('sin')); const cli = M.cliente(o.cliente) || {};
-    return '<a class="obra-fila" href="#/obra/' + o.id + '"><span class="of-foto' + (o.foto ? '' : ' sin-foto') + '">' + (o.foto ? '<img data-foto src="' + esc(o.foto) + '" alt="">' : '') + ic('buildings', 'oc-ph') + '</span><span class="of-t"><b>' + esc(o.nombre) + '</b><span>' + esc(cli.razon) + '</span></span><span class="of-av">' + barra(r.avance) + '</span>' + (puede('plata') ? '<span class="of-m"><span>Por cobrar</span><b>' + esc(doble(r.porCobrar, fmtM)) + '</b></span>' : '') + ic('caret-right', 'of-flecha') + '</a>';
-  }
   function vObras() {
     migas([['Obras', '#/obras']]);
     const f = UI.obras; const verSin = puede('sin'); const vista = f.vista || 'tarjetas';
@@ -325,7 +317,7 @@
       const r = M.resumen(o.id, verSin);
       return '<tr class="clic" data-ir="#/obra/' + o.id + '"><td><span class="nro">' + o.num + '</span><b>' + esc(o.nombre) + '</b><span class="sec">' + esc((M.cliente(o.cliente) || {}).razon) + ' · ' + esc(o.dir) + '</span></td><td>' + estadoObra(o) + '</td><td>' + (r.aprobado ? barra(r.avance) : '<span class="tenue">Sin contrato</span>') + '</td><td class="num">' + doble({ ARS: r.pres.ARS.total, USD: r.pres.USD.total }, fmtM) + '</td>' + (puede('plata') ? '<td class="num">' + doble(r.porCobrar, fmtM) + '</td>' : '') + '<td>' + persona(o.resp) + '</td><td class="tenue">' + (o.inicio ? fFecha(o.inicio) : '') + (o.fin ? ' al ' + fFecha(o.fin) : '') + '</td></tr>';
     }).join('') + '</tbody></table></div>';
-    return '<div class="encabezado"><div><h1>Obras</h1><p>Cada obra junta su presupuesto, certificados, proveedores, cuenta del cliente, caja chica y tareas.</p></div><div class="acciones">' + (puede('editarPres') ? '<button class="btn primary" data-accion="nueva-obra">' + ic('plus') + 'Nueva obra</button>' : '') + '</div></div>' +
+    return '<div class="encabezado"><div><h1>Obras</h1><p>Cada obra junta su presupuesto, certificados, proveedores, cuenta del cliente, caja chica y documentos.</p></div><div class="acciones">' + (puede('editarPres') ? '<button class="btn primary" data-accion="nueva-obra">' + ic('plus') + 'Nueva obra</button>' : '') + '</div></div>' +
       '<div class="toolbar"><div class="filtros"><div class="segmentado">' + seg + '</div>' + verBtn + '</div><div class="acciones"><label class="buscar">' + ic('magnifying-glass') + '<input class="input" id="f-obras-q" placeholder="Buscar obra, cliente o dirección" value="' + esc(f.q) + '" aria-label="Buscar obras"></label></div></div>' + cuerpo;
   }
   /* ================= OBRA (ficha con pestañas) ================= */
@@ -335,7 +327,7 @@
     UI.certDraft = null;
     migas([['Obras', '#/obras'], [o.nombre, '#/obra/' + o.id]]);
     const cli = M.cliente(o.cliente); const r = M.resumen(o.id, puede('sin'));
-    const tabs = [['resumen', 'Resumen', 'squares-four'], ['presupuesto', 'Presupuesto', 'list-checks'], ['certificados', 'Certificados', 'file-text', M.certsDe(o.id, true).filter((c) => puede('sin') || c.comp !== 'sin').length], ['proveedores', 'Proveedores', 'toolbox', 0, 'plata'], ['cuenta', 'Cuenta del cliente', 'hand-coins', 0, 'plata'], ['caja', 'Caja chica', 'wallet'], ['tareas', 'Tareas', 'kanban', DB.tareas.filter((t) => t.obra === o.id && t.col !== 'hecha').length], ['documentos', 'Documentos', 'files', DB.documentos.filter((d) => d.obra === o.id).length]]
+    const tabs = [['resumen', 'Resumen', 'squares-four'], ['presupuesto', 'Presupuesto', 'list-checks'], ['certificados', 'Certificados', 'file-text', M.certsDe(o.id, true).filter((c) => puede('sin') || c.comp !== 'sin').length], ['proveedores', 'Proveedores', 'toolbox', 0, 'plata'], ['cuenta', 'Cuenta del cliente', 'hand-coins', 0, 'plata'], ['caja', 'Caja chica', 'wallet'], ['documentos', 'Documentos', 'files', DB.documentos.filter((d) => d.obra === o.id).length]]
       .filter((t) => !t[4] || puede(t[4]));
     const tabsHtml = '<nav class="tabs" aria-label="Secciones de la obra">' + tabs.map((t) => '<a href="#/obra/' + o.id + '/' + t[0] + '"' + (t[0] === tab ? ' aria-current="page"' : '') + '>' + ic(t[2]) + t[1] + (t[3] ? '<span class="cuenta">' + t[3] + '</span>' : '') + '</a>').join('') + '</nav>';
     const anillo = r.aprobado ? '<div class="anillo"><svg viewBox="0 0 64 64" aria-hidden="true"><circle class="an-fondo" cx="32" cy="32" r="27" pathLength="100"/><circle class="an-valor" cx="32" cy="32" r="27" pathLength="100" stroke-dasharray="100" stroke-dashoffset="' + (100 - Math.min(100, r.avance)).toFixed(1) + '"/></svg><span class="an-txt"><b>' + Math.round(r.avance) + '%</b>avance</span></div>' : '';
@@ -343,7 +335,7 @@
     const cab = '<header class="obra-hero' + (o.foto ? '' : ' sin-foto') + '">' + (o.foto ? '<img class="oh-img" data-foto src="' + esc(o.foto) + '" alt="">' : '') + '<div class="oh-scrim"></div>' +
       '<div class="oh-c"><div class="oh-txt"><div class="oh-top">' + esc(ESTADO_OBRA[o.estado][0]) + ' · Obra ' + o.num + (o.motivo && o.estado === 'archivada' ? ' · ' + esc(o.motivo) : '') + '</div><h1>' + esc(o.nombre) + '</h1><div class="oh-meta">' + meta + '</div></div>' + anillo + '</div>' +
       (puede('editarPres') ? '<button class="btn oh-editar" data-accion="editar-obra" data-id="' + o.id + '" aria-label="Editar obra">' + ic('pencil-simple') + '<span>Editar</span></button>' : '') + '</header>';
-    const T = { resumen: tResumen, presupuesto: tPresupuesto, certificados: tCertificados, proveedores: tProveedores, cuenta: tCuenta, caja: tCaja, tareas: tTareasObra, documentos: tDocs }[tab] || tResumen;
+    const T = { resumen: tResumen, presupuesto: tPresupuesto, certificados: tCertificados, proveedores: tProveedores, cuenta: tCuenta, caja: tCaja, documentos: tDocs }[tab] || tResumen;
     return cab + tabsHtml + T(o);
   }
   function tResumen(o) {
@@ -369,7 +361,9 @@
     else if (o.estado === 'curso') pasos.push(['file-text', 'Cargar el avance del próximo certificado', '#/obra/' + o.id + '/certificado/nuevo']);
     if (puede('plata') && (r.porCobrar.ARS > 0 || r.porCobrar.USD > 0)) pasos.push(['hand-coins', 'Cobrar ' + doble(r.porCobrar), '#/obra/' + o.id + '/cuenta']);
     if (puede('plata') && (r.aPagar.ARS > 0 || r.aPagar.USD > 0)) pasos.push(['toolbox', 'Pagar a proveedores ' + doble(r.aPagar), '#/obra/' + o.id + '/proveedores']);
-    const pasosHtml = pasos.length ? '<ul class="alertas">' + pasos.map((x) => '<li><span class="ic">' + ic(x[0]) + '</span><div class="t">' + esc(x[1]) + '</div><a class="btn sm" href="' + x[2] + '">Ir</a></li>').join('') + '</ul>' : vacio('check-circle', 'Obra al día.');
+    const nTareas = DB.tareas.filter((t) => t.obra === o.id && t.col !== 'hecha').length;
+    if (nTareas) pasos.push(['kanban', nTareas + (nTareas === 1 ? ' tarea abierta' : ' tareas abiertas') + ' de esta obra', '#/tareas', o.id]);
+    const pasosHtml = pasos.length ? '<ul class="alertas">' + pasos.map((x) => '<li><span class="ic">' + ic(x[0]) + '</span><div class="t">' + esc(x[1]) + '</div><a class="btn sm" href="' + x[2] + '"' + (x[3] ? ' data-accion="tareas-obra" data-obra="' + x[3] + '"' : '') + '>Ir</a></li>').join('') + '</ul>' : vacio('check-circle', 'Obra al día.');
     return '<div class="resumen-grid">' + cifras + '</div><div class="grilla-2"><div class="card"><div class="card-h"><h2>Avance por rubro</h2><span class="sub">Ponderado por el precio de cada ítem</span></div><div class="sp"></div>' + rubHtml + '</div><div class="pila"><div class="card"><div class="card-h"><h2>Próximos pasos</h2></div><div class="card-b">' + pasosHtml + '</div></div><div class="card"><div class="card-h"><h2>Actividad de la obra</h2></div><div class="card-b">' + (act ? '<ul class="actividad">' + act + '</ul>' : vacio('clock', 'Sin actividad todavía.')) + '</div></div></div></div>';
   }
 
@@ -467,7 +461,7 @@
     abrirDrawer('<div class="d-h"><div><h2>' + certNombre(c) + '</h2><div class="sub">' + esc(o.nombre) + ' · ' + (conPlata ? e.estado : 'Emitido') + '</div></div><div class="der no-print"><button class="btn sm" data-accion="imprimir">' + ic('printer') + 'Imprimir</button><button class="btn sm icon ghost" data-accion="cerrar-drawer" aria-label="Cerrar">' + ic('x') + '</button></div></div><div class="d-b">' +
       docCert(c, conPlata) +
       (conPlata ? '<div class="d-sec no-print"><h3>Cobros de este certificado</h3>' + (cobros ? '<div class="tabla-wrap"><table><tbody>' + cobros + '</tbody></table></div>' : '<p class="suave m0">Todavía sin cobros.</p>') + '<p class="suave">Saldo: <b>' + doble(e.saldo) + '</b></p>' +
-        '<div class="toolbar"><div class="acciones">' + (e.estado !== 'Cobrado' ? '<button class="btn primary" data-accion="nuevo-cobro" data-obra="' + o.id + '" data-cargo="' + c.id + '">' + ic('hand-coins') + 'Registrar cobro</button>' : '') + (puede('aprobar') ? '<button class="btn peligro" data-accion="anular-cert" data-id="' + c.id + '">' + ic('prohibit') + 'Anular certificado</button>' : '') + '</div></div></div>' : '') +
+        '<div class="toolbar"><div class="acciones">' + (puede('aprobar') ? '<button class="btn peligro" data-accion="anular-cert" data-id="' + c.id + '">' + ic('prohibit') + 'Anular certificado</button>' : '') + '</div></div></div>' : '') +
       '<p class="tenue no-print">Emitido el ' + fFecha(c.creado.ts.slice(0, 10)) + ' por ' + esc((M.usuario((c.emitido || c.creado).por) || {}).nombre) + '.</p></div>');
   }
 
@@ -562,7 +556,7 @@
     const pagos = M.pagosDe(o.id).filter((p) => UI.teso.anulados || !p.anulado).sort((a, b) => b.fecha.localeCompare(a.fecha)).map((p) => filaPago(p, false)).join('');
     return '<div class="aviso info">' + ic('info') + '<div><b>Cómo se lee:</b> lo pactado sale del presupuesto aprobado (costo de cada ítem asignado). Lo certificado es ese costo por el avance acumulado. A pagar = certificado − pagado. Nada se tipea dos veces.</div></div>' +
       '<div class="tabla-wrap"><table><thead><tr><th>Proveedor</th><th class="num">Pactado</th><th class="num">Certificado</th><th class="num">Facturado</th><th class="num">Pagado</th><th class="num">A pagar hoy</th><th class="num">Resta del contrato</th><th></th></tr></thead><tbody>' + (filas || '<tr><td colspan="8">' + vacio('toolbox', 'Asigná proveedores a los ítems del presupuesto.') + '</td></tr>') + '</tbody></table></div>' +
-      '<div class="sp"></div><div class="toolbar"><div class="filtros"><b>Pagos de la obra</b></div><div class="acciones"><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anulados</label><button class="btn primary" data-accion="nuevo-pago" data-obra="' + o.id + '">' + ic('plus') + 'Registrar pago</button></div></div>' +
+      '<div class="sp"></div><div class="toolbar"><div class="filtros"><b>Pagos de la obra</b></div><div class="acciones"><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anulados</label></div></div>' +
       (pagos ? '<div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Proveedor</th><th>Detalle</th><th>Medio</th><th class="num">Importe</th><th>Cargado por</th><th></th></tr></thead><tbody>' + pagos + '</tbody></table></div>' : '<div class="card">' + vacio('money', 'Sin pagos todavía.') + '</div>');
   }
   const medioTxt = (x) => { const ch = x.cheque ? M.cheque(x.cheque) : null; const b = { transferencia: 'Transferencia', efectivo: 'Efectivo', cheque: 'Cheque', echeq: 'E-cheq', 'cheque-propio': 'Cheque propio', 'cheque-tercero': 'Endoso de cheque' }[x.medio] || x.medio; return b + (ch ? ' ' + ch.banco + ' N° ' + ch.numero + (ch.estado === 'rechazado' ? ' (rechazado)' : '') : x.banco ? ' ' + x.banco : ''); };
@@ -599,8 +593,7 @@
       (filas ? '<div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Concepto</th><th>Tipo</th><th>Responsable</th><th class="num">Importe</th><th></th></tr></thead><tbody>' + filas + '</tbody></table></div>' : '<div class="card">' + vacio('wallet', 'Sin movimientos de caja chica.') + '</div>');
   }
 
-  /* ---------- tareas y documentos de la obra ---------- */
-  function tTareasObra(o) { return '<div class="toolbar"><div class="filtros"><span class="suave">Las mismas tareas aparecen en el tablero general.</span></div><div class="acciones"><button class="btn primary" data-accion="nueva-tarea" data-obra="' + o.id + '">' + ic('plus') + 'Nueva tarea</button></div></div>' + kanban(DB.tareas.filter((t) => t.obra === o.id), false); }
+  /* ---------- documentos de la obra ---------- */
   function tDocs(o) {
     const docs = DB.documentos.filter((d) => d.obra === o.id).sort((a, b) => b.fecha.localeCompare(a.fecha));
     const icono = { Plano: 'blueprint', Imagen: 'image', Trámite: 'stamp', 'Fotos de obra': 'images', Documento: 'file-text' };
@@ -624,7 +617,7 @@
     const f = UI.tareas;
     const lista = DB.tareas.filter((t) => (f.vista === 'todas' || t.resp === UI.usuario) && (!f.obra || t.obra === f.obra || (f.obra === 'general' && !t.obra)));
     const obrasOpt = [['', 'Todas las obras'], ['general', 'General (sin obra)']].concat(DB.obras.filter((o) => o.estado !== 'archivada').map((o) => [o.id, o.nombre]));
-    return '<div class="encabezado"><div><h1>Tareas</h1><p>Como el Trello, pero cada tarjeta es de una obra y de una persona. Arrastrá para cambiar de columna.</p></div><div class="acciones"><button class="btn primary" data-accion="nueva-tarea">' + ic('plus') + 'Nueva tarea</button></div></div>' +
+    return '<div class="encabezado"><div><h1>Tareas</h1><p>Como el Trello, pero cada tarjeta es de una obra y de una persona. Arrastrá para cambiar de columna.</p></div><div class="acciones"><button class="btn primary" data-accion="nueva-tarea" data-obra="' + (f.obra === 'general' ? '' : f.obra) + '">' + ic('plus') + 'Nueva tarea</button></div></div>' +
       '<div class="toolbar"><div class="filtros"><div class="segmentado"><button type="button" data-accion="f-tareas" data-v="todas" aria-pressed="' + (f.vista === 'todas') + '">Todas</button><button type="button" data-accion="f-tareas" data-v="mias" aria-pressed="' + (f.vista === 'mias') + '">Mis tareas</button></div><select class="input" id="f-tareas-obra" aria-label="Filtrar por obra">' + opciones(obrasOpt, f.obra) + '</select></div></div>' + kanban(lista);
   }
   function montarKanban() {
@@ -694,22 +687,26 @@
 
   /* ================= TESORERÍA ================= */
   function vTesoreria(p) {
-    const tab = p[1] || 'bancos'; migas([['Tesorería', '#/tesoreria'], [{ bancos: 'Bancos y efectivo', cobros: 'Cobros', pagos: 'Pagos', cheques: 'Cheques', gastos: 'Gastos del estudio' }[tab] || 'Bancos y efectivo', '']]);
+    const tab = p[1] || 'bancos'; migas([['Tesorería', '#/tesoreria']]);
     const verSin = puede('sin');
     const tabs = '<nav class="tabs">' + [['bancos', 'Bancos y efectivo', 'bank'], ['cobros', 'Cobros', 'hand-coins'], ['pagos', 'Pagos', 'money'], ['cheques', 'Cheques', 'money-wavy'], ['gastos', 'Gastos del estudio', 'storefront']].map((t) => '<a href="#/tesoreria/' + t[0] + '"' + (t[0] === tab ? ' aria-current="page"' : '') + '>' + ic(t[2]) + t[1] + '</a>').join('') + '</nav>';
     let cuerpo = '';
     if (tab === 'bancos') {
       const ctas = M.bancos(); const total = ctas.reduce((s2, c) => s2 + c.saldo, 0);
       const cartera = DB.cheques.filter((c) => c.tipo === 'tercero' && c.estado === 'cartera').reduce((s2, c) => s2 + c.importe, 0);
-      cuerpo = '<div class="cuentas-grid" data-stagger>' + ctas.map((c) => '<button type="button" class="cuenta-card" data-accion="ver-cuenta" data-id="' + c.id + '"><span class="cc-t">' + ic(c.tipo === 'caja' ? 'wallet' : 'bank') + esc(c.nombre) + '</span><span class="cc-n">' + esc(c.numero) + '</span><b class="cc-s">' + fmt(c.saldo) + '</b><span class="cc-m">' + (c.aDebitar ? 'Cheques propios por debitar: ' + fmt(c.aDebitar) : c.movs.length + ' movimientos') + '</span></button>').join('') + '<div class="cuenta-card total"><span class="cc-t">' + ic('coins') + 'Disponible total</span><span class="cc-n">Bancos más efectivo</span><b class="cc-s">' + fmt(total) + '</b><span class="cc-m">Más ' + fmt(cartera) + ' en cheques en cartera</span></div></div>' +
-        '<p class="tenue">Cada saldo sale de los mismos cobros, pagos, cheques y gastos que se cargan en el resto del sistema. Tocá una cuenta para ver sus movimientos.</p>' +
-        (() => { const mv = []; ctas.forEach((c) => c.movs.forEach((x) => mv.push(Object.assign({ cta: c.nombre }, x)))); mv.sort((a, b) => b.fecha.localeCompare(a.fecha)); return '<div class="seccion-h"><h2>Últimos movimientos</h2></div><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Movimiento</th><th>Cuenta</th><th class="num">Entra</th><th class="num">Sale</th></tr></thead><tbody>' + mv.slice(0, 12).map((x) => '<tr><td>' + fFecha(x.fecha) + '</td><td>' + esc(x.txt) + '</td><td>' + esc(x.cta) + '</td><td class="num">' + (x.imp > 0 ? '<b>' + fmt(x.imp) + '</b>' : '') + '</td><td class="num">' + (x.imp < 0 ? fmt(-x.imp) : '') + '</td></tr>').join('') + '</tbody></table></div>'; })();
+      const elegida = ctas.find((c) => c.id === UI.teso.cuenta);
+      cuerpo = '<div class="cuentas-grid" data-stagger>' + ctas.map((c) => '<button type="button" class="cuenta-card" data-accion="ver-cuenta" data-id="' + c.id + '" aria-pressed="' + (!!elegida && elegida.id === c.id) + '"><span class="cc-t">' + ic(c.tipo === 'caja' ? 'wallet' : 'bank') + esc(c.nombre) + '</span><span class="cc-n">' + esc(c.numero) + '</span><b class="cc-s">' + fmt(c.saldo) + '</b><span class="cc-m">' + (c.aDebitar ? 'Cheques propios por debitar: ' + fmt(c.aDebitar) : c.movs.length + ' movimientos') + '</span></button>').join('') + '<div class="cuenta-card total"><span class="cc-t">' + ic('coins') + 'Disponible total</span><span class="cc-n">Bancos más efectivo</span><b class="cc-s">' + fmt(total) + '</b><span class="cc-m">Más ' + fmt(cartera) + ' en cheques en cartera</span></div></div>' +
+        (() => {
+          const mv = []; ctas.filter((c) => !elegida || c === elegida).forEach((c) => c.movs.forEach((x) => mv.push(Object.assign({ cta: c.nombre }, x)))); mv.sort((a, b) => b.fecha.localeCompare(a.fecha));
+          const lista = elegida ? mv : mv.slice(0, 12);
+          return '<div class="seccion-h"><h2>' + (elegida ? 'Movimientos de ' + esc(elegida.nombre) : 'Últimos movimientos') + '</h2>' + (elegida ? '<button class="btn sm ghost" data-accion="ver-cuenta" data-id="' + elegida.id + '">Ver todas las cuentas</button>' : '') + '</div><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Movimiento</th>' + (elegida ? '' : '<th>Cuenta</th>') + '<th class="num">Entra</th><th class="num">Sale</th>' + (elegida ? '<th class="num">Saldo</th>' : '') + '</tr></thead><tbody>' + lista.map((x) => '<tr><td>' + fFecha(x.fecha) + '</td><td>' + esc(x.txt) + '</td>' + (elegida ? '' : '<td>' + esc(x.cta) + '</td>') + '<td class="num">' + (x.imp > 0 ? '<b>' + fmt(x.imp) + '</b>' : '') + '</td><td class="num">' + (x.imp < 0 ? fmt(-x.imp) : '') + '</td>' + (elegida ? '<td class="num"><b>' + fmt(x.saldo) + '</b></td>' : '') + '</tr>').join('') + '</tbody></table></div><p class="tenue">Cada saldo sale de los mismos cobros, pagos, cheques y gastos que ya se cargaron. Tocá una cuenta para ver solo sus movimientos.</p>';
+        })();
     } else if (tab === 'cobros') {
       const lista = DB.cobros.filter((c) => (UI.teso.anulados || !c.anulado) && (verSin || (M.cargo(c.cargo) || {}).comp !== 'sin')).sort((a, b) => b.fecha.localeCompare(a.fecha));
       cuerpo = '<div class="toolbar"><div class="filtros"><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anulados</label></div></div><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Obra</th><th>Comprobante</th><th>Medio</th><th class="num">Importe</th><th>Cargado por</th><th></th></tr></thead><tbody>' + lista.map((c) => { const cg = M.cargo(c.cargo); return '<tr class="' + (!M.cobroVale(c) ? 'anulado' : '') + '"><td>' + fFecha(c.fecha) + '</td><td>' + esc(M.obra(c.obra).nombre) + '</td><td>' + esc(cg ? cg.nombre : '') + '</td><td>' + esc(medioTxt(c)) + '</td><td class="num"><b>' + fmt(c.importe, c.mon) + '</b></td><td>' + persona(c.creado.por) + '</td><td>' + (c.anulado ? badge('Anulado') : '<button class="btn sm ghost" data-accion="anular-cobro" data-id="' + c.id + '">Anular</button>') + '</td></tr>'; }).join('') + '</tbody></table></div>';
     } else if (tab === 'pagos') {
       const lista = DB.pagos.filter((x) => UI.teso.anulados || !x.anulado).sort((a, b) => b.fecha.localeCompare(a.fecha));
-      cuerpo = '<div class="toolbar"><div class="filtros"><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anulados</label></div><div class="acciones"><button class="btn primary" data-accion="nuevo-pago">' + ic('plus') + 'Registrar pago</button></div></div><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Obra</th><th>Proveedor</th><th>Detalle</th><th>Medio</th><th class="num">Importe</th><th>Cargado por</th><th></th></tr></thead><tbody>' + lista.map((x) => filaPago(x, true)).join('') + '</tbody></table></div>';
+      cuerpo = '<div class="toolbar"><div class="filtros"><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anulados</label></div></div><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Obra</th><th>Proveedor</th><th>Detalle</th><th>Medio</th><th class="num">Importe</th><th>Cargado por</th><th></th></tr></thead><tbody>' + lista.map((x) => filaPago(x, true)).join('') + '</tbody></table></div>';
     } else if (tab === 'cheques') {
       const sec = UI.teso.cheques;
       const grupos = { cartera: (c) => c.tipo === 'tercero' && c.estado === 'cartera', depositados: (c) => c.tipo === 'tercero' && c.estado === 'depositado', endosados: (c) => c.tipo === 'tercero' && c.estado === 'endosado', propios: (c) => c.tipo === 'propio' && c.estado !== 'anulado', rechazados: (c) => c.estado === 'rechazado' };
@@ -728,7 +725,7 @@
       const lista = DB.gastos.filter((g) => UI.teso.anulados || !g.anulado).sort((a, b) => b.fecha.localeCompare(a.fecha));
       cuerpo = '<div class="toolbar"><div class="filtros"><span class="suave">Gastos a cargo de Momo, que no son de ninguna obra (alquiler, servicios, movilidad).</span></div><div class="acciones"><button class="btn primary" data-accion="nuevo-gasto">' + ic('plus') + 'Nuevo gasto</button></div></div><div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Rubro</th><th>Concepto</th><th>Medio</th><th class="num">Importe</th><th>Cargado por</th></tr></thead><tbody>' + lista.map((g) => '<tr><td>' + fFecha(g.fecha) + '</td><td>' + badge(g.rubro) + '</td><td>' + esc(g.desc) + '</td><td>' + esc({ transferencia: 'Transferencia', efectivo: 'Efectivo', tarjeta: 'Tarjeta' }[g.medio] || g.medio) + '</td><td class="num"><b>' + fmt(g.importe) + '</b></td><td>' + persona(g.creado.por) + '</td></tr>').join('') + '</tbody></table></div>';
     }
-    return '<div class="encabezado"><div><h1>Tesorería</h1><p>Todos los cobros y pagos de todas las obras, los cheques y los gastos del estudio.</p></div></div>' + tabs + cuerpo;
+    return '<div class="encabezado"><div><h1>Tesorería</h1><p>La plata de todas las obras junta. Cobros y pagos se cargan en cada obra y acá se ven sumados, con bancos, cheques y gastos del estudio.</p></div></div>' + tabs + cuerpo;
   }
 
   /* ================= FACTURACIÓN (ARCA simulado en la maqueta) ================= */
@@ -741,8 +738,7 @@
   const ESTADO_COMPRA = { Pagada: 'b-ok', Parcial: 'b-warn', Pendiente: 'b-bad', Anulada: '' };
   function vFacturacion(p) {
     const tab = p[1] || 'ventas';
-    const nombres = { ventas: 'Facturas emitidas', compras: 'Facturas de proveedores', iva: 'IVA del mes' };
-    migas([['Facturación', '#/facturacion'], [nombres[tab] || nombres.ventas, '']]);
+    migas([['Facturación', '#/facturacion']]);
     const pendArca = DB.arcaRecibidos.filter((r) => !M.facturaDuplicada(r.prov, r.tipo, r.numero)).length;
     const tabs = '<nav class="tabs">' + [['ventas', 'Facturas emitidas', 'receipt'], ['compras', 'Facturas de proveedores', 'file-arrow-down', pendArca], ['iva', 'IVA del mes', 'percent']].map((t) => '<a href="#/facturacion/' + t[0] + '"' + (t[0] === tab ? ' aria-current="page"' : '') + '>' + ic(t[2]) + t[1] + (t[3] ? '<span class="cuenta">' + t[3] + '</span>' : '') + '</a>').join('') + '</nav>';
     let cuerpo = '';
@@ -756,8 +752,8 @@
       const l = M.compras().filter((f) => UI.teso.anulados || f.estado !== 'Anulada');
       const pend = l.filter((f) => f.estado !== 'Anulada').reduce((s, f) => s + f.saldo, 0);
       cuerpo = (pendArca ? '<div class="aviso warn">' + ic('cloud-arrow-down') + '<div><b>Hay ' + pendArca + ' facturas de proveedores en ARCA que todavía no están cargadas.</b> El sistema las trae de "Mis Comprobantes" y solo falta decir a qué obra van.</div><button class="btn sm" data-accion="traer-arca">Traer de ARCA</button></div>' : '') +
-        '<div class="toolbar"><div class="filtros"><span class="suave">' + l.length + ' facturas · a pagar <b>' + fmt(pend) + '</b></span><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anuladas</label></div><div class="acciones"><button class="btn" data-accion="exportar-compras">' + ic('microsoft-excel-logo') + 'Excel</button><button class="btn" data-accion="traer-arca">' + ic('cloud-arrow-down') + 'Traer de ARCA</button><button class="btn primary" data-accion="nueva-compra">' + ic('plus') + 'Cargar factura</button></div></div>' +
-        (l.length ? '<div class="tabla-wrap"><table><thead><tr><th>Proveedor</th><th>Comprobante</th><th>Fecha</th><th>Imputada a</th><th class="num">Neto</th><th class="num">IVA</th><th class="num">Total</th><th class="num">Saldo</th><th>Estado</th><th></th></tr></thead><tbody>' + l.map((f) => { const pv = M.prov(f.prov) || {}; return '<tr class="' + (f.anulada ? 'anulado' : '') + '"><td><b>' + esc(pv.razon) + '</b><span class="sec">' + (pv.cuit ? 'CUIT ' + cuitFmt(pv.cuit) : 'Sin CUIT') + '</span></td><td>Factura ' + esc(f.tipo) + '<span class="sec">' + esc(f.numero) + (f.origen === 'arca' ? ' · desde ARCA' : '') + '</span></td><td>' + fFecha(f.fecha) + '</td><td>' + (f.obra ? esc(M.obra(f.obra).nombre) : '<span class="tenue">Gasto del estudio</span>') + '<span class="sec">' + esc(f.desc || '') + '</span></td><td class="num">' + fmt(f.neto) + '</td><td class="num">' + fmt(f.iva + (f.perc || 0)) + '</td><td class="num"><b>' + fmt(f.total) + '</b></td><td class="num">' + (f.estado === 'Anulada' ? '-' : fmt(f.saldo)) + '</td><td>' + badge(f.estado, ESTADO_COMPRA[f.estado]) + '</td><td><div class="acc-fila">' + (f.anulada ? '' : (f.saldo > 0.5 && f.obra ? '<button class="btn sm" data-accion="nuevo-pago" data-obra="' + f.obra + '" data-prov="' + f.prov + '">Pagar</button>' : '') + '<button class="btn sm ghost" data-accion="anular-compra" data-id="' + f.id + '">Anular</button>') + '</div></td></tr>'; }).join('') + '</tbody></table></div>' : '<div class="card">' + vacio('file-arrow-down', 'Sin facturas de proveedores.') + '</div>');
+        '<div class="toolbar"><div class="filtros"><span class="suave">' + l.length + ' facturas · a pagar <b>' + fmt(pend) + '</b></span><label class="check"><input type="checkbox" id="f-anulados"' + (UI.teso.anulados ? ' checked' : '') + '>Ver anuladas</label></div><div class="acciones"><button class="btn" data-accion="exportar-compras">' + ic('microsoft-excel-logo') + 'Excel</button><button class="btn primary" data-accion="nueva-compra">' + ic('plus') + 'Cargar factura</button></div></div>' +
+        (l.length ? '<div class="tabla-wrap"><table><thead><tr><th>Proveedor</th><th>Comprobante</th><th>Fecha</th><th>Imputada a</th><th class="num">Neto</th><th class="num">IVA</th><th class="num">Total</th><th class="num">Saldo</th><th>Estado</th><th></th></tr></thead><tbody>' + l.map((f) => { const pv = M.prov(f.prov) || {}; return '<tr class="' + (f.anulada ? 'anulado' : '') + '"><td><b>' + esc(pv.razon) + '</b><span class="sec">' + (pv.cuit ? 'CUIT ' + cuitFmt(pv.cuit) : 'Sin CUIT') + '</span></td><td>Factura ' + esc(f.tipo) + '<span class="sec">' + esc(f.numero) + (f.origen === 'arca' ? ' · desde ARCA' : '') + '</span></td><td>' + fFecha(f.fecha) + '</td><td>' + (f.obra ? esc(M.obra(f.obra).nombre) : '<span class="tenue">Gasto del estudio</span>') + '<span class="sec">' + esc(f.desc || '') + '</span></td><td class="num">' + fmt(f.neto) + '</td><td class="num">' + fmt(f.iva + (f.perc || 0)) + '</td><td class="num"><b>' + fmt(f.total) + '</b></td><td class="num">' + (f.estado === 'Anulada' ? '-' : fmt(f.saldo)) + '</td><td>' + badge(f.estado, ESTADO_COMPRA[f.estado]) + '</td><td><div class="acc-fila">' + (f.anulada ? '' : '<button class="btn sm ghost" data-accion="anular-compra" data-id="' + f.id + '">Anular</button>') + '</div></td></tr>'; }).join('') + '</tbody></table></div>' : '<div class="card">' + vacio('file-arrow-down', 'Sin facturas de proveedores.') + '</div>');
     } else {
       const meses = M.ivaMensual();
       cuerpo = '<div class="aviso info">' + ic('percent') + '<div><b>Débito, crédito y saldo de cada mes, sin armar planillas.</b> Sale de las facturas emitidas y de las de proveedores cargadas. En el sistema real se exporta el Libro de IVA Digital para el estudio contable.</div></div>' +
@@ -833,11 +829,6 @@
       const dir = $('#' + pref + '-dir', m); if (dir && !dir.value) dir.value = r.dir;
       msg.className = 'ok-txt'; msg.textContent = 'Datos traídos del padrón de ARCA: ' + r.razon + ' · ' + r.iva + '.';
     }, 650);
-  }
-  function verCuenta(id) {
-    const c = M.bancos().find((x) => x.id === id);
-    abrirDrawer('<div class="d-h"><div><h2>' + esc(c.nombre) + '</h2><div class="sub">' + esc(c.numero) + '</div></div><div class="der"><button class="btn sm icon ghost" data-accion="cerrar-drawer" aria-label="Cerrar">' + ic('x') + '</button></div></div><div class="d-b"><div class="desglose"><span>Saldo inicial</span><span class="r">' + fmt(c.inicial) + '</span><span>Movimientos</span><span class="r">' + c.movs.length + '</span><span class="sep"></span><span class="total">Saldo hoy</span><span class="r total">' + fmt(c.saldo) + '</span>' + (c.aDebitar ? '<span class="nota">Hay ' + fmt(c.aDebitar) + ' en cheques propios por debitar.</span>' : '') + '</div>' +
-      '<div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Movimiento</th><th class="num">Importe</th><th class="num">Saldo</th></tr></thead><tbody>' + c.movs.slice().reverse().map((x) => '<tr><td>' + fFecha(x.fecha) + '</td><td>' + esc(x.txt) + '</td><td class="num">' + (x.imp > 0 ? '' : '') + fmt(x.imp) + '</td><td class="num"><b>' + fmt(x.saldo) + '</b></td></tr>').join('') + '</tbody></table></div><p class="tenue">En el sistema real se importa el extracto del banco y el sistema marca lo que no coincide.</p></div>');
   }
 
   /* ================= CONFIGURACIÓN ================= */
@@ -1138,11 +1129,6 @@
     DB.obras.forEach((o) => it.push({ g: 'Obras', i: 'buildings', t: o.nombre, s: 'Obra ' + o.num + ' · ' + ESTADO_OBRA[o.estado][0], ir: '#/obra/' + o.id }));
     DB.clientes.filter((c) => !c.archivado).forEach((c) => it.push({ g: 'Clientes', i: 'user', t: c.razon, s: c.cuit ? 'CUIT ' + cuitFmt(c.cuit) : c.iva, fn: () => { location.hash = '#/clientes'; setTimeout(() => verCliente(c.id), 80); } }));
     DB.proveedores.filter((p) => !p.archivado).forEach((p) => it.push({ g: 'Proveedores', i: 'toolbox', t: p.razon, s: p.rubros.map((r) => M.rubro(r).nombre).join(', '), fn: () => { location.hash = '#/proveedores'; setTimeout(() => verProveedor(p.id), 80); } }));
-    DB.obras.filter((o) => o.estado === 'curso' && M.presAprobado(o.id)).forEach((o) => it.push({ g: 'Acciones', i: 'file-plus', t: 'Cargar avance: ' + o.nombre, s: 'Nuevo certificado', ir: '#/obra/' + o.id + '/certificado/nuevo' }));
-    if (puede('editarPres')) it.push({ g: 'Acciones', i: 'plus', t: 'Nueva obra', s: '', fn: () => modalObra(null) });
-    it.push({ g: 'Acciones', i: 'check-square', t: 'Nueva tarea', s: '', fn: () => modalTarea(null) });
-    if (puede('teso')) it.push({ g: 'Acciones', i: 'file-arrow-down', t: 'Cargar factura de proveedor', s: 'Facturación', fn: () => modalCompra() }, { g: 'Acciones', i: 'cloud-arrow-down', t: 'Traer facturas de ARCA', s: 'Mis Comprobantes', fn: () => modalArca() });
-    if (puede('plata')) it.push({ g: 'Acciones', i: 'hand-coins', t: 'Registrar cobro', s: '', fn: () => modalCobro(null) }, { g: 'Acciones', i: 'money', t: 'Registrar pago', s: '', fn: () => modalPago(null) });
     return it.filter((x) => coincide(x.t + ' ' + x.s, q)).slice(0, 12);
   }
   function pintarPaleta() {
@@ -1161,24 +1147,6 @@
   });
   $('#paleta-res').addEventListener('mousedown', (e) => { const b = e.target.closest('[data-p]'); if (b) { e.preventDefault(); ejecutarPaleta(palItems[Number(b.dataset.p)]); } });
   $('#paleta-wrap').addEventListener('mousedown', (e) => { if (e.target.id === 'paleta-wrap') cerrarPaleta(); });
-
-  /* ================= carga rápida (botón +) ================= */
-  function accionesRapidas() {
-    const p = ruta(); const o = p[0] === 'obra' ? M.obra(p[1]) : null; const lista = [];
-    if (o) {
-      if (o.estado === 'curso' && M.presAprobado(o.id)) lista.push(['file-plus', 'Cargar avance del mes', 'Nuevo certificado de ' + o.nombre, () => { location.hash = '#/obra/' + o.id + '/certificado/nuevo'; }]);
-      if (puede('plata')) lista.push(['hand-coins', 'Registrar cobro', 'Del cliente de esta obra', () => modalCobro(o.id)], ['money', 'Pagar a un proveedor', 'Con el saldo por avance a la vista', () => modalPago(o.id)]);
-      lista.push(['receipt', 'Gasto de caja chica', 'Flete, ferretería, volquete', () => modalCaja(o.id, 'gasto')], ['check-square', 'Nueva tarea', 'Para esta obra', () => modalTarea(null, o.id)]);
-    } else {
-      DB.obras.filter((x) => x.estado === 'curso' && M.presAprobado(x.id)).forEach((x) => lista.push(['file-plus', 'Cargar avance', x.nombre, () => { location.hash = '#/obra/' + x.id + '/certificado/nuevo'; }]));
-      if (puede('plata')) lista.push(['hand-coins', 'Registrar cobro', 'Elegís obra y comprobante', () => modalCobro(null)], ['money', 'Registrar pago', 'A un proveedor de cualquier obra', () => modalPago(null)]);
-      lista.push(['check-square', 'Nueva tarea', 'Con responsable y vencimiento', () => modalTarea(null)]);
-      if (puede('editarPres')) lista.push(['buildings', 'Nueva obra', 'Arranca con la plantilla de 17 rubros', () => modalObra(null)]);
-    }
-    abrirModal(cabModal(o ? 'Cargar en ' + o.nombre : 'Cargar') + '<div class="m-b"><div class="acciones-lista">' + lista.map((x, k) => '<button type="button" class="accion-item" data-k="' + k + '"><span class="ai-ic">' + ic(x[0]) + '</span><span class="ai-t"><b>' + esc(x[1]) + '</b><span>' + esc(x[2]) + '</span></span>' + ic('caret-right', 'ai-flecha') + '</button>').join('') + '</div></div>', (m) => {
-      $('.acciones-lista', m).addEventListener('click', (e) => { const b = e.target.closest('[data-k]'); if (!b) return; cerrarModal(); setTimeout(lista[Number(b.dataset.k)][3], 120); });
-    });
-  }
 
   /* ================= acciones ================= */
   document.addEventListener('click', (e) => {
@@ -1205,13 +1173,12 @@
         case 'paleta': abrirPaleta(); return;
         case 'nueva-compra': modalCompra(); return;
         case 'traer-arca': modalArca(); return;
-        case 'ver-cuenta': verCuenta(id); return;
+        case 'ver-cuenta': UI.teso.cuenta = UI.teso.cuenta === id ? '' : id; render(); return;
         case 'anular-compra': { const f = DB.facturasCompra.find((x) => x.id === id); confirmar('Anular factura ' + f.numero, 'Deja de sumar al crédito de IVA y a lo facturado por el proveedor. Queda visible como anulada.', 'Anular factura', () => { f.anulada = creado(); log('Anuló la factura ' + f.tipo + ' ' + f.numero + ' de ' + M.prov(f.prov).razon, f.obra); guardar(); render(); toast('Factura anulada.'); }, true); return; }
         case 'libro-iva': toast('En el sistema real se descarga el Libro de IVA Digital listo para el estudio contable.', 'file-text'); return;
         case 'exportar-ventas': descargarCSV('momo-facturas-emitidas', ['Fecha', 'Comprobante', 'Número', 'Cliente', 'CUIT', 'Obra', 'Moneda', 'Neto', 'IVA', 'Total', 'CAE', 'Cobro'], M.ventas().map((x) => [x.fecha, x.tipo, x.numero, x.cliente.razon, x.cliente.cuit, x.obra.nombre, x.mon, x.neto, x.iva, x.total, x.cae, x.estado])); toast('Excel descargado.'); return;
         case 'exportar-compras': descargarCSV('momo-facturas-proveedores', ['Fecha', 'Proveedor', 'CUIT', 'Tipo', 'Número', 'Imputada a', 'Neto', 'IVA', 'Percepciones', 'Total', 'Saldo', 'Estado'], M.compras().map((f) => [f.fecha, (M.prov(f.prov) || {}).razon, (M.prov(f.prov) || {}).cuit, f.tipo, f.numero, f.obra ? M.obra(f.obra).nombre : 'Gasto del estudio', f.neto, f.iva, f.perc, f.total, f.saldo, f.estado])); toast('Excel descargado.'); return;
         case 'exportar-iva': descargarCSV('momo-iva-mensual', ['Mes', 'Ventas netas', 'IVA débito', 'Compras netas', 'IVA crédito', 'Percepciones', 'Saldo'], M.ivaMensual().map((x) => [x.mes, x.ventasNeto, x.debito, x.comprasNeto, x.credito, x.perc, x.saldo])); toast('Excel descargado.'); return;
-        case 'acciones-rapidas': accionesRapidas(); return;
         case 'menu-mas': $('#app').classList.add('menu-abierto'); return;
         case 'rechazar-pres': {
           const pr = DB.presupuestos.find((x) => x.id === id); const o = M.obra(pr.obra);
@@ -1291,6 +1258,7 @@
         case 'nueva-caja': modalCaja(ac.dataset.obra, ac.dataset.tipo); return;
         case 'anular-caja': { const c = DB.caja.find((x) => x.id === id); confirmar('Anular movimiento', 'Deja de contar en el saldo y en el costo de la obra.', 'Anular', () => { c.anulado = creado(); log('Anuló un movimiento de caja chica: ' + c.desc, c.obra); guardar(); render(); }, true); return; }
         case 'nueva-tarea': modalTarea(null, ac.dataset.obra); return;
+        case 'tareas-obra': UI.tareas.obra = ac.dataset.obra; UI.tareas.vista = 'todas'; return;
         case 'editar-tarea': modalTarea(id); return;
         case 'mover-tarea': { const t = DB.tareas.find((x) => x.id === id); const i = COLS.findIndex((c) => c[0] === t.col) + Number(ac.dataset.dir); if (COLS[i]) moverTarea(id, COLS[i][0]); return; }
         case 'subir-doc': toast('En el sistema final se suben planos, fotos y PDF acá (quedan guardados en la obra).', 'upload-simple'); return;

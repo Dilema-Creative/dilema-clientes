@@ -440,7 +440,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="celda c-d rev" style="--d:.06s">
         <span class="ic"><i class="ph ph-kanban"></i></span>
         <h3>Las tareas, como en Trello</h3>
-        <p>Un tablero dentro de cada obra y uno general, con responsable, vencimiento y aviso a cada persona.</p>
+        <p>Un solo tablero, filtrable por obra, con responsable, vencimiento y aviso a cada persona.</p>
         <div class="kanban" aria-hidden="true">
           <div><small>PENDIENTE</small><p>Pedir 3 cotizaciones de iluminación<em>Andy · vence el viernes</em></p><p>Planos de fachada aprobados<em>María</em></p></div>
           <div><small>EN CURSO</small><p>Enviar presupuesto a Nórdica<em>Ale · vence en 5 días</em></p></div>
@@ -505,7 +505,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="fila"><div>La liquidación del mes</div><div data-l="Hoy:"><span class="n">2</span>Orden de pago y cuenta corriente</div><div data-l="Sistema:"><span class="n">1</span>Al emitir, queda en la cuenta del cliente</div></div>
       <div class="fila"><div>Datos de la obra</div><div data-l="Hoy:"><span class="n">6</span>Uno por hoja</div><div data-l="Sistema:"><span class="n">1</span>En la ficha de la obra</div></div>
       <div class="fila"><div>Certificado nuevo</div><div data-l="Hoy:">Copiar dos hojas y conectar las fórmulas</div><div data-l="Sistema:">Un botón: trae el acumulado de cada ítem</div></div>
-      <div class="fila"><div>Tareas</div><div data-l="Hoy:">En Trello, aparte de la obra</div><div data-l="Sistema:">Dentro de cada obra, con aviso al responsable</div></div>
+      <div class="fila"><div>Tareas</div><div data-l="Hoy:">En Trello, aparte de la obra</div><div data-l="Sistema:">Cada tarea atada a su obra, con aviso al responsable</div></div>
     </div>
   </div>
 </section>
@@ -571,8 +571,8 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
         <button class="tab" role="tab" aria-selected="false" data-i="7" data-aporta="Facturar deja de ser una tarea aparte: al emitir el certificado, la factura ya está hecha y queda en la cuenta del cliente."><i class="ph ph-receipt"></i><div><b>Facturación con ARCA</b><span>Las facturas emitidas, cada una con su CAE, salidas directo de los certificados y anticipos.</span></div></button>
         <button class="tab" role="tab" aria-selected="false" data-i="8" data-aporta="No se tipean: solo se elige a qué obra va cada una. Suman al IVA del mes y las repetidas no entran."><i class="ph ph-cloud-arrow-down"></i><div><b>Facturas de proveedores</b><span>Las facturas que los proveedores emiten a nombre de Momo, traídas desde ARCA.</span></div></button>
         <button class="tab" role="tab" aria-selected="false" data-i="9" data-aporta="Saber con cuánta plata se cuenta de verdad, armado con los mismos cobros y pagos que ya se cargaron."><i class="ph ph-bank"></i><div><b>Bancos y efectivo</b><span>El saldo de cada banco y del efectivo, con sus movimientos y los cheques propios por debitar.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="10" data-aporta="Las tareas viven dentro de la obra que corresponde y cada uno recibe el aviso de lo suyo, sin una herramienta aparte."><i class="ph ph-kanban"></i><div><b>Tareas</b><span>El tablero de tareas de todas las obras, con responsable y vencimiento, como en Trello.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="11" data-aporta="Menos clics para todo: lo que se busca aparece con las primeras letras."><i class="ph ph-magnifying-glass"></i><div><b>Buscar con Ctrl K</b><span>Encontrar cualquier obra, cliente, proveedor o acción escribiendo, desde cualquier pantalla.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="10" data-aporta="Cada tarjeta está atada a su obra y a una persona: se ve el tablero completo o filtrado por obra, y cada uno recibe el aviso de lo suyo, sin una herramienta aparte."><i class="ph ph-kanban"></i><div><b>Tareas</b><span>El tablero de tareas de todas las obras, con responsable y vencimiento, como en Trello.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="11" data-aporta="Menos clics para todo: lo que se busca aparece con las primeras letras."><i class="ph ph-magnifying-glass"></i><div><b>Buscar con Ctrl K</b><span>Encontrar cualquier obra, cliente o proveedor escribiendo, desde cualquier pantalla.</span></div></button>
       </div>
       <div class="visor rev">
         <div class="marco">
@@ -619,7 +619,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="mod rev" style="--d:.04s"><i class="ph ph-receipt ic"></i><h3>Facturación ARCA</h3><p class="para">La factura sale del certificado, sin cargarla dos veces.</p><ul><li>Factura A o B según el cliente.</li><li>CAE automático al emitir.</li><li>Nota de crédito al anular.</li><li>PDF con el QR de ARCA.</li></ul></div>
       <div class="mod rev" style="--d:.08s"><i class="ph ph-cloud-arrow-down ic"></i><h3>Compras e IVA</h3><p class="para">El IVA del mes listo para el estudio contable.</p><ul><li>Facturas de proveedores desde ARCA.</li><li>Sin duplicados.</li><li>IVA de cada mes, débito y crédito.</li><li>Libro de IVA Digital y Excel.</li></ul></div>
       <div class="mod rev" style="--d:.12s"><i class="ph ph-bank ic"></i><h3>Bancos, cheques y caja</h3><p class="para">Cuánta plata hay de verdad y qué cheques vencen.</p><ul><li>Saldo de cada banco y del efectivo.</li><li>Cheques de terceros y propios.</li><li>Aviso de diferidos al cobro.</li><li>Caja chica como costo de obra.</li></ul></div>
-      <div class="mod rev"><i class="ph ph-kanban ic"></i><h3>Tareas</h3><p class="para">Lo que hoy está en Trello, dentro de cada obra.</p><ul><li>Tablero por obra y general.</li><li>Responsable y vencimiento.</li><li>Aviso si ya hay una igual.</li><li>"Mis tareas" para cada uno.</li></ul></div>
+      <div class="mod rev"><i class="ph ph-kanban ic"></i><h3>Tareas</h3><p class="para">Lo que hoy está en Trello, conectado con cada obra.</p><ul><li>Tablero general, filtrable por obra.</li><li>Responsable y vencimiento.</li><li>Aviso si ya hay una igual.</li><li>"Mis tareas" para cada uno.</li></ul></div>
       <div class="mod rev" style="--d:.04s"><i class="ph ph-address-book ic"></i><h3>Clientes y proveedores</h3><p class="para">Datos limpios desde el alta, sin CUIT mal cargados.</p><ul><li>CUIT obligatorio y validado.</li><li>Datos traídos del padrón.</li><li>Archivar sin perder historia.</li><li>Rubros de cada proveedor.</li></ul></div>
       <div class="mod rev" style="--d:.08s"><i class="ph ph-user-gear ic"></i><h3>Perfiles y registro</h3><p class="para">Cada uno ve lo suyo y queda registrado quién hizo qué.</p><ul><li>Socios, Arquitectos y Administración.</li><li>Usuario y clave por persona.</li><li>Quién cargó o cambió cada cosa.</li><li>Computadora, tablet o celular.</li></ul></div>
       <div class="mod rev" style="--d:.12s"><i class="ph ph-shield-check ic"></i><h3>Respaldo y seguridad</h3><p class="para">La información de Momo, cuidada y siempre disponible.</p><ul><li>Copia diaria cifrada.</li><li>Conexión segura.</li><li>Nada se guarda a medias.</li><li>Los datos son de Momo.</li></ul></div>

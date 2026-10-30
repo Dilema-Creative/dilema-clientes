@@ -734,19 +734,9 @@ tfoot td.num{font-family:var(--mono)}
 .m-h h2{font-size:16px}
 .m-f{background:var(--surface-2);border-top:1px solid var(--line);border-radius:0 0 14px 14px;position:sticky;bottom:0}
 .d-h{background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.acciones-lista{display:flex;flex-direction:column;gap:6px}
-.accion-item{display:flex;align-items:center;gap:13px;width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-align:left;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,transform .12s var(--ease-out)}
-.accion-item:hover{background:var(--surface-2);border-color:var(--line-2)}
-.accion-item:active{transform:scale(.985)}
-.ai-ic{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:10px;background:var(--ink);color:var(--accent-contrast)}
-.ai-ic i{font-size:18px}
-.ai-t{flex:1;min-width:0;line-height:1.3}
-.ai-t b{display:block;font-weight:600}
-.ai-t span{display:block;font-size:12.5px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ai-flecha{color:var(--ink-faint)}
 
 /* ---------- elementos solo de celular (ocultos en escritorio) ---------- */
-.tabbar,.fab,.ce-barra{display:none}
+.tabbar,.ce-barra{display:none}
 
 /* =====================================================================
    Celular y tablet
@@ -762,17 +752,13 @@ tfoot td.num{font-family:var(--mono)}
   #vista{padding:16px 14px calc(104px + env(safe-area-inset-bottom))}
 
   /* barra inferior + botón + */
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:45;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+  .tabbar{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:45;background:color-mix(in srgb,var(--surface) 94%,transparent);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
   .tabbar a{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;height:50px;border-radius:12px;text-decoration:none;color:var(--ink-faint);font-size:10.5px;font-weight:600;letter-spacing:.01em}
   .tabbar a i{font-size:22px}
   .tabbar a[aria-current="page"]{color:var(--ink)}
   .tabbar a[aria-current="page"] i{font-weight:bold}
   .tabbar a:active{background:var(--surface-2)}
   .tabbar a b{position:absolute;top:4px;left:calc(50% + 6px);min-width:17px;height:17px;padding:0 5px;border-radius:999px;background:var(--bad);color:#fff;font-size:10px;display:grid;place-items:center}
-  .tb-hueco{display:block}
-  .fab{display:grid;place-items:center;position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:46;width:56px;height:56px;border-radius:18px;border:0;background:var(--ink);color:var(--accent-contrast);box-shadow:0 10px 24px -8px rgba(18,20,22,.55),0 0 0 4px var(--bg);cursor:pointer;transition:transform .12s var(--ease-out)}
-  .fab i{font-size:24px}
-  .fab:active{transform:translateX(-50%) scale(.94)}
   .toast{bottom:calc(92px + env(safe-area-inset-bottom))}
 
   /* el menú lateral queda como cajón (Más) */
@@ -785,7 +771,6 @@ tfoot td.num{font-family:var(--mono)}
   .ce-barra .cb-txt b{display:block;font-family:var(--mono);font-size:15px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .ce-barra .btn{height:42px}
   .ce-barra .btn.icon{width:42px}
-  body:has(.ce-barra) .fab{display:none}
   body:has(.ce-barra) #vista{padding-bottom:calc(170px + env(safe-area-inset-bottom))}
   .cert-panel .m-f{display:none}
 
@@ -1001,22 +986,6 @@ td .sec{font-size:11.5px}
 
 /* --- Inicio: obras en curso como lista dentro de su caja --- */
 .obras-lista{display:flex;flex-direction:column}
-.obra-fila{display:grid;grid-template-columns:56px minmax(0,1fr) 150px auto 16px;align-items:center;gap:14px;padding:11px var(--gx);border-bottom:1px solid var(--line);text-decoration:none;color:inherit;transition:background-color .15s ease}
-.obra-fila:last-child{border-bottom:0}
-.obra-fila:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}
-.of-foto{position:relative;width:56px;height:40px;border-radius:7px;overflow:hidden;background:var(--surface-3)}
-.of-foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .3s var(--ease-out)}
-.of-foto img.lista{opacity:1}
-.of-foto .oc-ph{font-size:18px}
-.of-foto:not(.sin-foto) .oc-ph{opacity:0}
-.of-t{min-width:0;line-height:1.3}
-.of-t b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.of-t span{display:block;font-size:12px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.of-av .avance{min-width:0}
-.of-m{text-align:right;line-height:1.3;white-space:nowrap}
-.of-m span{display:block;font-size:11px;color:var(--ink-faint)}
-.of-m b{font-weight:600;font-variant-numeric:tabular-nums}
-.of-flecha{color:var(--ink-faint)}
 .actividad .cuando{min-width:72px;text-align:right}
 
 /* --- documentos (planilla de costos, liquidación, presupuesto, recibo): nada se sale del recuadro --- */
@@ -1067,12 +1036,6 @@ td .sec{font-size:11.5px}
 :root[data-theme="dark"] .yo{background:var(--sb-bg-2)}
 
 @media (max-width:640px){
-  .obra-fila{grid-template-columns:52px minmax(0,1fr) auto;grid-template-areas:"f t m" "f a a";row-gap:6px;column-gap:12px}
-  .of-foto{grid-area:f;width:52px;height:52px}
-  .of-t{grid-area:t}
-  .of-m{grid-area:m}
-  .of-av{grid-area:a}
-  .of-flecha{display:none}
   .drawer{width:100%}
   .doc{padding:14px}
   .doc .tabla-wrap{overflow-x:auto}
@@ -1119,6 +1082,7 @@ td .sec{font-size:11.5px}
 .cuentas-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:14px}
 .cuenta-card{display:flex;flex-direction:column;gap:3px;text-align:left;padding:16px var(--gx);border:1px solid var(--line);border-radius:var(--r);background:var(--surface);box-shadow:var(--shadow);color:inherit;font:inherit;cursor:pointer;min-width:0;transition:border-color .15s ease,transform .15s var(--ease-out)}
 .cuenta-card:hover{border-color:var(--line-2)}
+.cuenta-card[aria-pressed="true"]{border-color:var(--ink);background:var(--surface-2)}
 .cuenta-card.total{cursor:default;background:var(--surface-2)}
 .cc-t{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px}
 .cc-t i{font-size:16px;color:var(--ink-soft)}
