@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>López Taibo · Octubre y plan de noviembre</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Sistema de reportes de Dilema: un solo tema claro, secciones numeradas y alternadas */
+:root{
+  --ink:#0E2A47;--ink-soft:#1B3A5C;--sage:#4FA27E;--sage-deep:#2F7D5E;
+  --cream:#F4EFE6;--paper:#FAF6EE;--paper-2:#EFE8D9;
+  --black:#14161A;--ash:#6B6257;--line:#D9CFBC;--bad:#B23A2B;--warn:#C97B2B;
+  --display:'Fraunces',Georgia,'Times New Roman',serif;
+  --body:'Inter',system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-padding-top:72px}
+body{background:var(--paper);color:var(--black);font-family:var(--body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--ink)}
+.in{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ink);color:var(--cream)}
+nav .in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px}
+.brand{font-family:var(--display);font-size:19px;font-weight:500}
+.brand em{color:var(--sage);font-style:italic}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;border:1px solid var(--sage);border-radius:4px;padding:4px 8px;white-space:nowrap}
+.hero{padding-block:72px 64px;background:radial-gradient(600px 340px at 92% 0,rgba(79,162,126,.09),transparent 70%),var(--paper);border-bottom:1px solid var(--line)}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);display:flex;align-items:center;gap:14px}
+.kicker::after{content:"";width:80px;height:1px;background:var(--line)}
+h1{font-family:var(--display);font-weight:500;font-size:clamp(44px,7.4vw,92px);line-height:.95;letter-spacing:-.03em;color:var(--ink);margin-top:22px;text-wrap:balance}
+h1 em{display:block;color:var(--sage);font-style:italic}
+.lede{font-family:var(--display);font-style:italic;font-size:clamp(18px,2.2vw,22px);line-height:1.4;color:var(--ash);margin-top:24px;max-width:680px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:44px}
+.stat{background:var(--paper);padding:18px 20px;min-width:0}
+.k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
+.v{font-family:var(--display);font-weight:600;font-size:clamp(25px,3vw,32px);letter-spacing:-.02em;color:var(--ink);margin-top:4px;font-variant-numeric:tabular-nums}
+.d{font-size:13px;color:var(--sage-deep);font-weight:500}
+.d.flat{color:var(--ash);font-weight:400}
+section{padding-block:68px;border-bottom:1px solid var(--line)}
+section.cream{background:var(--cream)}
+section.dark{background:var(--ink);color:var(--cream);border-bottom-color:var(--ink)}
+.num{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash)}
+.dark .num,.dark .k{color:#A9BBCB}
+h2{font-family:var(--display);font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1.04;letter-spacing:-.022em;color:var(--ink);margin-top:12px;max-width:800px;text-wrap:balance}
+h2 em{color:var(--sage);font-style:italic}
+.dark h2{color:var(--cream)}
+.sub{max-width:680px;margin-top:16px}
+.dark .sub{color:#D5DEE6}
+h3{font-family:var(--display);font-weight:500;font-size:21px;line-height:1.2;color:var(--ink)}
+.tw{margin-top:32px;border:1px solid var(--line);border-radius:6px;overflow-x:auto;background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-variant-numeric:tabular-nums}
+th{font-family:var(--mono);font-weight:500;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;text-align:right;color:var(--ash);background:var(--paper-2);padding:11px 14px;white-space:nowrap}
+td{padding:13px 14px;border-top:1px solid var(--line);text-align:right;color:var(--black)}
+th:first-child,td:first-child{text-align:left}
+td:first-child{font-weight:500;color:var(--ink)}
+td small{display:block;font-size:12px;font-weight:400;color:var(--ash)}
+tr.tot td{background:var(--paper-2);font-weight:600}
+.callout{margin-top:28px;border-left:4px solid var(--sage);background:var(--paper);padding:18px 22px;border-radius:0 6px 6px 0;max-width:820px}
+.callout.warn{border-left-color:var(--warn)}
+.callout .k{margin-bottom:6px}
+.cream .callout{background:#FBF8F1}
+.two{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:36px;margin-top:32px;align-items:start}
+.chart{min-width:0}
+.chart svg{display:block;width:100%;height:auto}
+.chart svg text{font-family:var(--mono);font-size:11px;fill:var(--ash)}
+.chart svg text.val{font-family:var(--display);font-size:17px;font-weight:600;fill:var(--ink)}
+.chart rect.bar{fill:var(--ink)}
+.chart rect.bar.last{fill:var(--warn)}
+.chart rect.bar:hover{fill:var(--sage-deep)}
+.cap{font-size:13px;color:var(--ash);margin-top:8px}
+.list{display:grid;gap:14px;margin-top:28px;max-width:820px}
+.list li{list-style:none;padding-left:20px;position:relative}
+.list li::before{content:"";position:absolute;left:0;top:.72em;width:10px;height:1px;background:var(--sage-deep)}
+.split{display:flex;height:34px;gap:2px;margin-top:32px;border-radius:4px;overflow:hidden}
+.split i{display:block;min-width:0}
+.leg{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:12px;font-size:13px;color:#D5DEE6}
+.leg span{display:flex;align-items:center;gap:7px}
+.leg b{width:10px;height:10px;border-radius:2px;display:block}
+.dark .tw{border-color:#35506C;background:var(--ink-soft)}
+.dark th{background:#16324F;color:#A9BBCB}
+.dark td{border-top-color:#35506C;color:var(--cream)}
+.dark td:first-child{color:var(--cream)}
+.dark td small{color:#A9BBCB}
+.dark tr.tot td{background:#16324F}
+.proj{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:32px}
+.proj>div{background:var(--paper);padding:20px;min-width:0}
+th.l{text-align:left}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:32px}
+.step{background:var(--cream);padding:22px;min-width:0}
+.step .k{color:var(--sage-deep);margin-bottom:8px}
+.step p{font-size:14px;margin-top:8px}
+.ask{counter-reset:a;display:grid;gap:14px;margin-top:28px;max-width:820px}
+.ask li{list-style:none;counter-increment:a;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px}
+.ask li::before{content:counter(a);font-family:var(--display);font-weight:600;font-size:20px;color:var(--sage-deep);line-height:1.2}
+footer{background:var(--ink);color:#A9BBCB;padding-block:26px;font-size:13px}
+footer .in{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:820px){
+  .stats{grid-template-columns:1fr 1fr}
+  .two,.steps,.proj{grid-template-columns:1fr}
+  .hero{padding-block:48px}section{padding-block:48px}
+}
+</style>
+</head>
+<body>
+
+<nav><div class="in"><span class="brand">Dilema <em>creative</em></span><span class="tag">López Taibo · Oct 2026</span></div></nav>
+
+<header class="hero"><div class="in">
+  <div class="kicker">Google Ads · Reporte y propuesta</div>
+  <h1>Más ventas con menos plata. <em>Ahora, a escalar.</em></h1>
+  <p class="lede">Octubre cerró con 44% más ingresos que septiembre y 11% menos inversión. Para noviembre proponemos llevar el presupuesto a ARS 1,2 M por etapas.</p>
+  <div class="stats">
+    <div class="stat"><div class="k">Ingresos atribuidos</div><div class="v">$8,42 M</div><div class="d">+44% vs. septiembre</div></div>
+    <div class="stat"><div class="k">Ventas online</div><div class="v">~28</div><div class="d">+52% (antes ~18)</div></div>
+    <div class="stat"><div class="k">Retorno (ROAS)</div><div class="v">12,1x</div><div class="d">antes 7,5x</div></div>
+    <div class="stat"><div class="k">Inversión</div><div class="v">$695 mil</div><div class="d flat">−11% (antes $783 mil)</div></div>
+  </div>
+  <p class="cap" style="margin-top:14px">Período: 1 al 29 de octubre contra 1 al 29 de septiembre. Datos de Google Ads, en pesos. Todavía falta cruzarlos con las ventas de Tiendanube.</p>
+</div></header>
+
+<section><div class="in">
+  <div class="num">01 / Qué pasó</div>
+  <h2>La plata se fue <em>adonde se vende</em></h2>
+  <p class="sub">En septiembre, más de la mitad del presupuesto iba a los locales y casi no generaba ventas online. En octubre esa plata pasó al catálogo de calzado, que duplicó su inversión y mantuvo el retorno.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Campaña</th><th>Inversión sep</th><th>Inversión oct</th><th>Ventas sep</th><th>Ventas oct</th><th>Ingresos oct</th><th>ROAS sep</th><th>ROAS oct</th></tr></thead>
+    <tbody>
+      <tr><td>Catálogo de calzado</td><td>$219 mil</td><td>$405 mil</td><td>6</td><td>11</td><td>$3,04 M</td><td>7,3x</td><td>7,5x</td></tr>
+      <tr><td>Búsqueda de marca</td><td>$146 mil</td><td>$71 mil</td><td>11</td><td>15</td><td>$4,78 M</td><td>27,8x</td><td>67x</td></tr>
+      <tr><td>Locales y turistas<small>Incluye Microcentro</small></td><td>$418 mil</td><td>$201 mil</td><td>1</td><td>2</td><td>$0,60 M</td><td>0,5x</td><td>3,0x</td></tr>
+      <tr><td>Demand Gen calzado<small>Activa desde el 26/10</small></td><td>—</td><td>$18 mil</td><td>—</td><td>0</td><td>—</td><td>—</td><td>—</td></tr>
+      <tr class="tot"><td>Total</td><td>$783 mil</td><td>$695 mil</td><td>~18</td><td>~28</td><td>$8,42 M</td><td>7,5x</td><td>12,1x</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout">
+    <div class="k">Lectura del mes</div>
+    <p>El dato para escalar es el de <b>calzado</b>: casi el doble de inversión con el mismo retorno (7,3x a 7,5x). El 67x de marca no es repetible: esas personas ya buscan López Taibo y gran parte iba a comprar igual. <b>Sin marca, el retorno pasó de 2,8x a 5,8x.</b> Ese es el número que usamos para decidir.</p>
+  </div>
+</div></section>
+
+<section class="cream"><div class="in">
+  <div class="num">02 / Cómo terminó el mes</div>
+  <h2>La última semana <em>se frenó</em></h2>
+  <div class="two">
+    <div class="chart">
+      <svg viewBox="0 0 520 250" role="img" aria-label="Ventas por semana: 11, 10, 5 y 1">
+        <line x1="10" y1="210" x2="510" y2="210" stroke="#D9CFBC"/>
+        <rect class="bar" x="35" y="29" width="76" height="181" rx="4"><title>2 al 8/10: 11 ventas, ROAS 22,3x</title></rect>
+        <rect class="bar" x="158" y="45" width="76" height="165" rx="4"><title>9 al 15/10: 10 ventas, ROAS 13,1x</title></rect>
+        <rect class="bar" x="281" y="128" width="76" height="82" rx="4"><title>16 al 22/10: 5 ventas, ROAS 11,6x</title></rect>
+        <rect class="bar last" x="404" y="194" width="76" height="16" rx="4"><title>23 al 29/10: 1 venta, ROAS 1,7x</title></rect>
+        <text class="val" x="73" y="21" text-anchor="middle">11</text>
+        <text class="val" x="196" y="37" text-anchor="middle">10</text>
+        <text class="val" x="319" y="120" text-anchor="middle">5</text>
+        <text class="val" x="442" y="186" text-anchor="middle">1</text>
+        <text x="73" y="230" text-anchor="middle">2–8 oct</text>
+        <text x="196" y="230" text-anchor="middle">9–15 oct</text>
+        <text x="319" y="230" text-anchor="middle">16–22 oct</text>
+        <text x="442" y="230" text-anchor="middle">23–29 oct</text>
+      </svg>
+      <p class="cap">Ventas online por semana. La inversión se mantuvo cerca de $150 mil en la primera, la tercera y la cuarta semana.</p>
+    </div>
+    <div>
+      <p>Del 23 al 29 hubo <b>una sola venta con $155 mil invertidos</b>. Hay dos explicaciones posibles, y las vamos a confirmar en los próximos días:</p>
+      <ul class="list">
+        <li><b>Demora de la medición.</b> Google asigna cada venta al día del clic, así que parte de esta semana todavía puede aparecer.</li>
+        <li><b>Espera del Cyber.</b> En 2025, las dos semanas previas rindieron 1,0x y los tres días del evento 11,8x. Son pocas ventas, así que lo tomamos como indicio.</li>
+      </ul>
+      <p style="margin-top:16px">Por eso el aumento se libera por etapas y con un control el 16/11.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="in">
+  <div class="num">03 / Qué hicimos y qué falta</div>
+  <h2>Lo que quedó <em>hecho</em> y lo que sigue abierto</h2>
+  <ul class="list">
+    <li><b>Más de 280 búsquedas excluidas:</b> competidores, productos que la tienda no vende y direcciones de otros comercios.</li>
+    <li><b>Base de clientes cargada en Google</b>, ya procesada. Sirve para encontrar compradores nuevos y distinguirlos de los actuales.</li>
+    <li><b>Medición reforzada:</b> conversiones avanzadas activas y compras como único objetivo de las campañas de venta.</li>
+    <li><b>Calzado de mujer en pausa.</b> Desde el 14/10, ya filtrado solo a calzado de mujer, invirtió $52 mil sin ventas. Lo retomamos con otra propuesta.</li>
+    <li><b>Locales:</b> desde el 21/10 optimizan solo "cómo llegar" y llamadas, y el 28/10 vinculamos las ubicaciones de los dos locales. Los pedidos de "cómo llegar" bajaron de 1.661 a 538 porque también bajó la inversión, y el costo subió de ~$250 a ~$370. En la última semana ya bajó a ~$300.</li>
+  </ul>
+  <div class="callout">
+    <div class="k">Ajuste de medición</div>
+    <p>Google registra las ventas por tres vías y algunas se repiten. Este reporte cuenta cada venta una sola vez, tomando por día y campaña la vía con mayor valor. Por eso septiembre da mejor que en el resumen del 21/10, que usaba una sola vía. La comparación correcta es esta: <b>de 7,5x a 12,1x</b>.</p>
+  </div>
+</div></section>
+
+<section class="dark"><div class="in">
+  <div class="num">04 / Propuesta de noviembre</div>
+  <h2>ARS 1,2 M, <em>por etapas</em></h2>
+  <p class="sub">Hoy se invierten unos $24 mil por día. Proponemos subir a $33 mil por día, reforzar la presencia durante el Cyber y dejar $140 mil en reserva hasta confirmar que calzado sostiene el retorno.</p>
+  <div class="split" aria-hidden="true">
+    <i style="width:50%;background:#4FA27E"></i><i style="width:7.5%;background:#5BB4D6"></i><i style="width:10.8%;background:#E8DFCB"></i><i style="width:15%;background:#C97B2B"></i><i style="width:5%;background:#D9CFBC"></i><i style="width:11.7%;background:#6F8BA3"></i>
+  </div>
+  <div class="leg">
+    <span><b style="background:#4FA27E"></b>Calzado 50%</span><span><b style="background:#5BB4D6"></b>Marca 7,5%</span><span><b style="background:#E8DFCB"></b>Demand Gen 10,8%</span><span><b style="background:#C97B2B"></b>Locales 15%</span><span><b style="background:#D9CFBC"></b>Cyber 5%</span><span><b style="background:#6F8BA3"></b>Reserva 11,7%</span>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Destino</th><th>Hoy por día</th><th>Noviembre por día</th><th>Total del mes</th><th class="l">Para qué</th></tr></thead>
+    <tbody>
+      <tr><td>Catálogo de calzado</td><td>~$15.500</td><td>$20.000</td><td>$600 mil</td><td style="text-align:left">Más ventas a gente que no conoce la marca</td></tr>
+      <tr><td>Búsqueda de marca<small>Sin cambios en el tope</small></td><td>~$2.500</td><td>~$3.000</td><td>$90 mil</td><td style="text-align:left">Cubrir a quien ya nos busca</td></tr>
+      <tr><td>Demand Gen calzado</td><td>$4.300</td><td>$4.300</td><td>$130 mil</td><td style="text-align:left">Video y Discover para sumar conocimiento</td></tr>
+      <tr><td>Locales y turistas</td><td>$4.000</td><td>$6.000</td><td>$180 mil</td><td style="text-align:left">~215 "cómo llegar" y llamadas por semana, según Google</td></tr>
+      <tr><td>Presencia en Cyber<small>2 al 4/11, sin promo propia</small></td><td>—</td><td>+$20.000</td><td>$60 mil</td><td style="text-align:left">Que la competencia no nos tape esos tres días</td></tr>
+      <tr><td>Reserva<small>Se libera el 16/11</small></td><td>—</td><td>hasta +$10.000</td><td>$140 mil</td><td style="text-align:left">Solo si calzado sigue en 5x o más</td></tr>
+      <tr class="tot"><td>Total</td><td>~$26.000</td><td>~$33.000 base</td><td>$1,2 M</td><td style="text-align:left">+67% vs. octubre</td></tr>
+    </tbody>
+  </table></div>
+  <p class="cap" style="color:#A9BBCB">Hoy por día = presupuesto o ritmo actual, con Demand Gen ya prendida. El promedio de octubre fue ~$24 mil.</p>
+</div></section>
+
+<section><div class="in">
+  <div class="num">05 / Por qué este monto</div>
+  <h2>Hasta dónde <em>rinde</em> el peso extra</h2>
+  <p class="sub">El simulador de Google estima cuánto vuelve por cada peso adicional en calzado. Cerca de $20 mil por día el retorno extra sigue siendo bueno. Después de $50 mil cae rápido.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Calzado, por día</th><th>Retorno del peso extra</th><th class="l">Lectura</th></tr></thead>
+    <tbody>
+      <tr><td>De $15 mil a $21 mil</td><td>~5x</td><td style="text-align:left">Nuestra propuesta</td></tr>
+      <tr><td>De $21 mil a $31 mil</td><td>~4x</td><td style="text-align:left">Próximo paso, con la reserva</td></tr>
+      <tr><td>De $31 mil a $49 mil</td><td>~3x</td><td style="text-align:left">Depende del margen</td></tr>
+      <tr><td>De $49 mil a $101 mil</td><td>~1x</td><td style="text-align:left">No conviene</td></tr>
+    </tbody>
+  </table></div>
+  <div class="proj">
+    <div><div class="k">Octubre, llevado a 30 días</div><div class="v">$8,7 M</div><p class="cap">~$720 mil invertidos · 12,1x</p></div>
+    <div><div class="k">Noviembre estimado</div><div class="v">$8,2–10 M</div><p class="cap">$1,2 M invertidos · 7x a 8,3x</p></div>
+    <div><div class="k">Sin locales ni Demand Gen</div><div class="v">9,2x a 11,2x</div><p class="cap">Sobre $890 mil de inversión en venta</p></div>
+  </div>
+  <div class="callout warn">
+    <div class="k">Qué esperar</div>
+    <p>El retorno total va a bajar, y es normal: cada peso adicional rinde menos que el anterior, y $310 mil van a locales y Demand Gen, que no se miden por venta online directa. Esta estimación no incluye visitas al local ni el efecto de sumar conocimiento de marca. <b>Es una estimación, no una promesa:</b> el simulador usa la semana del 20 al 26/10 y noviembre no tiene Día de la Madre.</p>
+  </div>
+</div></section>
+
+<section class="cream"><div class="in">
+  <div class="num">06 / Calendario</div>
+  <h2>Tres etapas, <em>tres decisiones</em></h2>
+  <div class="steps">
+    <div class="step"><div class="k">1 al 4 de noviembre</div><h3>Base y Cyber</h3><p>Subimos calzado a $20 mil y locales a $6 mil. Aunque López Taibo no participa del Cyber, es un momento de mucho movimiento en ecommerce: del 2 al 4 sumamos presencia para que la competencia no nos opaque las ventas, sin prometer descuentos. El 5 volvemos a la base.</p></div>
+    <div class="step"><div class="k">5 al 15 de noviembre</div><h3>Medir</h3><p>Sin cambios grandes durante el Cyber. Después probamos búsquedas conversacionales con IA y prioridad para clientes nuevos en calzado.</p></div>
+    <div class="step"><div class="k">16 de noviembre</div><h3>Decidir la reserva</h3><p>Con calzado en 5x o más, pasa a ~$30 mil por día. Si queda debajo, seguimos en la base y revisamos antes de sumar plata.</p></div>
+  </div>
+</div></section>
+
+<section><div class="in">
+  <div class="num">07 / Qué necesitamos</div>
+  <h2>Para arrancar el <em>lunes</em></h2>
+  <ol class="ask">
+    <li><span><b>Aprobar el presupuesto de noviembre</b> y cargar saldo en Google Ads. La cuenta es prepaga: si se queda sin saldo, los anuncios se frenan justo en los días de más movimiento.</span></li>
+    <li><span><b>Enviar las ventas de octubre de Tiendanube,</b> con un export de pedidos alcanza, para validar estos números contra lo cobrado.</span></li>
+    <li><span><b>Compartir el margen promedio:</b> define qué ROAS mínimo sirve y hasta dónde conviene subir en diciembre.</span></li>
+    <li><span><b>Pasar el Merchant Center a nombre de López Taibo.</b> Sigue dependiendo de una cuenta ajena y, si la desvinculan, se cae el catálogo.</span></li>
+  </ol>
+</div></section>
+
+<footer><div class="in"><span>Dilema Creative para López Taibo</span><span>Datos al 29/10/2026</span></div></footer>
+</body>
+</html>
