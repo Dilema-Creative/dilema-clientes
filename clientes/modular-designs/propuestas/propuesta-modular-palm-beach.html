@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Modular Palm Beach · Propuesta</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #081726;
+    --panel: #0C2238;
+    --panel-2: #0F2A44;
+    --line: rgba(250,246,238,0.10);
+    --line-2: rgba(250,246,238,0.18);
+    --paper: #FAF6EE;
+    --mute: rgba(250,246,238,0.62);
+    --faint: rgba(250,246,238,0.42);
+    --sky: #5BB4D6;
+    --sage: #4FA27E;
+    --r: 4px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', sans-serif; background: var(--bg); color: var(--paper);
+    line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+  }
+  .wrap { max-width: 1040px; margin: 0 auto; }
+  .lockup { font-family: 'Fraunces', serif; font-weight: 700; letter-spacing: -0.02em; color: var(--paper); white-space: nowrap; }
+  .lockup em { font-style: italic; font-weight: 500; color: var(--sage); }
+  .lockup sup { color: var(--sky); font-size: 0.6em; margin-left: 1px; }
+  .mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.14em; text-transform: uppercase; }
+
+  /* NAV */
+  nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 50; height: 60px; padding: 0 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(8,23,38,0.94); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
+  }
+  nav .lockup { font-size: 21px; }
+  .nav-sub { font-size: 10.5px; color: var(--faint); }
+  .nav-left { display: flex; align-items: center; gap: 14px; }
+  .nav-div { width: 1px; height: 18px; background: var(--line-2); }
+
+  /* HERO */
+  .hero { padding: 150px 40px 90px; position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+  .hero::before {
+    content: ''; position: absolute; top: -160px; right: -120px; width: 640px; height: 640px;
+    background: radial-gradient(circle, rgba(91,180,214,0.16) 0%, transparent 70%); pointer-events: none;
+  }
+  .hero-mark { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; flex-wrap: wrap; }
+  .hero-mark .lockup { font-size: 26px; }
+  .hero-mark .line { width: 40px; height: 1px; background: var(--line-2); }
+  .hero-mark .tag { font-size: 11px; color: var(--faint); }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; margin-bottom: 30px;
+    border: 1px solid rgba(91,180,214,0.35); background: rgba(91,180,214,0.10); border-radius: var(--r);
+    padding: 6px 14px; font-size: 10.5px; color: var(--sky);
+  }
+  .eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--sky); }
+  h1 {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(38px, 6vw, 70px);
+    line-height: 1.03; letter-spacing: -0.03em; max-width: 880px; margin-bottom: 24px;
+  }
+  h1 em, h2 em { font-style: italic; font-weight: 400; color: var(--sky); }
+  .hero-sub { font-size: 17px; font-weight: 300; color: var(--mute); max-width: 660px; line-height: 1.7; margin-bottom: 40px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .pill { border: 1px solid var(--line-2); border-radius: var(--r); padding: 7px 14px; font-size: 10.5px; color: var(--mute); }
+
+  /* SECTIONS */
+  section { padding: 84px 40px; border-bottom: 1px solid var(--line); }
+  .kicker { font-size: 10.5px; color: var(--sky); margin-bottom: 14px; }
+  h2 {
+    font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(30px, 4vw, 48px);
+    line-height: 1.06; letter-spacing: -0.025em; max-width: 760px; margin-bottom: 16px;
+  }
+  .desc { font-size: 16px; font-weight: 300; color: var(--mute); max-width: 680px; line-height: 1.7; margin-bottom: 44px; }
+
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 28px; min-width: 0; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+  .num { font-size: 11px; color: var(--sky); margin-bottom: 14px; }
+  .card h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 22px; letter-spacing: -0.015em; margin-bottom: 8px; }
+  .card p { font-size: 14.5px; color: var(--mute); line-height: 1.65; }
+
+  .check { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+  .check li { font-size: 14.5px; color: var(--mute); padding-left: 22px; position: relative; line-height: 1.5; }
+  .check li::before { content: '✓'; position: absolute; left: 0; color: var(--sage); font-weight: 700; }
+
+  .svc-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding-bottom: 16px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .badge { font-size: 9.5px; font-weight: 700; color: var(--bg); background: var(--sky); padding: 4px 9px; border-radius: 3px; white-space: nowrap; }
+  .badge.sage { background: var(--sage); }
+
+  /* SPLIT */
+  .split { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid var(--line); border-radius: var(--r); margin-top: 18px; overflow: hidden; }
+  .split > div { padding: 26px 28px; min-width: 0; }
+  .split > div:first-child { background: var(--panel-2); border-right: 1px solid var(--line); }
+  .split > div:last-child { background: var(--panel); }
+  .split .mono { font-size: 10.5px; margin-bottom: 12px; }
+  .split > div:first-child .mono { color: var(--sky); }
+  .split > div:last-child .mono { color: var(--faint); }
+  .split .check { margin-top: 0; }
+  .split > div:last-child .check li::before { content: '→'; color: var(--faint); }
+
+  /* ETAPAS */
+  .stage { display: grid; grid-template-columns: 200px 1fr; gap: 28px; padding: 28px 0; border-top: 1px solid var(--line); }
+  .stage:last-child { border-bottom: 1px solid var(--line); }
+  .stage-when { font-size: 11px; color: var(--sky); padding-top: 6px; }
+  .stage h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 24px; letter-spacing: -0.015em; margin-bottom: 8px; }
+  .stage p { font-size: 15px; color: var(--mute); max-width: 640px; line-height: 1.65; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .tags span { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--paper); border: 1px solid var(--line-2); border-radius: var(--r); padding: 4px 10px; }
+
+  /* PRICING */
+  .price-card { display: flex; flex-direction: column; text-align: center; }
+  .price-top { min-height: 26px; display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+  .price-label { font-size: 10.5px; font-weight: 700; color: var(--mute); }
+  .antes { display: block; min-height: 20px; font-size: 13px; color: var(--faint); text-decoration: line-through; margin-bottom: 4px; }
+  .antes.ghost { visibility: hidden; }
+  .price { white-space: nowrap; font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(38px, 3.9vw, 50px); letter-spacing: -0.03em; line-height: 1; }
+  .price small { font-size: 17px; font-weight: 400; color: var(--faint); letter-spacing: 0; }
+  .price-note { font-size: 13.5px; color: var(--faint); margin: 10px 0 0; min-height: 48px; }
+  .price-card .check { text-align: left; width: 100%; padding-top: 20px; border-top: 1px solid var(--line); }
+
+  .total {
+    margin-top: 18px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    border: 1px solid rgba(79,162,126,0.45); background: rgba(79,162,126,0.10); border-radius: var(--r); padding: 22px 28px;
+  }
+  .total .mono { font-size: 10.5px; color: var(--sage); margin-bottom: 4px; }
+  .total p { font-size: 14px; color: var(--mute); }
+  .total strong { font-family: 'Fraunces', serif; font-weight: 500; font-size: 30px; letter-spacing: -0.02em; white-space: nowrap; }
+  .conds { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 12px 28px; margin-top: 26px; }
+  .conds li { font-size: 14px; color: var(--mute); padding-left: 20px; position: relative; line-height: 1.55; }
+  .conds li::before { content: '→'; position: absolute; left: 0; color: var(--sky); }
+  .conds strong { color: var(--paper); font-weight: 500; }
+
+  /* FOOTER */
+  footer { padding: 60px 40px 36px; }
+  .foot-top { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; padding-bottom: 32px; margin-bottom: 24px; border-bottom: 1px solid var(--line); }
+  footer .lockup { font-size: 30px; display: inline-block; margin-bottom: 12px; }
+  .foot-tag { font-size: 14px; font-weight: 300; color: var(--faint); max-width: 360px; line-height: 1.65; }
+  .foot-contact { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+  .foot-contact .mono { font-size: 10px; color: var(--faint); }
+  .foot-contact a { color: var(--paper); text-decoration: none; font-size: 14px; }
+  .foot-contact a:hover { color: var(--sky); }
+  .foot-meta { font-size: 10.5px; color: var(--faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+  .foot-meta span { color: var(--sky); }
+
+  @media (max-width: 900px) {
+    .grid-3 { grid-template-columns: 1fr; }
+    .pricing.grid-3 { max-width: 520px; margin: 0 auto; }
+  }
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; height: 54px; }
+    .nav-div, .nav-sub { display: none; }
+    .hero { padding: 104px 20px 60px; }
+    .hero-mark .lockup { font-size: 22px; }
+    .hero-sub { font-size: 15.5px; }
+    section { padding: 60px 20px; }
+    .desc { font-size: 15px; margin-bottom: 32px; }
+    .grid-2, .split, .conds { grid-template-columns: 1fr; }
+    .split > div:first-child { border-right: none; border-bottom: 1px solid var(--line); }
+    .card { padding: 24px 22px; }
+    .stage { grid-template-columns: 1fr; gap: 8px; }
+    .stage-when { padding-top: 0; }
+    .total { padding: 20px 22px; }
+    footer { padding: 48px 20px 28px; }
+    .foot-contact { align-items: flex-start; }
+  }
+  @media (max-width: 400px) {
+    h1 { font-size: 34px; }
+    .price { font-size: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <span class="lockup">Dilema <em>creative</em><sup>*</sup></span>
+    <span class="nav-div"></span>
+    <span class="nav-sub mono">Propuesta Modular · Palm Beach</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-mark">
+      <span class="lockup">Dilema <em>creative</em><sup>*</sup></span>
+      <span class="line"></span>
+      <span class="tag mono">para Lu · Modular Designs</span>
+    </div>
+    <div class="eyebrow mono">Wellington · Palm Beach</div>
+    <h1>Redes y Meta Ads para arrancar en <em>Palm Beach</em>.</h1>
+    <p class="hero-sub">Una zona nueva y cuentas que arrancan de cero. Esta propuesta reúne las dos cosas que hablamos: la estrategia y el manejo de redes, y la pauta en Meta. Los primeros meses van a que te conozcan; después, a traer consultas.</p>
+    <div class="pills">
+      <span class="pill mono">Estrategia de contenido</span>
+      <span class="pill mono">Redes desde cero</span>
+      <span class="pill mono">Meta Ads</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="kicker mono">01 · El punto de partida</div>
+    <h2>Lo mismo que en Miami, en una <em>zona nueva</em>.</h2>
+    <p class="desc">El producto y el proceso ya están probados. Lo que cambia es que en Wellington y Palm Beach nadie te conoce todavía, y eso define cómo arrancamos.</p>
+    <div class="grid-3">
+      <div class="card">
+        <div class="num mono">Zona</div>
+        <h3>Un público distinto</h3>
+        <p>Otra zona, otro perfil de casa y otra mezcla de idioma. La estrategia se arma para Palm Beach, no se copia la de Miami.</p>
+      </div>
+      <div class="card">
+        <div class="num mono">Redes</div>
+        <h3>Cuentas desde cero</h3>
+        <p>Creamos y armamos las redes de la zona para que, cuando alguien llegue por un anuncio, encuentre contenido que le dé confianza.</p>
+      </div>
+      <div class="card">
+        <div class="num mono">Orden</div>
+        <h3>Primero que te conozcan</h3>
+        <p>Nadie te pide presupuesto de una casita sin haberte visto antes. Por eso primero reconocimiento y consideración, y después consultas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker mono">02 · Las dos patas</div>
+    <h2>Lo que hace cada <em>servicio</em>.</h2>
+    <p class="desc">Se pueden tomar por separado, pero rinden más juntos: el contenido de las redes es el mismo que después se usa como anuncio.</p>
+    <div class="grid-2">
+      <div class="card">
+        <div class="svc-head">
+          <h3>Community manager</h3>
+          <span class="badge mono">Estrategia + redes</span>
+        </div>
+        <p>La estrategia de contenido y el día a día de las cuentas, con foco en la primera etapa: qué contar, cómo y en qué orden.</p>
+        <ul class="check">
+          <li>Creación y armado de las redes de la zona</li>
+          <li>Estrategia de contenido y pilares de comunicación</li>
+          <li>12 guiones por mes, listos para grabar</li>
+          <li>Calendario mensual de publicación</li>
+          <li>Copies y publicación de cada pieza</li>
+          <li>Reporte mensual de crecimiento</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="svc-head">
+          <h3>Meta Ads</h3>
+          <span class="badge mono">Pauta</span>
+        </div>
+        <p>Campañas en Instagram y Facebook segmentadas a Wellington y Palm Beach, separadas de las de Miami para no competir entre equipos.</p>
+        <ul class="check">
+          <li>Cuenta publicitaria y medición configuradas</li>
+          <li>Campañas de reconocimiento y seguidores</li>
+          <li>Consideración: volver a quien ya te vio</li>
+          <li>Paso a consultas por formulario o WhatsApp</li>
+          <li>Optimización semanal de campañas y anuncios</li>
+          <li>Portal con los resultados al día</li>
+        </ul>
+      </div>
+    </div>
+    <div class="split">
+      <div>
+        <div class="mono">Lo que hacemos nosotros</div>
+        <ul class="check">
+          <li>Qué grabar, con guion y orden de publicación</li>
+          <li>Publicar, escribir los textos y medir</li>
+          <li>Armar y optimizar toda la pauta</li>
+        </ul>
+      </div>
+      <div>
+        <div class="mono">Lo que hacés vos</div>
+        <ul class="check">
+          <li>Grabar y editar cada pieza</li>
+          <li>Contestar mensajes y consultas</li>
+          <li>Darnos la devolución de cada contacto</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker mono">03 · Cómo avanza</div>
+    <h2>Dos etapas, en <em>este orden</em>.</h2>
+    <p class="desc">Con cuentas nuevas, salir a pedir consultas desde el primer día sale caro y trae contactos fríos. Primero construimos la base.</p>
+    <div class="stage">
+      <div class="stage-when mono">Noviembre y diciembre</div>
+      <div>
+        <h3>Reconocimiento y consideración</h3>
+        <p>Que la zona te vea, que te siga y que vuelva a encontrarte. Las redes se llenan de contenido y la pauta lo hace llegar a la gente correcta.</p>
+        <div class="tags"><span>Alcance</span><span>Seguidores</span><span>Reproducciones</span><span>Retargeting</span></div>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="stage-when mono">Después</div>
+      <div>
+        <h3>Consultas</h3>
+        <p>Con audiencia y contenido ya armados, pasamos a campañas de leads hacia formulario o WhatsApp, apoyadas en la gente que ya te conoce.</p>
+        <div class="tags"><span>Formulario</span><span>WhatsApp</span><span>Costo por consulta</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="kicker mono">04 · Inversión</div>
+    <h2>Por servicio o <em>los dos juntos</em>.</h2>
+    <p class="desc">El fee es el servicio de Dilema. La inversión en Meta va aparte y se paga directo a la plataforma, con tu tarjeta.</p>
+    <div class="grid-3 pricing">
+      <div class="card price-card">
+        <div class="price-top"><span class="price-label mono">Community manager</span></div>
+        <span class="antes ghost">&nbsp;</span>
+        <div class="price">USD 450<small>/mes</small></div>
+        <p class="price-note">Estrategia, guiones y manejo de las redes.</p>
+        <ul class="check">
+          <li>Creación de las redes de la zona</li>
+          <li>Estrategia y pilares de contenido</li>
+          <li>12 guiones por mes</li>
+          <li>Calendario y publicación</li>
+          <li>Copies de cada pieza</li>
+          <li>Reporte mensual</li>
+        </ul>
+      </div>
+      <div class="card price-card">
+        <div class="price-top"><span class="price-label mono">Redes + Meta Ads</span><span class="badge sage mono">Ahorrás USD 100</span></div>
+        <span class="antes">USD 1.100 por separado</span>
+        <div class="price">USD 1.000<small>/mes</small></div>
+        <p class="price-note">Una sola estrategia para redes y pauta.</p>
+        <ul class="check">
+          <li>Todo lo de Community manager</li>
+          <li>Todo lo de Meta Ads</li>
+          <li>Lo mejor de redes pasa a anuncio</li>
+          <li>Guiones para las dos etapas</li>
+          <li>Optimización semanal</li>
+          <li>Reporte unificado y portal</li>
+        </ul>
+      </div>
+      <div class="card price-card">
+        <div class="price-top"><span class="price-label mono">Meta Ads</span></div>
+        <span class="antes ghost">&nbsp;</span>
+        <div class="price">USD 650<small>/mes</small></div>
+        <p class="price-note">Pauta en Instagram y Facebook para la zona.</p>
+        <ul class="check">
+          <li>Cuenta publicitaria y medición</li>
+          <li>Reconocimiento y seguidores</li>
+          <li>Retargeting de consideración</li>
+          <li>Campañas de consultas</li>
+          <li>Optimización semanal</li>
+          <li>Portal con resultados</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="total">
+      <div>
+        <div class="mono">Inversión en Meta · primera etapa</div>
+        <p>USD 15 por día durante reconocimiento. Se revisa al pasar a consultas.</p>
+      </div>
+      <strong>USD 450 por mes</strong>
+    </div>
+
+    <ul class="conds">
+      <li><strong>Fee mensual</strong>, se abona a mes adelantado.</li>
+      <li><strong>Plan pensado a 3 meses:</strong> dos de reconocimiento y el arranque de consultas.</li>
+      <li><strong>La pauta no pasa por nosotros:</strong> Meta la cobra directo en tu tarjeta.</li>
+      <li><strong>Grabación y edición</strong> quedan de tu lado, con nuestros guiones.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <span class="lockup">Dilema <em>creative</em><sup>*</sup></span>
+        <p class="foot-tag">Agencia de marketing digital enfocada en estrategia integral. Trabajamos los canales como un sistema, no como esfuerzos sueltos. Pocos clientes, máximo servicio.</p>
+      </div>
+      <div class="foot-contact">
+        <span class="mono">Contacto</span>
+        <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a>
+        <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+        <a href="https://instagram.com/dilema.creative" target="_blank" rel="noopener">@dilema.creative</a>
+      </div>
+    </div>
+    <div class="foot-meta mono">
+      <div>Dilema Creative <span>·</span> 2026 <span>·</span> Propuesta Modular Palm Beach</div>
+      <div>Buenos Aires <span>·</span> Argentina</div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
