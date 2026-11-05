@@ -250,7 +250,7 @@ input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(
 .mej p{font-size:14.5px;color:var(--muted)}
 
 /* detrás */
-.detras{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:20px}
+.detras{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
 .det{border:1px solid var(--border);border-radius:var(--r);padding:26px;background:var(--surface);min-width:0}
 .det .tag{display:inline-block;font-family:var(--mono);font-size:11.5px;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:4px 10px;margin-bottom:16px}
 .det h3{margin-bottom:12px}
@@ -292,6 +292,23 @@ input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(
 .necesitamos ul{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 24px}
 .necesitamos li{display:grid;grid-template-columns:20px 1fr;gap:10px;font-size:14.5px;color:var(--muted)}
 .necesitamos li i{color:var(--accent);font-size:17px;margin-top:2px}
+
+/* inversión */
+.precios{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.precio{border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:34px 32px;min-width:0;display:flex;flex-direction:column}
+.precio.pri{border-color:rgba(92,199,157,.3);background:radial-gradient(ellipse at 0% 0%,rgba(92,199,157,.14),transparent 60%),var(--surface)}
+.p-et{font-size:14px;font-weight:500;color:var(--muted)}
+.precio.pri .p-et{color:var(--accent)}
+.monto{display:flex;align-items:baseline;gap:10px;font-size:clamp(2.4rem,4.6vw,3.4rem);font-weight:600;letter-spacing:-.05em;line-height:1;margin:16px 0 12px;font-variant-numeric:tabular-nums}
+.monto small{font-size:15px;font-weight:400;letter-spacing:0;color:var(--muted)}
+.p-alt{font-size:15px;color:var(--muted)}
+.p-alt b{color:var(--accent);font-weight:500}
+.precio .cierre-lista{margin-top:26px;padding-top:24px;border-top:1px solid var(--border)}
+.condiciones{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.condiciones > div{display:grid;grid-template-columns:22px 1fr;gap:12px;border:1px solid var(--border);border-radius:var(--r);padding:20px 24px;background:var(--surface);min-width:0}
+.condiciones i{color:var(--accent);font-size:20px;margin-top:1px}
+.condiciones p{font-size:15px;color:var(--muted)}
+.condiciones p b{display:block;color:var(--text);font-weight:500}
 
 /* cierre */
 .cierre{border:1px solid rgba(92,199,157,.28);border-radius:24px;padding:64px 56px;background:radial-gradient(ellipse at 0% 0%,rgba(92,199,157,.16),transparent 60%),var(--surface);display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);gap:40px;align-items:center}
@@ -364,7 +381,8 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   .cond{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .pantallas{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .pantallas > :first-child{grid-column:1 / -1}
-  .modulos,.mejoras,.detras,.hallazgos,.dudas{grid-template-columns:minmax(0,1fr)}
+  .modulos,.mejoras,.detras,.hallazgos,.dudas,.precios,.condiciones{grid-template-columns:minmax(0,1fr)}
+  .precio{padding:26px 22px}
   .hz{padding:22px}
   .duda{padding:20px;grid-template-columns:32px 1fr;gap:14px}
   .duda .num{width:32px;height:32px}
@@ -518,38 +536,8 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
 <section>
   <div class="wrap">
     <div class="shead rev">
-      <h2>Parecido a lo que usan. <span class="ac">Distinto</span> por dentro.</h2>
-      <p class="lead">Nadie tiene que aprender de cero. El sistema respeta cómo ya trabajan en CSArq y en la planilla de obra, y cambia lo que no se ve: cómo se conecta cada dato con el resto.</p>
-    </div>
-    <div class="compara">
-      <div class="lado rev">
-        <div class="t"><i class="ph ph-arrows-clockwise"></i>Lo que se mantiene</div>
-        <ul class="lista">
-          <li><i class="ph ph-check"></i>Cliente, obra, presupuesto e ítems, en el mismo orden que CSArq.</li>
-          <li><i class="ph ph-check"></i>Los 17 rubros, con costo y venta por ítem y el precio calculado con % interno e IIBB.</li>
-          <li><i class="ph ph-check"></i>El certificado con avance anterior, de este mes y acumulado, honorarios, demasías, economías y CAC 40/60.</li>
-          <li><i class="ph ph-check"></i>La liquidación al cliente armada igual que la orden de pago de hoy, y la cuenta con y sin factura.</li>
-        </ul>
-      </div>
-      <div class="lado nuevo rev" style="--d:.08s">
-        <div class="t"><i class="ph ph-sparkle"></i>Lo que cambia</div>
-        <ul class="lista">
-          <li><i class="ph-fill ph-check-circle"></i>El presupuesto aprobado alimenta solo a los proveedores, a los certificados y a la cuenta del cliente.</li>
-          <li><i class="ph-fill ph-check-circle"></i>El certificado nuevo ya trae lo acumulado: solo se carga el avance del mes.</li>
-          <li><i class="ph-fill ph-check-circle"></i>Cada factura sale con CAE desde el certificado, y las de proveedores llegan desde ARCA.</li>
-          <li><i class="ph-fill ph-check-circle"></i>CUIT validado y traído del padrón; archivar en vez de borrar.</li>
-        </ul>
-      </div>
-    </div>
-    <p class="frase rev">La misma forma de trabajar, sin copiar hojas ni pasar números de un lado a <span class="ac">otro</span>.</p>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="shead rev">
-      <h2>Cada dato, una sola vez.</h2>
-      <p class="lead">Lo que hoy se carga en más de un lugar, y cómo queda con el sistema.</p>
+      <h2>Mismo circuito. Cada dato, <span class="ac">una sola vez</span>.</h2>
+      <p class="lead">Nadie aprende de cero: siguen los 17 rubros, costo y venta por ítem, el avance mensual, demasías y economías, el CAC 40/60, la liquidación y la cuenta con y sin factura. Lo que cambia es que nada se carga dos veces.</p>
     </div>
     <div class="tabla rev">
       <div class="fila cab"><div></div><div>Hoy</div><div>Con el sistema</div></div>
@@ -690,47 +678,14 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
 <section>
   <div class="wrap">
     <div class="shead rev">
-      <h2>Lo que cambia en el día a día.</h2>
-    </div>
-    <div class="mejoras rev">
-      <div class="mej"><i class="ph ph-equals"></i><h3>Un solo número</h3><p>La obra, la cuenta del cliente y la tesorería dicen lo mismo.</p></div>
-      <div class="mej"><i class="ph ph-timer"></i><h3>Certificar en minutos</h3><p>Un porcentaje por ítem y la liquidación sale sola.</p></div>
-      <div class="mej"><i class="ph ph-bell-ringing"></i><h3>Avisos del día</h3><p>Cheques, cobros, el índice CAC y las tareas vencidas.</p></div>
-      <div class="mej"><i class="ph ph-scales"></i><h3>Cuánto queda en cada obra</h3><p>Lo previsto contra lo real, con cada carga.</p></div>
-      <div class="mej"><i class="ph ph-archive"></i><h3>Limpiar sin perder</h3><p>Archivar lo viejo sin tocar su historia.</p></div>
-      <div class="mej"><i class="ph ph-cloud-arrow-down"></i><h3>Facturas sin tipear</h3><p>Las de proveedores llegan desde ARCA.</p></div>
-      <div class="mej"><i class="ph ph-magnifying-glass"></i><h3>Todo se encuentra</h3><p>Con Ctrl K: obra, cliente, proveedor o CUIT.</p></div>
-      <div class="mej"><i class="ph ph-device-mobile"></i><h3>Desde la obra</h3><p>El avance y las tareas, desde el celular.</p></div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="shead rev">
       <h2>Lo que vieron es la parte <span class="ac">visible</span>.</h2>
       <p class="lead">La maqueta muestra cómo se va a ver y cómo se va a usar. Por debajo todavía no hay nada conectado: no factura de verdad, los datos son inventados y quedan solo en el navegador. Construir eso es la mayor parte del trabajo.</p>
     </div>
-    <div class="tabla rev">
-      <div class="fila cab"><div></div><div>La maqueta</div><div>El sistema</div></div>
-      <div class="fila"><div>Datos</div><div data-l="Maqueta:">Ejemplos inventados, en el navegador</div><div data-l="Sistema:">Base propia de Momo, con respaldo diario cifrado</div></div>
-      <div class="fila"><div>Facturas</div><div data-l="Maqueta:">Numeración y CAE simulados</div><div data-l="Sistema:">Emitidas en ARCA con CAE, QR y notas de crédito</div></div>
-      <div class="fila"><div>Facturas de proveedores</div><div data-l="Maqueta:">Una lista de ejemplo</div><div data-l="Sistema:">Consultadas a ARCA todos los días</div></div>
-      <div class="fila"><div>Padrón de CUIT</div><div data-l="Maqueta:">Dos CUIT de prueba</div><div data-l="Sistema:">Razón social y condición de IVA desde ARCA</div></div>
-      <div class="fila"><div>Usuarios</div><div data-l="Maqueta:">Un selector para ver como cada perfil</div><div data-l="Sistema:">Cada persona con su usuario, clave y registro</div></div>
-      <div class="fila"><div>Avisos</div><div data-l="Maqueta:">En la pantalla de inicio</div><div data-l="Sistema:">También por mail a cada responsable</div></div>
-      <div class="fila"><div>Su información</div><div data-l="Maqueta:">No está</div><div data-l="Sistema:">Clientes, proveedores, obras y presupuestos de CSArq, y las obras en curso</div></div>
-    </div>
-
-    <h3 class="sub-h rev">Lo que hay detrás de cada pantalla</h3>
-    <p class="sub-p rev">Seis frentes de trabajo que no se ven en la maqueta y son los que hacen que el sistema funcione de verdad.</p>
     <div class="detras">
       <div class="det rev"><span class="tag">ARCA</span><h3>Facturación con validez fiscal</h3><ul><li>Certificado, punto de venta y pruebas.</li><li>Comprobante según la condición de cada cliente.</li><li>Qué hacer si ARCA no responde.</li></ul></div>
       <div class="det rev" style="--d:.05s"><span class="tag">Cálculos</span><h3>Su planilla, sin margen de error</h3><ul><li>Certificado, CAC, anticipo y honorarios probados contra su planilla.</li><li>Pesos y dólares con tipo de cambio explícito.</li><li>Redondeos iguales en pantalla y en PDF.</li></ul></div>
       <div class="det rev" style="--d:.1s"><span class="tag">Migración</span><h3>Pasar CSArq sin perder nada</h3><ul><li>Clientes, proveedores, obras y presupuestos.</li><li>CUIT a completar marcados, no descartados.</li><li>Lo que no se usa hace años, archivado.</li></ul></div>
-      <div class="det rev"><span class="tag">Permisos</span><h3>Cada perfil ve lo suyo</h3><ul><li>Controlado en el servidor, no solo en pantalla.</li><li>Márgenes y "sin factura" solo para Socios.</li><li>Registro de quién hizo qué.</li></ul></div>
-      <div class="det rev" style="--d:.05s"><span class="tag">Seguridad</span><h3>Los datos, cuidados</h3><ul><li>Copias diarias cifradas y probadas.</li><li>Nada se guarda a medias.</li><li>Acceso solo con usuario y clave.</li></ul></div>
-      <div class="det rev" style="--d:.1s"><span class="tag">Puesta en marcha</span><h3>Sin cortar la operación</h3><ul><li>Las obras nuevas arrancan en el sistema.</li><li>Las que están en curso se pasan con ustedes.</li><li>Capacitación por perfil, con sus obras.</li></ul></div>
+      <div class="det rev" style="--d:.15s"><span class="tag">Puesta en marcha</span><h3>Sin cortar la operación</h3><ul><li>Las obras nuevas arrancan en el sistema.</li><li>Las que están en curso se pasan con ustedes.</li><li>Capacitación por perfil, con sus obras.</li></ul></div>
     </div>
   </div>
 </section>
@@ -776,24 +731,47 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="duda rev" style="--d:.04s"><span class="num">06</span><div><h3>¿Un certificado puede ir parte con factura y parte sin?</h3><p>En la maqueta, cada certificado es todo con factura o todo sin. Lo ideal es definirlo con su estudio contable.</p></div></div>
       <div class="duda rev"><span class="num">07</span><div><h3>¿Qué perfiles necesitan y qué ve cada uno?</h3><p>Partimos de Socios, Arquitectos y Administración. Se suman los que hagan falta, cada uno con sus permisos.</p></div></div>
       <div class="duda rev" style="--d:.04s"><span class="num">08</span><div><h3>¿Por dónde llegan los avisos?</h3><p>Dentro del sistema y por mail a cada responsable. Si prefieren otro canal, lo vemos.</p></div></div>
-      <div class="duda rev"><span class="num">09</span><div><h3>¿Qué obras en curso pasamos?</h3><p>Y con qué saldo arranca cada cliente y cada proveedor, confirmado por ustedes.</p></div></div>
-      <div class="duda rev" style="--d:.04s"><span class="num">10</span><div><h3>¿Cómo facturan hoy en ARCA?</h3><p>Tipos de factura, punto de venta y el contacto del estudio contable, para dejarlo configurado desde el arranque.</p></div></div>
+      <div class="duda rev"><span class="num">09</span><div><h3>¿Con qué saldo arranca cada cliente y proveedor?</h3><p>Lo confirmamos con ustedes al pasar las obras en curso, para que el sistema arranque con números reales.</p></div></div>
+      <div class="duda rev" style="--d:.04s"><span class="num">10</span><div><h3>¿Qué comprobantes emiten hoy?</h3><p>Factura A, B o ambas, y desde qué punto de venta, para que ARCA quede igual desde el primer día.</p></div></div>
     </div>
   </div>
 </section>
 
-<section>
+<section id="inversion">
   <div class="wrap">
-    <div class="cierre rev">
-      <div>
-        <h2>El próximo paso: recorrerlo juntos.</h2>
-        <p class="lead">Lo vemos pantalla por pantalla con ustedes, anotamos lo que cambiarían y con eso cerramos el alcance, la inversión y los tiempos de cada etapa.</p>
+    <div class="shead rev">
+      <h2>Inversión.</h2>
+      <p class="lead">Un pago por el sistema completo y un abono mensual para que se mantenga andando.</p>
+    </div>
+    <div class="precios">
+      <div class="precio pri rev">
+        <span class="p-et">El sistema completo</span>
+        <b class="monto">USD 8.400</b>
+        <p class="p-alt">Las cuatro etapas, con la facturación con ARCA desde el arranque.</p>
+        <ul class="cierre-lista">
+          <li><i class="ph ph-check-circle"></i>Todas las pantallas de esta propuesta, funcionando</li>
+          <li><i class="ph ph-check-circle"></i>ARCA configurado: facturas con CAE, compras y padrón</li>
+          <li><i class="ph ph-check-circle"></i>Migración de CSArq y de las obras en curso</li>
+          <li><i class="ph ph-check-circle"></i>Usuarios y los perfiles que necesiten</li>
+          <li><i class="ph ph-check-circle"></i>Puesta en marcha, capacitación y ajustes después de la entrega</li>
+        </ul>
       </div>
-      <ul class="cierre-lista">
-        <li><i class="ph ph-check-circle"></i>Recorrido del sistema con cada perfil</li>
-        <li><i class="ph ph-check-circle"></i>Los puntos a definir, resueltos</li>
-        <li><i class="ph ph-check-circle"></i>Alcance, inversión y tiempos por etapa</li>
-      </ul>
+      <div class="precio rev" style="--d:.06s">
+        <span class="p-et">Mantenimiento</span>
+        <b class="monto">USD 200<small>por mes</small></b>
+        <p class="p-alt">O <b>USD 2.000 al año</b>, con dos meses bonificados.</p>
+        <ul class="cierre-lista">
+          <li><i class="ph ph-check-circle"></i>Servidor, base de datos y respaldo diario</li>
+          <li><i class="ph ph-check-circle"></i>Soporte ante cualquier problema</li>
+          <li><i class="ph ph-check-circle"></i>Correcciones sin cargo</li>
+          <li><i class="ph ph-check-circle"></i>Actualizaciones cuando ARCA cambie sus reglas</li>
+          <li><i class="ph ph-check-circle"></i>Cambios chicos sobre lo que ya existe</li>
+        </ul>
+      </div>
+    </div>
+    <div class="condiciones rev">
+      <div><i class="ph ph-handshake"></i><p><b>Forma de pago y cuotas</b>A convenir.</p></div>
+      <div><i class="ph ph-plus-circle"></i><p><b>Se cotiza aparte</b>Módulos nuevos que hoy no están en esta propuesta.</p></div>
     </div>
   </div>
 </section>
