@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tresescuadras.com.ar/sitemap.xml
