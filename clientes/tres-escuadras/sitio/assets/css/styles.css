@@ -406,7 +406,7 @@ body.menu-open { overflow: hidden; }
 
 /* ---------- Footer (banda navy que cierra la página) ---------- */
 .site-footer { background: var(--panel); color: color-mix(in srgb, var(--on-panel) 78%, transparent); padding-top: 64px; font-size: 0.97rem; }
-.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1.3fr; gap: 40px; }
 .footer-grid .f-title { font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--on-panel) 60%, transparent); font-weight: 600; margin-bottom: 14px; }
 .footer-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .footer-grid a { color: var(--on-panel); text-decoration: none; }
