@@ -260,8 +260,26 @@ input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 6px rgba(
 .sub-h{font-size:1.5rem;font-weight:600;letter-spacing:-.03em;margin:72px 0 6px}
 .sub-p{color:var(--muted);margin-bottom:26px;max-width:60ch}
 
+/* diagnóstico */
+.hallazgos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.hz{border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:24px;display:flex;flex-direction:column;min-width:0}
+.hz .tag{align-self:flex-start;font-family:var(--mono);font-size:11.5px;color:var(--muted);background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:3px 10px;margin-bottom:16px}
+.hz h3{margin-bottom:8px}
+.hz p{font-size:14.5px;color:var(--muted)}
+.hz p b{color:var(--warm);font-weight:500;white-space:nowrap}
+.hz .sol{margin-top:auto;padding-top:18px}
+.hz .sol div{display:grid;grid-template-columns:20px 1fr;gap:10px;border-top:1px solid var(--border);padding-top:14px;font-size:14px;color:var(--text);line-height:1.5}
+.hz .sol i{color:var(--accent);font-size:17px;margin-top:1px}
+
+/* dudas */
+.dudas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.duda{border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:22px 24px;display:grid;grid-template-columns:36px 1fr;gap:16px;min-width:0}
+.duda .num{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:500 13px var(--mono);color:var(--accent);border:1px solid rgba(92,199,157,.4)}
+.duda h3{font-size:1rem;margin:6px 0 6px}
+.duda p{font-size:14px;color:var(--muted)}
+
 /* etapas */
-.linea{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px;position:relative}
+.linea{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;position:relative}
 .linea::before{content:'';position:absolute;top:21px;left:22px;right:22px;height:1px;background:linear-gradient(90deg,var(--accent),rgba(92,199,157,.15))}
 .et{position:relative;min-width:0}
 .et .pt{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:500 14px var(--mono);color:var(--accent);background:var(--bg);border:1px solid rgba(92,199,157,.45);box-shadow:0 0 0 6px var(--bg);margin-bottom:22px;position:relative}
@@ -302,6 +320,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   .mej:nth-last-child(-n+4){border-bottom:1px solid var(--border)}
   .mej:nth-last-child(-n+2){border-bottom:0}
   .detras{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hallazgos{grid-template-columns:repeat(2,minmax(0,1fr))}
   .calc{grid-template-columns:minmax(0,1fr)}
   .tour{grid-template-columns:minmax(0,1fr)}
   .tabs{position:static;display:flex;overflow-x:auto;gap:8px;padding-bottom:4px;scrollbar-width:none}
@@ -345,7 +364,10 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   .cond{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .pantallas{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .pantallas > :first-child{grid-column:1 / -1}
-  .modulos,.mejoras,.detras{grid-template-columns:minmax(0,1fr)}
+  .modulos,.mejoras,.detras,.hallazgos,.dudas{grid-template-columns:minmax(0,1fr)}
+  .hz{padding:22px}
+  .duda{padding:20px;grid-template-columns:32px 1fr;gap:14px}
+  .duda .num{width:32px;height:32px}
   .mej,.mej:nth-child(4n),.mej:nth-child(2n){border-right:0}
   .mej:nth-last-child(-n+4){border-bottom:1px solid var(--border)}
   .mej:last-child{border-bottom:0}
@@ -427,9 +449,9 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       </div>
       <div class="celda c-b rev" style="--d:.06s">
         <span class="ic"><i class="ph ph-users-three"></i></span>
-        <h3>Tres perfiles</h3>
+        <h3>Los perfiles que necesiten</h3>
         <p>Cada uno ve lo que le toca.</p>
-        <div class="chips" aria-hidden="true"><span><b>Socios</b><em>Todo</em></span><span><b>Arquitectos</b><em>Obra, sin plata</em></span><span><b>Administración</b><em>Plata, sin márgenes</em></span></div>
+        <div class="chips" aria-hidden="true"><span><b>Socios</b><em>Todo</em></span><span><b>Arquitectos</b><em>Obra, sin plata</em></span><span><b>Administración</b><em>Plata, sin márgenes</em></span><span><b>Los que sumen</b><em>A medida</em></span></div>
       </div>
       <div class="celda c-c rev">
         <span class="ic"><i class="ph ph-receipt"></i></span>
@@ -457,6 +479,38 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
         <h3>Limpiar sin perder historia</h3>
         <p>Clientes, proveedores o empleados que ya no trabajan con ustedes se archivan: salen de las listas y su historia queda intacta.</p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section id="diagnostico">
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Lo que <span class="ac">encontramos</span>.</h2>
+      <p class="lead">Probamos la planilla de obra con una obra de ejemplo de 5 meses, con sus mismas fórmulas, y recorrimos CSArq. No son errores de quien la usa: son límites de las herramientas. Los números son de esa obra de prueba.</p>
+    </div>
+    <div class="hallazgos">
+      <div class="hz rev"><span class="tag">Planilla de obra</span><h3>El anticipo no se descuenta</h3><p>La orden de pago suma certificado, honorarios, demasías y CAC, pero no resta el anticipo. En la obra de prueba pide <b>$ 121,9 M</b> cuando lo neto es <b>$ 91,3 M</b>.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>El anticipo se descuenta solo en cada certificado.</div></div></div>
+      <div class="hz rev" style="--d:.04s"><span class="tag">Planilla de obra</span><h3>Sin índice CAC, resta todo</h3><p>Si el índice del mes no se carga, el ajuste da −100% y descuenta el certificado entero: <b>−$ 2.460.000</b> en un certificado de prueba.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>Sin el índice del mes no deja emitir, y lo avisa en Inicio.</div></div></div>
+      <div class="hz rev" style="--d:.08s"><span class="tag">Planilla de obra</span><h3>Avances de más del 100%</h3><p>Si un mes no se pasa el acumulado a "anterior", nada avisa: un ítem quedó certificado al <b>150%</b>.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>Trae el acumulado solo y frena en el 100%.</div></div></div>
+      <div class="hz rev"><span class="tag">Planilla de obra</span><h3>Demasías cobradas dos veces</h3><p>La orden de pago copiada sigue mirando el certificado anterior: si no se reconecta, vuelve a cobrar las demasías viejas.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>Cada demasía se cobra una vez y queda marcada como cobrada.</div></div></div>
+      <div class="hz rev" style="--d:.04s"><span class="tag">Planilla de obra</span><h3>Costos que suman doble</h3><p>Los bloques "Momo $" y "Momo U$" cuentan cada monto dos veces: <b>$ 500.000</b> aparecen como <b>$ 1.000.000</b>. Y los dólares no llegan al costo de la obra.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>El costo sale de una sola fuente, con pesos y dólares por separado.</div></div></div>
+      <div class="hz rev" style="--d:.08s"><span class="tag">Planilla de obra</span><h3>Un margen que no es el real</h3><p>Los rubros "en demasías" suman costo sin precio de venta: el margen previsto da <b>27%</b> cuando es <b>35%</b>.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>Lo que falta definir queda aparte y no toca el margen.</div></div></div>
+      <div class="hz rev"><span class="tag">Planilla de obra</span><h3>Saldos que se rompen solos</h3><p>Desde la fila 62 la cuenta corriente saltea renglones: con movimientos de 10, 20 y 40, el saldo da <b>40</b> en vez de <b>70</b>, y el error sigue hasta el final.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>Los saldos los calcula el sistema, siempre.</div></div></div>
+      <div class="hz rev" style="--d:.04s"><span class="tag">Planilla de obra</span><h3>Fin de mes en diez pasos</h3><p>Pasar acumulados, copiar hojas, reconectar fórmulas que quedan en #REF! y volver a tipear en la cuenta corriente. Y las fechas cambian cada vez que se abre el archivo.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>Un botón: el certificado ya trae todo y la fecha queda fija al emitir.</div></div></div>
+      <div class="hz rev" style="--d:.08s"><span class="tag">Planilla de obra</span><h3>Nadie sabe cuánto queda</h3><p>Ninguna celda dice cuánto le queda a Momo en cada obra: hay que cruzar cuatro hojas a mano. Y el detalle de los meses anteriores se pisa.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>"Cómo viene la obra" lo muestra con cada carga, y cada certificado queda guardado.</div></div></div>
+      <div class="hz rev"><span class="tag">CSArq</span><h3>Borrar es perder la historia</h3><p>Al eliminar un cliente o proveedor viejo se borra todo lo que tenía asociado. Por eso hoy hay miles de registros que no se pueden limpiar.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>Se archiva: sale de las listas y su historia queda intacta.</div></div></div>
+      <div class="hz rev" style="--d:.04s"><span class="tag">CSArq</span><h3>Cuentas que no son las reales</h3><p>Los pagos casi no se cargan desde 2024 y hay cheques de 2020 todavía pendientes, así que los saldos de clientes y proveedores no reflejan lo que pasa.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>Cada pago y cobro se carga una vez, en la obra, y los saldos salen de ahí.</div></div></div>
+      <div class="hz rev" style="--d:.08s"><span class="tag">CSArq</span><h3>CUIT que no son CUIT</h3><p>Solo <b>1 de cada 3</b> clientes tiene un CUIT válido (el sistema acepta 11111111111) y <b>3 de cada 4</b> proveedores no tienen uno.</p><div class="sol"><div><i class="ph-fill ph-check-circle"></i>CUIT obligatorio, validado y con los datos traídos de ARCA.</div></div></div>
+    </div>
+
+    <h3 class="sub-h rev">En resumen, cómo lo resuelve el sistema</h3>
+    <p class="sub-p rev">Cuatro reglas que atraviesan todas las pantallas.</p>
+    <div class="mejoras rev">
+      <div class="mej"><i class="ph ph-copy"></i><h3>Cada dato, una vez</h3><p>Se carga en un solo lugar y alimenta el resto. Nada se copia ni se retipea.</p></div>
+      <div class="mej"><i class="ph ph-calculator"></i><h3>Las cuentas, solas</h3><p>Con sus reglas de honorarios, CAC y anticipo, sin fórmulas que se rompan.</p></div>
+      <div class="mej"><i class="ph ph-shield-check"></i><h3>Frena el error antes</h3><p>No deja pasar del 100%, emitir sin índice, pagar de más ni cargar un CUIT falso.</p></div>
+      <div class="mej"><i class="ph ph-clock-counter-clockwise"></i><h3>Nada se pisa</h3><p>Cada certificado, pago y registro archivado conserva su historia.</p></div>
     </div>
   </div>
 </section>
@@ -627,7 +681,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="mod rev" style="--d:.12s"><i class="ph ph-bank ic"></i><h3>Bancos, cheques y caja</h3><p class="para">Cuánta plata hay de verdad y qué cheques vencen.</p><ul><li>Saldo de cada banco y del efectivo.</li><li>Cheques de terceros y propios.</li><li>Aviso de diferidos al cobro.</li><li>Caja chica como costo de obra.</li></ul></div>
       <div class="mod rev"><i class="ph ph-kanban ic"></i><h3>Tareas</h3><p class="para">Lo que hoy está en Trello, conectado con cada obra.</p><ul><li>Tablero general, filtrable por obra.</li><li>Responsable y vencimiento.</li><li>Aviso si ya hay una igual.</li><li>"Mis tareas" para cada uno.</li></ul></div>
       <div class="mod rev" style="--d:.04s"><i class="ph ph-address-book ic"></i><h3>Clientes y proveedores</h3><p class="para">Datos limpios desde el alta, sin CUIT mal cargados.</p><ul><li>CUIT obligatorio y validado.</li><li>Datos traídos del padrón.</li><li>Archivar sin perder historia.</li><li>Rubros de cada proveedor.</li></ul></div>
-      <div class="mod rev" style="--d:.08s"><i class="ph ph-user-gear ic"></i><h3>Perfiles y registro</h3><p class="para">Cada uno ve lo suyo y queda registrado quién hizo qué.</p><ul><li>Socios, Arquitectos y Administración.</li><li>Usuario y clave por persona.</li><li>Quién cargó o cambió cada cosa.</li><li>Computadora, tablet o celular.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-user-gear ic"></i><h3>Perfiles y registro</h3><p class="para">Cada uno ve lo suyo y queda registrado quién hizo qué.</p><ul><li>Socios, Arquitectos, Administración y los que sumen.</li><li>Usuario y clave por persona.</li><li>Quién cargó o cambió cada cosa.</li><li>Computadora, tablet o celular.</li></ul></div>
       <div class="mod rev" style="--d:.12s"><i class="ph ph-shield-check ic"></i><h3>Respaldo y seguridad</h3><p class="para">La información de Momo, cuidada y siempre disponible.</p><ul><li>Copia diaria cifrada.</li><li>Conexión segura.</li><li>Nada se guarda a medias.</li><li>Los datos son de Momo.</li></ul></div>
     </div>
   </div>
@@ -685,25 +739,45 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   <div class="wrap">
     <div class="shead rev">
       <h2>Por etapas, y cada una se prueba con ustedes.</h2>
-      <p class="lead">Mientras se construye, siguen trabajando como hoy. Cada etapa reemplaza una herramienta, y se pasa a la siguiente cuando la anterior ya se usa.</p>
+      <p class="lead">Mientras se construye, siguen trabajando como hoy. ARCA queda configurado desde el primer día, cada etapa reemplaza una herramienta y se pasa a la siguiente cuando la anterior ya se usa.</p>
     </div>
     <div class="linea">
-      <div class="et rev"><span class="pt">1</span><div><h3>Diseño con ustedes</h3><p>Recorremos la maqueta con cada perfil y ajustamos pantallas y cálculos.</p></div></div>
-      <div class="et rev" style="--d:.05s"><span class="pt">2</span><div><h3>Base</h3><p>Clientes, proveedores, obras y presupuestos, con lo de CSArq migrado.</p><span class="reemplaza">Reemplaza CSArq</span></div></div>
-      <div class="et rev" style="--d:.1s"><span class="pt">3</span><div><h3>Ejecución</h3><p>Certificados, demasías, CAC, liquidación, proveedores, cuenta del cliente y caja chica.</p><span class="reemplaza">Reemplaza la planilla</span></div></div>
+      <div class="et rev"><span class="pt">1</span><div><h3>Diseño y ARCA</h3><p>Recorremos la maqueta con cada perfil, ajustamos pantallas y cálculos, y dejamos ARCA configurado: certificado, punto de venta y pruebas.</p></div></div>
+      <div class="et rev" style="--d:.05s"><span class="pt">2</span><div><h3>Base y facturación</h3><p>Clientes y proveedores validados con el padrón, lo de CSArq migrado, facturas con CAE, facturas de proveedores desde ARCA e IVA del mes.</p><span class="reemplaza">Reemplaza CSArq</span></div></div>
+      <div class="et rev" style="--d:.1s"><span class="pt">3</span><div><h3>Ejecución</h3><p>Certificados, demasías, CAC, liquidación, proveedores, cuenta del cliente y caja chica. Cada certificado sale facturado.</p><span class="reemplaza">Reemplaza la planilla</span></div></div>
       <div class="et rev" style="--d:.15s"><span class="pt">4</span><div><h3>Tesorería y tareas</h3><p>Bancos, cheques, gastos del estudio, tablero de tareas y avisos por mail.</p><span class="reemplaza">Reemplaza Trello</span></div></div>
-      <div class="et rev" style="--d:.2s"><span class="pt">5</span><div><h3>ARCA</h3><p>Facturas con CAE, facturas de proveedores, padrón e IVA del mes.</p></div></div>
     </div>
     <div class="necesitamos rev">
       <div><h3>Qué necesitamos de su lado</h3><p>Para arrancar sin demoras.</p></div>
       <ul>
         <li><i class="ph ph-database"></i>La exportación completa de la base de CSArq, pedida por escrito a quien lo mantiene antes de comunicar el cambio.</li>
-        <li><i class="ph ph-user-circle"></i>Una persona de referencia por perfil: Socios, Arquitectos y Administración.</li>
+        <li><i class="ph ph-user-circle"></i>Una persona de referencia por cada perfil que definamos.</li>
         <li><i class="ph ph-buildings"></i>Las obras en curso que quieran pasar, con su índice CAC base.</li>
-        <li><i class="ph ph-certificate"></i>Para la etapa de ARCA: el certificado para facturar y un punto de venta electrónico.</li>
+        <li><i class="ph ph-certificate"></i>Desde el arranque, para ARCA: el certificado para facturar y un punto de venta electrónico, que generamos juntos.</li>
         <li><i class="ph ph-briefcase"></i>El contacto con su estudio contable.</li>
         <li><i class="ph ph-image"></i>El logo y los datos que van en los PDF de presupuestos y liquidaciones.</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<section id="definir">
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Para definir en la reunión.</h2>
+      <p class="lead">Lo que diseñamos con un supuesto y conviene confirmar con ustedes antes de construir. Ninguno cambia la estructura del sistema: ajustan cálculos, permisos y la puesta en marcha.</p>
+    </div>
+    <div class="dudas">
+      <div class="duda rev"><span class="num">01</span><div><h3>¿El ajuste CAC se aplica también sobre lo anticipado?</h3><p>Hoy la planilla lo aplica sobre el 100%. En la obra de prueba, la diferencia es de $ 3,2 M. Conviene mirarlo con el contrato.</p></div></div>
+      <div class="duda rev" style="--d:.04s"><span class="num">02</span><div><h3>¿Honorarios y CAC son siempre iguales?</h3><p>Tomamos 12% de honorarios y CAC 40/60 con base marzo 2026 por defecto, editables en cada obra.</p></div></div>
+      <div class="duda rev"><span class="num">03</span><div><h3>¿Qué se carga en Momo varios, Momo $ y Momo U$?</h3><p>Si es costo propio de la obra (cuadrilla, materiales) o retiros, porque cambia el margen.</p></div></div>
+      <div class="duda rev" style="--d:.04s"><span class="num">04</span><div><h3>¿Al contratista se le paga por avance o por lo arreglado?</h3><p>Hoy se maneja por arreglos y pagos contra el total. El sistema permite las dos formas; definimos cuál va por defecto.</p></div></div>
+      <div class="duda rev"><span class="num">05</span><div><h3>¿Cómo manejan los dólares?</h3><p>Si miran la obra en dólares, y si un certificado en pesos se puede cobrar en dólares y a qué tipo de cambio.</p></div></div>
+      <div class="duda rev" style="--d:.04s"><span class="num">06</span><div><h3>¿Un certificado puede ir parte con factura y parte sin?</h3><p>En la maqueta, cada certificado es todo con factura o todo sin. Lo ideal es definirlo con su estudio contable.</p></div></div>
+      <div class="duda rev"><span class="num">07</span><div><h3>¿Qué perfiles necesitan y qué ve cada uno?</h3><p>Partimos de Socios, Arquitectos y Administración. Se suman los que hagan falta, cada uno con sus permisos.</p></div></div>
+      <div class="duda rev" style="--d:.04s"><span class="num">08</span><div><h3>¿Por dónde llegan los avisos?</h3><p>Dentro del sistema y por mail a cada responsable. Si prefieren otro canal, lo vemos.</p></div></div>
+      <div class="duda rev"><span class="num">09</span><div><h3>¿Qué obras en curso pasamos?</h3><p>Y con qué saldo arranca cada cliente y cada proveedor, confirmado por ustedes.</p></div></div>
+      <div class="duda rev" style="--d:.04s"><span class="num">10</span><div><h3>¿Cómo facturan hoy en ARCA?</h3><p>Tipos de factura, punto de venta y el contacto del estudio contable, para dejarlo configurado desde el arranque.</p></div></div>
     </div>
   </div>
 </section>
@@ -717,7 +791,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       </div>
       <ul class="cierre-lista">
         <li><i class="ph ph-check-circle"></i>Recorrido del sistema con cada perfil</li>
-        <li><i class="ph ph-check-circle"></i>Ajustes de pantallas y cálculos</li>
+        <li><i class="ph ph-check-circle"></i>Los puntos a definir, resueltos</li>
         <li><i class="ph ph-check-circle"></i>Alcance, inversión y tiempos por etapa</li>
       </ul>
     </div>
