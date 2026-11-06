@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Frizata · Diversidad de contenido</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0E2A47;--ink-soft:#1B3A5C;--paper:#FAF6EE;--paper-2:#EFE8D9;--line:#D9CFBC;--ash:#6B6257;--good:#2F7D5E;--bad:#B23A2B;--star:#5BB4D6}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--paper)}
+  body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);font-size:17px;line-height:1.55}
+  .wrap{max-width:900px;margin:0 auto;padding:56px 48px 64px;background:var(--paper)}
+  .kicker{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);font-weight:600}
+  h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:44px;line-height:1.1;margin:10px 0 14px;letter-spacing:-.01em}
+  .lead{font-size:19px;color:var(--ink-soft);max-width:680px}
+  section{margin-top:52px}
+  .num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--paper);font-weight:600;font-size:14px;margin-right:12px;flex:none}
+  h2{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:28px;line-height:1.2;display:flex;align-items:center;margin-bottom:14px}
+  p+p{margin-top:12px}
+  .shot{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;box-shadow:0 1px 0 rgba(14,42,71,.04)}
+  .shot img{display:block;width:100%;border-radius:8px}
+  .cap{font-size:14px;color:var(--ash);margin-top:10px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+  .legend{margin-top:18px;background:var(--paper-2);border-radius:12px;padding:16px 20px;font-size:15px}
+  .legend div{display:flex;gap:10px;padding:3px 0}
+  .legend b{min-width:200px;font-weight:600}
+  .tag{display:inline-block;font-size:13px;font-weight:600;padding:2px 10px;border-radius:99px}
+  .alta{background:#DCEFE5;color:var(--good)}.baja{background:#F6DEDA;color:var(--bad)}
+  .key{margin-top:22px;border-left:4px solid var(--ink);padding:6px 0 6px 18px;font-family:'Fraunces',Georgia,serif;font-size:22px;line-height:1.35}
+  .ask{margin-top:18px;border:1px solid var(--line);border-radius:14px;padding:22px 24px;background:#fff}
+  .ask + .ask{margin-top:14px}
+  .ask h3{font-size:18px;font-weight:600;margin-bottom:6px}
+  .ask ul{margin:8px 0 0 20px}
+  .ask li{margin:4px 0}
+  .ref{font-size:14px;color:var(--ash);margin-top:8px}
+  .date{margin-top:20px;background:var(--ink);color:var(--paper);border-radius:14px;padding:22px 26px;font-size:17px}
+  .date strong{color:#fff}
+  .vids{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+  .vid{display:block;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .th{position:relative;aspect-ratio:9/16;background:#111;overflow:hidden}
+  .th video{width:100%;height:100%;object-fit:cover;display:block;background:#111}
+  .vl a{color:var(--ink-soft)}
+  .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:22px;padding-left:4px}
+  .dur{position:absolute;right:10px;bottom:10px;background:rgba(0,0,0,.65);color:#fff;font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px}
+  .vb{padding:14px 16px 16px}
+  .vt{font-weight:600;font-size:16px}
+  .vd{font-size:14px;color:var(--ash);margin-top:6px;line-height:1.45}
+  .vl{margin-top:10px;font-weight:600;font-size:14px;color:var(--ink-soft)}
+  @media (max-width:700px){
+    .wrap{padding:36px 18px 48px}
+    h1{font-size:32px}
+    h2{font-size:23px}
+    .lead{font-size:17px}
+    .vids{grid-template-columns:1fr;max-width:360px;margin-left:auto;margin-right:auto}
+    .legend b{min-width:0}
+    .legend div{flex-direction:column;gap:0;padding:5px 0}
+    .key{font-size:19px}
+  }
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--ash);display:flex;justify-content:space-between}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kicker">Frizata × Dilema · Meta Ads · Noviembre 2026</div>
+  <h1>Diversidad de contenido: qué es y qué necesitamos</h1>
+  <p class="lead">Meta sumó una métrica nueva que mide qué tan distintas son las piezas que mostramos. No es obligatoria ni define por sí sola los resultados, pero es una herramienta nueva que está buena para ir siguiendo. Te contamos qué dice de Frizata y qué contenido nos ayuda a subirla.</p>
+
+  <section>
+    <h2><span class="num">1</span>Qué mide</h2>
+    <p>Meta califica cada grupo de anuncios como <span class="tag baja">Baja</span>, Media o <span class="tag alta">Alta</span> según qué tan distintas son entre sí las piezas que muestra.</p>
+    <p>Si dos piezas se parecen mucho (mismo diseño, mismos colores, misma estructura), Meta las toma casi como una sola y deja de mostrar una de las dos. Cuantas más piezas realmente distintas hay, a más gente distinta puede llegar.</p>
+  </section>
+
+  <section>
+    <h2><span class="num">2</span>Cómo está hoy Frizata</h2>
+    <p>Así se ve en nuestro administrador de anuncios. La última columna es la diversidad de cada grupo.</p>
+    <div class="shot"><img src="1c-diversidad-tabla.jpg" alt="Columna Diversidad de contenido por grupo de anuncios"></div>
+    <div class="legend">
+      <div><b>CY | ADV+</b> Campaña Cyber</div>
+      <div><b>VG | ADV+ / Intereses / Lookalike</b> Ventas generales</div>
+      <div><b>DC | s2H - Rmk</b> Clientes que ya compraron</div>
+      <div><b>WA-INT / ADV+ _ Wpp</b> WhatsApp</div>
+    </div>
+    <div class="key">La campaña Cyber tiene 11 piezas, pero 3 se llevan casi toda la entrega. El grupo de clientes tiene solo 4, bien distintas, y es el que mejor vende de toda la cuenta.</div>
+    <p style="margin-top:16px">Las 4 placas del Cyber tienen el mismo diseño y Meta las cuenta como una sola. <strong>Suman más pocas piezas bien distintas que muchas parecidas.</strong></p>
+  </section>
+
+  <section>
+    <h2><span class="num">3</span>Qué recomienda Meta</h2>
+    <p>Cuando la diversidad da baja, Meta sugiere dos cosas: subir contenido nuevo y variado, y <strong>subir el mismo contenido en otros tamaños</strong>, que también le cuenta como variedad.</p>
+    <div class="shot" style="max-width:520px"><img src="2c-recomendacion-popup.jpg" alt="Recomendación de Meta para diversidad baja"></div>
+  </section>
+
+  <section>
+    <h2><span class="num">4</span>Las mejores piezas de la industria, según Meta</h2>
+    <p>Meta muestra 18 ejemplos de anuncios que rinden bien en negocios parecidos. <strong>Tres son de Frizata</strong>: la Lasagna, los Ribs con papas duquesa y "Rico, rápido y sin renegar". El estilo de UGC que vienen haciendo funciona.</p>
+    <div class="shot"><img src="3c-galeria.jpg" alt="Galería de Meta con el UGC de Lasagna de Frizata"></div>
+    <div class="shot"><img src="4c-galeria.jpg" alt="Galería de Meta con TeVeCompras, Ribs de Frizata y Alfajores Arroyito"></div>
+    <p class="cap">De la misma galería tomamos dos ideas que hoy no tenemos: la foto de producto sobre fondo de color (TeVeCompras) y el video con una frase grande desde el primer segundo (Alfajores Arroyito).</p>
+  </section>
+
+  <section>
+    <h2><span class="num">5</span>Los videos, para verlos completos</h2>
+    <p>Dale play acá mismo, o descargalos con el link de abajo de cada uno.</p>
+    <div class="vids">
+      <div class="vid">
+        <div class="th"><video controls playsinline preload="metadata" poster="thumb-referencia-alfajores-arroyito-no-sigas-scrolleando.jpg"><source src="referencia-alfajores-arroyito-no-sigas-scrolleando.mp4" type="video/mp4"></video></div>
+        <div class="vb"><div class="vt">Alfajores Arroyito</div><div class="vd">Referencia. Persona a cámara probando el producto y frase grande desde el primer segundo. Corre desde marzo: es un anuncio que les funciona.</div><div class="vl"><a href="referencia-alfajores-arroyito-no-sigas-scrolleando.mp4" download>Descargar video</a> · <a href="https://www.facebook.com/ads/library/?id=1259684388821477" target="_blank" rel="noopener">Ver en Meta</a></div></div>
+      </div>
+      <div class="vid">
+        <div class="th"><video controls playsinline preload="metadata" poster="thumb-frizata-ugc-lasagna-bodegon.jpg"><source src="frizata-ugc-lasagna-bodegon.mp4" type="video/mp4"></video></div>
+        <div class="vb"><div class="vt">Frizata · Lasagna Bodegón</div><div class="vd">Elegido por Meta entre los mejores de la industria. Lo queremos también en 1:1 y 4:5.</div><div class="vl"><a href="frizata-ugc-lasagna-bodegon.mp4" download>Descargar video</a> · <a href="https://www.facebook.com/ads/library/?id=1104016005577447" target="_blank" rel="noopener">Ver en Meta</a></div></div>
+      </div>
+      <div class="vid">
+        <div class="th"><video controls playsinline preload="metadata" poster="thumb-frizata-ugc-ribs-duquesa.jpg"><source src="frizata-ugc-ribs-duquesa.mp4" type="video/mp4"></video></div>
+        <div class="vb"><div class="vt">Frizata · Ribs con duquesa</div><div class="vd">También elegido por Meta. El plato servido de cerca es lo que engancha.</div><div class="vl"><a href="frizata-ugc-ribs-duquesa.mp4" download>Descargar video</a> · <a href="https://www.facebook.com/ads/library/?id=4054323388208201" target="_blank" rel="noopener">Ver en Meta</a></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="num">6</span>Lo que te pedimos para después del Cyber</h2>
+    <div class="ask">
+      <h3>1. Las piezas que ya tenemos, en otros tamaños</h3>
+      <p>Es lo que pide Meta y no hace falta producir nada nuevo. En <strong>1:1 (cuadrado)</strong> y <strong>4:5 (vertical de feed)</strong>:</p>
+      <ul>
+        <li>Nuggets con choclo y Pizza de Joa (hoy están solo en 9:16)</li>
+        <li>UGC Lasagna Bodegón y UGC Home Office largo, de los que mejor venden</li>
+      </ul>
+    </div>
+    <div class="ask">
+      <h3>2. Fotos de producto "limpio"</h3>
+      <p>El producto o el plato servido, solo, sobre un fondo de color liso, con el precio o la oferta grande.</p>
+      <p class="ref">Referencia: TeVeCompras. Hoy todas nuestras piezas fijas son placas de promo.</p>
+    </div>
+    <div class="ask">
+      <h3>3. Videos con una frase de impacto arriba</h3>
+      <p>Persona a cámara probando el producto, con un texto grande desde el primer segundo. Por ejemplo: "¿Todavía cocinás todos los días?".</p>
+      <p class="ref">Referencia: Alfajores Arroyito ("¿Qué estás esperando?").</p>
+    </div>
+    <div class="date">Cargamos contenido nuevo los jueves. Si el punto 1 llega para el <strong>jueves 12/11</strong>, arrancamos ahí. Lo demás puede ir entrando las semanas siguientes.</div>
+  </section>
+
+  <footer><span>Dilema Creative</span><span>06/11/2026</span></footer>
+</div>
+</body>
+</html>
