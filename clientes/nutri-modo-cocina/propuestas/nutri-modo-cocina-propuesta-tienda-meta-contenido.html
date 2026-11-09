@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Nutri Modo Cocina · Propuesta Tienda + Meta + Contenido</title>
+<meta name="description" content="Propuesta de Dilema Creative para Nutri Modo Cocina: tienda online, campañas en Meta y contenido editado, en Neuquén.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#FAF6EE;
+  --paper-2:#F3EEE3;
+  --card:#FFFDF8;
+  --navy:#0E2A47;
+  --ink-2:rgba(14,42,71,.74);
+  --ink-3:rgba(14,42,71,.58);
+  --sage:#4FA27E;
+  --sage-ink:#2B7356;
+  --sage-tint:rgba(79,162,126,.10);
+  --sage-line:rgba(79,162,126,.34);
+  --cel:#5BB4D6;
+  --line:rgba(14,42,71,.12);
+  --line-soft:rgba(14,42,71,.08);
+  --r:14px;
+  --max:1100px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',system-ui,sans-serif;
+  background:var(--paper);
+  color:var(--navy);
+  font-size:16px;
+  line-height:1.62;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 32px}
+
+h1,h2,h3,.disp{
+  font-family:'Fraunces',Georgia,serif;
+  font-weight:500;
+  letter-spacing:-.02em;
+  color:var(--navy);
+}
+h1{font-size:clamp(2.4rem,5.2vw,4.1rem);line-height:1.06;text-wrap:balance}
+h2{font-size:clamp(1.85rem,3.8vw,2.75rem);line-height:1.1;text-wrap:balance}
+h3{font-size:1.18rem;line-height:1.3;font-weight:600;letter-spacing:-.01em}
+em.ac{font-style:italic;font-weight:400;color:var(--sage-ink);padding-bottom:.04em}
+
+.kick{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--sage-ink);
+  display:block;margin-bottom:18px;
+}
+
+/* NAV */
+.nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(250,246,238,.9);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:72px}
+.nav-l{display:flex;align-items:center;gap:18px;min-width:0}
+.nav-div{width:1px;height:22px;background:var(--line);flex:none}
+.wm{
+  font-family:'Fraunces',Georgia,serif;font-weight:700;
+  letter-spacing:-.02em;color:var(--navy);line-height:1;
+  white-space:nowrap;flex:none;
+}
+.wm em{font-style:italic;font-weight:500;color:var(--sage)}
+.wm sup{color:var(--cel);font-size:.5em;top:-.62em;position:relative}
+.nav .wm{font-size:21px}
+.hero-mark .wm{font-size:26px}
+footer .wm{font-size:30px;display:block;margin-bottom:22px}
+.nav-tag{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;
+}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;padding:84px 0 80px}
+.hero::before{
+  content:'';position:absolute;top:-220px;right:-160px;
+  width:720px;height:720px;pointer-events:none;
+  background:radial-gradient(circle,rgba(79,162,126,.16) 0%,rgba(79,162,126,.05) 42%,transparent 70%);
+}
+.hero::after{
+  content:'';position:absolute;bottom:-260px;left:-200px;
+  width:560px;height:560px;pointer-events:none;
+  background:radial-gradient(circle,rgba(91,180,214,.10) 0%,transparent 68%);
+}
+.hero .wrap{position:relative;z-index:1}
+.hero-mark{display:flex;align-items:center;gap:16px;margin-bottom:34px;flex-wrap:wrap}
+.hero-mark .ln{width:38px;height:1px;background:var(--line);flex:none}
+.hero-mark .tag{
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);
+}
+.hero h1{margin-bottom:24px;max-width:17ch}
+.hero-sub{font-size:1.1rem;color:var(--ink-2);max-width:52ch}
+.tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+.tags span{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--sage-ink);
+  border:1px solid var(--sage-line);background:var(--sage-tint);
+  border-radius:999px;padding:7px 15px;
+}
+.tags span.later{color:var(--ink-3);border-color:var(--line);background:transparent}
+
+/* STRIP */
+.strip{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.strip-grid{display:grid;grid-template-columns:repeat(3,1fr)}
+.strip-grid > div{padding:40px 34px 40px 0;min-width:0}
+.strip-grid > div + div{padding-left:34px;border-left:1px solid var(--line-soft)}
+.strip .n{
+  font-family:'Fraunces',serif;font-weight:500;
+  font-size:clamp(1.9rem,4vw,2.45rem);line-height:1.05;color:var(--sage-ink);
+  display:block;margin-bottom:12px;white-space:nowrap;
+}
+.strip .n .arr{color:var(--ink-3);font-weight:400;padding:0 .12em}
+.strip p{font-size:14.5px;color:var(--ink-2);line-height:1.55}
+
+/* SECCIONES */
+section{padding:92px 0}
+section + section{border-top:1px solid var(--line-soft)}
+.shead{margin-bottom:44px;max-width:62ch}
+.shead p{color:var(--ink-2);font-size:1.03rem;margin-top:16px}
+
+/* salto */
+.salto{
+  display:grid;grid-template-columns:1fr 1fr;
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card);
+}
+.salto > div{padding:36px 36px 38px;min-width:0}
+.salto > div + div{border-left:1px solid var(--sage-line);background:var(--sage-tint)}
+.salto .lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  display:block;margin-bottom:16px;
+}
+.salto > div + div .lbl{color:var(--sage-ink)}
+.salto h3{margin-bottom:14px;font-size:1.32rem}
+.salto p{font-size:15px;color:var(--ink-2)}
+.salto p + p{margin-top:12px}
+.salto-cierre{
+  font-family:'Fraunces',Georgia,serif;font-weight:400;
+  font-size:clamp(1.3rem,2.6vw,1.75rem);line-height:1.34;
+  color:var(--navy);max-width:40ch;margin-top:40px;
+}
+.salto-cierre em{font-style:italic;color:var(--sage-ink)}
+
+.disc{display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px;margin-top:52px}
+.disc article{padding-top:24px;border-top:1px solid var(--sage-line);min-width:0}
+.disc h3{margin-bottom:10px}
+.disc p{font-size:14.5px;color:var(--ink-2);line-height:1.58}
+
+.cierre{
+  font-family:'Fraunces',Georgia,serif;font-weight:400;
+  font-size:clamp(1.35rem,2.8vw,1.85rem);line-height:1.34;
+  color:var(--navy);max-width:36ch;margin-top:60px;
+}
+.cierre em{font-style:italic;color:var(--sage-ink)}
+
+/* zona */
+.zona{
+  display:grid;grid-template-columns:1.15fr 1fr;gap:0;margin-top:28px;
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card);
+}
+.zona > div{padding:32px 34px 34px;min-width:0}
+.zona > div + div{border-left:1px solid var(--line)}
+.zona .lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--sage-ink);display:block;margin-bottom:14px;
+}
+.lugares{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.lugares span{
+  font-family:'Fraunces',serif;font-size:1.12rem;font-weight:500;
+  border:1px solid var(--sage-line);background:var(--sage-tint);color:var(--navy);
+  border-radius:999px;padding:6px 16px;white-space:nowrap;
+}
+.lugares.sec span{background:transparent;border-color:var(--line);color:var(--ink-2)}
+.zona p{font-size:14.5px;color:var(--ink-2)}
+
+/* tienda (2 col) */
+.tienda{
+  display:grid;grid-template-columns:1fr 1fr;gap:0 52px;
+  background:var(--card);border:1px solid var(--sage-line);border-radius:var(--r);
+  padding:34px 36px 36px;
+}
+.tienda > div{min-width:0}
+.tienda > div + div{padding-left:52px;border-left:1px solid var(--line)}
+
+/* aside */
+.aside{
+  display:grid;grid-template-columns:auto 1fr;gap:0 30px;align-items:start;
+  background:var(--card);border:1px solid var(--sage-line);
+  border-radius:var(--r);padding:34px 36px;margin-top:28px;
+}
+.aside.full{display:block}
+.aside .big{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:400;
+  font-size:clamp(1.6rem,3vw,2.1rem);line-height:1.15;color:var(--sage-ink);max-width:9ch;
+}
+.aside h3{margin-bottom:10px}
+.aside p{font-size:15px;color:var(--ink-2)}
+.aside p + p{margin-top:12px}
+
+/* contenido */
+.cont{display:grid;grid-template-columns:1fr 1.25fr;gap:28px}
+.cont > div{min-width:0;border-radius:var(--r);padding:34px 34px 36px}
+.cont .hoy{background:var(--paper-2);border:1px solid var(--line)}
+.cont .suma{background:var(--card);border:1px solid var(--sage-line)}
+.cont .lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:16px;
+}
+.cont .suma .lbl{color:var(--sage-ink)}
+.cont h3{margin-bottom:12px;font-size:1.3rem}
+.cont p{font-size:15px;color:var(--ink-2)}
+ul.chk{list-style:none}
+ul.chk li{
+  position:relative;padding:12px 0 12px 28px;font-size:15px;color:var(--ink-2);
+  border-top:1px solid var(--line-soft);line-height:1.55;
+}
+ul.chk li:first-child{border-top:none;padding-top:0}
+ul.chk li::before{
+  content:"\2713";position:absolute;left:0;top:14px;
+  font-size:12px;color:var(--sage-ink);font-weight:700;
+}
+ul.chk li:first-child::before{top:2px}
+.cont .suma ul{margin-top:6px}
+
+/* costos de su lado (3 col) */
+.costos{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.costos > div{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:28px 28px 30px;min-width:0;
+}
+.costos > div.ok{background:var(--sage-tint);border-color:var(--sage-line)}
+.costos h3{margin-bottom:8px}
+.costos .cifra{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--sage-ink);
+  display:block;margin-bottom:14px;
+}
+.costos p{font-size:14px;color:var(--ink-2);line-height:1.56}
+.nota-pie{font-size:14px;color:var(--ink-3);margin-top:22px;max-width:76ch;line-height:1.56}
+
+/* mes a mes */
+.tareas{display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px}
+.tareas article{padding:26px 0;border-top:1px solid var(--line);min-width:0}
+.tareas h3{margin-bottom:9px;font-size:1.06rem}
+.tareas p{font-size:14.5px;color:var(--ink-2);line-height:1.55}
+
+/* casos */
+.casos{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.casos > div{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:30px 32px 32px;min-width:0;
+}
+.casos .rub{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:14px;
+}
+.casos .num{
+  font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.7rem,3.4vw,2.2rem);
+  line-height:1;color:var(--sage-ink);margin-bottom:10px;
+}
+.casos h3{margin-bottom:10px}
+.casos p{font-size:14.5px;color:var(--ink-2);line-height:1.56}
+
+/* inversión */
+.precios{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:36px 34px 34px;display:flex;flex-direction:column;
+  text-align:center;align-items:center;min-width:0;
+}
+.card.feat{border-color:var(--sage-line);background:var(--sage-tint)}
+.card-top{
+  display:flex;align-items:center;justify-content:center;gap:10px 12px;
+  margin-bottom:18px;flex-wrap:wrap;min-height:28px;
+}
+.card-lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);
+}
+.badge{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:5px 12px;white-space:nowrap;
+  color:#fff;background:var(--sage-ink);
+}
+.badge.soft{color:var(--ink-2);background:transparent;border:1px solid var(--line)}
+.card h3{font-size:1.5rem;margin-bottom:10px}
+.precio{
+  font-family:'Fraunces',serif;font-weight:600;font-size:clamp(2.5rem,5.6vw,3.3rem);
+  line-height:1;color:var(--navy);margin-bottom:12px;white-space:nowrap;
+}
+.precio small{font-family:'Inter',sans-serif;font-size:1rem;font-weight:400;color:var(--ink-3);letter-spacing:0}
+.card .desc{font-size:14.5px;color:var(--ink-2);margin-bottom:24px;min-height:4.6em;max-width:40ch}
+.card ul.chk{margin-top:auto;text-align:left;width:100%}
+.card ul.chk li{font-size:14px}
+.split{width:100%;margin:0 0 22px;text-align:left}
+.split .row{
+  display:flex;align-items:baseline;justify-content:space-between;gap:16px;
+  padding:12px 0;border-top:1px solid var(--line-soft);
+}
+.split .row:first-child{border-top:none}
+.split .row .k{font-size:14.5px;color:var(--navy);font-weight:500}
+.split .row .k small{display:block;font-weight:400;color:var(--ink-3);font-size:12.5px;letter-spacing:0;line-height:1.4;margin-top:2px}
+.split .row .v{
+  font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--sage-ink);white-space:nowrap;flex:none;
+}
+
+.pauta{
+  display:grid;grid-template-columns:1fr auto;gap:18px 34px;align-items:center;
+  background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r);
+  padding:30px 34px;margin-top:28px;
+}
+.pauta .lbl{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--sage-ink);display:block;margin-bottom:10px;
+}
+.pauta p{font-size:15px;color:var(--ink-2);max-width:58ch}
+.pauta .big{
+  font-family:'Fraunces',serif;font-weight:600;font-size:clamp(1.5rem,3.4vw,2rem);
+  line-height:1.15;color:var(--navy);text-align:right;
+}
+.pauta .big small{display:block;font-family:'Inter',sans-serif;font-size:13px;font-weight:400;color:var(--ink-3);margin-top:6px}
+
+.total{
+  display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;
+  background:var(--sage-ink);color:#fff;border-radius:var(--r);
+  padding:30px 34px;margin-top:28px;
+}
+.total .lbl{font-size:15.5px;max-width:54ch;line-height:1.55;color:rgba(255,255,255,.88)}
+.total .big{
+  font-family:'Fraunces',serif;font-weight:700;
+  font-size:clamp(2rem,5vw,2.7rem);line-height:1;color:#fff;white-space:nowrap;
+}
+.cond{display:grid;grid-template-columns:1fr 1fr;gap:52px;margin-top:48px}
+.cond > div{padding-top:24px;border-top:1px solid var(--line)}
+.cond h3{margin-bottom:12px}
+.cond p{font-size:15px;color:var(--ink-2)}
+.cond p + p{margin-top:13px}
+
+/* pasos */
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.pasos div{padding:26px 32px 0 0;border-top:2px solid var(--sage-line);min-width:0}
+.pasos div + div{padding-left:32px}
+.pasos .n{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--sage-ink);display:block;margin-bottom:14px;
+}
+.pasos p{font-size:15px;color:var(--ink-2)}
+
+/* footer */
+footer{background:var(--paper-2);border-top:1px solid var(--line);padding:60px 0 54px}
+.foot{display:flex;justify-content:space-between;gap:34px;flex-wrap:wrap;align-items:flex-end}
+footer p{font-size:14.5px;max-width:46ch;color:var(--ink-2)}
+footer a{color:var(--sage-ink);text-decoration:none;border-bottom:1px solid var(--sage-line)}
+.foot-r{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ink-3);text-align:right;line-height:1.9;
+}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* responsive */
+@media (max-width:980px){
+  .tareas{grid-template-columns:1fr 1fr}
+  .disc{grid-template-columns:1fr;gap:0}
+  .disc article{padding:22px 0}
+  .cont{grid-template-columns:1fr}
+  .costos{grid-template-columns:1fr}
+  .cond{gap:38px}
+}
+@media (max-width:760px){
+  .wrap{padding:0 20px}
+  section{padding:60px 0}
+  .hero{padding:56px 0 56px}
+  h1{font-size:clamp(2.1rem,9vw,2.7rem)}
+  .nav-in{height:62px}
+  .nav-div,.nav-l .nav-tag{display:none}
+  .nav .wm{font-size:18px}
+  .hero-mark .wm{font-size:22px}
+  .strip-grid,.salto,.zona,.tienda,.cont,.tareas,.casos,.precios,.cond,.pasos{grid-template-columns:1fr}
+  .strip-grid > div{padding:28px 0}
+  .strip-grid > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line-soft)}
+  .salto > div{padding:28px 24px 30px}
+  .salto > div + div{border-left:none;border-top:1px solid var(--sage-line)}
+  .zona > div{padding:26px 24px 28px}
+  .zona > div + div{border-left:none;border-top:1px solid var(--line)}
+  .tienda{padding:28px 24px 30px}
+  .tienda > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line-soft);margin-top:4px;padding-top:4px}
+  .aside{grid-template-columns:1fr;gap:14px;padding:28px 24px}
+  .aside .big{max-width:none}
+  .cont > div{padding:28px 24px 30px}
+  .card{padding:32px 24px 30px}
+  .card .desc{min-height:0}
+  .pauta{grid-template-columns:1fr;padding:26px 24px}
+  .pauta .big{text-align:left}
+  .total{padding:26px 22px}
+  .pasos div{padding:22px 0 26px}
+  .pasos div + div{padding-left:0}
+  .foot-r{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap nav-in">
+    <div class="nav-l">
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      <span class="nav-div"></span>
+      <span class="nav-tag">Propuesta Nutri Modo Cocina</span>
+    </div>
+    <span class="nav-tag">Noviembre 2026</span>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-mark">
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      <span class="ln"></span>
+      <span class="tag">Para Nutri Modo Cocina</span>
+    </div>
+    <h1>Que Nutri sea <em class="ac">la comida sana</em> de Neuquén</h1>
+    <p class="hero-sub">Pasamos de los pedidos uno por uno por mensaje a un canal que vende solo: tienda online, campañas en Meta y contenido que se ve profesional.</p>
+    <div class="tags">
+      <span>Tienda online</span>
+      <span>Meta Ads</span>
+      <span>Contenido y edición</span>
+      <span class="later">Google, más adelante</span>
+    </div>
+  </div>
+</header>
+
+<section class="strip rv" style="padding:0">
+  <div class="wrap">
+    <div class="strip-grid">
+      <div>
+        <span class="n">25<span class="arr">&rarr;</span>+</span>
+        <p>Pedidos por semana hoy. El objetivo es crecer con la misma cocina, no reinventar nada: vender más de lo que ya saben hacer.</p>
+      </div>
+      <div>
+        <span class="n">Sin TACC</span>
+        <p>Todo sin harina ni TACC, cocinado en casa. Un diferencial real en un mercado de comida sana que en Neuquén recién está naciendo.</p>
+      </div>
+      <div>
+        <span class="n">80 a 100 km</span>
+        <p>El corredor petrolero &mdash; Añelo, Cutral Có &mdash; donde la gente se va a trabajar días enteros y necesita comer bien lejos de casa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">Lo que hay que contar</span>
+      <h2>No es comida <em class="ac">de dieta</em></h2>
+      <p>Es lo que más diferencia a Nutri y lo primero que tiene que entender alguien que todavía no los conoce.</p>
+    </div>
+
+    <div class="salto">
+      <div>
+        <span class="lbl">Lo que la gente suele buscar</span>
+        <h3>Bajar unos kilos rápido</h3>
+        <p>Una dieta para una fecha, un plan que se sostiene dos semanas y se abandona. Comida aburrida que se come por obligación.</p>
+        <p>Cuando pasa la fecha, se deja. Es lo que ofrece casi cualquier vianda &ldquo;fit&rdquo;.</p>
+      </div>
+      <div>
+        <span class="lbl">Lo que es Nutri</span>
+        <h3>Comer bien todos los días</h3>
+        <p>Viandas caseras sin harina ni TACC para sostener un estilo de vida sano todo el año, sin tener que cocinar y sin resignar el sabor.</p>
+        <p>No es una dieta: es resolver la comida de la semana comiendo rico y cuidándose.</p>
+      </div>
+    </div>
+
+    <div class="disc">
+      <article>
+        <h3>Cocina propia</h3>
+        <p>Tienen cocinera y cocinan ustedes. No es un delivery que terceriza un menú cualquiera: es comida hecha en casa, que es lo que la gente que se cuida valora.</p>
+      </article>
+      <article>
+        <h3>Sin harina ni TACC</h3>
+        <p>Pensado para quien se cuida o no puede comer gluten, sin que eso signifique comer siempre lo mismo. Pollo, pizzas, pizzetas, hamburguesas y albóndigas.</p>
+      </article>
+      <article>
+        <h3>La semana resuelta</h3>
+        <p>Comida lista y porcionada para gente que trabaja mucho o lejos. El valor no es solo lo sano: es no tener que pensar qué comer.</p>
+      </article>
+    </div>
+
+    <p class="cierre">La mayoría vende comida. Nutri vende <em>no tener que elegir</em> entre comer rico y comer sano.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">A quién le hablamos</span>
+      <h2>Dos públicos en una <em class="ac">misma provincia</em></h2>
+      <p>La misma comida resuelve dos necesidades distintas. Por eso la campaña no le habla igual a los dos.</p>
+    </div>
+
+    <div class="zona">
+      <div>
+        <span class="lbl">Donde ponemos el foco</span>
+        <div class="lugares">
+          <span>Neuquén capital</span>
+        </div>
+        <p>Profesionales y familias que se quieren cuidar y no tienen tiempo de cocinar. El que busca profesionalizar su alimentación sin volverse loco. Es el día a día del negocio.</p>
+      </div>
+      <div>
+        <span class="lbl">El segundo público</span>
+        <div class="lugares sec">
+          <span>Añelo</span>
+          <span>Cutral Có</span>
+        </div>
+        <p>Gente que se va a trabajar al petróleo, 80 a 100 km, y necesita comida lista y sana lejos de su casa. Un público que casi nadie les está hablando todavía.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">01 · La tienda</span>
+      <h2>Una tienda online <em class="ac">armada y probada</em></h2>
+      <p>La hacemos de cero y se la entregamos funcionando. Dos semanas desde que tenemos los accesos, las fotos y los precios.</p>
+    </div>
+
+    <div class="tienda">
+      <div>
+        <ul class="chk">
+          <li>Tienda con la identidad de Nutri, probada en celular y en computadora</li>
+          <li>Catálogo cargado: viandas, pollo, pizzas, pizzetas, hamburguesas y albóndigas</li>
+          <li>Los combos semanales que ya venden, cargados como productos propios</li>
+        </ul>
+      </div>
+      <div>
+        <ul class="chk">
+          <li>Medios de pago y envío configurados y probados con una compra real antes de abrir</li>
+          <li>Dominio propio apuntando a la tienda, a nombre de ustedes</li>
+          <li>Botón de WhatsApp en cada producto, para la consulta que hoy ya reciben</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="aside">
+      <p class="big">¿Por qué Tienda Nube?</p>
+      <div>
+        <h3>La que mejor se lleva con lo que ya hacen</h3>
+        <p>Es la plataforma más usada del país, la administran ustedes sin saber de tecnología y se conecta con Mercado Pago y los envíos locales. La contratan a nombre suyo y queda siempre bajo su control.</p>
+        <p>Pero lo más importante es esto: deja poner el píxel de Meta. Es lo que permite que la publicidad sepa quién compró y salga a buscar más gente parecida, en vez de tirar anuncios a ciegas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">02 · El salto</span>
+      <h2>Un mensaje promocionado <em class="ac">no es una campaña de ventas</em></h2>
+      <p>Hoy los pedidos entran por mensaje y les funciona. Por eso vale la pena explicar qué cambia cuando se hace en serio.</p>
+    </div>
+
+    <div class="salto">
+      <div>
+        <span class="lbl">Lo que pasa hoy</span>
+        <h3>Pedidos uno por uno</h3>
+        <p>Cada pedido necesita que alguien conteste el mensaje, pase el precio y coordine el pago. Funciona con 25 por semana, pero no escala: más pedidos es más gente contestando.</p>
+        <p>Y Meta nunca se entera de quién terminó comprando. Busca gente que mire, no gente que pague.</p>
+      </div>
+      <div>
+        <span class="lbl">Lo que sumamos</span>
+        <h3>Una campaña de ventas</h3>
+        <p>Con la tienda y el píxel puestos, Meta ve cada venta que entra y sale a buscar personas parecidas a las que ya compraron. La tienda cobra sola a cualquier hora.</p>
+        <p>Pedir deja de depender de que alguien esté del otro lado. Ustedes cocinan; la venta se ordena.</p>
+      </div>
+    </div>
+
+    <p class="salto-cierre">Si todavía no quieren la tienda, arrancamos con una <em>campaña de mensajes a WhatsApp</em> &mdash; la misma que ya les funciona, pero hecha en serio &mdash; y pasamos a ventas apenas la tienda esté lista.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">03 · El contenido</span>
+      <h2>Estrategia, guiones y <em class="ac">edición</em></h2>
+      <p>La comida ya es buena. Lo que falta es que en el feed y en los anuncios se vea tan bien como en la mesa.</p>
+    </div>
+
+    <div class="cont">
+      <div class="hoy">
+        <span class="lbl">Para arrancar</span>
+        <h3>Lo que ya graban</h3>
+        <p>La cocina, los platos, el emplatado, el día a día. Con el celular alcanza. Con eso salimos, sin esperar a producir nada nuevo.</p>
+      </div>
+      <div class="suma">
+        <span class="lbl">Lo que ponemos nosotros</span>
+        <h3>El material convertido en anuncio</h3>
+        <ul class="chk">
+          <li>Estrategia de qué contar cada semana, según lo que mueve pedidos</li>
+          <li>Guiones de reels y anuncios: el plato, el proceso, la semana resuelta</li>
+          <li>Edición profesional: cortes, subtítulos, zooms y formato para feed y para historias</li>
+          <li>Ustedes graban con el celu; nosotros lo convertimos en algo que vende</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="aside full" style="margin-top:28px">
+      <h3>Ya tienen una lista de clientes: es oro</h3>
+      <p>La subimos a Meta como público propio. Con eso hacemos dos cosas que la mayoría no aprovecha: le volvemos a aparecer a los que ya compraron para que repitan, y le pedimos a Meta gente parecida a esos clientes &mdash; que son los que más probable es que compren.</p>
+      <p>Y medimos lo que importa: pedidos, no cantidad de mensajes ni de &ldquo;me gusta&rdquo;.</p>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">04 · El mes a mes</span>
+      <h2>Qué hacemos <em class="ac">todos los meses</em></h2>
+    </div>
+    <div class="tareas">
+      <article>
+        <h3>Gestión de la campaña</h3>
+        <p>Armado, seguimiento y ajuste en Meta. Se corta lo que no trae pedidos y se refuerza lo que sí.</p>
+      </article>
+      <article>
+        <h3>Estrategia y guiones</h3>
+        <p>Qué contar cada semana y los guiones listos para que graben, pensados para vender y no solo para mostrar.</p>
+      </article>
+      <article>
+        <h3>Edición de contenido</h3>
+        <p>Tomamos lo que graban y lo editamos: cortes, subtítulos y formato, listo para publicar y pautar.</p>
+      </article>
+      <article>
+        <h3>Portal propio</h3>
+        <p>Un acceso web para ver sus números cuando quieran, armado con lo que a ustedes les sirva mirar.</p>
+      </article>
+      <article>
+        <h3>Reporte mensual</h3>
+        <p>Un informe claro de qué se invirtió, qué entró y qué decidimos. Sin planillas para descifrar.</p>
+      </article>
+      <article>
+        <h3>Reunión y contacto</h3>
+        <p>Reunión de revisión para decidir juntos el rumbo, y disponibilidad por WhatsApp en el medio.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">05 · De su lado</span>
+      <h2>Lo que <em class="ac">contratan ustedes</em></h2>
+      <p>Esto no nos lo pagan a nosotros. Son servicios a nombre de ustedes que quedan siempre bajo su control.</p>
+    </div>
+
+    <div class="costos">
+      <div>
+        <h3>El dominio</h3>
+        <span class="cifra">Una vez al año</span>
+        <p>Es la dirección de la tienda, del tipo nutrimodococina.com.ar. Se registra en NIC Argentina con el CUIT y se renueva una vez al año. Es el más barato de todo y lo configuramos nosotros.</p>
+      </div>
+      <div>
+        <h3>El plan de Tienda Nube</h3>
+        <span class="cifra">Mensual</span>
+        <p>Tienda Nube tiene varios planes y cuál conviene depende del volumen. Lo vemos juntos antes de que contraten. Lo único seguro es que el plan gratuito no sirve: solo deja usar sus medios de pago y envío.</p>
+      </div>
+      <div class="ok">
+        <h3>La inversión en Meta</h3>
+        <span class="cifra">Mensual, aparte</span>
+        <p>La plata que se pone en publicidad va directo a Meta, a nombre de ustedes. No pasa por nosotros. Cuánto poner lo definimos juntos con la calculadora de presupuesto.</p>
+      </div>
+    </div>
+
+    <p class="nota-pie">Un detalle para los precios de venta: además del plan, Tienda Nube se queda con una comisión por cada venta y con un cargo al retirar el dinero. Los dos porcentajes bajan a medida que sube de plan, así que conviene mirarlos junto con el volumen que esperan vender.</p>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">06 · Antecedentes</span>
+      <h2>Cómo arrancamos <em class="ac">otros parecidos</em></h2>
+    </div>
+    <div class="casos">
+      <div>
+        <p class="rub">E-commerce · productos para mamás</p>
+        <div class="num">12,8x de retorno</div>
+        <h3>Click It Care</h3>
+        <p>Arrancó de cero: tienda nueva, sin historial y sin audiencia. En su mejor semana el retorno llegó a 12,8x y en el tercer mes promedió 8x. Mismo punto de partida que una tienda nueva de Nutri.</p>
+      </div>
+      <div>
+        <p class="rub">Industrial · desde cero en digital</p>
+        <div class="num">De 0 a referente</div>
+        <h3>Friotex y Maxport</h3>
+        <p>Dos empresas que llegaron sin nada de presencia digital y hoy generan consultas y ventas calificadas todos los meses por Meta y Google. Es lo que hacemos: construir un canal donde no había.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">07 · Inversión</span>
+      <h2>Lo que cuesta <em class="ac">el trabajo</em></h2>
+      <p>Una cosa se paga una sola vez y la otra es mensual. El fee cubre el trabajo de Dilema: la inversión en Meta va aparte.</p>
+    </div>
+
+    <div class="precios">
+      <div class="card">
+        <div class="card-top"><span class="card-lbl">La tienda</span><span class="badge soft">Pago único</span></div>
+        <h3>Tienda online</h3>
+        <div class="precio">USD 300 <small>una sola vez</small></div>
+        <p class="desc">Armado completo de la tienda, con el catálogo cargado y todo probado antes de abrir. No es un abono: se paga una vez. El plan de Tienda Nube lo contratan ustedes y va aparte.</p>
+        <ul class="chk">
+          <li>Diseño y carga de la tienda</li>
+          <li>Catálogo de viandas y combos</li>
+          <li>Pagos, envíos y dominio configurados</li>
+          <li>Entrega en dos semanas</li>
+        </ul>
+      </div>
+      <div class="card feat">
+        <div class="card-top"><span class="card-lbl">El trabajo mensual</span><span class="badge">Mes a mes</span></div>
+        <h3>Pauta + contenido</h3>
+        <div class="precio">USD 500 <small>por mes</small></div>
+        <p class="desc">Todo el trabajo mensual en un solo abono: la gestión de la campaña en Meta y el contenido. Sin letra chica ni extras por fuera.</p>
+        <ul class="chk">
+          <li>Gestión de Meta Ads: campaña de ventas o de mensajes</li>
+          <li>Estrategia, guiones y edición de contenido</li>
+          <li>Reporte mensual y portal de seguimiento</li>
+          <li>Medición y píxel, sin costo de instalación</li>
+          <li>Reunión de revisión y WhatsApp directo</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pauta">
+      <div>
+        <span class="lbl">Inversión en Meta, aparte del fee</span>
+        <p>Va directo a Meta, a nombre de ustedes. Arrancamos dentro del tope que manejan y lo afinamos juntos con la calculadora de presupuesto, según cuánto quieran vender.</p>
+      </div>
+      <div class="big">Hasta $300.000<small>por mes, en pesos</small></div>
+    </div>
+
+    <div class="total">
+      <div class="lbl">Primer mes, con la tienda incluida. Después quedan los USD 500 por mes del trabajo.</div>
+      <div class="big">USD 800</div>
+    </div>
+
+    <div class="cond">
+      <div>
+        <h3>Arrancamos con dos meses</h3>
+        <p>El trabajo mensual se toma por dos meses. Es el tiempo mínimo para que las campañas junten datos propios y la tienda tenga algo de historial: antes de eso, cualquier conclusión es apurada.</p>
+        <p>Al cierre del segundo mes nos sentamos con los números a la vista y definimos juntos cómo sigue.</p>
+      </div>
+      <div>
+        <h3>Si todavía no va la tienda</h3>
+        <p>Podemos arrancar solo con el trabajo mensual (USD 500) y una campaña de mensajes a WhatsApp, y montar la tienda más adelante.</p>
+        <p>Pero lo recomendamos al revés: con la tienda desde el día uno, la publicidad busca compradores y no solo mensajes. Rinde más por cada peso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="rv" style="border-bottom:none">
+  <div class="wrap">
+    <div class="shead">
+      <span class="kick">08 · Arranque</span>
+      <h2>Cómo <em class="ac">seguimos</em></h2>
+    </div>
+    <div class="pasos">
+      <div>
+        <span class="n">Primero</span>
+        <p>Nos dan el visto bueno y el acceso a Instagram y a la cuenta publicitaria. Registran el dominio y el plan de la tienda; les pasamos el paso a paso.</p>
+      </div>
+      <div>
+        <span class="n">Después</span>
+        <p>Nos pasan las fotos, los precios y el material que graban. Armamos la tienda &mdash; dos semanas &mdash; y dejamos la medición funcionando.</p>
+      </div>
+      <div>
+        <span class="n">Y salimos</span>
+        <p>Con la tienda andando y el píxel midiendo, definimos la pauta y arranca la campaña de ventas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <span class="wm">Dilema <em>creative</em><sup>*</sup></span>
+      <p>Trabajamos con pocos clientes y nos metemos en el negocio. Si vemos algo que conviene cambiar aunque no esté en el contrato, lo decimos.</p>
+      <p style="margin-top:16px"><a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a> &nbsp; <a href="https://instagram.com/dilema.creative">@dilema.creative</a></p>
+    </div>
+    <div class="foot-r">Propuesta Nutri Modo Cocina<br>Noviembre 2026</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return;}
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+    });
+  },{rootMargin:'0px 0px -60px 0px',threshold:.05});
+  els.forEach(function(e){io.observe(e)});
+})();
+</script>
+</body>
+</html>
