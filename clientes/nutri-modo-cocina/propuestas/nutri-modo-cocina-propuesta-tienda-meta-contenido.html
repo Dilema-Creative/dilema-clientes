@@ -25,8 +25,10 @@
   --cel:#5BB4D6;
   --line:rgba(14,42,71,.12);
   --line-soft:rgba(14,42,71,.08);
-  --r:14px;
+  --r:16px;
   --max:1100px;
+  --shadow:0 1px 2px rgba(14,42,71,.04),0 14px 34px -18px rgba(14,42,71,.22);
+  --shadow-sm:0 1px 2px rgba(14,42,71,.05),0 6px 16px -10px rgba(14,42,71,.16);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -112,6 +114,14 @@ footer .wm{font-size:30px;display:block;margin-bottom:22px}
   border-radius:999px;padding:7px 15px;
 }
 .tags span.later{color:var(--ink-3);border-color:var(--line);background:transparent}
+.hero-art{position:absolute;top:50%;right:-30px;transform:translateY(-50%);width:330px;height:330px;pointer-events:none;z-index:0}
+.hero-art span{position:absolute;border-radius:50%}
+.hero-art .r1{inset:0;background:radial-gradient(circle at 36% 32%,#fff,var(--paper-2));box-shadow:var(--shadow);border:1px solid var(--sage-line)}
+.hero-art .r2{inset:30px;border:1px solid var(--sage-line)}
+.hero-art .r3{inset:66px;background:var(--sage-tint);border:1px solid var(--sage-line)}
+.hero-art .r4{inset:116px;background:#fff;border:1px solid var(--line-soft)}
+.hero-art .dot{inset:auto;top:52px;right:70px;width:16px;height:16px;background:var(--sage);box-shadow:0 0 0 5px var(--sage-tint)}
+.hero-mark,.hero h1,.hero .hero-sub,.hero .tags{position:relative;z-index:1}
 
 /* STRIP */
 .strip{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
@@ -129,6 +139,7 @@ footer .wm{font-size:30px;display:block;margin-bottom:22px}
 /* SECCIONES */
 section{padding:92px 0}
 section + section{border-top:1px solid var(--line-soft)}
+body > section:nth-of-type(even){background:var(--paper-2)}
 .shead{margin-bottom:44px;max-width:62ch}
 .shead p{color:var(--ink-2);font-size:1.03rem;margin-top:16px}
 
@@ -150,20 +161,29 @@ section + section{border-top:1px solid var(--line-soft)}
 .salto p + p{margin-top:12px}
 .salto-cierre{
   font-family:'Fraunces',Georgia,serif;font-weight:400;
-  font-size:clamp(1.3rem,2.6vw,1.75rem);line-height:1.34;
-  color:var(--navy);max-width:40ch;margin-top:40px;
+  font-size:clamp(1.25rem,2.4vw,1.6rem);line-height:1.4;color:var(--navy);
+  margin-top:24px;background:var(--sage-tint);border:1px solid var(--sage-line);
+  border-left:4px solid var(--sage);border-radius:var(--r);
+  padding:26px 32px 28px 34px;
 }
 .salto-cierre em{font-style:italic;color:var(--sage-ink)}
 
-.disc{display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px;margin-top:52px}
-.disc article{padding-top:24px;border-top:1px solid var(--sage-line);min-width:0}
+.disc{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.disc article{
+  position:relative;background:var(--card);border:1px solid var(--line);
+  border-radius:var(--r);padding:30px 26px 30px;min-width:0;overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.disc article::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--sage),var(--cel))}
 .disc h3{margin-bottom:10px}
 .disc p{font-size:14.5px;color:var(--ink-2);line-height:1.58}
 
 .cierre{
-  font-family:'Fraunces',Georgia,serif;font-weight:400;
-  font-size:clamp(1.35rem,2.8vw,1.85rem);line-height:1.34;
-  color:var(--navy);max-width:36ch;margin-top:60px;
+  position:relative;font-family:'Fraunces',Georgia,serif;font-weight:400;
+  font-size:clamp(1.3rem,2.6vw,1.72rem);line-height:1.38;color:var(--navy);
+  margin-top:48px;background:var(--card);border:1px solid var(--sage-line);
+  border-left:4px solid var(--sage);border-radius:var(--r);
+  padding:30px 36px 32px 38px;box-shadow:var(--shadow);
 }
 .cierre em{font-style:italic;color:var(--sage-ink)}
 
@@ -253,9 +273,13 @@ ul.chk li:first-child::before{top:2px}
 .nota-pie{font-size:14px;color:var(--ink-3);margin-top:22px;max-width:76ch;line-height:1.56}
 
 /* mes a mes */
-.tareas{display:grid;grid-template-columns:repeat(3,1fr);gap:0 44px}
-.tareas article{padding:26px 0;border-top:1px solid var(--line);min-width:0}
-.tareas h3{margin-bottom:9px;font-size:1.06rem}
+.tareas{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tareas article{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px 24px 26px;min-width:0;box-shadow:var(--shadow);
+}
+.tareas h3{margin-bottom:9px;font-size:1.06rem;padding-left:17px;position:relative}
+.tareas h3::before{content:"";position:absolute;left:0;top:.52em;width:8px;height:8px;border-radius:50%;background:var(--sage)}
 .tareas p{font-size:14.5px;color:var(--ink-2);line-height:1.55}
 
 /* casos */
@@ -356,10 +380,16 @@ ul.chk li:first-child::before{top:2px}
 .cond p{font-size:15px;color:var(--ink-2)}
 .cond p + p{margin-top:13px}
 
+/* profundidad compartida en paneles */
+.salto,.zona,.tienda,.aside,.cont > div,.costos > div,.casos > div,.card,.pauta,.total{box-shadow:var(--shadow)}
+
 /* pasos */
-.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
-.pasos div{padding:26px 32px 0 0;border-top:2px solid var(--sage-line);min-width:0}
-.pasos div + div{padding-left:32px}
+.pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pasos div{
+  background:var(--card);border:1px solid var(--line);border-top:3px solid var(--sage);
+  border-radius:var(--r);padding:26px 26px 28px;min-width:0;box-shadow:var(--shadow);
+}
+.pasos div + div{padding-left:26px}
 .pasos .n{
   font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.13em;
   text-transform:uppercase;color:var(--sage-ink);display:block;margin-bottom:14px;
@@ -384,11 +414,11 @@ footer a{color:var(--sage-ink);text-decoration:none;border-bottom:1px solid var(
 /* responsive */
 @media (max-width:980px){
   .tareas{grid-template-columns:1fr 1fr}
-  .disc{grid-template-columns:1fr;gap:0}
-  .disc article{padding:22px 0}
+  .disc{grid-template-columns:1fr}
   .cont{grid-template-columns:1fr}
   .costos{grid-template-columns:1fr}
   .cond{gap:38px}
+  .hero-art{display:none}
 }
 @media (max-width:760px){
   .wrap{padding:0 20px}
@@ -416,8 +446,8 @@ footer a{color:var(--sage-ink);text-decoration:none;border-bottom:1px solid var(
   .pauta{grid-template-columns:1fr;padding:26px 24px}
   .pauta .big{text-align:left}
   .total{padding:26px 22px}
-  .pasos div{padding:22px 0 26px}
-  .pasos div + div{padding-left:0}
+  .pasos div{padding:24px 24px 26px}
+  .pasos div + div{padding-left:24px}
   .foot-r{text-align:left}
 }
 </style>
@@ -449,6 +479,9 @@ footer a{color:var(--sage-ink);text-decoration:none;border-bottom:1px solid var(
       <span>Meta Ads</span>
       <span>Contenido y edición</span>
       <span class="later">Google, más adelante</span>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <span class="r1"></span><span class="r2"></span><span class="r3"></span><span class="r4"></span><span class="dot"></span>
     </div>
   </div>
 </header>
