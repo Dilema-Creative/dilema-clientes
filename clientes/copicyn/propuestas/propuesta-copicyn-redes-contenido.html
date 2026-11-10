@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Copicyn · Propuesta Redes y Contenido</title>
+<meta name="description" content="Propuesta de Dilema Creative para Copicyn: gestión integral de redes, producción de contenido en el local, comunidad y pauta social, sobre la base de Google Ads que ya está en marcha.">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0C1738;
+    --navy-soft: #12205E;
+    --blue: #314394;
+    --blue-mid: #32528D;
+    --blue-soft: #5A81B3;
+    --blue-pale: #74A0C9;
+    --sky: #6BBBE0;
+    --yellow: #FFD447;
+    --green: #75C5B1;
+    --green-deep: #44A39B;
+    --paper: #F7F9FC;
+    --paper-2: #ECF1F7;
+    --white: #FFFFFF;
+    --text: #16192B;
+    --ash: #5F6880;
+    --line: #D8E1EC;
+    --bad: #C0433A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--paper);
+    color: var(--text);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(12, 23, 56, 0.97);
+    backdrop-filter: blur(12px);
+    padding: 0 48px;
+    height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid rgba(107,187,224,0.22);
+  }
+  .nav-brand {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700; font-size: 15px;
+    color: #fff; letter-spacing: -0.01em;
+  }
+  .nav-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .nav-left { display: flex; align-items: center; gap: 14px; }
+  .nav-divider { width: 1px; height: 18px; background: rgba(255,255,255,0.2); }
+  .nav-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 26px; }
+  .nav-links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: rgba(255,255,255,0.5);
+    text-decoration: none; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--sky); }
+
+  /* ---------- LAYOUT ---------- */
+  section { padding: 100px 60px; }
+  section.alt { background: var(--paper-2); }
+  section.dark { background: var(--navy); color: #fff; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+
+  .kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--blue); margin-bottom: 18px;
+  }
+  .dark .kicker { color: var(--sky); }
+
+  .section-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4.2vw, 44px);
+    line-height: 1.15; letter-spacing: -0.02em;
+    margin-bottom: 22px;
+  }
+  .section-title em { font-style: normal; color: var(--blue); }
+  .dark .section-title em { color: var(--sky); }
+
+  .lead {
+    font-size: clamp(15px, 2vw, 17.5px);
+    color: var(--ash); max-width: 720px; margin-bottom: 48px;
+  }
+  .dark .lead { color: rgba(255,255,255,0.72); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    background: var(--navy);
+    padding: 150px 60px 100px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute;
+    top: -140px; right: -80px;
+    width: 620px; height: 620px;
+    background: radial-gradient(circle, rgba(107,187,224,0.20) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(107,187,224,0.45), transparent);
+  }
+  .hero-mark {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 30px; position: relative; flex-wrap: wrap;
+  }
+  .hero-mark-brand {
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: 15px; color: #fff;
+  }
+  .hero-mark-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .hero-mark-line { width: 26px; height: 1px; background: rgba(255,255,255,0.3); }
+  .hero-mark-for {
+    font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+  .hero h1 {
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: clamp(32px, 6vw, 62px);
+    line-height: 1.08; letter-spacing: -0.03em;
+    color: #fff; margin-bottom: 30px; position: relative;
+  }
+  .hero h1 em { font-style: normal; color: var(--sky); }
+  .hero-sub {
+    font-size: clamp(15px, 2.2vw, 18px);
+    color: rgba(255,255,255,0.72);
+    max-width: 660px; position: relative; margin-bottom: 44px;
+  }
+  .hero-meta {
+    display: flex; gap: 44px; flex-wrap: wrap;
+    padding-top: 34px; border-top: 1px solid rgba(255,255,255,0.13);
+    position: relative;
+  }
+  .hero-meta-item .hm-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45); margin-bottom: 6px;
+  }
+  .hero-meta-item .hm-value {
+    font-family: 'Poppins', sans-serif; font-weight: 600;
+    font-size: 15px; color: #fff;
+  }
+
+  /* ---------- CARDS ---------- */
+  .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+
+  .card {
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 14px; padding: 30px;
+  }
+  .card-num {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: var(--blue-soft); letter-spacing: 0.12em; margin-bottom: 14px;
+  }
+  .card h3 {
+    font-family: 'Poppins', sans-serif; font-weight: 600;
+    font-size: 18px; margin-bottom: 10px; letter-spacing: -0.01em;
+  }
+  .card p { font-size: 14.5px; color: var(--ash); }
+
+  /* ---------- REFERENTES ---------- */
+  .ref {
+    background: var(--white); border: 1px solid var(--line);
+    border-radius: 14px; padding: 26px 28px; margin-bottom: 14px;
+  }
+  .ref-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 9px; }
+  .ref-name { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 18px; letter-spacing: -0.01em; }
+  .ref-origin {
+    font-family: 'JetBrains Mono', monospace; font-size: 9.5px;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue-soft);
+    background: var(--paper-2); border: 1px solid var(--line);
+    padding: 3px 9px; border-radius: 20px; white-space: nowrap;
+  }
+  .ref p { font-size: 14.5px; color: var(--ash); margin-bottom: 12px; }
+  .ref-take {
+    font-size: 14px; color: var(--text); padding-left: 16px;
+    border-left: 2px solid var(--green-deep); line-height: 1.55;
+  }
+  .ref-take b { font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--blue); }
+
+  /* ---------- SPLIT HOY / SUMAMOS ---------- */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .split-col { padding: 28px 30px; }
+  .split-col.now { background: var(--paper-2); }
+  .split-col.add { background: var(--white); border-left: 3px solid var(--green-deep); }
+  .split-col .sc-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .split-col.now .sc-label { color: var(--ash); }
+  .split-col.add .sc-label { color: var(--green-deep); }
+  .split-col ul { list-style: none; }
+  .split-col li { font-size: 14px; color: var(--ash); padding: 7px 0 7px 18px; position: relative; }
+  .split-col li::before { content: ''; position: absolute; left: 0; top: 14px; width: 6px; height: 6px; border-radius: 50%; }
+  .split-col.now li::before { background: var(--blue-soft); }
+  .split-col.add li::before { background: var(--green-deep); }
+  .split-col.add li { color: var(--text); }
+
+  /* ---------- INCLUDE LIST ---------- */
+  .inc-group { margin-bottom: 34px; }
+  .inc-group h3 {
+    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 17px;
+    margin-bottom: 14px; padding-bottom: 10px;
+    border-bottom: 1px solid var(--line); letter-spacing: -0.01em;
+  }
+  .inc-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: 9px 26px; }
+  .inc-list li { font-size: 14.5px; color: var(--ash); padding-left: 20px; position: relative; }
+  .inc-list li::before {
+    content: ''; position: absolute; left: 0; top: 9px;
+    width: 7px; height: 7px; border-radius: 2px; background: var(--green-deep);
+  }
+
+  /* ---------- CALLOUT ---------- */
+  .callout {
+    background: var(--white); border: 1px solid var(--line);
+    border-left: 3px solid var(--green-deep);
+    border-radius: 0 12px 12px 0; padding: 26px 30px; margin-top: 30px;
+  }
+  .callout h3 { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 17px; margin-bottom: 8px; letter-spacing: -0.01em; }
+  .callout p { font-size: 14.5px; color: var(--ash); }
+  .dark .callout { background: rgba(255,255,255,0.045); border-color: rgba(255,255,255,0.13); border-left-color: var(--sky); }
+  .dark .callout h3 { color: #fff; }
+  .dark .callout p { color: rgba(255,255,255,0.72); }
+
+  /* ---------- PRICING (desglose cliente existente) ---------- */
+  .price-sheet {
+    background: rgba(255,255,255,0.045);
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 16px; padding: 14px 30px; margin-bottom: 22px;
+  }
+  .price-row {
+    display: grid; grid-template-columns: 1fr auto;
+    align-items: center; gap: 18px;
+    padding: 22px 0; border-bottom: 1px solid rgba(255,255,255,0.11);
+  }
+  .price-row:last-child { border-bottom: none; }
+  .pr-name { font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 17px; color: #fff; }
+  .pr-desc { font-size: 13.5px; color: rgba(255,255,255,0.6); margin-top: 3px; }
+  .pr-tag {
+    display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px;
+    letter-spacing: 0.12em; text-transform: uppercase; margin-top: 8px;
+    padding: 3px 9px; border-radius: 20px;
+  }
+  .pr-tag.have { color: rgba(255,255,255,0.7); border: 1px solid rgba(255,255,255,0.2); }
+  .pr-tag.new { color: var(--navy); background: var(--sky); font-weight: 500; }
+  .pr-price { text-align: right; white-space: nowrap; }
+  .pr-was {
+    font-family: 'JetBrains Mono', monospace; font-size: 14px;
+    color: rgba(255,255,255,0.42); text-decoration: line-through; display: block; margin-bottom: 2px;
+  }
+  .pr-now { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 26px; color: #fff; letter-spacing: -0.02em; }
+  .pr-now span { font-size: 13px; font-weight: 400; color: rgba(255,255,255,0.6); letter-spacing: 0; }
+  .price-row.total { border-top: 1px solid rgba(107,187,224,0.4); background: rgba(107,187,224,0.07); margin: 0 -30px; padding: 24px 30px; border-radius: 0 0 16px 16px; }
+  .price-row.total .pr-name { font-size: 19px; }
+  .price-row.total .pr-now { font-size: 34px; }
+  .note {
+    background: rgba(255,255,255,0.045); border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 12px; padding: 24px 28px; font-size: 14.5px;
+    color: rgba(255,255,255,0.75); margin-bottom: 16px;
+  }
+  .note strong { color: #fff; font-family: 'Poppins', sans-serif; font-weight: 600; }
+
+  /* ---------- CLOSING ---------- */
+  .closing { background: var(--navy); padding: 110px 60px; text-align: center; }
+  .closing h2 {
+    font-family: 'Poppins', sans-serif; font-weight: 700;
+    font-size: clamp(26px, 4.5vw, 46px); line-height: 1.15;
+    color: #fff; letter-spacing: -0.025em; max-width: 860px; margin: 0 auto;
+  }
+  .closing h2 em { font-style: normal; color: var(--sky); }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    background: #070E22; padding: 48px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px; flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+  .foot-brand { font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 17px; color: #fff; }
+  .foot-brand em { font-style: normal; color: var(--sky); font-weight: 500; }
+  .foot-tag { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+  .foot-contact {
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    color: rgba(255,255,255,0.5); text-align: right; line-height: 1.9;
+  }
+  .foot-contact a { color: rgba(255,255,255,0.68); text-decoration: none; }
+  .foot-contact a:hover { color: var(--sky); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 900px) {
+    nav { padding: 0 22px; }
+    .nav-links { display: none; }
+    section, .hero, .closing { padding-left: 24px; padding-right: 24px; }
+    section { padding-top: 68px; padding-bottom: 68px; }
+    .hero { padding-top: 120px; padding-bottom: 72px; }
+    .closing { padding-top: 80px; padding-bottom: 80px; }
+    .grid-2, .grid-3, .inc-list { grid-template-columns: 1fr; }
+    .split { grid-template-columns: 1fr; }
+    .split-col.add { border-left: none; border-top: 3px solid var(--green-deep); }
+    .hero-meta { gap: 26px; }
+    footer { flex-direction: column; align-items: flex-start; }
+    .foot-contact { text-align: left; }
+  }
+  @media (max-width: 480px) {
+    .price-sheet { padding: 10px 20px; }
+    .price-row { grid-template-columns: 1fr; gap: 10px; }
+    .pr-price { text-align: left; }
+    .price-row.total { margin: 0 -20px; padding: 22px 20px; }
+    .ref { padding: 22px 22px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <span class="nav-brand">Dilema <em>Creative</em></span>
+    <span class="nav-divider"></span>
+    <span class="nav-sub">Propuesta Copicyn · Redes</span>
+  </div>
+  <div class="nav-links">
+    <a href="#porque">Por qué ahora</a>
+    <a href="#referentes">Referentes</a>
+    <a href="#activo">Su activo</a>
+    <a href="#canales">Canales</a>
+    <a href="#inversion">Inversión</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-mark">
+      <span class="hero-mark-brand">Dilema <em>Creative</em></span>
+      <span class="hero-mark-line"></span>
+      <span class="hero-mark-for">para Copicyn</span>
+    </div>
+    <h1>La imprenta<br>trabajando es el mejor<br><em>contenido</em> que tienen.</h1>
+    <p class="hero-sub">
+      Google ya los pone frente a quien busca una gráfica. Las redes trabajan antes: muestran lo que
+      Copicyn hace cada día a gente que todavía no los conoce, sostienen la marca presente en los
+      meses flojos y van armando la demanda que después aparece en la búsqueda. Esta es la propuesta
+      para gestionarlas de verdad, con contenido producido adentro del local.
+    </p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <div class="hm-label">Alcance</div>
+        <div class="hm-value">Instagram + LinkedIn + Contenido + Pauta social</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hm-label">Sobre la base de</div>
+        <div class="hm-value">Google Ads ya en marcha</div>
+      </div>
+      <div class="hero-meta-item">
+        <div class="hm-label">Fecha</div>
+        <div class="hm-value">Noviembre 2026</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POR QUÉ AHORA ============ -->
+<section id="porque">
+  <div class="wrap">
+    <div class="kicker">01 · Por qué arrancar ahora</div>
+    <h2 class="section-title">Los meses flojos<br>son el mejor momento<br>para <em>construir</em>.</h2>
+    <p class="lead">
+      Nos comentaron que los primeros meses del año el trabajo baja. Eso, lejos de ser un motivo para
+      esperar, es exactamente el momento para arrancar con redes. Hay tres razones concretas.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-num">01</div>
+        <h3>La demanda vuelve, la audiencia no se arma sola</h3>
+        <p>
+          Construir seguidores, confianza y reconocimiento lleva tiempo. Si se empieza recién cuando
+          el trabajo repunta, se llega tarde. Usar los meses tranquilos para sembrar deja la marca
+          lista para cuando la demanda corporativa vuelve.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <h3>Es cuando hay tiempo de producir</h3>
+        <p>
+          El contenido que funciona en gráfica se graba adentro del taller, con las máquinas
+          trabajando. En temporada alta nadie frena a filmar; en los meses tranquilos sí. Se puede
+          grabar material para varias semanas de una sola jornada.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">03</div>
+        <h3>Hay una temporada propia esperando</h3>
+        <p>
+          Principio de año es vuelta al cole y arranque de agenda: cuadernos, agendas, anillados. Es
+          la línea que Copicyn ya produce, y es demanda estacional que se trabaja justo en esos meses
+          supuestamente flojos, no en contra de ellos.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>Lo que las redes le suman a Google</h3>
+      <p>
+        No compiten, se complementan. Google captura a quien ya decidió que necesita imprimir y lo
+        busca. Las redes trabajan antes de esa decisión: muestran el trabajo a quien todavía no está
+        buscando, y hacen que cuando busque, ya conozca el nombre. Esa familiaridad previa baja el
+        costo de cada consulta que llega por la pauta. Es el paso que faltaba para cerrar el camino
+        completo.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REFERENTES ============ -->
+<section class="alt" id="referentes">
+  <div class="wrap">
+    <div class="kicker">02 · Qué hacen las gráficas que crecen</div>
+    <h2 class="section-title">Miramos a las que<br>lo hacen <em>bien</em>, afuera.</h2>
+    <p class="lead">
+      Antes de proponer nada revisamos qué hacen en redes las gráficas e imprentas que más crecieron
+      en Estados Unidos y Europa. No inventamos un camino: adaptamos uno que ya está probado. Esto es
+      lo que repiten, y cómo se traduce a Copicyn.
+    </p>
+
+    <div class="ref">
+      <div class="ref-head">
+        <span class="ref-name">Sticker Mule</span>
+        <span class="ref-origin">EE.UU. · adhesivos</span>
+      </div>
+      <p>
+        La imprenta de stickers más conocida de internet. Su motor no es la pauta: es que cada pedido
+        sale con un sticker de regalo bien diseñado, la gente lo postea, y esa foto del cliente usando
+        el producto termina siendo su mejor publicidad. Suman giveaways y una voz de marca cercana.
+      </p>
+      <div class="ref-take">
+        <b>Para Copicyn:</b> el trabajo terminado que sale del local es contenido. Un sistema simple
+        para que los clientes muestren sus tarjetas, etiquetas y cuadernos, y que Copicyn lo repostee,
+        convierte cada entrega en una pieza de marca sin costo de producción.
+      </div>
+    </div>
+
+    <div class="ref">
+      <div class="ref-head">
+        <span class="ref-name">Vistaprint</span>
+        <span class="ref-origin">Global · papelería</span>
+      </div>
+      <p>
+        El gigante de las tarjetas e impresión online. Dejó de depender de la pauta pura y armó una red
+        de creadores (dueños de pequeños negocios) que muestran sus trabajos con un hashtag de marca.
+        Su equipo de redes repite una idea: hoy importa más la calidad del contenido que el número de
+        seguidores.
+      </p>
+      <div class="ref-take">
+        <b>Para Copicyn:</b> el cliente B2B que encarga su papelería es el mejor vocero. Mostrar
+        trabajos reales de empresas de la zona, con su permiso, vale más que cualquier placa de diseño
+        genérico, y arma comunidad entre comercios del microcentro.
+      </div>
+    </div>
+
+    <div class="ref">
+      <div class="ref-head">
+        <span class="ref-name">Moo</span>
+        <span class="ref-origin">Reino Unido · tarjetas premium</span>
+      </div>
+      <p>
+        Creció sobre la idea de que la tarjeta es un objeto que se muestra. Destaca constantemente los
+        diseños de sus clientes, trata el producto físico como algo para presumir, y deja que el boca a
+        boca haga el resto. Comunidad antes que venta directa.
+      </p>
+      <div class="ref-take">
+        <b>Para Copicyn:</b> acá entra el diferencial real: las tintas especiales plata y dorada, que
+        pocas gráficas pueden hacer. Es el producto más "mostrable" que tienen, el que detiene el
+        scroll. El acabado metalizado filmado de cerca es contenido que la competencia no puede copiar.
+      </div>
+    </div>
+
+    <div class="ref">
+      <div class="ref-head">
+        <span class="ref-name">El patrón de fondo</span>
+        <span class="ref-origin">Imprentas en Instagram y TikTok</span>
+      </div>
+      <p>
+        Lo que más alcance genera en el rubro es el video de proceso: la máquina imprimiendo, el corte,
+        el troquel, el estampado. Es contenido hipnótico, se mira hasta el final y se guarda. Filmado
+        en vertical, los Reels lo empujan a gente que todavía no sigue la cuenta. Es la vía de
+        crecimiento más barata que tiene una gráfica.
+      </p>
+      <div class="ref-take">
+        <b>Para Copicyn:</b> treinta años de taller y máquinas que pocas gráficas tienen son, además de
+        un argumento de venta, la mejor materia prima de contenido que existe. Ese material hoy no se
+        está capturando.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ EL ACTIVO ============ -->
+<section id="activo">
+  <div class="wrap">
+    <div class="kicker">03 · El activo que ya tienen</div>
+    <h2 class="section-title">No hay que inventar<br>nada. Hay que <em>mostrarlo</em>.</h2>
+    <p class="lead">
+      La ventaja de Copicyn frente a una marca que vende online es que tiene un lugar físico
+      produciendo todos los días. Eso es lo más difícil de conseguir en redes y ustedes ya lo tienen.
+      Hoy las cuentas están, pero dormidas. Esta es la diferencia entre el punto de partida y lo que
+      sumamos.
+    </p>
+
+    <div class="split">
+      <div class="split-col now">
+        <div class="sc-label">Cómo están hoy</div>
+        <ul>
+          <li>Instagram con 489 seguidores y la cuenta prácticamente sin movimiento</li>
+          <li>Historias destacadas ordenadas por servicio, buena base para reordenar el perfil</li>
+          <li>Sin página de empresa en LinkedIn, solo un perfil personal usado como si lo fuera</li>
+          <li>El taller produce trabajos todos los días que no quedan registrados en ningún lado</li>
+        </ul>
+      </div>
+      <div class="split-col add">
+        <div class="sc-label">Lo que sumamos</div>
+        <ul>
+          <li>Perfil reactivado con una línea visual propia, coherente con la web y las landings</li>
+          <li>Contenido de proceso grabado en el local: máquinas, acabados, trabajos terminados</li>
+          <li>Página de empresa en LinkedIn, enfocada a compra corporativa y a impresión responsable</li>
+          <li>Un ritmo de publicación sostenido, sin depender de que alguien se acuerde de postear</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>El eje FSC vuelve a aparecer, ahora en LinkedIn</h3>
+      <p>
+        Copicyn trabaja con papeles certificados FSC y ningún competidor de la zona lo comunica. A quien
+        encarga cien tarjetas no le mueve la aguja, pero a la empresa que reporta sostenibilidad le
+        importa, y muchas veces se lo exigen por política interna. En Google lo trabajamos como eje de
+        campaña. En LinkedIn es el contenido que posiciona a Copicyn como el proveedor serio para la
+        compra corporativa, no como una imprenta más de barrio.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CANALES ============ -->
+<section class="alt" id="canales">
+  <div class="wrap">
+    <div class="kicker">04 · Los canales</div>
+    <h2 class="section-title">Cada red hace<br>un <em>trabajo</em> distinto.</h2>
+    <p class="lead">
+      No es publicar lo mismo en todos lados. Cada canal tiene un público y una función, y el contenido
+      se arma para eso.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-num">Principal</div>
+        <h3>Instagram</h3>
+        <p>
+          El canal de crecimiento. Proceso del taller, trabajos terminados, acabados especiales y la
+          vida del local. Reels para llegar a gente nueva, feed para la identidad, historias para el
+          día a día. Y la comunidad: responder, derivar consultas al WhatsApp, repostear a los clientes.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Corporativo</div>
+        <h3>LinkedIn</h3>
+        <p>
+          La página de empresa que hoy no existe, enfocada al cliente B2B: papelería institucional,
+          señalética, material para eventos y el argumento de impresión responsable. Es donde se
+          construye la reputación de proveedor confiable para la compra de empresa.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">Amplificación</div>
+        <h3>Pauta social</h3>
+        <p>
+          Cuando ya haya contenido propio que funcione, se suma pauta en Meta para dos cosas:
+          mostrar el trabajo a públicos nuevos de la zona, y volver a aparecer frente a quien entró a
+          las landings y no llegó a consultar. Inversión baja, es pauta de marca, no de venta directa.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <h3>El contenido se produce, no se improvisa</h3>
+      <p>
+        La base de todo esto es grabar en el local. Coordinamos jornadas de producción donde se
+        captura material de las máquinas, los acabados y los trabajos del momento, y de ahí sale el
+        contenido de las semanas siguientes. Sin esa materia prima propia, la gestión de redes es solo
+        diseño de placas y se nota. Con ella, es la imprenta real la que se muestra.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUÉ ENTRA ============ -->
+<section id="incluye">
+  <div class="wrap">
+    <div class="kicker">05 · Alcance</div>
+    <h2 class="section-title">Todo lo que <em>entra</em><br>en la gestión de redes.</h2>
+
+    <div class="inc-group">
+      <h3>Contenido</h3>
+      <ul class="inc-list">
+        <li>Jornadas de producción de foto y video en el local</li>
+        <li>Edición de Reels y videos de proceso en vertical</li>
+        <li>Diseño de piezas gráficas alineadas a la marca</li>
+        <li>Calendario de contenido mensual</li>
+        <li>Redacción de todos los textos y copies</li>
+        <li>Adaptación de cada pieza al formato de cada red</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>Instagram</h3>
+      <ul class="inc-list">
+        <li>Reordenamiento y puesta a punto del perfil</li>
+        <li>Publicación sostenida de feed, Reels e historias</li>
+        <li>Gestión de comunidad: comentarios y mensajes</li>
+        <li>Derivación de consultas al WhatsApp y al formulario</li>
+        <li>Repost y sistema de contenido de clientes</li>
+        <li>Historias destacadas ordenadas por servicio</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>LinkedIn</h3>
+      <ul class="inc-list">
+        <li>Creación de la página de empresa</li>
+        <li>Contenido orientado a compra corporativa</li>
+        <li>Eje de impresión responsable y certificación FSC</li>
+        <li>Publicación periódica y gestión de la página</li>
+      </ul>
+    </div>
+
+    <div class="inc-group">
+      <h3>Pauta social y seguimiento</h3>
+      <ul class="inc-list">
+        <li>Gestión de campañas de pauta en Meta</li>
+        <li>Remarketing a quienes visitaron las landings</li>
+        <li>Reporte periódico de redes con métricas y lectura</li>
+        <li>El panel de redes se suma al portal de cliente que ya tienen</li>
+      </ul>
+    </div>
+
+    <div class="callout">
+      <h3>Qué es el fee y qué es la inversión en pauta</h3>
+      <p>
+        El fee mensual es el trabajo de Dilema: producción, contenido, gestión de las redes y de la
+        pauta. La inversión en pauta de Meta va aparte y se paga directo a la plataforma. Como es pauta
+        de marca y no de venta directa, arranca con un número bajo que definimos juntos una vez que
+        haya contenido propio al aire. No tiene sentido ponerle una cifra antes de eso.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DE SU LADO ============ -->
+<section class="alt" id="necesitamos">
+  <div class="wrap">
+    <div class="kicker">06 · De su lado</div>
+    <h2 class="section-title">Lo que precisamos<br>para que <em>funcione</em>.</h2>
+    <p class="lead">
+      La gestión de redes es la parte del trabajo que más depende del cliente. Sin esto, se puede, pero
+      rinde la mitad.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-num">01</div>
+        <h3>Acceso al local para grabar</h3>
+        <p>
+          Poder entrar a filmar las máquinas trabajando y los trabajos del momento, en las jornadas que
+          coordinemos. Es la materia prima de todo. Si además alguien del equipo puede captar algo
+          puntual cuando pasa algo lindo en el taller, mejor todavía.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">02</div>
+        <h3>Permiso para mostrar trabajos</h3>
+        <p>
+          Trabajos terminados de clientes, sobre todo de empresas, para mostrarlos con su ok. Es el
+          contenido que más confianza genera y el que arma comunidad entre los comercios de la zona.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">03</div>
+        <h3>Una cara para LinkedIn</h3>
+        <p>
+          En compra corporativa, el contenido de una persona del negocio rinde mucho más que el de una
+          marca sin rostro. Si hay alguien dispuesto a aparecer, LinkedIn pega distinto. Si no, se
+          replantea ese canal y se concentra el esfuerzo en Instagram.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-num">04</div>
+        <h3>Un referente que valide y responda</h3>
+        <p>
+          Alguien que apruebe los contenidos y conteste dudas sin demora, y que las consultas que
+          lleguen por redes se respondan en el día. Una buena cuenta que trae consultas no sirve de
+          nada si la consulta espera dos días.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ INVERSIÓN ============ -->
+<section class="dark" id="inversion">
+  <div class="wrap">
+    <div class="kicker">07 · Inversión</div>
+    <h2 class="section-title">Se suma a lo que<br>ya <em>trabajamos</em> juntos.</h2>
+    <p class="lead">
+      Copicyn ya tiene la gestión de Google Ads con Dilema. Las redes se suman como un servicio nuevo,
+      y por ser ya clientes el valor queda por debajo de la lista.
+    </p>
+
+    <div class="price-sheet">
+      <div class="price-row">
+        <div>
+          <div class="pr-name">Gestión de Google Ads</div>
+          <div class="pr-desc">Campañas, optimización, reportes y portal. Lo que ya está en marcha.</div>
+          <span class="pr-tag have">Ya lo tienen</span>
+        </div>
+        <div class="pr-price">
+          <div class="pr-now">USD 350 <span>/ mes</span></div>
+        </div>
+      </div>
+
+      <div class="price-row">
+        <div>
+          <div class="pr-name">Gestión de redes y contenido</div>
+          <div class="pr-desc">Instagram, LinkedIn, producción en el local, comunidad y pauta social.</div>
+          <span class="pr-tag new">Precio para Copicyn</span>
+        </div>
+        <div class="pr-price">
+          <span class="pr-was">USD 500 / mes</span>
+          <div class="pr-now">USD 450 <span>/ mes</span></div>
+        </div>
+      </div>
+
+      <div class="price-row total">
+        <div>
+          <div class="pr-name">Gestión integral</div>
+          <div class="pr-desc">Google Ads y redes, todo gestionado por el mismo equipo.</div>
+        </div>
+        <div class="pr-price">
+          <div class="pr-now">USD 800 <span>/ mes</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>El valor de lista de la gestión de redes es USD 500 por mes.</strong> Por ser ya clientes
+      de Copicyn queda en 450. El fee de Google Ads no cambia: sigue en 350. Son dos servicios sobre una
+      misma cuenta, atendidos por el mismo equipo.
+    </div>
+
+    <div class="note">
+      <strong>La inversión en pauta de Meta va aparte y se paga directo a la plataforma.</strong> Es
+      pauta de marca, así que arranca con un número bajo y lo definimos juntos cuando haya contenido
+      propio al aire. Ponerle una cifra antes de eso sería un número en el aire.
+    </div>
+
+    <div class="note">
+      <strong>Lo que se construye queda de Copicyn.</strong> Las cuentas, la página de empresa y el
+      contenido producido quedan a nombre de ustedes, pase lo que pase con la relación comercial. No
+      trabajamos con activos rehenes.
+    </div>
+  </div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section class="closing">
+  <div class="wrap">
+    <h2>Google ya trae a quien busca. Ahora vamos a hacer que, cuando busquen, <em>ya conozcan</em> a Copicyn.</h2>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="foot-brand">Dilema <em>Creative</em></div>
+    <div class="foot-tag">Estrategia integral para empresas que quieren crecer en digital.</div>
+  </div>
+  <div class="foot-contact">
+    <a href="mailto:equipo@dilemacreative.ar">equipo@dilemacreative.ar</a><br>
+    <a href="https://www.instagram.com/dilema.creative/" target="_blank" rel="noopener">@dilema.creative</a><br>
+    <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
+  </div>
+</footer>
+
+</body>
+</html>
