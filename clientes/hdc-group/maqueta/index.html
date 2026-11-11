@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>HDC Group · Sistema de gestión</title>
+<link rel="icon" href="assets/logo-hdc.png">
+<script src="tema-inicial.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app" id="app">
+  <aside class="sidebar" id="sidebar" aria-label="Menú principal">
+    <a class="brand" href="#/inicio" aria-label="Inicio">
+      <img class="logo logo-claro" src="assets/logo-hdc.png" alt="Flia. HDC Group" width="104" height="56">
+      <img class="logo logo-oscuro" src="assets/logo-hdc-oscuro.png" alt="Flia. HDC Group" width="104" height="56">
+    </a>
+    <nav class="nav" id="nav"></nav>
+    <a class="argos-sello" href="https://argos.dilemacreative.ar/?utm_source=sistema-hdc&amp;utm_medium=watermark" target="_blank" rel="noopener"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="a-r1" cx="24" cy="24" r="22.4"/><circle class="a-r2" cx="24" cy="24" r="13.7"/><circle class="a-iris" cx="24" cy="24" r="7.2"/></svg><span class="a-txt"><b>Argos</b><span>Sistema de Dilema Labs</span></span></a>
+  </aside>
+  <div class="velo" id="velo" data-accion="cerrar-menu"></div>
+
+  <div class="main">
+    <header class="topbar">
+      <button type="button" class="btn icon ghost solo-movil" data-accion="abrir-menu" aria-label="Abrir menú"><i class="ph ph-list"></i></button>
+      <div class="quick" role="group" aria-label="Nueva operación">
+        <button type="button" class="btn primary" data-accion="nueva-venta" data-version="Oficial"><i class="ph ph-plus"></i><span>Venta oficial</span></button>
+        <button type="button" class="btn" data-accion="nueva-venta" data-version="Neutral"><span>Neutral</span></button>
+        <button type="button" class="btn" data-accion="nueva-venta" data-version="Seña"><span>Seña</span></button>
+        <button type="button" class="btn" data-accion="nueva-venta" data-version="Cotización"><span>Cotización</span></button>
+      </div>
+      <button type="button" class="buscador-global" data-accion="paleta" aria-label="Buscar en todo el sistema (Ctrl K)">
+        <i class="ph ph-magnifying-glass"></i><span>Buscar o ir a…</span><kbd>Ctrl K</kbd>
+      </button>
+      <nav class="atajos" aria-label="Accesos">
+        <a href="#/cajas">Cajas</a>
+        <a href="#/productos">Precios</a>
+        <a href="#/informes">Informes</a>
+      </nav>
+      <span class="pill-maqueta" title="Maqueta navegable con datos de ejemplo">Maqueta</span>
+      <button type="button" class="btn icon ghost" data-accion="tema" aria-label="Cambiar tema"><i class="ph ph-moon tema-luna"></i><i class="ph ph-sun tema-sol"></i></button>
+      <div class="usuario" title="Administración"><span>AD</span></div>
+    </header>
+    <main id="vista" tabindex="-1"></main>
+  </div>
+</div>
+
+<div class="drawer-wrap" id="drawer-wrap" aria-hidden="true">
+  <div class="drawer-velo" data-accion="cerrar-drawer"></div>
+  <section class="drawer" id="drawer" role="dialog" aria-modal="true" tabindex="-1"></section>
+</div>
+<div class="modal-wrap" id="modal-wrap" aria-hidden="true">
+  <section class="modal" id="modal" role="dialog" aria-modal="true"></section>
+</div>
+<div class="paleta-wrap" id="paleta-wrap" aria-hidden="true">
+  <div class="paleta" id="paleta" role="dialog" aria-modal="true" aria-label="Buscar en el sistema">
+    <div class="paleta-in"><i class="ph ph-magnifying-glass"></i><input type="text" id="busqueda-global" placeholder="Buscá ventas, clientes, proveedores, productos o acciones" autocomplete="off" aria-controls="resultados-global"><kbd>Esc</kbd></div>
+    <div class="resultados" id="resultados-global" role="listbox"></div>
+    <div class="paleta-pie"><span><kbd>↑</kbd><kbd>↓</kbd> moverse</span><span><kbd>Enter</kbd> abrir</span><span><kbd>Esc</kbd> cerrar</span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -197,6 +197,20 @@ section{position:relative;padding:120px 0}
 .mod li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:var(--faint)}
 
 /* mejoras */
+.mod .para{font-size:14.5px;color:var(--text);line-height:1.5;margin:-4px 0 16px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.mod .para b{color:var(--accent);font-weight:600}
+.difs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.dif{border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:28px 26px;min-width:0}
+.dif .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-size:21px;margin-bottom:20px;border:1px solid rgba(92,199,157,.2)}
+.dif h3{font-size:1.2rem;margin-bottom:10px}
+.dif p{font-size:14.5px;color:var(--muted);line-height:1.55}
+.probar{border:1px solid rgba(92,199,157,.35);border-radius:var(--r);background:linear-gradient(135deg,var(--accent-soft),rgba(255,255,255,.02));padding:44px 40px;display:grid;grid-template-columns:minmax(0,1.4fr) auto;gap:32px;align-items:center}
+.probar h2{font-size:clamp(1.7rem,3vw,2.4rem)}
+.probar p{color:var(--muted);margin-top:14px;max-width:56ch}
+.probar small{display:block;color:var(--faint);font-size:13px;margin-top:12px}
+.btn-maqueta{display:inline-flex;align-items:center;gap:10px;background:var(--accent);color:#06281C;font-weight:600;font-size:16px;padding:16px 26px;border-radius:999px;text-decoration:none;white-space:nowrap;transition:background .2s,transform .2s}
+.btn-maqueta:hover{background:#74D4AE;transform:translateY(-1px)}
+.btn-maqueta i{font-size:19px}
 .mejoras{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
 .mej{padding:30px 26px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);min-width:0}
 .mej:nth-child(4n){border-right:0}
@@ -254,6 +268,8 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
 /* responsive */
 @media (max-width:1080px){
   .modulos{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .difs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .probar{grid-template-columns:minmax(0,1fr)}
   .mejoras{grid-template-columns:repeat(2,minmax(0,1fr))}
   .mej:nth-child(4n){border-right:1px solid var(--border)}
   .mej:nth-child(2n){border-right:0}
@@ -277,6 +293,9 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
 }
 @media (max-width:760px){
   body{font-size:16px}
+  .difs{grid-template-columns:minmax(0,1fr)}
+  .probar{padding:32px 24px}
+  .btn-maqueta{width:100%;justify-content:center}
   .wrap{padding:0 18px}
   .nav{top:10px;margin-top:10px}
   .nav-in{height:52px}
@@ -462,21 +481,21 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
   <div class="wrap">
     <div class="shead rev">
       <h2>Todo lo que hace el sistema.</h2>
-      <p class="lead">Módulo por módulo, lo que van a poder hacer desde el primer día de uso.</p>
+      <p class="lead">Módulo por módulo, para qué sirve y lo que van a poder hacer desde el primer día de uso.</p>
     </div>
     <div class="modulos">
-      <div class="mod rev"><i class="ph ph-storefront ic"></i><h3>Ventas multicanal</h3><ul><li>Mercado Libre, Tiendanube y Frávega entran solas; las tiendas de bancos, por mail o las operamos nosotros.</li><li>Mostrador y mayorista con buscador.</li><li>Venta, seña y cotización.</li><li>Remitos, envíos y anulaciones.</li></ul></div>
-      <div class="mod rev" style="--d:.04s"><i class="ph ph-file-text ic"></i><h3>Facturación ARCA</h3><ul><li>Facturas A y B con CAE automático.</li><li>Percepciones según el padrón.</li><li>Notas de crédito y débito.</li><li>PDF con el QR de ARCA.</li></ul></div>
-      <div class="mod rev" style="--d:.08s"><i class="ph ph-hand-coins ic"></i><h3>Cobros y conciliación</h3><ul><li>Cada cobro atado a su venta.</li><li>Liquidaciones de cada canal con su detalle.</li><li>Plata en tránsito con fecha.</li><li>Diferencias siempre a la vista.</li></ul></div>
-      <div class="mod rev" style="--d:.12s"><i class="ph ph-users ic"></i><h3>Clientes</h3><ul><li>CUIT validado y condición de IVA.</li><li>Cuenta corriente unificada.</li><li>Cobros aplicados a lo más viejo.</li><li>Saldos y vencimientos.</li></ul></div>
-      <div class="mod rev"><i class="ph ph-truck ic"></i><h3>Proveedores y pagos</h3><ul><li>Proveedores, servicios, impuestos y sueldos separados.</li><li>Facturas sin duplicados.</li><li>Órdenes de pago con retenciones.</li><li>Vencimientos de la semana.</li></ul></div>
-      <div class="mod rev" style="--d:.04s"><i class="ph ph-bank ic"></i><h3>Cajas, bancos y cheques</h3><ul><li>Bancos, billeteras, efectivo y cheques.</li><li>Saldos contra su extracto.</li><li>Transferencias entre cajas.</li><li>Cartera de cheques.</li></ul></div>
-      <div class="mod rev" style="--d:.08s"><i class="ph ph-package ic"></i><h3>Productos y stock</h3><ul><li>Lista, mayorista, costo y margen.</li><li>Stock en fábrica y en Full.</li><li>Ajustes con motivo.</li><li>Aviso de stock mínimo.</li></ul></div>
-      <div class="mod rev" style="--d:.12s"><i class="ph ph-chart-line-up ic"></i><h3>Informes</h3><ul><li>Ventas por canal y producto.</li><li>Utilidad, saldos y vencimientos.</li><li>Plata en tránsito.</li><li>Todo exportable a Excel.</li></ul></div>
-      <div class="mod rev"><i class="ph ph-scales ic"></i><h3>Impuestos</h3><ul><li>Percepciones y retenciones de IIBB.</li><li>Libros de IVA y Libro de IVA Digital.</li><li>Archivos para SICORE y SIRE.</li><li>Listo para el estudio contable.</li></ul></div>
-      <div class="mod rev" style="--d:.04s"><i class="ph ph-user-gear ic"></i><h3>Usuarios y permisos</h3><ul><li>Usuario y clave por persona.</li><li>Permisos por área.</li><li>Registro de quién hizo qué.</li><li>Computadora, tablet o celular.</li></ul></div>
-      <div class="mod rev" style="--d:.08s"><i class="ph ph-shield-check ic"></i><h3>Respaldo y seguridad</h3><ul><li>Copia diaria cifrada.</li><li>Conexión segura.</li><li>Nada se guarda a medias.</li><li>Los datos son de HDC.</li></ul></div>
-      <div class="mod rev" style="--d:.12s"><i class="ph ph-bell ic"></i><h3>Avisos del día</h3><ul><li>Ventas para remitir.</li><li>Cobros y cheques pendientes.</li><li>Pagos que vencen.</li><li>Diferencias con el banco.</li></ul></div>
+      <div class="mod rev"><i class="ph ph-storefront ic"></i><h3>Ventas multicanal</h3><p class="para"><b>Para qué:</b> Ver todas las ventas en un lugar, sin cargar ninguna a mano.</p><ul><li>Mercado Libre, Tiendanube y Frávega entran solas; las tiendas de bancos, por mail o las operamos nosotros.</li><li>Mostrador y mayorista con buscador.</li><li>Venta, seña y cotización.</li><li>Remitos, envíos y anulaciones.</li></ul></div>
+      <div class="mod rev" style="--d:.04s"><i class="ph ph-file-text ic"></i><h3>Facturación ARCA</h3><p class="para"><b>Para qué:</b> Que cada venta salga facturada sola, con el comprobante correcto.</p><ul><li>Facturas A y B con CAE automático.</li><li>Percepciones según el padrón.</li><li>Notas de crédito y débito.</li><li>PDF con el QR de ARCA.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-hand-coins ic"></i><h3>Cobros y conciliación</h3><p class="para"><b>Para qué:</b> Saber cuánto entró de verdad por cada venta y por qué hay diferencias.</p><ul><li>Cada cobro atado a su venta.</li><li>Liquidaciones de cada canal con su detalle.</li><li>Plata en tránsito con fecha.</li><li>Diferencias siempre a la vista.</li></ul></div>
+      <div class="mod rev" style="--d:.12s"><i class="ph ph-users ic"></i><h3>Clientes</h3><p class="para"><b>Para qué:</b> Saber quién debe, cuánto y desde cuándo, en todos los canales.</p><ul><li>CUIT validado y condición de IVA.</li><li>Cuenta corriente unificada.</li><li>Cobros aplicados a lo más viejo.</li><li>Saldos y vencimientos.</li></ul></div>
+      <div class="mod rev"><i class="ph ph-truck ic"></i><h3>Proveedores y pagos</h3><p class="para"><b>Para qué:</b> Saber a quién se le debe y cuándo vence, y pagar con las retenciones bien hechas.</p><ul><li>Proveedores, servicios, impuestos y sueldos separados.</li><li>Facturas sin duplicados.</li><li>Órdenes de pago con retenciones.</li><li>Vencimientos de la semana.</li></ul></div>
+      <div class="mod rev" style="--d:.04s"><i class="ph ph-bank ic"></i><h3>Cajas, bancos y cheques</h3><p class="para"><b>Para qué:</b> Que el saldo del sistema sea el mismo que el del banco.</p><ul><li>Bancos, billeteras, efectivo y cheques.</li><li>Saldos contra su extracto.</li><li>Transferencias entre cajas.</li><li>Cartera de cheques.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-package ic"></i><h3>Productos y stock</h3><p class="para"><b>Para qué:</b> Saber qué se vende, cuánto deja y qué hay que reponer.</p><ul><li>Lista, mayorista, costo y margen.</li><li>Stock en fábrica y en Full.</li><li>Ajustes con motivo.</li><li>Aviso de stock mínimo.</li></ul></div>
+      <div class="mod rev" style="--d:.12s"><i class="ph ph-chart-line-up ic"></i><h3>Informes</h3><p class="para"><b>Para qué:</b> Decidir con números que cierran, sin controlar todo dos veces.</p><ul><li>Ventas por canal y producto.</li><li>Utilidad, saldos y vencimientos.</li><li>Plata en tránsito.</li><li>Todo exportable a Excel.</li></ul></div>
+      <div class="mod rev"><i class="ph ph-scales ic"></i><h3>Impuestos</h3><p class="para"><b>Para qué:</b> Pasarle al estudio contable todo listo, sin rearmar nada.</p><ul><li>Percepciones y retenciones de IIBB.</li><li>Libros de IVA y Libro de IVA Digital.</li><li>Archivos para SICORE y SIRE.</li><li>Listo para el estudio contable.</li></ul></div>
+      <div class="mod rev" style="--d:.04s"><i class="ph ph-user-gear ic"></i><h3>Usuarios y permisos</h3><p class="para"><b>Para qué:</b> Que cada uno vea y toque solo lo suyo, con registro de todo.</p><ul><li>Usuario y clave por persona.</li><li>Permisos por área.</li><li>Registro de quién hizo qué.</li><li>Computadora, tablet o celular.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-shield-check ic"></i><h3>Respaldo y seguridad</h3><p class="para"><b>Para qué:</b> No perder nunca un dato, y que los datos sean siempre de HDC.</p><ul><li>Copia diaria cifrada.</li><li>Conexión segura.</li><li>Nada se guarda a medias.</li><li>Los datos son de HDC.</li></ul></div>
+      <div class="mod rev" style="--d:.12s"><i class="ph ph-bell ic"></i><h3>Avisos del día</h3><p class="para"><b>Para qué:</b> Enterarse de lo que hay que hacer sin tener que ir a buscarlo.</p><ul><li>Ventas para remitir.</li><li>Cobros y cheques pendientes.</li><li>Pagos que vencen.</li><li>Diferencias con el banco.</li></ul></div>
     </div>
   </div>
 </section>
@@ -525,6 +544,23 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="mej"><i class="ph ph-lightning"></i><h3>Menos carga manual</h3><p>Ventas y facturas de los canales, sin cargar una por una.</p></div>
       <div class="mej"><i class="ph ph-bank"></i><h3>Bancos al día</h3><p>Cada caja comparada con su extracto.</p></div>
       <div class="mej"><i class="ph ph-device-mobile"></i><h3>Desde cualquier lugar</h3><p>Computadora, tablet o celular, en modo claro u oscuro.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Lo que suma <span class="ac">Argos</span>.</h2>
+      <p class="lead">Además de las pantallas, lo que hace la diferencia en el día a día.</p>
+    </div>
+    <div class="difs">
+      <div class="dif rev"><span class="ic"><i class="ph ph-ruler"></i></span><h3>Hecho a su medida</h3><p>Con su forma de trabajar y sus pantallas de siempre. Lo que no usan no está, y lo que les falta se suma.</p></div>
+      <div class="dif rev" style="--d:.05s"><span class="ic"><i class="ph ph-headset"></i></span><h3>Lo operamos con ustedes</h3><p>Los canales sin conexión los bajamos y cruzamos nosotros. Si algo no cierra, les avisamos con el motivo.</p></div>
+      <div class="dif rev" style="--d:.1s"><span class="ic"><i class="ph ph-shield-check"></i></span><h3>Sin riesgo para la operación</h3><p>Funciona al lado de su sistema actual. El cambio se hace recién cuando los números coinciden.</p></div>
+      <div class="dif rev"><span class="ic"><i class="ph ph-lightning"></i></span><h3>Cambios sin esperas</h3><p>Lo construye y lo mantiene el mismo equipo. Lo que piden se ajusta rápido, sin tickets ni intermediarios.</p></div>
+      <div class="dif rev" style="--d:.05s"><span class="ic"><i class="ph ph-database"></i></span><h3>Los datos son de HDC</h3><p>Base propia con copia diaria cifrada. Se exportan cuando quieran, sin depender de nadie.</p></div>
+      <div class="dif rev" style="--d:.1s"><span class="ic"><i class="ph ph-lock-key"></i></span><h3>Controles de verdad</h3><p>Usuario por persona, permisos por área y registro de quién hizo qué. Lo que no corresponde, el sistema no lo deja hacer.</p></div>
     </div>
   </div>
 </section>
@@ -585,6 +621,19 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
         <li><i class="ph ph-user-circle"></i>Una persona de referencia por área.</li>
         <li><i class="ph ph-database"></i>La exportación completa de su información, pedida por escrito al proveedor actual antes de comunicar el cambio.</li>
       </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="probar rev">
+      <div>
+        <h2>Recórranlo <span class="ac">ustedes</span>.</h2>
+        <p>La maqueta está abierta para que la miren con calma: pueden buscar, cargar una venta, anular o cambiar el período. Los datos son de ejemplo, así que no se rompe nada.</p>
+        <small>Para volver al estado original: "Restablecer ejemplo", al pie del menú.</small>
+      </div>
+      <a class="btn-maqueta" href="../maqueta/index.html" target="_blank" rel="noopener"><i class="ph ph-play-circle"></i>Abrir la maqueta</a>
     </div>
   </div>
 </section>
