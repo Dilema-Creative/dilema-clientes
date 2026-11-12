@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>Agente de atención · Propuesta para Wiltech Argentina</title>
+<meta name="description" content="Agente de IA que responde, cotiza con su planilla y agenda turnos en Google Calendar, en WhatsApp e Instagram.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#070D17;
+  --surface:rgba(255,255,255,.035);
+  --surface-2:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.08);
+  --border-2:rgba(255,255,255,.14);
+  --text:#EEF2F6;
+  --muted:#A3B0BF;
+  --faint:#7D8B9D;
+  --accent:#5CC79D;
+  --accent-soft:rgba(92,199,157,.12);
+  --r:16px;
+  --max:1180px;
+  --sans:'Geist',ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono',ui-monospace,'SFMono-Regular',Consolas,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;overflow-x:clip}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);font-size:16.5px;line-height:1.6;overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 32px}
+h1,h2,h3{font-weight:600;letter-spacing:-.035em;color:var(--text)}
+h1{font-size:clamp(2.6rem,6vw,4.7rem);line-height:1.03;letter-spacing:-.045em}
+h2{font-size:clamp(1.9rem,4vw,3rem);line-height:1.08;text-wrap:balance}
+h3{font-size:1.08rem;line-height:1.35;letter-spacing:-.015em}
+.ac{color:var(--accent)}
+.lead{font-size:1.12rem;color:var(--muted);max-width:58ch}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--muted);border:1px solid var(--border-2);background:var(--surface);border-radius:999px;padding:6px 14px 6px 10px}
+.eyebrow i{color:var(--accent);font-size:14px}
+
+.bg-glow{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.bg-glow::before{content:'';position:absolute;top:-260px;left:50%;width:1200px;height:760px;transform:translateX(-50%);background:radial-gradient(ellipse at center,rgba(92,199,157,.20),rgba(91,180,214,.07) 42%,transparent 70%);filter:blur(10px)}
+.bg-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 0%,#000 20%,transparent 70%)}
+
+/* nav */
+.nav{position:sticky;top:14px;z-index:40;margin-top:14px}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:58px;padding:0 10px 0 20px;border:1px solid var(--border);border-radius:999px;background:rgba(10,19,32,.72);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%)}
+.marca{font-weight:600;font-size:17px;letter-spacing:-.02em;text-decoration:none;white-space:nowrap}
+.marca em{font-style:normal;font-weight:400;color:var(--muted)}
+.marca sup{color:var(--accent);font-size:.7em;margin-left:1px}
+.nav-cliente{font-size:13.5px;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:8px 14px;white-space:nowrap}
+.nav-cliente b{color:var(--text);font-weight:500}
+
+/* hero */
+.hero{position:relative;padding:92px 0 0}
+.hero .wrap{position:relative}
+.hero h1{max-width:15ch;margin:26px 0 22px}
+.hero-meta{display:flex;gap:28px;flex-wrap:wrap;margin-top:34px;font-size:14px;color:var(--muted)}
+.hero-meta span{display:inline-flex;align-items:center;gap:8px}
+.hero-meta i{color:var(--accent);font-size:17px}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-top:80px}
+.stats div{padding:34px 0 32px}
+.stats div + div{padding-left:36px;border-left:1px solid var(--border)}
+.stats b{display:block;font-size:clamp(2.1rem,4.2vw,3.1rem);font-weight:600;letter-spacing:-.05em;line-height:1}
+.stats span{display:block;margin-top:10px;color:var(--muted);font-size:14.5px;max-width:30ch}
+
+section{position:relative;padding:112px 0}
+.shead{max-width:660px;margin-bottom:52px}
+.shead .lead{margin-top:18px}
+
+/* lo que nos contaron */
+.cuadros{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.cuadro{border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:28px;min-width:0}
+.cuadro .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-size:21px;margin-bottom:20px;border:1px solid rgba(92,199,157,.2)}
+.cuadro h3{font-size:1.18rem;margin-bottom:8px}
+.cuadro p{color:var(--muted);font-size:15px}
+
+/* demo */
+.demo{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:64px;align-items:center}
+.tel{border-radius:34px;padding:9px;background:linear-gradient(180deg,rgba(255,255,255,.16),rgba(255,255,255,.04));box-shadow:0 50px 100px -40px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.06)}
+.pant{border-radius:26px;overflow:hidden;background:#0B141A}
+.chat-top{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#1F2C34}
+.chat-top .av{width:36px;height:36px;border-radius:50%;background:var(--accent-soft);border:1px solid rgba(92,199,157,.3);display:grid;place-items:center;color:var(--accent);font-size:17px;flex:none}
+.chat-top b{display:block;font-size:14.5px;font-weight:500;letter-spacing:-.01em}
+.chat-top small{display:block;font-size:12px;color:#8696A0}
+.mensajes{padding:18px 14px 20px;display:flex;flex-direction:column;gap:9px;font-size:14px;line-height:1.45}
+.dia{align-self:center;font-family:var(--mono);font-size:11px;color:#8696A0;background:#182229;border-radius:8px;padding:4px 10px;margin-bottom:4px}
+.m{max-width:86%;padding:8px 11px 6px;border-radius:10px;position:relative}
+.m .h{display:block;text-align:right;font-size:10.5px;color:rgba(233,237,239,.55);margin-top:2px}
+.m.c{align-self:flex-end;background:#005C4B;color:#E9EDEF;border-top-right-radius:3px}
+.m.a{align-self:flex-start;background:#1F2C34;color:#E9EDEF;border-top-left-radius:3px}
+.dato{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:11.5px;color:#07281C;background:var(--accent);border-radius:6px;padding:1px 7px;white-space:nowrap}
+.agenda{align-self:stretch;margin-top:6px;border:1px dashed rgba(92,199,157,.45);border-radius:12px;padding:11px 13px;background:rgba(92,199,157,.07);font-size:12.5px;color:#C9D3DC;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start}
+.agenda i{font-size:22px;color:var(--accent);margin-top:1px}
+.agenda b{display:block;color:var(--text);font-weight:500;font-size:13px}
+.pie-demo{margin-top:14px;font-family:var(--mono);font-size:12px;color:var(--faint);text-align:center}
+.pasos{list-style:none;display:grid;gap:26px}
+.pasos li{display:grid;grid-template-columns:44px 1fr;gap:18px}
+.pasos .n{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:500 14px var(--mono);color:var(--accent);border:1px solid rgba(92,199,157,.45)}
+.pasos h3{font-size:1.15rem;margin-bottom:6px}
+.pasos p{color:var(--muted);font-size:15px}
+.deriva{margin-top:34px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:22px 24px;display:grid;grid-template-columns:28px 1fr;gap:14px}
+.deriva i{font-size:22px;color:var(--accent);margin-top:2px}
+.deriva b{font-weight:500}
+.deriva p{color:var(--muted);font-size:14.5px;margin-top:4px}
+
+/* hace / ustedes */
+.compara{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.lado{border:1px solid var(--border);border-radius:var(--r);padding:32px;background:var(--surface)}
+.lado.nuevo{background:linear-gradient(180deg,rgba(92,199,157,.10),rgba(92,199,157,.02));border-color:rgba(92,199,157,.28)}
+.lado .t{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--muted);margin-bottom:22px}
+.lado.nuevo .t{color:var(--accent)}
+.lado .t i{font-size:18px}
+.lista{list-style:none;display:grid;gap:16px}
+.lista li{display:grid;grid-template-columns:22px 1fr;gap:12px;font-size:15.5px;color:var(--muted);line-height:1.5}
+.lista li i{font-size:18px;color:var(--faint);margin-top:2px}
+.lado.nuevo .lista li{color:var(--text)}
+.lado.nuevo .lista li i{color:var(--accent)}
+.aviso{margin-top:20px;border:1px solid rgba(232,180,96,.35);background:rgba(232,180,96,.07);border-radius:var(--r);padding:18px 22px;display:grid;grid-template-columns:24px 1fr;gap:12px;color:#D9C7A6;font-size:14.5px}
+.aviso i{font-size:20px;color:#E8B460;margin-top:1px}
+.aviso b{color:var(--text);font-weight:500}
+.conv{margin-top:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:22px 26px;color:var(--muted);font-size:14.5px}
+.conv b{color:var(--text);font-weight:500}
+.total{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 20px;margin-top:4px;padding-top:16px;border-top:1px solid var(--border-2)}
+.total b{font-weight:600;font-size:15.5px}
+.total span{font-family:var(--mono);font-size:14px;color:var(--accent);white-space:nowrap}
+.total p{grid-column:1 / -1;color:var(--muted);font-size:14px}
+
+/* etapas */
+.linea{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;position:relative}
+.linea::before{content:'';position:absolute;top:21px;left:22px;right:22px;height:1px;background:linear-gradient(90deg,var(--accent),rgba(92,199,157,.15))}
+.et{position:relative;min-width:0}
+.et .pt{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:500 14px var(--mono);color:var(--accent);background:var(--bg);border:1px solid rgba(92,199,157,.45);box-shadow:0 0 0 6px var(--bg);margin-bottom:22px;position:relative}
+.et h3{margin-bottom:8px}
+.et p{font-size:14.5px;color:var(--muted)}
+.necesitamos{margin-top:60px;border:1px solid var(--border);border-radius:var(--r);padding:30px 32px;background:var(--surface);display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:32px}
+.necesitamos h3{font-size:1.3rem}
+.necesitamos p{color:var(--muted);font-size:14.5px;margin-top:8px}
+.necesitamos ul{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 24px}
+.necesitamos li{display:grid;grid-template-columns:20px 1fr;gap:10px;font-size:14.5px;color:var(--muted)}
+.necesitamos li i{color:var(--accent);font-size:17px;margin-top:2px}
+
+/* inversión */
+.planes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch}
+.plan{position:relative;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:34px 32px;display:flex;flex-direction:column;min-width:0}
+.plan.dest{background:linear-gradient(170deg,rgba(92,199,157,.13),rgba(255,255,255,.02) 60%);border-color:rgba(92,199,157,.35)}
+.badge{position:absolute;top:-12px;left:32px;font-family:var(--mono);font-size:11.5px;color:#07281C;background:var(--accent);border-radius:999px;padding:4px 12px}
+.plan h3{font-size:1.35rem}
+.plan .desc{color:var(--muted);font-size:15px;margin-top:8px;min-height:3.2em}
+.precios{margin-top:26px;display:grid;gap:18px;padding-bottom:26px;border-bottom:1px solid var(--border)}
+.precio small{display:block;font-family:var(--mono);font-size:12px;color:var(--faint);margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+.precio b{font-size:clamp(1.9rem,3.4vw,2.5rem);font-weight:600;letter-spacing:-.045em;line-height:1.1}
+.precio b span{font-size:.5em;font-weight:500;color:var(--muted);letter-spacing:-.01em}
+.precio s{color:var(--faint);font-size:1rem;margin-right:10px}
+.precio .motivo{display:block;font-size:13px;color:var(--accent);margin-top:6px}
+.plan .lista{margin-top:24px;gap:12px}
+.plan .lista li{font-size:14.5px;color:var(--text)}
+.plan .lista li i{color:var(--accent)}
+.plan .lista li.no{color:var(--faint)}
+.plan .lista li.no i{color:var(--faint)}
+.aparte{margin-top:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:28px 32px;display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:32px}
+.aparte h3{font-size:1.2rem}
+.aparte > div > p{color:var(--muted);font-size:14.5px;margin-top:8px}
+.costos{display:grid;gap:14px}
+.costo{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 20px;padding-bottom:14px;border-bottom:1px dashed var(--border-2)}
+.costo:last-child{border-bottom:0;padding-bottom:0}
+.costo b{font-weight:500;font-size:15px}
+.costo span{font-family:var(--mono);font-size:13.5px;color:var(--text);white-space:nowrap}
+.costo p{grid-column:1 / -1;color:var(--muted);font-size:14px}
+.nota-moneda{margin-top:18px;color:var(--faint);font-size:13.5px}
+
+/* condiciones */
+.conds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.cond{padding:26px 24px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);min-width:0}
+.cond:nth-child(3n){border-right:0}
+.cond:nth-last-child(-n+3){border-bottom:0}
+.cond i{font-size:22px;color:var(--accent)}
+.cond h3{margin:14px 0 6px;font-size:1.02rem}
+.cond p{font-size:14.2px;color:var(--muted)}
+
+/* cierre */
+.cierre{border:1px solid rgba(92,199,157,.35);border-radius:var(--r);background:linear-gradient(135deg,var(--accent-soft),rgba(255,255,255,.02));padding:44px 40px}
+.cierre h2{font-size:clamp(1.7rem,3vw,2.4rem)}
+.cierre p{color:var(--muted);margin-top:14px;max-width:62ch}
+
+footer{padding:60px 0 54px;border-top:1px solid var(--border)}
+.foot{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;align-items:flex-end}
+.foot .marca{font-size:24px}
+.foot p{color:var(--muted);font-size:14.5px;max-width:44ch;margin-top:12px}
+.foot .ct{font-family:var(--mono);font-size:12.5px;color:var(--muted);line-height:2;text-align:right}
+
+@media (prefers-reduced-motion:no-preference){
+  .rev{opacity:0;transform:translateY(18px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);transition-delay:var(--d,0s)}
+  .rev.vis{opacity:1;transform:none}
+}
+
+@media (max-width:1080px){
+  .cuadros{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .demo{grid-template-columns:minmax(0,1fr);gap:48px}
+  .tel{max-width:400px;width:100%;margin:0 auto}
+  .linea{grid-template-columns:minmax(0,1fr);gap:28px}
+  .linea::before{top:22px;bottom:22px;left:21px;right:auto;width:1px;height:auto;background:linear-gradient(180deg,var(--accent),rgba(92,199,157,.15))}
+  .et{display:grid;grid-template-columns:44px 1fr;gap:18px}
+  .et .pt{margin-bottom:0}
+  .conds{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cond:nth-child(3n){border-right:1px solid var(--border)}
+  .cond:nth-child(2n){border-right:0}
+  .cond:nth-last-child(-n+3){border-bottom:1px solid var(--border)}
+  .cond:nth-last-child(-n+2){border-bottom:0}
+}
+@media (max-width:760px){
+  body{font-size:16px}
+  .wrap{padding:0 18px}
+  .nav{top:10px;margin-top:10px}
+  .nav-in{height:52px;padding-left:16px}
+  .nav-cliente span{display:none}
+  .hero{padding-top:60px}
+  .stats{grid-template-columns:minmax(0,1fr);margin-top:56px}
+  .stats div{padding:22px 0}
+  .stats div + div{padding-left:0;border-left:0;border-top:1px solid var(--border)}
+  section{padding:80px 0}
+  .cuadros,.compara,.planes{grid-template-columns:minmax(0,1fr)}
+  .cuadro,.lado{padding:24px}
+  .plan{padding:30px 22px}
+  .plan .desc{min-height:0}
+  .planes{gap:28px}
+  .necesitamos,.aparte{grid-template-columns:minmax(0,1fr);padding:24px}
+  .necesitamos ul{grid-template-columns:minmax(0,1fr)}
+  .conds{grid-template-columns:minmax(0,1fr)}
+  .cond,.cond:nth-child(3n),.cond:nth-child(2n){border-right:0}
+  .cond:nth-last-child(-n+3),.cond:nth-last-child(-n+2){border-bottom:1px solid var(--border)}
+  .cond:last-child{border-bottom:0}
+  .cierre{padding:32px 24px}
+  .foot .ct{text-align:left}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav class="nav" aria-label="Encabezado">
+    <div class="nav-in">
+      <span class="marca">Dilema <em>creative</em><sup>*</sup></span>
+      <span class="nav-cliente"><span>Propuesta para </span><b>Wiltech Argentina</b></span>
+    </div>
+  </nav>
+</div>
+
+<header class="hero">
+  <div class="bg-glow" aria-hidden="true"></div>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="eyebrow rev"><i class="ph-fill ph-circle"></i>Agente de IA para atención · Noviembre 2026</span>
+    <h1 class="rev" style="--d:.05s">Un agente que responde, cotiza y <span class="ac">agenda turnos</span>.</h1>
+    <p class="lead rev" style="--d:.1s">Atiende WhatsApp e Instagram a cualquier hora, con los precios de su planilla, y reserva el turno en su Google Calendar. El equipo sigue usando WhatsApp como hoy.</p>
+    <div class="hero-meta rev" style="--d:.15s">
+      <span><i class="ph ph-check-circle"></i>Precios solo de su planilla</span>
+      <span><i class="ph ph-check-circle"></i>Turnos en su calendario</span>
+      <span><i class="ph ph-check-circle"></i>Pasa a una persona cuando hace falta</span>
+    </div>
+    <div class="stats">
+      <div class="rev"><b>200-300</b><span>mensajes por día entre WhatsApp, Instagram y Facebook</span></div>
+      <div class="rev" style="--d:.06s"><b>+120 h</b><span>por semana fuera del horario de atención, con el local cerrado</span></div>
+      <div class="rev" style="--d:.12s"><b class="ac">1 + 1</b><span>la planilla de precios y el calendario de turnos que ya usan</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Lo que nos contaron.</h2>
+      <p class="lead">El punto de partida, y lo que tiene que resolver el agente.</p>
+    </div>
+    <div class="cuadros">
+      <div class="cuadro rev"><span class="ic"><i class="ph ph-chats-circle"></i></span><h3>Tres personas contestando a mano</h3><p>Entre 200 y 300 mensajes por día, desde el celular y WhatsApp Web, sin un sistema que los ordene.</p></div>
+      <div class="cuadro rev" style="--d:.05s"><span class="ic"><i class="ph ph-currency-circle-dollar"></i></span><h3>Siempre las mismas preguntas</h3><p>Cuánto sale la reparación y cuánto tarda. Son las que más tiempo le sacan al equipo.</p></div>
+      <div class="cuadro rev" style="--d:.1s"><span class="ic"><i class="ph ph-calendar-check"></i></span><h3>Sin cupo fijo de turnos</h3><p>Toman todos los turnos que entran en el día, en su único local, y los anotan en Google Calendar.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Así funcionaría.</h2>
+      <p class="lead">Una consulta de un sábado a la noche, con el local cerrado.</p>
+    </div>
+    <div class="demo">
+      <div class="rev">
+        <div class="tel" role="img" aria-label="Ejemplo de conversación de WhatsApp entre un cliente y el agente: consulta el precio del cambio de pantalla de un iPhone 13 Pro, el agente responde con el precio y la demora de la planilla y reserva un turno para el lunes 16 a las 10:30.">
+          <div class="pant">
+            <div class="chat-top"><span class="av"><i class="ph ph-wrench"></i></span><div><b>Wiltech Argentina</b><small>en línea</small></div></div>
+            <div class="mensajes" aria-hidden="true">
+              <span class="dia">SÁBADO</span>
+              <div class="m c">Hola! Cuánto sale cambiar la pantalla de un iPhone 13 Pro?<span class="h">21:40</span></div>
+              <div class="m a">¡Hola! Soy el asistente automático de Wiltech. El cambio de pantalla del iPhone 13 Pro sale <span class="dato">$ de su planilla</span> y tarda <span class="dato">demora de su planilla</span>. El presupuesto final se confirma con el diagnóstico en el local. ¿Te reservo un turno?<span class="h">21:40</span></div>
+              <div class="m c">Sí, el lunes a la mañana<span class="h">21:41</span></div>
+              <div class="m a">Tengo el lunes a las 10:00, 10:30 o 11:30. ¿Cuál te queda mejor?<span class="h">21:41</span></div>
+              <div class="m c">10:30<span class="h">21:41</span></div>
+              <div class="m a">Listo, te reservé el lunes 16/11 a las 10:30 en Av. Córdoba 904, 1º piso. ¡Te esperamos!<span class="h">21:42</span></div>
+              <div class="agenda"><i class="ph ph-calendar-plus"></i><div><b>Google Calendar · Lun 16/11, 10:30</b>Cambio de pantalla iPhone 13 Pro · nombre y WhatsApp del cliente</div></div>
+            </div>
+          </div>
+        </div>
+        <p class="pie-demo">Conversación de ejemplo. Los precios y demoras salen de su planilla.</p>
+      </div>
+      <div>
+        <ol class="pasos">
+          <li class="rev"><span class="n">1</span><div><h3>Entiende la consulta</h3><p>Reconoce el equipo y la reparación aunque esté mal escrito ("13pro", "pantaya", "se me rompió el vidrio") y pregunta lo que falta.</p></div></li>
+          <li class="rev" style="--d:.05s"><span class="n">2</span><div><h3>Cotiza con su planilla</h3><p>El precio y la demora salen de la planilla de Google Sheets que ya usan. Si una reparación no está en la planilla, no da precio: pasa la consulta al equipo.</p></div></li>
+          <li class="rev" style="--d:.1s"><span class="n">3</span><div><h3>Reserva el turno</h3><p>Ofrece horarios libres, lo anota en su Google Calendar con los datos del cliente y le confirma la dirección.</p></div></li>
+        </ol>
+        <div class="deriva rev">
+          <i class="ph ph-user-switch"></i>
+          <div><b>Cuando hace falta una persona, pasa el chat.</b><p>Un equipo que se mojó y no prende, un reclamo o un caso que no está en la planilla: el agente avisa al cliente que lo atiende alguien del equipo y les deja un resumen de la conversación.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Qué hace el agente y qué siguen haciendo ustedes.</h2>
+    </div>
+    <div class="compara">
+      <div class="lado nuevo rev">
+        <div class="t"><i class="ph ph-robot"></i>El agente</div>
+        <ul class="lista">
+          <li><i class="ph ph-check"></i>Responde en WhatsApp e Instagram a cualquier hora, también fines de semana y feriados.</li>
+          <li><i class="ph ph-check"></i>Da el precio exacto o un "desde", como ustedes prefieran.</li>
+          <li><i class="ph ph-check"></i>Solo ofrece horarios libres de su Google Calendar, según la duración y los turnos simultáneos que definan.</li>
+          <li><i class="ph ph-check"></i>Avisa que es un asistente automático y aclara que el presupuesto final se confirma con el diagnóstico en el local.</li>
+          <li><i class="ph ph-check"></i>Deja de responder en un chat apenas alguien del equipo entra a contestar.</li>
+        </ul>
+      </div>
+      <div class="lado rev" style="--d:.06s">
+        <div class="t"><i class="ph ph-users-three"></i>El equipo</div>
+        <ul class="lista">
+          <li><i class="ph ph-device-mobile"></i>Sigue contestando WhatsApp desde el celular y WhatsApp Web, con el mismo número.</li>
+          <li><i class="ph ph-eye"></i>Ve todo lo que respondió el agente. Instagram y las respuestas en modo prueba se ven desde una bandeja web.</li>
+          <li><i class="ph ph-hand-heart"></i>Deja de responder lo repetido y se queda con lo que necesita una persona.</li>
+          <li><i class="ph ph-table"></i>Actualiza los precios en su planilla, como hoy. El agente toma los cambios solo.</li>
+          <li><i class="ph ph-power"></i>Puede apagar el agente en un clic cuando quiera.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="aviso rev"><i class="ph ph-warning"></i><div><b>Dos cambios a tener en cuenta.</b> Al conectar el número a la plataforma oficial de WhatsApp, las listas de difusión dejan de funcionar (los envíos masivos pasan a hacerse con mensajes de plantilla de Meta, que tienen costo por mensaje) y la aplicación de WhatsApp para Windows no es compatible. El celular y WhatsApp Web siguen funcionando.</div></div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Cómo lo ponemos en marcha.</h2>
+      <p class="lead">El agente no habla con clientes hasta que el equipo revisó cómo responde.</p>
+    </div>
+    <div class="linea">
+      <div class="et rev"><span class="pt">1</span><div><h3>Conocer sus chats</h3><p>Leemos conversaciones reales para ver cómo preguntan sus clientes, y ordenamos la planilla y los horarios de turnos.</p></div></div>
+      <div class="et rev" style="--d:.05s"><span class="pt">2</span><div><h3>Armado</h3><p>Conectamos WhatsApp, Instagram, la planilla y el calendario, y escribimos cómo tiene que responder el agente.</p></div></div>
+      <div class="et rev" style="--d:.1s"><span class="pt">3</span><div><h3>Modo prueba</h3><p>El agente propone cada respuesta y alguien del equipo la aprueba antes de que salga.</p></div></div>
+      <div class="et rev" style="--d:.15s"><span class="pt">4</span><div><h3>En marcha</h3><p>Responde solo. Cada mes revisamos las conversaciones y ajustamos lo que haga falta.</p></div></div>
+    </div>
+    <div class="necesitamos rev">
+      <div><h3>Qué necesitamos de su lado</h3><p>Para conectar todo y arrancar sin demoras.</p></div>
+      <ul>
+        <li><i class="ph ph-key"></i>Acceso a la cuenta comercial de Meta del negocio (donde están Facebook, Instagram y WhatsApp), solo para conectar el número y verificar la empresa. No tocamos publicaciones ni anuncios.</li>
+        <li><i class="ph ph-table"></i>La planilla de precios, con permiso de lectura.</li>
+        <li><i class="ph ph-calendar"></i>Acceso al Google Calendar donde anotan los turnos.</li>
+        <li><i class="ph ph-chats"></i>Su autorización para leer conversaciones de ejemplo (nombre, teléfono y lo que escribió cada cliente), con confidencialidad.</li>
+        <li><i class="ph ph-user-circle"></i>Una persona de referencia del equipo para las pruebas.</li>
+        <li><i class="ph ph-clock"></i>Horarios de atención y cuántos turnos pueden tomar por franja.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Inversión.</h2>
+      <p class="lead">Una implementación inicial y un abono mensual. Los servicios de terceros van a nombre de Wiltech y se pagan aparte.</p>
+    </div>
+    <div class="planes">
+      <div class="plan dest rev">
+        <span class="badge">RECOMENDADO</span>
+        <h3>Agente completo</h3>
+        <p class="desc">Responde, cotiza y reserva el turno directo en su calendario.</p>
+        <div class="precios">
+          <div class="precio"><small>Implementación</small><b><s>USD 2.500</s>USD 2.000</b><span class="motivo">Precio para Wiltech, a cambio de poder contar el caso con sus resultados y su aprobación. Si prefieren no aparecer, la implementación es USD 2.500.</span></div>
+          <div class="precio"><small>Abono mensual</small><b>USD 450 <span>/ mes</span></b></div>
+        </div>
+        <ul class="lista">
+          <li><i class="ph ph-check"></i>WhatsApp e Instagram</li>
+          <li><i class="ph ph-check"></i>Cotización con su planilla</li>
+          <li><i class="ph ph-check"></i>Reserva de turnos en Google Calendar</li>
+          <li><i class="ph ph-check"></i>Paso a una persona con resumen</li>
+          <li><i class="ph ph-check"></i>Hasta 2.000 conversaciones por mes</li>
+          <li><i class="ph ph-check"></i>Hasta 6 horas de ajustes por mes y soporte en horario hábil</li>
+          <li class="no"><i class="ph ph-minus"></i>Messenger (Facebook), en una segunda etapa</li>
+        </ul>
+      </div>
+      <div class="plan rev" style="--d:.06s">
+        <h3>Agente esencial</h3>
+        <p class="desc">Responde y cotiza. El turno queda como pedido y lo confirma el equipo.</p>
+        <div class="precios">
+          <div class="precio"><small>Implementación</small><b>USD 1.200</b></div>
+          <div class="precio"><small>Abono mensual</small><b>USD 250 <span>/ mes</span></b></div>
+        </div>
+        <ul class="lista">
+          <li><i class="ph ph-check"></i>WhatsApp e Instagram</li>
+          <li><i class="ph ph-check"></i>Cotización con su planilla</li>
+          <li class="no"><i class="ph ph-minus"></i>Pedido de turno que confirma el equipo</li>
+          <li><i class="ph ph-check"></i>Paso a una persona con resumen</li>
+          <li><i class="ph ph-check"></i>Hasta 2.000 conversaciones por mes</li>
+          <li><i class="ph ph-check"></i>Hasta 6 horas de ajustes por mes y soporte en horario hábil</li>
+          <li class="no"><i class="ph ph-minus"></i>Messenger (Facebook), en una segunda etapa</li>
+        </ul>
+      </div>
+    </div>
+    <div class="aparte rev">
+      <div><h3>Aparte, a nombre de Wiltech</h3><p>Se pagan directo a cada proveedor. La IA y los servidores del agente ya están incluidos en el abono.</p></div>
+      <div class="costos">
+        <div class="costo"><b>Mensajes de WhatsApp (Meta)</b><span>USD 80 a 170 / mes</span><p>Desde octubre de 2026, Meta cobra cada respuesta de WhatsApp a partir de la número 1.001 del mes. Lo que el equipo responde desde el celular no se cobra. El rango vale si los 200-300 diarios son mensajes; si son 200-300 personas distintas por día, el costo cambia. Lo confirmamos con su volumen real antes de firmar.</p></div>
+        <div class="costo"><b>Plataforma de mensajes</b><span>USD 40 a 120 / mes</span><p>La bandeja web que conecta WhatsApp e Instagram con el agente. Varía según cuántos usuarios del equipo la usen.</p></div>
+        <div class="total"><b>Total por mes estimado</b><span>USD 570 a 740</span><p>Abono del agente completo más Meta y la plataforma. Con el agente esencial, USD 370 a 540. La implementación se paga una sola vez.</p></div>
+      </div>
+    </div>
+    <div class="conv rev"><b>Qué cuenta como una conversación.</b> Una persona que escribe en 24 horas, aunque mande varios mensajes. Con 200-300 mensajes por día estimamos entre 750 y 1.500 conversaciones por mes. Si un mes superan las 2.000, se lo avisamos y ajustamos el abono desde el mes siguiente.</div>
+    <p class="nota-moneda rev">Valores en dólares, facturados en pesos al dólar MEP del día. La implementación se paga 50% al inicio y 50% cuando el agente sale en vivo, después de pasar las pruebas acordadas. Flujos nuevos fuera de este alcance se cotizan aparte. Propuesta válida por 30 días.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="shead rev">
+      <h2>Condiciones.</h2>
+    </div>
+    <div class="conds">
+      <div class="cond rev"><i class="ph ph-table"></i><h3>Su planilla manda</h3><p>El agente cotiza solo con su planilla y la mantiene actualizada el equipo. Los precios que da son orientativos hasta el diagnóstico en el local.</p></div>
+      <div class="cond rev" style="--d:.04s"><i class="ph ph-identification-card"></i><h3>Todo a su nombre</h3><p>El número, las cuentas de Meta y la plataforma de mensajes quedan a nombre de Wiltech. Si se van, se llevan la configuración y el historial exportados.</p></div>
+      <div class="cond rev" style="--d:.08s"><i class="ph ph-lock-key"></i><h3>Datos protegidos</h3><p>Los nombres, teléfonos y mensajes de sus clientes se usan solo para la atención, con confidencialidad, y se borran de nuestros sistemas al terminar el servicio.</p></div>
+      <div class="cond rev"><i class="ph ph-lifebuoy"></i><h3>Si algo falla</h3><p>Si el agente se cae, los mensajes siguen llegando al celular como hoy y el equipo atiende a mano. Soporte en horario hábil.</p></div>
+      <div class="cond rev" style="--d:.04s"><i class="ph ph-calendar-blank"></i><h3>Permanencia mínima</h3><p>Seis meses desde la salida en vivo, el tiempo que lleva ajustar el agente con conversaciones reales.</p></div>
+      <div class="cond rev" style="--d:.08s"><i class="ph ph-power"></i><h3>Lo apagan cuando quieran</h3><p>Con un clic el agente deja de responder y el equipo sigue atendiendo como siempre. Apagarlo no da de baja el servicio: el abono sigue durante la permanencia mínima.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cierre rev">
+      <h2>Próximo paso.</h2>
+      <p>Si les cierra, coordinamos una llamada corta para elegir la opción, ver la planilla juntos y arrancar con el relevamiento.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <span class="marca">Dilema <em>creative</em><sup>*</sup></span>
+      <p>Estrategia, pauta y sistemas para que las empresas vendan más y atiendan mejor.</p>
+    </div>
+    <div class="ct">dilemacreative.ar<br>equipo@dilemacreative.ar<br>@dilema.creative</div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var els = document.querySelectorAll('.rev');
+  if (!('IntersectionObserver' in window) || reduce) { els.forEach(function (e) { e.classList.add('vis'); }); return; }
+  var io = new IntersectionObserver(function (ents) { ents.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('vis'); io.unobserve(en.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+  els.forEach(function (e) { io.observe(e); });
+  setTimeout(function () { els.forEach(function (e) { e.classList.add('vis'); }); }, 5000);
+})();
+</script>
+</body>
+</html>
