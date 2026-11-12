@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rotondo, contenido y pauta</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+/* Estrategia para el cliente: sistema de propuestas de Dilema con la paleta de Rotondo (azul del delantal + manteca), un solo tema claro */
+:root{
+  --ink:#2B3754; --ink-2:#1D2640; --ink-soft:#36446A;
+  --butter:#E0AE5C; --butter-deep:#8A5F1E;
+  --steel:#56627E; --paper:#F5F3EF; --paper-2:#EBE7DF; --white:#FFFFFF;
+  --text:#20242E; --ash:#636876; --line:#DCD7CC;
+  --good:#2F7D5E; --bad:#B23A2B;
+  --on-dark:#F3F1EC; --on-dark-2:rgba(243,241,236,.72); --on-dark-3:rgba(243,241,236,.48);
+  --display:'Fraunces',Georgia,'Times New Roman',serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--paper);color:var(--text);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink-2)}
+.gut{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.in{max-width:1080px;margin:0 auto}
+a{color:inherit}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--ink-2);height:56px;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.08)}
+nav .in{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.nav-logo{display:flex;align-items:center;gap:14px;min-width:0}
+.nav-brand{font-family:var(--display);font-weight:700;font-size:16px;color:var(--on-dark);letter-spacing:-.02em;white-space:nowrap}
+.nav-brand em,.f-brand em{font-style:italic;color:var(--butter);font-weight:500}
+.nav-divider{width:1px;height:18px;background:rgba(255,255,255,.18)}
+.nav-sub,.nav-links a{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--on-dark-3);text-decoration:none;white-space:nowrap}
+.nav-links{display:flex;gap:22px}
+.nav-links a:hover{color:var(--on-dark)}
+
+.hero{background:radial-gradient(circle at 88% 10%,rgba(224,174,92,.16),transparent 42%),var(--ink);color:var(--on-dark);padding-block:88px 76px}
+.hero-mark{display:flex;align-items:center;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+.hero-mark-brand{font-family:var(--display);font-weight:700;font-size:20px;letter-spacing:-.02em}
+.hero-mark-brand em{font-style:italic;color:var(--butter);font-weight:500}
+.hero-mark-line{width:40px;height:1px;background:rgba(243,241,236,.28)}
+.hero-mark-tag{font-family:var(--mono);font-size:11px;color:var(--on-dark-3);letter-spacing:.14em;text-transform:uppercase}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(224,174,92,.12);border:1px solid rgba(224,174,92,.36);border-radius:4px;padding:6px 14px;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--butter);margin-bottom:28px}
+.eyebrow::before{content:"";width:7px;height:7px;background:var(--butter);border-radius:50%}
+.hero h1{font-family:var(--display);font-weight:500;font-size:clamp(36px,5.6vw,72px);line-height:1.03;letter-spacing:-.03em;max-width:900px;margin-bottom:24px;text-wrap:balance}
+.hero h1 em{font-style:italic;color:var(--butter)}
+.hero-sub{font-size:17px;color:var(--on-dark-2);max-width:700px;font-weight:300;line-height:1.7;margin-bottom:44px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12);border-radius:6px;overflow:hidden;max-width:980px}
+.hero-stat{background:var(--ink);padding:20px 22px;min-width:0}
+.hero-stat .v{font-family:var(--display);font-weight:500;font-size:32px;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.hero-stat .v small{font-size:15px;color:var(--on-dark-3)}
+.hero-stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--on-dark-3);margin-top:10px;line-height:1.5}
+
+section{padding-block:80px;border-bottom:1px solid var(--line)}
+section.alt{background:var(--white)}
+section.dark{background:var(--ink);color:var(--on-dark);border-bottom:0}
+.kicker{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--butter-deep);margin-bottom:14px}
+section.dark .kicker{color:var(--butter)}
+.title{font-family:var(--display);font-weight:500;font-size:clamp(30px,4vw,48px);line-height:1.05;letter-spacing:-.025em;color:var(--ink);max-width:820px;margin-bottom:16px;text-wrap:balance}
+.title em{font-style:italic;color:var(--butter-deep)}
+section.dark .title{color:var(--on-dark)}
+section.dark .title em{color:var(--butter)}
+.desc{font-size:16px;color:var(--ash);max-width:720px;margin-bottom:40px;line-height:1.7}
+section.dark .desc{color:var(--on-dark-2)}
+h3{font-family:var(--display);font-weight:500;font-size:22px;letter-spacing:-.02em;color:var(--ink);margin-bottom:8px;line-height:1.2}
+section.dark h3{color:var(--on-dark)}
+p{max-width:68ch}
+b{font-weight:600}
+q{font-family:var(--display);font-style:italic;quotes:"«" "»"}
+.sub{font-family:var(--display);font-weight:500;font-size:24px;letter-spacing:-.02em;color:var(--ink);margin:52px 0 16px}
+
+figure img{display:block;width:100%;height:auto;border-radius:6px;border:1px solid var(--line)}
+figcaption{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);margin-top:8px;line-height:1.5}
+
+.diag{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:8px;background:var(--white);margin-top:28px;overflow:hidden}
+.diag > div{padding:30px;min-width:0}
+.diag > div:first-child{border-right:1px solid var(--line)}
+.diag-head{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.diag .ok .diag-head{color:var(--good)} .diag .to .diag-head{color:var(--butter-deep)}
+ul.l{list-style:none;display:grid;gap:11px}
+ul.l li{padding-left:20px;position:relative;font-size:14.5px}
+ul.l li::before{content:"";position:absolute;left:2px;top:.6em;width:7px;height:7px;background:var(--butter)}
+.ok ul.l li::before{background:var(--good)}
+
+.table-wrap{border:1px solid var(--line);border-radius:8px;overflow-x:auto;background:var(--white)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-variant-numeric:tabular-nums}
+th{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);background:var(--paper-2);text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:13px 16px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.n{font-family:var(--mono);font-size:13px;white-space:nowrap}
+tr.us td{background:#EEF0F6;font-weight:600}
+.note{font-size:13px;color:var(--ash);margin-top:12px;max-width:80ch}
+.callout{border-left:4px solid var(--butter-deep);background:var(--white);padding:18px 22px;margin-top:26px;border-radius:0 8px 8px 0;max-width:860px}
+section.alt .callout{background:var(--paper)}
+.callout-label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--butter-deep);margin-bottom:8px}
+section.dark .callout{background:rgba(255,255,255,.05);border-left-color:var(--butter)}
+section.dark .callout-label{color:var(--butter)}
+
+.refs{display:grid;gap:44px}
+.ref{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:28px;align-items:start}
+.ref .meta{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);margin-bottom:8px}
+.ref p{font-size:14.5px;color:var(--text)}
+.take{margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);font-size:14px}
+.take .lab{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--butter-deep);margin-bottom:4px}
+
+.vs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--white)}
+.vs > div{min-width:0}
+.vs-h{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:14px 22px;background:var(--paper-2);border-bottom:1px solid var(--line);color:var(--ash)}
+.vs > div:last-child .vs-h{background:var(--ink);color:var(--butter)}
+.vs > div:first-child{border-right:1px solid var(--line)}
+.vs ul{list-style:none}
+.vs li{padding:14px 22px;border-bottom:1px solid var(--line);font-size:14.5px;min-height:74px}
+.vs li:last-child{border-bottom:0}
+.vs > div:first-child li{color:var(--ash)}
+
+.pieces{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.piece{position:relative;aspect-ratio:4/5;max-width:100%;border-radius:6px;overflow:hidden;background:var(--ink)}
+.piece img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.piece::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(29,38,64,.62),rgba(29,38,64,0) 42%),linear-gradient(to bottom,rgba(29,38,64,.45),rgba(29,38,64,0) 18%)}
+.piece .over{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:20px;color:#fff;text-align:center}
+.piece .pn{font-family:var(--body);font-weight:600;font-size:15px;letter-spacing:.22em;text-transform:uppercase}
+.piece .pl{font-family:var(--display);font-style:italic;font-size:13px;opacity:.9;margin-top:4px}
+.piece .top{position:absolute;top:16px;left:0;right:0;z-index:2;text-align:center;font-family:var(--body);font-size:9.5px;letter-spacing:.3em;text-transform:uppercase;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.35)}
+.piece-cap{font-size:13.5px;color:var(--ash);margin-top:10px}
+.piece-cap b{color:var(--ink)}
+
+.kit{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin-top:28px}
+.kit > div{background:var(--white);padding:22px;min-width:0}
+.sw{display:flex;gap:6px;margin-bottom:12px}
+.sw span{width:34px;height:34px;border-radius:50%;border:1px solid var(--line)}
+.m-k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--butter-deep);margin-bottom:8px}
+.kit p{font-size:14px}
+
+.series{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.serie{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:24px;display:flex;flex-direction:column;min-width:0}
+.serie .m-k{display:flex;justify-content:space-between;gap:8px}
+.serie p{font-size:14px;margin-bottom:12px}
+.serie .from{margin-top:auto;border-top:1px dashed var(--line);padding-top:10px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--steel);line-height:1.6}
+
+.camps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.camp{border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:26px;background:rgba(255,255,255,.04);display:flex;flex-direction:column;min-width:0}
+.camp .pct{font-family:var(--display);font-size:40px;font-weight:500;color:var(--butter);line-height:1;letter-spacing:-.03em;margin-bottom:6px}
+.camp .pct small{font-size:14px;color:var(--on-dark-3);font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;margin-left:6px}
+.camp p{font-size:14px;color:var(--on-dark-2);margin-bottom:12px}
+.camp ul{list-style:none;display:grid;gap:7px;font-size:13.5px;color:var(--on-dark-2)}
+.camp li{padding-left:16px;position:relative}
+.camp li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;background:var(--butter)}
+.camp .meas{margin-top:auto;padding-top:14px;border-top:1px dashed rgba(255,255,255,.18);font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--on-dark-3);line-height:1.6}
+.camp .ul-wrap{margin-bottom:16px}
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 32px;margin-top:8px}
+.rules div{font-size:14px;color:var(--on-dark-2);padding-left:22px;position:relative}
+.rules div::before{content:"✓";position:absolute;left:0;color:var(--butter);font-weight:600}
+.rules div.x::before{content:"✕";color:#E59A8E}
+
+.g-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.g{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:24px;min-width:0}
+.g p{font-size:14px;margin-bottom:10px}
+.kw{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.kw span{font-family:var(--mono);font-size:11px;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:3px 8px}
+
+.measure{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.mbox{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:26px;min-width:0}
+.mbox ul.l li{font-size:14px}
+
+.steps{display:grid;gap:0;border-top:1px solid rgba(255,255,255,.14)}
+.step{display:grid;grid-template-columns:150px 1fr;gap:24px;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+.step-when{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--butter);padding-top:4px}
+.step-title{font-family:var(--display);font-weight:500;font-size:20px;letter-spacing:-.015em;color:var(--on-dark);margin-bottom:6px}
+.step p{font-size:14.5px;color:var(--on-dark-2)}
+
+.needs{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.need{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:22px;min-width:0}
+.need-t{font-family:var(--display);font-weight:500;font-size:17px;color:var(--ink);margin-bottom:6px}
+.need p{font-size:13.5px;color:var(--ash)}
+
+footer{background:var(--ink-2);color:var(--on-dark-2);padding-block:56px 32px}
+.f-top{display:grid;grid-template-columns:1fr auto;gap:32px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:22px}
+.f-brand{font-family:var(--display);font-weight:700;font-size:26px;color:var(--on-dark);letter-spacing:-.02em;margin-bottom:10px}
+.f-tag{font-size:14px;max-width:440px}
+.f-contact{display:flex;flex-direction:column;gap:6px;text-align:right;font-size:14px}
+.f-contact a{text-decoration:none;color:var(--on-dark)}
+.f-contact .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-3)}
+.f-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--on-dark-3)}
+
+@media (max-width:1000px){
+  .nav-links{display:none}
+  .series,.camps,.g-grid{grid-template-columns:1fr 1fr}
+  .needs,.kit{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .nav-divider,.nav-sub{display:none}
+  .hero{padding-block:60px 52px}
+  .hero-sub{font-size:15.5px;margin-bottom:32px}
+  .hero-stats{grid-template-columns:1fr 1fr}
+  .hero-stat .v{font-size:26px}
+  section{padding-block:56px}
+  .diag,.vs,.ref,.measure,.rules{grid-template-columns:1fr}
+  .diag > div:first-child{border-right:0;border-bottom:1px solid var(--line)}
+  .vs > div:first-child{border-right:0;border-bottom:1px solid var(--line)}
+  .vs li{min-height:0}
+  .pieces{grid-template-columns:1fr;max-width:400px}
+  .series,.camps,.g-grid,.needs,.kit{grid-template-columns:1fr}
+  .step{grid-template-columns:1fr;gap:6px}
+  .f-top{grid-template-columns:1fr}
+  .f-contact{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<nav class="gut">
+  <div class="in">
+    <div class="nav-logo">
+      <div class="nav-brand">Dilema <em>Creative</em></div>
+      <div class="nav-divider"></div>
+      <div class="nav-sub">Estrategia Café Rotondo</div>
+    </div>
+    <div class="nav-links">
+      <a href="#hoy">Hoy</a><a href="#referencias">Referencias</a><a href="#estetica">Estética</a><a href="#contenido">Contenido</a><a href="#meta">Meta</a><a href="#google">Google</a><a href="#medicion">Medición</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero gut">
+  <div class="in">
+    <div class="hero-mark">
+      <span class="hero-mark-brand">Dilema <em>Creative</em></span>
+      <span class="hero-mark-line"></span>
+      <span class="hero-mark-tag">para Café Rotondo · Family blend</span>
+    </div>
+    <div class="eyebrow">Estrategia · Noviembre 2026 · Contenido + Meta + Google</div>
+    <h1>Una pauta que se vea como <em>su feed.</em></h1>
+    <p class="hero-sub">Rotondo quiere más conversación con su gente y que el mostrador rote, pero sin hablar como una cadena de promociones. Las cafeterías que eligieron como referencia muestran cómo: anuncian productos con nombre, temporadas y momentos del día, nunca precios. Esta es la forma de hacerlo con la estética y el espíritu de Rotondo, en el contenido y en la pauta.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="v">14 mil</div><div class="k">Seguidores en @rotondocafe</div></div>
+      <div class="hero-stat"><div class="v">2 <small>coment.</small></div><div class="k">Mediana por posteo, últimos 60</div></div>
+      <div class="hero-stat"><div class="v">0 <small>de 5</small></div><div class="k">Referencias que hablan de precio</div></div>
+      <div class="hero-stat"><div class="v">64 mil</div><div class="k">Blanca, que crece sin pauta</div></div>
+    </div>
+  </div>
+</header>
+
+<section id="hoy" class="gut">
+  <div class="in">
+    <div class="kicker">01 · Punto de partida</div>
+    <h2 class="title">La foto ya está. Falta <em>qué contar.</em></h2>
+    <p class="desc">Leímos los últimos 60 posteos de @rotondocafe (de mayo a noviembre de 2026). La producción es de las mejores de la zona. Lo que todavía no aparece es un motivo para comentar, guardar o volver.</p>
+    <figure><img src="img/grilla-rotondocafe.jpg" alt="Los últimos 12 posteos de @rotondocafe" loading="lazy"><figcaption>@rotondocafe · últimos 12 posteos</figcaption></figure>
+    <div class="diag">
+      <div class="ok">
+        <div class="diag-head">Lo que ya tienen</div>
+        <ul class="l">
+          <li>Fotografía profesional y cálida con gente de verdad: el equipo con su delantal, clientes en la vereda, manos que sostienen el producto.</li>
+          <li>Productos que piden nombre propio. <q>No es una palmerita, es el Palmerón Rotondo</q> es exactamente el tono que buscamos.</li>
+          <li>Lo que más comentarios trae son las ocasiones y las invitaciones a participar: el juego <q>¿Ya te ubicaste?</q> (17), el aniversario (14) y la caja del Día de la Madre (11).</li>
+          <li>Proveedores de nivel que ya etiquetan (Modo Barista, Piela, Domaine Alma Negra).</li>
+        </ul>
+      </div>
+      <div class="to">
+        <div class="diag-head">Lo que vamos a ajustar</div>
+        <ul class="l">
+          <li>El texto puede trabajar más. Hoy repite <q>familia</q>, <q>esquina</q> y <q>family blend</q> en 1 de cada 4 posteos, en lugar de contar qué hay de nuevo.</li>
+          <li>Los especiales de temporada salieron todos juntos en un carrusel. Cada uno merece su anuncio previo y su propio lanzamiento.</li>
+          <li>Hubo 5 reels en 6 meses. En las referencias, entre el 22 % y el 42 % del feed es video, y el video es lo que más alcance tiene en la pauta.</li>
+          <li>Los me gusta están ocultos y no hay WhatsApp para encargar. Las dos cosas se resuelven en la primera semana.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="referencias" class="alt gut">
+  <div class="in">
+    <div class="kicker">02 · Las referencias</div>
+    <h2 class="title">Qué tomamos de cada una, <em>y qué no.</em></h2>
+    <p class="desc">Comparamos las cinco cuentas que nos pasaron y a Blanca, la competencia directa. Medimos los últimos 60 posteos de cada una.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cuenta</th><th>Seguidores</th><th>Posteos / sem</th><th>Me gusta (mediana)</th><th>Comentarios</th><th>% video</th><th>Pauta</th></tr></thead>
+        <tbody>
+          <tr class="us"><td>Café Rotondo</td><td class="n">14.016</td><td class="n">2,1</td><td class="n">ocultos</td><td class="n">2</td><td class="n">8 %</td><td>No</td></tr>
+          <tr><td>Blanca · Buenos Aires</td><td class="n">64.642</td><td class="n">1,2</td><td class="n">229</td><td class="n">2</td><td class="n">23 %</td><td>No</td></tr>
+          <tr><td>Blank Street · Londres y NY</td><td class="n">214.237</td><td class="n">1,6</td><td class="n">3.292</td><td class="n">47</td><td class="n">42 %</td><td>Sí</td></tr>
+          <tr><td>La Cabra · Dinamarca</td><td class="n">204.601</td><td class="n">0,9</td><td class="n">918</td><td class="n">8</td><td class="n">8 %</td><td>—</td></tr>
+          <tr><td>WatchHouse · Londres</td><td class="n">118.938</td><td class="n">3,1</td><td class="n">494</td><td class="n">6</td><td class="n">33 %</td><td>—</td></tr>
+          <tr><td>Blue Bottle · EE. UU. y Asia</td><td class="n">519.624</td><td class="n">2,8</td><td class="n">538</td><td class="n">8</td><td class="n">28 %</td><td>—</td></tr>
+          <tr><td>% Arabica · Nueva York</td><td class="n">41.929</td><td class="n">2,2</td><td class="n">ocultos</td><td class="n">1</td><td class="n">22 %</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Datos públicos de Instagram al 12/11/2026. Rotondo publica más seguido que Blanca y que La Cabra: la diferencia no está en la cantidad, sino en tener algo nuevo y con nombre para contar.</p>
+
+    <h3 class="sub">Blanca, la competencia directa</h3>
+    <div class="ref">
+      <figure><img src="img/grilla-blancadecocafe.jpg" alt="Últimos posteos de Blanca" loading="lazy"><figcaption>@blancadecocafe · 3 locales · sin pauta</figcaption></figure>
+      <div>
+        <div class="meta">1,2 posteos/sem · mediana 229 me gusta</div>
+        <p>Crece sin anuncios porque siempre tiene algo para presentar. Cada producto sale con nombre propio: <q>Meet the Berries Brew</q>, la medialuna invertida (su mejor posteo del año, con 2.680 me gusta) o <q>Cold Drinks Season</q>. Además usa series para los momentos del día, como <q>Mediodías en Blanca</q>, y submarcas como BLANquita para llevar o la baguette de su bakery.</p>
+        <div class="take"><span class="lab">Para Rotondo</span>El calendario de cosas para presentar y la costumbre de ponerles nombre. Lo vamos a hacer con su propia foto, que tiene más gente y más calle que la de Blanca.</div>
+      </div>
+    </div>
+
+    <h3 class="sub">Las cinco de afuera</h3>
+    <div class="refs">
+      <div class="ref">
+        <figure><img src="img/grilla-blankstreet.jpg" alt="Últimos posteos de Blank Street" loading="lazy"><figcaption>@blankstreet</figcaption></figure>
+        <div><div class="meta">Interacción 1,5 % · la más alta del grupo</div><h3>Blank Street</h3>
+        <p>Funciona por temporadas. Primero un adelanto (<q>Winter 26. Coming soon.</q>) y después una pieza por bebida, con fecha y el producto solo sobre un fondo de color. Los textos tienen una sola línea.</p>
+        <div class="take"><span class="lab">Tomamos</span>El esquema de adelanto, lanzamiento y una pieza por producto para cada temporada de Rotondo.</div></div>
+      </div>
+      <div class="ref">
+        <figure><img src="img/grilla-lacabracoffee.jpg" alt="Últimos posteos de La Cabra" loading="lazy"><figcaption>@lacabracoffee</figcaption></figure>
+        <div><div class="meta">Menos de 1 posteo/sem · mediana 918 me gusta</div><h3>La Cabra</h3>
+        <p>Publica poco y muy cuidado: carruseles de la vida diaria en cada local (<q>Scenes from daily life</q>), cerámica, granos y colaboraciones con productores y artistas.</p>
+        <div class="take"><span class="lab">Tomamos</span>Las escenas del día y las colaboraciones con los proveedores que Rotondo ya tiene.</div></div>
+      </div>
+      <div class="ref">
+        <figure><img src="img/grilla-watchhouse.jpg" alt="Últimos posteos de WatchHouse" loading="lazy"><figcaption>@watchhouse</figcaption></figure>
+        <div><div class="meta">3,1 posteos/sem · mediana 494 me gusta</div><h3>WatchHouse</h3>
+        <p>Una frase firma, <q>Modern Coffee</q>, que se repite en todo. Cuenta lo que pasa hoy: <q>On filter this morning…</q>, <q>Morning rituals, captured at…</q>. Los locales se muestran como parte del barrio.</p>
+        <div class="take"><span class="lab">Tomamos</span>«Family blend» como firma al pie, no como texto del posteo, y la serie de lo que hay hoy en el mostrador.</div></div>
+      </div>
+      <div class="ref">
+        <figure><img src="img/grilla-bluebottle.jpg" alt="Últimos posteos de Blue Bottle" loading="lazy"><figcaption>@bluebottle</figcaption></figure>
+        <div><div class="meta">2,8 posteos/sem · mediana 538 me gusta</div><h3>Blue Bottle</h3>
+        <p>Fotos de temporada con tipografía editorial y un formato fijo, <q>The Cafe Edit</q>: un carrusel con lo mejor del período. Su mejor posteo une café y música.</p>
+        <div class="take"><span class="lab">Tomamos</span>Un resumen mensual, «Rotondo Edit», y el cruce con la música, el arte y el barrio.</div></div>
+      </div>
+      <div class="ref">
+        <figure><img src="img/grilla-arabicausa.jpg" alt="Últimos posteos de % Arabica" loading="lazy"><figcaption>@arabicausa</figcaption></figure>
+        <div><div class="meta">2,2 posteos/sem · me gusta ocultos</div><h3>% Arabica</h3>
+        <p>El logo es protagonista en el vaso, la bolsa y el posavasos. Muestran al equipo con nombre y humor, y las vistas de cada local.</p>
+        <div class="take"><span class="lab">Tomamos</span>El vaso y la bolsa de Rotondo como objeto, y el equipo con nombre propio.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="estetica" class="gut">
+  <div class="in">
+    <div class="kicker">03 · Con la estética de Rotondo</div>
+    <h2 class="title">La lógica de las referencias, <em>con la cara de Rotondo.</em></h2>
+    <p class="desc">No vamos a copiar la luz oscura de WatchHouse ni el estudio de Blue Bottle. Rotondo es de mañana, de vereda y de mostrador lleno. Las piezas salen de su propia fotografía, con muy poco texto encima y siempre el mismo sistema. Estos son ejemplos armados con fotos reales de su cuenta.</p>
+
+    <div class="pieces">
+      <div>
+        <div class="piece"><img src="img/rotondo-palmeron.jpg" alt="Palmerón Rotondo en la mano"><div class="top">Nuevo · Cerviño &amp; Libertador</div><div class="over"><div class="pn">Palmerón Rotondo</div><div class="pl">Family blend</div></div></div>
+        <p class="piece-cap"><b>Lanzamiento.</b> Nombre del producto y nada más. El texto del anuncio dice qué es en una línea.</p>
+      </div>
+      <div>
+        <div class="piece"><img src="img/rotondo-mostrador.jpg" alt="Mostrador de laminados a primera hora"><div class="top">Hoy · 7:40</div><div class="over"><div class="pn">Primera horneada</div><div class="pl">Rotondo Libertador</div></div></div>
+        <p class="piece-cap"><b>Hoy en el mostrador.</b> La hora real y el local. Rotación sin oferta: se va antes de que se acabe.</p>
+      </div>
+      <div>
+        <div class="piece"><img src="img/rotondo-vereda.jpg" alt="Clientes en la vereda de Rotondo"><div class="top">Rotondo Edit · Noviembre</div><div class="over"><div class="pn">Las mesas afuera</div><div class="pl">Family blend</div></div></div>
+        <p class="piece-cap"><b>Rotondo Edit.</b> El carrusel del mes con la gente de verdad. Invita a etiquetarse y a guardarlo.</p>
+      </div>
+    </div>
+
+    <div class="kit">
+      <div><div class="sw"><span style="background:#2B3754"></span><span style="background:#E0AE5C"></span><span style="background:#F5F3EF"></span></div><div class="m-k">Color</div><p>El azul del delantal y la manteca de los laminados. Nada de colores de promoción.</p></div>
+      <div><div class="m-k">Texto sobre la foto</div><p>Solo el nombre, en mayúsculas espaciadas y centrado abajo. Arriba, cuándo o dónde. Sin precios, flechas ni stickers.</p></div>
+      <div><div class="m-k">Fotografía</div><p>Luz natural de mañana, manos, vereda y mostrador. Las personas aparecen, pero el foco es el momento.</p></div>
+      <div><div class="m-k">Firma</div><p>«Family blend» al pie de cada pieza, como el «Modern Coffee» de WatchHouse. Lo familiar se nota en el oficio, no en el texto.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contra" class="alt gut">
+  <div class="in">
+    <div class="kicker">04 · El límite</div>
+    <h2 class="title">Los mismos momentos que una cadena, <em>contados de otra manera.</em></h2>
+    <p class="desc">La lógica de pautar por momento del día funciona y la vamos a usar. Lo que cambia es cómo se dice. Esta es la línea que no vamos a cruzar.</p>
+    <div class="vs">
+      <div><div class="vs-h">Estilo cadena</div><ul>
+        <li>Combo desayuno con precio en grande.</li>
+        <li>Un anuncio con oferta para cada franja horaria.</li>
+        <li>Textos largos con todas las direcciones y llamados a la acción.</li>
+        <li>Foto de producto como si fuera la carta.</li>
+        <li>Urgencia: «solo hoy», «últimos días».</li>
+      </ul></div>
+      <div><div class="vs-h">Estilo Rotondo</div><ul>
+        <li>Producto con nombre propio y su temporada.</li>
+        <li>La escena de ese momento: las 7 en Libertador, la mesa de la merienda.</li>
+        <li>Una línea de texto, el local y la firma.</li>
+        <li>La foto de lo que está pasando hoy en el local.</li>
+        <li>Una fecha de lanzamiento: «llega el jueves».</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="contenido" class="gut">
+  <div class="in">
+    <div class="kicker">05 · Contenido</div>
+    <h2 class="title">Seis series, <em>todas pautables.</em></h2>
+    <p class="desc">Cada serie sirve para el feed y como anuncio. Así la pauta nunca se ve distinta de la cuenta, que es justamente lo que hacen las referencias.</p>
+    <div class="series">
+      <div class="serie"><div class="m-k"><span>Rotación</span><span>Diaria</span></div><h3>Hoy en el mostrador</h3><p>Una historia a primera hora con lo que salió del horno, con la hora y el local. Si algo se agota, también se cuenta.</p><div class="from">Inspirado en WatchHouse</div></div>
+      <div class="serie"><div class="m-k"><span>Rotación</span><span>Por temporada</span></div><h3>Lanzamientos con nombre</h3><p>Primero el adelanto, después una pieza por producto con fecha: Palmerón, Marquise, Coconut Brew. Cada uno con su semana.</p><div class="from">Inspirado en Blank Street y Blanca</div></div>
+      <div class="serie"><div class="m-k"><span>Rotación</span><span>Semanal</span></div><h3>Las horas de Rotondo</h3><p>La escena de cada franja que queremos llenar: las 7 en Libertador, el piso de arriba de Cerviño para trabajar, la merienda en la vereda.</p><div class="from">Inspirado en «Mediodías en Blanca»</div></div>
+      <div class="serie"><div class="m-k"><span>Conversación</span><span>Mensual</span></div><h3>Rotondo Edit</h3><p>El carrusel del mes con clientes, mesas, el equipo y los especiales. Invita a etiquetarse y es el posteo que más se guarda.</p><div class="from">Inspirado en Blue Bottle y La Cabra</div></div>
+      <div class="serie"><div class="m-k"><span>Conversación</span><span>Quincenal</span></div><h3>Las manos</h3><p>Una persona del equipo con nombre y oficio: quién lamina, a qué hora llega. Reel sin hablar a cámara, con el sonido del obrador.</p><div class="from">Inspirado en % Arabica</div></div>
+      <div class="serie"><div class="m-k"><span>Encargos</span><span>Por fecha</span></div><h3>Cajas para regalar</h3><p>Las fiestas, el Día de la Madre y las empresas de la zona. La caja como objeto lindo para regalar, con WhatsApp para encargar.</p><div class="from">Ya mostró demanda en octubre</div></div>
+    </div>
+    <div class="callout"><div class="callout-label">Ritmo</div><p><b>3 posteos por semana</b>, igual que hoy, más <b>historias todos los días</b> y <b>1 reel por semana</b>. Publicar más no hace falta. Lo que hace falta es que cada posteo tenga algo nuevo para contar.</p></div>
+  </div>
+</section>
+
+<section id="meta" class="dark gut">
+  <div class="in">
+    <div class="kicker">06 · Pauta en Meta</div>
+    <h2 class="title">Que el barrio los vea seguido, <em>sin sentir que le venden.</em></h2>
+    <p class="desc">Meta es el canal principal. Los anuncios son las mismas piezas del feed, mostradas a quien vive, trabaja o pasa a 1 o 2 km de cada local. Cuando conviene, pautamos el posteo ya publicado, así los me gusta y los comentarios quedan en la cuenta.</p>
+    <div class="camps">
+      <div class="camp"><div class="pct">45 %<small>de Meta</small></div><h3>Barrio</h3><p>Siempre activa. Presencia constante en el radio de cada local, con un límite de veces por persona para no cansar.</p><div class="ul-wrap"><ul><li>Un conjunto de anuncios por local</li><li>Piezas: Hoy en el mostrador, Las horas y Rotondo Edit</li><li>Reels del obrador para sumar reproducciones</li><li>Más inversión en la franja floja de cada local</li></ul></div><div class="meas">Se mide en alcance en la zona, reproducciones y clics en «Cómo llegar»</div></div>
+      <div class="camp"><div class="pct">35 %<small>de Meta</small></div><h3>Temporada</h3><p>Una campaña corta por cada lanzamiento: el adelanto unos días antes y después el producto con su fecha.</p><div class="ul-wrap"><ul><li>Entre 7 y 10 días por lanzamiento</li><li>Primero a seguidores y a quien interactuó, después al radio</li><li>Video vertical y formato 4:5</li><li>Sin precio: nombre, fecha y local</li></ul></div><div class="meas">Se mide en ventas de ese producto contra la semana anterior</div></div>
+      <div class="camp"><div class="pct">20 %<small>de Meta</small></div><h3>Encargos</h3><p>Anuncios que abren una conversación de WhatsApp para pedir cajas, mini cakes y regalos de empresa.</p><div class="ul-wrap"><ul><li>Fiestas de fin de año desde fines de noviembre</li><li>Oficinas y empresas de la zona</li><li>Cumpleaños y fechas fuertes</li><li>En diciembre sube su parte del presupuesto</li></ul></div><div class="meas">Se mide en conversaciones y pedidos cerrados</div></div>
+    </div>
+    <h3 class="sub" style="color:var(--on-dark)">Reglas de los anuncios</h3>
+    <div class="rules">
+      <div>Las mismas fotos y el mismo sistema que el feed.</div>
+      <div>Una línea de texto, el local y la firma.</div>
+      <div>Botones tranquilos: «Cómo llegar», «Ver perfil», «Enviar mensaje».</div>
+      <div>Rotar piezas cada dos semanas para que no se gasten.</div>
+      <div class="x">Nada de precios, combos ni porcentajes.</div>
+      <div class="x">Nada de «solo hoy», flechas ni stickers.</div>
+    </div>
+  </div>
+</section>
+
+<section id="google" class="gut">
+  <div class="in">
+    <div class="kicker">07 · Google</div>
+    <h2 class="title">Estar cuando alguien <em>ya está buscando.</em></h2>
+    <p class="desc">Google no tiene que convencer a nadie: cubre a quien busca un café cerca o busca a Rotondo por su nombre. Ahí el tono soft es natural, porque la persona ya decidió salir.</p>
+    <div class="g-grid">
+      <div class="g"><div class="m-k">Base · sin costo</div><h3>Fichas de Google</h3><p>Las dos fichas con teléfono, WhatsApp, menú y fotos nuevas de las series todas las semanas. Los lanzamientos también se publican ahí, y respondemos las reseñas.</p><p>Objetivo: que Libertador se acerque a las 451 reseñas de Cerviño.</p></div>
+      <div class="g"><div class="m-k">Pauta</div><h3>Proteger el nombre</h3><p>Hoy, al buscar «Rotondo café», aparecen primero los anuncios de otras cafeterías. Una campaña chica de marca hace que salga Rotondo primero, con «Cómo llegar» y los dos locales.</p><div class="kw"><span>rotondo café</span><span>café rotondo cerviño</span><span>rotondo libertador</span></div></div>
+      <div class="g"><div class="m-k">Pauta</div><h3>Café cerca, en Maps</h3><p>Anuncios con la ubicación de cada local para las búsquedas de café, desayuno y lugar para trabajar en un radio corto. Textos con el mismo tono del feed, sin precios.</p><div class="kw"><span>café de especialidad palermo</span><span>café cerca</span><span>desayuno palermo chico</span><span>café para trabajar</span></div></div>
+    </div>
+    <div class="callout"><div class="callout-label">Reparto de la pauta</div><p>Sobre la inversión mensual acordada, <b>alrededor del 70 % va a Meta</b> y el <b>30 % a Google</b>. En diciembre se corre presupuesto hacia los encargos, y en febrero revisamos el reparto con los datos de los primeros tres meses.</p></div>
+  </div>
+</section>
+
+<section id="medicion" class="alt gut">
+  <div class="in">
+    <div class="kicker">08 · Cómo vamos a medir</div>
+    <h2 class="title">Conversación y rotación, <em>con números de verdad.</em></h2>
+    <p class="desc">Los me gusta dicen poco, y en Rotondo además están ocultos. Medimos lo que muestra que a la gente le importa y lo cruzamos con la caja de cada local.</p>
+    <div class="measure">
+      <div class="mbox"><div class="m-k">Conversación</div><h3>Que la cuenta se mueva</h3><ul class="l">
+        <li>Comentarios por posteo. Hoy la mediana es 2; la meta a 90 días es pasar de 8.</li>
+        <li>Guardados y compartidos de cada serie.</li>
+        <li>Respuestas a las historias y menciones de clientes.</li>
+        <li>Seguidores nuevos que viven cerca de los locales.</li>
+      </ul></div>
+      <div class="mbox"><div class="m-k">Rotación</div><h3>Que el mostrador se mueva</h3><ul class="l">
+        <li>Ventas del producto lanzado en su semana, contra la semana anterior.</li>
+        <li>Tickets por franja y por local, para ver si la franja floja se llena.</li>
+        <li>Clics en «Cómo llegar» y llamadas desde Google y Meta.</li>
+        <li>Conversaciones y pedidos cerrados por WhatsApp.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="pasos" class="dark gut">
+  <div class="in">
+    <div class="kicker">09 · Próximos pasos</div>
+    <h2 class="title">Empezamos <em>por el local.</em></h2>
+    <p class="desc">Antes de cerrar las series vamos a pasar por Rotondo para ver cómo funciona por dentro: quién entra, a qué hora, qué se pide y qué momentos piden foto.</p>
+    <div class="steps">
+      <div class="step"><div class="step-when">13 de noviembre</div><div><div class="step-title">Visita a los dos locales</div><p>Recorremos Cerviño y Libertador, miramos los horarios pico y los flojos, y grabamos material para el banco: horno, mostrador, vereda y sonido ambiente.</p></div></div>
+      <div class="step"><div class="step-when">Semana 1</div><div><div class="step-title">Accesos y puesta a punto</div><p>Portfolio comercial de Meta, WhatsApp para encargos, me gusta visibles y las dos fichas de Google completas.</p></div></div>
+      <div class="step"><div class="step-when">Semana 2</div><div><div class="step-title">Primeras series y campaña Barrio</div><p>Arrancan Hoy en el mostrador y Las horas, y se activa la pauta por local con el material que ya existe.</p></div></div>
+      <div class="step"><div class="step-when">Semana 3</div><div><div class="step-title">Cajas de fin de año y Google</div><p>Campaña de encargos para las fiestas, protección del nombre y anuncios en Maps.</p></div></div>
+      <div class="step"><div class="step-when">Febrero</div><div><div class="step-title">Revisión con números reales</div><p>Con tres meses de datos definimos qué series, qué local y qué franja conviene empujar para marzo.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="necesitamos" class="gut">
+  <div class="in">
+    <div class="kicker">10 · Lo que necesitamos de ustedes</div>
+    <h2 class="title">Cuatro cosas para <em>arrancar bien.</em></h2>
+    <div class="needs">
+      <div class="need"><div class="need-t">Accesos</div><p>Estadísticas de Instagram, portfolio comercial de Meta y las fichas de Google de los dos locales.</p></div>
+      <div class="need"><div class="need-t">Ventas por franja</div><p>Del sistema de caja: tickets por hora y productos más vendidos de cada local.</p></div>
+      <div class="need"><div class="need-t">Calendario</div><p>Especiales que vienen, horarios de horneado y qué productos quieren mover.</p></div>
+      <div class="need"><div class="need-t">El equipo</div><p>Quiénes quieren aparecer con nombre y si podemos grabar en el local con clientes.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="gut">
+  <div class="in">
+    <div class="f-top">
+      <div><div class="f-brand">Dilema <em>Creative</em></div><div class="f-tag">Agencia de marketing digital. Trabajamos los canales como un sistema, no como esfuerzos sueltos. Pocos clientes, máximo servicio.</div></div>
+      <div class="f-contact"><span class="lbl">Contacto</span><span>equipo@dilemacreative.ar</span><a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a><a href="https://instagram.com/dilema.creative" target="_blank" rel="noopener">@dilema.creative</a></div>
+    </div>
+    <div class="f-bottom"><div>Dilema Creative · Noviembre 2026 · Estrategia para Café Rotondo</div><div>Buenos Aires · Argentina</div></div>
+  </div>
+</footer>
+</body>
+</html>
