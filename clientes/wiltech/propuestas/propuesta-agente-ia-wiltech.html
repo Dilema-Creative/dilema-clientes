@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive">
 <title>Agente de atención · Propuesta para Wiltech Argentina</title>
-<meta name="description" content="Agente de IA que responde, cotiza con su planilla y agenda turnos en Google Calendar, en WhatsApp e Instagram.">
+<meta name="description" content="Agente de IA que responde, cotiza con su planilla y agenda turnos en Google Calendar, en WhatsApp, Instagram y Facebook.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -174,6 +174,24 @@ section{position:relative;padding:112px 0}
 .costo p{grid-column:1 / -1;color:var(--muted);font-size:14px}
 .nota-moneda{margin-top:18px;color:var(--faint);font-size:13.5px}
 
+.oferta{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:stretch}
+.plan .pagos{display:block;font-size:13.5px;color:var(--muted);margin-top:8px}
+.plan .dia-p{display:block;font-size:13.5px;color:var(--accent);margin-top:6px}
+.ancla{border:1px solid var(--border);border-radius:var(--r);background:var(--surface);padding:34px 32px;display:flex;flex-direction:column;gap:0;min-width:0}
+.ancla .k{font-family:var(--mono);font-size:12px;color:var(--faint);text-transform:uppercase;letter-spacing:.04em;margin-bottom:18px}
+.alt{padding:20px 0;border-top:1px solid var(--border)}
+.alt:first-of-type{border-top:0;padding-top:0}
+.alt .fila-a{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.alt h3{font-size:1.02rem}
+.alt .monto{font-size:1.45rem;font-weight:600;letter-spacing:-.04em;white-space:nowrap}
+.alt .et-a{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.alt.agente .et-a{color:var(--accent)}
+.retorno{margin:4px 0 20px;font-size:15px;color:var(--text)}
+.plan .total-p{display:block;font-size:13.5px;color:var(--muted);margin-top:6px}
+.plan .total-p b{font-size:inherit;font-weight:500;color:var(--text);letter-spacing:0}
+.alt p{color:var(--muted);font-size:14.2px;margin-top:6px}
+.garantia{margin-top:auto;border:1px solid rgba(92,199,157,.3);background:var(--accent-soft);border-radius:12px;padding:16px 18px;display:grid;grid-template-columns:24px 1fr;gap:12px;font-size:14.2px;color:var(--text)}
+.garantia i{font-size:20px;color:var(--accent);margin-top:1px}
 /* condiciones */
 .conds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
 .cond{padding:26px 24px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);min-width:0}
@@ -224,7 +242,8 @@ footer{padding:60px 0 54px;border-top:1px solid var(--border)}
   .stats div{padding:22px 0}
   .stats div + div{padding-left:0;border-left:0;border-top:1px solid var(--border)}
   section{padding:80px 0}
-  .cuadros,.compara,.planes{grid-template-columns:minmax(0,1fr)}
+  .cuadros,.compara,.planes,.oferta{grid-template-columns:minmax(0,1fr)}
+  .ancla{padding:28px 22px}
   .cuadro,.lado{padding:24px}
   .plan{padding:30px 22px}
   .plan .desc{min-height:0}
@@ -257,7 +276,7 @@ footer{padding:60px 0 54px;border-top:1px solid var(--border)}
   <div class="wrap">
     <span class="eyebrow rev"><i class="ph-fill ph-circle"></i>Agente de IA para atención · Noviembre 2026</span>
     <h1 class="rev" style="--d:.05s">Un agente que responde, cotiza y <span class="ac">agenda turnos</span>.</h1>
-    <p class="lead rev" style="--d:.1s">Atiende WhatsApp e Instagram a cualquier hora, con los precios de su planilla, y reserva el turno en su Google Calendar. El equipo sigue usando WhatsApp como hoy.</p>
+    <p class="lead rev" style="--d:.1s">Atiende WhatsApp, Instagram y Facebook a cualquier hora, con los precios de su planilla, y reserva el turno en su Google Calendar. El equipo sigue usando WhatsApp como hoy.</p>
     <div class="hero-meta rev" style="--d:.15s">
       <span><i class="ph ph-check-circle"></i>Precios solo de su planilla</span>
       <span><i class="ph ph-check-circle"></i>Turnos en su calendario</span>
@@ -334,7 +353,7 @@ footer{padding:60px 0 54px;border-top:1px solid var(--border)}
       <div class="lado nuevo rev">
         <div class="t"><i class="ph ph-robot"></i>El agente</div>
         <ul class="lista">
-          <li><i class="ph ph-check"></i>Responde en WhatsApp e Instagram a cualquier hora, también fines de semana y feriados.</li>
+          <li><i class="ph ph-check"></i>Responde en WhatsApp, Instagram y Facebook a cualquier hora, también fines de semana y feriados.</li>
           <li><i class="ph ph-check"></i>Da el precio exacto o un "desde", como ustedes prefieran.</li>
           <li><i class="ph ph-check"></i>Solo ofrece horarios libres de su Google Calendar, según la duración y los turnos simultáneos que definan.</li>
           <li><i class="ph ph-check"></i>Avisa que es un asistente automático y aclara que el presupuesto final se confirma con el diagnóstico en el local.</li>
@@ -345,7 +364,7 @@ footer{padding:60px 0 54px;border-top:1px solid var(--border)}
         <div class="t"><i class="ph ph-users-three"></i>El equipo</div>
         <ul class="lista">
           <li><i class="ph ph-device-mobile"></i>Sigue contestando WhatsApp desde el celular y WhatsApp Web, con el mismo número.</li>
-          <li><i class="ph ph-eye"></i>Ve todo lo que respondió el agente. Instagram y las respuestas en modo prueba se ven desde una bandeja web.</li>
+          <li><i class="ph ph-eye"></i>Ve todo lo que respondió el agente. Instagram, Facebook y las respuestas en modo prueba se ven desde una bandeja web.</li>
           <li><i class="ph ph-hand-heart"></i>Deja de responder lo repetido y se queda con lo que necesita una persona.</li>
           <li><i class="ph ph-table"></i>Actualiza los precios en su planilla, como hoy. El agente toma los cambios solo.</li>
           <li><i class="ph ph-power"></i>Puede apagar el agente en un clic cuando quiera.</li>
@@ -364,7 +383,7 @@ footer{padding:60px 0 54px;border-top:1px solid var(--border)}
     </div>
     <div class="linea">
       <div class="et rev"><span class="pt">1</span><div><h3>Conocer sus chats</h3><p>Leemos conversaciones reales para ver cómo preguntan sus clientes, y ordenamos la planilla y los horarios de turnos.</p></div></div>
-      <div class="et rev" style="--d:.05s"><span class="pt">2</span><div><h3>Armado</h3><p>Conectamos WhatsApp, Instagram, la planilla y el calendario, y escribimos cómo tiene que responder el agente.</p></div></div>
+      <div class="et rev" style="--d:.05s"><span class="pt">2</span><div><h3>Armado</h3><p>Conectamos WhatsApp, Instagram, Facebook, la planilla y el calendario, y escribimos cómo tiene que responder el agente.</p></div></div>
       <div class="et rev" style="--d:.1s"><span class="pt">3</span><div><h3>Modo prueba</h3><p>El agente propone cada respuesta y alguien del equipo la aprueba antes de que salga.</p></div></div>
       <div class="et rev" style="--d:.15s"><span class="pt">4</span><div><h3>En marcha</h3><p>Responde solo. Cada mes revisamos las conversaciones y ajustamos lo que haga falta.</p></div></div>
     </div>
@@ -386,55 +405,53 @@ footer{padding:60px 0 54px;border-top:1px solid var(--border)}
   <div class="wrap">
     <div class="shead rev">
       <h2>Inversión.</h2>
-      <p class="lead">Una implementación inicial y un abono mensual. Los servicios de terceros van a nombre de Wiltech y se pagan aparte.</p>
+      <p class="lead">Un solo agente con todo lo que nos pidieron: responde en los tres canales, pasa el presupuesto y agenda el turno en su calendario.</p>
     </div>
-    <div class="planes">
+    <div class="oferta">
       <div class="plan dest rev">
-        <span class="badge">RECOMENDADO</span>
-        <h3>Agente completo</h3>
-        <p class="desc">Responde, cotiza y reserva el turno directo en su calendario.</p>
+        <span class="badge">PRECIO PARA WILTECH</span>
+        <h3>Agente de atención Wiltech</h3>
+        <p class="desc">Responde, presupuesta y reserva el turno, en WhatsApp, Instagram y Facebook.</p>
         <div class="precios">
-          <div class="precio"><small>Implementación</small><b><s>USD 2.500</s>USD 2.000</b><span class="motivo">Precio para Wiltech, a cambio de poder contar el caso con sus resultados y su aprobación. Si prefieren no aparecer, la implementación es USD 2.500.</span></div>
-          <div class="precio"><small>Abono mensual</small><b>USD 450 <span>/ mes</span></b></div>
+          <div class="precio"><small>Implementación</small><b><s>USD 2.500</s>USD 2.000</b><span class="motivo">Bonificada a cambio de poder contar el caso con sus resultados en nuestra web y redes, siempre con su aprobación. Si prefieren no aparecer, es USD 2.500.</span><span class="pagos">En dos pagos de USD 1.000: al firmar y cuando el agente pasa las pruebas.</span></div>
+          <div class="precio"><small>Abono mensual</small><b>USD 450 <span>/ mes</span></b><span class="dia-p">USD 15 por día, todos los días del año.</span><span class="total-p">Con WhatsApp y la plataforma de mensajes, <b>USD 570 a 740 por mes en total</b>. Empieza a correr cuando el agente sale en vivo, con permanencia mínima de 6 meses.</span></div>
         </div>
         <ul class="lista">
-          <li><i class="ph ph-check"></i>WhatsApp e Instagram</li>
-          <li><i class="ph ph-check"></i>Cotización con su planilla</li>
-          <li><i class="ph ph-check"></i>Reserva de turnos en Google Calendar</li>
+          <li><i class="ph ph-check"></i>WhatsApp, Instagram y Facebook</li>
+          <li><i class="ph ph-check"></i>Presupuesto y demora con su planilla</li>
+          <li><i class="ph ph-check"></i>Turnos en su Google Calendar</li>
           <li><i class="ph ph-check"></i>Paso a una persona con resumen</li>
           <li><i class="ph ph-check"></i>Hasta 2.000 conversaciones por mes</li>
           <li><i class="ph ph-check"></i>Hasta 6 horas de ajustes por mes y soporte en horario hábil</li>
-          <li class="no"><i class="ph ph-minus"></i>Messenger (Facebook), en una segunda etapa</li>
+          <li><i class="ph ph-check"></i>La IA y los servidores, incluidos</li>
         </ul>
       </div>
-      <div class="plan rev" style="--d:.06s">
-        <h3>Agente esencial</h3>
-        <p class="desc">Responde y cotiza. El turno queda como pedido y lo confirma el equipo.</p>
-        <div class="precios">
-          <div class="precio"><small>Implementación</small><b>USD 1.200</b></div>
-          <div class="precio"><small>Abono mensual</small><b>USD 250 <span>/ mes</span></b></div>
+      <div class="ancla rev" style="--d:.06s">
+        <span class="k">Lo que cambia</span>
+        <div class="alt caro">
+          <span class="et-a"><i class="ph ph-moon"></i>Hoy</span>
+          <h3>La consulta del sábado a la noche espera hasta el lunes</h3>
+          <p>Para cuando alguien la contesta, muchos ya le preguntaron a otro servicio técnico.</p>
         </div>
-        <ul class="lista">
-          <li><i class="ph ph-check"></i>WhatsApp e Instagram</li>
-          <li><i class="ph ph-check"></i>Cotización con su planilla</li>
-          <li class="no"><i class="ph ph-minus"></i>Pedido de turno que confirma el equipo</li>
-          <li><i class="ph ph-check"></i>Paso a una persona con resumen</li>
-          <li><i class="ph ph-check"></i>Hasta 2.000 conversaciones por mes</li>
-          <li><i class="ph ph-check"></i>Hasta 6 horas de ajustes por mes y soporte en horario hábil</li>
-          <li class="no"><i class="ph ph-minus"></i>Messenger (Facebook), en una segunda etapa</li>
-        </ul>
+        <div class="alt agente">
+          <span class="et-a"><i class="ph ph-lightning"></i>Con el agente</span>
+          <h3>Responde en segundos, a cualquier hora</h3>
+          <p>Da el precio, la demora y el turno. Lo que necesita una persona le queda resumido al equipo para el día siguiente.</p>
+        </div>
+        <p class="retorno">Se paga solo con unas pocas reparaciones por mes que hoy se pierden.</p>
+        <div class="garantia"><i class="ph ph-shield-check"></i><div>Antes de salir en vivo, el agente trabaja en modo prueba con su equipo. El segundo pago se hace recién cuando pasa las pruebas, que definimos juntos por escrito al firmar. Si a los 30 días de modo prueba no hay observaciones pendientes, se dan por aprobadas.</div></div>
       </div>
     </div>
     <div class="aparte rev">
       <div><h3>Aparte, a nombre de Wiltech</h3><p>Se pagan directo a cada proveedor. La IA y los servidores del agente ya están incluidos en el abono.</p></div>
       <div class="costos">
-        <div class="costo"><b>Mensajes de WhatsApp (Meta)</b><span>USD 80 a 170 / mes</span><p>Desde octubre de 2026, Meta cobra cada respuesta de WhatsApp a partir de la número 1.001 del mes. Lo que el equipo responde desde el celular no se cobra. El rango vale si los 200-300 diarios son mensajes; si son 200-300 personas distintas por día, el costo cambia. Lo confirmamos con su volumen real antes de firmar.</p></div>
-        <div class="costo"><b>Plataforma de mensajes</b><span>USD 40 a 120 / mes</span><p>La bandeja web que conecta WhatsApp e Instagram con el agente. Varía según cuántos usuarios del equipo la usen.</p></div>
-        <div class="total"><b>Total por mes estimado</b><span>USD 570 a 740</span><p>Abono del agente completo más Meta y la plataforma. Con el agente esencial, USD 370 a 540. La implementación se paga una sola vez.</p></div>
+        <div class="costo"><b>Mensajes de WhatsApp (Meta)</b><span>USD 80 a 170 / mes</span><p>Meta cobra cada respuesta de WhatsApp desde la número 1.001 del mes. Lo que el equipo responde desde el celular es gratis. Si en vez de 200-300 mensajes son 200-300 personas distintas por día, el costo sube: lo confirmamos con sus números antes de firmar.</p></div>
+        <div class="costo"><b>Plataforma de mensajes</b><span>USD 40 a 120 / mes</span><p>El programa donde el equipo ve los chats de Instagram y Facebook y aprueba las respuestas del modo prueba. Varía según cuántos usuarios lo usen.</p></div>
+        <div class="total"><b>Total por mes estimado</b><span>USD 570 a 740</span><p>Abono del agente más Meta y la plataforma. La implementación se paga una sola vez.</p></div>
       </div>
     </div>
-    <div class="conv rev"><b>Qué cuenta como una conversación.</b> Una persona que escribe en 24 horas, aunque mande varios mensajes. Con 200-300 mensajes por día estimamos entre 750 y 1.500 conversaciones por mes. Si un mes superan las 2.000, se lo avisamos y ajustamos el abono desde el mes siguiente.</div>
-    <p class="nota-moneda rev">Valores en dólares, facturados en pesos al dólar MEP del día. La implementación se paga 50% al inicio y 50% cuando el agente sale en vivo, después de pasar las pruebas acordadas. Flujos nuevos fuera de este alcance se cotizan aparte. Propuesta válida por 30 días.</p>
+    <div class="conv rev"><b>Qué cuenta como una conversación.</b> Una persona que escribe en 24 horas, aunque mande varios mensajes. Con 200-300 mensajes por día estimamos entre 750 y 1.500 conversaciones por mes. Si un mes superan las 2.000, cada 1.000 conversaciones extra suman USD 100 al abono de ese mes, y se lo avisamos antes.</div>
+    <p class="nota-moneda rev">Valores en dólares, facturados en pesos al dólar MEP del día. Flujos nuevos fuera de este alcance se cotizan aparte. Propuesta válida por 30 días.</p>
   </div>
 </section>
 
