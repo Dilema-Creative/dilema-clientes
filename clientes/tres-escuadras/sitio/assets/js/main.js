@@ -134,7 +134,7 @@
         r.classList.toggle("is-hidden", n === 0);
         var sm = r.querySelector("h2 small"); if (sm) sm.textContent = n;
       });
-      countEl.textContent = shown === 1 ? "1 profesional" : shown + " profesionales";
+      if (countEl) countEl.textContent = (shown === 1 ? "1 profesional" : shown + " profesionales") + " en la lista";
       empty.classList.toggle("is-visible", shown === 0);
       var params = new URLSearchParams();
       if (q) params.set("q", input.value.trim());
