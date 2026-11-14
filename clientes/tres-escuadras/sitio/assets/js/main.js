@@ -65,6 +65,42 @@
     if (e.key === "Escape" && menu && menu.classList.contains("is-open")) setMenu(false);
   });
 
+  /* ---------- Historia: línea de tiempo interactiva ---------- */
+  var tlRoot = document.querySelector("[data-tl]");
+  if (tlRoot) (function () {
+    var ticks = Array.prototype.slice.call(tlRoot.querySelectorAll(".tl__tick"));
+    var panels = tlRoot.querySelectorAll(".tl__panel");
+    var rail = tlRoot.querySelector(".tl__rail");
+    var prev = tlRoot.querySelector("[data-tl-prev]");
+    var next = tlRoot.querySelector("[data-tl-next]");
+    var nEl = tlRoot.querySelector("[data-tl-n]");
+    var cur = 0;
+    var show = function (i, focus) {
+      if (i < 0 || i >= ticks.length) return;
+      cur = i;
+      ticks.forEach(function (t, k) { t.setAttribute("aria-selected", k === i ? "true" : "false"); t.tabIndex = k === i ? 0 : -1; });
+      panels.forEach(function (p, k) { p.classList.toggle("is-active", k === i); });
+      if (nEl) nEl.textContent = i + 1;
+      prev.disabled = i === 0;
+      next.disabled = i === ticks.length - 1;
+      var t = ticks[i], r = rail.getBoundingClientRect(), b = t.getBoundingClientRect();
+      if (b.left < r.left + 24 || b.right > r.right - 24) {
+        rail.scrollTo({ left: rail.scrollLeft + (b.left - r.left) - r.width / 2 + b.width / 2, behavior: reduce ? "auto" : "smooth" });
+      }
+      if (focus) t.focus();
+    };
+    ticks.forEach(function (t, k) {
+      t.addEventListener("click", function () { show(k); });
+      t.addEventListener("keydown", function (e) {
+        var to = { ArrowRight: cur + 1, ArrowLeft: cur - 1, Home: 0, End: ticks.length - 1 }[e.key];
+        if (to !== undefined) { e.preventDefault(); show(Math.max(0, Math.min(ticks.length - 1, to)), true); }
+      });
+    });
+    prev.addEventListener("click", function () { show(cur - 1); });
+    next.addEventListener("click", function () { show(cur + 1); });
+    show(0);
+  })();
+
   /* ---------- Momento de autor: escuadras y fases ---------- */
   var moments = document.querySelectorAll("[data-moment]");
   if (!reduce && "IntersectionObserver" in window) {
