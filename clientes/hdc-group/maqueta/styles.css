@@ -540,3 +540,111 @@ td.trunc{max-width:240px}
 
 .marca.m-ml{background:#FFE600;border-color:#F2D600}
 .marca.m-ml img{width:92%;height:92%}
+
+
+/* =====================================================================
+   v2 (13/11): selector de fechas, grupos de cajas, depósitos y ajustes de venta.
+   Todo con las variables de arriba: funciona igual en claro y en oscuro.
+   ===================================================================== */
+.fechas{position:relative;display:inline-flex}
+.fechas>.btn span{font-variant-numeric:tabular-nums}
+.cal{position:absolute;z-index:30;top:calc(100% + 6px);right:0;display:flex;gap:12px;padding:12px;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r);box-shadow:var(--shadow-lg)}
+.cal.izq{right:auto;left:0}
+.cal-atajos{display:flex;flex-direction:column;gap:2px;padding-right:12px;border-right:1px solid var(--line);min-width:118px}
+.cal-atajos button{height:32px;padding:0 10px;border:0;border-radius:8px;background:none;color:var(--ink-2);text-align:left;cursor:pointer;white-space:nowrap}
+.cal-atajos button:hover{background:var(--surface-2)}
+.cal-atajos button[aria-pressed="true"]{background:var(--accent-bg);color:var(--accent-ink);font-weight:600}
+.cal-mes{width:252px}
+.cal-cab{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.cal-cab b{font-weight:600}
+.cal-grilla{display:grid;grid-template-columns:repeat(7,36px);justify-content:center}
+.cal-dow{display:grid;place-items:center;height:26px;font-size:11.5px;color:var(--ink-faint)}
+.cal-dia{height:34px;border:0;border-radius:8px;background:none;color:var(--ink);font-variant-numeric:tabular-nums;cursor:pointer}
+.cal-dia:hover{background:var(--surface-2)}
+.cal-dia.hoy{box-shadow:inset 0 0 0 1px var(--line-2);font-weight:600}
+.cal-dia.en-rango{background:var(--accent-bg);color:var(--accent-ink);border-radius:0}
+.cal-dia.extremo{background:var(--accent);color:var(--accent-contrast);font-weight:600}
+.cal-pie{margin:8px 0 0;font-size:12px;color:var(--ink-faint);text-align:center}
+
+.badge.cuadrado{width:30px;justify-content:center;padding:0}
+.mini-cajas .aparte{color:var(--ink-soft)}
+.nota{margin:0 0 8px;color:var(--ink-soft);font-size:13px}
+.m-b .nota{margin:0}
+.grupo-t{margin:22px 0 10px;font-size:13px;font-weight:600;color:var(--ink-soft)}
+.kpis.en-2{grid-template-columns:repeat(2,minmax(0,1fr));margin:0}
+.kpis.en-3{grid-template-columns:repeat(3,minmax(0,1fr));margin:0}
+tr.tachado td{color:var(--ink-faint)}
+tr.tachado td.num{text-decoration:line-through}
+tfoot tr.suave td{font-weight:400;color:var(--ink-soft);border-top:0;background:var(--surface)}
+td.cero{color:var(--ink-faint)}
+.cajas-grid.chicas{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));margin-bottom:20px}
+.cajas-grid.chicas .saldo{font-size:20px;margin:8px 0 2px}
+.renglon.con-bonif{grid-template-columns:minmax(0,1fr) 70px 78px 36px}
+.renglon.cab{font-size:12px;color:var(--ink-faint);align-items:center}
+.ajuste{display:grid;grid-template-columns:96px 62px 96px minmax(0,1fr);gap:8px;align-items:center}
+.ajuste .input{width:100%}
+.ajuste .aj-n{font-size:13px;color:var(--ink-2)}
+.fila-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fila-check{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.fila-check .sec{display:block;font-family:var(--sans);color:var(--ink-faint);font-size:12px}
+.desglose .chico{color:var(--ink-soft);font-size:12.5px}
+@media (max-width:640px){
+  .cal,.cal.izq{position:fixed;left:12px;right:12px;top:auto;bottom:12px;flex-direction:column;z-index:45}
+  .cal-atajos{flex-direction:row;flex-wrap:wrap;border-right:0;padding-right:0;border-bottom:1px solid var(--line);padding-bottom:8px;min-width:0}
+  .cal-mes{width:auto}
+  .cal-grilla{grid-template-columns:repeat(7,1fr)}
+  .ajuste{grid-template-columns:62px minmax(0,1fr)}
+  .ajuste .aj-n,.ajuste .aj-concepto{grid-column:1 / -1}
+  .renglon.con-bonif{grid-template-columns:minmax(0,1fr) 54px 60px 36px}
+}
+
+
+/* =====================================================================
+   v2, fase 2: tablero de producción, remitos, impresión y tablas que pasan a tarjetas.
+   ===================================================================== */
+.tablero{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;align-items:start}
+.tablero .col{display:flex;flex-direction:column;gap:8px;min-width:0;padding:12px;background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r)}
+.tablero .col h3{display:flex;align-items:center;gap:8px;margin:0 0 2px;font-size:13px;font-weight:600;color:var(--ink-2)}
+.tablero .col h3 .cuenta{font:500 11.5px var(--sans);color:var(--ink-faint);background:var(--surface);border-radius:999px;padding:1px 7px}
+.tablero .vacio{padding:8px 2px;font-size:12.5px;color:var(--ink-faint)}
+.orden-card{display:flex;flex-direction:column;gap:4px;padding:12px;text-align:left;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);cursor:pointer;transition:border-color .15s ease}
+.orden-card:hover{border-color:var(--line-2)}
+.orden-card .t{font-size:12px;color:var(--ink-faint)}
+.orden-card .p{font-weight:600}
+.orden-card .s{font-size:12.5px;color:var(--ink-soft)}
+tr.grupo td{background:var(--surface-2);font-weight:600}
+th.chk,td.chk{width:36px;padding-right:0}
+.btn[disabled]{opacity:.5;cursor:default}
+.d-h h2 + .sub{overflow-wrap:anywhere}
+@media (max-width:900px){
+  .tablero{grid-template-columns:minmax(0,1fr)}
+}
+/* En pantallas angostas las tablas de las vistas principales pasan a tarjetas: una por fila, con el nombre de cada columna. */
+@media (max-width:640px){
+  #vista .tabla-wrap{overflow-x:visible;border:0;background:none;box-shadow:none}
+  #vista table.a-tarjetas,#vista table.a-tarjetas tbody,#vista table.a-tarjetas tfoot{display:block}
+  #vista table.a-tarjetas thead{display:none}
+  #vista table.a-tarjetas tr{display:block;margin-bottom:8px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  #vista table.a-tarjetas td{display:flex;justify-content:space-between;align-items:center;gap:12px;height:auto;padding:4px 0;border:0;background:none;white-space:normal;text-align:right}
+  #vista table.a-tarjetas td[data-th]::before{content:attr(data-th);flex:none;font-size:12px;font-weight:500;color:var(--ink-faint);text-align:left}
+  #vista table.a-tarjetas td:first-child{font-weight:600;text-align:left}
+  #vista table.a-tarjetas td:first-child::before{display:none}
+  #vista table.a-tarjetas td.chk{width:auto;justify-content:flex-start}
+  #vista table.a-tarjetas td:empty{display:none}
+  #vista table.a-tarjetas td.trunc{max-width:none}
+  #vista table.a-tarjetas td .sec{text-align:right}
+  #vista table.a-tarjetas td:first-child .sec{text-align:left}
+  #vista table.a-tarjetas tr.grupo{background:var(--surface-2);box-shadow:none}
+  #vista table.a-tarjetas tfoot td{display:block;text-align:left}
+  #vista table.a-tarjetas tbody tr.clic:hover td{background:none}
+  #vista .card .tabla-wrap{padding:0 12px 12px}
+}
+/* Imprimir (rendición): solo el contenido, en claro. */
+@media print{
+  :root,:root[data-theme="dark"],:root:not([data-theme="light"]){--bg:#fff;--surface:#fff;--surface-2:#f3f3f3;--ink:#111;--ink-2:#222;--ink-soft:#444;--ink-faint:#666;--line:#ccc;--line-2:#bbb}
+  .sidebar,.topbar,.toast,.velo,.tabs,.toolbar,.encabezado .acciones,.drawer-wrap,.modal-wrap,.paleta-wrap{display:none!important}
+  .app{display:block}
+  #vista{padding:0;max-width:none}
+  .tabla-wrap{overflow:visible;border:0;box-shadow:none}
+  .grilla-2{grid-template-columns:minmax(0,1fr)}
+}
