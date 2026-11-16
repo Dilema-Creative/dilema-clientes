@@ -40,8 +40,8 @@
   };
 
   /* ================= base de datos ================= */
-  const VERSION = 7;
-  const KEY = 'hdc-argos-maqueta-v7';
+  const VERSION = 9;
+  const KEY = 'hdc-argos-maqueta-v9';
   const HOY = window.HDC_HOY;
   const INI_HOY = new Date(HOY.getFullYear(), HOY.getMonth(), HOY.getDate());
   const FIN_HOY = new Date(HOY.getFullYear(), HOY.getMonth(), HOY.getDate(), 23, 59, 59, 999);
@@ -100,6 +100,8 @@
   }
   const deducciones = (v) => { if (anulada(v)) return 0; const d = descuentos(v); return r2(d.comision + d.envio + d.retencion + d.cuotas); };
   const netoVenta = (v) => anulada(v) ? 0 : r2(cobrado(v) - deducciones(v));
+  /* En tránsito: lo cobrado que todavía no entró a una cuenta (tiendas, tarjetas y cheques en cartera). */
+  const transitoVenta = (v) => anulada(v) ? 0 : r2(netoVenta(v) - acreditadoVenta(v));
   /* Un cheque de tercero está en cartera hasta que se deposita. */
   const enCartera = (c) => !!c.cheque && !c.depositado;
   const pendienteCanal = (v) => v.acred && (v.acred.estado === 'A liberar' || v.acred.estado === 'A liquidar');
@@ -126,7 +128,7 @@
   /* Costo y utilidad de una venta: el costo queda guardado en cada renglón al vender. */
   function utilidadVenta(v) {
     const costo = r2(v.items.reduce((s, l) => s + (l.costo || 0) * l.cant, 0));
-    const base = v.imp ? v.imp.neto : r2(v.total);
+    const base = v.imp ? r2(v.imp.neto + (v.imp.exento || 0)) : r2(v.total);
     const utilidad = r2(base - costo);
     return { neto: base, costo, utilidad, pct: base ? Math.round(utilidad / base * 1000) / 10 : 0 };
   }
@@ -155,7 +157,10 @@
     marketplaces: { img: L + 'fravega.png' },
     credicoop: { img: L + 'credicoop.svg', lleno: true },
     santander: { img: L + 'santander.png' },
-    macro: { img: L + 'macro.png' }
+    macro: { img: L + 'macro.png' },
+    'pr-macro': { img: L + 'macro.png' },
+    provincia: { img: L + 'provincia.svg' },
+    bna: { img: L + 'nacion.png', lleno: true }
   };
   const ICONO_CAJA = { billetera: 'ph-wallet', 'a-liquidar': 'ph-hourglass-medium', banco: 'ph-bank', cheques: 'ph-money-wavy', efectivo: 'ph-coins', prestamo: 'ph-handshake', interna: 'ph-vault', valores: 'ph-calendar-check', retenciones: 'ph-receipt-x' };
   const TONO_CAJA = { billetera: 't-azul', 'a-liquidar': 't-azul', banco: 't-azul', cheques: 't-ambar', efectivo: 't-verde', prestamo: 't-pizarra', interna: 't-pizarra', valores: 't-ambar', retenciones: 't-pizarra' };
@@ -222,7 +227,7 @@
       const d = descuentos(v);
       r.ctacte += saldoVenta(v); r.cobrado += cobrado(v);
       r.comision += d.comision; r.envio += d.envio; r.retencion += d.retencion; r.cuotas += d.cuotas;
-      const ac = acreditadoVenta(v); r.acreditado += ac; r.transito += netoVenta(v) - ac;
+      r.acreditado += acreditadoVenta(v); r.transito += transitoVenta(v);
     }
     Object.keys(r).forEach((k) => { r[k] = r2(r[k]); });
     r.vendido = r2(r.bruto - r.anuladas);
@@ -301,6 +306,9 @@
     const capital = c.prestamo.capital || 0;
     return { recibido, falta, devuelto: r2(Math.max(0, capital - falta)), capital, movs: s.movs };
   }
+
+  /* Lo que falta devolver de los préstamos recibidos (o que nos devuelvan, de los otorgados). Lo usan el Panel y el informe. */
+  const prestamosPor = (sentido) => r2(DB.cajas.filter((c) => c.tipo === 'prestamo' && c.prestamo.sentido === sentido).reduce((s, c) => s + prestamoInfo(c).falta, 0));
 
   /* Transferir entre cajas: la única función. Un solo registro con sus dos puntas, así no se puede anular una sin la otra. */
   function transferir(d) {
@@ -424,11 +432,21 @@
   /* ================= proveedores ================= */
   function ctaProveedor(p) {
     const facs = p.movs.filter((m) => m.tipo === 'factura');
-    const pagado = (f) => r2(p.movs.filter((m) => pagoVigente(m) && m.aplicaA === f.id).reduce((s, m) => s + m.monto, 0));
+    const pagado = (f) => r2(p.movs.filter((m) => (pagoVigente(m) || m.tipo === 'nc') && m.aplicaA === f.id).reduce((s, m) => s + m.monto, 0));
     const pend = facs.map((f) => ({ ...f, saldo: r2(f.monto - pagado(f)) })).filter((f) => f.saldo > 0.009);
     const saldo = r2(pend.reduce((s, f) => s + f.saldo, 0));
     const prox = pend.slice().sort((a, b) => a.vence < b.vence ? -1 : 1)[0];
     return { pend, saldo, prox };
+  }
+  /* La cuenta corriente de un proveedor en orden, con el saldo corrido. Lo anulado queda en la lista pero no mueve el saldo. */
+  function movsProveedor(p) {
+    let s = 0;
+    return p.movs.slice().sort((a, b) => a.fecha < b.fecha ? -1 : 1).map((m) => { if (m.tipo === 'factura') s = r2(s + m.monto); else if (pagoVigente(m) || m.tipo === 'nc') s = r2(s - m.monto); return { ...m, saldo: s }; });
+  }
+  /* Comprado y pagado a un proveedor en un período: lo usan Proveedores y los informes. */
+  function movsProveedorPeriodo(x, p) {
+    const ms = x.movs.filter((m) => enPeriodo(m.fecha, p));
+    return { comprado: r2(ms.reduce((s, m) => s + (m.tipo === 'factura' ? m.monto : m.tipo === 'nc' ? -m.monto : 0), 0)), pagado: r2(ms.filter(pagoVigente).reduce((s, m) => s + m.monto, 0)), ordenes: new Set(ms.filter(pagoVigente).map((m) => m.op)).size };
   }
   /* Cuánto debemos: la única cuenta. */
   const deudaProveedores = () => r2(DB.proveedores.reduce((s, p) => s + ctaProveedor(p).saldo, 0));
@@ -538,6 +556,8 @@
   }
   /* Cuánto nos deben: la única cuenta. */
   const aCobrar = () => r2(DB.ventas.reduce((s, v) => s + saldoVenta(v), 0));
+  /* Las ventas que tienen saldo: de acá salen el aviso del Panel y el informe de saldos. */
+  const ventasConSaldo = () => DB.ventas.filter((v) => saldoVenta(v) > 0.009);
 
   /* ================= stock ================= */
   /* El stock tampoco se guarda: es el stock inicial de cada depósito más los movimientos, menos lo vendido.
@@ -966,12 +986,12 @@
     return { remito: r };
   }
   /* Rendición: todo lo que salió por día y por producto en el período. Sale de los remitos de venta que no están anulados. */
-  function rendicion(p) {
-    const porDia = {}, porProd = {};
+  function rendicion(p, depositoId) {
+    const porDia = {}, porProd = {}, remitos = [];
     let nRemitos = 0, total = 0;
     DB.remitos.forEach((r) => {
-      if (r.tipo !== 'venta' || r.estado === 'Anulado' || !enPeriodo(r.fecha, p)) return;
-      nRemitos++;
+      if (r.tipo !== 'venta' || r.estado === 'Anulado' || !enPeriodo(r.fecha, p) || (depositoId && r.depositoId !== depositoId)) return;
+      nRemitos++; remitos.push(r);
       const dia = toISODate(D(r.fecha));
       itemsRemito(r).forEach((l) => {
         const k = dia + '|' + l.productoId;
@@ -981,7 +1001,7 @@
         y.cant += l.cant; total += l.cant;
       });
     });
-    return { filas: Object.values(porDia).sort((a, b) => a.dia < b.dia ? 1 : a.dia > b.dia ? -1 : b.cant - a.cant), porProducto: Object.values(porProd).sort((a, b) => b.cant - a.cant), total, nRemitos };
+    return { filas: Object.values(porDia).sort((a, b) => a.dia < b.dia ? 1 : a.dia > b.dia ? -1 : b.cant - a.cant), porProducto: Object.values(porProd).sort((a, b) => b.cant - a.cant), total, nRemitos, remitos };
   }
 
   /* ================= producción ================= */
@@ -1217,7 +1237,8 @@
     cajas: { tab: 'cajas', cheques: 'A debitar', anulados: '' },
     depositos: { tab: 'remitir', q: '', pasillo: '', tipo: '', remEstado: 'curso', remTipo: '', limite: 80 },
     produccion: { tab: 'tablero', estado: '' },
-    config: { tab: 'canales' }
+    config: { tab: 'canales' },
+    informes: { q: '', todo: '' }
   };
   let toastT;
   function toast(msg, ic) {
@@ -1258,7 +1279,7 @@
   }
 
   /* ================= selector de fechas: un solo componente para todas las pantallas ================= */
-  const CAL = { el: null, mes: null, ancla: '' };
+  const CAL = { el: null, mes: null, ancla: '', boton: null };
   function selectorFechas(rapidos) {
     const p = periodo();
     const seg = rapidos ? '<div class="segmentado" role="group" aria-label="Período">' + [['hoy', 'Hoy'], ['semana', 'Esta semana'], ['mes', mayus(nombreMes(INI_HOY))]].map(([k, n]) => '<button type="button" data-accion="atajo-fechas" data-atajo="' + k + '" aria-pressed="' + (p.atajo === k) + '">' + esc(n) + '</button>').join('') + '</div>' : '';
@@ -1269,7 +1290,11 @@
     const el = document.createElement('div');
     el.className = 'cal' + (boton.getBoundingClientRect().left < window.innerWidth / 2 ? ' izq' : '');
     el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Elegir período');
-    boton.closest('.fechas').appendChild(el);
+    /* en celular se abre como panel desde abajo, con un velo detrás: va directo en el body para que nada lo recorte */
+    const movil = esMovil();
+    if (movil) { const velo = document.createElement('div'); velo.className = 'cal-velo'; document.body.appendChild(velo); el.classList.add('hoja'); }
+    (movil ? document.body : boton.closest('.fechas')).appendChild(el);
+    CAL.boton = boton;
     boton.setAttribute('aria-expanded', 'true');
     const h = deISODate(RANGO.hasta);
     CAL.el = el; CAL.ancla = ''; CAL.mes = new Date(h.getFullYear(), h.getMonth(), 1);
@@ -1277,9 +1302,10 @@
   }
   function cerrarCal(conFoco) {
     if (!CAL.el) return;
-    const b = CAL.el.parentElement && CAL.el.parentElement.querySelector('[data-accion="abrir-fechas"]');
-    CAL.el.remove(); CAL.el = null;
-    if (b) { b.setAttribute('aria-expanded', 'false'); if (conFoco) b.focus(); }
+    const b = CAL.boton;
+    $$('.cal-velo').forEach((x) => x.parentNode.removeChild(x));
+    CAL.el.parentNode.removeChild(CAL.el); CAL.el = null; CAL.boton = null;
+    if (b) { b.setAttribute('aria-expanded', 'false'); if (conFoco) b.focus({ preventScroll: true }); }
   }
   function pintarCal(focoDia) {
     const y = CAL.mes.getFullYear(), mes = CAL.mes.getMonth();
@@ -1297,7 +1323,7 @@
       '<div class="cal-grilla">' + ['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((x) => '<span class="cal-dow">' + x + '</span>').join('') + celdas + '</div>' +
       '<p class="cal-pie">' + (CAL.ancla ? 'Ahora elegí el último día' : 'Elegí el primer día y después el último') + '</p></div>');
     const f = (focoDia && CAL.el.querySelector('[data-dia="' + focoDia + '"]')) || CAL.el.querySelector('.cal-dia.extremo') || CAL.el.querySelector('.cal-dia');
-    if (f) f.focus();
+    if (f) f.focus({ preventScroll: true });
   }
   function elegirDia(k) {
     if (!CAL.ancla) { CAL.ancla = k; pintarCal(k); return; }
@@ -1307,7 +1333,7 @@
   /* Cambiar el período redibuja la pantalla que esté abierta. El período queda para todas. */
   function aplicarRango() {
     cerrarCal(); UI.animar = true; render();
-    const b = $('[data-accion="abrir-fechas"]'); if (b) b.focus();
+    const b = $('[data-accion="abrir-fechas"]'); if (b) b.focus({ preventScroll: true });
   }
   function teclaCal(e) {
     const paso = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key];
@@ -1346,6 +1372,7 @@
     etiquetarTablas();
     pintarNav();
     indicadores();
+    marcarDesbordes();
     if (partes[0] === 'inicio' || !partes[0]) { montarPuente(); if (UI.animar) contar(); }
     UI.animar = false;
     if (navegando && partes[0] === 'cajas' && params.get('caja')) { abrirCaja(params.get('caja')); history.replaceState(null, '', '#/cajas'); }
@@ -1365,7 +1392,7 @@
 
     /* para revisar: siempre al día de hoy, no depende del período */
     const nRemitir = ventasARemitir().length;
-    const ctacte = DB.ventas.filter((v) => saldoVenta(v) > 0.009);
+    const ctacte = ventasConSaldo();
     const aLiquidar = DB.ventas.filter((v) => !anulada(v) && v.acred && v.acred.estado === 'A liquidar');
     const terceros = DB.ventas.flatMap((v) => anulada(v) ? [] : v.cobros.filter(enCartera)).filter((c) => diasA(c.cheque.vence) <= 30);
     const propios = chequesADebitar().filter((ch) => diasA(ch.debito) <= 7);
@@ -1382,7 +1409,7 @@
     ].filter(Boolean);
     const listaAlertas = alertas.map(([ic, b, t, s, ir]) => '<li><span class="badge ' + b + ' cuadrado"><i class="ph ' + ic + '"></i></span><div><div class="t">' + esc(t) + '</div><div class="s">' + esc(s) + '</div></div><button type="button" class="btn sm" data-ir="' + esc(ir) + '">Ver</button></li>').join('');
 
-    const debePrestamos = r2(DB.cajas.filter((c) => c.tipo === 'prestamo' && c.prestamo.sentido === 'recibido').reduce((s, c) => s + prestamoInfo(c).falta, 0));
+    const debePrestamos = prestamosPor('recibido');
     const tesoro = DB.cajas.filter((c) => ['banco', 'billetera', 'efectivo', 'cheques', 'interna'].includes(c.tipo)).map((c) => { const s = saldoCaja(c.id); return '<div class="n">' + marca(c.id, 'sm') + '<span>' + esc(c.nombre) + '</span>' + (s.conciliado ? '' : ' <span class="badge b-bad">Revisar</span>') + '</div><div class="num">' + fmt0(s.saldo) + '</div>'; }).join('') +
       (totalADebitar() ? '<div class="n aparte"><span class="marca ico t-ambar sm"><i class="ph-duotone ph-calendar-check"></i></span><span>Cheques propios a debitar</span></div><div class="num aparte">' + fmt0(-totalADebitar()) + '</div>' : '') +
       (debePrestamos ? '<div class="n aparte"><span class="marca ico t-pizarra sm"><i class="ph-duotone ph-handshake"></i></span><span>Préstamos por devolver</span></div><div class="num aparte">' + fmt0(-debePrestamos) + '</div>' : '');
@@ -1545,7 +1572,7 @@
     const pct = (x) => String(x).replace('.', ',') + '%';
     const totales = (v.ajustes.length || (v.imp && v.imp.tributos) ? pie('Subtotal', v.subtotal, 'suave') : '') +
       v.ajustes.map((x) => pie((x.tipo === 'recargo' ? 'Recargo' : 'Bonificación') + (x.modo === 'pct' ? ' ' + pct(x.valor) : '') + ' · ' + x.concepto, x.tipo === 'recargo' ? x.monto : -x.monto, 'suave')).join('') +
-      (v.imp ? v.imp.alicuotas.map((x) => pie('Neto gravado al ' + pct(x.alic), x.neto, 'suave') + pie('IVA ' + pct(x.alic), x.iva, 'suave')).join('') + v.imp.percepciones.map((x) => pie('Percepción ' + x.imp + ' ' + pct(x.alic), x.monto, 'suave')).join('') : '') +
+      (v.imp ? v.imp.alicuotas.map((x) => x.alic === 0 ? pie('Exento', x.neto, 'suave') : pie('Neto gravado al ' + pct(x.alic), x.neto, 'suave') + pie('IVA ' + pct(x.alic), x.iva, 'suave')).join('') + v.imp.percepciones.map((x) => pie('Percepción ' + x.imp + ' ' + pct(x.alic), x.monto, 'suave')).join('') : '') +
       pie('Total', v.total);
     const rm = anulada(v) ? null : remitoDe(v);
     const filaCobro = (cb, anul) => '<tr' + (anul ? ' class="tachado"' : '') + '><td>' + fFecha(cb.fecha) + '</td><td>' + esc(cb.medio) + (cb.cuotas > 1 ? ' en ' + cb.cuotas + ' cuotas' : '') + (cb.cheque ? '<span class="sec">Cheque ' + esc(cb.cheque.banco) + ' N° ' + esc(cb.cheque.nro) + ', vence ' + fFecha(cb.cheque.vence) + (cb.depositado ? ' · depositado en ' + esc(nombreDe(caja(cb.depositado.banco))) : '') + '</span>' : '') + (cb.retencion ? '<span class="sec">Incluye retención de ' + fmt(cb.retencion) + '</span>' : '') + '</td><td>' + esc(nombreDe(caja(anul ? cb.caja : cajaDeCobro(v, cb)))) + '</td><td class="num">' + fmt(cb.monto) + '</td><td>' + (anul ? '<span class="badge b-neutro">Anulado</span>' : !anulada(v) && !c.tienda ? '<button type="button" class="btn sm ghost" data-accion="anular-cobro" data-id="' + v.id + '" data-nro="' + cb.nro + '">Anular</button>' : '') + '</td></tr>';
@@ -1636,11 +1663,7 @@
     const f = UI.proveedores;
     const p = periodo();
     const q = sinAcentos(f.q.trim());
-    const delPeriodo = (x) => {
-      const ms = x.movs.filter((m) => enPeriodo(m.fecha, p));
-      return { comprado: r2(ms.filter((m) => m.tipo === 'factura').reduce((s, m) => s + m.monto, 0)), pagado: r2(ms.filter(pagoVigente).reduce((s, m) => s + m.monto, 0)), ordenes: new Set(ms.filter(pagoVigente).map((m) => m.op)).size };
-    };
-    const todos = DB.proveedores.map((x) => ({ p: x, k: ctaProveedor(x), per: delPeriodo(x) }));
+    const todos = DB.proveedores.map((x) => ({ p: x, k: ctaProveedor(x), per: movsProveedorPeriodo(x, p) }));
     const tipos = [['Proveedor', 'Proveedores'], ['Servicio', 'Servicios'], ['Impuesto', 'Impuestos'], ['Sueldo', 'Sueldos'], ['todos', 'Todos']];
     const lista = todos.filter((x) => f.tab === 'todos' || x.p.tipo === f.tab).filter((x) => !q || coincide(x.p.nombre + ' ' + x.p.cuit + ' ' + x.p.rubro, q)).sort((a, b) => b.k.saldo - a.k.saldo);
     const semana = todos.reduce((s, x) => s + x.k.pend.filter((fc) => diasA(fc.vence) >= 0 && diasA(fc.vence) <= 7).reduce((a, fc) => a + fc.saldo, 0), 0);
@@ -1657,12 +1680,11 @@
   function abrirProveedor(id) {
     const p = proveedor(id); if (!p) return;
     const k = ctaProveedor(p);
-    let s = 0;
-    const movs = p.movs.slice().sort((a, b) => a.fecha < b.fecha ? -1 : 1).map((m) => { if (m.tipo === 'factura') s = r2(s + m.monto); else if (pagoVigente(m)) s = r2(s - m.monto); return { ...m, saldo: s }; }).reverse();
+    const movs = movsProveedor(p).reverse();
     const filas = movs.map((m) => {
-      const pago = m.tipo === 'pago', vig = pagoVigente(m);
-      const sec = pago ? esc(m.medio || '') + (m.chequeId ? ' N° ' + esc(nombreCheque(m.chequeId)) : '') + (m.retenciones ? ' · retenciones ' + fmt(m.retenciones) : '') : 'Vence ' + fFecha(m.vence) + (m.iva ? ' · IVA ' + fmt(m.iva) : '');
-      const accion = !pago ? '' : !vig ? '<span class="badge ' + (m.anulado.motivo === 'Rechazado' ? 'b-bad' : 'b-neutro') + '">' + esc(m.anulado.motivo) + '</span>' : m.chequeId ? '<button type="button" class="btn sm" data-cheque="' + esc(m.chequeId) + '">Ver cheque</button>' : '<button type="button" class="btn sm ghost" data-accion="anular-pago" data-id="' + esc(p.id) + '" data-op="' + m.op + '">Anular</button>';
+      const nc = m.tipo === 'nc', pago = m.tipo === 'pago' || nc, vig = pagoVigente(m) || nc;
+      const sec = nc ? esc(m.detalle || '') + ' · IVA ' + fmt(m.iva) : pago ? esc(m.medio || '') + (m.chequeId ? ' N° ' + esc(nombreCheque(m.chequeId)) : '') + (m.retenciones ? ' · retenciones ' + fmt(m.retenciones) : '') : 'Vence ' + fFecha(m.vence) + (m.iva ? ' · IVA ' + fmt(m.iva) : '');
+      const accion = !pago || nc ? '' : !vig ? '<span class="badge ' + (m.anulado.motivo === 'Rechazado' ? 'b-bad' : 'b-neutro') + '">' + esc(m.anulado.motivo) + '</span>' : m.chequeId ? '<button type="button" class="btn sm" data-cheque="' + esc(m.chequeId) + '">Ver cheque</button>' : '<button type="button" class="btn sm ghost" data-accion="anular-pago" data-id="' + esc(p.id) + '" data-op="' + m.op + '">Anular</button>';
       return '<tr' + (pago && !vig ? ' class="tachado"' : '') + '><td>' + fFecha(m.fecha) + '</td><td class="mono">' + esc(m.comp) + '<span class="sec">' + sec + '</span></td><td class="num">' + (pago ? '' : fmt(m.monto)) + '</td><td class="num">' + (pago ? fmt(m.monto) : '') + '</td><td class="num">' + fmt(m.saldo) + '</td><td>' + accion + '</td></tr>';
     }).join('');
     const pend = k.pend.map((fc) => '<tr><td class="mono">' + esc(fc.comp) + '</td><td>' + badgeVence(fc.vence) + '</td><td class="num">' + fmt(fc.saldo) + '</td></tr>').join('');
@@ -1874,6 +1896,7 @@
   /* ================= DEPÓSITO: remitos, rendición y stock en un solo lugar ================= */
   const iconoTipoStock = { venta: 'ph-receipt', compra: 'ph-shopping-cart', fabricacion: 'ph-factory', transferencia: 'ph-arrows-left-right', ajuste: 'ph-arrows-down-up', 'dev-cliente': 'ph-arrow-u-up-left', 'dev-proveedor': 'ph-arrow-u-up-right' };
   const EN_CURSO = ['Pendiente', 'Preparado', 'En camino'];
+  const depCorto = (d) => d.nombre.replace('Mercado Libre (Full)', 'Full ML').replace('Provincia Compras', 'Provincia');
   const resumenItems = (items) => items.filter((l) => l.productoId).map((l) => l.cant + ' x ' + l.nombre).join(', ');
   const origenRemito = (r) => r.ventaId ? 'Venta ' + r.ventaId + ' · ' + nombreDe(cliente((venta(r.ventaId) || {}).clienteId)) : nombreDe(proveedor(r.proveedorId));
   const marcarTodos = (clase) => '<input type="checkbox" data-accion="marcar-todos" data-clase="' + clase + '" aria-label="Marcar todos">';
@@ -1928,7 +1951,7 @@
     const filas = lista.map((p) => '<tr class="clic" data-producto="' + esc(p.id) + '"><td>' + esc(p.nombre) + '<span class="sec mono">' + esc(p.sku) + '</span></td><td class="mono">' + esc(ubicTxt(p.ubic && p.ubic[ref])) + '</td>' + deps.map((d) => { const n = stockFisico(p.id, d.id); return '<td class="num' + (n ? '' : ' cero') + '">' + fCant(n) + '</td>'; }).join('') + '<td class="num' + (stockReservado(p.id) ? '' : ' cero') + '">' + fCant(stockReservado(p.id)) + '</td><td class="num"><b>' + fCant(stockDe(p.id)) + '</b>' + (mat ? ' ' + esc(p.unidad) : '') + '</td><td>' + (bajoMinimo(p) ? '<span class="badge b-bad">Bajo mínimo</span>' : '<span class="badge b-ok">OK</span>') + '</td></tr>').join('');
     return '<div class="cajas-grid chicas">' + tarjetas + '</div>' +
       '<div class="toolbar"><div class="filtros"><label class="buscar"><i class="ph ph-magnifying-glass"></i><input class="input" type="search" id="f-dep-q" placeholder="Nombre o código" value="' + esc(f.q) + '" aria-label="Buscar artículos"></label><select class="input" id="f-dep-pasillo" aria-label="Ubicación"><option value="">Todas las ubicaciones</option>' + pasillos.map((x) => '<option value="' + esc(x) + '"' + (f.pasillo === x ? ' selected' : '') + '>Pasillo ' + esc(x) + '</option>').join('') + '<option value="alerta"' + (f.pasillo === 'alerta' ? ' selected' : '') + '>Solo bajo mínimo</option></select></div></div>' +
-      '<div class="tabla-wrap"><table class="compacta"><thead><tr><th>' + (mat ? 'Material' : 'Producto') + '</th><th title="Pasillo, estante y nivel en ' + esc(nombreDe(deposito(ref))) + '">Ubicación</th>' + deps.map((d) => '<th class="num" title="Stock físico en ' + esc(d.nombre) + '">' + esc(d.nombre.replace('Mercado Libre (Full)', 'Full ML').replace('Provincia Compras', 'Provincia')) + '</th>').join('') + '<th class="num" title="Vendido y todavía sin remito">Reservado</th><th class="num" title="Físico menos reservado. No cuenta A revisión">Disponible</th><th>Estado</th></tr></thead><tbody>' + (filas || '<tr><td colspan="' + (5 + deps.length) + '"><div class="vacio-estado"><i class="ph ph-package"></i><p>No hay artículos con estos filtros.</p></div></td></tr>') + '</tbody></table></div>';
+      '<div class="tabla-wrap"><table class="compacta"><thead><tr><th>' + (mat ? 'Material' : 'Producto') + '</th><th title="Pasillo, estante y nivel en ' + esc(nombreDe(deposito(ref))) + '">Ubicación</th>' + deps.map((d) => '<th class="num" title="Stock físico en ' + esc(d.nombre) + '">' + esc(depCorto(d)) + '</th>').join('') + '<th class="num" title="Vendido y todavía sin remito">Reservado</th><th class="num" title="Físico menos reservado. No cuenta A revisión">Disponible</th><th>Estado</th></tr></thead><tbody>' + (filas || '<tr><td colspan="' + (5 + deps.length) + '"><div class="vacio-estado"><i class="ph ph-package"></i><p>No hay artículos con estos filtros.</p></div></td></tr>') + '</tbody></table></div>';
   }
   function vDepositos() {
     const f = UI.depositos;
@@ -2081,81 +2104,974 @@
   }
 
   /* ================= INFORMES ================= */
-  const INFORMES = [
-    ['Operaciones', [['panel', 'Panel general'], ['ventas-canal', 'Ventas por canal'], ['ventas-producto', 'Ventas por producto'], ['iva-ventas', 'Libro de IVA ventas']]],
-    ['Clientes', [['saldos-clientes', 'Saldos de clientes'], ['cobros-medio', 'Cobros por medio de pago']]],
-    ['Proveedores', [['saldos-proveedores', 'Saldos de proveedores'], ['vencimientos', 'Vencimientos a pagar'], ['retenciones', 'Retenciones practicadas']]],
-    ['Productos', [['stock-valorizado', 'Stock valorizado'], ['utilidad-producto', 'Utilidad por producto']]],
-    ['Caja y cobranzas', [['cajas', 'Saldos de cajas y bancos'], ['transito', 'Plata en tránsito']]],
-    ['Contables', [['x-iva-compras', 'Libro de IVA compras'], ['x-percepciones', 'Percepciones de Ingresos Brutos'], ['x-sicore', 'Retenciones para SICORE y SIRE'], ['x-libro-digital', 'Libro de IVA Digital']]]
+  /* Todos los informes salen de las mismas funciones que usan las pantallas. Un solo motor los dibuja:
+     cada informe es una definición (filtros, modos y un cálculo que devuelve indicadores, tablas y cruces). */
+
+  /* ---------- datos compartidos por los informes ---------- */
+  const sumaPor = (arr, fn) => r2(arr.reduce((s, x) => s + (Number(fn(x)) || 0), 0));
+  const pctDe = (a, b) => b ? Math.round(a / b * 1000) / 10 : 0;
+  const fPct = (n) => Number(n || 0).toLocaleString('es-AR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%';
+  /* Versión para los filtros de gestión. Una seña va con lo Oficial (se factura al completarse): Oficial + Neutral = Todas. */
+  const versionDe = (v) => v.version === 'Neutral' ? 'Neutral' : 'Oficial';
+  const pasaVersion = (v, ver) => !ver || ver === 'todas' || versionDe(v) === (ver === 'neutral' ? 'Neutral' : 'Oficial');
+  /* Las ventas (sin cotizaciones) con los filtros de gestión. Con período, por la fecha de la venta, igual que el Panel. */
+  const ventasFiltradas = (f, p) => DB.ventas.filter((v) => esVenta(v) && (!p || enPeriodo(v.fecha, p)) && pasaVersion(v, f.version) && (!f.canal || v.canal === f.canal) && (!f.vendedor || v.vendedorId === f.vendedor) && (!f.operador || v.operadorId === f.operador) && (!f.lista || v.lista === f.lista));
+  const porDiaDe = (vs) => { const m = {}; vs.forEach((v) => { const k = toISODate(D(v.fecha)); (m[k] || (m[k] = [])).push(v); }); return m; };
+  /* Los renglones vendidos, cada uno con su parte de la venta. Bonificaciones y recargos de la venta se reparten por importe:
+     la suma de los importes da la venta sin percepciones y la de los netos da la "venta sin IVA" del bloque Costo y utilidad. */
+  function renglonesVenta(v) {
+    if (!esVenta(v) || anulada(v) || !v.items.length) return [];
+    const u = utilidadVenta(v), base = r2(v.total - (v.imp ? v.imp.tributos : 0));
+    const sub = v.items.reduce((s, l) => s + importeLinea(l), 0);
+    let restoI = base, restoN = u.neto;
+    return v.items.map((l, i) => {
+      const ult = i === v.items.length - 1, peso = sub ? importeLinea(l) / sub : 1 / v.items.length;
+      const importe = ult ? restoI : r2(base * peso), neto = ult ? restoN : r2(u.neto * peso);
+      restoI = r2(restoI - importe); restoN = r2(restoN - neto);
+      return { v, productoId: l.productoId, nombre: l.nombre, cant: l.cant, importe, neto, costo: r2((l.costo || 0) * l.cant) };
+    });
+  }
+  /* Comprobantes oficiales emitidos en el período (facturas, notas de débito y de crédito), de un punto de venta o de todos.
+     La única fuente de los libros de IVA, la posición de IVA, los archivos de percepciones y el Resumen de compras y ventas.
+     La nota de crédito va con su fecha y resta. Lo Neutral nunca entra: no tiene punto de venta ni CAE. */
+  const ORDEN_COMP = ['Factura A', 'Nota de débito A', 'Nota de crédito A', 'Factura B', 'Nota de débito B', 'Nota de crédito B'];
+  function comprobantesVenta(p, pv) {
+    const out = [];
+    DB.ventas.forEach((v) => {
+      if (v.version !== 'Oficial' || !v.imp || !v.comp || !v.comp.pv) return;
+      const cli = cliente(v.clienteId);
+      const fila = (fecha, tipo, comp, nroPv, nro, s) => {
+        const a = (x) => r2(s * x);
+        const iva105 = a(v.imp.alicuotas.filter((x) => x.alic === 10.5).reduce((t, x) => t + x.iva, 0));
+        const percIva = a(v.imp.percepciones.filter((x) => x.imp === 'IVA').reduce((t, x) => t + x.monto, 0));
+        return { fecha, tipo, comp, pv: nroPv, nro, v, cliente: cli, signo: s, neto: a(v.imp.neto), exento: a(v.imp.exento || 0), iva: a(v.imp.iva), iva21: r2(a(v.imp.iva) - iva105), iva105, tributos: a(v.imp.tributos), percIva, percIibb: r2(a(v.imp.tributos) - percIva), total: a(v.total),
+          alicuotas: v.imp.alicuotas.map((x) => ({ alic: x.alic, neto: a(x.neto), iva: a(x.iva) })), percepciones: v.imp.percepciones.map((x) => ({ imp: x.imp, alic: x.alic, monto: a(x.monto) })) };
+      };
+      if ((!pv || v.comp.pv === pv) && enPeriodo(v.fecha, p)) out.push(fila(v.fecha, v.comp.tipo, compTxt(v), v.comp.pv, v.comp.nro, 1));
+      if (v.nc && v.nc.pv && (!pv || v.nc.pv === pv) && enPeriodo(v.nc.fecha, p)) out.push(fila(v.nc.fecha, v.nc.tipo, ncTxt(v), v.nc.pv, v.nc.nro, -1));
+    });
+    return out.sort((a, b) => a.fecha < b.fecha ? -1 : a.fecha > b.fecha ? 1 : a.comp < b.comp ? -1 : 1);
+  }
+  /* El Libro de IVA contra el Panel: ventas oficiales del período, más las notas de crédito que caen en otro período que su factura. */
+  function cruceLibroPanel(p, pv) {
+    const vs = DB.ventas.filter((v) => v.version === 'Oficial' && v.comp && v.comp.pv && (!pv || v.comp.pv === pv));
+    const panel = resumen(vs.filter((v) => enPeriodo(v.fecha, p))).vendido;
+    const ncOtro = r2(vs.reduce((s, v) => {
+      if (!anulada(v) || !v.nc || !v.nc.pv) return s;
+      const f = enPeriodo(v.fecha, p), n = enPeriodo(v.nc.fecha, p);
+      return s + (f && !n ? v.total : !f && n ? -v.total : 0);
+    }, 0));
+    return { panel, ncOtro, libro: r2(panel + ncOtro) };
+  }
+  /* Facturas de compra del período, con o sin IVA. La única fuente de Compras, el Libro de IVA Compras, las percepciones de proveedores y la posición de IVA. */
+  function comprobantesCompra(p, soloIva) {
+    const out = [];
+    DB.proveedores.forEach((x) => x.movs.forEach((m0) => {
+      if ((m0.tipo !== 'factura' && m0.tipo !== 'nc') || (p && !enPeriodo(m0.fecha, p)) || (soloIva && !(x.cuit && Math.abs(m0.neto) > 0))) return;
+      const signo = m0.tipo === 'nc' ? -1 : 1;
+      const m = signo > 0 ? m0 : { ...m0, neto: -m0.neto, iva: -m0.iva, noGravado: -(m0.noGravado || 0), monto: -m0.monto, perc: (m0.perc || []).map((q) => ({ ...q, monto: -q.monto })) };
+      const perc = m.perc || [];
+      out.push({ m, prov: x, fecha: m.fecha, signo, perc: sumaPor(perc, (q) => q.monto), percIva: sumaPor(perc.filter((q) => q.imp === 'IVA'), (q) => q.monto), percIibb: sumaPor(perc.filter((q) => q.imp !== 'IVA'), (q) => q.monto) });
+    }));
+    return out.sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+  }
+  /* Retenciones que les practicamos a los proveedores al pagarles: salen de cada orden de pago vigente. */
+  function retencionesPracticadas(p) {
+    const out = [];
+    DB.proveedores.forEach((x) => x.movs.forEach((m) => { if (pagoVigente(m) && enPeriodo(m.fecha, p)) (m.ret || []).forEach((r) => { if (r.monto > 0) out.push({ fecha: m.fecha, op: m.op, prov: x, imp: r.imp, alic: r.alic, base: m.monto, monto: r.monto }); }); }));
+    return out.sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+  }
+  /* Retenciones que nos hicieron: son los movimientos de la caja Retenciones, así el informe y la caja dan lo mismo. */
+  const cuitCon = (diez) => { const d = String(diez); const m = [5, 4, 3, 2, 7, 6, 5, 4, 3, 2]; let t = 0; for (let i = 0; i < 10; i++) t += Number(d[i]) * m[i]; let v = 11 - (t % 11); if (v === 11) v = 0; if (v === 10) v = 9; return d.slice(0, 2) + '-' + d.slice(2) + '-' + v; };
+  const cuitAgente = (id) => cuitCon('3071' + String(950000 + Array.from(String(id)).reduce((s, ch) => (s * 31 + ch.charCodeAt(0)) % 49999, 7)).padStart(6, '0'));
+  const CUIT_EMPRESA = cuitCon('3071588420');
+  function retencionesSufridas(p) {
+    const cj = DB.cajas.find((c) => c.tipo === 'retenciones');
+    if (!cj) return [];
+    return movimientosCaja(cj.id).filter((m) => m.ventaId && enPeriodo(m.fecha, p)).map((m) => {
+      const v = venta(m.ventaId), cn = canal(v.canal), cli = cliente(v.clienteId), tienda = !!(cn && cn.tienda);
+      return { fecha: m.fecha, v, monto: m.monto, agente: tienda ? (cn.id === 'ml' ? 'Mercado Pago' : cn.nombre) : cli.nombre, cuit: tienda ? cuitAgente(cn.id) : cli.doc, jur: cli.jurisdiccion || 'Buenos Aires' };
+    }).sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+  }
+  const costoOrden = (o) => { const p = producto(o.productoId); return r2(((p && p.materiales) || []).reduce((s, m) => s + m.cant * o.cant * costoDe(producto(m.productoId)), 0)); };
+  /* Ranking de productos vendidos. Un combo desglosado reparte su venta entre sus componentes según su precio de lista. */
+  function repartirCombo(pr, x) {
+    const comps = pr.combo.map((c) => ({ p: producto(c.productoId), cant: c.cant })).filter((c) => c.p);
+    const pesoT = comps.reduce((s, c) => s + precioDe(c.p, 'minorista') * c.cant, 0) || 1;
+    let rn = x.neto, ri = x.importe;
+    return comps.map((c, i) => {
+      const ult = i === comps.length - 1, w = precioDe(c.p, 'minorista') * c.cant / pesoT;
+      const neto = ult ? r2(rn) : r2(x.neto * w), importe = ult ? r2(ri) : r2(x.importe * w);
+      rn -= neto; ri -= importe;
+      return { productoId: c.p.id, nombre: c.p.nombre, cant: c.cant * x.cant, neto, importe, costo: r2(costoDe(c.p) * c.cant * x.cant) };
+    });
+  }
+  /* Lo que queda afuera de los rankings: envíos y otros servicios. Con eso cierran con la venta sin IVA de Utilidad en ventas. */
+  function cierreRanking(f, p, tot) {
+    const vs = ventasFiltradas(f, p).filter((v) => !anulada(v));
+    const serv = sumaPor(vs.flatMap(renglonesVenta).filter((x) => !x.productoId), (x) => x.neto);
+    return cierreI('Más envíos y servicios (' + fmt0(serv) + ', fuera del ranking): cierra con la venta sin IVA de Utilidad en ventas', sumaPor(vs, (v) => utilidadVenta(v).neto), r2(tot + serv));
+  }
+  function rankingProductos(f, p) {
+    const m = {};
+    ventasFiltradas(f, p).forEach((v) => renglonesVenta(v).forEach((x) => {
+      if (!x.productoId) return;
+      const pr = producto(x.productoId);
+      const partes = f.combos === 'desglosar' && esCombo(pr) ? repartirCombo(pr, x) : [x];
+      partes.forEach((y) => {
+        const z = m[y.productoId] || (m[y.productoId] = { productoId: y.productoId, nombre: y.nombre, rubro: (producto(y.productoId) || {}).rubro || '', u: 0, ventas: new Set(), neto: 0, importe: 0 });
+        z.u += y.cant; z.ventas.add(x.v.id); z.neto += y.neto; z.importe += y.importe;
+      });
+    }));
+    return Object.values(m).map((z) => ({ ...z, n: z.ventas.size, neto: r2(z.neto), importe: r2(z.importe) }));
+  }
+
+  /* ---------- archivos de presentación: diseño de registro ---------- */
+  const dd = (n) => String(n).padStart(2, '0');
+  const fechaBarra = (x) => { const d = D(x); return dd(d.getDate()) + '/' + dd(d.getMonth() + 1) + '/' + d.getFullYear(); };
+  const fechaAMD = (x) => { const d = D(x); return d.getFullYear() + dd(d.getMonth() + 1) + dd(d.getDate()); };
+  const textoFijo = (s, n) => sinAcentos(String(s == null ? '' : s)).toUpperCase().replace(/[^A-Z0-9 .,-]/g, ' ').slice(0, n).padEnd(n);
+  const ceros = (s, n) => String(s == null ? '' : s).replace(/\D/g, '').padStart(n, '0').slice(-n);
+  const importeComa = (x, n) => { const neg = x < 0, t = Math.abs(x).toFixed(2).replace('.', ','); return (neg ? '-' : '') + t.padStart(n - (neg ? 1 : 0), '0'); };
+  const importeCent = (x, n) => String(Math.round(Math.abs(x) * 100)).padStart(n, '0');
+  const COD_CBTE = { 'Factura A': '001', 'Nota de débito A': '002', 'Nota de crédito A': '003', 'Factura B': '006', 'Nota de débito B': '007', 'Nota de crédito B': '008' };
+  const COD_JUR = { CABA: '901', 'Buenos Aires': '902', 'Córdoba': '904', 'Entre Ríos': '908', Mendoza: '913', 'Neuquén': '915', Salta: '917', 'Santa Fe': '921' };
+  const letraDeComp = (tipo) => tipo.slice(-1);
+  const tipoArba = (tipo) => tipo.startsWith('Nota de crédito') ? 'C' : tipo.startsWith('Nota de débito') ? 'D' : 'F';
+  const docCod = (doc) => String(doc).includes('-') ? '80' : '96';
+  const aaaamm = (p) => p.desde.getFullYear() + dd(p.desde.getMonth() + 1);
+
+  /* ---------- filtros: cada uno con sus opciones. Los valores viven en la dirección de la página (#/informe/id?filtro=valor) ---------- */
+  const FILTROS = {
+    version: { l: 'Versión', ops: () => [['todas', 'Todas las versiones'], ['oficial', 'Oficial'], ['neutral', 'Neutral']] },
+    canal: { l: 'Canal', ops: () => [['', 'Todos los canales']].concat(DB.canales.map((c) => [c.id, c.nombre])) },
+    vendedor: { l: 'Vendedor (quién vendió)', ops: () => [['', 'Todos los vendedores']].concat(DB.vendedores.map((x) => [x.id, x.nombre + (x.baja ? ' (baja)' : '')])) },
+    operador: { l: 'Operador (quién cargó)', ops: () => [['', 'Todos los operadores']].concat(DB.operadores.map((x) => [x.id, x.nombre])) },
+    deposito: { l: 'Depósito', ops: () => [['', 'Todos los depósitos']].concat(DB.depositos.map((d) => [d.id, d.nombre])) },
+    caja: { l: 'Caja', ops: () => [['', 'Todas las cajas']].concat(DB.cajas.map((c) => [c.id, c.nombre])) },
+    banco: { l: 'Banco', ops: () => [['', 'Todos los bancos']].concat(DB.cajas.filter((c) => c.tipo === 'banco').map((c) => [c.id, c.nombre])) },
+    cliente: { l: 'Cliente', ops: (actual) => { const conSaldo = new Set(ventasConSaldo().map((v) => v.clienteId)); return [['', 'Elegí un cliente']].concat(DB.clientes.filter((c) => c.tipo !== 'Consumidor final' || conSaldo.has(c.id) || c.id === actual).sort((a, b) => a.nombre.localeCompare(b.nombre, 'es')).map((c) => [c.id, c.nombre])); } },
+    proveedor: { l: 'Proveedor', ops: () => [['', 'Todos los proveedores']].concat(DB.proveedores.map((x) => [x.id, x.nombre])) },
+    tipoProv: { l: 'Tipo', ops: () => [['', 'Todos los tipos'], ['Proveedor', 'Proveedores'], ['Servicio', 'Servicios'], ['Impuesto', 'Impuestos'], ['Sueldo', 'Sueldos']] },
+    rubro: { l: 'Rubro', ops: () => [['', 'Todos los rubros']].concat(Array.from(new Set(DB.productos.filter((p) => !esCombo(p)).map((p) => p.rubro))).map((r) => [r, r])) },
+    lista: { l: 'Lista de precios', ops: () => [['', 'Todas las listas']].concat(DB.listas.map((x) => [x.id, x.nombre])) },
+    pv: { l: 'Punto de venta', ops: () => [['', 'Todos los puntos de venta']].concat(DB.puntosVenta.map((x) => [x.nro, x.nro + ' · ' + x.nombre])) },
+    tipoStock: { l: 'Tipo de movimiento', ops: () => [['', 'Todos los tipos']].concat(Object.keys(TIPOS_STOCK).map((k) => [k, TIPOS_STOCK[k]])) },
+    quincena: { l: 'Quincena', ops: () => [['mes', 'Mes completo'], ['1', 'Primera quincena'], ['2', 'Segunda quincena']] },
+    valor: { l: 'Valorizar', ops: () => [['costo', 'Al costo']].concat(DB.listas.map((x) => [x.id, 'Lista ' + x.nombre])) },
+    combos: { l: 'Combos', ops: () => [['mantener', 'Combos como combo'], ['desglosar', 'Combos desglosados']] },
+    articulos: { l: 'Artículos', ops: () => [['terminados', 'Productos terminados'], ['materia', 'Materia prima']] }
+  };
+
+  /* ---------- piezas para las definiciones ---------- */
+  const colI = (t, tipo, x) => Object.assign({ t, tipo: tipo || 'txt' }, x || {});
+  const filaI = (v, ir, g) => ({ v, ir: ir || null, g });
+  const totI = (filas, i) => sumaPor(filas, (r) => r.v[i]);
+  const cierreI = (txt, valor, contra) => ({ txt, valor: r2(valor), ok: Math.abs(r2(valor) - r2(contra)) < 0.01 });
+  const margenI = (iU, iN) => (rows) => rows.length ? pctDe(totI(rows, iU), totI(rows, iN)) : null;
+  const sinFiltro = (f, ks) => ks.every((k) => !f[k] || f[k] === 'todas');
+  const estadoVence = (x) => { const d = diasA(x); return d < 0 ? ['Vencida hace ' + plural(-d, 'día', 'días'), 'b-bad'] : d === 0 ? ['Vence hoy', 'b-warn'] : d <= 7 ? ['Vence en ' + plural(d, 'día', 'días'), 'b-warn'] : ['Vence en ' + d + ' días', 'b-neutro']; };
+  const badgeMin = (p) => esCombo(p) ? null : bajoMinimo(p) ? ['Bajo mínimo', 'b-bad'] : ['OK', 'b-ok'];
+  const COLS_RESUMEN = () => [colI('Comprobantes'), colI('Cantidad', 'n'), colI('Gravado', 'monto'), colI('IVA', 'monto'), colI('No gravado y exento', 'monto'), colI('Percepciones', 'monto'), colI('Total', 'monto')];
+  /* Saldos de clientes: venta por venta, para poder abrir por vencimiento, antigüedad o mes. */
+  const venceVenta = (v) => (v.acred && (v.acred.vence || v.acred.fecha)) || v.fecha;
+  const antiguedad = (v) => Math.max(0, -diasA(v.fecha));
+
+  /* Percepciones o retenciones de Ingresos Brutos de una jurisdicción: el mismo cálculo para ARBA y para AGIP. */
+  function infIIBB(id, n, imp, org) {
+    return { id, g: 'Contables', n, contable: true, archivo: true, fil: ['quincena'], modos: [['percepciones', 'Percepciones'], ['retenciones', 'Retenciones']], clave: org + ' ingresos brutos archivo quincena percepciones retenciones',
+      calc(f, p) {
+        const enQ = (x) => f.quincena === 'mes' || (f.quincena === '1') === (D(x).getDate() <= 15);
+        const cuitE = CUIT_EMPRESA.replace(/\D/g, '');
+        let filas, cols, lineas, nombre;
+        if (f.modo === 'retenciones') {
+          const rs = retencionesPracticadas(p).filter((r) => r.imp === imp && enQ(r.fecha));
+          cols = [colI('Fecha', 'fecha'), colI('Orden de pago', 'mono'), colI('Proveedor'), colI('CUIT', 'mono'), colI('Base', 'monto'), colI('Alícuota', 'pct'), colI('Retención', 'monto')];
+          filas = rs.map((r) => filaI([r.fecha, 'OP ' + r.op, [r.prov.nombre, r.prov.jurisdiccion], r.prov.cuit, r.base, r.alic, r.monto], ['proveedor', r.prov.id]));
+          lineas = org === 'ARBA'
+            ? rs.map((r) => r.prov.cuit + fechaBarra(r.fecha) + '0001' + ceros(r.op, 8) + importeComa(r.monto, 11) + 'A')
+            : rs.map((r) => '1' + '029' + fechaBarra(r.fecha) + '06' + ' ' + ceros(r.op, 16) + fechaBarra(r.fecha) + importeComa(r.base, 16) + ceros('', 16) + '3' + ceros(r.prov.cuit, 11) + '2' + ceros(r.prov.cuit, 11) + '1' + textoFijo(r.prov.nombre, 30) + importeComa(0, 16) + importeComa(0, 16) + importeComa(r.base, 16) + importeComa(r.alic, 5) + importeComa(r.monto, 16) + importeComa(r.monto, 16));
+          nombre = org === 'ARBA' ? 'AR-' + cuitE + '-' + aaaamm(p) + '-6-LOTE1.txt' : 'ARCIBA-RET-' + cuitE + '-' + aaaamm(p) + '.txt';
+        } else {
+          const ps = comprobantesVenta(p).flatMap((x) => x.percepciones.filter((q) => q.imp === imp && q.monto).map((q) => ({ x, q }))).filter((y) => enQ(y.x.fecha));
+          cols = [colI('Fecha', 'fecha'), colI('Comprobante', 'mono'), colI('Cliente'), colI('CUIT', 'mono'), colI('Base imponible', 'monto'), colI('Alícuota', 'pct'), colI('Percepción', 'monto')];
+          filas = ps.map(({ x, q }) => filaI([x.fecha, x.comp, [x.cliente.nombre, x.cliente.jurisdiccion], x.cliente.doc, x.neto, q.alic, q.monto], ['venta', x.v.id]));
+          lineas = org === 'ARBA'
+            ? ps.map(({ x, q }) => x.cliente.doc + fechaBarra(x.fecha) + tipoArba(x.tipo) + letraDeComp(x.tipo) + ceros(x.pv, 4) + ceros(x.nro, 8) + importeComa(x.neto, 12) + importeComa(q.monto, 11) + 'A')
+            : ps.map(({ x, q }) => '2' + '029' + fechaBarra(x.fecha) + (x.signo < 0 ? '03' : x.tipo.startsWith('Nota de débito') ? '02' : '01') + letraDeComp(x.tipo) + ceros(x.pv + x.nro, 16) + fechaBarra(x.fecha) + importeComa(x.total, 16) + ceros('', 16) + '3' + ceros(x.cliente.doc, 11) + '2' + ceros(x.cliente.doc, 11) + '1' + textoFijo(x.cliente.nombre, 30) + importeComa(0, 16) + importeComa(x.iva, 16) + importeComa(x.neto, 16) + importeComa(q.alic, 5) + importeComa(q.monto, 16) + importeComa(q.monto, 16));
+          nombre = org === 'ARBA' ? 'AR-' + cuitE + '-' + aaaamm(p) + (f.quincena === 'mes' ? '0' : f.quincena) + '-7-LOTE1.txt' : 'ARCIBA-PER-' + cuitE + '-' + aaaamm(p) + '.txt';
+        }
+        const ret = f.modo === 'retenciones', total = totI(filas, 6);
+        return {
+          kpis: [['ph-receipt-x', ret ? 'Retenido' : 'Percibido', fmtM(total), org + (f.quincena === 'mes' ? ', mes completo' : f.quincena === '1' ? ', primera quincena' : ', segunda quincena'), true], ['ph-scales', 'Base imponible', fmtM(totI(filas, 4)), 'Neto de los comprobantes'], ['ph-files', ret ? 'Órdenes de pago' : 'Comprobantes', String(filas.length), ret ? 'Con retención practicada' : 'Con percepción'], ['ph-file-arrow-down', 'Archivo', plural(lineas.length, 'línea', 'líneas'), 'Listo para presentar']],
+          tablas: [{ cols, filas, vacio: ret ? 'No hay retenciones de esta jurisdicción en el período.' : 'No hay percepciones de esta jurisdicción en el período.' }],
+          archivo: { nombre, lineas }
+        };
+      } };
+  }
+
+  /* ---------- las definiciones: lista definitiva de la ADENDA ---------- */
+  const GRUPOS_INF = ['Operaciones', 'Clientes', 'Proveedores', 'Productos', 'Caja y cobranzas', 'Contables'];
+  const INFS = [
+    { id: 'panel', g: 'Operaciones', n: 'Panel general', link: 'inicio', clave: 'vendido cobrado acreditado puente tablero' },
+    { id: 'resumen-cv', g: 'Operaciones', n: 'Resumen de compras y ventas', ver: true, clave: 'gravado iva no gravado percepciones notas de debito credito saldos deudores acreedores',
+      nota: 'Las notas de crédito restan. Las señas y lo Neutral van sin IVA discriminado. Las compras no tienen versión Neutral.',
+      calc(f, p) {
+        const comp = f.version === 'neutral' ? [] : comprobantesVenta(p);
+        const linea = (nombre, xs, sec) => filaI([[nombre, sec || ''], xs.length, sumaPor(xs, (x) => x.neto), sumaPor(xs, (x) => x.iva), sumaPor(xs, (x) => x.exento), sumaPor(xs, (x) => x.tributos), sumaPor(xs, (x) => x.total)]);
+        const sinIva = (nombre, arr, sec) => filaI([[nombre, sec], arr.length, 0, 0, 0, 0, sumaPor(arr, (v) => v.total)]);
+        const vs = ventasFiltradas(f, p).filter((v) => !anulada(v));
+        const ventas = [linea('Facturas', comp.filter((x) => x.tipo.startsWith('Factura'))), linea('Notas de débito', comp.filter((x) => x.tipo.startsWith('Nota de débito'))), linea('Notas de crédito', comp.filter((x) => x.tipo.startsWith('Nota de crédito')), 'Restan')];
+        if (f.version !== 'neutral') ventas.push(sinIva('Recibos de seña', vs.filter((v) => v.version === 'Seña'), 'Se facturan al completarse'));
+        if (f.version !== 'oficial') ventas.push(sinIva('Comprobantes internos', vs.filter((v) => v.version === 'Neutral'), 'Neutral: sin IVA ni CAE'));
+        const cc = f.version === 'neutral' ? [] : comprobantesCompra(p);
+        const lineaC = (nombre, xs, sec) => filaI([[nombre, sec], xs.length, sumaPor(xs, (x) => x.m.neto), sumaPor(xs, (x) => x.m.iva), sumaPor(xs, (x) => x.m.noGravado), sumaPor(xs, (x) => x.perc), sumaPor(xs, (x) => x.m.monto)]);
+        const compras = f.version === 'neutral' ? [] : [lineaC('Facturas de compra', cc.filter((x) => x.signo > 0 && x.m.neto > 0), 'Proveedores y servicios con IVA'), lineaC('Gastos sin IVA', cc.filter((x) => x.signo > 0 && !(x.m.neto > 0)), 'Sueldos, impuestos y tasas'), lineaC('Notas de crédito de proveedores', cc.filter((x) => x.signo < 0), 'Restan')];
+        const deben = sumaPor(ventasConSaldo().filter((v) => pasaVersion(v, f.version)), saldoVenta), debemos = f.version === 'neutral' ? 0 : deudaProveedores();
+        const totV = totI(ventas, 6), totC = totI(compras, 6);
+        const panel = resumen(ventasFiltradas(f, p)).vendido, nc = f.version === 'neutral' ? 0 : cruceLibroPanel(p).ncOtro;
+        return {
+          kpis: [['ph-receipt', 'Ventas', fmtM(totV), 'Facturas, notas y comprobantes', true], ['ph-shopping-cart', 'Compras', fmtM(totC), 'Proveedores, servicios y gastos'], ['ph-clock', 'Saldo deudor', fmtM(deben), 'Nos deben, al día de hoy'], ['ph-scales', 'Saldo acreedor', fmtM(debemos), 'Debemos, al día de hoy']],
+          tablas: [{ titulo: 'Ventas', cols: COLS_RESUMEN(), filas: ventas }, { titulo: 'Compras', cols: COLS_RESUMEN(), filas: compras, vacio: 'Las compras no tienen versión Neutral.' },
+            { titulo: 'Cuentas corrientes al día de hoy', cols: [colI('Concepto'), colI('Saldo', 'saldo')], filas: [filaI([['Saldo deudor', 'Lo que nos deben los clientes'], deben], ['ir', 'informe/saldos-clientes']), filaI([['Saldo acreedor', 'Lo que les debemos a los proveedores'], debemos], ['ir', 'informe/saldos-proveedores']), filaI([['Diferencia', 'Deudores menos acreedores'], r2(deben - debemos)])] }],
+          cierres: [cierreI('Cierra con el Panel: vendido del período' + (nc ? ', más notas de crédito de ventas de otro período' : ''), r2(panel + nc), totV)]
+        };
+      } },
+    { id: 'ventas', g: 'Operaciones', n: 'Ventas', ver: true, fil: ['canal', 'vendedor', 'operador'], modos: [['canal', 'Por canal'], ['dia', 'Por día'], ['producto', 'Por producto']], clave: 'ventas por canal por dia por producto vendido facturacion',
+      calc(f, p) {
+        const vs = ventasFiltradas(f, p), R = resumen(vs);
+        const libre = sinFiltro(f, ['version', 'canal', 'vendedor', 'operador']);
+        let t, cierres = [];
+        if (f.modo === 'producto') {
+          const m = {};
+          vs.forEach((v) => renglonesVenta(v).forEach((x) => {
+            const k = x.productoId || 'servicios';
+            const y = m[k] || (m[k] = { k, nombre: x.productoId ? x.nombre : 'Envíos y otros servicios', rubro: x.productoId ? (producto(x.productoId) || {}).rubro : 'Servicios', u: 0, ventas: new Set(), imp: 0, neto: 0 });
+            y.u += x.cant; y.ventas.add(x.v.id); y.imp += x.importe; y.neto += x.neto;
+          }));
+          const filas = Object.values(m).sort((a, b) => b.imp - a.imp).map((y) => filaI([[y.nombre, y.rubro], y.ventas.size, y.u, r2(y.imp), r2(y.neto)], producto(y.k) ? ['producto', y.k] : null));
+          t = { cols: [colI('Producto'), colI('Ventas', 'n'), colI('Unidades', 'cant', { suma: true }), colI('Importe', 'monto', { ayuda: 'Con IVA y sin percepciones' }), colI('Sin IVA', 'monto')], filas };
+          const perc = sumaPor(vs.filter((v) => !anulada(v) && v.imp), (v) => v.imp.tributos);
+          cierres.push(cierreI('Cierra con Ventas por canal: vendido menos percepciones', r2(R.vendido - perc), totI(filas, 3)));
+        } else if (f.modo === 'dia') {
+          const pd = porDiaDe(vs);
+          const filas = Object.keys(pd).sort().map((d) => { const r = resumen(pd[d]); return filaI([deISODate(d), r.n, r.vendido, r.cobrado, r.descuentos, r.acreditado]); }).filter((x) => x.v[1] || x.v[2]);
+          t = { cols: [colI('Día', 'fecha'), colI('Ventas', 'n'), colI('Vendido', 'monto'), colI('Cobrado', 'monto'), colI('Descuentos', 'monto'), colI('Acreditado', 'monto')], filas };
+          if (libre) cierres.push(cierreI('Cierra con el Panel: vendido del período', resumen(ventasDelPeriodo()).vendido, totI(filas, 2)));
+        } else {
+          const filas = DB.canales.map((c) => ({ c, r: resumen(vs.filter((v) => v.canal === c.id)) })).filter((x) => x.r.bruto > 0 || (!f.canal && x.c.tienda)).map(({ c, r }) => filaI([c.id, r.n, r.vendido, r.cobrado, r.descuentos, r.transito, r.acreditado], ['ir', 'ventas?canal=' + c.id]));
+          t = { cols: [colI('Canal', 'canal'), colI('Ventas', 'n'), colI('Vendido', 'monto'), colI('Cobrado', 'monto'), colI('Descuentos', 'monto', { ayuda: 'Comisiones, envíos, retenciones y cuotas' }), colI('En tránsito', 'monto'), colI('Acreditado', 'monto')], filas };
+          if (libre) cierres.push(cierreI('Cierra con el Panel: vendido del período', resumen(ventasDelPeriodo()).vendido, totI(filas, 2)));
+        }
+        return { kpis: [['ph-receipt', 'Vendido', fmtM(R.vendido), plural(R.n, 'venta', 'ventas'), true], ['ph-hand-coins', 'Cobrado', fmtM(R.cobrado), fPct(pctDe(R.cobrado, R.vendido)) + ' de lo vendido'], ['ph-bank', 'Acreditado', fmtM(R.acreditado), 'Neto de comisiones y retenciones'], ['ph-tag', 'Ticket promedio', fmtM(R.n ? R.vendido / R.n : 0), 'Vendido sobre ventas']], tablas: [t], cierres };
+      } },
+    { id: 'compras', g: 'Operaciones', n: 'Compras', fil: ['tipoProv', 'proveedor'], modos: [['proveedor', 'Por proveedor'], ['tipo', 'Por tipo de gasto']], clave: 'compras gastos proveedores servicios impuestos sueldos',
+      calc(f, p) {
+        const cc = comprobantesCompra(p).filter((x) => (!f.tipoProv || x.prov.tipo === f.tipoProv) && (!f.proveedor || x.prov.id === f.proveedor));
+        const g = {};
+        cc.forEach((x) => { const k = f.modo === 'tipo' ? x.m.detalle || x.prov.rubro : x.prov.id; (g[k] || (g[k] = [])).push(x); });
+        const vals = (xs) => [xs.length, sumaPor(xs, (x) => x.m.neto), sumaPor(xs, (x) => x.m.iva), sumaPor(xs, (x) => x.perc), sumaPor(xs, (x) => x.m.noGravado), sumaPor(xs, (x) => x.m.monto)];
+        const cols = [colI(f.modo === 'tipo' ? 'Tipo de gasto' : 'Proveedor'), colI(f.modo === 'tipo' ? 'Proveedores' : 'Tipo', f.modo === 'tipo' ? 'n' : 'txt'), colI('Facturas', 'n'), colI('Neto', 'monto'), colI('IVA', 'monto'), colI('Percepciones', 'monto'), colI('No gravado', 'monto'), colI('Total', 'monto')];
+        const filas = Object.keys(g).map((k) => { const xs = g[k], x0 = xs[0].prov; return f.modo === 'tipo' ? filaI([[k, Array.from(new Set(xs.map((x) => x.prov.tipo))).join(', ')], new Set(xs.map((x) => x.prov.id)).size].concat(vals(xs))) : filaI([[x0.nombre, x0.rubro], x0.tipo].concat(vals(xs)), ['proveedor', x0.id]); }).sort((a, b) => b.v[7] - a.v[7]);
+        const total = totI(filas, 7);
+        return { kpis: [['ph-shopping-cart', 'Comprado', fmtM(total), plural(cc.length, 'factura', 'facturas'), true], ['ph-percent', 'IVA crédito fiscal', fmtM(totI(filas, 4)), 'De las facturas con IVA'], ['ph-receipt', 'Percepciones', fmtM(totI(filas, 5)), 'Que nos cobraron los proveedores'], ['ph-truck', 'Proveedores', String(new Set(cc.map((x) => x.prov.id)).size), 'Con facturas en el período']],
+          tablas: [{ cols, filas }], cierres: sinFiltro(f, ['tipoProv', 'proveedor']) ? [cierreI('Cierra con Proveedores y gastos: comprado en el período', sumaPor(DB.proveedores, (x) => movsProveedorPeriodo(x, p).comprado), total)] : [] };
+      } },
+    { id: 'vca', g: 'Operaciones', n: 'Vendido, cobrado y acreditado', ver: true, fil: ['canal'], clave: 'vendido cobrado acreditado por dia transito cuenta corriente diferencia sin explicar',
+      calc(f, p) {
+        const vs = ventasFiltradas(f, p), R = resumen(vs), pd = porDiaDe(vs);
+        const filas = Object.keys(pd).sort().map((d) => { const r = resumen(pd[d]); return filaI([deISODate(d), r.n, r.vendido, r.cobrado, r.descuentos, r.transito, r.ctacte, r.acreditado, r.sinExplicar]); }).filter((x) => x.v[1] || x.v[2]);
+        const cierres = [cierreI('Diferencia sin explicar entre vendido y acreditado', R.sinExplicar, 0)];
+        if (sinFiltro(f, ['version', 'canal'])) cierres.push(cierreI('Cierra con el Panel: acreditado del período', resumen(ventasDelPeriodo()).acreditado, totI(filas, 7)));
+        return { kpis: [['ph-receipt', 'Vendido', fmtM(R.vendido), plural(R.n, 'venta', 'ventas')], ['ph-hand-coins', 'Cobrado', fmtM(R.cobrado), fPct(pctDe(R.cobrado, R.vendido)) + ' de lo vendido'], ['ph-bank', 'Acreditado', fmtM(R.acreditado), 'Ya está en las cuentas', true], ['ph-hourglass-medium', 'Por entrar', fmtM(R.ctacte + R.transito), 'Cuenta corriente y en tránsito']],
+          tablas: [{ cols: [colI('Día', 'fecha'), colI('Ventas', 'n'), colI('Vendido', 'monto'), colI('Cobrado', 'monto'), colI('Descuentos', 'monto'), colI('En tránsito', 'monto'), colI('Cta. cte.', 'monto'), colI('Acreditado', 'monto'), colI('Sin explicar', 'monto')], filas }], cierres };
+      } },
+    { id: 'produccion', g: 'Operaciones', n: 'Producción del período', modos: [['orden', 'Por orden'], ['producto', 'Por producto']], clave: 'produccion ordenes de fabricacion terminadas materia prima consumida',
+      calc(f, p) {
+        const term = DB.ordenes.filter((o) => o.estado === 'Terminada' && enPeriodo(o.terminada, p)).sort((a, b) => a.terminada < b.terminada ? -1 : 1);
+        let t;
+        if (f.modo === 'producto') {
+          const g = {};
+          term.forEach((o) => (g[o.productoId] || (g[o.productoId] = [])).push(o));
+          t = { cols: [colI('Producto'), colI('Órdenes', 'n'), colI('Unidades', 'cant', { suma: true }), colI('Costo de materia prima', 'monto')], filas: Object.keys(g).map((k) => { const pr = producto(k); return filaI([[nombreDe(pr), pr ? pr.rubro : ''], g[k].length, g[k].reduce((s, o) => s + o.cant, 0), sumaPor(g[k], costoOrden)], ['producto', k]); }) };
+        } else t = { cols: [colI('Orden', 'mono'), colI('Producto'), colI('Unidades', 'cant', { suma: true }), colI('Responsable'), colI('Prevista', 'fecha'), colI('Terminada', 'fecha'), colI('Costo de materia prima', 'monto')], filas: term.map((o) => filaI([String(o.nro), [nombreDe(producto(o.productoId))], o.cant, nombreDe(operador(o.responsableId)), o.prevista, o.terminada, costoOrden(o)], ['orden', o.id])) };
+        const cons = {};
+        movimientosStock().filter((m) => m.tipo === 'fabricacion' && m.desde && enPeriodo(m.fecha, p)).forEach((m) => { cons[m.productoId] = (cons[m.productoId] || 0) + m.cant; });
+        const mats = Object.keys(cons).map((k) => { const x = producto(k); return filaI([[nombreDe(x), x ? x.sku : ''], x ? x.unidad : '', r2(cons[k]), r2(cons[k] * costoDe(x))], ['producto', k]); }).sort((a, b) => b.v[3] - a.v[3]);
+        const costo = sumaPor(term, costoOrden);
+        return { kpis: [['ph-check-circle', 'Órdenes terminadas', String(term.length), 'En el período', true], ['ph-package', 'Unidades fabricadas', fCant(term.reduce((s, o) => s + o.cant, 0)), 'Entraron a ' + nombreDe(depFabrica())], ['ph-gear-six', 'En proceso', String(DB.ordenes.filter((o) => o.estado === 'En proceso').length), 'Al día de hoy'], ['ph-stack', 'Materia prima consumida', fmtM(costo), 'Al costo']],
+          tablas: [t, { titulo: 'Materia prima consumida', cols: [colI('Material'), colI('Unidad'), colI('Cantidad', 'cant'), colI('Al costo', 'monto')], filas: mats, vacio: 'No se consumió materia prima en el período.' }],
+          cierres: [cierreI('La materia prima consumida es la de las órdenes terminadas', totI(mats, 3), costo)] };
+      } },
+    { id: 'rendicion', g: 'Operaciones', n: 'Remitos y rendición', fil: ['deposito'], modos: [['dia', 'Por día'], ['producto', 'Por producto'], ['remitos', 'Remitos']], clave: 'remitos rendicion deposito salidas hoja de ruta',
+      calc(f, p) {
+        const R = rendicion(p, f.deposito);
+        let t;
+        if (f.modo === 'producto') t = { cols: [colI('Producto'), colI('Unidades', 'cant', { suma: true })], filas: R.porProducto.map((x) => filaI([x.nombre, x.cant], ['producto', x.productoId])) };
+        else if (f.modo === 'remitos') t = { cols: [colI('Remito', 'mono'), colI('Fecha', 'fecha'), colI('Venta'), colI('Sale de'), colI('Hoja de ruta', 'mono'), colI('Estado', 'badge'), colI('Unidades', 'cant', { suma: true })], filas: R.remitos.slice().sort((a, b) => a.fecha < b.fecha ? 1 : -1).map((r) => filaI([r.nro, r.fecha, [origenRemito(r)], nombreDe(deposito(r.depositoId)), r.grupo || '', [estadoRemitoTxt(r), badgeRemito(r.estado)], itemsRemito(r).reduce((s, l) => s + l.cant, 0)], ['remito', r.id])) };
+        else t = { cols: [colI('Producto'), colI('Remitos', 'n'), colI('Unidades', 'cant', { suma: true })], filas: R.filas.map((x) => filaI([x.nombre, x.remitos, x.cant], ['producto', x.productoId], x.dia)), agrupar: { titulo: (g) => mayus(fDiaLargo(deISODate(g))) } };
+        return { kpis: [['ph-truck', 'Remitos', String(R.nRemitos), 'De venta, sin los anulados', true], ['ph-package', 'Unidades', fCant(R.total), 'Salieron del depósito'], ['ph-list-checks', 'Productos', String(R.porProducto.length), 'Distintos'], ['ph-check-circle', 'Entregados', String(R.remitos.filter((r) => r.estado === 'Entregado').length), 'Del período']], tablas: [t] };
+      } },
+
+    { id: 'saldos-clientes', g: 'Clientes', n: 'Saldos de clientes', aHoy: true, ver: true, fil: ['vendedor'], modos: [['saldos', 'Saldos'], ['vencimientos', 'Con vencimientos'], ['antiguedad', '30, 60, 90 o más'], ['mensual', 'Mensual'], ['vendedor', 'Por vendedor']], clave: 'saldos en cuentas corrientes clientes deuda antiguedad a cobrar cuenta corriente vencimientos',
+      calc(f) {
+        const vs = ventasConSaldo().filter((v) => pasaVersion(v, f.version) && (!f.vendedor || (cliente(v.clienteId) || {}).vendedorId === f.vendedor));
+        const g = {};
+        vs.forEach((v) => (g[v.clienteId] || (g[v.clienteId] = [])).push(v));
+        const vencido = (xs) => sumaPor(xs.filter((v) => diasA(venceVenta(v)) < 0), saldoVenta), saldo = (xs) => sumaPor(xs, saldoVenta);
+        const clis = Object.keys(g).map((k) => ({ c: cliente(k), xs: g[k] })).sort((a, b) => saldo(b.xs) - saldo(a.xs));
+        const nombre = (c) => [c.nombre, c.localidad];
+        let cols, filas;
+        if (f.modo === 'antiguedad') {
+          const tramos = [[0, 30], [31, 60], [61, 90], [91, 1e9]];
+          cols = [colI('Cliente'), colI('0 a 30 días', 'monto'), colI('31 a 60 días', 'monto'), colI('61 a 90 días', 'monto'), colI('Más de 90 días', 'monto'), colI('Total', 'monto')];
+          filas = clis.map(({ c, xs }) => filaI([nombre(c)].concat(tramos.map(([a, b]) => sumaPor(xs.filter((v) => antiguedad(v) >= a && antiguedad(v) <= b), saldoVenta))).concat([saldo(xs)]), ['cliente', c.id]));
+        } else if (f.modo === 'mensual') {
+          const meses = Array.from(new Set(vs.map((v) => toISODate(D(v.fecha)).slice(0, 7)))).sort();
+          const etiqueta = (m) => { const d = deISODate(m + '-01'); return mayus(nombreMes(d)).slice(0, 3) + ' ' + d.getFullYear(); };
+          cols = [colI('Cliente')].concat(meses.map((m) => colI(etiqueta(m), 'monto'))).concat([colI('Total', 'monto')]);
+          filas = clis.map(({ c, xs }) => filaI([nombre(c)].concat(meses.map((m) => sumaPor(xs.filter((v) => toISODate(D(v.fecha)).slice(0, 7) === m), saldoVenta))).concat([saldo(xs)]), ['cliente', c.id]));
+        } else if (f.modo === 'vencimientos') {
+          cols = [colI('Cliente'), colI('Vence', 'fecha', { ayuda: 'El vencimiento más viejo con saldo' }), colI('Estado', 'badge'), colI('Vencido', 'monto'), colI('A vencer', 'monto'), colI('Saldo', 'monto')];
+          filas = clis.map(({ c, xs }) => { const v1 = xs.map(venceVenta).sort()[0]; return filaI([nombre(c), v1, estadoVence(v1), vencido(xs), r2(saldo(xs) - vencido(xs)), saldo(xs)], ['cliente', c.id]); }).sort((a, b) => a.v[1] < b.v[1] ? -1 : 1);
+        } else if (f.modo === 'vendedor') {
+          cols = [colI('Cliente'), colI('CUIT o DNI', 'mono'), colI('Comprobantes', 'n'), colI('Vencido', 'monto'), colI('Saldo', 'monto')];
+          filas = clis.map(({ c, xs }) => filaI([nombre(c), c.doc, xs.length, vencido(xs), saldo(xs)], ['cliente', c.id], nombreDe(vendedor(c.vendedorId), 'Sin vendedor asignado')));
+        } else {
+          cols = [colI('Cliente'), colI('CUIT o DNI', 'mono'), colI('Condición'), colI('Vendedor'), colI('Comprobantes', 'n'), colI('Saldo', 'monto')];
+          filas = clis.map(({ c, xs }) => filaI([nombre(c), c.doc, c.condicion, nombreDe(vendedor(c.vendedorId), 'Sin asignar'), xs.length, saldo(xs)], ['cliente', c.id]));
+        }
+        const total = saldo(vs), venc = vencido(vs);
+        return { kpis: [['ph-clock', 'A cobrar', fmtM(total), plural(clis.length, 'cliente con saldo', 'clientes con saldo'), true], ['ph-warning', 'Vencido', fmtM(venc), fPct(pctDe(venc, total)) + ' del saldo', venc <= 0], ['ph-calendar-x', 'Más de 90 días', fmtM(sumaPor(vs.filter((v) => antiguedad(v) > 90), saldoVenta)), 'Desde la fecha del comprobante'], ['ph-receipt', 'Comprobantes', String(vs.length), 'Con saldo pendiente']],
+          tablas: [{ cols, filas, agrupar: f.modo === 'vendedor' ? {} : null, vacio: 'Ningún cliente tiene saldo con estos filtros.' }],
+          cierres: sinFiltro(f, ['version', 'vendedor']) ? [cierreI('Cierra con el Panel: a cobrar en cuenta corriente', aCobrar(), totI(filas, cols.length - 1))] : [] };
+      } },
+    { id: 'actividad-cliente', g: 'Clientes', n: 'Actividad de un cliente', fil: ['cliente'], oblig: ['cliente'], clave: 'actividad cliente cuenta corriente movimientos facturas recibos',
+      calc(f, p) {
+        const c = cliente(f.cliente);
+        if (!c) return { kpis: [], tablas: [{ cols: [colI('Cliente')], filas: [], vacio: 'Elegí un cliente.' }] };
+        const k = ctaCliente(c), antes = k.movs.filter((m) => D(m.fecha) < p.desde), en = k.movs.filter((m) => enPeriodo(m.fecha, p));
+        const s0 = antes.length ? antes[antes.length - 1].saldo : 0, sF = en.length ? en[en.length - 1].saldo : s0;
+        const filas = [filaI([new Date(p.desde.getTime() - 1), ['Saldo anterior', c.nombre], null, null, s0])].concat(en.map((m) => filaI([m.fecha, [m.comp], m.debe || null, m.haber || null, m.saldo], ['venta', m.ventaId])));
+        const debe = totI(filas, 2), haber = totI(filas, 3);
+        const cierres = [cierreI('Saldo anterior más debe menos haber: saldo al cierre', sF, r2(s0 + debe - haber))];
+        if (p.incluyeHoy) cierres.push(cierreI('Cierra con la ficha del cliente: saldo de hoy', k.saldo, sF));
+        return { kpis: [['ph-clock-counter-clockwise', 'Saldo anterior', fmtM(s0), 'Al ' + fFecha(masDias(p.desde, -1))], ['ph-receipt', 'Debe', fmtM(debe), 'Facturas y notas de débito'], ['ph-hand-coins', 'Haber', fmtM(haber), 'Cobros y notas de crédito'], ['ph-scales', 'Saldo al cierre', fmtM(sF), c.condicion, true]],
+          tablas: [{ cols: [colI('Fecha', 'fecha'), colI('Comprobante', 'mono'), colI('Debe', 'monto'), colI('Haber', 'monto'), colI('Saldo', 'saldo')], filas }], cierres };
+      } },
+    { id: 'cobros', g: 'Clientes', n: 'Cobros', ver: true, fil: ['caja', 'vendedor', 'operador'], modos: [['detalle', 'Recibos'], ['medio', 'Por medio de pago']], clave: 'cobros recibos cobranzas medio de pago',
+      nota: 'Los recibos con fecha en el período, de ventas vigentes. Lo anulado no cuenta.',
+      calc(f, p) {
+        const xs = [];
+        DB.ventas.forEach((v) => {
+          if (!esVenta(v) || anulada(v) || !pasaVersion(v, f.version) || (f.vendedor && v.vendedorId !== f.vendedor)) return;
+          v.cobros.forEach((c) => { if (enPeriodo(c.fecha, p) && (!f.caja || c.caja === f.caja || cajaDeCobro(v, c) === f.caja) && (!f.operador || (c.operadorId || v.operadorId) === f.operador)) xs.push({ v, c, neto: netoCobro(v, c) }); });
+        });
+        xs.sort((a, b) => a.c.fecha < b.c.fecha ? -1 : 1);
+        let t;
+        if (f.modo === 'medio') {
+          const g = {};
+          xs.forEach((x) => (g[x.c.medio] || (g[x.c.medio] = [])).push(x));
+          t = { cols: [colI('Medio'), colI('Recibos', 'n'), colI('Monto', 'monto'), colI('Descuentos', 'monto'), colI('Neto', 'monto')], filas: Object.keys(g).map((k) => filaI([k, g[k].length, sumaPor(g[k], (x) => x.c.monto), sumaPor(g[k], (x) => x.c.monto - x.neto), sumaPor(g[k], (x) => x.neto)])).sort((a, b) => b.v[2] - a.v[2]) };
+        } else t = { cols: [colI('Fecha', 'fecha'), colI('Recibo', 'mono'), colI('Cliente'), colI('Medio'), colI('Caja'), colI('Monto', 'monto'), colI('Descuentos', 'monto', { ayuda: 'Comisiones, retenciones y lo que descuenta el canal' }), colI('Neto', 'monto')],
+          filas: xs.map((x) => filaI([x.c.fecha, String(x.c.nro).padStart(8, '0'), [nombreDe(cliente(x.v.clienteId)), 'Venta ' + x.v.id], [x.c.medio, x.c.cheque ? 'Cheque N° ' + x.c.cheque.nro : ''], nombreDe(caja(cajaDeCobro(x.v, x.c))), x.c.monto, r2(x.c.monto - x.neto), x.neto], ['venta', x.v.id])) };
+        const monto = sumaPor(xs, (x) => x.c.monto), neto = sumaPor(xs, (x) => x.neto);
+        return { kpis: [['ph-hand-coins', 'Cobrado', fmtM(monto), plural(xs.length, 'recibo', 'recibos'), true], ['ph-receipt-x', 'Retenciones', fmtM(sumaPor(xs, (x) => x.c.retencion)), 'Que nos hicieron al cobrar'], ['ph-minus-circle', 'Descuentos', fmtM(r2(monto - neto)), 'Comisiones y retenciones'], ['ph-bank', 'Neto', fmtM(neto), 'Lo que entra a las cajas']], tablas: [t] };
+      } },
+
+    { id: 'saldos-proveedores', g: 'Proveedores', n: 'Saldos con proveedores', aHoy: true, fil: ['tipoProv'], clave: 'saldos en cuentas corrientes proveedores deuda a pagar cuenta corriente',
+      calc(f) {
+        const xs = DB.proveedores.filter((x) => !f.tipoProv || x.tipo === f.tipoProv).map((x) => ({ x, k: ctaProveedor(x) })).filter((y) => y.k.saldo > 0.009).sort((a, b) => b.k.saldo - a.k.saldo);
+        const venc = (k) => sumaPor(k.pend.filter((fc) => diasA(fc.vence) < 0), (fc) => fc.saldo), semana = (k) => sumaPor(k.pend.filter((fc) => diasA(fc.vence) >= 0 && diasA(fc.vence) <= 7), (fc) => fc.saldo);
+        const filas = xs.map(({ x, k }) => filaI([[x.nombre, x.rubro], x.cuit || 'No aplica', x.tipo, k.pend.length, venc(k), r2(k.saldo - venc(k)), k.saldo, k.prox && k.prox.vence], ['proveedor', x.id]));
+        const total = totI(filas, 6);
+        return { kpis: [['ph-scales', 'Deuda', fmtM(total), plural(xs.length, 'proveedor con saldo', 'proveedores con saldo'), true], ['ph-warning', 'Vencido', fmtM(totI(filas, 4)), 'Revisar', totI(filas, 4) <= 0], ['ph-calendar-check', 'Vence en 7 días', fmtM(sumaPor(xs, (y) => semana(y.k))), 'Hasta el ' + fFecha(masDias(INI_HOY, 7))], ['ph-files', 'Facturas pendientes', String(sumaPor(xs, (y) => y.k.pend.length)), 'Con saldo']],
+          tablas: [{ cols: [colI('Proveedor'), colI('CUIT', 'mono'), colI('Tipo'), colI('Pendientes', 'n'), colI('Vencido', 'monto'), colI('A vencer', 'monto'), colI('Saldo', 'monto'), colI('Próximo vencimiento', 'fecha')], filas }],
+          cierres: f.tipoProv ? [] : [cierreI('Cierra con Proveedores y gastos: deuda total', deudaProveedores(), total)] };
+      } },
+    { id: 'actividad-proveedor', g: 'Proveedores', n: 'Actividad de un proveedor', fil: ['proveedor'], oblig: ['proveedor'], clave: 'actividad proveedor cuenta corriente facturas pagos',
+      calc(f, p) {
+        const x = proveedor(f.proveedor);
+        if (!x) return { kpis: [], tablas: [{ cols: [colI('Proveedor')], filas: [], vacio: 'Elegí un proveedor.' }] };
+        const ms = movsProveedor(x).filter((m) => m.tipo === 'factura' || m.tipo === 'nc' || pagoVigente(m));
+        const antes = ms.filter((m) => D(m.fecha) < p.desde), en = ms.filter((m) => enPeriodo(m.fecha, p));
+        const s0 = antes.length ? antes[antes.length - 1].saldo : 0, sF = en.length ? en[en.length - 1].saldo : s0;
+        const filas = [filaI([new Date(p.desde.getTime() - 1), ['Saldo anterior', x.nombre], null, null, s0])].concat(en.map((m) => filaI([m.fecha, [m.comp, m.tipo === 'factura' ? 'Vence ' + fFecha(m.vence) : m.tipo === 'nc' ? m.detalle || 'Nota de crédito' : (m.medio || '') + (m.retenciones ? ' · retenciones ' + fmt(m.retenciones) : '')], m.tipo === 'factura' ? m.monto : null, m.tipo !== 'factura' ? m.monto : null, m.saldo], m.chequeId ? ['cheque', m.chequeId] : ['proveedor', x.id])));
+        const fac = totI(filas, 2), pag = totI(filas, 3);
+        const cierres = [cierreI('Saldo anterior más facturas menos pagos y notas de crédito: saldo al cierre', sF, r2(s0 + fac - pag))];
+        if (p.incluyeHoy) cierres.push(cierreI('Cierra con la ficha del proveedor: saldo de hoy', ctaProveedor(x).saldo, sF));
+        return { kpis: [['ph-clock-counter-clockwise', 'Saldo anterior', fmtM(s0), 'Al ' + fFecha(masDias(p.desde, -1))], ['ph-file-plus', 'Facturas', fmtM(fac), 'Del período'], ['ph-arrow-up-right', 'Pagos y NC', fmtM(pag), 'Órdenes de pago y notas de crédito'], ['ph-scales', 'Saldo al cierre', fmtM(sF), x.condicion, true]],
+          tablas: [{ cols: [colI('Fecha', 'fecha'), colI('Comprobante', 'mono'), colI('Factura', 'monto'), colI('Pago o NC', 'monto'), colI('Saldo', 'saldo')], filas }], cierres };
+      } },
+    { id: 'pagos', g: 'Proveedores', n: 'Pagos', fil: ['tipoProv', 'caja'], clave: 'pagos ordenes de pago retenciones practicadas cheques',
+      calc(f, p) {
+        const ops = {};
+        DB.proveedores.forEach((x) => { if (f.tipoProv && x.tipo !== f.tipoProv) return; x.movs.forEach((m) => {
+          if (!pagoVigente(m) || !enPeriodo(m.fecha, p)) return;
+          const ch = m.chequeId ? cheque(m.chequeId) : null;
+          if (f.caja && m.caja !== f.caja && !(ch && ch.banco === f.caja)) return;
+          const k = x.id + '|' + m.op; (ops[k] || (ops[k] = { x, m0: m, ch, ms: [] })).ms.push(m);
+        }); });
+        const ret = (ms, pre) => sumaPor(ms, (m) => sumaPor((m.ret || []).filter((r) => r.imp.startsWith(pre)), (r) => r.monto));
+        const filas = Object.values(ops).sort((a, b) => a.m0.fecha < b.m0.fecha ? -1 : 1).map((o) => filaI([o.m0.fecha, 'OP ' + o.m0.op, [o.x.nombre, o.x.tipo], [o.m0.medio || '', o.ch ? 'Cheque N° ' + o.ch.nro + ' · ' + nombreDe(caja(o.ch.banco)) : nombreDe(caja(o.m0.caja))], o.ms.length, sumaPor(o.ms, (m) => m.monto), ret(o.ms, 'Ganancias'), ret(o.ms, 'IIBB'), sumaPor(o.ms, (m) => m.monto - (m.retenciones || 0))], o.ch ? ['cheque', o.ch.id] : ['proveedor', o.x.id]));
+        const pagado = totI(filas, 5);
+        return { kpis: [['ph-arrow-up-right', 'Pagado', fmtM(pagado), plural(filas.length, 'orden de pago', 'órdenes de pago'), true], ['ph-receipt-x', 'Retenciones practicadas', fmtM(r2(totI(filas, 6) + totI(filas, 7))), 'Ganancias e Ingresos Brutos'], ['ph-bank', 'Salió de las cajas', fmtM(totI(filas, 8)), 'Neto de retenciones'], ['ph-money', 'Con cheque propio', String(filas.filter((r) => r.ir && r.ir[0] === 'cheque').length), 'Debitan en su fecha']],
+          tablas: [{ cols: [colI('Fecha', 'fecha'), colI('Orden', 'mono'), colI('Proveedor'), colI('Medio'), colI('Facturas', 'n'), colI('Pagado', 'monto'), colI('Ganancias', 'monto'), colI('IIBB', 'monto'), colI('Neto', 'monto')], filas }],
+          cierres: sinFiltro(f, ['tipoProv', 'caja']) ? [cierreI('Cierra con Proveedores y gastos: pagado en el período', sumaPor(DB.proveedores, (x) => movsProveedorPeriodo(x, p).pagado), pagado)] : [] };
+      } },
+    { id: 'compras-saldar', g: 'Proveedores', n: 'Compras a saldar', aHoy: true, fil: ['tipoProv', 'proveedor'], clave: 'compras a saldar facturas pendientes vencimientos a pagar',
+      calc(f) {
+        const pend = DB.proveedores.filter((x) => (!f.tipoProv || x.tipo === f.tipoProv) && (!f.proveedor || x.id === f.proveedor)).flatMap((x) => ctaProveedor(x).pend.map((fc) => ({ x, fc }))).sort((a, b) => a.fc.vence < b.fc.vence ? -1 : 1);
+        const grupo = (fc) => diasA(fc.vence) < 0 ? 'vencidas' : diasA(fc.vence) <= 7 ? 'semana' : 'despues';
+        const filas = pend.map(({ x, fc }) => filaI([fc.vence, [x.nombre, x.rubro], fc.comp, fc.fecha, estadoVence(fc.vence), fc.saldo], ['proveedor', x.id], grupo(fc)));
+        const total = totI(filas, 5), de = (g) => sumaPor(filas.filter((r) => r.g === g), (r) => r.v[5]);
+        return { kpis: [['ph-scales', 'A saldar', fmtM(total), plural(filas.length, 'factura', 'facturas'), true], ['ph-warning', 'Vencido', fmtM(de('vencidas')), 'Revisar', de('vencidas') <= 0], ['ph-calendar-check', 'Vence en 7 días', fmtM(de('semana')), 'Hasta el ' + fFecha(masDias(INI_HOY, 7))], ['ph-calendar', 'Más adelante', fmtM(de('despues')), 'Después de esta semana']],
+          tablas: [{ cols: [colI('Vence', 'fecha'), colI('Proveedor'), colI('Comprobante', 'mono'), colI('Fecha', 'fecha'), colI('Estado', 'badge'), colI('Saldo', 'monto')], filas, agrupar: { orden: ['vencidas', 'semana', 'despues'], titulo: (g) => ({ vencidas: 'Vencidas', semana: 'Vencen en los próximos 7 días', despues: 'Más adelante' }[g]) } }],
+          cierres: sinFiltro(f, ['tipoProv', 'proveedor']) ? [cierreI('Cierra con Proveedores y gastos: deuda total', deudaProveedores(), total)] : [] };
+      } },
+    { id: 'cheques-debitar', g: 'Proveedores', n: 'Cheques propios a debitar', aHoy: true, fil: ['banco'], clave: 'cheques propios valores diferidos chequera debito',
+      calc(f) {
+        const chs = chequesADebitar().filter((ch) => !f.banco || ch.banco === f.banco).sort((a, b) => a.debito < b.debito ? -1 : 1);
+        const filas = chs.map((ch) => filaI([ch.debito, ch.nro, [nombreDe(proveedor(ch.proveedorId))], ch.emision, 'OP ' + ch.op, estadoVence(ch.debito)[0].replace('Vence', 'Debita').replace('Vencida', 'Venció'), ch.monto], ['cheque', ch.id], ch.banco));
+        const total = totI(filas, 6), valores = DB.cajas.find((c) => c.tipo === 'valores');
+        return { kpis: [['ph-calendar-check', 'A debitar', fmtM(total), plural(chs.length, 'cheque emitido', 'cheques emitidos'), true], ['ph-clock', 'Debitan en 7 días', fmtM(sumaPor(chs.filter((ch) => diasA(ch.debito) <= 7), (ch) => ch.monto)), 'Hasta el ' + fFecha(masDias(INI_HOY, 7))], ['ph-bank', 'Bancos', String(new Set(chs.map((ch) => ch.banco)).size), 'Con cheques pendientes'], ['ph-calendar-blank', 'Próximo débito', chs[0] ? fFecha(chs[0].debito) : 'Ninguno', chs[0] ? fmt0(chs[0].monto) : 'Nada pendiente']],
+          tablas: [{ cols: [colI('Débito', 'fecha'), colI('Cheque', 'mono'), colI('Proveedor'), colI('Emisión', 'fecha'), colI('Orden', 'mono'), colI('Cuándo'), colI('Importe', 'monto')], filas, agrupar: { titulo: (g) => nombreDe(caja(g)) } }],
+          cierres: !f.banco && valores ? [cierreI('Cierra con Valores diferidos: pendiente de débito', -saldoCaja(valores.id).saldo, total)] : [] };
+      } },
+
+    { id: 'stock-actual', g: 'Productos', n: 'Stock actual', aHoy: true, fil: ['articulos', 'deposito', 'rubro'], modos: [['deposito', 'Por depósito'], ['rubro', 'Por rubro'], ['ubicacion', 'Por ubicación'], ['alerta', 'Solo en alerta']], clave: 'stock existencias inventario ubicacion pasillo estante minimo alerta',
+      calc(f) {
+        const mat = f.articulos === 'materia';
+        const arts = DB.productos.filter((p) => !esCombo(p) && esMateria(p) === mat && (!f.rubro || p.rubro === f.rubro));
+        const deps = DB.depositos.filter((d) => !!d.materia === mat && (!f.deposito || d.id === f.deposito));
+        const fis = (p) => r2(deps.reduce((s, d) => s + stockFisico(p.id, d.id), 0)), res = (p) => r2(deps.reduce((s, d) => s + stockReservado(p.id, d.id), 0)), disp = (p) => r2(deps.reduce((s, d) => s + (d.noDisponible ? 0 : stockDe(p.id, d.id)), 0));
+        const rev = (p) => r2(deps.reduce((s, d) => s + (d.noDisponible ? stockFisico(p.id, d.id) : 0), 0));
+        const nombre = (p) => [p.nombre, p.sku];
+        let t, cierres = [];
+        if (f.modo === 'rubro') {
+          const g = {};
+          arts.forEach((p) => (g[p.rubro] || (g[p.rubro] = [])).push(p));
+          t = { cols: [colI('Rubro'), colI('Artículos', 'n'), colI('Físico', 'cant', { suma: true }), colI('Reservado', 'cant', { suma: true }), colI('Disponible', 'cant', { suma: true }), colI('A revisión', 'cant', { suma: true }), colI('Bajo mínimo', 'n')], filas: Object.keys(g).map((k) => filaI([k, g[k].length, sumaPor(g[k], fis), sumaPor(g[k], res), sumaPor(g[k], disp), sumaPor(g[k], rev), g[k].filter(bajoMinimo).length])) };
+        } else if (f.modo === 'ubicacion') {
+          const filas = [];
+          deps.forEach((d) => arts.forEach((p) => { const u = p.ubic && p.ubic[d.id], n = stockFisico(p.id, d.id); if (u || n) filas.push(filaI([u ? ubicTxt(u) : 'Sin ubicación', nombre(p), n, d.noDisponible ? 0 : stockDe(p.id, d.id)], ['producto', p.id], d.id)); }));
+          const orden = deps.map((d) => d.id);
+          filas.sort((a, b) => (orden.indexOf(a.g) - orden.indexOf(b.g)) || (a.v[0] < b.v[0] ? -1 : a.v[0] > b.v[0] ? 1 : 0));
+          t = { cols: [colI('Ubicación', 'mono', { ayuda: 'Pasillo, estante y nivel' }), colI('Artículo'), colI('Físico', 'cant', { suma: true }), colI('Disponible', 'cant', { suma: true })], filas, agrupar: { titulo: (g) => nombreDe(deposito(g)) } };
+        } else if (f.modo === 'alerta') {
+          t = { cols: [colI('Artículo'), colI('Disponible', 'cant'), colI('Mínimo', 'cant'), colI('Faltan', 'cant', { suma: true }), colI('Estado', 'badge')], filas: arts.filter(bajoMinimo).map((p) => filaI([nombre(p), stockDe(p.id), p.minimo || 0, r2(Math.max(0, (p.minimo || 0) - stockDe(p.id))), badgeMin(p)], ['producto', p.id])), vacio: 'Nada por debajo del mínimo.' };
+        } else if (deps.length === 1) {
+          const d = deps[0];
+          t = { cols: [colI('Artículo'), colI('Ubicación', 'mono'), colI('Físico', 'cant', { suma: true }), colI('Reservado', 'cant', { suma: true }), colI('Disponible', 'cant', { suma: true }), colI('Estado', 'badge')], filas: arts.map((p) => filaI([nombre(p), ubicTxt(p.ubic && p.ubic[d.id]), stockFisico(p.id, d.id), stockReservado(p.id, d.id), d.noDisponible ? 0 : stockDe(p.id, d.id), badgeMin(p)], ['producto', p.id])) };
+        } else {
+          t = { cols: [colI('Artículo')].concat(deps.map((d) => colI(depCorto(d), 'cant', { suma: true, ayuda: 'Stock físico en ' + d.nombre }))).concat([colI('Reservado', 'cant', { suma: true }), colI('Disponible', 'cant', { suma: true })]),
+            filas: arts.map((p) => filaI([nombre(p)].concat(deps.map((d) => stockFisico(p.id, d.id))).concat([res(p), disp(p)]), ['producto', p.id])) };
+          if (!f.deposito && !f.rubro) cierres.push(cierreI('El stock físico total es la suma de los depósitos', sumaPor(arts, (p) => stockFisico(p.id)), sumaPor(t.filas, (r) => r.v.slice(1, 1 + deps.length).reduce((s, n) => s + n, 0))));
+        }
+        return { kpis: [['ph-warehouse', 'Unidades', fCant(sumaPor(arts, fis)), 'Físico en ' + (deps.length === 1 ? deps[0].nombre : plural(deps.length, 'depósito', 'depósitos')), true], ['ph-check-circle', 'Disponibles', fCant(sumaPor(arts, disp)), 'Físico menos reservado'], ['ph-lock-simple', 'Reservadas', fCant(sumaPor(arts, res)), 'Vendidas y sin remito'], ['ph-warning', 'Bajo mínimo', String(arts.filter(bajoMinimo).length), 'Artículos', !arts.some(bajoMinimo)]],
+          tablas: [t], cierres };
+      } },
+    { id: 'stock-valorizado', g: 'Productos', n: 'Stock actual valorizado', aHoy: true, fil: ['valor', 'articulos', 'deposito'], modos: [['producto', 'Por producto'], ['deposito', 'Por depósito']], clave: 'stock valorizado costo lista de precios revision deposito',
+      calc(f) {
+        const mat = f.articulos === 'materia', lista = f.valor === 'costo' || mat ? null : f.valor;
+        const arts = DB.productos.filter((p) => !esCombo(p) && esMateria(p) === mat).sort((a, b) => a.rubro.localeCompare(b.rubro, 'es') || a.nombre.localeCompare(b.nombre, 'es'));
+        const deps = DB.depositos.filter((d) => !!d.materia === mat && (!f.deposito || d.id === f.deposito));
+        const disp = deps.filter((d) => !d.noDisponible), rev = deps.filter((d) => d.noDisponible);
+        const uEn = (p, ds) => r2(ds.reduce((s, d) => s + stockFisico(p.id, d.id), 0)), vEn = (ps, ds) => r2(ds.reduce((s, d) => s + valorizado(ps, lista, d.id), 0));
+        let t;
+        if (f.modo === 'deposito') t = { cols: [colI('Depósito'), colI('Artículos', 'n'), colI('Unidades', 'cant', { suma: true }), colI('Valorizado', 'monto')], filas: deps.map((d) => filaI([[d.nombre, d.tipo], arts.filter((p) => stockFisico(p.id, d.id) > 0).length, r2(arts.reduce((s, p) => s + stockFisico(p.id, d.id), 0)), valorizado(arts, lista, d.id)], ['deposito', d.id], d.noDisponible ? 'rev' : 'disp')), agrupar: { orden: ['disp', 'rev'], titulo: (g) => g === 'rev' ? 'No disponible para vender: A revisión' : 'Disponible para vender' } };
+        else t = { cols: [colI('Artículo'), colI('Rubro'), colI('Para vender', 'cant', { suma: true, ayuda: 'Unidades en los depósitos disponibles' }), colI(lista ? 'Precio de lista' : 'Costo', 'precio'), colI('Valorizado', 'monto'), colI('A revisión', 'cant', { suma: true }), colI('A revisión $', 'monto')], filas: arts.map((p) => filaI([[p.nombre, p.sku], p.rubro, uEn(p, disp), lista ? precioDe(p, lista) : costoDe(p), vEn([p], disp), uEn(p, rev), vEn([p], rev)], ['producto', p.id])).filter((r) => r.v[2] || r.v[5]) };
+        const vDisp = vEn(arts, disp), vRev = vEn(arts, rev), total = r2(vDisp + vRev);
+        if (f.modo !== 'deposito') t.pie2 = (rows) => rows.length === t.filas.length ? { txt: 'Total con A revisión', v: { 4: r2(totI(rows, 4) + totI(rows, 6)) } } : null;
+        const todo = f.deposito ? valorizado(arts, lista, f.deposito) : valorizado(arts, lista);
+        return { kpis: [['ph-currency-circle-dollar', 'Total del stock', fmtM(total), (lista ? 'A lista ' + nombreDe(listaPrecios(lista)) : 'Al costo') + ', con A revisión', true], ['ph-warehouse', 'Disponible para vender', fmtM(vDisp), 'Lo que se puede vender hoy'], ['ph-magnifying-glass', 'A revisión', fmtM(vRev), 'Devoluciones sin revisar, aparte'], ['ph-package', 'Unidades', fCant(sumaPor(arts, (p) => uEn(p, deps))), mat ? 'De materia prima' : 'De productos terminados']],
+          tablas: [t], cierres: [cierreI('La suma de los depósitos da el total del stock', todo, f.modo === 'deposito' ? totI(t.filas, 3) : r2(totI(t.filas, 4) + totI(t.filas, 6)))],
+          nota: mat && f.valor !== 'costo' ? 'La materia prima se valoriza al costo: no tiene precio de lista.' : 'Los combos no suman: valen sus componentes. Lo que está A revisión va aparte.' };
+      } },
+    { id: 'movimientos-stock', g: 'Productos', n: 'Movimientos de stock', fil: ['tipoStock', 'deposito', 'operador'], clave: 'movimientos stock transferencias ajustes compras fabricacion devoluciones remitos',
+      calc(f, p) {
+        const ms = movimientosStock().filter((m) => enPeriodo(m.fecha, p) && (!f.tipoStock || m.tipo === f.tipoStock) && (!f.deposito || m.desde === f.deposito || m.hacia === f.deposito) && (!f.operador || m.operadorId === f.operador));
+        const unid = (m) => { const x = producto(m.productoId); return x ? x.unidad || 'un' : ''; };
+        const base = (m) => [m.fecha, TIPOS_STOCK[m.tipo], [nombreDe(producto(m.productoId)), unid(m)], [m.desde ? nombreDe(deposito(m.desde)) : 'Entra', m.hacia ? 'a ' + nombreDe(deposito(m.hacia)) : 'Sale'], nombreDe(deposito(m.desde)), nombreDe(deposito(m.hacia))];
+        const cols = [colI('Fecha', 'fecha'), colI('Tipo'), colI('Artículo'), colI('Depósitos', 'txt', { soloPantalla: true }), colI('Sale de', 'txt', { soloExcel: true }), colI('Entra a', 'txt', { soloExcel: true })].concat(f.deposito ? [colI('Entró', 'cant', { suma: true }), colI('Salió', 'cant', { suma: true })] : [colI('Cantidad', 'cant')]).concat([colI('Motivo')]);
+        const filas = ms.map((m) => filaI(base(m).concat(f.deposito ? [m.hacia === f.deposito ? m.cant : null, m.desde === f.deposito ? m.cant : null] : [m.cant]).concat([[m.motivo, nombreDe(operador(m.operadorId), 'Sistema')]]), m.remitoId ? ['remito', m.remitoId] : ['producto', m.productoId]));
+        const de = (t) => ms.filter((m) => m.tipo === t).length;
+        return { kpis: f.deposito ? [['ph-arrow-down', 'Entró', fCant(totI(filas, 6)), 'Unidades a ' + nombreDe(deposito(f.deposito)), true], ['ph-arrow-up', 'Salió', fCant(totI(filas, 7)), 'Unidades'], ['ph-scales', 'Neto', fCant(r2(totI(filas, 6) - totI(filas, 7))), 'Entró menos salió'], ['ph-list', 'Movimientos', String(ms.length), 'En el período']]
+          : [['ph-list', 'Movimientos', String(ms.length), 'En el período', true], ['ph-receipt', 'Salidas por venta', String(de('venta')), 'Remitos'], ['ph-arrows-left-right', 'Transferencias', String(de('transferencia')), 'Entre depósitos'], ['ph-arrows-down-up', 'Ajustes y fabricación', String(de('ajuste') + de('fabricacion')), 'Con motivo']],
+          tablas: [{ cols, filas }] };
+      } },
+    { id: 'ranking-cantidad', g: 'Productos', n: 'Ranking por cantidad', ver: true, fil: ['canal', 'vendedor', 'operador', 'lista', 'combos'], clave: 'ranking mas vendidos unidades',
+      calc(f, p) {
+        const rk = rankingProductos(f, p).sort((a, b) => b.u - a.u || b.neto - a.neto);
+        const filas = rk.map((z, i) => filaI([i + 1, [z.nombre, z.rubro], z.u, z.n, z.neto], ['producto', z.productoId]));
+        return { kpis: [['ph-package', 'Unidades', fCant(totI(filas, 2)), plural(rk.length, 'producto vendido', 'productos vendidos'), true], ['ph-trophy', 'El más vendido', rk[0] ? fCant(rk[0].u) + ' u.' : 'Sin ventas', rk[0] ? rk[0].nombre : ''], ['ph-currency-circle-dollar', 'Facturado sin IVA', fmtM(totI(filas, 4)), 'De estos productos'], ['ph-stack', 'Combos', f.combos === 'desglosar' ? 'Desglosados' : 'Como combo', f.combos === 'desglosar' ? 'Cuentan sus componentes' : 'Cuentan como un producto']],
+          tablas: [{ cols: [colI('#', 'n'), colI('Producto'), colI('Unidades', 'cant', { suma: true }), colI('Ventas', 'n'), colI('Facturado sin IVA', 'monto')], filas }], cierres: [cierreRanking(f, p, totI(filas, 4))] };
+      } },
+    { id: 'ranking-facturacion', g: 'Productos', n: 'Ranking por facturación', ver: true, fil: ['canal', 'vendedor', 'operador', 'lista', 'combos'], clave: 'ranking mayor facturacion',
+      calc(f, p) {
+        const rk = rankingProductos(f, p).sort((a, b) => b.neto - a.neto), tot = sumaPor(rk, (z) => z.neto);
+        const filas = rk.map((z, i) => filaI([i + 1, [z.nombre, z.rubro], z.neto, pctDe(z.neto, tot), z.u], ['producto', z.productoId]));
+        return { kpis: [['ph-currency-circle-dollar', 'Facturado sin IVA', fmtM(tot), plural(rk.length, 'producto', 'productos'), true], ['ph-trophy', 'El que más factura', rk[0] ? fmtM(rk[0].neto) : 'Sin ventas', rk[0] ? rk[0].nombre : ''], ['ph-percent', 'Los 3 primeros', fPct(pctDe(sumaPor(rk.slice(0, 3), (z) => z.neto), tot)), 'Del total'], ['ph-package', 'Unidades', fCant(sumaPor(rk, (z) => z.u)), 'Vendidas']],
+          tablas: [{ cols: [colI('#', 'n'), colI('Producto'), colI('Facturado sin IVA', 'monto'), colI('% del total', 'pct', { total: (rows) => rows.length ? pctDe(totI(rows, 2), tot) : null }), colI('Unidades', 'cant', { suma: true })], filas }], cierres: [cierreRanking(f, p, tot)] };
+      } },
+    { id: 'ranking-8020', g: 'Productos', n: 'Ranking 80/20', ver: true, fil: ['canal', 'vendedor', 'operador', 'lista', 'combos'], clave: 'ranking 80 20 pareto clase a b c',
+      calc(f, p) {
+        const rk = rankingProductos(f, p).sort((a, b) => b.neto - a.neto), tot = sumaPor(rk, (z) => z.neto);
+        let acum = 0;
+        const filas = rk.map((z, i) => { const antes = pctDe(acum, tot); acum += z.neto; const clase = antes < 80 ? 'A' : antes < 95 ? 'B' : 'C'; return filaI([i + 1, [z.nombre, z.rubro], z.neto, pctDe(z.neto, tot), pctDe(acum, tot), ['Clase ' + clase, clase === 'A' ? 'b-ok' : clase === 'B' ? 'b-info' : 'b-neutro']], ['producto', z.productoId]); });
+        const a = filas.filter((r) => r.v[5][0] === 'Clase A');
+        return { kpis: [['ph-chart-pie-slice', 'Clase A', plural(a.length, 'producto', 'productos'), fPct(pctDe(a.length, rk.length)) + ' de los productos vendidos', true], ['ph-currency-circle-dollar', 'Facturan', fPct(pctDe(sumaPor(a, (r) => r.v[2]), tot)), 'Del total sin IVA'], ['ph-coins', 'Facturado sin IVA', fmtM(tot), plural(rk.length, 'producto', 'productos')], ['ph-list-numbers', 'Clases B y C', String(rk.length - a.length), 'El resto del surtido']],
+          tablas: [{ cols: [colI('#', 'n'), colI('Producto'), colI('Facturado sin IVA', 'monto'), colI('%', 'pct', { total: (rows) => rows.length ? pctDe(totI(rows, 2), tot) : null }), colI('% acumulado', 'pct'), colI('Clase', 'badge')], filas }], cierres: [cierreRanking(f, p, tot)],
+          nota: 'Clase A: de mayor a menor, los productos hasta llegar al 80% de lo facturado, incluido el que lo cruza. Clase B: hasta el 95%. Clase C: el resto.' };
+      } },
+    { id: 'utilidad', g: 'Productos', n: 'Utilidad en ventas', ver: true, fil: ['canal', 'vendedor', 'operador'], modos: [['producto', 'Por producto'], ['venta', 'Por venta'], ['canal', 'Por canal']], clave: 'utilidad margen costo ganancia combos',
+      calc(f, p) {
+        const vs = ventasFiltradas(f, p).filter((v) => !anulada(v));
+        const mg = margenI(4, 2);
+        let cols, filas;
+        if (f.modo === 'venta') {
+          cols = [colI('Venta', 'mono'), colI('Fecha', 'fecha'), colI('Cliente'), colI('Canal', 'canal'), colI('Venta sin IVA', 'monto'), colI('Costo', 'monto'), colI('Utilidad', 'monto'), colI('Margen', 'pct', { total: margenI(6, 4) })];
+          filas = vs.map((v) => { const u = utilidadVenta(v); return filaI([String(v.id), v.fecha, [nombreDe(cliente(v.clienteId))], v.canal, u.neto, u.costo, u.utilidad, u.pct], ['venta', v.id]); });
+        } else if (f.modo === 'canal') {
+          cols = [colI('Canal', 'canal'), colI('Ventas', 'n'), colI('Venta sin IVA', 'monto'), colI('Costo', 'monto'), colI('Utilidad', 'monto'), colI('Margen', 'pct', { total: mg })];
+          filas = DB.canales.map((c) => { const xs = vs.filter((v) => v.canal === c.id).map(utilidadVenta); const n = sumaPor(xs, (u) => u.neto), u = sumaPor(xs, (x) => x.utilidad); return filaI([c.id, xs.length, n, sumaPor(xs, (x) => x.costo), u, pctDe(u, n)]); }).filter((r) => r.v[1]);
+        } else {
+          const m = {};
+          vs.forEach((v) => renglonesVenta(v).forEach((x) => { const k = x.productoId || 'servicios'; const y = m[k] || (m[k] = { k, nombre: x.productoId ? x.nombre : 'Envíos y otros servicios', rubro: x.productoId ? (producto(x.productoId) || {}).rubro : 'Servicios', u: 0, neto: 0, costo: 0 }); y.u += x.cant; y.neto += x.neto; y.costo += x.costo; }));
+          cols = [colI('Producto'), colI('Unidades', 'cant', { suma: true }), colI('Venta sin IVA', 'monto'), colI('Costo', 'monto', { ayuda: 'El de un combo es la suma de sus componentes' }), colI('Utilidad', 'monto'), colI('Margen', 'pct', { total: mg })];
+          filas = Object.values(m).map((y) => { const n = r2(y.neto), c = r2(y.costo); return filaI([[y.nombre, y.rubro], y.u, n, c, r2(n - c), pctDe(n - c, n)], producto(y.k) ? ['producto', y.k] : null); }).sort((a, b) => b.v[4] - a.v[4]);
+        }
+        const us = vs.map(utilidadVenta), neto = sumaPor(us, (u) => u.neto), costo = sumaPor(us, (u) => u.costo), util = sumaPor(us, (u) => u.utilidad);
+        const iU = f.modo === 'venta' ? 6 : 4;
+        return { kpis: [['ph-receipt', 'Venta sin IVA', fmtM(neto), plural(vs.length, 'venta', 'ventas')], ['ph-stack', 'Costo', fmtM(costo), 'Guardado en cada renglón al vender'], ['ph-chart-line-up', 'Utilidad', fmtM(util), 'Venta sin IVA menos costo', true], ['ph-percent', 'Margen', fPct(pctDe(util, neto)), 'Sobre la venta sin IVA']],
+          tablas: [{ cols, filas }], cierres: [cierreI('Cierra con el bloque Costo y utilidad de cada venta', util, totI(filas, iU))], nota: 'El costo de un combo es la suma de sus componentes: nunca se carga a mano.' };
+      } },
+    { id: 'materia-prima', g: 'Productos', n: 'Materia prima', aHoy: 'mixto', clave: 'materia prima insumos consumo minimo compras',
+      calc(f, p) {
+        const ms = movimientosStock().filter((m) => enPeriodo(m.fecha, p));
+        const cons = (x) => sumaPor(ms.filter((m) => m.productoId === x.id && m.tipo === 'fabricacion' && m.desde), (m) => m.cant), rec = (x) => sumaPor(ms.filter((m) => m.productoId === x.id && m.tipo === 'compra' && m.hacia), (m) => m.cant);
+        const filas = materias().map((x) => filaI([[x.nombre, x.sku], x.unidad, stockFisico(x.id), x.minimo || 0, cons(x), rec(x), costoDe(x), valorizado([x]), badgeMin(x)], ['producto', x.id]));
+        return { kpis: [['ph-currency-circle-dollar', 'Valorizado', fmtM(totI(filas, 7)), 'Al costo, al día de hoy', true], ['ph-warning', 'Bajo el mínimo', String(materias().filter(bajoMinimo).length), 'Materiales', !materias().some(bajoMinimo)], ['ph-factory', 'Consumido', fmtM(sumaPor(materias(), (x) => cons(x) * costoDe(x))), 'En el período, al costo'], ['ph-arrow-down', 'Recibido', fmtM(sumaPor(materias(), (x) => rec(x) * costoDe(x))), 'Remitos de compra del período']],
+          tablas: [{ cols: [colI('Material'), colI('Unidad'), colI('Stock', 'cant'), colI('Mínimo', 'cant'), colI('Consumido', 'cant', { ayuda: 'En las órdenes del período' }), colI('Recibido', 'cant', { ayuda: 'Remitos de compra del período' }), colI('Costo', 'precio'), colI('Valorizado', 'monto'), colI('Estado', 'badge')], filas }] };
+      } },
+
+    { id: 'medios-pago', g: 'Caja y cobranzas', n: 'Medios de pago', ver: true, fil: ['caja', 'vendedor', 'operador'], clave: 'medios de pago efectivo tarjeta mercado pago cheque transferencia',
+      nota: 'Cómo se cobró lo vendido en el período, por medio y por caja.',
+      calc(f, p) {
+        const xs = [];
+        ventasFiltradas(f, p).filter((v) => !anulada(v)).forEach((v) => v.cobros.forEach((c) => { if (!f.caja || c.caja === f.caja || cajaDeCobro(v, c) === f.caja) xs.push({ v, c, neto: netoCobro(v, c) }); }));
+        const g = {};
+        xs.forEach((x) => { const k = x.c.medio + '|' + x.c.caja; (g[k] || (g[k] = [])).push(x); });
+        const filas = Object.keys(g).map((k) => { const ys = g[k]; return filaI([ys[0].c.medio, nombreDe(caja(ys[0].c.caja)), ys.length, sumaPor(ys, (x) => x.c.monto), sumaPor(ys, (x) => x.c.monto - x.neto), sumaPor(ys, (x) => x.neto)], ['caja', ys[0].c.caja]); }).sort((a, b) => b.v[3] - a.v[3]);
+        const monto = totI(filas, 3);
+        return { kpis: [['ph-hand-coins', 'Cobrado', fmtM(monto), plural(xs.length, 'cobro', 'cobros'), true], ['ph-minus-circle', 'Descuentos', fmtM(totI(filas, 4)), 'Comisiones, envíos y retenciones'], ['ph-bank', 'Neto', fmtM(totI(filas, 5)), 'Lo que entra a las cajas'], ['ph-credit-card', 'Medios', String(new Set(xs.map((x) => x.c.medio)).size), 'Distintos']],
+          tablas: [{ cols: [colI('Medio'), colI('Caja'), colI('Cobros', 'n'), colI('Monto', 'monto'), colI('Descuentos', 'monto'), colI('Neto', 'monto')], filas }],
+          cierres: sinFiltro(f, ['version', 'caja', 'vendedor', 'operador']) ? [cierreI('Cierra con el Panel: cobrado del período', resumen(ventasDelPeriodo()).cobrado, monto)] : [] };
+      } },
+    { id: 'movimientos-caja', g: 'Caja y cobranzas', n: 'Movimientos de caja', ver: true, fil: ['caja'], oblig: ['caja'], clave: 'movimientos de caja ingresos egresos saldo banco',
+      calc(f, p) {
+        const c = caja(f.caja);
+        if (!c) return { kpis: [], tablas: [{ cols: [colI('Caja')], filas: [], vacio: 'Elegí una caja.' }] };
+        const corte = p.incluyeHoy ? FIN_HOY : p.hasta, todas = f.version === 'todas';
+        const s0 = saldoCaja(c.id, new Date(p.desde.getTime() - 1)).saldo, sF = saldoCaja(c.id, corte).saldo;
+        const verMov = (m) => m.ventaId ? versionDe(venta(m.ventaId)) : c.neutral ? 'Neutral' : 'Oficial';
+        const movs = movimientosCaja(c.id).filter((m) => !m.pendiente && D(m.fecha) >= p.desde && D(m.fecha) <= corte && (todas || verMov(m) === (f.version === 'neutral' ? 'Neutral' : 'Oficial'))).sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+        let s = s0;
+        const filas = (todas ? [filaI([new Date(p.desde.getTime() - 1), ['Saldo anterior', c.nombre], null, null, s0])] : []).concat(movs.map((m) => { s = r2(s + m.monto); return filaI([m.fecha, [m.concepto, m.detalle], m.monto > 0 ? m.monto : null, m.monto < 0 ? -m.monto : null].concat(todas ? [s] : []), m.ventaId ? ['venta', m.ventaId] : m.chequeId ? ['cheque', m.chequeId] : m.proveedorId ? ['proveedor', m.proveedorId] : null); }));
+        const ing = totI(filas, 2), egr = totI(filas, 3);
+        const pend = sumaPor(movimientosCaja(c.id).filter((m) => m.pendiente && D(m.fecha) <= corte), (m) => m.monto);
+        return { kpis: [['ph-clock-counter-clockwise', 'Saldo anterior', fmtM(s0), 'Al ' + fFecha(masDias(p.desde, -1))], ['ph-arrow-down', 'Ingresos', fmtM(ing), plural(movs.filter((m) => m.monto > 0).length, 'movimiento', 'movimientos')], ['ph-arrow-up', 'Egresos', fmtM(egr), plural(movs.filter((m) => m.monto < 0).length, 'movimiento', 'movimientos')], todas ? ['ph-scales', 'Saldo al cierre', fmtM(sF), pend ? 'Además ' + fmt0(pend) + ' a liberar' : 'Al ' + fFecha(corte), true] : ['ph-funnel', 'Versión', f.version === 'neutral' ? 'Neutral' : 'Oficial', 'Solo esos movimientos', true]],
+          tablas: [{ cols: [colI('Fecha', 'fecha'), colI('Concepto'), colI('Ingreso', 'monto'), colI('Egreso', 'monto')].concat(todas ? [colI('Saldo', 'saldo', { total: (rows) => rows.length === filas.length ? sF : null })] : []), filas, totalTxt: todas ? 'Total y saldo al ' + fFecha(corte) : 'Total' }],
+          cierres: todas ? [cierreI('Saldo anterior más ingresos menos egresos: saldo de la caja al ' + fFecha(corte), sF, r2(s0 + ing - egr))] : [] };
+      } },
+    { id: 'arqueos', g: 'Caja y cobranzas', n: 'Arqueos', fil: ['caja'], clave: 'arqueos contar caja diferencia efectivo',
+      calc(f, p) {
+        const as = DB.arqueos.filter((a) => enPeriodo(a.fecha, p) && (!f.caja || a.cajaId === f.caja)).sort((a, b) => a.fecha < b.fecha ? 1 : -1);
+        const filas = as.map((a) => filaI([a.fecha, nombreDe(caja(a.cajaId)), a.sistema, a.contado, a.diferencia, a.diferencia ? (a.movId ? ['Ajuste cargado', 'b-info'] : ['Sin ajustar', 'b-warn']) : ['Coincide', 'b-ok'], nombreDe(operador(a.operadorId))], ['caja', a.cajaId]));
+        return { kpis: [['ph-scales', 'Arqueos', String(as.length), 'En el período', true], ['ph-warning', 'Con diferencia', String(as.filter((a) => a.diferencia).length), 'Contado distinto del sistema'], ['ph-plus-minus', 'Diferencia total', fmt0(totI(filas, 4)), 'Suma de las diferencias'], ['ph-clock', 'Último', as[0] ? fFecha(as[0].fecha) : 'Sin arqueos', as[0] ? nombreDe(caja(as[0].cajaId)) : '']],
+          tablas: [{ cols: [colI('Fecha', 'fecha'), colI('Caja'), colI('Sistema', 'saldo'), colI('Contado', 'saldo'), colI('Diferencia', 'monto'), colI('Ajuste', 'badge'), colI('Operador')], filas, vacio: 'No hubo arqueos en el período.' }] };
+      } },
+    { id: 'vendedores', g: 'Caja y cobranzas', n: 'Ventas y cobranzas por vendedor', ver: true, fil: ['canal'], clave: 'vendedores ventas cobranzas comisiones mostrador mayorista',
+      calc(f, p) {
+        const vs = ventasFiltradas(f, p);
+        const grupos = DB.vendedores.map((x) => ({ n: [x.nombre, x.baja ? 'Dado de baja' : ''], vs: vs.filter((v) => v.vendedorId === x.id) })).concat([{ n: ['Sin vendedor', 'Tiendas que entran solas'], vs: vs.filter((v) => !v.vendedorId || !vendedor(v.vendedorId)) }]).filter((g) => g.vs.length);
+        const filas = grupos.map((g) => { const r = resumen(g.vs); return filaI([g.n, r.n, r.vendido, r.cobrado, sumaPor(g.vs, saldoVenta), new Set(g.vs.filter((v) => !anulada(v)).map((v) => v.clienteId)).size]); });
+        const conV = filas.filter((r) => r.v[0][0] !== 'Sin vendedor');
+        return { kpis: [['ph-user', 'Vendido con vendedor', fmtM(totI(conV, 2)), plural(conV.length, 'vendedor', 'vendedores'), true], ['ph-hand-coins', 'Cobrado', fmtM(totI(conV, 3)), 'De sus ventas'], ['ph-clock', 'A cobrar', fmtM(totI(conV, 4)), 'Saldo de sus ventas'], ['ph-storefront', 'Sin vendedor', fmtM(totI(filas, 2) - totI(conV, 2)), 'Tiendas']],
+          tablas: [{ cols: [colI('Vendedor'), colI('Ventas', 'n'), colI('Vendido', 'monto'), colI('Cobrado', 'monto'), colI('A cobrar', 'monto'), colI('Clientes', 'n')], filas }],
+          cierres: sinFiltro(f, ['version', 'canal']) ? [cierreI('Cierra con el Panel: vendido del período', resumen(ventasDelPeriodo()).vendido, totI(filas, 2))] : [] };
+      } },
+    { id: 'transito', g: 'Caja y cobranzas', n: 'Plata en tránsito', aHoy: true, fil: ['canal'], modos: [['fecha', 'Por fecha'], ['canal', 'Por canal']], clave: 'plata en transito a liberar a liquidar cheques en cartera tiendas tarjetas',
+      calc(f) {
+        const vs = DB.ventas.filter((v) => esVenta(v) && Math.abs(transitoVenta(v)) > 0.009 && (!f.canal || v.canal === f.canal));
+        const entra = (v) => { const ch = v.cobros.find(enCartera); return estadoAcred(v) === 'Cheque en cartera' && ch ? ch.cheque.vence : v.acred.fecha; };
+        let t;
+        if (f.modo === 'canal') t = { cols: [colI('Canal', 'canal'), colI('Ventas', 'n'), colI('A liberar', 'monto'), colI('A liquidar', 'monto'), colI('Cheques en cartera', 'monto'), colI('Total', 'monto')], filas: DB.canales.map((c) => { const xs = vs.filter((v) => v.canal === c.id), de = (e) => sumaPor(xs.filter((v) => estadoAcred(v) === e), transitoVenta); return filaI([c.id, xs.length, de('A liberar'), de('A liquidar'), de('Cheque en cartera'), sumaPor(xs, transitoVenta)]); }).filter((r) => r.v[1]) };
+        else t = { cols: [colI('Entra el', 'fecha'), colI('Venta', 'mono'), colI('Canal', 'canal'), colI('Estado', 'badge'), colI('Neto', 'monto')], filas: vs.slice().sort((a, b) => entra(a) < entra(b) ? -1 : 1).map((v) => { const e = estadoAcred(v); return filaI([entra(v), String(v.id), v.canal, [e, badgeAcred(e)], transitoVenta(v)], ['venta', v.id]); }) };
+        const total = sumaPor(vs, transitoVenta);
+        return { kpis: [['ph-hourglass-medium', 'En tránsito', fmtM(total), plural(vs.length, 'venta', 'ventas'), true], ['ph-calendar-check', 'Entra en 7 días', fmtM(sumaPor(vs.filter((v) => diasA(entra(v)) <= 7), transitoVenta)), 'Hasta el ' + fFecha(masDias(INI_HOY, 7))], ['ph-money', 'Cheques en cartera', fmtM(sumaPor(vs.filter((v) => estadoAcred(v) === 'Cheque en cartera'), transitoVenta)), 'Para depositar'], ['ph-storefront', 'Tiendas y tarjetas', fmtM(sumaPor(vs.filter((v) => pendienteCanal(v)), transitoVenta)), 'A liberar y a liquidar']],
+          tablas: [t], cierres: f.canal ? [] : [cierreI('Cierra con el Panel, todas las fechas: en tránsito', resumen(DB.ventas).transito, total)] };
+      } },
+    { id: 'conciliacion', g: 'Caja y cobranzas', n: 'Conciliación bancaria', aHoy: true, clave: 'conciliacion bancaria extracto banco diferencia',
+      calc() {
+        const cs = DB.cajas.filter((c) => c.tipo === 'banco' || c.tipo === 'billetera').map((c) => ({ c, s: saldoCaja(c.id) }));
+        const filas = cs.map(({ c, s }) => filaI([[c.nombre, c.fuente], s.saldo, s.fuente, r2(s.fuente - s.saldo), s.conciliado ? ['Conciliado', 'b-ok'] : ['Con diferencia', 'b-bad']], ['caja', c.id]));
+        const faltan = cs.filter(({ c }) => c.difExtracto).map(({ c }) => filaI([masDias(INI_HOY, -1), c.nombre, 'Comisión por mantenimiento de cuenta', c.difExtracto], ['caja', c.id]));
+        return { kpis: [['ph-check-circle', 'Conciliadas', String(cs.filter((x) => x.s.conciliado).length) + ' de ' + cs.length, 'Bancos y billeteras', cs.every((x) => x.s.conciliado)], ['ph-warning', 'Con diferencia', String(cs.filter((x) => !x.s.conciliado).length), 'Revisar el extracto'], ['ph-plus-minus', 'Diferencia', fmt0(totI(filas, 3)), 'Extracto menos sistema'], ['ph-bank', 'Según el sistema', fmtM(totI(filas, 1)), 'Saldo de hoy']],
+          tablas: [{ cols: [colI('Caja'), colI('Según el sistema', 'monto'), colI('Según el extracto', 'monto'), colI('Diferencia', 'monto'), colI('Estado', 'badge')], filas }, { titulo: 'Movimientos del extracto que faltan cargar', cols: [colI('Fecha', 'fecha'), colI('Caja'), colI('Concepto'), colI('Importe', 'monto')], filas: faltan, vacio: 'Todo lo del extracto está cargado.' }],
+          cierres: [cierreI('La diferencia es lo del extracto que falta cargar', totI(faltan, 3), totI(filas, 3))] };
+      } },
+    { id: 'prestamos', g: 'Caja y cobranzas', n: 'Préstamos', aHoy: true, clave: 'prestamos deuda bancaria cuotas adelantos personal',
+      calc() {
+        const ps = DB.cajas.filter((c) => c.tipo === 'prestamo').map((c) => ({ c, i: prestamoInfo(c) }));
+        const filas = ps.map(({ c, i }) => filaI([[c.nombre, (i.recibido ? 'De ' : 'A ') + c.prestamo.contraparte], i.recibido ? ['Recibido', 'b-warn'] : ['Otorgado', 'b-info'], i.capital, i.devuelto, i.falta, c.prestamo.cuotas], ['caja', c.id], i.recibido ? 'recibido' : 'otorgado'));
+        const debe = sumaPor(ps.filter((x) => x.i.recibido), (x) => x.i.falta), nosDeben = sumaPor(ps.filter((x) => !x.i.recibido), (x) => x.i.falta);
+        return { kpis: [['ph-handshake', 'Falta devolver', fmtM(debe), 'Préstamos que nos dieron', true], ['ph-arrow-u-up-left', 'Nos tienen que devolver', fmtM(nosDeben), 'Préstamos que dimos'], ['ph-list', 'Préstamos', String(ps.length), 'Cada uno es una caja'], ['ph-coins', 'Capital', fmtM(sumaPor(ps, (x) => x.i.capital)), 'Total prestado']],
+          tablas: [{ cols: [colI('Préstamo'), colI('Tipo', 'badge'), colI('Capital', 'monto'), colI('Devuelto', 'monto'), colI('Falta', 'monto'), colI('Cuotas', 'n')], filas, agrupar: { orden: ['recibido', 'otorgado'], titulo: (g) => g === 'recibido' ? 'Préstamos recibidos' : 'Préstamos otorgados' }, subtotal: true }],
+          cierres: [cierreI('Cierra con el Panel: préstamos por devolver', prestamosPor('recibido'), debe)] };
+      } },
+
+    { id: 'iva-ventas', g: 'Contables', n: 'Libro de IVA Ventas detallado', contable: true, fil: ['pv'], clave: 'libro iva ventas facturas notas de credito debito puntos de venta',
+      calc(f, p) {
+        /* orden del libro: tipo de comprobante, punto de venta y número */
+        const cs = comprobantesVenta(p, f.pv).sort((a, b) => (ORDEN_COMP.indexOf(a.tipo) - ORDEN_COMP.indexOf(b.tipo)) || (a.pv < b.pv ? -1 : a.pv > b.pv ? 1 : 0) || (a.nro < b.nro ? -1 : a.nro > b.nro ? 1 : 0));
+        const filas = cs.map((x) => filaI([x.fecha, x.tipo.slice(-1) + ' ' + x.pv + '-' + x.nro, x.tipo, x.pv, x.nro, [x.cliente.nombre, x.cliente.doc], x.cliente.nombre, x.cliente.doc, x.neto, x.exento, x.iva21, x.iva105, x.percIva, x.percIibb, x.total], ['venta', x.v.id], x.tipo));
+        const TIT = { 'Factura A': 'Facturas A', 'Nota de débito A': 'Notas de débito A', 'Nota de crédito A': 'Notas de crédito A (restan)', 'Factura B': 'Facturas B', 'Nota de débito B': 'Notas de débito B', 'Nota de crédito B': 'Notas de crédito B (restan)' };
+        const total = totI(filas, 14), cr = cruceLibroPanel(p, f.pv);
+        const tablas = [{ tarjeta: 'libro', cols: [colI('Fecha', 'fecha', { rol: 'fecha' }), colI('Comprobante', 'mono', { soloPantalla: true, rol: 'comp' }), colI('Tipo', 'txt', { soloExcel: true }), colI('Punto de venta', 'mono', { soloExcel: true }), colI('Número', 'mono', { soloExcel: true }), colI('Cliente y CUIT', 'txt', { soloPantalla: true, rol: 'cli' }), colI('Razón social', 'txt', { soloExcel: true }), colI('CUIT o DNI', 'mono', { soloExcel: true }),
+          colI('Neto gravado', 'monto'), colI('Exento', 'monto', { ayuda: 'Exento y no gravado: depósito en garantía por pallets' }), colI('IVA 21%', 'monto'), colI('IVA 10,5%', 'monto'), colI('Perc. IVA', 'monto', { ayuda: 'Percepciones de IVA' }), colI('Perc. IIBB', 'monto', { ayuda: 'Percepciones de Ingresos Brutos' }), colI('Total', 'monto', { rol: 'total' })], filas, agrupar: { orden: ORDEN_COMP, titulo: (g) => TIT[g] || g } }];
+        const cierres = [cierreI('Cierra con el Panel: ventas oficiales del período' + (cr.ncOtro ? ', más notas de crédito de ventas de otro período' : ''), cr.libro, total)];
+        if (!f.pv) {
+          const porPv = DB.puntosVenta.map((pv) => { const xs = comprobantesVenta(p, pv.nro); return filaI([pv.nro, pv.nombre, xs.length, sumaPor(xs, (x) => x.neto), sumaPor(xs, (x) => x.iva), sumaPor(xs, (x) => x.tributos), sumaPor(xs, (x) => x.total)], ['ir', 'informe/iva-ventas?pv=' + pv.nro]); }).filter((r) => r.v[2]);
+          tablas.push({ titulo: 'Por punto de venta', cols: [colI('Punto de venta', 'mono'), colI('Nombre'), colI('Comprobantes', 'n'), colI('Neto gravado', 'monto'), colI('IVA', 'monto'), colI('Percepciones', 'monto'), colI('Total', 'monto')], filas: porPv });
+          cierres.push(cierreI('Todos los puntos de venta juntos dan la suma de cada uno', totI(porPv, 6), total));
+        }
+        return { kpis: [['ph-scales', 'Neto gravado', fmtM(totI(filas, 8)), plural(cs.length, 'comprobante', 'comprobantes')], ['ph-percent', 'IVA débito fiscal', fmtM(r2(totI(filas, 10) + totI(filas, 11))), '21% y 10,5%', true], ['ph-receipt', 'Percepciones', fmtM(r2(totI(filas, 12) + totI(filas, 13))), 'IVA ' + fmtM(totI(filas, 12)) + ' · IIBB ' + fmtM(totI(filas, 13))], ['ph-coins', 'Total', fmtM(total), f.pv ? 'Punto de venta ' + f.pv : 'Todos los puntos de venta']], tablas, cierres };
+      } },
+    { id: 'iva-compras', g: 'Contables', n: 'Libro de IVA Compras detallado', contable: true, clave: 'libro iva compras credito fiscal percepciones no gravado',
+      calc(f, p) {
+        const cc = comprobantesCompra(p, true);
+        const filas = cc.map((x) => filaI([x.fecha, x.m.comp.replace(/^Factura /, '').replace(/^Nota de crédito /, 'NC '), x.m.tipoComp, x.m.pv, x.m.nro, [x.prov.nombre, x.prov.cuit], x.prov.nombre, x.prov.cuit, x.m.neto, x.m.noGravado, x.m.iva, x.m.alic, x.percIva, x.percIibb, x.m.monto], ['proveedor', x.prov.id]));
+        return { kpis: [['ph-scales', 'Neto gravado', fmtM(totI(filas, 8)), plural(cc.length, 'comprobante', 'comprobantes')], ['ph-percent', 'IVA crédito fiscal', fmtM(totI(filas, 10)), '21%, 10,5% y 27%', true], ['ph-receipt', 'Percepciones', fmtM(r2(totI(filas, 12) + totI(filas, 13))), 'De IVA e Ingresos Brutos'], ['ph-coins', 'Total', fmtM(totI(filas, 14)), 'Facturas de compra']],
+          tablas: [{ tarjeta: 'libro', cols: [colI('Fecha', 'fecha', { rol: 'fecha' }), colI('Comprobante', 'mono', { soloPantalla: true, rol: 'comp' }), colI('Tipo', 'txt', { soloExcel: true }), colI('Punto de venta', 'mono', { soloExcel: true }), colI('Número', 'mono', { soloExcel: true }), colI('Proveedor y CUIT', 'txt', { soloPantalla: true, rol: 'cli' }), colI('Razón social', 'txt', { soloExcel: true }), colI('CUIT', 'mono', { soloExcel: true }), colI('Neto gravado', 'monto'), colI('No gravado', 'monto', { ayuda: 'No gravado y exento' }), colI('IVA', 'monto'), colI('Alíc.', 'pct', { ayuda: 'Alícuota de IVA' }), colI('Perc. IVA', 'monto'), colI('Perc. IIBB', 'monto'), colI('Total', 'monto', { rol: 'total' })], filas }] };
+      } },
+    { id: 'posicion-iva', g: 'Contables', n: 'Posición de IVA del mes', contable: true, clave: 'posicion iva debito credito fiscal saldo declaracion jurada',
+      nota: 'Para la declaración jurada, elegí el mes completo en el calendario.',
+      calc(f, p) {
+        const cv = comprobantesVenta(p), cc = comprobantesCompra(p, true);
+        const pos = cv.filter((x) => x.signo > 0), neg = cv.filter((x) => x.signo < 0), conPerc = cc.filter((x) => x.percIva);
+        const deb = sumaPor(pos, (x) => x.iva), nc = sumaPor(neg, (x) => x.iva), cred = sumaPor(cc, (x) => x.m.iva), perc = sumaPor(cc, (x) => x.percIva);
+        const filas = [filaI([['Facturas y notas de débito', 'IVA de las ventas'], pos.length, deb], ['ir', 'informe/iva-ventas'], 'debito'), filaI([['Notas de crédito', 'Restan'], neg.length, nc], null, 'debito'),
+          filaI([['Facturas de compra', 'IVA de las compras'], cc.length, -cred], ['ir', 'informe/iva-compras'], 'credito'),
+          filaI([['Percepciones de IVA sufridas', 'Las que nos cobraron los proveedores'], conPerc.length, -perc], ['ir', 'informe/perc-proveedores'], 'pagos'), filaI([['Retenciones de IVA sufridas', 'Ninguna en el período'], 0, 0], null, 'pagos')];
+        const saldo = totI(filas, 2);
+        const alics = [21, 10.5, 27].map((a) => { const d = sumaPor(cv, (x) => sumaPor(x.alicuotas.filter((y) => y.alic === a), (y) => y.iva)), c = sumaPor(cc.filter((x) => x.m.alic === a), (x) => x.m.iva); return filaI([fPct(a), d, c, r2(d - c)]); }).filter((r) => r.v[1] || r.v[2]);
+        return { kpis: [['ph-arrow-up-right', 'Débito fiscal', fmtM(r2(deb + nc)), 'Ventas menos notas de crédito'], ['ph-arrow-down-left', 'Crédito fiscal', fmtM(cred), plural(cc.length, 'factura de compra', 'facturas de compra')], ['ph-receipt-x', 'Percepciones de IVA', fmtM(perc), 'A cuenta del impuesto'], ['ph-scales', saldo >= 0 ? 'Saldo a pagar' : 'Saldo a favor', fmtM(Math.abs(saldo)), p.fechas, true]],
+          tablas: [{ cols: [colI('Concepto'), colI('Comprobantes', 'n'), colI('Importe', 'monto')], filas, agrupar: { orden: ['debito', 'credito', 'pagos'], titulo: (g) => ({ debito: 'Débito fiscal', credito: 'Crédito fiscal', pagos: 'Percepciones y retenciones sufridas' }[g]) }, totalTxt: saldo >= 0 ? 'Saldo a pagar' : 'Saldo a favor' },
+            { titulo: 'Por alícuota', cols: [colI('Alícuota'), colI('Débito', 'monto'), colI('Crédito', 'monto'), colI('Diferencia', 'monto')], filas: alics }],
+          cierres: [cierreI('El débito fiscal es el IVA del Libro de IVA Ventas', r2(deb + nc), sumaPor(cv, (x) => x.iva21 + x.iva105))] };
+      } },
+    { id: 'libro-excel', g: 'Contables', n: 'Libro de compras y ventas a Excel', contable: true, modos: [['ventas', 'Ventas'], ['compras', 'Compras']], clave: 'libro compras ventas excel exportar',
+      nota: 'Pensado para bajar a Excel: un renglón por comprobante, con todas sus columnas.',
+      calc(f, p) {
+        const perc = (x, imp) => sumaPor(x.percepciones.filter((q) => q.imp === imp), (q) => q.monto);
+        if (f.modo === 'compras') {
+          const cc = comprobantesCompra(p);
+          const filas = cc.map((x) => filaI([x.fecha, x.m.comp.replace(/^Factura /, '').replace(/^Nota de crédito /, 'NC ').replace(/^Liquidación /, 'Liq. ').replace(/^Obligación /, 'Oblig. '), x.m.tipoComp, x.m.pv || '', x.m.nro || '', [x.prov.nombre, x.prov.cuit || ''], x.prov.nombre, x.prov.cuit || 'No aplica', x.prov.jurisdiccion || '', x.m.neto, x.m.noGravado, x.m.iva, x.percIva, x.percIibb, x.m.monto], ['proveedor', x.prov.id]));
+          return { kpis: [['ph-files', 'Comprobantes', String(cc.length), 'De compra', true], ['ph-scales', 'Neto gravado', fmtM(totI(filas, 9)), 'Con IVA'], ['ph-percent', 'IVA', fmtM(totI(filas, 11)), 'Crédito fiscal'], ['ph-coins', 'Total', fmtM(totI(filas, 14)), 'Facturas y gastos']],
+            tablas: [{ tarjeta: 'libro', cols: [colI('Fecha', 'fecha', { rol: 'fecha' }), colI('Comprobante', 'mono', { soloPantalla: true, rol: 'comp' }), colI('Tipo', 'txt', { soloExcel: true }), colI('Punto de venta', 'mono', { soloExcel: true }), colI('Número', 'mono', { soloExcel: true }), colI('Proveedor', 'txt', { soloPantalla: true, rol: 'cli' }), colI('Razón social', 'txt', { soloExcel: true }), colI('CUIT', 'mono', { soloExcel: true }), colI('Jurisdicción', 'txt', { soloExcel: true }), colI('Neto gravado', 'monto'), colI('No gravado', 'monto'), colI('IVA', 'monto'), colI('Perc. IVA', 'monto'), colI('Perc. IIBB', 'monto'), colI('Total', 'monto', { rol: 'total' })], filas }] };
+        }
+        const cv = comprobantesVenta(p);
+        const filas = cv.map((x) => filaI([x.fecha, x.tipo.slice(-1) + ' ' + x.pv + '-' + x.nro, x.tipo, x.pv, x.nro, [x.cliente.nombre, x.cliente.doc], x.cliente.nombre, x.cliente.doc, x.cliente.iva, x.cliente.jurisdiccion || '', x.neto, x.exento, x.iva21, x.iva105, x.tributos, perc(x, 'IIBB Buenos Aires'), perc(x, 'IIBB CABA'), perc(x, 'IVA'), x.total], ['venta', x.v.id]));
+        return { kpis: [['ph-files', 'Comprobantes', String(cv.length), 'De venta, solo Oficial', true], ['ph-scales', 'Neto gravado', fmtM(totI(filas, 10)), 'Notas de crédito restadas'], ['ph-percent', 'IVA', fmtM(r2(totI(filas, 12) + totI(filas, 13))), 'Débito fiscal'], ['ph-coins', 'Total', fmtM(totI(filas, 18)), 'Igual al Libro de IVA Ventas']],
+          tablas: [{ tarjeta: 'libro', cols: [colI('Fecha', 'fecha', { rol: 'fecha' }), colI('Comprobante', 'mono', { soloPantalla: true, rol: 'comp' }), colI('Tipo', 'txt', { soloExcel: true }), colI('Punto de venta', 'mono', { soloExcel: true }), colI('Número', 'mono', { soloExcel: true }), colI('Cliente', 'txt', { soloPantalla: true, rol: 'cli' }), colI('Razón social', 'txt', { soloExcel: true }), colI('CUIT o DNI', 'mono', { soloExcel: true }), colI('Condición IVA', 'txt', { soloExcel: true }), colI('Jurisdicción', 'txt', { soloExcel: true }), colI('Neto gravado', 'monto'), colI('Exento', 'monto'), colI('IVA 21%', 'monto'), colI('IVA 10,5%', 'monto'), colI('Percepciones', 'monto', { soloPantalla: true }), colI('Perc. IIBB Bs. As.', 'monto', { soloExcel: true }), colI('Perc. IIBB CABA', 'monto', { soloExcel: true }), colI('Perc. IVA', 'monto', { soloExcel: true }), colI('Total', 'monto', { rol: 'total' })], filas }] };
+      } },
+    infIIBB('arba', 'Percepciones y retenciones de Buenos Aires', 'IIBB Buenos Aires', 'ARBA'),
+    infIIBB('agip', 'Percepciones y retenciones de CABA', 'IIBB CABA', 'AGIP'),
+    { id: 'sufridas', g: 'Contables', n: 'Retenciones y percepciones sufridas', contable: true, archivo: true, modos: [['todas', 'Todas'], ['retenciones', 'Retenciones'], ['percepciones', 'Percepciones']], clave: 'retenciones percepciones sufridas deducciones sifere a favor',
+      calc(f, p) {
+        const rets = f.modo === 'percepciones' ? [] : retencionesSufridas(p).map((r) => ({ fecha: r.fecha, g: 'Retenciones de Ingresos Brutos', jur: r.jur, agente: r.agente, cuit: r.cuit, comp: compTxt(r.v), monto: r.monto, ir: ['venta', r.v.id], iibb: true }));
+        const percs = f.modo === 'retenciones' ? [] : comprobantesCompra(p).flatMap((x) => (x.m.perc || []).filter((q) => q.monto > 0).map((q) => ({ fecha: x.fecha, g: q.imp === 'IVA' ? 'Percepciones de IVA' : 'Percepciones de Ingresos Brutos', jur: q.imp === 'IVA' ? 'Nacional' : q.imp.replace('IIBB ', ''), agente: x.prov.nombre, cuit: x.prov.cuit, comp: x.m.comp, monto: q.monto, ir: ['proveedor', x.prov.id], iibb: q.imp !== 'IVA' })));
+        const xs = rets.concat(percs).sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+        const filas = xs.map((x) => filaI([x.fecha, x.jur, [x.agente], x.cuit, x.comp, x.monto], x.ir, x.g));
+        const de = (g) => sumaPor(xs.filter((x) => x.g === g), (x) => x.monto);
+        const lineas = xs.filter((x) => x.iibb && COD_JUR[x.jur]).map((x) => COD_JUR[x.jur] + x.cuit + fechaBarra(x.fecha) + (x.g.startsWith('Retenciones') ? '0001' + ceros(x.comp, 16) : ceros(x.comp.slice(-13, -9), 4) + ceros(x.comp, 16)) + 'F' + 'A' + ceros(x.comp, 20) + importeComa(x.monto, 11));
+        const cj = DB.cajas.find((c) => c.tipo === 'retenciones');
+        return { kpis: [['ph-receipt-x', 'Retenciones', fmtM(de('Retenciones de Ingresos Brutos')), 'Que nos hicieron al cobrar', true], ['ph-receipt', 'Percepciones de IIBB', fmtM(de('Percepciones de Ingresos Brutos')), 'De las compras'], ['ph-percent', 'Percepciones de IVA', fmtM(de('Percepciones de IVA')), 'A cuenta del IVA'], ['ph-coins', 'Total a favor', fmtM(totI(filas, 5)), plural(xs.length, 'comprobante', 'comprobantes')]],
+          tablas: [{ cols: [colI('Fecha', 'fecha'), colI('Jurisdicción'), colI('Agente'), colI('CUIT', 'mono'), colI('Comprobante', 'mono'), colI('Importe', 'monto')], filas, agrupar: { orden: ['Retenciones de Ingresos Brutos', 'Percepciones de Ingresos Brutos', 'Percepciones de IVA'] } }],
+          archivo: { nombre: 'SIFERE-' + CUIT_EMPRESA.replace(/\D/g, '') + '-' + aaaamm(p) + '.txt', lineas },
+          cierres: f.modo !== 'percepciones' && cj ? [cierreI('Cierra con la caja Retenciones: lo que entró en el período', sumaPor(movimientosCaja(cj.id).filter((m) => m.ventaId && enPeriodo(m.fecha, p)), (m) => m.monto), de('Retenciones de Ingresos Brutos'))] : [] };
+      } },
+    { id: 'jurisdiccion', g: 'Contables', n: 'Ventas por jurisdicción (Convenio Multilateral)', contable: true, archivo: true, clave: 'ventas por jurisdiccion convenio multilateral cm05 sifere coeficientes provincias',
+      calc(f, p) {
+        const cv = comprobantesVenta(p), g = {};
+        cv.forEach((x) => { const j = x.cliente.jurisdiccion || 'Buenos Aires'; (g[j] || (g[j] = [])).push(x); });
+        const tot = sumaPor(cv, (x) => x.neto);
+        const filas = Object.keys(g).map((j) => filaI([j, COD_JUR[j] || '', g[j].length, sumaPor(g[j], (x) => x.neto), pctDe(sumaPor(g[j], (x) => x.neto), tot)])).sort((a, b) => b.v[3] - a.v[3]);
+        const lineas = filas.map((r) => (r.v[1] || '000') + ';' + textoFijo(r.v[0], 20).trim() + ';' + importeComa(r.v[3], 15) + ';' + (tot ? (r.v[3] / tot).toFixed(4).replace('.', ',') : '0,0000'));
+        return { kpis: [['ph-scales', 'Neto gravado', fmtM(tot), plural(cv.length, 'comprobante', 'comprobantes'), true], ['ph-map-trifold', 'Jurisdicciones', String(filas.length), 'Con ventas en el período'], ['ph-crown', 'La de más ventas', filas[0] ? fPct(filas[0].v[4]) : 'Sin ventas', filas[0] ? filas[0].v[0] : ''], ['ph-file-arrow-down', 'Archivo', plural(lineas.length, 'línea', 'líneas'), 'Base imponible por jurisdicción']],
+          tablas: [{ cols: [colI('Jurisdicción'), colI('Código', 'mono'), colI('Comprobantes', 'n'), colI('Neto gravado', 'monto'), colI('Participación', 'pct', { total: (rows) => rows.length ? pctDe(totI(rows, 3), tot) : null })], filas }],
+          archivo: { nombre: 'VENTAS-JURISDICCION-' + aaaamm(p) + '.txt', lineas }, nota: 'Por la jurisdicción del cliente. Las notas de crédito restan.' };
+      } },
+    { id: 'perc-proveedores', g: 'Contables', n: 'Percepciones de proveedores', contable: true, clave: 'percepciones de proveedores compras iibb iva exportar',
+      calc(f, p) {
+        const cc = comprobantesCompra(p);
+        const xs = cc.flatMap((x) => (x.m.perc || []).filter((q) => q.monto > 0).map((q) => ({ x, q })));
+        const filas = xs.map(({ x, q }) => filaI([x.fecha, [x.prov.nombre, x.prov.rubro], x.prov.cuit, x.m.comp, q.imp === 'IVA' ? 'Nacional' : q.imp.replace('IIBB ', ''), q.monto], ['proveedor', x.prov.id], q.imp === 'IVA' ? 'Percepciones de IVA' : 'Percepciones de Ingresos Brutos'));
+        const de = (g) => sumaPor(filas.filter((r) => r.g === g), (r) => r.v[5]);
+        return { kpis: [['ph-receipt', 'Percepciones', fmtM(totI(filas, 5)), plural(new Set(xs.map((y) => y.x.m.id)).size, 'factura', 'facturas'), true], ['ph-percent', 'De IVA', fmtM(de('Percepciones de IVA')), 'A cuenta del IVA'], ['ph-map-pin', 'De Ingresos Brutos', fmtM(de('Percepciones de Ingresos Brutos')), 'Buenos Aires y CABA'], ['ph-truck', 'Proveedores', String(new Set(xs.map((y) => y.x.prov.id)).size), 'Que nos percibieron']],
+          tablas: [{ cols: [colI('Fecha', 'fecha'), colI('Proveedor'), colI('CUIT', 'mono'), colI('Comprobante', 'mono'), colI('Jurisdicción'), colI('Importe', 'monto')], filas, agrupar: {} }],
+          cierres: [cierreI('Cierra con el Libro de IVA Compras: percepciones', sumaPor(comprobantesCompra(p, true), (x) => x.perc), totI(filas, 5))] };
+      } },
+    { id: 'sicore', g: 'Contables', n: 'SICORE: percepciones de IVA y retenciones', contable: true, archivo: true, modos: [['todo', 'Todo'], ['retenciones', 'Retenciones de Ganancias'], ['percepciones', 'Percepciones de IVA']], clave: 'sicore ganancias iva archivo retenciones percepciones',
+      calc(f, p) {
+        const rets = f.modo === 'percepciones' ? [] : retencionesPracticadas(p).filter((r) => r.imp === 'Ganancias').map((r) => ({ fecha: r.fecha, g: '217 · Ganancias', comp: 'OP ' + r.op, nro: r.op, cod: '06', sujeto: r.prov.nombre, cuit: r.prov.cuit, reg: '078', base: r.base, monto: r.monto, total: r.base, op: '1', ir: ['proveedor', r.prov.id] }));
+        const percs = f.modo === 'retenciones' ? [] : comprobantesVenta(p).flatMap((x) => x.percepciones.filter((q) => q.imp === 'IVA' && q.monto).map((q) => ({ fecha: x.fecha, g: '767 · IVA', comp: x.comp, nro: x.pv + x.nro, cod: x.signo < 0 ? '03' : '01', sujeto: x.cliente.nombre, cuit: x.cliente.doc, reg: '493', base: x.neto, monto: q.monto, total: x.total, op: '2', ir: ['venta', x.v.id] })));
+        const xs = rets.concat(percs).sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+        const filas = xs.map((x) => filaI([x.fecha, x.comp, [x.sujeto], x.cuit, x.reg, x.base, x.monto], x.ir, x.g));
+        const lineas = xs.map((x) => x.cod + fechaBarra(x.fecha) + ceros(x.nro, 16) + importeComa(x.total, 16) + x.g.slice(0, 3) + x.reg + x.op + importeComa(x.base, 14) + fechaBarra(x.fecha) + '01' + '0' + importeComa(x.monto, 14) + '000,00' + ' '.repeat(10) + '80' + ceros(x.cuit, 20) + ceros('', 14));
+        const de = (g) => sumaPor(xs.filter((x) => x.g === g), (x) => x.monto);
+        return { kpis: [['ph-receipt-x', 'Retenciones de Ganancias', fmtM(de('217 · Ganancias')), 'Practicadas al pagar'], ['ph-percent', 'Percepciones de IVA', fmtM(de('767 · IVA')), 'Practicadas al facturar'], ['ph-coins', 'Total a depositar', fmtM(totI(filas, 6)), plural(xs.length, 'comprobante', 'comprobantes'), true], ['ph-file-arrow-down', 'Archivo', plural(lineas.length, 'línea', 'líneas'), 'Para importar en SICORE']],
+          tablas: [{ cols: [colI('Fecha', 'fecha'), colI('Comprobante', 'mono'), colI('Sujeto'), colI('CUIT', 'mono'), colI('Régimen', 'mono'), colI('Base imponible', 'monto'), colI('Importe', 'monto')], filas, agrupar: { orden: ['217 · Ganancias', '767 · IVA'], titulo: (g) => 'Impuesto ' + g } }],
+          archivo: { nombre: 'SICORE-' + CUIT_EMPRESA.replace(/\D/g, '') + '-' + aaaamm(p) + '.txt', lineas } };
+      } },
+    { id: 'iva-digital', g: 'Contables', n: 'Libro de IVA Digital', contable: true, archivo: true, modos: [['ventas', 'Ventas'], ['compras', 'Compras']], clave: 'libro iva digital citi archivo ventas compras',
+      calc(f, p) {
+        let filas, lineas, nombre;
+        if (f.modo === 'compras') {
+          const cc = comprobantesCompra(p, true);
+          filas = cc.map((x) => filaI([x.fecha, x.signo < 0 ? '003' : '001', x.m.comp.replace(/^Factura /, '').replace(/^Nota de crédito /, 'NC '), [x.prov.nombre, x.prov.cuit], x.prov.cuit, x.m.neto, x.m.iva, r2(x.perc + x.m.noGravado), x.m.monto], ['proveedor', x.prov.id]));
+          lineas = cc.map((x) => fechaAMD(x.fecha) + (x.signo < 0 ? '003' : '001') + ceros(x.m.pv, 5) + ceros(x.m.nro, 20) + ' '.repeat(16) + '80' + ceros(x.prov.cuit, 20) + textoFijo(x.prov.nombre, 30) + importeCent(x.m.monto, 15) + importeCent(x.m.noGravado, 15) + importeCent(0, 15) + importeCent(x.percIva, 15) + importeCent(0, 15) + importeCent(x.percIibb, 15) + importeCent(0, 15) + importeCent(0, 15) + 'PES' + '0001000000' + '1' + '0' + importeCent(x.m.iva, 15) + importeCent(0, 15) + ceros('', 11) + ' '.repeat(30) + importeCent(0, 15));
+          nombre = 'LIBRO_IVA_DIGITAL_COMPRAS_CBTE_' + aaaamm(p) + '.txt';
+        } else {
+          const cv = comprobantesVenta(p);
+          filas = cv.map((x) => filaI([x.fecha, COD_CBTE[x.tipo] || '', x.tipo.slice(-1) + ' ' + x.pv + '-' + x.nro, [x.cliente.nombre, x.cliente.doc], x.cliente.doc, x.neto, x.iva, x.tributos, x.total], ['venta', x.v.id]));
+          const perc = (x, iva) => Math.abs(sumaPor(x.percepciones.filter((q) => (q.imp === 'IVA') === iva), (q) => q.monto));
+          lineas = cv.map((x) => fechaAMD(x.fecha) + (COD_CBTE[x.tipo] || '000') + ceros(x.pv, 5) + ceros(x.nro, 20) + ceros(x.nro, 20) + docCod(x.cliente.doc) + ceros(x.cliente.doc, 20) + textoFijo(x.cliente.nombre, 30) + importeCent(x.total, 15) + importeCent(0, 15) + importeCent(0, 15) + importeCent(Math.abs(x.exento), 15) + importeCent(perc(x, true), 15) + importeCent(perc(x, false), 15) + importeCent(0, 15) + importeCent(0, 15) + 'PES' + '0001000000' + x.alicuotas.length + '0' + importeCent(0, 15) + '00000000');
+          nombre = 'LIBRO_IVA_DIGITAL_VENTAS_CBTE_' + aaaamm(p) + '.txt';
+        }
+        return { kpis: [['ph-files', 'Comprobantes', String(filas.length), f.modo === 'compras' ? 'De compra' : 'De venta, solo Oficial', true], ['ph-scales', 'Neto gravado', fmtM(totI(filas, 5)), 'Notas de crédito restadas'], ['ph-percent', 'IVA', fmtM(totI(filas, 6)), f.modo === 'compras' ? 'Crédito fiscal' : 'Débito fiscal'], ['ph-file-arrow-down', 'Archivo', plural(lineas.length, 'línea', 'líneas'), f.modo === 'compras' ? 'Comprobantes de compra' : 'Comprobantes de venta']],
+          tablas: [{ tarjeta: 'libro', cols: [colI('Fecha', 'fecha', { rol: 'fecha' }), colI('Código', 'mono'), colI('Comprobante', 'mono', { rol: 'comp' }), colI(f.modo === 'compras' ? 'Proveedor y CUIT' : 'Cliente y CUIT', 'txt', { rol: 'cli' }), colI('CUIT o DNI', 'mono', { soloExcel: true }), colI('Neto gravado', 'monto'), colI('IVA', 'monto'), colI('Otros tributos', 'monto'), colI('Total', 'monto', { rol: 'total' })], filas }],
+          archivo: { nombre, lineas } };
+      } },
+    { id: 'padron', g: 'Contables', n: 'Padrón de alícuotas', contable: true, aHoy: true, modos: [['todos', 'Todos'], ['clientes', 'Clientes'], ['proveedores', 'Proveedores']], busqueda: 'Buscá por CUIT o razón social', clave: 'padron arba agip alicuotas cuit consulta percepcion retencion',
+      nota: 'En el sistema real el padrón de ARBA y AGIP se actualiza solo cada mes. Acá, las alícuotas de la base de ejemplo.',
+      calc(f) {
+        const alic = (arr, imp) => { const x = arr.find((y) => y.imp === imp); return x ? x.alic : null; };
+        const clis = f.modo === 'proveedores' ? [] : DB.clientes.filter((c) => String(c.doc).includes('-')).map((c) => filaI([c.doc, [c.nombre, c.localidad], 'Cliente', c.jurisdiccion || '', alic(c.percepciones, 'IIBB Buenos Aires'), alic(c.percepciones, 'IIBB CABA'), alic(c.percepciones, 'IVA'), null, null], ['cliente', c.id]));
+        const provs = f.modo === 'clientes' ? [] : DB.proveedores.filter((x) => x.cuit).map((x) => { const r = REGLAS.retencionesPago(x, 100); return filaI([x.cuit, [x.nombre, x.rubro], 'Proveedor', x.jurisdiccion || '', null, null, null, alic(r, 'IIBB ' + x.jurisdiccion) || (r.find((y) => y.imp.startsWith('IIBB')) || {}).alic || null, alic(r, 'Ganancias')], ['proveedor', x.id]); });
+        const filas = clis.concat(provs);
+        return { kpis: [['ph-identification-card', 'CUIT en la base', String(filas.length), 'Clientes y proveedores', true], ['ph-receipt', 'Con percepción', String(clis.filter((r) => r.v[4] || r.v[5] || r.v[6]).length), 'Clientes a los que les percibimos'], ['ph-receipt-x', 'Con retención', String(provs.filter((r) => r.v[7] || r.v[8]).length), 'Proveedores a los que les retenemos'], ['ph-cloud-arrow-down', 'Padrón', 'Al ' + fFecha(HOY), 'Consulta simulada']],
+          tablas: [{ cols: [colI('CUIT', 'mono'), colI('Razón social'), colI('Es'), colI('Jurisdicción'), colI('Perc. IIBB Bs. As.', 'pct'), colI('Perc. IIBB CABA', 'pct'), colI('Perc. IVA', 'pct'), colI('Ret. IIBB', 'pct'), colI('Ret. Ganancias', 'pct')], filas }] };
+      } }
   ];
+  const INF = {}; INFS.forEach((d) => { INF[d.id] = d; });
+
+  /* ---------- el motor: filtros, cálculo, búsqueda y totales ---------- */
+  const filtrosDe = (def) => (def.ver ? ['version'] : []).concat(def.fil || []);
+  const opcionesFiltro = (def, k, actual) => { const o = FILTROS[k].ops(actual); return (def.oblig || []).includes(k) ? o.filter((x) => x[0] !== '') : o; };
+  /* Los filtros salen de la dirección (o de un objeto, en las pruebas). Un valor que no está entre las opciones se ignora. */
+  function filtrosInforme(def, params) {
+    const get = (k) => { if (!params) return null; const x = typeof params.get === 'function' ? params.get(k) : params[k]; return x == null ? null : String(x); };
+    const f = { q: get('q') || '' };
+    if (def.modos) { const m = get('modo'); f.modo = def.modos.some((x) => x[0] === m) ? m : def.modos[0][0]; }
+    filtrosDe(def).forEach((k) => { const x = get(k), o = opcionesFiltro(def, k, x); f[k] = o.some((y) => y[0] === x) ? x : (o[0] || [''])[0]; });
+    return f;
+  }
+  const sumaCol = (c) => c.suma != null ? c.suma : c.tipo === 'monto';
+  function textoCelda(c, x) {
+    if (x == null || x === '') return '';
+    if (c.tipo === 'fecha') return fFecha(x);
+    if (c.tipo === 'canal') return nombreDe(canal(x), x);
+    if (c.tipo === 'badge') return x[0];
+    if (Array.isArray(x)) return x.filter((y) => y !== '' && y != null).join(' · ');
+    return x;
+  }
+  function prepararTabla(t, q) {
+    const vis = q ? t.filas.filter((r) => coincide(t.cols.map((c, i) => textoCelda(c, r.v[i])).join(' '), q)) : t.filas;
+    const sumar = (rows) => t.cols.map((c, i) => c.total ? c.total(rows) : sumaCol(c) ? totI(rows, i) : null);
+    return Object.assign({}, t, { vis, tot: sumar(vis), sumar });
+  }
+  /* Calcula un informe con sus filtros: la misma cuenta para la pantalla, el Excel y las pruebas. */
+  function calcularInforme(id, params) {
+    const def = INF[id];
+    if (!def || !def.calc) return null;
+    const f = filtrosInforme(def, params), p = periodo();
+    const R = def.calc(f, p) || {};
+    const q = sinAcentos(f.q.trim());
+    R.f = f; R.def = def; R.p = p;
+    R.kpis = R.kpis || [];
+    R.tablas = (R.tablas || []).map((t) => prepararTabla(t, q));
+    R.cierres = q ? [] : (R.cierres || []);
+    if (q && R.tablas[0]) R.kpis = kpisDeBusqueda(R.tablas[0], f.q.trim());
+    return R;
+  }
+  /* Con una búsqueda, los indicadores se rehacen con los renglones que quedan: la cantidad y hasta tres totales de la tabla.
+     Cada uno guarda su valor y su columna (x[5] y x[6]) para poder comprobarlo. */
+  function kpisDeBusqueda(t, q) {
+    const cols = t.cols.map((c, i) => i).filter((i) => !t.cols[i].soloExcel && !t.cols[i].total && t.tot[i] != null && t.cols[i].tipo === 'monto');
+    const conValor = cols.filter((i) => t.tot[i]);
+    const elegidas = Array.from(new Set((conValor.length ? [conValor[0], conValor[Math.floor(conValor.length / 2)], conValor[conValor.length - 1]] : cols.slice(0, 1)).filter((i) => i != null)));
+    return [['ph-magnifying-glass', 'Renglones', t.vis.length + ' de ' + t.filas.length, 'Con la búsqueda "' + q + '"', true, t.vis.length, null]]
+      .concat(elegidas.map((i) => ['ph-sigma', t.cols[i].t, fmtM(t.tot[i]), 'De los renglones que se ven', false, t.tot[i], i]));
+  }
+
+  /* ---------- dibujo ---------- */
+  const ES_NUM = { monto: 1, precio: 1, saldo: 1, cant: 1, n: 1, pct: 1 };
+  /* Las tablas anchas (8 columnas o más) van más densas y sin el signo $ en cada celda. */
+  const fmtSin = (n) => Number(n || 0).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  function celdaInf(c, x, th, densa) {
+    const vacio = x == null || x === '';
+    const cls = [ES_NUM[c.tipo] ? 'num' : '', c.tipo === 'mono' ? 'mono' : '', !ES_NUM[c.tipo] && !['mono', 'canal', 'badge', 'fecha'].includes(c.tipo) && (c.corta || densa) ? 'trunc' : '', c.rol ? 'r-' + c.rol : '', th && c.total ? 'propio' : '', !vacio && ES_NUM[c.tipo] && c.tipo !== 'n' && c.tipo !== 'pct' && Math.abs(Number(x)) < 0.005 ? 'cero' : ''].filter(Boolean).join(' ');
+    const ab = '<td' + (th ? ' data-th="' + esc(th) + '"' : '') + (cls ? ' class="' + cls + '"' : '') + '>';
+    if (vacio) return ab + '</td>';
+    const dos = (y) => Array.isArray(y) ? esc(y[0]) + (y[1] ? '<span class="sec">' + esc(y[1]) + '</span>' : '') : esc(y);
+    switch (c.tipo) {
+      case 'monto': case 'precio': case 'saldo': return ab + (densa ? fmtSin(x) : fmt(x)) + '</td>';
+      case 'cant': return ab + fCant(x) + '</td>';
+      case 'n': return ab + esc(x) + '</td>';
+      case 'pct': return ab + fPct(x) + '</td>';
+      case 'fecha': return ab + fFecha(x) + '</td>';
+      case 'canal': return ab + chipCanal(x) + '</td>';
+      case 'badge': return ab + '<span class="badge ' + esc(x[1]) + '">' + esc(x[0]) + '</span></td>';
+      default: return ab + dos(x) + '</td>';
+    }
+  }
+  /* En pantalla se ven los primeros renglones (los totales son siempre de todos). Exportar e Imprimir llevan todo. */
+  const LIMITE_INF = 150, LIMITE_GRUPO = 60;
+  function tablaInf(t, todo) {
+    const ver = t.cols.map((c, i) => c.soloExcel ? -1 : i).filter((i) => i >= 0);
+    const n = ver.length, hayTot = t.tot.some((x, i) => x != null && !t.cols[i].soloExcel), densa = n >= 8;
+    let quedan = todo ? Infinity : LIMITE_INF;
+    const fila = (r) => quedan-- > 0 ? filaInf(r) : '';
+    const filaInf = (r) => '<tr' + (r.ir ? ' class="clic" data-' + r.ir[0] + '="' + esc(r.ir[1]) + '"' : '') + '>' + ver.map((i) => celdaInf(t.cols[i], r.v[i], '', densa)).join('') + '</tr>';
+    const filaTot = (txt, tot, conTh) => ver.map((i, k) => k === 0 ? '<td>' + esc(txt) + '</td>' : tot[i] == null ? '<td></td>' : celdaInf(t.cols[i], tot[i], conTh ? t.cols[i].t : '', densa)).join('');
+    let cuerpo = '';
+    if (t.agrupar && t.vis.length) {
+      const orden = [];
+      t.vis.forEach((r) => { if (!orden.includes(r.g)) orden.push(r.g); });
+      if (t.agrupar.orden) orden.sort((a, b) => (t.agrupar.orden.indexOf(a) + 1 || 99) - (t.agrupar.orden.indexOf(b) + 1 || 99));
+      orden.forEach((g) => {
+        const rs = t.vis.filter((r) => r.g === g), tit = t.agrupar.titulo ? t.agrupar.titulo(g) : g;
+        if (!todo) quedan = LIMITE_GRUPO;
+        cuerpo += '<tr class="grupo"><td colspan="' + n + '">' + esc(tit) + '</td></tr>' + rs.map(fila).join('') + (hayTot ? '<tr class="subtotal">' + filaTot('Subtotal', t.sumar(rs)) + '</tr>' : '');
+      });
+    } else cuerpo = t.vis.map(fila).join('');
+    if (!t.vis.length) cuerpo = '<tr><td colspan="' + n + '"><div class="vacio-estado"><i class="ph ph-magnifying-glass"></i><p>' + esc(t.vacio || 'No hay datos con estos filtros.') + '</p></div></td></tr>';
+    const vistos = todo ? t.vis.length : t.agrupar ? Array.from(new Set(t.vis.map((r) => r.g))).reduce((s2, g) => s2 + Math.min(LIMITE_GRUPO, t.vis.filter((r) => r.g === g).length), 0) : Math.min(LIMITE_INF, t.vis.length);
+    const corto = vistos < t.vis.length;
+    const pie2 = typeof t.pie2 === 'function' ? t.pie2(t.vis) : null;
+    return (t.titulo ? '<h2 class="grupo-t">' + esc(t.titulo) + '</h2>' : '') +
+      '<div class="tabla-wrap"><table class="compacta inf' + (densa ? ' densa' : '') + (t.tarjeta ? ' ' + t.tarjeta : '') + '"><thead><tr>' + ver.map((i) => t.cols[i]).map((c) => '<th' + (ES_NUM[c.tipo] ? ' class="num"' : '') + (c.ayuda ? ' title="' + esc(c.ayuda) + '"' : '') + '>' + esc(c.t) + '</th>').join('') + '</tr></thead><tbody>' + cuerpo + '</tbody>' +
+      (hayTot && t.vis.length ? '<tfoot><tr>' + filaTot(t.totalTxt || 'Total', t.tot, true) + '</tr>' + (pie2 ? '<tr class="pie2">' + filaTot(pie2.txt, t.cols.map((c, i) => pie2.v[i] == null ? null : pie2.v[i]), true) + '</tr>' : '') + '</tfoot>' : '') + '</table>' +
+      (corto ? '<div class="mas"><span class="nota" style="margin:0 10px 0 0">Se ven ' + vistos + ' de ' + t.vis.length + ' renglones. Los totales son de todos.</span><button type="button" class="btn" data-accion="inf-todo">Mostrar todos</button></div>' : '') + '</div>';
+  }
+  const MEJORAS_INF = [['ph-calendar-blank', 'Un solo calendario para todos los informes'], ['ph-stack', 'Libro de IVA con todos los puntos de venta en una sola corrida'], ['ph-file-xls', 'Todo exporta a Excel'], ['ph-shield-check', 'Lo Neutral nunca entra en lo contable']];
   function vInformes() {
-    return '<div class="encabezado"><div><h1>Informes</h1><p>Todos salen de la misma base: si dos informes miran lo mismo, dan el mismo número</p></div></div>' +
-      '<div class="informes-grid">' + INFORMES.map(([g, items]) => '<section class="card"><div class="card-h"><h2>' + esc(g) + '</h2></div><div class="card-b"><ul class="inf-lista">' + items.map(([id, n]) => '<li>' + (id.startsWith('x-') ? '<button type="button" data-accion="informe-final" data-nombre="' + esc(n) + '"><i class="ph ph-file-text"></i>' + esc(n) + '</button>' : '<a href="#/' + (id === 'panel' ? 'inicio' : id === 'cajas' ? 'cajas' : 'informe/' + id) + '"><i class="ph ph-chart-bar"></i>' + esc(n) + '</a>') + '</li>').join('') + '</ul></div></section>').join('') + '</div>';
+    const q = sinAcentos(UI.informes.q.trim());
+    const vis = INFS.filter((d) => !q || coincide(d.n + ' ' + d.g + ' ' + (d.clave || ''), q));
+    const cards = GRUPOS_INF.map((g) => {
+      const items = vis.filter((d) => d.g === g);
+      if (!items.length) return '';
+      return '<section class="card"><div class="card-h"><h2>' + esc(g) + '</h2><span class="sub">' + (g === 'Contables' ? 'Solo Oficial' : plural(items.length, 'informe', 'informes')) + '</span></div><div class="card-b"><ul class="inf-lista">' +
+        items.map((d) => '<li><a href="#/' + (d.link || 'informe/' + d.id) + '"><i class="ph ' + (d.link ? 'ph-squares-four' : d.archivo ? 'ph-file-arrow-down' : 'ph-chart-bar') + '"></i><span>' + esc(d.n) + '</span>' + (d.aHoy === true ? '<span class="tag">A hoy</span>' : d.archivo ? '<span class="tag">Archivo</span>' : '') + '</a></li>').join('') + '</ul></div></section>';
+    }).join('');
+    return '<div class="encabezado"><div><h1>Informes</h1><p>Todos salen de la misma base: si dos informes miran lo mismo, dan el mismo número.</p></div></div>' +
+      '<ul class="inf-mejoras">' + MEJORAS_INF.map(([ic, t]) => '<li><i class="ph ' + ic + '"></i>' + esc(t) + '</li>').join('') + '</ul>' +
+      '<div class="toolbar inf-tool"><div class="filtros"><label class="buscar"><i class="ph ph-magnifying-glass"></i><input class="input" type="search" id="f-informes-q" placeholder="Buscar un informe" value="' + esc(UI.informes.q) + '" aria-label="Buscar un informe"></label>' + (q ? '<span class="nota" style="margin:0">' + plural(vis.length, 'informe', 'informes') + '</span>' : '') + '</div></div>' +
+      '<p class="nota inf-leyenda"><span class="tag">A hoy</span> una foto de hoy: no usa el calendario. <span class="tag">Archivo</span> además de la tabla, arma el archivo para presentar.</p>' +
+      (cards ? '<div class="informes-grid">' + cards + '</div>' : '<div class="vacio-estado"><i class="ph ph-magnifying-glass"></i><p>Ningún informe se llama así.</p></div>');
   }
-  function datosInforme(id) {
-    const vs = DB.ventas.filter((v) => esVenta(v) && !anulada(v));
-    if (id === 'ventas-canal') {
-      const filas = DB.canales.map((c) => { const r = resumen(DB.ventas.filter((v) => v.canal === c.id)); return [c.nombre, r.n, r.vendido, r.cobrado, r.descuentos, r.acreditado]; });
-      return { titulo: 'Ventas por canal', cols: ['Canal', 'Ventas', 'Vendido', 'Cobrado', 'Descuentos', 'Acreditado'], num: [1, 2, 3, 4, 5], filas };
-    }
-    if (id === 'ventas-producto' || id === 'utilidad-producto') {
-      const m = {};
-      vs.forEach((v) => v.items.forEach((l) => { const k = l.productoId || l.nombre; const x = m[k] || (m[k] = [l.nombre, 0, 0, 0]); x[1] += l.cant; x[2] += importeLinea(l); x[3] += importeLinea(l) - l.cant * (l.costo || 0); }));
-      const filas = Object.values(m).sort((a, b) => b[2] - a[2]);
-      if (id === 'utilidad-producto') return { titulo: 'Utilidad por producto', cols: ['Producto', 'Unidades', 'Facturado', 'Utilidad bruta', 'Margen'], num: [1, 2, 3, 4], filas: filas.map((x) => [x[0], x[1], x[2], x[3], Math.round(x[3] / x[2] * 100) + '%']) };
-      return { titulo: 'Ventas por producto', cols: ['Producto', 'Unidades', 'Facturado'], num: [1, 2], filas: filas.map((x) => x.slice(0, 3)) };
-    }
-    if (id === 'iva-ventas') {
-      const filas = DB.ventas.filter((v) => esVenta(v) && v.version === 'Oficial').sort((a, b) => a.fecha < b.fecha ? -1 : 1).map((v) => [fFecha(v.fecha), compTxt(v), cliente(v.clienteId).nombre, cliente(v.clienteId).doc, anulada(v) ? 0 : v.imp.neto, anulada(v) ? 0 : v.imp.iva, anulada(v) ? 0 : v.imp.tributos, anulada(v) ? 0 : v.total]);
-      return { titulo: 'Libro de IVA ventas', cols: ['Fecha', 'Comprobante', 'Cliente', 'CUIT / DNI', 'Neto gravado', 'IVA', 'Percepciones', 'Total'], num: [4, 5, 6, 7], filas };
-    }
-    if (id === 'saldos-clientes') {
-      const filas = DB.clientes.map((c) => [c, ctaCliente(c)]).filter(([, k]) => k.saldo > 0.009).sort((a, b) => b[1].saldo - a[1].saldo).map(([c, k]) => [c.nombre, c.doc, c.condicion, k.saldo]);
-      return { titulo: 'Saldos de clientes', cols: ['Cliente', 'CUIT', 'Condición', 'Saldo'], num: [3], filas };
-    }
-    if (id === 'cobros-medio') {
-      const m = {};
-      vs.forEach((v) => v.cobros.forEach((c) => { const k = c.medio + '|' + (caja(c.caja) || {}).nombre; const x = m[k] || (m[k] = [c.medio, (caja(c.caja) || {}).nombre, 0, 0]); x[2]++; x[3] += c.monto; }));
-      return { titulo: 'Cobros por medio de pago', cols: ['Medio', 'Caja', 'Cobros', 'Monto'], num: [2, 3], filas: Object.values(m).sort((a, b) => b[3] - a[3]) };
-    }
-    if (id === 'saldos-proveedores') {
-      const filas = DB.proveedores.map((p) => [p, ctaProveedor(p)]).filter(([, k]) => k.saldo > 0).sort((a, b) => b[1].saldo - a[1].saldo).map(([p, k]) => [p.nombre, p.tipo, k.pend.length, k.saldo]);
-      return { titulo: 'Saldos de proveedores', cols: ['Nombre', 'Tipo', 'Pendientes', 'Saldo'], num: [2, 3], filas };
-    }
-    if (id === 'vencimientos') {
-      const filas = DB.proveedores.flatMap((p) => ctaProveedor(p).pend.map((f) => [fFecha(f.vence), p.nombre, f.comp, f.saldo, f.vence])).sort((a, b) => a[4] < b[4] ? -1 : 1).map((x) => x.slice(0, 4));
-      return { titulo: 'Vencimientos a pagar', cols: ['Vence', 'Proveedor', 'Comprobante', 'Saldo'], num: [3], filas };
-    }
-    if (id === 'retenciones') {
-      const filas = DB.proveedores.flatMap((p) => p.movs.filter((m) => pagoVigente(m) && m.retenciones).map((m) => [fFecha(m.fecha), p.nombre, p.cuit, m.comp, m.monto, m.retenciones]));
-      return { titulo: 'Retenciones practicadas', cols: ['Fecha', 'Proveedor', 'CUIT', 'Orden de pago', 'Pagado', 'Retenido'], num: [4, 5], filas };
-    }
-    if (id === 'stock-valorizado') {
-      const filas = DB.productos.filter((p) => !esCombo(p)).map((p) => { const u = stockFisico(p.id); return [p.nombre, u, costoDe(p), r2(u * costoDe(p))]; }).sort((a, b) => b[3] - a[3]);
-      return { titulo: 'Stock valorizado al costo', cols: ['Producto', 'Unidades', 'Costo', 'Valorizado'], num: [1, 2, 3], filas };
-    }
-    if (id === 'transito') {
-      const filas = DB.ventas.filter((v) => !anulada(v) && ['A liberar', 'A liquidar', 'Cheque en cartera'].includes(estadoAcred(v))).sort((a, b) => a.acred.fecha < b.acred.fecha ? -1 : 1).map((v) => [fFecha(v.acred.fecha), v.id, canal(v.canal).nombre, estadoAcred(v), netoVenta(v)]);
-      return { titulo: 'Plata en tránsito', cols: ['Entra el', 'Venta', 'Canal', 'Estado', 'Neto'], num: [1, 4], filas };
-    }
-    return null;
+  function vInforme(partes, params) {
+    const def = INF[partes[1]];
+    if (!def || !def.calc) return '<div class="vacio-estado"><i class="ph ph-file-x"></i><p>Informe no encontrado.</p><a class="btn" href="#/informes">Volver a informes</a></div>';
+    const R = calcularInforme(def.id, params), f = R.f, p = R.p;
+    const bajada = (def.aHoy === true ? 'Al día de hoy, ' + fFecha(HOY) : def.aHoy === 'mixto' ? 'Stock al día de hoy · movimientos: ' + p.texto : p.texto) + (def.contable ? ' · Solo Oficial: lo Neutral no entra' : '');
+    const def0 = filtrosInforme(def, null);
+    const sucio = !!f.q || filtrosDe(def).some((k) => f[k] !== def0[k]);
+    const sel = (k) => '<div class="filtro"><span class="filtro-l">' + esc(FILTROS[k].l) + '</span><select class="input" data-inf-filtro="' + k + '" aria-label="' + esc(FILTROS[k].l) + '">' + opciones(opcionesFiltro(def, k, f[k]), f[k]) + '</select></div>';
+    const todos = filtrosDe(def), prim = todos.length > 3 ? todos.slice(0, 2) : todos, sec = todos.length > 3 ? todos.slice(2) : [];
+    const activos = sec.filter((k) => f[k] !== def0[k]).length;
+    const selects = prim.map(sel).join('') + (sec.length ? '<details class="mas-filtros"' + (activos ? ' open' : '') + '><summary class="btn ghost"><i class="ph ph-sliders-horizontal"></i>Más filtros' + (activos ? ' (' + activos + ')' : '') + '</summary><div class="mas-filtros-c">' + sec.map(sel).join('') + '</div></details>' : '');
+    const modos = def.modos ? '<div class="segmentado" role="group" aria-label="Cómo verlo">' + def.modos.map(([k, n]) => '<button type="button" data-accion="inf-modo" data-modo="' + k + '" aria-pressed="' + (f.modo === k) + '">' + esc(n) + '</button>').join('') + '</div>' : '';
+    const k = R.kpis.length;
+    const ar = R.archivo;
+    return '<div class="inf-membrete solo-impresion">Flia. HDC Group · CUIT ' + esc(CUIT_EMPRESA) + ' · emitido el ' + fFecha(HOY) + ' · Datos de ejemplo</div>' +
+      '<div class="encabezado"><div><a href="#/informes" class="btn ghost sm" style="margin-left:-10px"><i class="ph ph-arrow-left"></i>Informes · ' + esc(def.g) + '</a><h1>' + esc(def.n) + '</h1><p>' + esc(bajada) + '</p></div><div class="acciones">' +
+        '<button type="button" class="btn" data-accion="exportar-informe" data-id="' + def.id + '"><i class="ph ph-file-xls"></i>Exportar a Excel</button><button type="button" class="btn" data-accion="imprimir-informe" data-id="' + def.id + '"><i class="ph ph-printer"></i>Imprimir</button>' +
+        (ar ? '<button type="button" class="btn primary" data-accion="descargar-archivo" data-id="' + def.id + '"' + (ar.lineas.length ? '' : ' disabled') + '><i class="ph ph-download-simple"></i>Descargar archivo</button>' : '') + '</div></div>' +
+      (modos ? '<div class="inf-modos">' + modos + '</div>' : '') +
+      '<div class="toolbar inf-tool"><div class="filtros"><div class="filtro buscar-f"><span class="filtro-l">Buscar</span><label class="buscar"><i class="ph ph-magnifying-glass"></i><input class="input" type="search" id="f-inf-q" placeholder="' + esc(def.busqueda || 'Buscar en el informe') + '" value="' + esc(f.q) + '" aria-label="Buscar en el informe"></label></div>' +
+        (def.aHoy === true ? '' : '<div class="filtro"><span class="filtro-l">Período</span>' + selectorFechas() + '</div>') + selects +
+        (sucio ? '<button type="button" class="btn ghost" data-accion="limpiar-informe"><i class="ph ph-x"></i>Limpiar</button>' : '') + '</div></div>' +
+      '<p class="inf-filtros-txt"><b>Filtros:</b> ' + esc(textoFiltrosInf(def, f, p)) + '</p>' +
+      (f.q.trim() ? '<p class="nota">Con la búsqueda, los indicadores y los totales son de los renglones que se ven. Los cruces se ven sin búsqueda.</p>' : '') +
+      (k ? '<div class="kpis' + (k < 4 ? ' k' + k : '') + '">' + R.kpis.map((x) => kpi(x[0], x[1], x[2], x[3], x[4])).join('') + '</div>' : '') +
+      (R.cierres.length ? '<div class="cierres">' + R.cierres.map((c) => '<div class="cierre' + (c.ok ? '' : ' mal') + '"><i class="ph-fill ' + (c.ok ? 'ph-check-circle' : 'ph-warning-circle') + '"></i><span>' + esc(c.txt) + '</span><span class="num">' + fmt(c.valor) + '</span></div>').join('') + '</div>' : '') +
+      R.tablas.map((t) => tablaInf(t, UI.informes.todo === def.id)).join('') +
+      (ar ? '<section class="card archivo"><div class="card-h"><h2>Vista previa del archivo</h2><span class="sub mono">' + esc(ar.nombre) + '</span></div><div class="card-b">' + (ar.lineas.length ? '<pre class="previa">' + esc(ar.lineas.slice(0, 8).join('\n')) + '</pre><p class="nota" style="margin:8px 0 0">' + plural(ar.lineas.length, 'línea', 'líneas') + (ar.lineas.length > 8 ? ', se ven las primeras 8' : '') + '. Diseño de registro del organismo, con los datos de ejemplo.</p>' : '<p class="nota" style="margin:0">No hay nada para presentar en este período.</p>') + '</div></section>' : '') +
+      (R.nota || def.nota ? '<p class="nota" style="margin-top:12px">' + esc(R.nota || def.nota) + '</p>' : '');
   }
-  function vInforme(partes) {
-    const inf = datosInforme(partes[1]);
-    if (!inf) return '<div class="vacio-estado"><i class="ph ph-file-x"></i><p>Informe no encontrado.</p><a class="btn" href="#/informes">Volver a informes</a></div>';
-    const tot = inf.cols.map((_, i) => inf.num.includes(i) && i > 0 && typeof inf.filas[0]?.[i] === 'number' && !/Ventas|Unidades|Cobros|Pendientes|Venta|Costo/.test(inf.cols[i]) ? inf.filas.reduce((s, f) => s + (Number(f[i]) || 0), 0) : null);
-    const celda = (x, i) => inf.num.includes(i) ? '<td class="num">' + (typeof x === 'number' && !/Ventas|Unidades|Cobros|Pendientes|Venta/.test(inf.cols[i]) ? fmt(x) : esc(x)) + '</td>' : '<td>' + esc(x) + '</td>';
-    return '<div class="encabezado"><div><a href="#/informes" class="btn ghost sm" style="margin-left:-10px"><i class="ph ph-arrow-left"></i>Informes</a><h1>' + esc(inf.titulo) + '</h1><p>Octubre 2026, al ' + fFecha(HOY) + '</p></div><div class="acciones"><button type="button" class="btn" data-accion="exportar-informe" data-id="' + partes[1] + '"><i class="ph ph-file-xls"></i>Exportar a Excel</button></div></div>' +
-      '<div class="tabla-wrap"><table><thead><tr>' + inf.cols.map((c, i) => '<th' + (inf.num.includes(i) ? ' class="num"' : '') + '>' + esc(c) + '</th>').join('') + '</tr></thead><tbody>' + (inf.filas.map((f) => '<tr>' + f.map(celda).join('') + '</tr>').join('') || '<tr><td colspan="' + inf.cols.length + '">Sin datos</td></tr>') + '</tbody>' +
-      (tot.some((x) => x != null) ? '<tfoot><tr>' + tot.map((x, i) => i === 0 ? '<td>Total</td>' : x != null ? '<td class="num">' + fmt(x) + '</td>' : '<td></td>').join('') + '</tr></tfoot>' : '') + '</table></div>';
+  /* La línea "Filtros:" que se ve en pantalla y sale impresa: período (o a hoy), modo, cada filtro y la búsqueda. */
+  function textoFiltrosInf(def, f, p) {
+    const partes = [def.aHoy === true ? 'Al día de hoy, ' + fFecha(HOY) : 'Período ' + p.fechas];
+    if (def.modos) partes.push('Ver ' + (def.modos.find((m) => m[0] === f.modo) || def.modos[0])[1].toLowerCase());
+    filtrosDe(def).forEach((k) => { const o = opcionesFiltro(def, k, f[k]).find((x) => x[0] === f[k]); partes.push(FILTROS[k].l + ': ' + (o ? o[1] : '')); });
+    if (f.q.trim()) partes.push('Búsqueda: "' + f.q.trim() + '"');
+    if (def.contable) partes.push('Solo Oficial');
+    return partes.join(' · ');
+  }
+  /* Cambiar un filtro reescribe la dirección (sin crear historial) y redibuja: el filtro queda al refrescar. */
+  function fijarFiltroInf(k, val) {
+    const { partes, params } = ruta();
+    if (partes[0] !== 'informe') return;
+    if (val == null || val === '') params.delete(k); else params.set(k, val);
+    const qs = params.toString();
+    history.replaceState(null, '', '#/informe/' + partes[1] + (qs ? '?' + qs : ''));
+    refrescar();
+  }
+  const nombreArchivoInf = (R) => 'informe-' + R.def.id + (R.def.aHoy === true ? '-al-' + toISODate(INI_HOY) : '-' + RANGO.desde + '-a-' + RANGO.hasta);
+  /* Exportar a Excel: lo mismo que se ve, con los filtros y la búsqueda, los subtotales y el total. */
+  function exportarInforme(id, params) {
+    const R = calcularInforme(id, params || ruta().params);
+    if (!R) return null;
+    const lineas = [];
+    R.tablas.forEach((t, i) => {
+      const ex = t.cols.map((c, j) => c.soloPantalla ? -1 : j).filter((j) => j >= 0);
+      const fila = (r) => ex.map((j) => textoCelda(t.cols[j], r.v[j]));
+      const tot = (txt, x) => ex.map((j, k) => k === 0 ? txt : x[j] == null ? '' : x[j]);
+      if (i) { lineas.push([]); if (t.titulo) lineas.push([t.titulo]); lineas.push(ex.map((j) => t.cols[j].t)); }
+      const hayTot = t.tot.some((x) => x != null);
+      if (t.agrupar) {
+        const orden = [];
+        t.vis.forEach((r) => { if (!orden.includes(r.g)) orden.push(r.g); });
+        if (t.agrupar.orden) orden.sort((a, b) => (t.agrupar.orden.indexOf(a) + 1 || 99) - (t.agrupar.orden.indexOf(b) + 1 || 99));
+        orden.forEach((g) => { const rs = t.vis.filter((r) => r.g === g), tit = t.agrupar.titulo ? t.agrupar.titulo(g) : g; lineas.push([tit]); rs.forEach((r) => lineas.push(fila(r))); if (hayTot) lineas.push(tot('Subtotal ' + tit, t.sumar(rs))); });
+      } else t.vis.forEach((r) => lineas.push(fila(r)));
+      if (hayTot && t.vis.length) lineas.push(tot(t.totalTxt || 'Total', t.tot));
+      const pie2 = typeof t.pie2 === 'function' ? t.pie2(t.vis) : null;
+      if (pie2 && t.vis.length) lineas.push(tot(pie2.txt, t.cols.map((c, j) => pie2.v[j] == null ? null : pie2.v[j])));
+    });
+    if (!R.tablas.some((t) => t.vis.length)) return null;
+    const cab = R.tablas[0] ? R.tablas[0].cols.filter((c) => !c.soloPantalla).map((c) => c.t) : [];
+    descargarCSV(nombreArchivoInf(R), cab, lineas);
+    return { cab, lineas };
+  }
+  function descargarArchivoInf(id, params) {
+    const R = calcularInforme(id, params || ruta().params);
+    if (!R || !R.archivo || !R.archivo.lineas.length) return null;
+    descargar(R.archivo.nombre, R.archivo.lineas.join('\r\n') + '\r\n', 'text/plain;charset=utf-8');
+    return R.archivo;
   }
   function descargarCSV(nombre, cols, filas) {
     const linea = (arr) => arr.map((x) => { const s = typeof x === 'number' ? String(x).replace('.', ',') : String(x == null ? '' : x); return /[";\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; }).join(';');
-    const csv = '﻿' + [linea(cols)].concat(filas.map(linea)).join('\r\n');
+    descargar(nombre + '.csv', '﻿' + [linea(cols)].concat(filas.map(linea)).join('\r\n'), 'text/csv;charset=utf-8');
+  }
+  /* Baja un archivo armado en el navegador: el Excel (CSV) o el .txt de un archivo de presentación. */
+  function descargar(nombre, contenido, tipo) {
     const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
-    a.download = nombre + '.csv'; document.body.appendChild(a); a.click(); a.remove();
+    a.href = URL.createObjectURL(new Blob([contenido], { type: tipo }));
+    a.download = nombre; document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   }
 
@@ -2932,6 +3848,8 @@
     if (ofs.length) out.push(['Órdenes de fabricación', ofs.map((o) => ({ tipo: 'orden', id: o.id, label: 'Orden ' + o.nro + ' · ' + nombreDe(producto(o.productoId)), sub: o.estado }))]);
     const cn = DB.canales.filter((c) => coincide(c.nombre, s)).slice(0, 4);
     if (cn.length) out.push(['Canales', cn.map((c) => ({ tipo: 'canal', id: c.id, label: c.nombre, sub: CONEXION[c.conexion] }))]);
+    const inf = INFS.filter((d) => coincide(d.n + ' informe ' + d.g + ' ' + (d.clave || ''), s)).slice(0, 6);
+    if (inf.length) out.push(['Informes', inf.map((d) => ({ tipo: 'informe', id: d.id, label: d.n, sub: d.g }))]);
     return out;
   }
   const ir = (r) => () => { location.hash = '#/' + r; };
@@ -2979,7 +3897,7 @@
     { label: 'Ir a Informes', ic: 'ph-chart-bar', va: true, run: ir('informes') },
     { label: 'Cambiar tema claro u oscuro', ic: 'ph-moon', run: () => { const b = document.querySelector('[data-accion="tema"]'); if (b) b.click(); } }
   ];
-  const ICONO_TIPO = { venta: 'ph-receipt', cliente: 'ph-user', proveedor: 'ph-truck', producto: 'ph-package', caja: 'ph-bank', cheque: 'ph-money', deposito: 'ph-warehouse', canal: 'ph-storefront', remito: 'ph-truck', orden: 'ph-factory' };
+  const ICONO_TIPO = { venta: 'ph-receipt', cliente: 'ph-user', proveedor: 'ph-truck', producto: 'ph-package', caja: 'ph-bank', cheque: 'ph-money', deposito: 'ph-warehouse', canal: 'ph-storefront', remito: 'ph-truck', orden: 'ph-factory', informe: 'ph-chart-bar' };
   let paletaItems = [], paletaActivo = 0;
   function abrirPaleta() {
     const w = $('#paleta-wrap'); w.classList.add('abierto'); w.setAttribute('aria-hidden', 'false');
@@ -3003,6 +3921,7 @@
     cerrarPaleta();
     if (it.run) { it.run(); return; }
     if (it.tipo === 'canal') { location.hash = '#/ventas?canal=' + it.id; return; }
+    if (it.tipo === 'informe') { location.hash = '#/' + (INF[it.id].link || 'informe/' + it.id); return; }
     const p = it.tipo === 'producto' ? producto(it.id) : null;
     const destino = { venta: 'ventas', cliente: 'clientes', proveedor: 'proveedores', producto: p && esMateria(p) ? 'depositos' : 'productos', caja: 'cajas', cheque: 'cajas?tab=cheques', deposito: 'depositos?tab=terminados', remito: 'depositos?tab=remitos', orden: 'produccion' }[it.tipo];
     const abrir = { venta: abrirVenta, cliente: abrirCliente, proveedor: abrirProveedor, producto: abrirProducto, caja: abrirCaja, cheque: abrirCheque, deposito: abrirDeposito, remito: abrirRemito, orden: abrirOrden }[it.tipo];
@@ -3044,6 +3963,12 @@
       $$('tbody tr', t).forEach((tr) => { if (tr.children.length === ths.length) Array.from(tr.children).forEach((td, i) => { if (ths[i]) td.setAttribute('data-th', ths[i]); }); });
     });
   }
+  /* Pestañas y modos que no entran: degradé en el borde mientras quede algo a la derecha. Solo dibuja. */
+  function marcarDesbordes() {
+    $$('#vista .tabs, #vista .inf-modos').forEach((x) => x.classList.toggle('con-mas', x.scrollWidth - x.clientWidth - x.scrollLeft > 4));
+  }
+  document.addEventListener('scroll', (e) => { if (e.target && e.target.classList && (e.target.classList.contains('tabs') || e.target.classList.contains('inf-modos'))) marcarDesbordes(); }, true);
+  window.addEventListener('resize', () => marcarDesbordes());
   function indicadores() {
     $$('.tabs[data-key]').forEach((t) => {
       let ind = $('.ind', t); if (!ind) { ind = document.createElement('span'); ind.className = 'ind'; t.appendChild(ind); }
@@ -3066,12 +3991,13 @@
     Object.assign(UI.productos, { tab: 'lista', q: '', rubro: '', canal: '', estado: '' });
     Object.assign(UI.produccion, { tab: 'tablero', estado: '' });
     UI.config.tab = 'canales';
+    UI.informes.q = '';
   }
   function arcaRevisada(ventaId) { DB.arca.revisar = DB.arca.revisar.filter((x) => x.ventaId !== Number(ventaId)); guardar(); return { ok: true }; }
   /* Lo que devuelve una operación: si trae errores se avisa y no se toca nada más. */
   const hecho = (r, msg) => { if (r.errores) { avisoError(r); return false; } toast(msg); return true; };
   document.addEventListener('click', (e) => {
-    if (CAL.el && !e.target.closest('.fechas')) cerrarCal();
+    if (CAL.el && !e.target.closest('.fechas') && !e.target.closest('.cal')) cerrarCal();
     const ac = e.target.closest('[data-accion]');
     const irA = e.target.closest('[data-ir]');
     const fila = e.target.closest('input[type=checkbox]') ? null : e.target.closest('[data-venta],[data-cliente],[data-proveedor],[data-producto],[data-caja],[data-cheque],[data-deposito],[data-canal],[data-remito],[data-orden],[data-maestro]');
@@ -3087,7 +4013,7 @@
           try { localStorage.setItem('hdc-tema', oscuroAhora ? 'claro' : 'oscuro'); } catch (er) { /* sin almacenamiento */ }
           return;
         }
-        case 'abrir-fechas': if (CAL.el && CAL.el.parentElement === ac.closest('.fechas')) cerrarCal(true); else abrirCal(ac); return;
+        case 'abrir-fechas': if (CAL.el && CAL.boton === ac) cerrarCal(true); else abrirCal(ac); return;
         case 'atajo-fechas': fijarAtajo(ac.dataset.atajo); aplicarRango(); return;
         case 'cal-mes': { const paso = Number(ac.dataset.paso); CAL.mes = new Date(CAL.mes.getFullYear(), CAL.mes.getMonth() + paso, 1); pintarCal(); const b = CAL.el.querySelector('[data-paso="' + paso + '"]'); if (b) b.focus(); return; }
         case 'cal-dia': elegirDia(ac.dataset.dia); return;
@@ -3106,8 +4032,12 @@
         case 'mas-movs-stock': UI.depositos.limite += 80; refrescar(); return;
         case 'limpiar-ventas': Object.assign(UI.ventas, { q: '', canal: '' }); if (location.hash !== '#/ventas') history.replaceState(null, '', '#/ventas'); refrescar(); return;
         case 'exportar-ventas': descargarCSV('ventas-hdc', ['Venta', 'Fecha', 'Cliente', 'Canal', 'Versión', 'Comprobante', 'Vendedor', 'Total', 'Cobrado', 'Estado de cobro', 'Acreditación', 'Neto'], filtrarVentas().map((v) => [v.id, fFechaHora(v.fecha), cliente(v.clienteId).nombre, canal(v.canal).nombre, v.version, compTxt(v), nombreDe(vendedor(v.vendedorId)), v.total, cobrado(v), estadoCobro(v), estadoAcred(v), netoVenta(v)])); toast('Excel descargado.'); return;
-        case 'exportar-informe': { const inf = datosInforme(id); descargarCSV(id, inf.cols, inf.filas); toast('Excel descargado.'); return; }
-        case 'informe-final': abrirModal(cabModal(ac.dataset.nombre) + '<div class="m-b"><p style="margin:0">Este informe sale en el sistema final, con el formato que pide cada organismo, listo para presentar o pasarle al estudio contable. Usa la misma base que el resto de los informes.</p></div><div class="m-f"><button type="button" class="btn primary" data-accion="cerrar-modal">Entendido</button></div>'); return;
+        case 'exportar-informe': if (exportarInforme(id)) toast('Excel descargado.'); else toast('No hay datos para exportar.', 'ph-info'); return;
+        case 'descargar-archivo': if (descargarArchivoInf(id)) toast('Archivo descargado. En la maqueta, con datos de ejemplo.'); return;
+        case 'inf-modo': fijarFiltroInf('modo', ac.dataset.modo); return;
+        case 'inf-todo': UI.informes.todo = ruta().partes[1]; refrescar(); return;
+        case 'imprimir-informe': UI.informes.todo = id; refrescar(); window.print(); return;
+        case 'limpiar-informe': { const { partes, params } = ruta(); const m = params.get('modo'); history.replaceState(null, '', '#/informe/' + partes[1] + (m ? '?modo=' + encodeURIComponent(m) : '')); refrescar(); return; }
         case 'cobrar-venta': modalCobro([venta(id)], 'Registrar cobro · Venta ' + id); return;
         case 'cobrar-cliente': modalCobro(DB.ventas.filter((v) => v.clienteId === id && saldoVenta(v) > 0.009), 'Registrar cobro · ' + cliente(id).nombre); return;
         case 'remitir': { const r = generarRemitos([id]); if (hecho(r, r.remitos ? 'Remito ' + r.remitos[0].nro + ' generado. El stock salió de ' + nombreDe(deposito(r.remitos[0].depositoId)) + '.' : '')) { const enFicha = $('#drawer-wrap').classList.contains('abierto'); render(); if (enFicha) abrirVenta(id); } return; }
@@ -3201,13 +4131,14 @@
     const activo = document.activeElement && document.activeElement.id;
     const pos = activo && document.activeElement.selectionStart;
     const { partes, params } = ruta();
-    const V = { ventas: vVentas, clientes: vClientes, proveedores: vProveedores, productos: vProductos, cajas: vCajas, depositos: vDepositos, produccion: vProduccion, config: vConfig, canales: vConfig }[partes[0]];
+    const V = { ventas: vVentas, clientes: vClientes, proveedores: vProveedores, productos: vProductos, cajas: vCajas, depositos: vDepositos, produccion: vProduccion, config: vConfig, canales: vConfig, informes: vInformes, informe: vInforme }[partes[0]];
     if (!V) { render(); return; }
     cerrarCal();
     setHTML($('#vista'), '<div>' + V(partes, params) + '</div>');
     etiquetarTablas();
     pintarNav();
     indicadores();
+    marcarDesbordes();
     if (activo) { const el = document.getElementById(activo); if (el) { el.focus(); try { el.setSelectionRange(pos, pos); } catch (er) { /* no aplica */ } } }
   }
   let tBusq;
@@ -3219,6 +4150,8 @@
     if (id === 'f-prov-q') debounce(() => { UI.proveedores.q = e.target.value; refrescar(); });
     if (id === 'f-prod-q') debounce(() => { UI.productos.q = e.target.value; refrescar(); });
     if (id === 'f-dep-q') debounce(() => { UI.depositos.q = e.target.value; UI.depositos.limite = 80; refrescar(); });
+    if (id === 'f-informes-q') debounce(() => { UI.informes.q = e.target.value; refrescar(); });
+    if (id === 'f-inf-q') debounce(() => fijarFiltroInf('q', e.target.value));
   });
   document.addEventListener('change', (e) => {
     const id = e.target.id;
@@ -3232,6 +4165,7 @@
     if (id === 'f-ord-estado') { UI.produccion.estado = e.target.value; refrescar(); }
     if (id === 'f-pub-canal') { UI.productos.canal = e.target.value; refrescar(); }
     if (id === 'f-pub-estado') { UI.productos.estado = e.target.value; refrescar(); }
+    if (e.target.dataset && e.target.dataset.infFiltro) fijarFiltroInf(e.target.dataset.infFiltro, e.target.value);
     if (e.target.classList && e.target.classList.contains('sel-pv') && e.target.value) { const r = asignarPuntoVenta(e.target.value, e.target.dataset.pv); if (hecho(r, r.canal ? r.canal.nombre + ' ahora factura por el punto de venta ' + e.target.dataset.pv + '.' : '')) refrescar(); }
   });
   document.addEventListener('keydown', (e) => {
@@ -3273,7 +4207,7 @@
       stockFisico, stockReservado, guardarOrden, cambiarEstadoOrden, materialesOrden,
       publicaciones, publicacion, publicarPendientes, fijarPrecioPublicado, previaPrecios, cambiarPrecios,
       traerDeArca, cargarDeArca, comparacionArca, asignarPuntoVenta, arcaRevisada, guardarMaestro, guardarCombo,
-      datosInforme, buscarGlobal,
+      INFS, calcularInforme, filtrosInforme, exportarInforme, descargarArchivoInf, comprobantesVenta, comprobantesCompra, cruceLibroPanel, renglonesVenta, versionDe, ventasConSaldo, transitoVenta, retencionesSufridas, retencionesPracticadas, prestamosPor, movsProveedor, buscarGlobal, cuitValido,
       abrir: { venta: abrirVenta, cliente: abrirCliente, proveedor: abrirProveedor, caja: abrirCaja, cheque: abrirCheque, producto: abrirProducto, deposito: abrirDeposito, remito: abrirRemito, orden: abrirOrden }
     };
   }

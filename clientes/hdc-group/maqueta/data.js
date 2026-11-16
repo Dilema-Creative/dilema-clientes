@@ -47,10 +47,12 @@
           const neto = r2(conIva / (1 + a / 100));
           return { alic: a, neto, iva: r2(conIva - neto) };
         });
-        const neto = r2(alicuotas.reduce((s, x) => s + x.neto, 0));
+        /* lo que va al 0% (por ejemplo el depósito en garantía por pallets) es exento: no suma al neto gravado ni lleva percepciones */
+        const exento = r2(alicuotas.filter((x) => x.alic === 0).reduce((s, x) => s + x.neto, 0));
+        const neto = r2(alicuotas.filter((x) => x.alic !== 0).reduce((s, x) => s + x.neto, 0));
         const percepciones = ((d.cliente && d.cliente.percepciones) || []).map((p) => ({ imp: p.imp, alic: p.alic, monto: r2(neto * p.alic / 100) }));
         const tributos = r2(percepciones.reduce((s, p) => s + p.monto, 0));
-        imp = { neto, iva: r2(alicuotas.reduce((s, x) => s + x.iva, 0)), alicuotas, percepciones, tributos };
+        imp = { neto, exento, iva: r2(alicuotas.reduce((s, x) => s + x.iva, 0)), alicuotas, percepciones, tributos };
         total = r2(base + tributos);
       }
       return { subtotal, ajustes, base, imp, total };
@@ -328,6 +330,8 @@
       const envio = may ? 'Transporte propio' : canal.id === 'ml' ? elegirPeso([['Mercado Envíos Full', 6], ['Mercado Envíos Flex', 3], ['Retira en fábrica', 1]]) : canal.id === 'mostrador' ? 'Retira en fábrica' : elegirPeso([['Correo a domicilio', 7], ['Retira en fábrica', 2]]);
       /* cuando el envío lo paga el comprador, va como un renglón de servicio */
       if (canal.id === 'tn' && envio === 'Correo a domicilio' && rnd() < 0.5) items.push({ productoId: null, servicio: true, nombre: 'Envío a domicilio', cant: 1, precio: cien(entre(8900, 18900)), bonif: 0, alic: 21, costo: 0 });
+      /* una de cada cuatro facturas mayoristas lleva el depósito en garantía por los pallets: va exento (sin azar, no mueve el resto) */
+      if (may && (contadores.comp[canal.pv] + 1) % 4 === 0) items.push({ productoId: null, servicio: true, nombre: 'Depósito en garantía por pallets', cant: 2 + (contadores.comp[canal.pv] % 3), precio: 15000, bonif: 0, alic: 0, costo: 0 });
       const k = REGLAS.calcularVenta({ items, ajustes: may && rnd() < 0.2 ? [{ tipo: 'bonificacion', modo: 'pct', valor: 5, concepto: 'Pago anticipado' }] : [], cliente: cli, version: 'Oficial' });
       contadores.comp[canal.pv] += 1;
       const manual = may || canal.id === 'mostrador';
@@ -471,6 +475,28 @@
         items, subtotal: k.subtotal, ajustes: [], imp: null, total: k.total, deposito: 'principal', vendedorId: cli.vendedorId, operadorId: 'u3',
         envio: 'Transporte propio', estado: 'Cotización', remitida: false, despachada: false, nc: null, cobros: [],
         acred: { estado: '', fecha: iso(fecha), ...SIN_DESC() }
+      });
+    });
+    /* Saldos viejos de cuenta corriente (junio a septiembre), para ver la antigüedad de la deuda en los informes.
+       Sin azar: no mueven nada del resto de la base. Numeración anterior a la de octubre. */
+    [
+      [9001, 'm1', [5, 30], [['pr3', 6], ['pr9', 2]], 'Oficial', '00001802'],
+      [9002, 'm4', [7, 6], [['pr5', 8]], 'Oficial', '00001811'],
+      [9003, 'm10', [7, 19], [['pr7', 5]], 'Neutral', '00000361'],
+      [9004, 'm9', [7, 27], [['pr2', 4], ['pr11', 2]], 'Oficial', '00001818'],
+      [9005, 'm12', [8, 3], [['pr6', 6]], 'Oficial', '00001826'],
+      [9006, 'm7', [8, 22], [['pr14', 3]], 'Oficial', '00001833']
+    ].forEach(([id, cliId, [mes, d], renglones, version, nro], i) => {
+      const cli = clientes.find((c) => c.id === cliId), items = renglones.map(([pid, n]) => linea(buscarProd(pid), n, cli.lista));
+      const k = REGLAS.calcularVenta({ items, ajustes: [], cliente: cli, version });
+      const fecha = new Date(2026, mes, d, 11, 30), vto = new Date(2026, mes, d + 30, 11, 30);
+      const of = version === 'Oficial';
+      ventas.push({
+        id, fecha: iso(fecha), canal: 'mayorista', clienteId: cli.id, version, lista: cli.lista,
+        comp: of ? { tipo: 'Factura A', pv: '0007', nro, cae: String(71400000000000 + i * 7919031) } : { tipo: 'Comprobante interno', pv: '', nro, cae: '' },
+        items, subtotal: k.subtotal, ajustes: k.ajustes, imp: k.imp, total: k.total, deposito: 'principal',
+        vendedorId: cli.vendedorId, operadorId: 'u4', envio: 'Transporte propio', estado: 'Vigente', remitida: true, despachada: true, nc: null, cobros: [],
+        acred: { estado: 'Cuenta corriente', fecha: iso(vto), vence: iso(vto), ...SIN_DESC() }
       });
     });
     ventas.sort((a, b) => a.fecha < b.fecha ? -1 : 1);
@@ -632,6 +658,18 @@
       });
       p.movs.sort((a, b) => a.fecha < b.fecha ? -1 : 1);
     });
+    /* Notas de crédito de proveedores: una bonificación sobre una factura que todavía no se pagó. Restan en la cuenta corriente,
+       en lo comprado y en el IVA compras. Sin azar. */
+    [['p2', 0.08, 'Bonificación por volumen'], ['p7', 0.05, 'Vidrios con fallas'], ['p3', 0.06, 'Diferencia de precio']].forEach(([pid, pct, detalle], i) => {
+      const p = proveedores.find((x) => x.id === pid);
+      const f = p.movs.filter((m) => m.tipo === 'factura' && m.neto > 0 && !p.movs.some((x) => x.aplicaA === m.id)).sort((a, b) => a.fecha < b.fecha ? 1 : -1)[0];
+      if (!f) return;
+      const k = REGLAS.calcularCompra({ neto: r2(f.neto * pct), alic: f.alic, perc: [], noGravado: 0 });
+      const fecha = new Date(Math.min(new Date(f.fecha).getTime() + 3 * 864e5, HOY.getTime() - 2 * 3600e3));
+      const nro = String(4100 + i * 37).padStart(8, '0');
+      p.movs.push({ id: 'nc' + p.id + '-' + (i + 1), tipo: 'nc', fecha: iso(fecha), comp: 'Nota de crédito A ' + f.pv + '-' + nro, tipoComp: 'Nota de crédito A', pv: f.pv, nro, ...k, aplicaA: f.id, detalle, operadorId: 'u7' });
+      p.movs.sort((a, b) => a.fecha < b.fecha ? -1 : 1);
+    });
     /* los dos más viejos ya debitaron */
     cheques.slice().sort((a, b) => a.emision < b.emision ? -1 : 1).slice(0, 2).forEach((c) => { const d = new Date(c.emision); d.setDate(d.getDate() + 12); d.setHours(9, 0); c.debito = iso(d); });
     /* Lo que ARCA tiene y el sistema todavía no. Se trae desde Configuración, Facturación: cuatro de proveedores conocidos,
@@ -690,6 +728,6 @@
     });
     contadores.mov = movsCaja.length;
 
-    return { version: 7, puntosVenta, canales, cajas, depositos, listas, vendedores, operadores, productos: todos, clientes, ventas, remitos, ordenes, proveedores, chequeras, cheques, movsCaja, movsStock, arqueos, arca, contadores };
+    return { version: 9, puntosVenta, canales, cajas, depositos, listas, vendedores, operadores, productos: todos, clientes, ventas, remitos, ordenes, proveedores, chequeras, cheques, movsCaja, movsStock, arqueos, arca, contadores };
   };
 })();
