@@ -40,8 +40,8 @@
   };
 
   /* ================= base de datos ================= */
-  const VERSION = 9;
-  const KEY = 'hdc-argos-maqueta-v9';
+  const VERSION = 10;
+  const KEY = 'hdc-argos-maqueta-v10';
   const HOY = window.HDC_HOY;
   const INI_HOY = new Date(HOY.getFullYear(), HOY.getMonth(), HOY.getDate());
   const FIN_HOY = new Date(HOY.getFullYear(), HOY.getMonth(), HOY.getDate(), 23, 59, 59, 999);
@@ -1238,7 +1238,8 @@
     depositos: { tab: 'remitir', q: '', pasillo: '', tipo: '', remEstado: 'curso', remTipo: '', limite: 80 },
     produccion: { tab: 'tablero', estado: '' },
     config: { tab: 'canales' },
-    informes: { q: '', todo: '' }
+    informes: { q: '', todo: '' },
+    rentab: { tab: 'canal', canal: '', orden: 'ganancia', umbral: 10, productoId: '', simProducto: '', simCanal: 'ml', simPrecio: '' }
   };
   let toastT;
   function toast(msg, ic) {
@@ -1252,7 +1253,7 @@
     return [
       { grupo: null, items: [['inicio', 'Panel general', 'ph-squares-four']] },
       { grupo: 'Canales', items: DB.canales.filter((c) => c.tienda).map((c) => ['ventas?canal=' + c.id, c.nombre, 'ph-storefront', c.id]).concat([['cajas?caja=mp', 'Mercado Pago', 'ph-wallet', 'mp']]) },
-      { grupo: 'Ventas', items: [['ventas', 'Centro de ventas', 'ph-receipt'], ['clientes', 'Clientes', 'ph-users']] },
+      { grupo: 'Ventas', items: [['ventas', 'Centro de ventas', 'ph-receipt'], ['clientes', 'Clientes', 'ph-users'], ['rentabilidad', 'Rentabilidad', 'ph-chart-line-up']] },
       { grupo: 'Compras', items: [['proveedores', 'Proveedores y gastos', 'ph-truck']] },
       { grupo: 'Productos y depósito', items: [['productos', 'Productos y stock', 'ph-package'], ['depositos', 'Depósito', 'ph-warehouse']] },
       { grupo: 'Producción', items: [['produccion', 'Órdenes de fabricación', 'ph-factory']] },
@@ -1268,7 +1269,7 @@
     menu().forEach((g) => {
       html += '<div class="nav-grupo">' + (g.grupo ? '<h3>' + esc(g.grupo) + '</h3>' : '');
       g.items.forEach(([ruta, nombre, ic, mk]) => {
-        const activo = actual === ruta || (ruta === 'ventas' && actual.startsWith('ventas') && !actual.includes('canal=')) || (ruta === 'informes' && actual.startsWith('informe')) || (['cajas', 'depositos', 'productos', 'config'].includes(ruta) && actual.startsWith(ruta + '?tab')) || (ruta === 'config' && actual === 'canales');
+        const activo = actual === ruta || (ruta === 'ventas' && actual.startsWith('ventas') && !actual.includes('canal=')) || (ruta === 'informes' && actual.startsWith('informe')) || (ruta === 'rentabilidad' && actual.startsWith('rentabilidad')) || (['cajas', 'depositos', 'productos', 'config'].includes(ruta) && actual.startsWith(ruta + '?tab')) || (ruta === 'config' && actual === 'canales');
         const badge = (ruta === 'ventas' || ruta === 'depositos') && nRemitir ? '<span class="badge b-warn" title="Ventas a remitir">' + nRemitir + '</span>' : '';
         html += '<a href="#/' + esc(ruta) + '"' + (activo ? ' aria-current="page"' : '') + '>' + (mk ? marca(mk, 'sm') : '<i class="ph ' + ic + '"></i>') + '<span>' + esc(nombre) + '</span>' + badge + '</a>';
       });
@@ -1353,7 +1354,7 @@
     const params = new URLSearchParams(qs || '');
     return { partes: path.split('/'), params };
   }
-  const VISTAS = () => ({ inicio: vInicio, ventas: vVentas, clientes: vClientes, proveedores: vProveedores, cajas: vCajas, productos: vProductos, depositos: vDepositos, produccion: vProduccion, config: vConfig, canales: vConfig, informes: vInformes, informe: vInforme });
+  const VISTAS = () => ({ inicio: vInicio, ventas: vVentas, clientes: vClientes, proveedores: vProveedores, cajas: vCajas, productos: vProductos, depositos: vDepositos, produccion: vProduccion, config: vConfig, canales: vConfig, informes: vInformes, informe: vInforme, rentabilidad: vRentabilidad });
   function render(navegando) {
     const { partes, params } = ruta();
     const vista = $('#vista');
@@ -1367,6 +1368,10 @@
     }
     if (navegando && partes[0] === 'cajas') UI.cajas.tab = params.get('tab') === 'cheques' ? 'cheques' : 'cajas';
     if (navegando && partes[0] === 'canales') UI.config.tab = 'canales';
+    if (navegando && partes[0] === 'rentabilidad') {
+      if (params.get('producto') && producto(params.get('producto'))) Object.assign(UI.rentab, { tab: 'cruce', productoId: params.get('producto') });
+      else if (params.get('tab')) Object.assign(UI.rentab, { tab: params.get('tab'), canal: canal(params.get('canal')) ? params.get('canal') : '' });
+    }
     if (navegando && params.get('tab') && ['config', 'depositos', 'productos', 'produccion'].includes(partes[0])) UI[partes[0]].tab = params.get('tab');
     setHTML(vista, '<div' + (navegando ? ' class="entra"' : '') + '>' + V(partes, params) + '</div>');
     etiquetarTablas();
@@ -1863,12 +1868,12 @@
     const todas = publicaciones();
     const n = (e) => todas.filter((x) => x.estado === e).length;
     const lista = todas.filter((x) => (!f.canal || x.c.id === f.canal) && (!f.estado || x.estado === f.estado) && (!q || coincide(x.p.nombre + ' ' + x.p.sku, q)));
-    const filas = lista.map((x) => '<tr><td>' + esc(x.p.nombre) + '<span class="sec mono">' + esc(x.p.sku) + '</span></td><td>' + chipCanal(x.c.id) + '</td><td>' + (x.fijo ? 'Precio fijo' : esc(reglaTxt(x.c))) + '</td><td class="num">' + (x.publicado ? fmt0(x.publicado) : '') + '</td><td class="num"><b>' + fmt0(x.precio) + '</b></td><td class="num' + (x.stock > 0 ? '' : ' cero') + '">' + fCant(Math.max(0, x.stock)) + '</td><td><span class="badge ' + badgePubli(x.estado) + '">' + esc(x.estado) + '</span></td><td><button type="button" class="btn sm ghost" data-accion="precio-fijo" data-id="' + esc(x.p.id) + '" data-canal="' + esc(x.c.id) + '">Precio fijo</button></td></tr>').join('');
+    const filas = lista.map((x) => '<tr><td class="trunc">' + esc(x.p.nombre) + '<span class="sec mono">' + esc(x.p.sku) + '</span></td><td>' + chipCanal(x.c.id) + '<span class="sec">' + (x.fijo ? 'Precio fijo' : esc(reglaTxt(x.c))) + '</span></td><td class="num">' + (x.publicado ? fmt0(x.publicado) : '') + '</td><td class="num"><b>' + fmt0(x.precio) + '</b></td><td class="num' + (x.stock > 0 ? '' : ' cero') + '">' + fCant(Math.max(0, x.stock)) + '</td><td><span class="badge ' + badgePubli(x.estado) + '">' + esc(x.estado) + '</span></td><td class="num" data-margen-pub="' + esc(x.c.id) + '">' + barraMargen(rentabilidadPrecio(x.p, x.c.id).pct, UI.rentab.umbral) + '</td><td><button type="button" class="btn sm ghost icon" data-accion="precio-fijo" data-id="' + esc(x.p.id) + '" data-canal="' + esc(x.c.id) + '" title="Precio fijo en esta tienda" aria-label="Precio fijo en esta tienda"><i class="ph ph-pencil-simple"></i></button></td></tr>').join('');
     const estados = ['Sincronizado', 'Pendiente', 'Pausado sin stock'];
     return '<div class="kpis">' + kpi('ph-check-circle', 'Sincronizadas', String(n('Sincronizado')), 'La tienda muestra lo mismo que el sistema', !porPublicar) + kpi('ph-arrows-clockwise', 'Pendientes de publicar', String(porPublicar), porPublicar ? 'Cambió el precio y falta publicarlo' : 'Nada pendiente') + kpi('ph-pause-circle', 'Pausadas sin stock', String(n('Pausado sin stock')), 'Se reactivan solas cuando entra stock') + kpi('ph-storefront', 'Tiendas', String(tiendas().length), todas.length + ' publicaciones') + '</div>' +
       '<div class="toolbar"><div class="filtros"><label class="buscar"><i class="ph ph-magnifying-glass"></i><input class="input" type="search" id="f-prod-q" placeholder="Nombre o código" value="' + esc(f.q) + '" aria-label="Buscar publicaciones"></label><select class="input" id="f-pub-canal" aria-label="Tienda">' + opciones([['', 'Todas las tiendas']].concat(tiendas().map((c) => [c.id, c.nombre])), f.canal) + '</select><select class="input" id="f-pub-estado" aria-label="Estado">' + opciones([['', 'Todos los estados']].concat(estados.map((e) => [e, e])), f.estado) + '</select></div>' +
       '<div class="acciones"><button type="button" class="btn primary" data-accion="publicar-pendientes"' + (porPublicar ? '' : ' disabled') + '><i class="ph ph-arrows-clockwise"></i>Publicar pendientes' + (porPublicar ? ' (' + porPublicar + ')' : '') + '</button></div></div>' +
-      '<div class="tabla-wrap"><table class="compacta"><thead><tr><th>Producto</th><th>Tienda</th><th>Regla de precio</th><th class="num">Publicado</th><th class="num">A publicar</th><th class="num" title="Disponible en el depósito de la tienda">Stock publicado</th><th>Estado</th><th></th></tr></thead><tbody>' + (filas || '<tr><td colspan="8"><div class="vacio-estado"><i class="ph ph-storefront"></i><p>No hay publicaciones con estos filtros.</p></div></td></tr>') + '</tbody></table></div>' +
+      '<div class="tabla-wrap"><table class="compacta"><thead><tr><th>Producto</th><th>Tienda y regla de precio</th><th class="num">Publicado</th><th class="num">A publicar</th><th class="num dos-l" title="Disponible en el depósito de la tienda">Stock<br>publicado</th><th>Estado</th><th class="num dos-l" title="Ganancia neta de una unidad al precio publicado, después del costo, la comisión, el envío y las cuotas de la tienda">Margen neto<br>en esta tienda</th><th></th></tr></thead><tbody>' + (filas || '<tr><td colspan="8"><div class="vacio-estado"><i class="ph ph-storefront"></i><p>No hay publicaciones con estos filtros.</p></div></td></tr>') + '</tbody></table></div>' +
       '<p class="nota" style="margin-top:12px">La regla de cada tienda se cambia en Configuración. En la maqueta publicar es simulado: en el sistema real el precio y el stock se publican en la tienda.</p>';
   }
   function abrirProducto(id) {
@@ -2101,6 +2106,124 @@
         '<div class="d-sec"><h3>' + (term ? 'Materia prima que consumió' : 'Materia prima que consume') + '</h3><div class="tabla-wrap"><table><thead><tr><th>Material</th><th class="num">Necesita</th>' + (term || o.estado === 'Anulada' ? '' : '<th class="num">Hay</th><th></th>') + '</tr></thead><tbody>' + (mats || '<tr><td colspan="4">Sin lista de materiales</td></tr>') + '</tbody></table></div></div>' +
         '<div class="d-sec"><h3>Recorrido</h3><ul class="linea-tiempo">' + pasos.map(([ic, t, s, ok]) => '<li><span class="p' + (ok ? '' : ' pend') + '"><i class="ph ' + ic + '"></i></span><div><div class="t">' + esc(t) + '</div><div class="s">' + esc(s) + '</div></div></li>').join('') + '</ul></div>' +
       '</div>');
+  }
+
+  /* ================= RENTABILIDAD: lo que queda de cada venta después de lo que se lleva el canal ================= */
+  /* Ganancia neta de una venta: venta sin IVA, menos el costo de la mercadería (el de un combo es la suma de sus componentes,
+     guardado en cada renglón al vender), menos lo que descuenta el canal: comisión, envío a cargo de HDC, cuotas sin interés y otros cargos.
+     Sale de `descuentos(v)`, la misma cuenta del bloque "De lo vendido a lo acreditado". Las comisiones se toman tal como las descuenta
+     cada canal, con IVA incluido. Retenciones y percepciones no son costo (son a cuenta de impuestos): van aparte. */
+  function rentabilidadVenta(v) {
+    const cero = { neto: 0, costo: 0, comision: 0, envio: 0, cuotas: 0, otros: 0, costosCanal: 0, bruta: 0, ganancia: 0, pct: 0, retencion: 0, percepciones: 0 };
+    if (!v || !esVenta(v) || anulada(v)) return cero;
+    const u = utilidadVenta(v), d = descuentos(v);
+    const otros = r2(d.otros || 0), costosCanal = r2(d.comision + d.envio + d.cuotas + otros);
+    const ganancia = r2(u.neto - u.costo - costosCanal);
+    return { neto: u.neto, costo: u.costo, comision: r2(d.comision), envio: r2(d.envio), cuotas: r2(d.cuotas), otros, costosCanal, bruta: u.utilidad, ganancia, pct: pctDe(ganancia, u.neto), retencion: r2(d.retencion), percepciones: v.imp ? v.imp.tributos : 0 };
+  }
+  /* La misma cuenta por renglón: los costos del canal se reparten según la venta sin IVA de cada renglón. La suma de los renglones da la venta. */
+  function rentabilidadRenglones(v) {
+    const r = rentabilidadVenta(v), ls = renglonesVenta(v);
+    const resto = { comision: r.comision, envio: r.envio, cuotas: r.cuotas, otros: r.otros };
+    return ls.map((x, i) => {
+      const ult = i === ls.length - 1, w = r.neto ? x.neto / r.neto : 1 / ls.length;
+      const parte = {};
+      Object.keys(resto).forEach((k) => { parte[k] = ult ? r2(resto[k]) : r2(r[k] * w); resto[k] = r2(resto[k] - parte[k]); });
+      const costosCanal = r2(parte.comision + parte.envio + parte.cuotas + parte.otros), ganancia = r2(x.neto - x.costo - costosCanal);
+      return { v, productoId: x.productoId, nombre: x.nombre, cant: x.cant, neto: x.neto, costo: x.costo, ...parte, costosCanal, ganancia };
+    });
+  }
+  /* Rentabilidad agrupada (por canal, por producto o producto por canal) de un grupo de ventas. La usan la pantalla y el informe. */
+  function rentabilidadAgrupada(ventas, por) {
+    const m = {};
+    const sumar = (k, base, x, n) => {
+      const y = m[k] || (m[k] = Object.assign({ k, ventas: new Set(), u: 0, neto: 0, costo: 0, comision: 0, envio: 0, cuotas: 0, otros: 0, costosCanal: 0, ganancia: 0 }, base));
+      y.ventas.add(x.v ? x.v.id : n); y.u += x.cant || 0;
+      ['neto', 'costo', 'comision', 'envio', 'cuotas', 'otros', 'costosCanal', 'ganancia'].forEach((c) => { y[c] += x[c]; });
+    };
+    ventas.forEach((v) => {
+      if (!esVenta(v) || anulada(v)) return;
+      if (por === 'canal') { const r = rentabilidadVenta(v); sumar(v.canal, { canal: v.canal }, { ...r, v, cant: 0 }); return; }
+      rentabilidadRenglones(v).forEach((x) => { const pid = x.productoId || 'servicios'; sumar(por === 'cruce' ? pid + '|' + v.canal : pid, { productoId: x.productoId, nombre: x.productoId ? x.nombre : 'Envíos y otros servicios', canal: v.canal }, x); });
+    });
+    return Object.values(m).map((y) => { const o = { ...y, n: y.ventas.size }; ['neto', 'costo', 'comision', 'envio', 'cuotas', 'otros', 'costosCanal', 'ganancia'].forEach((c) => { o[c] = r2(o[c]); }); o.pct = pctDe(o.ganancia, o.neto); return o; });
+  }
+  /* Costos de un canal para simular una venta: la comisión configurada en el canal y, de sus ventas, el envío promedio a cargo de HDC y lo que cuestan las cuotas sobre lo vendido. */
+  function costosCanalEstimados(cId) {
+    if (!cache.estim) cache.estim = {};
+    if (cache.estim[cId]) return cache.estim[cId];
+    const c = canal(cId), vs = DB.ventas.filter((v) => v.canal === cId && esVenta(v) && !anulada(v));
+    const total = vs.reduce((s, v) => s + v.total, 0);
+    return (cache.estim[cId] = { comisionPct: c ? c.comision || 0 : 0, envio: vs.length ? r2(vs.reduce((s, v) => s + descuentos(v).envio, 0) / vs.length) : 0, cuotasPct: total ? Math.round(vs.reduce((s, v) => s + descuentos(v).cuotas, 0) / total * 1000) / 10 : 0, n: vs.length });
+  }
+  /* El precio de un producto en un canal: el publicado en la tienda (o el que se va a publicar) y, en Mayorista y Mostrador, su lista. */
+  function precioCanal(p, cId) {
+    const c = canal(cId);
+    if (c && c.tienda) { const x = publicacion(p, c); return x.publicado || x.precio; }
+    return precioDe(p, cId === 'mayorista' ? 'mayorista' : 'minorista');
+  }
+  /* Una venta de una unidad a ese precio, armada con las mismas reglas: la miden Publicaciones, Producto por canal y el simulador. No se guarda. */
+  function ventaSimulada(p, cId, precio) {
+    const e = costosCanalEstimados(cId);
+    const items = [{ productoId: p.id, nombre: p.nombre, cant: 1, precio: r2(precio), bonif: 0, alic: p.alic == null ? 21 : p.alic, costo: costoDe(p) }];
+    const k = REGLAS.calcularVenta({ items, ajustes: [], cliente: null, version: 'Oficial' });
+    return { id: 0, version: 'Oficial', estado: 'Vigente', canal: cId, items, subtotal: k.subtotal, ajustes: [], imp: k.imp, total: k.total, cobros: [], acred: { estado: '', comision: r2(k.total * e.comisionPct / 100), envio: e.envio, retencion: 0, cuotas: r2(k.total * e.cuotasPct / 100) } };
+  }
+  const rentabilidadPrecio = (p, cId, precio) => rentabilidadVenta(ventaSimulada(p, cId, precio == null ? precioCanal(p, cId) : precio));
+
+  const barraMargen = (pct, umbral) => '<span class="margen' + (pct < 0 ? ' pierde' : pct < umbral ? ' bajo' : '') + '"><span class="margen-b"><i style="width:' + Math.max(0, Math.min(100, pct / 50 * 100)).toFixed(1) + '%"></i></span>' + fPct(pct) + '</span>';
+  function vRentabilidad() {
+    const f = UI.rentab, p = periodo();
+    if (!['canal', 'producto', 'cruce', 'simulador'].includes(f.tab)) f.tab = 'canal';
+    const vs = ventasDelPeriodo().filter((v) => esVenta(v) && !anulada(v) && (f.tab !== 'producto' || !f.canal || v.canal === f.canal));
+    const todas = ventasDelPeriodo().filter((v) => esVenta(v) && !anulada(v));
+    const rs = todas.map(rentabilidadVenta);
+    const T = { neto: sumaPor(rs, (r) => r.neto), costo: sumaPor(rs, (r) => r.costo), canal: sumaPor(rs, (r) => r.costosCanal), ganancia: sumaPor(rs, (r) => r.ganancia), bruta: sumaPor(rs, (r) => r.bruta), ret: sumaPor(rs, (r) => r.retencion + r.percepciones) };
+    const R = resumen(ventasDelPeriodo()), ivaPerc = sumaPor(todas, (v) => v.imp ? v.imp.iva + v.imp.tributos : 0);
+    const umbral = Number.isFinite(f.umbral) ? f.umbral : 10;
+    const tabs = [['canal', 'Por canal'], ['producto', 'Por producto'], ['cruce', 'Producto por canal'], ['simulador', 'Simulador']];
+    const cab = '<div class="encabezado"><div><h1>Rentabilidad</h1><p>Lo que deja cada venta después de lo que se lleva cada canal · ' + esc(p.texto) + '</p></div><div class="acciones"><div class="filtro"><span class="filtro-l">Período</span>' + selectorFechas() + '</div><a class="btn" href="#/informe/rentabilidad"><i class="ph ph-file-xls"></i>Informe y Excel</a></div></div>' +
+      '<div class="kpis">' + kpi('ph-receipt', 'Venta sin IVA', fmtM(T.neto), plural(todas.length, 'venta', 'ventas')) + kpi('ph-storefront', 'Costos del canal', fmtM(T.canal), 'Comisiones, envíos y cuotas') + kpi('ph-chart-line-up', 'Ganancia neta', fmtM(T.ganancia), 'Después del costo y del canal', true) + kpi('ph-percent', 'Margen neto', fPct(pctDe(T.ganancia, T.neto)), 'Sobre la venta sin IVA', pctDe(T.ganancia, T.neto) >= umbral) + '</div>' +
+      '<div class="cierres">' + [cierreI('Cierra con Utilidad en ventas: venta sin IVA', sumaPor(todas, (v) => utilidadVenta(v).neto), T.neto), cierreI('Cierra con el Panel: vendido menos IVA y percepciones', r2(R.vendido - ivaPerc), T.neto), cierreI('Ganancia neta = utilidad bruta menos costos del canal', r2(T.bruta - T.canal), T.ganancia)].map((c) => '<div class="cierre' + (c.ok ? '' : ' mal') + '"><i class="ph-fill ' + (c.ok ? 'ph-check-circle' : 'ph-warning-circle') + '"></i><span>' + esc(c.txt) + '</span><span class="num">' + fmt(c.valor) + '</span></div>').join('') + '</div>' +
+      '<div class="tabs" role="tablist" data-key="rentab">' + tabs.map(([id, n]) => '<button type="button" role="tab" aria-selected="' + (f.tab === id) + '" data-accion="tab-rentab" data-tab="' + id + '">' + n + '</button>').join('') + '</div>';
+    const umbralCtl = '<div class="filtro"><span class="filtro-l">Margen bajo (rojo) por debajo de</span><label class="umbral"><input class="input" type="number" id="f-rent-umbral" min="-50" max="80" step="1" value="' + esc(String(umbral)) + '" aria-label="Margen bajo por debajo de"><span>%</span></label></div>';
+    const fila = (cols, x, ir) => '<tr' + (ir ? ' class="clic" ' + ir : '') + (x.pct < umbral ? ' data-riesgo="' + (x.pct < 0 ? 'pierde' : 'bajo') + '"' : '') + '>' + cols + '<td class="num">' + fmt0(x.neto) + '</td><td class="num">' + fmt0(x.costo) + '</td><td class="num">' + fmt0(x.comision) + '</td><td class="num">' + fmt0(x.envio) + '</td><td class="num">' + fmt0(x.cuotas) + '</td><td class="num"><b>' + fmt0(x.ganancia) + '</b></td><td class="num">' + barraMargen(x.pct, umbral) + '</td></tr>';
+    const cabCols = '<th class="num">Venta sin IVA</th><th class="num" title="Costo de la mercadería (el de un combo es la suma de sus componentes)">Costo</th><th class="num">Comisión</th><th class="num" title="Envío a cargo de HDC">Envío</th><th class="num" title="Cuotas sin interés">Cuotas</th><th class="num">Ganancia neta</th><th class="num">Margen</th>';
+    const pie = (txt, xs, extra) => { const t = {}; ['neto', 'costo', 'comision', 'envio', 'cuotas', 'ganancia'].forEach((c) => { t[c] = sumaPor(xs, (x) => x[c]); }); return '<tfoot><tr><td>' + txt + '</td>' + (extra || '') + '<td class="num">' + fmt0(t.neto) + '</td><td class="num">' + fmt0(t.costo) + '</td><td class="num">' + fmt0(t.comision) + '</td><td class="num">' + fmt0(t.envio) + '</td><td class="num">' + fmt0(t.cuotas) + '</td><td class="num">' + fmt0(t.ganancia) + '</td><td class="num">' + fPct(pctDe(t.ganancia, t.neto)) + '</td></tr></tfoot>'; };
+    const nota = '<p class="nota" style="margin-top:12px">Comisiones y cargos tal como los descuenta cada canal, con IVA incluido. Retenciones y percepciones no son costo, son a cuenta de impuestos: en el período suman <span class="nw">' + fmt0(T.ret) + '</span>.</p>';
+    let cuerpo;
+    if (f.tab === 'producto') {
+      const xs = rentabilidadAgrupada(vs, 'producto').sort((a, b) => f.orden === 'margen' ? a.pct - b.pct : b.ganancia - a.ganancia);
+      const nBajos = xs.filter((x) => x.pct < umbral).length;
+      cuerpo = '<div class="toolbar inf-tool"><div class="filtros"><div class="filtro"><span class="filtro-l">Canal</span><select class="input" id="f-rent-canal" aria-label="Canal">' + opciones([['', 'Todos los canales']].concat(DB.canales.map((c) => [c.id, c.nombre])), f.canal) + '</select></div><div class="filtro"><span class="filtro-l">Ordenar</span><div class="segmentado" role="group" aria-label="Ordenar"><button type="button" data-accion="rentab-orden" data-orden="ganancia" aria-pressed="' + (f.orden !== 'margen') + '">Por ganancia</button><button type="button" data-accion="rentab-orden" data-orden="margen" aria-pressed="' + (f.orden === 'margen') + '">Por margen</button></div></div>' + umbralCtl + '</div></div>' +
+        (nBajos ? '<p class="nota"><span class="badge b-bad">' + plural(nBajos, 'producto', 'productos') + ' por debajo de ' + esc(String(umbral)) + '%</span></p>' : '') +
+        '<div class="tabla-wrap"><table class="compacta rentab"><thead><tr><th>Producto</th><th class="num">Unidades</th>' + cabCols + '</tr></thead><tbody>' + (xs.map((x) => fila('<td>' + esc(x.nombre) + (x.pct < 0 ? '<span class="sec rojo">Pierde plata</span>' : x.pct < umbral ? '<span class="sec rojo">Margen bajo</span>' : '') + '</td><td class="num">' + fCant(x.u) + '</td>', x, x.productoId ? 'data-ir="rentabilidad?producto=' + esc(x.productoId) + '"' : '')).join('') || '<tr><td colspan="9"><div class="vacio-estado"><i class="ph ph-magnifying-glass"></i><p>No hay ventas con estos filtros.</p></div></td></tr>') + '</tbody>' + (xs.length ? pie('Total', xs, '<td class="num">' + fCant(xs.reduce((a, x) => a + x.u, 0)) + '</td>') : '') + '</table></div>';
+    } else if (f.tab === 'cruce') {
+      const pr = producto(f.productoId) || terminados()[0];
+      const xs = rentabilidadAgrupada(todas, 'cruce').filter((x) => x.productoId === pr.id);
+      const filas = DB.canales.map((c) => {
+        const x = xs.find((y) => y.canal === c.id), hoy = rentabilidadPrecio(pr, c.id), precio = precioCanal(pr, c.id);
+        const real = x ? '<td class="num">' + x.n + '</td><td class="num">' + fmt0(x.neto) + '</td><td class="num"><b>' + fmt0(x.ganancia) + '</b></td><td class="num">' + barraMargen(x.pct, umbral) + '</td>' : '<td class="num">0</td><td class="num cero">Sin ventas</td><td></td><td></td>';
+        return '<tr' + (hoy.pct < umbral ? ' data-riesgo="' + (hoy.pct < 0 ? 'pierde' : 'bajo') + '"' : '') + '><td>' + chipCanal(c.id) + '</td>' + real + '<td class="num">' + fmt0(precio) + '</td><td class="num">' + fmt0(hoy.costosCanal) + '</td><td class="num"><b>' + fmt0(hoy.ganancia) + '</b></td><td class="num" data-margen-hoy="' + esc(c.id) + '">' + barraMargen(hoy.pct, umbral) + '</td></tr>';
+      }).join('');
+      cuerpo = '<div class="toolbar inf-tool"><div class="filtros"><div class="filtro"><span class="filtro-l">Producto</span><select class="input" id="f-rent-producto" aria-label="Producto">' + opciones(terminados().map((x) => [x.id, x.nombre]), pr.id) + '</select></div>' + umbralCtl + '</div></div>' +
+        '<p class="nota">Cuánto deja ' + esc(pr.nombre) + ' en cada canal: lo que dejó en las ventas del período y lo que deja una unidad con el precio de hoy.</p>' +
+        '<div class="tabla-wrap"><table class="compacta rentab"><thead><tr><th>Canal</th><th class="num">Ventas</th><th class="num">Venta sin IVA</th><th class="num">Ganancia neta</th><th class="num">Margen</th><th class="num">Precio de hoy</th><th class="num" title="Comisión, envío y cuotas estimados para una unidad">Costos del canal</th><th class="num">Deja por unidad</th><th class="num">Margen hoy</th></tr></thead><tbody>' + filas + '</tbody></table></div>';
+    } else if (f.tab === 'simulador') {
+      const pr = producto(f.simProducto) || terminados()[0], cId = canal(f.simCanal) ? f.simCanal : 'ml';
+      const actual = precioCanal(pr, cId), precio = Number.isFinite(parseNum(f.simPrecio)) && parseNum(f.simPrecio) > 0 ? parseNum(f.simPrecio) : actual;
+      const r = rentabilidadPrecio(pr, cId, precio), e = costosCanalEstimados(cId);
+      cuerpo = '<div class="simulador card"><div class="card-b">' +
+        '<div class="toolbar inf-tool" style="margin:0"><div class="filtros"><div class="filtro"><span class="filtro-l">Producto</span><select class="input" id="f-sim-producto" aria-label="Producto">' + opciones(terminados().map((x) => [x.id, x.nombre]), pr.id) + '</select></div><div class="filtro"><span class="filtro-l">Canal</span><select class="input" id="f-sim-canal" aria-label="Canal">' + opciones(DB.canales.map((c) => [c.id, c.nombre]), cId) + '</select></div><div class="filtro"><span class="filtro-l">Precio con IVA</span><input class="input" type="text" inputmode="decimal" id="f-sim-precio" value="' + esc(f.simPrecio || fmtInput(actual)) + '" aria-label="Precio con IVA"></div>' + umbralCtl + '</div></div>' +
+        '<p class="nota" style="margin:10px 0">Precio de hoy en ' + esc(nombreDe(canal(cId))) + ': ' + fmt0(actual) + '. Con la comisión del canal (' + fPct(e.comisionPct) + '), el envío promedio a cargo de HDC (' + fmt0(e.envio) + ') y las cuotas (' + fPct(e.cuotasPct) + ' de lo vendido), sacados de sus ventas. Solo calcula: no guarda nada.</p>' +
+        '<div class="desglose sim-res"><span>Venta sin IVA</span><span class="num">' + fmt(r.neto) + '</span><span class="resta">Costo de la mercadería' + (esCombo(pr) ? ' (suma de los componentes)' : '') + '</span><span class="num resta">-' + fmt(r.costo) + '</span><span class="resta">Comisión del canal</span><span class="num resta">-' + fmt(r.comision) + '</span><span class="resta">Envío a cargo de HDC</span><span class="num resta">-' + fmt(r.envio) + '</span><span class="resta">Cuotas sin interés</span><span class="num resta">-' + fmt(r.cuotas) + '</span><span class="final">Ganancia neta</span><span class="final num" id="sim-ganancia">' + fmt(r.ganancia) + '</span><span class="final">Margen neto</span><span class="final num" id="sim-margen">' + barraMargen(r.pct, umbral) + '</span></div></div></div>';
+    } else {
+      const xs = rentabilidadAgrupada(todas, 'canal');
+      const filas = DB.canales.map((c) => xs.find((x) => x.canal === c.id) || null).filter(Boolean);
+      cuerpo = '<div class="toolbar inf-tool"><div class="filtros">' + umbralCtl + '</div></div>' +
+        '<div class="tabla-wrap"><table class="compacta rentab"><thead><tr><th>Canal</th><th class="num">Ventas</th>' + cabCols + '</tr></thead><tbody>' + filas.map((x) => fila('<td>' + chipCanal(x.canal) + '</td><td class="num">' + x.n + '</td>', x, 'data-ir="rentabilidad?tab=producto&amp;canal=' + esc(x.canal) + '"')).join('') + '</tbody>' + (filas.length ? pie('Total', filas, '<td class="num">' + filas.reduce((s, x) => s + x.n, 0) + '</td>') : '') + '</table></div>';
+    }
+    return cab + cuerpo + nota;
   }
 
   /* ================= INFORMES ================= */
@@ -2645,6 +2768,24 @@
         const iU = f.modo === 'venta' ? 6 : 4;
         return { kpis: [['ph-receipt', 'Venta sin IVA', fmtM(neto), plural(vs.length, 'venta', 'ventas')], ['ph-stack', 'Costo', fmtM(costo), 'Guardado en cada renglón al vender'], ['ph-chart-line-up', 'Utilidad', fmtM(util), 'Venta sin IVA menos costo', true], ['ph-percent', 'Margen', fPct(pctDe(util, neto)), 'Sobre la venta sin IVA']],
           tablas: [{ cols, filas }], cierres: [cierreI('Cierra con el bloque Costo y utilidad de cada venta', util, totI(filas, iU))], nota: 'El costo de un combo es la suma de sus componentes: nunca se carga a mano.' };
+      } },
+    { id: 'rentabilidad', g: 'Productos', n: 'Rentabilidad por canal y producto', ver: true, fil: ['canal'], modos: [['canal', 'Por canal'], ['producto', 'Por producto'], ['cruce', 'Producto por canal']], clave: 'rentabilidad ganancia neta margen comision envio cuotas marketplace canal',
+      nota: 'Comisiones y cargos tal como los descuenta cada canal, con IVA incluido. Retenciones y percepciones no son costo: son a cuenta de impuestos.',
+      calc(f, p) {
+        const vs = ventasFiltradas(f, p).filter((v) => !anulada(v));
+        const xs = rentabilidadAgrupada(vs, f.modo);
+        const num = [colI('Venta sin IVA', 'monto'), colI('Costo', 'monto', { ayuda: 'Costo de la mercadería (el de un combo es la suma de sus componentes)' }), colI('Comisión', 'monto'), colI('Envío', 'monto', { ayuda: 'Envío a cargo de HDC' }), colI('Cuotas', 'monto', { ayuda: 'Cuotas sin interés' }), colI('Ganancia neta', 'monto'), colI('Margen', 'pct', { total: null })];
+        const vals = (x) => [x.neto, x.costo, x.comision, x.envio, x.cuotas, x.ganancia, x.pct];
+        let cols, filas, iN;
+        if (f.modo === 'producto') { cols = [colI('Producto'), colI('Unidades', 'cant', { suma: true })].concat(num); iN = 2; filas = xs.sort((a, b) => b.ganancia - a.ganancia).map((x) => filaI([x.nombre, x.u].concat(vals(x)), x.productoId ? ['producto', x.productoId] : null)); }
+        else if (f.modo === 'cruce') { cols = [colI('Producto'), colI('Canal', 'canal'), colI('Unid.', 'cant', { suma: true, ayuda: 'Unidades' })].concat(num); iN = 3; filas = xs.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es') || b.ganancia - a.ganancia).map((x) => filaI([x.nombre, x.canal, x.u].concat(vals(x)), x.productoId ? ['producto', x.productoId] : null)); }
+        else { cols = [colI('Canal', 'canal'), colI('Ventas', 'n')].concat(num); iN = 2; filas = DB.canales.map((c) => xs.find((x) => x.canal === c.id)).filter(Boolean).map((x) => filaI([x.canal, x.n].concat(vals(x)), ['ir', 'rentabilidad?tab=producto&canal=' + x.canal])); }
+        cols[cols.length - 1].total = margenI(iN + 5, iN);
+        const us = vs.map(utilidadVenta), rs = vs.map(rentabilidadVenta);
+        const neto = sumaPor(rs, (r) => r.neto), gan = sumaPor(rs, (r) => r.ganancia), canalC = sumaPor(rs, (r) => r.costosCanal);
+        return { kpis: [['ph-receipt', 'Venta sin IVA', fmtM(neto), plural(vs.length, 'venta', 'ventas')], ['ph-storefront', 'Costos del canal', fmtM(canalC), 'Comisiones, envíos y cuotas'], ['ph-chart-line-up', 'Ganancia neta', fmtM(gan), 'Después del costo y del canal', true], ['ph-percent', 'Margen neto', fPct(pctDe(gan, neto)), 'Sobre la venta sin IVA']],
+          tablas: [{ cols, filas }],
+          cierres: [cierreI('Cierra con Utilidad en ventas: venta sin IVA', sumaPor(us, (u) => u.neto), totI(filas, iN)), cierreI('Ganancia neta = utilidad bruta menos costos del canal', r2(sumaPor(us, (u) => u.utilidad) - canalC), totI(filas, iN + 5))] };
       } },
     { id: 'materia-prima', g: 'Productos', n: 'Materia prima', aHoy: 'mixto', clave: 'materia prima insumos consumo minimo compras',
       calc(f, p) {
@@ -3895,6 +4036,8 @@
     { label: 'Ir a Facturación y ARCA', ic: 'ph-cloud-arrow-down', va: true, run: ir('config?tab=facturacion') },
     { label: 'Ir a Vendedores, operadores y listas de precios', ic: 'ph-gear-six', va: true, run: ir('config?tab=vendedores') },
     { label: 'Ir a Informes', ic: 'ph-chart-bar', va: true, run: ir('informes') },
+    { label: 'Ir a Rentabilidad por canal y producto', ic: 'ph-chart-line-up', va: true, run: ir('rentabilidad') },
+    { label: 'Simulador de precio y ganancia por canal', ic: 'ph-calculator', run: () => { UI.rentab.tab = 'simulador'; if (location.hash !== '#/rentabilidad') location.hash = '#/rentabilidad'; else render(); } },
     { label: 'Cambiar tema claro u oscuro', ic: 'ph-moon', run: () => { const b = document.querySelector('[data-accion="tema"]'); if (b) b.click(); } }
   ];
   const ICONO_TIPO = { venta: 'ph-receipt', cliente: 'ph-user', proveedor: 'ph-truck', producto: 'ph-package', caja: 'ph-bank', cheque: 'ph-money', deposito: 'ph-warehouse', canal: 'ph-storefront', remito: 'ph-truck', orden: 'ph-factory', informe: 'ph-chart-bar' };
@@ -3965,7 +4108,12 @@
   }
   /* Pestañas y modos que no entran: degradé en el borde mientras quede algo a la derecha. Solo dibuja. */
   function marcarDesbordes() {
-    $$('#vista .tabs, #vista .inf-modos').forEach((x) => x.classList.toggle('con-mas', x.scrollWidth - x.clientWidth - x.scrollLeft > 4));
+    $$('#vista .tabs, #vista .inf-modos').forEach((x) => {
+      /* la pestaña elegida siempre a la vista */
+      const sel = x.querySelector('[aria-selected="true"], [aria-pressed="true"]');
+      if (sel && x.scrollWidth > x.clientWidth && (sel.offsetLeft + sel.offsetWidth > x.scrollLeft + x.clientWidth || sel.offsetLeft < x.scrollLeft)) x.scrollLeft = Math.max(0, sel.offsetLeft - 16);
+      x.classList.toggle('con-mas', x.scrollWidth - x.clientWidth - x.scrollLeft > 4);
+    });
   }
   document.addEventListener('scroll', (e) => { if (e.target && e.target.classList && (e.target.classList.contains('tabs') || e.target.classList.contains('inf-modos'))) marcarDesbordes(); }, true);
   window.addEventListener('resize', () => marcarDesbordes());
@@ -3992,6 +4140,7 @@
     Object.assign(UI.produccion, { tab: 'tablero', estado: '' });
     UI.config.tab = 'canales';
     UI.informes.q = '';
+    Object.assign(UI.rentab, { tab: 'canal', canal: '', orden: 'ganancia', umbral: 10, productoId: '', simProducto: '', simCanal: 'ml', simPrecio: '' });
   }
   function arcaRevisada(ventaId) { DB.arca.revisar = DB.arca.revisar.filter((x) => x.ventaId !== Number(ventaId)); guardar(); return { ok: true }; }
   /* Lo que devuelve una operación: si trae errores se avisa y no se toca nada más. */
@@ -4035,6 +4184,8 @@
         case 'exportar-informe': if (exportarInforme(id)) toast('Excel descargado.'); else toast('No hay datos para exportar.', 'ph-info'); return;
         case 'descargar-archivo': if (descargarArchivoInf(id)) toast('Archivo descargado. En la maqueta, con datos de ejemplo.'); return;
         case 'inf-modo': fijarFiltroInf('modo', ac.dataset.modo); return;
+        case 'tab-rentab': UI.rentab.tab = ac.dataset.tab; refrescar(); return;
+        case 'rentab-orden': UI.rentab.orden = ac.dataset.orden; refrescar(); return;
         case 'inf-todo': UI.informes.todo = ruta().partes[1]; refrescar(); return;
         case 'imprimir-informe': UI.informes.todo = id; refrescar(); window.print(); return;
         case 'limpiar-informe': { const { partes, params } = ruta(); const m = params.get('modo'); history.replaceState(null, '', '#/informe/' + partes[1] + (m ? '?modo=' + encodeURIComponent(m) : '')); refrescar(); return; }
@@ -4131,7 +4282,7 @@
     const activo = document.activeElement && document.activeElement.id;
     const pos = activo && document.activeElement.selectionStart;
     const { partes, params } = ruta();
-    const V = { ventas: vVentas, clientes: vClientes, proveedores: vProveedores, productos: vProductos, cajas: vCajas, depositos: vDepositos, produccion: vProduccion, config: vConfig, canales: vConfig, informes: vInformes, informe: vInforme }[partes[0]];
+    const V = { ventas: vVentas, clientes: vClientes, proveedores: vProveedores, productos: vProductos, cajas: vCajas, depositos: vDepositos, produccion: vProduccion, config: vConfig, canales: vConfig, informes: vInformes, informe: vInforme, rentabilidad: vRentabilidad }[partes[0]];
     if (!V) { render(); return; }
     cerrarCal();
     setHTML($('#vista'), '<div>' + V(partes, params) + '</div>');
@@ -4151,6 +4302,8 @@
     if (id === 'f-prod-q') debounce(() => { UI.productos.q = e.target.value; refrescar(); });
     if (id === 'f-dep-q') debounce(() => { UI.depositos.q = e.target.value; UI.depositos.limite = 80; refrescar(); });
     if (id === 'f-informes-q') debounce(() => { UI.informes.q = e.target.value; refrescar(); });
+    if (id === 'f-rent-umbral') debounce(() => { const n = Number(e.target.value); if (Number.isFinite(n) && e.target.value !== '') { UI.rentab.umbral = Math.max(-50, Math.min(80, n)); refrescar(); } });
+    if (id === 'f-sim-precio') debounce(() => { UI.rentab.simPrecio = e.target.value; refrescar(); });
     if (id === 'f-inf-q') debounce(() => fijarFiltroInf('q', e.target.value));
   });
   document.addEventListener('change', (e) => {
@@ -4166,6 +4319,10 @@
     if (id === 'f-pub-canal') { UI.productos.canal = e.target.value; refrescar(); }
     if (id === 'f-pub-estado') { UI.productos.estado = e.target.value; refrescar(); }
     if (e.target.dataset && e.target.dataset.infFiltro) fijarFiltroInf(e.target.dataset.infFiltro, e.target.value);
+    if (id === 'f-rent-canal') { UI.rentab.canal = e.target.value; refrescar(); }
+    if (id === 'f-rent-producto') { UI.rentab.productoId = e.target.value; refrescar(); }
+    if (id === 'f-sim-producto') { UI.rentab.simProducto = e.target.value; UI.rentab.simPrecio = ''; refrescar(); }
+    if (id === 'f-sim-canal') { UI.rentab.simCanal = e.target.value; UI.rentab.simPrecio = ''; refrescar(); }
     if (e.target.classList && e.target.classList.contains('sel-pv') && e.target.value) { const r = asignarPuntoVenta(e.target.value, e.target.dataset.pv); if (hecho(r, r.canal ? r.canal.nombre + ' ahora factura por el punto de venta ' + e.target.dataset.pv + '.' : '')) refrescar(); }
   });
   document.addEventListener('keydown', (e) => {
@@ -4207,6 +4364,7 @@
       stockFisico, stockReservado, guardarOrden, cambiarEstadoOrden, materialesOrden,
       publicaciones, publicacion, publicarPendientes, fijarPrecioPublicado, previaPrecios, cambiarPrecios,
       traerDeArca, cargarDeArca, comparacionArca, asignarPuntoVenta, arcaRevisada, guardarMaestro, guardarCombo,
+      rentabilidadVenta, rentabilidadRenglones, rentabilidadAgrupada, rentabilidadPrecio, precioCanal, costosCanalEstimados, ventaSimulada, descuentos,
       INFS, calcularInforme, filtrosInforme, exportarInforme, descargarArchivoInf, comprobantesVenta, comprobantesCompra, cruceLibroPanel, renglonesVenta, versionDe, ventasConSaldo, transitoVenta, retencionesSufridas, retencionesPracticadas, prestamosPor, movsProveedor, buscarGlobal, cuitValido,
       abrir: { venta: abrirVenta, cliente: abrirCliente, proveedor: abrirProveedor, caja: abrirCaja, cheque: abrirCheque, producto: abrirProducto, deposito: abrirDeposito, remito: abrirRemito, orden: abrirOrden }
     };

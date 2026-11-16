@@ -370,12 +370,13 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
     <div class="hero-meta rev" style="--d:.15s">
       <span><i class="ph ph-check-circle"></i>Mismo orden de trabajo</span>
       <span><i class="ph ph-check-circle"></i>Informes que cierran</span>
+      <span><i class="ph ph-check-circle"></i>Ganancia real por producto y tienda</span>
       <span><i class="ph ph-check-circle"></i>Stock y precios en todas las tiendas</span>
     </div>
     <div class="escena">
       <div class="marco">
         <div class="barra" aria-hidden="true"><i></i><i></i><i></i><span>Recorrido por el sistema</span></div>
-        <video id="video-hero" src="assets/video/recorrido.mp4" poster="assets/video/poster.webp" width="1280" height="800" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por el sistema: panel general, centro de ventas, detalle de una venta, publicaciones, depósito, producción, cajas, proveedores, informes, Libro de IVA y buscador con Ctrl K"></video>
+        <video id="video-hero" src="assets/video/recorrido.mp4" poster="assets/video/poster.webp" width="1280" height="800" autoplay muted loop playsinline preload="metadata" aria-label="Recorrido por el sistema: panel general, centro de ventas, detalle de una venta, rentabilidad, publicaciones, depósito, producción, cajas, proveedores, informes, Libro de IVA y buscador con Ctrl K"></video>
       </div>
       <div class="video-pie"><span class="nota">Recorrido por la maqueta, con datos de ejemplo.</span><button type="button" class="pausa" id="pausa-video" aria-pressed="false"><i class="ph ph-pause"></i><span>Pausar</span></button></div>
     </div>
@@ -443,6 +444,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
         <ul class="lista">
           <li><i class="ph-fill ph-check-circle"></i>Cada venta atada a su factura, a su cobro y a lo que entró al banco.</li>
           <li><i class="ph-fill ph-check-circle"></i>Todos los informes salen de la misma base: si dos miran lo mismo, dan lo mismo.</li>
+          <li><i class="ph-fill ph-check-circle"></i>Cada producto muestra lo que deja en cada tienda, después de comisiones, envíos y cuotas.</li>
           <li><i class="ph-fill ph-check-circle"></i>Las ventas de los canales entran al sistema y se facturan solas, sin cargarlas una por una.</li>
           <li><i class="ph-fill ph-check-circle"></i>El stock y los precios se publican desde el sistema en todas las tiendas.</li>
         </ul>
@@ -463,13 +465,14 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
         <button class="tab" role="tab" aria-selected="true" data-i="0"><i class="ph ph-squares-four"></i><div><b>Panel general</b><span>Vendido, cobrado y acreditado del período que elijan en el calendario, con cada diferencia explicada peso por peso.</span></div></button>
         <button class="tab" role="tab" aria-selected="false" data-i="1"><i class="ph ph-receipt"></i><div><b>Centro de ventas</b><span>Las cinco tiendas, mostrador y mayorista juntos, con pestañas para lo que falta remitir, cobrar o acreditar.</span></div></button>
         <button class="tab" role="tab" aria-selected="false" data-i="2"><i class="ph ph-path"></i><div><b>Detalle de una venta</b><span>Factura, cobro, remito y acreditación, con la comisión y el envío de esa venta.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="3"><i class="ph ph-tag"></i><div><b>Publicaciones</b><span>Precio y stock de cada producto en cada tienda, y cambios masivos con vista previa.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="4"><i class="ph ph-package"></i><div><b>Depósito y remitos</b><span>Remitos con su estado, hoja de ruta y rendición del día para depósito.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="5"><i class="ph ph-factory"></i><div><b>Producción</b><span>Órdenes de fabricación por estado, con la materia prima que consume cada una.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="6"><i class="ph ph-bank"></i><div><b>Cajas y bancos</b><span>Cajas sin límite, préstamos y cheques, cada saldo contra su extracto.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="7"><i class="ph ph-truck"></i><div><b>Proveedores y gastos</b><span>Proveedores, servicios, impuestos y sueldos, con lo que se debe y lo que vence.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="8"><i class="ph ph-chart-line-up"></i><div><b>Informes</b><span>Los grupos que ya conocen, con calendario, filtros, Excel e impresión.</span></div></button>
-        <button class="tab" role="tab" aria-selected="false" data-i="9"><i class="ph ph-scales"></i><div><b>Libro de IVA Ventas</b><span>Todos los puntos de venta en una sola corrida, agrupado por comprobante y cerrando con el Panel.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="3"><i class="ph ph-trend-up"></i><div><b>Rentabilidad</b><span>Cuánto deja cada producto en cada tienda después de comisiones, envíos y cuotas, y un simulador de precios.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="4"><i class="ph ph-tag"></i><div><b>Publicaciones</b><span>Precio, stock y margen neto de cada producto en cada tienda, y cambios masivos con vista previa.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="5"><i class="ph ph-package"></i><div><b>Depósito y remitos</b><span>Remitos con su estado, hoja de ruta y rendición del día para depósito.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="6"><i class="ph ph-factory"></i><div><b>Producción</b><span>Órdenes de fabricación por estado, con la materia prima que consume cada una.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="7"><i class="ph ph-bank"></i><div><b>Cajas y bancos</b><span>Cajas sin límite, préstamos y cheques, cada saldo contra su extracto.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="8"><i class="ph ph-truck"></i><div><b>Proveedores y gastos</b><span>Proveedores, servicios, impuestos y sueldos, con lo que se debe y lo que vence.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="9"><i class="ph ph-chart-line-up"></i><div><b>Informes</b><span>Los grupos que ya conocen, con calendario, filtros, Excel e impresión.</span></div></button>
+        <button class="tab" role="tab" aria-selected="false" data-i="10"><i class="ph ph-scales"></i><div><b>Libro de IVA Ventas</b><span>Todos los puntos de venta en una sola corrida, agrupado por comprobante y cerrando con el Panel.</span></div></button>
       </div>
       <div class="visor rev">
         <div class="marco">
@@ -478,6 +481,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
             <img class="on" src="assets/v2-panel.webp" width="2000" height="1250" alt="Panel general">
             <img src="assets/v2-ventas.webp" width="2000" height="1250" alt="Centro de ventas" loading="lazy">
             <img src="assets/v2-venta-detalle.webp" width="2000" height="1250" alt="Detalle de una venta de Mercado Libre" loading="lazy">
+            <img src="assets/v2-rentabilidad.webp" width="2000" height="1250" alt="Rentabilidad por canal y producto" loading="lazy">
             <img src="assets/v2-publicaciones.webp" width="2000" height="1250" alt="Publicaciones de precio y stock por tienda" loading="lazy">
             <img src="assets/v2-remitos.webp" width="2000" height="1250" alt="Remitos del depósito" loading="lazy">
             <img src="assets/v2-produccion.webp" width="2000" height="1250" alt="Tablero de producción" loading="lazy">
@@ -512,7 +516,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="mod rev" style="--d:.12s"><i class="ph ph-users ic"></i><h3>Clientes</h3><p class="para"><b>Para qué:</b> Saber quién debe, cuánto y desde cuándo, en todos los canales.</p><ul><li>CUIT validado, condición de IVA y lista de precios.</li><li>Cuenta corriente unificada.</li><li>Vendedor asignado.</li><li>Saldos a 30, 60 y 90 días.</li></ul></div>
       <div class="mod rev"><i class="ph ph-truck ic"></i><h3>Proveedores y pagos</h3><p class="para"><b>Para qué:</b> Saber a quién se le debe y cuándo vence, y pagar con las retenciones bien hechas.</p><ul><li>Proveedores, servicios, impuestos y sueldos.</li><li>Facturas sin duplicados.</li><li>Órdenes de pago con retenciones.</li><li>Cheques propios a debitar.</li></ul></div>
       <div class="mod rev" style="--d:.04s"><i class="ph ph-bank ic"></i><h3>Cajas, bancos y préstamos</h3><p class="para"><b>Para qué:</b> Que el saldo del sistema sea el mismo que el del banco.</p><ul><li>Cajas sin límite, de cualquier tipo.</li><li>Préstamos con sus cuotas.</li><li>Cheques de terceros y valores diferidos.</li><li>Arqueos y transferencias entre cajas.</li></ul></div>
-      <div class="mod rev" style="--d:.08s"><i class="ph ph-tag ic"></i><h3>Productos y publicaciones</h3><p class="para"><b>Para qué:</b> Cambiar un precio una vez y que llegue a todas las tiendas.</p><ul><li>Cuatro listas de precios.</li><li>Combos con su costo calculado.</li><li>Stock y precio publicado por tienda.</li><li>Cambio masivo con vista previa.</li></ul></div>
+      <div class="mod rev" style="--d:.08s"><i class="ph ph-tag ic"></i><h3>Productos y publicaciones</h3><p class="para"><b>Para qué:</b> Cambiar un precio una vez y que llegue a todas las tiendas.</p><ul><li>Cuatro listas de precios.</li><li>Combos con su costo calculado.</li><li>Stock y precio publicado por tienda.</li><li>Ganancia neta de cada producto en cada tienda.</li></ul></div>
       <div class="mod rev" style="--d:.12s"><i class="ph ph-package ic"></i><h3>Depósitos y remitos</h3><p class="para"><b>Para qué:</b> Saber qué hay, dónde está y qué falta despachar.</p><ul><li>Todos los depósitos, con ubicación.</li><li>Remitos con su estado y hoja de ruta.</li><li>Rendición por día y por producto.</li><li>Devoluciones a revisión.</li></ul></div>
       <div class="mod rev"><i class="ph ph-factory ic"></i><h3>Producción</h3><p class="para"><b>Para qué:</b> Seguir lo que se fabrica y la materia prima que consume.</p><ul><li>Órdenes de fabricación por estado.</li><li>Materia prima por producto.</li><li>Lo terminado entra solo al stock.</li><li>Aviso de materia prima bajo el mínimo.</li></ul></div>
       <div class="mod rev" style="--d:.04s"><i class="ph ph-chart-line-up ic"></i><h3>Informes de gestión</h3><p class="para"><b>Para qué:</b> Decidir con números que cierran, sin controlar todo dos veces.</p><ul><li>Operaciones, clientes y proveedores.</li><li>Stock actual y stock valorizado.</li><li>Rankings, utilidad y 80/20.</li><li>Todo exportable a Excel.</li></ul></div>
@@ -532,7 +536,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="inf rev"><span class="tag"><i class="ph ph-briefcase"></i>Para el dueño</span><h3>Operaciones</h3><p>Resumen de compras y ventas con números de verdad, ventas por canal, día y producto, vendido, cobrado y acreditado, producción del período, remitos y rendición.</p></div>
       <div class="inf rev" style="--d:.05s"><span class="tag"><i class="ph ph-users"></i>Para el dueño y cobranzas</span><h3>Clientes</h3><p>Saldos en cuenta corriente por mes, a 30, 60 y 90 días, por vendedor y con vencimientos. Actividad de cada cliente y cobros.</p></div>
       <div class="inf rev" style="--d:.1s"><span class="tag"><i class="ph ph-truck"></i>Para administración</span><h3>Proveedores</h3><p>Saldos, actividad de cada proveedor, órdenes de pago con sus retenciones, compras a saldar y cheques propios a debitar.</p></div>
-      <div class="inf rev"><span class="tag"><i class="ph ph-package"></i>Para el dueño y depósito</span><h3>Productos</h3><p>Stock actual por depósito, rubro y ubicación. Stock valorizado al costo o por cualquier lista. Movimientos, rankings, 80/20, utilidad y materia prima.</p></div>
+      <div class="inf rev"><span class="tag"><i class="ph ph-package"></i>Para el dueño y depósito</span><h3>Productos</h3><p>Stock actual por depósito, rubro y ubicación. Stock valorizado al costo o por cualquier lista. Rentabilidad por tienda, movimientos, rankings, 80/20 y materia prima.</p></div>
       <div class="inf rev" style="--d:.05s"><span class="tag"><i class="ph ph-bank"></i>Para tesorería</span><h3>Caja y cobranzas</h3><p>Medios de pago, movimientos de cada caja, arqueos, ventas y cobranzas por vendedor, plata en tránsito, conciliación bancaria y préstamos.</p></div>
       <div class="inf rev" style="--d:.1s"><span class="tag"><i class="ph ph-scales"></i>Para la contadora</span><h3>Contables</h3><p>Libros de IVA Ventas y Compras, posición de IVA, ARBA y AGIP por mes y quincena, deducciones, la base para Convenio Multilateral, SICORE, Libro de IVA Digital y padrón de alícuotas.</p></div>
     </div>
@@ -580,7 +584,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
     <div class="mejoras rev">
       <div class="mej"><i class="ph ph-check-square"></i><h3>Los informes cierran</h3><p>Vendido, cobrado y acreditado con el motivo de cada peso.</p></div>
       <div class="mej"><i class="ph ph-equals"></i><h3>Un solo número</h3><p>Todos los informes salen de la misma base.</p></div>
-      <div class="mej"><i class="ph ph-tag"></i><h3>Un precio, todas las tiendas</h3><p>Se cambia una vez y se publica en cada tienda.</p></div>
+      <div class="mej"><i class="ph ph-tag"></i><h3>Un precio, todas las tiendas</h3><p>Se cambia una vez, se publica en cada tienda y se ve cuánto deja.</p></div>
       <div class="mej"><i class="ph ph-package"></i><h3>Depósito al día</h3><p>Lo que hay que remitir, siempre a la vista.</p></div>
       <div class="mej"><i class="ph ph-magnifying-glass"></i><h3>Todo se encuentra</h3><p>Con la búsqueda rápida (Ctrl K): por nombre, CUIT, comprobante o monto.</p></div>
       <div class="mej"><i class="ph ph-lightning"></i><h3>Menos carga manual</h3><p>Ventas de las tiendas y facturas de ARCA, sin cargar una por una.</p></div>

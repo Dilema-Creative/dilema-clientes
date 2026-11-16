@@ -389,7 +389,7 @@
       const cuotas = enCuotas ? elegir([3, 6, 6, 12]) : 1;
       let com = 0, env = 0, cuo = 0, dias = 0, pend = 'A liberar';
       const ret = r2(t * 0.02);
-      if (canal.id === 'ml') { com = r2(t * entre(0.13, 0.155)); env = v.envio.startsWith('Mercado') ? r2(Math.min(t * entre(0.035, 0.06), 13900)) : 0; cuo = enCuotas ? r2(t * (cuotas === 3 ? 0.052 : cuotas === 6 ? 0.094 : 0.168)) : 0; dias = elegirPeso([[0, 4], [1, 3], [2, 2], [5, 1], [10, 1]]); }
+      if (canal.id === 'ml') { com = r2(t * entre(0.13, 0.155)); env = v.envio.startsWith('Mercado') ? r2(Math.max(10900, Math.min(t * entre(0.035, 0.06), 13900))) : 0; /* envío gratis para el comprador: lo paga HDC, con un piso por bulto */ cuo = enCuotas ? r2(t * (cuotas === 3 ? 0.052 : cuotas === 6 ? 0.094 : 0.168)) : 0; dias = elegirPeso([[0, 4], [1, 3], [2, 2], [5, 1], [10, 1]]); }
       if (canal.id === 'tn') { com = r2(t * 0.0449); cuo = enCuotas ? r2(t * (cuotas === 3 ? 0.06 : cuotas === 6 ? 0.105 : 0.18)) : 0; dias = entero(3, 14); }
       if (canal.id === 'fravega') { com = r2(t * entre(0.15, 0.17)); dias = 15 - fecha.getDate() + 6; pend = 'A liquidar'; }
       if (canal.id === 'provincia' || canal.id === 'bna') { com = r2(t * entre(0.09, 0.12)); cuo = enCuotas ? r2(t * 0.11) : 0; dias = entero(18, 25); pend = 'A liquidar'; }
@@ -728,6 +728,6 @@
     });
     contadores.mov = movsCaja.length;
 
-    return { version: 9, puntosVenta, canales, cajas, depositos, listas, vendedores, operadores, productos: todos, clientes, ventas, remitos, ordenes, proveedores, chequeras, cheques, movsCaja, movsStock, arqueos, arca, contadores };
+    return { version: 10, puntosVenta, canales, cajas, depositos, listas, vendedores, operadores, productos: todos, clientes, ventas, remitos, ordenes, proveedores, chequeras, cheques, movsCaja, movsStock, arqueos, arca, contadores };
   };
 })();
