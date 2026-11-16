@@ -2029,7 +2029,7 @@
     return '<h2 class="grupo-t">Puntos de venta dados de alta en ARCA</h2>' +
       '<div class="tabla-wrap"><table><thead><tr><th>Punto de venta</th><th>Nombre</th><th>Canales que facturan por acá</th><th class="num">Comprobantes</th><th>Reasignar</th></tr></thead><tbody>' + pvs + '</tbody></table></div>' +
       '<h2 class="grupo-t">Comprobantes recibidos de proveedores</h2>' +
-      '<p class="nota">' + (DB.arca.ultimaConsulta ? 'Última consulta: ' + fFechaHora(DB.arca.ultimaConsulta) + '. ' : '') + 'Lo que ARCA tiene y el sistema no queda para revisar: se le pone proveedor y tipo de gasto, y se carga.</p>' +
+      '<p class="nota">' + (DB.arca.ultimaConsulta ? 'Última consulta: ' + fFechaHora(DB.arca.ultimaConsulta) + '. ' : '') + 'Lo que ARCA tiene y el sistema no queda para revisar: se le pone proveedor y tipo de gasto, y se carga. En el sistema real: ARCA no tiene una conexión oficial para las facturas recibidas: se traen con una clave fiscal delegada solo para consultar Mis Comprobantes, o subiendo el Excel que baja de ahí.</p>' +
       '<div class="tabla-wrap"><table><thead><tr><th>Fecha</th><th>Comprobante</th><th>CUIT</th><th>Razón social</th><th class="num">Total</th><th>Estado</th><th></th></tr></thead><tbody>' + (rec || '<tr><td colspan="7"><div class="vacio-estado"><i class="ph ph-cloud-arrow-down"></i><p>Todavía no se trajo nada de ARCA.</p></div></td></tr>') + '</tbody></table></div>' +
       '<h2 class="grupo-t">Comprobantes emitidos: ARCA contra el sistema</h2>' +
       '<div class="toolbar"><div class="filtros">' + selectorFechas() + '</div></div>' +

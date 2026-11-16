@@ -409,7 +409,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="celda c-c rev">
         <span class="ic"><i class="ph ph-receipt"></i></span>
         <h3>Facturas sin cargarlas a mano</h3>
-        <p>Cada venta facturada en ARCA desde sus puntos de venta, y las facturas de proveedores traídas directo de ARCA.</p>
+        <p>Cada venta facturada en ARCA desde sus puntos de venta, y las facturas de proveedores tomadas de Mis Comprobantes de ARCA, sin tipearlas.</p>
         <div class="comprobante" aria-hidden="true"><div><span>Factura</span><b>A / B</b></div><div><span>CAE</span><b>Automático</b></div></div>
       </div>
       <div class="celda c-d rev" style="--d:.06s">
@@ -511,7 +511,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
     </div>
     <div class="modulos">
       <div class="mod rev"><i class="ph ph-storefront ic"></i><h3>Ventas multicanal</h3><p class="para"><b>Para qué:</b> Ver todas las ventas en un lugar, sin cargar ninguna a mano.</p><ul><li>Mercado Libre, Tiendanube, Frávega, Provincia Compras y Tienda BNA.</li><li>Mostrador y mayorista, con y sin factura.</li><li>Venta, seña y cotización, con bonificación y recargo.</li><li>Tiendas nuevas que se suman desde el sistema.</li></ul></div>
-      <div class="mod rev" style="--d:.04s"><i class="ph ph-file-text ic"></i><h3>Facturación ARCA</h3><p class="para"><b>Para qué:</b> Que cada venta salga facturada sola, con el comprobante correcto.</p><ul><li>Sus puntos de venta, cada uno con su canal.</li><li>Facturas A y B con CAE, IVA 21 y 10,5.</li><li>Notas de crédito y débito, PDF con QR.</li><li>Facturas de proveedores traídas de ARCA.</li></ul></div>
+      <div class="mod rev" style="--d:.04s"><i class="ph ph-file-text ic"></i><h3>Facturación ARCA</h3><p class="para"><b>Para qué:</b> Que cada venta salga facturada sola, con el comprobante correcto.</p><ul><li>Sus puntos de venta, cada uno con su canal.</li><li>Facturas A y B con CAE, IVA 21 y 10,5.</li><li>Notas de crédito y débito, PDF con QR.</li><li>Facturas de proveedores desde Mis Comprobantes.</li></ul></div>
       <div class="mod rev" style="--d:.08s"><i class="ph ph-hand-coins ic"></i><h3>Cobros y conciliación</h3><p class="para"><b>Para qué:</b> Saber cuánto entró de verdad por cada venta y por qué hay diferencias.</p><ul><li>Cada cobro atado a su venta.</li><li>Comisión y envío de cada venta, no en bloque.</li><li>Plata en tránsito con fecha.</li><li>Diferencias siempre a la vista.</li></ul></div>
       <div class="mod rev" style="--d:.12s"><i class="ph ph-users ic"></i><h3>Clientes</h3><p class="para"><b>Para qué:</b> Saber quién debe, cuánto y desde cuándo, en todos los canales.</p><ul><li>CUIT validado, condición de IVA y lista de precios.</li><li>Cuenta corriente unificada.</li><li>Vendedor asignado.</li><li>Saldos a 30, 60 y 90 días.</li></ul></div>
       <div class="mod rev"><i class="ph ph-truck ic"></i><h3>Proveedores y pagos</h3><p class="para"><b>Para qué:</b> Saber a quién se le debe y cuándo vence, y pagar con las retenciones bien hechas.</p><ul><li>Proveedores, servicios, impuestos y sueldos.</li><li>Facturas sin duplicados.</li><li>Órdenes de pago con retenciones.</li><li>Cheques propios a debitar.</li></ul></div>
@@ -554,16 +554,16 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
     </div>
     <div class="vias">
       <div class="via rev">
-        <span class="via-t"><i class="ph ph-lightning"></i>Conectadas en vivo</span>
+        <span class="via-t"><i class="ph ph-lightning"></i>Conectadas directo</span>
         <div class="via-logos"><b class="lg m-ml"><img src="assets/logos/mercadolibre.svg" alt="Mercado Libre"></b><b class="lg"><img src="assets/logos/tiendanube.png" alt="Tiendanube"></b><b class="lg"><img src="assets/logos/fravega.png" alt="Frávega"></b><b class="lg"><img src="assets/logos/provincia.svg" alt="Provincia Compras"></b><b class="lg"><img src="assets/logos/mercadopago.svg" alt="Mercado Pago"></b></div>
-        <p>Mercado Libre, Tiendanube y Mercado Pago, por su conexión oficial. Frávega y Provincia Compras, con sus claves de vendedor, que se confirman en la primera etapa. Las ventas entran solas, la factura se sube a la tienda que la pide, y el stock y los precios salen del sistema a cada tienda. En Provincia Compras, los cambios de publicación los aprueba el canal.</p>
+        <p>Mercado Libre, Tiendanube y Mercado Pago, por su conexión oficial. Frávega y Provincia Compras, con sus claves de vendedor, que se confirman en la primera etapa. Las ventas entran solas, la factura se sube a la tienda que la pide, y el stock y los precios salen del sistema a cada tienda, salvo el stock de Full, que lo maneja Mercado Libre. En Provincia Compras, los cambios de publicación los aprueba el canal.</p>
         <div class="via-trabajo"><span>Trabajo de su lado</span><b>Autorizar una vez</b></div>
       </div>
       <div class="via rev" style="--d:.06s">
-        <span class="via-t"><i class="ph ph-envelope-simple"></i>Por mail, automático</span>
+        <span class="via-t"><i class="ph ph-file-arrow-down"></i>Por su reporte de liquidación</span>
         <div class="via-logos"><b class="lg"><img src="assets/logos/tiendanube.png" alt="Pago Nube"></b><b class="lg ico"><i class="ph ph-credit-card"></i></b></div>
-        <p>Los cobros de Pago Nube, las liquidaciones de Frávega y Provincia Compras y el cierre diario de las tarjetas del mostrador llegan por mail a una casilla del sistema, que los lee y los une a cada venta.</p>
-        <div class="via-trabajo"><span>Trabajo de su lado</span><b>Dar el permiso una vez</b></div>
+        <p>Pago Nube, Payway (las tarjetas del mostrador) y las liquidaciones de Frávega y Provincia Compras no tienen conexión directa para eso. Bajamos su reporte de liquidación con un usuario de consulta y el sistema lo une a cada venta.</p>
+        <div class="via-trabajo"><span>Trabajo de su lado</span><b>Ninguno</b></div>
       </div>
       <div class="via rev" style="--d:.12s">
         <span class="via-t"><i class="ph ph-headset"></i>Conexión asistida</span>
@@ -587,7 +587,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="mej"><i class="ph ph-tag"></i><h3>Un precio, todas las tiendas</h3><p>Se cambia una vez, se publica en cada tienda y se ve cuánto deja.</p></div>
       <div class="mej"><i class="ph ph-package"></i><h3>Depósito al día</h3><p>Lo que hay que remitir, siempre a la vista.</p></div>
       <div class="mej"><i class="ph ph-magnifying-glass"></i><h3>Todo se encuentra</h3><p>Con la búsqueda rápida (Ctrl K): por nombre, CUIT, comprobante o monto.</p></div>
-      <div class="mej"><i class="ph ph-lightning"></i><h3>Menos carga manual</h3><p>Ventas de las tiendas y facturas de ARCA, sin cargar una por una.</p></div>
+      <div class="mej"><i class="ph ph-lightning"></i><h3>Menos carga manual</h3><p>Ventas de las tiendas y facturas de proveedores, sin tipear una por una.</p></div>
       <div class="mej"><i class="ph ph-bank"></i><h3>Bancos al día</h3><p>Cada caja comparada con su extracto.</p></div>
       <div class="mej"><i class="ph ph-device-mobile"></i><h3>Desde cualquier lugar</h3><p>Computadora, tablet o celular, en modo claro u oscuro.</p></div>
     </div>
@@ -622,7 +622,7 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
       <div class="fila"><div>Datos</div><div>Ejemplos inventados, en el navegador</div><div>Base propia de HDC, con respaldo diario cifrado</div></div>
       <div class="fila"><div>Ventas de las tiendas</div><div>Cargadas de ejemplo</div><div>En vivo desde Mercado Libre y Tiendanube; Frávega y Provincia Compras con sus claves de vendedor; Tienda BNA con conexión asistida</div></div>
       <div class="fila"><div>Stock y precios</div><div>Publicación simulada</div><div>Publicados en cada tienda desde el sistema</div></div>
-      <div class="fila"><div>Facturas</div><div>Numeración simulada</div><div>Emitidas en ARCA con CAE desde sus puntos de venta; las de proveedores, traídas de ARCA</div></div>
+      <div class="fila"><div>Facturas</div><div>Numeración simulada</div><div>Emitidas en ARCA con CAE desde sus puntos de venta. ARCA no tiene una conexión oficial para las facturas recibidas: se traen con una clave fiscal delegada solo para consultar Mis Comprobantes, o subiendo el Excel que baja de ahí</div></div>
       <div class="fila"><div>Cobros y liquidaciones</div><div>Valores de ejemplo</div><div>Mercado Pago en vivo; Frávega, Provincia Compras, Pago Nube y Payway por su liquidación; Tienda BNA la operamos nosotros. Cruce automático</div></div>
       <div class="fila"><div>Bancos</div><div>Una diferencia armada para mostrar</div><div>Extractos de cada banco importados y conciliados</div></div>
       <div class="fila"><div>Informes</div><div>Calculados sobre los datos de ejemplo</div><div>Sobre sus datos reales, con los mismos cruces</div></div>
@@ -664,8 +664,8 @@ footer{padding:64px 0 56px;border-top:1px solid var(--border)}
         <li><i class="ph ph-key"></i>La persona titular de Mercado Libre, para autorizar la conexión.</li>
         <li><i class="ph ph-storefront"></i>Las claves de vendedor de Frávega y de Provincia Compras.</li>
         <li><i class="ph ph-eye"></i>Un usuario para publicar en el portal de vendedor de Tienda BNA y uno de solo lectura en Mi Payway.</li>
-        <li><i class="ph ph-envelope-simple"></i>Su autorización para pedirle a Payway el cierre de lote diario por mail. El pedido lo hacemos nosotros.</li>
-        <li><i class="ph ph-certificate"></i>El certificado de ARCA para facturar desde sus puntos de venta.</li>
+        <li><i class="ph ph-bank"></i>Si tienen Interbanking, el acceso para traer los extractos de los bancos. Si no, el extracto de cada banco.</li>
+        <li><i class="ph ph-certificate"></i>El certificado de ARCA para facturar desde sus puntos de venta, y una clave fiscal delegada solo para consultar Mis Comprobantes.</li>
         <li><i class="ph ph-chart-bar"></i>Una reunión con el dueño y otra con la contadora, para cerrar sus informes.</li>
         <li><i class="ph ph-user-circle"></i>Una persona de referencia por área: administración, depósito y producción.</li>
         <li><i class="ph ph-database"></i>La exportación del último año, pedida por escrito al proveedor actual antes de comunicar el cambio.</li>
