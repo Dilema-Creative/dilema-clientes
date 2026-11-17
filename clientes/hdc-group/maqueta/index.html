@@ -1,74 +1,82 @@
 <!doctype html>
-<html lang="es-AR">
+<html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow, noarchive">
-<title>HDC Group · Sistema de gestión</title>
-<link rel="icon" href="assets/logo-hdc.png">
-<script src="tema-inicial.js?v=10"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
-<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
-<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css">
-<link rel="stylesheet" href="styles.css?v=10">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai">
+<meta name="referrer" content="no-referrer">
+<title>Documento</title>
+<style>
+:root{color-scheme:light dark;--bg:#f6f7f9;--card:#fff;--tx:#14202b;--mu:#5b6876;--bd:#dfe3e8;--ac:#1e9c82;--err:#c2410c}
+@media (prefers-color-scheme:dark){:root{--bg:#070d17;--card:#0f1724;--tx:#e8edf3;--mu:#93a1b1;--bd:#1f2a3a;--ac:#5cc79d;--err:#fb923c}}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;display:grid;place-items:center;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:16px}
+form{width:100%;max-width:380px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:28px}
+h1{font-size:20px;font-weight:600;margin-bottom:6px}
+p{color:var(--mu);font-size:14px;margin-bottom:18px}
+label{display:block;font-size:13px;font-weight:500;margin-bottom:6px}
+input{width:100%;font:inherit;padding:11px 12px;border:1px solid var(--bd);border-radius:10px;background:transparent;color:var(--tx)}
+input:focus{outline:2px solid var(--ac);outline-offset:1px;border-color:transparent}
+button{width:100%;margin-top:14px;font:inherit;font-weight:600;padding:11px;border:0;border-radius:10px;background:var(--ac);color:#fff;cursor:pointer}
+button:disabled{opacity:.6;cursor:progress}
+.err{color:var(--err);font-size:13px;min-height:20px;margin-top:10px}
+.pie{font-size:12px;color:var(--mu);margin-top:16px;text-align:center}
+</style>
 </head>
 <body>
-<div class="app" id="app">
-  <aside class="sidebar" id="sidebar" aria-label="Menú principal">
-    <a class="brand" href="#/inicio" aria-label="Inicio">
-      <img class="logo logo-claro" src="assets/logo-hdc.png" alt="Flia. HDC Group" width="104" height="56">
-      <img class="logo logo-oscuro" src="assets/logo-hdc-oscuro.png" alt="Flia. HDC Group" width="104" height="56">
-    </a>
-    <nav class="nav" id="nav"></nav>
-    <a class="argos-sello" href="https://argos.dilemacreative.ar/?utm_source=sistema-hdc&amp;utm_medium=watermark" target="_blank" rel="noopener"><svg viewBox="0 0 48 48" aria-hidden="true"><circle class="a-r1" cx="24" cy="24" r="22.4"/><circle class="a-r2" cx="24" cy="24" r="13.7"/><circle class="a-iris" cx="24" cy="24" r="7.2"/></svg><span class="a-txt"><b>Argos</b><span>Sistema de Dilema Labs</span></span></a>
-  </aside>
-  <div class="velo" id="velo" data-accion="cerrar-menu"></div>
-
-  <div class="main">
-    <header class="topbar">
-      <button type="button" class="btn icon ghost solo-movil" data-accion="abrir-menu" aria-label="Abrir menú"><i class="ph ph-list"></i></button>
-      <div class="quick" role="group" aria-label="Nueva operación">
-        <button type="button" class="btn primary" data-accion="nueva-venta" data-version="Oficial"><i class="ph ph-plus"></i><span>Venta oficial</span></button>
-        <button type="button" class="btn" data-accion="nueva-venta" data-version="Neutral"><span>Neutral</span></button>
-        <button type="button" class="btn" data-accion="nueva-venta" data-version="Seña"><span>Seña</span></button>
-        <button type="button" class="btn" data-accion="nueva-venta" data-version="Cotización"><span>Cotización</span></button>
-      </div>
-      <button type="button" class="buscador-global" data-accion="paleta" aria-label="Buscar en todo el sistema (Ctrl K)">
-        <i class="ph ph-magnifying-glass"></i><span>Buscar o ir a…</span><kbd>Ctrl K</kbd>
-      </button>
-      <nav class="atajos" aria-label="Accesos">
-        <a href="#/cajas">Cajas</a>
-        <a href="#/productos">Precios</a>
-        <a href="#/informes">Informes</a>
-      </nav>
-      <span class="pill-maqueta" title="Maqueta navegable con datos de ejemplo">Maqueta</span>
-      <button type="button" class="btn icon ghost" data-accion="tema" aria-label="Cambiar tema"><i class="ph ph-moon tema-luna"></i><i class="ph ph-sun tema-sol"></i></button>
-      <div class="usuario" title="Administración"><span>AD</span></div>
-    </header>
-    <main id="vista" tabindex="-1"></main>
-  </div>
-</div>
-
-<div class="drawer-wrap" id="drawer-wrap" aria-hidden="true">
-  <div class="drawer-velo" data-accion="cerrar-drawer"></div>
-  <section class="drawer" id="drawer" role="dialog" aria-modal="true" tabindex="-1"></section>
-</div>
-<div class="modal-wrap" id="modal-wrap" aria-hidden="true">
-  <section class="modal" id="modal" role="dialog" aria-modal="true"></section>
-</div>
-<div class="paleta-wrap" id="paleta-wrap" aria-hidden="true">
-  <div class="paleta" id="paleta" role="dialog" aria-modal="true" aria-label="Buscar en el sistema">
-    <div class="paleta-in"><i class="ph ph-magnifying-glass"></i><input type="text" id="busqueda-global" placeholder="Buscá ventas, clientes, proveedores, productos o acciones" autocomplete="off" aria-controls="resultados-global"><kbd>Esc</kbd></div>
-    <div class="resultados" id="resultados-global" role="listbox"></div>
-    <div class="paleta-pie"><span><kbd>↑</kbd><kbd>↓</kbd> moverse</span><span><kbd>Enter</kbd> abrir</span><span><kbd>Esc</kbd> cerrar</span></div>
-  </div>
-</div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<script src="data.js?v=10"></script>
-<script src="app.js?v=10"></script>
+<form id="f" autocomplete="off">
+  <h1>Documento protegido</h1>
+  <p>Ingresá la clave que te pasamos para verlo.</p>
+  <label for="c">Clave</label>
+  <input id="c" type="password" required autofocus autocomplete="current-password">
+  <button id="b" type="submit">Abrir</button>
+  <div class="err" id="e" role="alert"></div>
+  <div class="pie">Dilema creative · contenido cifrado</div>
+</form>
+<script>
+(function () {
+  var K = "a1", f = document.getElementById('f'), c = document.getElementById('c'), b = document.getElementById('b'), e = document.getElementById('e');
+  function guardada() { try { return sessionStorage.getItem(K); } catch (x) { return null; } }
+  function mostrar(html) {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var nuevo = document.adoptNode(doc.documentElement);
+    document.replaceChild(nuevo, document.documentElement);
+    Array.prototype.slice.call(nuevo.querySelectorAll('script')).forEach(function (viejo) {
+      var s = document.createElement('script');
+      for (var i = 0; i < viejo.attributes.length; i++) s.setAttribute(viejo.attributes[i].name, viejo.attributes[i].value);
+      s.text = viejo.text;
+      viejo.parentNode.replaceChild(s, viejo);
+    });
+  }
+  async function abrir(clave) {
+    var r = await fetch("index.bin?v=mwl2mm3f", {});
+    if (!r.ok) throw new Error('red');
+    var d = new Uint8Array(await r.arrayBuffer());
+    if (d[0] !== 1) throw new Error('formato');
+    var mat = await crypto.subtle.importKey('raw', new TextEncoder().encode(clave), 'PBKDF2', false, ['deriveKey']);
+    var llave = await crypto.subtle.deriveKey({ name: 'PBKDF2', salt: d.subarray(1, 17), iterations: 600000, hash: 'SHA-256' }, mat, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+    var p = new Uint8Array(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: d.subarray(17, 29) }, llave, d.subarray(29)));
+    var n = new DataView(p.buffer).getUint32(0);
+    var cab = JSON.parse(new TextDecoder().decode(p.subarray(4, 4 + n)));
+    var html = cab.html, ini = 4 + n;
+    cab.archivos.forEach(function (a) {
+      var u = URL.createObjectURL(new Blob([p.subarray(ini + a.o, ini + a.o + a.l)], { type: a.t }));
+      html = html.split(a.p).join(u);
+    });
+    try { sessionStorage.setItem(K, clave); } catch (x) {}
+    mostrar(html);
+  }
+  f.addEventListener('submit', function (ev) {
+    ev.preventDefault(); e.textContent = ''; b.disabled = true; b.textContent = 'Abriendo...';
+    abrir(c.value).catch(function (x) {
+      b.disabled = false; b.textContent = 'Abrir';
+      e.textContent = x && x.name === 'OperationError' ? 'La clave no es correcta.' : 'No se pudo abrir. Revisá la conexión y probá de nuevo.';
+      c.select();
+    });
+  });
+  var g = guardada();
+  if (g) { b.disabled = true; b.textContent = 'Abriendo...'; abrir(g).catch(function (x) { b.disabled = false; b.textContent = 'Abrir'; if (x && x.name === 'OperationError') { try { sessionStorage.removeItem(K); } catch (y) {} } }); }
+})();
+</script>
 </body>
 </html>
