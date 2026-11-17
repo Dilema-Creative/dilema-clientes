@@ -49,7 +49,7 @@ button:disabled{opacity:.6;cursor:progress}
     });
   }
   async function abrir(clave) {
-    var r = await fetch("propuesta-argos-hdc.bin?v=mwl29wbg", {});
+    var r = await fetch("propuesta-argos-hdc.bin?v=mwlc43dd", {});
     if (!r.ok) throw new Error('red');
     var d = new Uint8Array(await r.arrayBuffer());
     if (d[0] !== 1) throw new Error('formato');
