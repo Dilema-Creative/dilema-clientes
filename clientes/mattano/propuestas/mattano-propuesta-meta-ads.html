@@ -291,6 +291,19 @@
   .idea-how b { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--rombo-deep); font-weight: 500; margin-right: 6px; }
   .pricing.one { grid-template-columns: minmax(0, 520px); }
   .pricing.one .card.featured::before { content: none; }
+  .pricing.two { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 1000px; }
+  .pricing.two .card.featured::before { content: 'Para arrancar'; }
+  .card.later { border-style: dashed; }
+  .card.later::before { content: 'Más adelante'; position: absolute; top: -11px; left: 24px; background: var(--ink); color: var(--on-dark-2); border: 1px solid rgba(255,255,255,.25); font-family: var(--mono); font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 3px 10px; border-radius: 3px; }
+  .topics { margin-top: 18px; background: var(--ink); color: var(--on-dark); border-radius: 6px; padding: 30px; }
+  .topics-k { font-family: var(--mono); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--rombo); margin-bottom: 10px; }
+  .topics-t { font-family: var(--display); font-weight: 500; font-size: 24px; letter-spacing: -.02em; margin-bottom: 18px; }
+  .topics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 24px; }
+  .topics-grid div { font-size: 14px; color: var(--on-dark-2); padding-left: 18px; position: relative; line-height: 1.5; min-width: 0; }
+  .topics-grid div::before { content: ''; position: absolute; left: 0; top: 7px; width: 7px; height: 7px; background: var(--rombo); transform: rotate(45deg); }
+  .topics-grid b { color: var(--on-dark); font-weight: 600; }
+  @media (max-width: 1024px) { .pricing.two { grid-template-columns: 1fr; max-width: 600px; } .topics-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 768px) { .topics-grid { grid-template-columns: 1fr; } .topics { padding: 24px 22px; } }
   @media (max-width: 768px) { .ideas { grid-template-columns: 1fr; } .idea { padding: 22px; } }
 </style>
 
@@ -318,12 +331,12 @@
     </div>
     <div class="hero-eyebrow">Propuesta · Noviembre 2026 · Meta Ads</div>
     <h1>Casi mil clientes ya los eligieron.<br>Falta que el barrio sepa que son <em>MATTANO</em>.</h1>
-    <p class="hero-sub">Tienen cuatro sedes en CABA, respaldo oficial Renault, un taller móvil que ningún competidor ofrece y casi mil clientes que hablan bien de ellos. La propuesta es arrancar por Meta: anuncios en Instagram y Facebook que lleven a los vecinos de Devoto, Boedo y San Cristóbal directo al WhatsApp de su sede, con contenido real del taller y de sus clientes. Justo a tiempo para diciembre y enero, cuando la gente prepara el auto para viajar.</p>
+    <p class="hero-sub">Tienen cuatro sedes en CABA, respaldo oficial Renault y casi mil clientes que hablan bien de ellos. La propuesta es arrancar por Meta con dos campañas para particulares: una de reconocimiento, para que los vecinos de Devoto, Boedo y San Cristóbal sepan que MATTANO está a la vuelta, y otra de mensajes que los lleve directo al WhatsApp de su sede. Justo a tiempo para el verano, cuando la gente prepara el auto para salir a la ruta.</p>
     <div class="hero-stats">
       <div class="hero-stat"><div class="v">4</div><div class="k">Sedes en CABA<br>mecánica y carrocería</div></div>
       <div class="hero-stat"><div class="v">995</div><div class="k">Opiniones de clientes<br>entre las 4 sedes</div></div>
       <div class="hero-stat"><div class="v">4,2<small> / 5</small></div><div class="k">Puntaje promedio<br>de esas opiniones</div></div>
-      <div class="hero-stat"><div class="v">1</div><div class="k">Taller móvil para flotas<br>que nadie más ofrece</div></div>
+      <div class="hero-stat"><div class="v">25</div><div class="k">Puntos de control<br>gratis, sin turno</div></div>
     </div>
   </div>
 </header>
@@ -341,7 +354,6 @@
         <li><strong>Reputación real:</strong> casi mil opiniones de clientes con 4,2 de promedio. Boedo tiene 4,5 con 249 opiniones.</li>
         <li><strong>Respaldo oficial Renault:</strong> repuestos originales, garantía de 1 año en reparaciones y el service oficial que no hace perder la garantía del auto.</li>
         <li><strong>Atención sin turno y 25 puntos de control gratis</strong> en las sedes Renault Minuto.</li>
-        <li><strong>Taller móvil para flotas</strong> en todo el AMBA y de todas las marcas. Ni Clama ni Centro Automotores lo ofrecen.</li>
         <li><strong>Carrocería propia (MH Atelier)</strong> con cabina, laboratorio de color con pintura al agua y trabajo con todas las aseguradoras.</li>
         <li><strong>Precio intermedio:</strong> más barato que un concesionario, con un respaldo que un taller independiente no tiene.</li>
         <li><strong>La estrategia de contenido ya está pensada:</strong> pilares, tono y diferenciales.</li>
@@ -364,18 +376,18 @@
 <section class="alt" id="estrategia">
   <div class="kicker">02 · La estrategia</div>
   <h2 class="title">Que el barrio los conozca <em>antes de necesitarlos</em>.</h2>
-  <p class="desc">Instagram y Facebook, con el contenido propio de MATTANO como protagonista. Los anuncios se muestran en un radio corto alrededor de cada sede y llevan directo al WhatsApp, sin pasos intermedios ni sitio web.</p>
+  <p class="desc">Arrancamos solo con particulares: los vecinos de cada sede. Dos campañas que trabajan juntas en Instagram y Facebook: <strong>reconocimiento</strong>, para que el barrio conozca a MATTANO, y <strong>mensajes</strong>, para que quien ya lo conoce escriba al WhatsApp de su sede sin pasos intermedios ni sitio web.</p>
   <div class="split">
     <div class="split-card solid">
       <div class="split-who">Lo que hacemos en Meta</div>
-      <div class="split-title">Mensajes, alcance y empresas</div>
+      <div class="split-title">Reconocimiento y WhatsApp</div>
       <p>Una cuenta publicitaria ordenada por sede y por público.</p>
       <ul class="tick">
-        <li>Anuncios de mensajes que abren el WhatsApp de la sede más cercana</li>
-        <li>Reels del taller, el equipo y los clientes, pautados en 3 a 5 km por sede</li>
+        <li>Campaña de reconocimiento con reels del taller, el equipo y los clientes, en 3 a 5 km por sede</li>
+        <li>Campaña de mensajes que abre el WhatsApp de la sede más cercana</li>
+        <li>Temas de temporada: verano, ruta y vacaciones</li>
         <li>Promos vigentes de Renault y 3 cuotas sin interés</li>
-        <li>Volver a aparecerle a quien vio un video o visitó el perfil</li>
-        <li>Formulario para empresas dentro de Meta, para el taller móvil</li>
+        <li>Volver a aparecerle con WhatsApp a quien vio un video o visitó el perfil</li>
         <li>Seguidores reales de los barrios de las sedes</li>
       </ul>
     </div>
@@ -394,42 +406,48 @@
   </div>
 </section>
 
-<!-- 03 FRENTES -->
+<!-- 03 CAMPAÑAS -->
 <section class="white">
-  <div class="kicker">03 · Los tres frentes</div>
-  <h2 class="title">Tres públicos, <em>tres mensajes</em> distintos.</h2>
-  <p class="desc">Quien tiene un Sandero en garantía, quien acaba de chocar y quien maneja 40 utilitarios no se convencen con lo mismo. Cada frente tiene su conjunto de anuncios, su mensaje y su destino.</p>
+  <div class="kicker">03 · Las dos campañas</div>
+  <h2 class="title">Primero que los conozcan. <em>Después, que escriban</em>.</h2>
+  <p class="desc">Nadie le escribe a un taller que nunca vio. Por eso las dos campañas corren a la vez y sobre el mismo público: los particulares que viven o trabajan cerca de cada sede. La de reconocimiento siembra; la de WhatsApp cosecha entre quienes ya vieron a MATTANO.</p>
   <div class="fronts">
     <div class="front">
-      <div class="front-head"><div class="front-title">El barrio</div><span class="front-aud">Particulares · Mecánica</span></div>
-      <div class="front-goal">El frente principal. Que los vecinos de cada sede conozcan a MATTANO y le escriban por WhatsApp cuando les toque el service.</div>
+      <div class="front-head"><div class="front-title">Reconocimiento</div><span class="front-aud">Alcance · Por sede</span></div>
+      <div class="front-goal">Que el barrio sepa que a la vuelta hay un service oficial Renault, sin turno, con 25 puntos de control gratis. Que la próxima vez que piensen en el auto, piensen en MATTANO.</div>
       <ul class="tick">
+        <li>Reels y placas del taller, el equipo y clientes reales</li>
         <li>Un conjunto de anuncios por sede, en un radio de 3 a 5 km</li>
-        <li>Mensaje: oficial, sin turno, 25 puntos gratis, 3 cuotas sin interés</li>
+        <li>Frecuencia controlada: que los vean seguido, sin cansarlos</li>
         <li>Multimarca: también para quien no tiene un Renault</li>
-        <li>En temporada: el chequeo antes de salir de vacaciones</li>
       </ul>
-      <div class="kw"><span>Devoto</span><span>Boedo</span><span>San Cristóbal</span><span>radio 3–5 km</span><span>WhatsApp por sede</span></div>
+      <div class="kw"><span>Devoto</span><span>Boedo</span><span>San Cristóbal</span><span>radio 3–5 km</span><span>reels</span></div>
     </div>
     <div class="front">
-      <div class="front-head"><div class="front-title">Chapa y pintura</div><span class="front-aud">Particulares · MH Atelier</span></div>
-      <div class="front-goal">Quien choca compara y elige en el día: gana el que transmite confianza. Nada la transmite mejor que un trabajo real terminado.</div>
+      <div class="front-head"><div class="front-title">Mensajes a WhatsApp</div><span class="front-aud">Consultas · Por sede</span></div>
+      <div class="front-goal">Convertir en consultas a quienes ya vieron a MATTANO. Un toque en el anuncio abre el WhatsApp de la sede más cercana, con un mensaje listo para enviar.</div>
       <ul class="tick">
-        <li>Antes y después de trabajos reales, en reels</li>
-        <li>Mensaje: garantía oficial, pintura al agua original de fábrica, todas las aseguradoras</li>
-        <li>Sacabollos y polarizados como servicios de entrada</li>
+        <li>Mensaje: oficial, sin turno, 25 puntos gratis, 3 cuotas sin interés</li>
+        <li>Prioridad para quien vio un video o visitó el perfil</li>
+        <li>Chapa y pintura en MH Atelier: antes y después de trabajos reales</li>
+        <li>Mensaje de bienvenida en cada sede para responder rápido</li>
       </ul>
-      <div class="kw"><span>Tejedor 460</span><span>antes / después</span><span>aseguradoras</span></div>
+      <div class="kw"><span>WhatsApp por sede</span><span>service</span><span>chapa y pintura</span><span>promos</span></div>
     </div>
-    <div class="front" style="grid-column: 1 / -1;">
-      <div class="front-head"><div class="front-title">Taller móvil para flotas</div><span class="front-aud">Empresas · AMBA</span></div>
-      <div class="front-goal">El diferencial que nadie tiene. Pocas consultas, pero cada empresa vale por decenas de clientes particulares.</div>
-      <ul class="tick">
-        <li>Formulario de cotización dentro de Meta, sin salir de Instagram, con aviso inmediato al responsable</li>
-        <li>Mensaje: el taller va a la empresa, sin parar la flota, todas las marcas</li>
-        <li>Cuenta corriente, seguimiento y service Renault en garantía en el lugar</li>
-      </ul>
-      <div class="kw"><span>dueños de pymes</span><span>logística</span><span>flotas de utilitarios</span><span>formulario de Meta</span></div>
+  </div>
+  <div class="topics">
+    <div class="topics-k">Temporada de verano</div>
+    <div class="topics-t">Los temas que llevamos a los anuncios de diciembre a febrero</div>
+    <div class="topics-grid">
+      <div><b>Chequeo antes de la ruta.</b> Los 25 puntos gratis como excusa para pasar antes de salir.</div>
+      <div><b>Neumáticos y presión</b> con el auto cargado para las vacaciones.</div>
+      <div><b>Frenos y luces</b> para manejar de noche y en ruta.</div>
+      <div><b>Aire acondicionado</b> listo para el calor de la ciudad y del viaje.</div>
+      <div><b>Temperatura del motor</b> y refrigeración: lo que más sufre en enero.</div>
+      <div><b>Batería y escobillas</b> para los días de calor y las tormentas de verano.</div>
+      <div><b>Qué llevar en el auto</b> antes de salir: la lista práctica para la ruta.</div>
+      <div><b>A la vuelta de las vacaciones:</b> el service después de miles de kilómetros.</div>
+      <div><b>Chapa y pintura</b> para el golpe o el raspón del verano, en MH Atelier.</div>
     </div>
   </div>
 </section>
@@ -454,9 +472,9 @@
     </div>
     <div class="idea star">
       <div class="idea-top"><span class="idea-n">03</span><span class="idea-tag">Prioridad · Testimonios</span></div>
-      <div class="idea-t">Empresas que ya confían en el taller móvil</div>
-      <div class="idea-d">El responsable de una flota que ya atienden cuenta en una frase qué cambió: «no paramos los utilitarios», «nos ahorramos el traslado». Para el público de empresas, un par de nombres conocidos convence más que cualquier dato.</div>
-      <div class="idea-how"><b>Cómo</b>Con el OK de la empresa para mostrar logo o vehículos. Si prefiere no aparecer, solo el testimonio sin marca.</div>
+      <div class="idea-t">«Me fui de vacaciones tranquilo»</div>
+      <div class="idea-d">Un cliente que hizo el chequeo antes de viajar cuenta, a la vuelta, cómo le fue en la ruta. Une el testimonio con el tema de la temporada y le da sentido al chequeo gratis.</div>
+      <div class="idea-how"><b>Cómo</b>Se graba en enero y febrero, con clientes que pasaron por el chequeo. Pedir permiso al hacer el service.</div>
     </div>
     <div class="idea">
       <div class="idea-top"><span class="idea-n">04</span><span class="idea-tag">Chapa y pintura</span></div>
@@ -489,10 +507,10 @@
       <div class="idea-how"><b>Cómo</b>Un reel por sede, en su lugar de trabajo. Se pauta solo en el radio de esa sede.</div>
     </div>
     <div class="idea">
-      <div class="idea-top"><span class="idea-n">09</span><span class="idea-tag">Empresas</span></div>
-      <div class="idea-t">Un día con el taller móvil</div>
-      <div class="idea-d">Del camino a la empresa al service hecho en su playa, sin que la flota salga de circulación. Muestra en 30 segundos algo que la competencia no puede mostrar.</div>
-      <div class="idea-how"><b>Cómo</b>Grabado por el acompañante, nunca por quien maneja. Con permiso del cliente para filmar en su predio.</div>
+      <div class="idea-top"><span class="idea-n">09</span><span class="idea-tag">Temporada</span></div>
+      <div class="idea-t">Lo que tiene que estar en el auto antes de la ruta</div>
+      <div class="idea-d">El mecánico abre el baúl y muestra, en 20 segundos, lo que conviene revisar y llevar antes de salir de vacaciones. Contenido útil que se guarda y se comparte.</div>
+      <div class="idea-how"><b>Cómo</b>Un auto cargado como para viajar, en la puerta de la sede. Se pauta en la campaña de reconocimiento.</div>
     </div>
     <div class="idea">
       <div class="idea-top"><span class="idea-n">10</span><span class="idea-tag">Promo</span></div>
@@ -503,7 +521,7 @@
   </div>
   <div class="callout">
     <div class="callout-label">Para arrancar</div>
-    <p>Con <strong>los tres tipos de testimonio, el antes y después y el chequeo antes de viajar</strong> ya hay material para el primer mes de pauta. Los demás se suman a medida que se graban y vemos qué rinde mejor.</p>
+    <p>Con <strong>los testimonios, el antes y después y el chequeo antes de viajar</strong> ya hay material para el primer mes de pauta. Los demás se suman a medida que se graban y vemos qué rinde mejor.</p>
   </div>
 </section>
 
@@ -511,7 +529,7 @@
 <section class="dark" id="plan">
   <div class="kicker">05 · Plan y temporada</div>
   <h2 class="title">Llegar a diciembre <em>con todo andando</em>.</h2>
-  <p class="desc">La demanda sube en <strong>diciembre y enero</strong>, cuando la gente prepara el auto para viajar, y otra vez en julio. Si arrancamos ahora, las primeras semanas de aprendizaje de los anuncios caen antes del pico y no durante.</p>
+  <p class="desc">La demanda sube en <strong>diciembre y enero</strong>, cuando la gente prepara el auto para salir a la ruta, y otra vez en julio. Si arrancamos ahora, las primeras semanas de aprendizaje de los anuncios caen antes del pico y no durante.</p>
   <div class="season" aria-label="Calendario de temporada">
     <div class="mo setup"><b>Nov</b><span>Puesta a punto</span></div>
     <div class="mo peak"><b>Dic</b><span>Temporada alta</span></div>
@@ -528,11 +546,11 @@
     </div>
     <div class="step">
       <div class="step-when">Semana 2</div>
-      <div><div class="step-title">Primeros anuncios</div><div class="step-desc">Con las primeras publicaciones y testimonios, lanzamos los anuncios de mensajes por sede y el formulario para empresas. El perfil arranca a crecer con gente del barrio desde el día uno.</div></div>
+      <div><div class="step-title">Primeros anuncios</div><div class="step-desc">Con las primeras publicaciones y testimonios, lanzamos la campaña de reconocimiento y la de mensajes a WhatsApp por sede. El perfil arranca a crecer con gente del barrio desde el día uno.</div></div>
     </div>
     <div class="step">
       <div class="step-when">Dic – Ene</div>
-      <div><div class="step-title">Temporada: chequeo antes de viajar</div><div class="step-desc">Mensaje de temporada con los 25 puntos gratis y las 3 cuotas. Movemos el presupuesto hacia la sede y el servicio que mejor responden, y bajamos donde el taller ya está completo.</div></div>
+      <div><div class="step-title">Temporada: verano y ruta</div><div class="step-desc">Los temas de verano en las dos campañas, con los 25 puntos gratis y las 3 cuotas. Movemos el presupuesto hacia la sede y el servicio que mejor responden, y bajamos donde el taller ya está completo.</div></div>
     </div>
     <div class="step">
       <div class="step-when">Febrero</div>
@@ -549,7 +567,7 @@
   <div class="measure">
     <div class="m"><div class="m-k">Principal</div><div class="m-t">Conversaciones de WhatsApp</div><div class="m-d">Cada chat que se abre con Devoto, Boedo, San Cristóbal o MH Atelier desde los anuncios.</div></div>
     <div class="m"><div class="m-k">Principal</div><div class="m-t">Costo por conversación</div><div class="m-d">Cuánto cuesta cada consulta, por sede y por anuncio, para mover el presupuesto a lo que rinde.</div></div>
-    <div class="m"><div class="m-k">Flotas</div><div class="m-t">Pedidos de cotización</div><div class="m-d">Formularios de Meta, con aviso inmediato al responsable del taller móvil.</div></div>
+    <div class="m"><div class="m-k">Reconocimiento</div><div class="m-t">Alcance en el barrio</div><div class="m-d">Cuántos vecinos de cada sede vieron a MATTANO, cuántas veces y cuántos empezaron a seguir la cuenta.</div></div>
     <div class="m"><div class="m-k">Cierre</div><div class="m-t">Autos que entran</div><div class="m-d">Una planilla simple donde cada sede anota de dónde vino el cliente. Con eso calculamos el costo real por auto atendido.</div></div>
   </div>
 </section>
@@ -558,8 +576,8 @@
 <section class="dark" id="inversion">
   <div class="kicker">07 · Inversión</div>
   <h2 class="title">Gestión de Meta Ads, <em>un fee mensual</em>.</h2>
-  <p class="desc">El fee cubre la gestión completa. La pauta se paga aparte, directo a Meta desde la cuenta de MATTANO.</p>
-  <div class="pricing one">
+  <p class="desc">El fee cubre la gestión completa de las dos campañas. La pauta se paga aparte, directo a Meta desde la cuenta de MATTANO. El email marketing es un servicio que se puede sumar más adelante.</p>
+  <div class="pricing two">
     <div class="card featured">
       <div class="card-name">Meta Ads · Instagram + Facebook</div>
       <div class="card-price">USD 300 <span>/ mes</span></div>
@@ -567,11 +585,26 @@
       <div class="card-div"></div>
       <ul>
         <li>Armado del portfolio comercial, la cuenta publicitaria y la medición</li>
-        <li>Campañas de mensajes por sede, chapa y pintura y flotas</li>
+        <li>Campaña de reconocimiento por sede</li>
+        <li>Campaña de mensajes a WhatsApp por sede</li>
         <li>Textos de anuncios y selección de piezas para pautar</li>
         <li>Ideas de contenido mensuales pensadas para pauta</li>
         <li>Optimización semanal del presupuesto entre sedes y anuncios</li>
-        <li>Reporte mensual con conversaciones y costo por consulta</li>
+        <li>Reporte mensual con alcance, conversaciones y costo por consulta</li>
+      </ul>
+    </div>
+    <div class="card later">
+      <div class="card-name">Email marketing</div>
+      <div class="card-price">USD 150 <span>/ mes</span></div>
+      <div class="card-note">Opcional. Se suma cuando esté lista la base de clientes.</div>
+      <div class="card-div"></div>
+      <ul>
+        <li>Armado de la base con los clientes que ya atienden, con su consentimiento</li>
+        <li>Recordatorio de service según la fecha de la última visita</li>
+        <li>Envíos de temporada: chequeo antes de viajar, vuelta de las vacaciones</li>
+        <li>Promos vigentes de Renault para quien ya es cliente</li>
+        <li>Diseño y textos de cada envío</li>
+        <li>Reporte de aperturas y consultas generadas</li>
       </ul>
     </div>
   </div>
@@ -593,14 +626,14 @@
     <div class="need"><div class="need-t">WhatsApp por sede</div><div class="need-d">Los cuatro números en WhatsApp Business, con mensaje de bienvenida y alguien que responda en horario.</div></div>
     <div class="need"><div class="need-t">Testimonios</div><div class="need-d">Dos o tres clientes por mes que acepten contar su experiencia en un video corto al retirar el auto.</div></div>
     <div class="need"><div class="need-t">Promos y precios</div><div class="need-d">Las promos vigentes de Renault y los precios de referencia que quieran mostrar en los anuncios.</div></div>
-    <div class="need"><div class="need-t">Fotos y video</div><div class="need-d">El contenido que se va publicando, más fotos de cada sede, el equipo, MH Atelier y el taller móvil.</div></div>
+    <div class="need"><div class="need-t">Fotos y video</div><div class="need-d">El contenido que se va publicando, más fotos de cada sede, el equipo y MH Atelier.</div></div>
     <div class="need"><div class="need-t">Capacidad por sede</div><div class="need-d">Qué sede tiene más lugar libre hoy, para no llenar una que ya trabaja al máximo.</div></div>
   </div>
 </section>
 
 <div class="closing">
   <h2>La reputación ya está.<br>Falta que la vea <em>el barrio</em>.</h2>
-  <p>MATTANO tiene lo que más cuesta construir: casi mil clientes que hablan bien de ellos, respaldo oficial y un servicio para empresas que nadie más ofrece. Con Meta Ads y sus propios clientes como protagonistas, esta temporada puede ser la primera en la que cada consulta tenga origen, sede y costo.</p>
+  <p>MATTANO tiene lo que más cuesta construir: casi mil clientes que hablan bien de ellos y el respaldo oficial de Renault. Con Meta Ads y sus propios clientes como protagonistas, esta temporada puede ser la primera en la que cada consulta tenga origen, sede y costo.</p>
 </div>
 
 <footer>
