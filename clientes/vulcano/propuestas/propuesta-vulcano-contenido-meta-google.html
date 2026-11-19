@@ -213,87 +213,111 @@
     .stat-n { font-size: 28px; }
   }
 
-  /* ===== Paleta v2: tres acentos con rol ===== */
+  /* ===== Paleta v3: Dilema (navy, celeste, verde, papel) ===== */
   :root {
-    --bg: #060F1B;
-    --bg-2: #0A1A2D;
-    --panel: #0D2238;
-    --red: #E8463A; --red-text: #FF6E62; --red-wash: rgba(232,70,58,0.10); --red-line: rgba(232,70,58,0.38);
-    --sky-wash: rgba(91,180,214,0.10); --sky-line: rgba(91,180,214,0.38);
-    --sage-wash: rgba(79,162,126,0.12); --sage-line: rgba(79,162,126,0.42);
+    --bg: #0E2A47;
+    --bg-2: #0B2440;
+    --bg-3: #09203A;
+    --panel: #15395F;
+    --panel-2: #1A4370;
+    --line: rgba(250,246,238,0.14);
+    --line-strong: rgba(250,246,238,0.26);
+    --muted: rgba(250,246,238,0.76);
+    --soft: rgba(250,246,238,0.6);
+    --sky: #6FC3E3;
+    --sage-text: #7FD1AA;
+    --sky-wash: rgba(91,180,214,0.14); --sky-line: rgba(111,195,227,0.45);
+    --sage-wash: rgba(79,162,126,0.16); --sage-line: rgba(127,209,170,0.45);
+    --paper-wash: rgba(250,246,238,0.07);
   }
   body { background: var(--bg); }
-  nav { background: rgba(6,15,27,0.92); }
+  nav { background: rgba(11,36,64,0.92); border-bottom-color: var(--line); }
+
   .hero { background:
-      radial-gradient(700px 420px at 92% 10%, rgba(91,180,214,0.16), transparent 70%),
-      radial-gradient(620px 420px at 0% 100%, rgba(232,70,58,0.14), transparent 70%),
-      var(--bg); }
+      radial-gradient(760px 460px at 95% 0%, rgba(91,180,214,0.26), transparent 70%),
+      radial-gradient(640px 420px at 0% 100%, rgba(79,162,126,0.20), transparent 70%),
+      linear-gradient(180deg, #11304F 0%, var(--bg) 100%); }
   .hero::before { display: none; }
-  .hero-mark .tag { color: var(--red-text); }
-  .pill:nth-child(1), .pill:nth-child(2) { border-color: var(--red-line); color: #FFD0CB; }
-  .pill:nth-child(3) { border-color: var(--sky-line); color: #CFEAF4; }
-  .pill:nth-child(4) { border-color: var(--sage-line); color: #CDEBDD; }
+  .hero-mark .tag { color: var(--sky); }
+  h1 em.ac, h2 em.ac, em.ac { color: var(--sky); }
+  .pill { border-color: var(--line-strong); color: var(--paper); background: var(--paper-wash); }
 
-  .stat { border-left: 3px solid var(--sky); background: linear-gradient(160deg, rgba(255,255,255,0.03), transparent 60%), var(--panel); }
-  .stat:nth-child(1), .stat:nth-child(2) { border-left-color: var(--red); }
-  .stat:nth-child(1) .stat-n, .stat:nth-child(2) .stat-n { color: var(--red-text); }
-  .stat:nth-child(3) .stat-n { color: var(--sky); }
-  .stat:nth-child(4) { border-left-color: var(--sage); }
-  .stat:nth-child(4) .stat-n { color: var(--sage-text); }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--sky); }
+  .stat:nth-child(2), .stat:nth-child(3) { border-top-color: var(--sage); }
+  .stat:nth-child(1) .stat-n, .stat:nth-child(4) .stat-n { color: var(--sky); }
+  .stat:nth-child(2) .stat-n, .stat:nth-child(3) .stat-n { color: var(--sage-text); }
+  .stat-l { color: var(--muted); }
 
-  section { background: var(--bg); }
-  section:nth-of-type(even) { background:
-      radial-gradient(900px 300px at 50% 0%, rgba(91,180,214,0.06), transparent 70%), var(--bg-2); }
+  section { background: var(--bg); border-bottom: none; }
+  section:nth-of-type(even) { background: var(--bg-2); }
+  .kicker { color: var(--sky); }
+  .lead { color: var(--muted); }
 
-  /* 01 Fortalezas y 02 Hallazgos: su marca, rojo */
-  section:nth-of-type(1) .kicker, section:nth-of-type(2) .kicker { color: var(--red-text); }
-  section:nth-of-type(1) h2 em.ac, section:nth-of-type(2) h2 em.ac { color: var(--red-text); }
-  .strength { border-top: 3px solid var(--red); background: linear-gradient(180deg, var(--red-wash), transparent 70%), var(--panel); }
-  .finding .card-tag { color: var(--red-text); }
-  .finding .dato { background: var(--red-wash); border-color: var(--red-line); }
-  .finding { background: linear-gradient(180deg, rgba(255,255,255,0.025), transparent 40%), var(--panel); }
+  .card { background: var(--panel); border-color: var(--line); box-shadow: 0 10px 30px rgba(4,16,30,0.28); }
+  .card p { color: var(--muted); }
+
+  /* 01 Fortalezas */
+  .strength { border-top: 3px solid var(--sage); background: linear-gradient(180deg, var(--sage-wash), transparent 70%), var(--panel); }
+
+  /* 02 Hallazgos */
+  .finding .card-tag { color: var(--sky); }
+  .finding .dato { background: rgba(9,32,58,0.55); border: 1px solid var(--sky-line); color: var(--paper); }
+  .finding .why { border-top-color: var(--line-strong); }
 
   /* 03 Competencia */
-  .comp { background: transparent; border-color: var(--line-strong); }
+  .comp { background: var(--paper-wash); box-shadow: none; }
   .comp .who { color: var(--sky); }
-  .quote-panel { border-left-color: var(--red); background: linear-gradient(90deg, var(--red-wash), transparent 80%), var(--panel); }
-  .quote-panel em.ac { color: var(--red-text); }
+  .quote-panel { background: linear-gradient(90deg, var(--sky-wash), transparent 85%), var(--panel); border-color: var(--line); border-left: 4px solid var(--sky); }
 
-  /* 04 Propuesta: cada servicio con su color */
+  /* 04 Propuesta */
   .svc { border-top-width: 3px; }
-  .svc:nth-child(1) { border-top-color: var(--red); background: linear-gradient(180deg, var(--red-wash), transparent 45%), var(--panel); }
-  .svc:nth-child(1) .card-tag { color: var(--red-text); }
+  .svc:nth-child(1) { border-top-color: var(--paper); background: linear-gradient(180deg, var(--paper-wash), transparent 45%), var(--panel); }
+  .svc:nth-child(1) .card-tag { color: var(--paper); }
   .svc:nth-child(2) { border-top-color: var(--sky); background: linear-gradient(180deg, var(--sky-wash), transparent 45%), var(--panel); }
   .svc:nth-child(3) { border-top-color: var(--sage); background: linear-gradient(180deg, var(--sage-wash), transparent 45%), var(--panel); }
   .svc:nth-child(3) .card-tag { color: var(--sage-text); }
-  .svc:nth-child(1) .checks li::before { color: var(--red-text); }
   .svc:nth-child(2) .checks li::before { color: var(--sky); }
-  .how .card { background: transparent; border-color: var(--line-strong); }
-  .how .card h3 { color: var(--sky); }
+  .svc .checks li { color: var(--paper); }
+  .how .card { background: var(--paper-wash); box-shadow: none; }
+  .how .card h3 { color: var(--paper); }
 
-  /* 05 Casos: resultados, verde */
+  /* 05 Casos */
   section:nth-of-type(5) .kicker, section:nth-of-type(5) h2 em.ac { color: var(--sage-text); }
-  .case { background: linear-gradient(180deg, var(--sage-wash), transparent 60%), var(--panel); }
+  .case { border-top: 3px solid var(--sage); background: linear-gradient(180deg, var(--sage-wash), transparent 60%), var(--panel); }
+  .case .who { color: var(--soft); }
 
   /* 06 Tienda */
-  .reco { background: transparent; border-color: var(--line-strong); }
-  .reco .n { display: inline-flex; width: 30px; height: 30px; align-items: center; justify-content: center; border: 1px solid var(--sky-line); border-radius: 50%; background: var(--sky-wash); }
+  .reco { background: var(--paper-wash); box-shadow: none; }
+  .reco-flag { background: var(--paper-wash); }
+  .reco .n { display: inline-flex; width: 30px; height: 30px; align-items: center; justify-content: center; border: 1px solid var(--sky-line); border-radius: 50%; background: var(--sky-wash); color: var(--sky); }
 
-  /* 07 Precio */
-  section:nth-of-type(7) .kicker, section:nth-of-type(7) h2 em.ac { color: var(--sage-text); }
-  .price-card { border: 1px solid var(--sage-line);
-    background: radial-gradient(520px 300px at 0% 0%, rgba(79,162,126,0.16), transparent 70%),
-                radial-gradient(520px 300px at 100% 100%, rgba(91,180,214,0.10), transparent 70%), var(--panel);
-    box-shadow: 0 0 0 1px rgba(79,162,126,0.08), 0 24px 60px rgba(0,0,0,0.35); }
-  .antes s { color: var(--red-text); }
+  /* 07 Precio: panel papel, el foco del documento */
+  section:nth-of-type(7) { background:
+      radial-gradient(800px 380px at 50% 30%, rgba(91,180,214,0.18), transparent 70%), var(--bg-2); }
+  .price-card { background: var(--paper); color: #0E2A47; border: none; box-shadow: 0 30px 80px rgba(4,16,30,0.45); }
+  .price-card .price-name { color: #3D5876; }
+  .price-card .badge { background: #2B7356; color: #FAF6EE; }
+  .price-card .antes { color: #5B7088; }
+  .price-card .antes s { color: #5B7088; }
+  .price-card .price { color: #0E2A47; }
+  .price-card .price small { color: #3D5876; }
+  .price-card .per-day { color: #3D5876; }
+  .price-card .per-day b { color: #0E2A47; }
+  .price-card .anchor { background: #E9F2EC; border: 1px solid #BFD9C9; border-left: 4px solid #2B7356; color: #0E2A47; }
+  .price-card .price-checks li { color: #0E2A47; }
+  .price-card .price-checks li::before { color: #2B7356; }
+  .price-card .conds { border-top-color: #E3DACB; }
+  .price-card .conds p { color: #3D5876; }
+  .price-card .conds p::before { color: #2B7356; }
+  .price-card .conds strong { color: #0E2A47; }
 
   /* 08 Pasos */
-  .step { background: transparent; border-color: var(--line-strong); }
-  .step:nth-child(1) .sn { color: var(--red-text); }
-  .step:nth-child(2) .sn { color: var(--sky); }
-  .step:nth-child(3) .sn { color: var(--sky); }
+  .step { background: var(--paper-wash); box-shadow: none; }
+  .step .sn { color: var(--sky); }
   .step:nth-child(4) .sn { color: var(--sage-text); }
-  footer { background: var(--bg-2); }
+
+  .antes s { white-space: nowrap; }
+  footer { background: var(--bg-3); border-top: 1px solid var(--line); }
 </style>
 </head>
 <body>
