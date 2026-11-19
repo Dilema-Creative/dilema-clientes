@@ -212,6 +212,88 @@
     .foot-contact { text-align: left; }
     .stat-n { font-size: 28px; }
   }
+
+  /* ===== Paleta v2: tres acentos con rol ===== */
+  :root {
+    --bg: #060F1B;
+    --bg-2: #0A1A2D;
+    --panel: #0D2238;
+    --red: #E8463A; --red-text: #FF6E62; --red-wash: rgba(232,70,58,0.10); --red-line: rgba(232,70,58,0.38);
+    --sky-wash: rgba(91,180,214,0.10); --sky-line: rgba(91,180,214,0.38);
+    --sage-wash: rgba(79,162,126,0.12); --sage-line: rgba(79,162,126,0.42);
+  }
+  body { background: var(--bg); }
+  nav { background: rgba(6,15,27,0.92); }
+  .hero { background:
+      radial-gradient(700px 420px at 92% 10%, rgba(91,180,214,0.16), transparent 70%),
+      radial-gradient(620px 420px at 0% 100%, rgba(232,70,58,0.14), transparent 70%),
+      var(--bg); }
+  .hero::before { display: none; }
+  .hero-mark .tag { color: var(--red-text); }
+  .pill:nth-child(1), .pill:nth-child(2) { border-color: var(--red-line); color: #FFD0CB; }
+  .pill:nth-child(3) { border-color: var(--sky-line); color: #CFEAF4; }
+  .pill:nth-child(4) { border-color: var(--sage-line); color: #CDEBDD; }
+
+  .stat { border-left: 3px solid var(--sky); background: linear-gradient(160deg, rgba(255,255,255,0.03), transparent 60%), var(--panel); }
+  .stat:nth-child(1), .stat:nth-child(2) { border-left-color: var(--red); }
+  .stat:nth-child(1) .stat-n, .stat:nth-child(2) .stat-n { color: var(--red-text); }
+  .stat:nth-child(3) .stat-n { color: var(--sky); }
+  .stat:nth-child(4) { border-left-color: var(--sage); }
+  .stat:nth-child(4) .stat-n { color: var(--sage-text); }
+
+  section { background: var(--bg); }
+  section:nth-of-type(even) { background:
+      radial-gradient(900px 300px at 50% 0%, rgba(91,180,214,0.06), transparent 70%), var(--bg-2); }
+
+  /* 01 Fortalezas y 02 Hallazgos: su marca, rojo */
+  section:nth-of-type(1) .kicker, section:nth-of-type(2) .kicker { color: var(--red-text); }
+  section:nth-of-type(1) h2 em.ac, section:nth-of-type(2) h2 em.ac { color: var(--red-text); }
+  .strength { border-top: 3px solid var(--red); background: linear-gradient(180deg, var(--red-wash), transparent 70%), var(--panel); }
+  .finding .card-tag { color: var(--red-text); }
+  .finding .dato { background: var(--red-wash); border-color: var(--red-line); }
+  .finding { background: linear-gradient(180deg, rgba(255,255,255,0.025), transparent 40%), var(--panel); }
+
+  /* 03 Competencia */
+  .comp { background: transparent; border-color: var(--line-strong); }
+  .comp .who { color: var(--sky); }
+  .quote-panel { border-left-color: var(--red); background: linear-gradient(90deg, var(--red-wash), transparent 80%), var(--panel); }
+  .quote-panel em.ac { color: var(--red-text); }
+
+  /* 04 Propuesta: cada servicio con su color */
+  .svc { border-top-width: 3px; }
+  .svc:nth-child(1) { border-top-color: var(--red); background: linear-gradient(180deg, var(--red-wash), transparent 45%), var(--panel); }
+  .svc:nth-child(1) .card-tag { color: var(--red-text); }
+  .svc:nth-child(2) { border-top-color: var(--sky); background: linear-gradient(180deg, var(--sky-wash), transparent 45%), var(--panel); }
+  .svc:nth-child(3) { border-top-color: var(--sage); background: linear-gradient(180deg, var(--sage-wash), transparent 45%), var(--panel); }
+  .svc:nth-child(3) .card-tag { color: var(--sage-text); }
+  .svc:nth-child(1) .checks li::before { color: var(--red-text); }
+  .svc:nth-child(2) .checks li::before { color: var(--sky); }
+  .how .card { background: transparent; border-color: var(--line-strong); }
+  .how .card h3 { color: var(--sky); }
+
+  /* 05 Casos: resultados, verde */
+  section:nth-of-type(5) .kicker, section:nth-of-type(5) h2 em.ac { color: var(--sage-text); }
+  .case { background: linear-gradient(180deg, var(--sage-wash), transparent 60%), var(--panel); }
+
+  /* 06 Tienda */
+  .reco { background: transparent; border-color: var(--line-strong); }
+  .reco .n { display: inline-flex; width: 30px; height: 30px; align-items: center; justify-content: center; border: 1px solid var(--sky-line); border-radius: 50%; background: var(--sky-wash); }
+
+  /* 07 Precio */
+  section:nth-of-type(7) .kicker, section:nth-of-type(7) h2 em.ac { color: var(--sage-text); }
+  .price-card { border: 1px solid var(--sage-line);
+    background: radial-gradient(520px 300px at 0% 0%, rgba(79,162,126,0.16), transparent 70%),
+                radial-gradient(520px 300px at 100% 100%, rgba(91,180,214,0.10), transparent 70%), var(--panel);
+    box-shadow: 0 0 0 1px rgba(79,162,126,0.08), 0 24px 60px rgba(0,0,0,0.35); }
+  .antes s { color: var(--red-text); }
+
+  /* 08 Pasos */
+  .step { background: transparent; border-color: var(--line-strong); }
+  .step:nth-child(1) .sn { color: var(--red-text); }
+  .step:nth-child(2) .sn { color: var(--sky); }
+  .step:nth-child(3) .sn { color: var(--sky); }
+  .step:nth-child(4) .sn { color: var(--sage-text); }
+  footer { background: var(--bg-2); }
 </style>
 </head>
 <body>
