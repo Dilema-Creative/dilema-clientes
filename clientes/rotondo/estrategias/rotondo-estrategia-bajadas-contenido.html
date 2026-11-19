@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rotondo, el tercer lugar</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Bajadas de contenido: mismo sistema que la estrategia de Rotondo (azul del delantal + manteca), un solo tema claro a propósito */
+:root{
+  --ink:#2B3754; --ink-2:#1D2640;
+  --butter:#E0AE5C; --butter-deep:#8A5F1E;
+  --paper:#F5F3EF; --paper-2:#EBE7DF; --white:#FFFFFF;
+  --text:#20242E; --ash:#636876; --line:#DCD7CC;
+  --on-dark:#F3F1EC; --on-dark-2:rgba(243,241,236,.74); --on-dark-3:rgba(243,241,236,.5);
+  --display:'Fraunces',Georgia,'Times New Roman',serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--paper);color:var(--text);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--ink-2)}
+.gut{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.in{max-width:1080px;margin:0 auto}
+a{color:inherit}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--ink-2);height:56px;display:flex;align-items:center}
+nav .in{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{font-family:var(--display);font-weight:700;font-size:16px;color:var(--on-dark);letter-spacing:-.02em;white-space:nowrap}
+.brand em{font-style:italic;color:var(--butter);font-weight:500}
+.links{display:flex;gap:20px;overflow-x:auto}
+.links a{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--on-dark-3);text-decoration:none;white-space:nowrap}
+.links a:hover,.links a:focus-visible{color:var(--on-dark)}
+
+.hero{background:radial-gradient(circle at 86% 18%,rgba(224,174,92,.22),transparent 38%),var(--ink);color:var(--on-dark);padding-block:84px 72px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--butter);margin-bottom:26px}
+.trio{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 22px;font-family:var(--display);font-weight:500;font-size:clamp(40px,7vw,88px);line-height:1;letter-spacing:-.035em;margin-bottom:28px}
+.trio span{color:var(--on-dark-3)}
+.trio em{font-style:italic;color:var(--butter)}
+.hero p{font-size:17px;color:var(--on-dark-2);max-width:700px;font-weight:300;line-height:1.7}
+.hero p + p{margin-top:14px}
+
+section{padding-block:76px;border-bottom:1px solid var(--line)}
+section.alt{background:var(--white)}
+section.dark{background:var(--ink);color:var(--on-dark);border-bottom:0}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--butter-deep);margin-bottom:14px}
+section.dark .kicker{color:var(--butter)}
+.title{font-family:var(--display);font-weight:500;font-size:clamp(30px,4vw,46px);line-height:1.06;letter-spacing:-.025em;color:var(--ink);max-width:820px;margin-bottom:18px;text-wrap:balance}
+.title em{font-style:italic;color:var(--butter-deep)}
+section.dark .title{color:var(--on-dark)} section.dark .title em{color:var(--butter)}
+.desc{font-size:16px;color:var(--ash);max-width:720px;margin-bottom:36px;line-height:1.7}
+section.dark .desc{color:var(--on-dark-2)}
+.sub{font-family:var(--display);font-weight:500;font-size:24px;letter-spacing:-.02em;color:var(--ink);margin:52px 0 16px;text-wrap:balance}
+section.dark .sub{color:var(--on-dark)}
+.note{font-size:13px;color:var(--ash);margin-top:12px;max-width:80ch}
+
+.callout{border-left:4px solid var(--butter-deep);background:var(--white);padding:18px 22px;margin-top:26px;border-radius:0 8px 8px 0;max-width:860px}
+section.alt .callout{background:var(--paper)}
+section.dark .callout{background:rgba(255,255,255,.05);border-left-color:var(--butter)}
+.lab{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--butter-deep);margin-bottom:8px}
+section.dark .lab{color:var(--butter)}
+
+ul.l{list-style:none;display:grid;gap:9px}
+ul.l li{padding-left:18px;position:relative;font-size:14.5px}
+ul.l li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--butter-deep)}
+section.dark ul.l li{color:var(--on-dark-2)} section.dark ul.l li::before{background:var(--butter)}
+
+/* tres lugares */
+.places{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--white)}
+.place{padding:26px;min-width:0;border-right:1px solid var(--line)}
+.place:last-child{border-right:0;background:var(--ink);color:var(--on-dark)}
+.place .n{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);margin-bottom:10px}
+.place:last-child .n{color:var(--butter)}
+.place h3{font-family:var(--display);font-weight:500;font-size:26px;letter-spacing:-.02em;margin-bottom:8px}
+.place p{font-size:14px;color:var(--ash)}
+.place:last-child p{color:var(--on-dark-2)}
+
+.vs{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--white);margin-top:28px}
+.vs > div{min-width:0}
+.vs > div:first-child{border-right:1px solid var(--line)}
+.vs-h{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;padding:14px 22px;background:var(--paper-2)}
+.vs > div:last-child .vs-h{background:var(--ink);color:var(--butter)}
+.vs ul{list-style:none}
+.vs li{padding:14px 22px;border-top:1px solid var(--line);font-size:14.5px}
+.vs > div:first-child li{color:var(--ash)}
+
+/* serie */
+.rules{display:grid;grid-template-columns:repeat(2,1fr);gap:14px 32px}
+.rule{padding-left:22px;position:relative;font-size:14.5px;color:var(--on-dark-2)}
+.rule b{color:var(--on-dark);font-weight:600}
+.rule::before{content:"";position:absolute;left:0;top:.5em;width:9px;height:9px;border-radius:50%;border:2px solid var(--butter)}
+
+.eps{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.ep{border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:22px 24px;background:rgba(255,255,255,.04);min-width:0;display:flex;flex-direction:column}
+.ep-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:6px}
+.ep-hour{font-family:var(--display);font-size:34px;font-weight:500;letter-spacing:-.03em;color:var(--butter);line-height:1;font-variant-numeric:tabular-nums}
+.ep-loc{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--on-dark-3);text-align:right}
+.ep h4{font-family:var(--display);font-weight:500;font-size:19px;color:var(--on-dark);margin:6px 0 8px;letter-spacing:-.01em}
+.ep p{font-size:14px;color:var(--on-dark-2);margin-bottom:12px}
+.ep .meta{margin-top:auto;padding-top:12px;border-top:1px dashed rgba(255,255,255,.18);display:grid;gap:4px;font-size:13px;color:var(--on-dark-2)}
+.ep .meta b{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-3);margin-right:6px}
+
+.table-wrap{border:1px solid var(--line);border-radius:8px;overflow-x:auto;background:var(--white)}
+section.dark .table-wrap{border-color:rgba(255,255,255,.14);background:rgba(255,255,255,.03)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:620px}
+th{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;text-align:left;padding:12px 16px;background:var(--paper-2);color:var(--ink)}
+section.dark th{background:rgba(255,255,255,.08);color:var(--butter)}
+td{padding:13px 16px;border-top:1px solid var(--line);vertical-align:top}
+section.dark td{border-top-color:rgba(255,255,255,.12);color:var(--on-dark-2)}
+td:first-child{font-family:var(--mono);font-size:12.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
+td.k{font-family:var(--display);font-size:16px;color:var(--ink);white-space:nowrap}
+td i{color:var(--butter-deep);font-style:normal}
+section.dark td i{color:var(--butter)}
+
+.endcard{margin-top:28px;border-radius:8px;background:var(--ink-2);padding:34px 24px;text-align:center;color:var(--on-dark)}
+.endcard .big{font-family:var(--body);font-weight:600;font-size:clamp(15px,2.4vw,22px);letter-spacing:.32em;text-transform:uppercase}
+.endcard .big span{color:var(--butter)}
+.endcard .sm{font-family:var(--display);font-style:italic;font-size:15px;color:var(--on-dark-3);margin-top:8px}
+
+/* franjas */
+.day{display:grid;grid-template-columns:repeat(5,1fr);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+.slot{padding:22px 18px;min-width:0;color:var(--text)}
+.slot:nth-child(1){background:#EEF0F4}
+.slot:nth-child(2){background:#F7EEDC}
+.slot:nth-child(3){background:#F3E2BF}
+.slot:nth-child(4){background:#EBC789}
+.slot:nth-child(5){background:var(--ink);color:var(--on-dark)}
+.slot .h{font-family:var(--mono);font-size:11px;letter-spacing:.08em;font-variant-numeric:tabular-nums;margin-bottom:8px;opacity:.75}
+.slot .t{font-family:var(--display);font-weight:500;font-size:20px;letter-spacing:-.015em;margin-bottom:6px}
+.slot p{font-size:13.5px;opacity:.85}
+
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:24px;min-width:0;display:flex;flex-direction:column}
+section.alt .card{background:var(--paper)}
+.card h4{font-family:var(--display);font-weight:500;font-size:19px;color:var(--ink);margin-bottom:8px;letter-spacing:-.01em}
+.card p{font-size:14px;margin-bottom:10px}
+.card .foot{margin-top:auto;padding-top:10px;border-top:1px dashed var(--line);font-size:13px;color:var(--ash)}
+
+/* objeto */
+.crit{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:30px}
+.crit span{font-size:13px;background:var(--white);border:1px solid var(--line);border-radius:999px;padding:6px 14px}
+section.alt .crit span{background:var(--paper)}
+.objs{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.obj{border:1px solid var(--line);border-radius:8px;padding:24px;background:var(--paper);min-width:0}
+.obj.pick{background:var(--ink);color:var(--on-dark);border-color:var(--ink)}
+.obj .tag{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);margin-bottom:8px}
+.obj.pick .tag{color:var(--butter)}
+.obj h4{font-family:var(--display);font-weight:500;font-size:22px;margin-bottom:8px;letter-spacing:-.015em;color:var(--ink)}
+.obj.pick h4{color:var(--on-dark)}
+.obj p{font-size:14px;margin-bottom:8px}
+.obj.pick p{color:var(--on-dark-2)}
+
+.mix{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:520px;margin-top:8px}
+.mix div{aspect-ratio:4/5;border-radius:4px;display:flex;align-items:flex-end;padding:10px;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;min-width:0}
+.mix .p{background:var(--butter);color:var(--ink-2)}
+.mix .g{background:var(--ink);color:var(--on-dark)}
+.mix .o{background:var(--paper-2);color:var(--ink);border:1px solid var(--line)}
+
+/* nombre propio */
+.lesson{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px;align-items:start}
+.name-demo{background:var(--white);border:1px solid var(--line);border-radius:8px;padding:30px 24px;text-align:center}
+.name-demo .nm{font-weight:600;font-size:clamp(18px,3vw,26px);letter-spacing:.3em;text-transform:uppercase;color:var(--ink)}
+.name-demo .ap{font-family:var(--display);font-style:italic;color:var(--butter-deep);font-size:16px;margin-top:6px}
+.name-demo .since{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);margin-top:18px;padding-top:14px;border-top:1px solid var(--line)}
+.steps{display:grid;border-top:1px solid var(--line);margin-top:8px}
+.step{display:grid;grid-template-columns:52px 1fr;gap:18px;padding:20px 0;border-bottom:1px solid var(--line)}
+.step .num{font-family:var(--display);font-size:28px;font-weight:500;color:var(--butter-deep);line-height:1;font-variant-numeric:tabular-nums}
+.step h4{font-family:var(--display);font-weight:500;font-size:19px;color:var(--ink);margin-bottom:4px;letter-spacing:-.01em}
+.step p{font-size:14.5px;max-width:75ch}
+
+.week{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.wk{border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:24px;background:rgba(255,255,255,.04);min-width:0}
+.wk .q{font-family:var(--display);font-size:38px;font-weight:500;color:var(--butter);line-height:1;letter-spacing:-.03em}
+.wk .q small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--on-dark-3);margin-left:6px}
+.wk h4{font-family:var(--display);font-weight:500;font-size:19px;color:var(--on-dark);margin:10px 0 10px}
+
+.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 28px}
+.chk{padding:16px 18px 16px 46px;background:var(--white);border:1px solid var(--line);border-radius:8px;position:relative;font-size:14.5px;min-width:0}
+.chk::before{content:"";position:absolute;left:18px;top:19px;width:14px;height:14px;border:2px solid var(--butter-deep);border-radius:3px}
+.chk b{color:var(--ink)}
+
+footer{background:var(--ink-2);color:var(--on-dark-3);padding-block:40px;font-family:var(--mono);font-size:11px;letter-spacing:.08em}
+footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+:focus-visible{outline:2px solid var(--butter);outline-offset:3px}
+@media (max-width:900px){
+  .places,.cards,.week{grid-template-columns:1fr}
+  .place{border-right:0;border-bottom:1px solid var(--line)}
+  .day{grid-template-columns:1fr}
+  .lesson,.objs,.eps,.rules,.checks,.vs{grid-template-columns:1fr}
+  .vs > div:first-child{border-right:0}
+}
+@media (max-width:640px){
+  .links{display:none}
+  section{padding-block:56px}
+  .hero{padding-block:60px 52px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<nav class="gut"><div class="in">
+  <div class="brand">Café <em>Rotondo</em></div>
+  <div class="links">
+    <a href="#idea">Idea</a><a href="#pili">Pili</a><a href="#dia">Todo el día</a><a href="#objeto">Objeto</a><a href="#nombre">Nombre propio</a><a href="#confirmar">A confirmar</a>
+  </div>
+</div></nav>
+
+<header class="hero gut"><div class="in">
+  <div class="eyebrow">Bajadas de contenido · noviembre 2026</div>
+  <div class="trio">Casa. <span>Trabajo.</span> <em>Rotondo.</em></div>
+  <p>La gente vive en su casa y trabaja en el trabajo. Rotondo es el tercer lugar: donde desayuna después de yoga, almuerza de a dos, se queda una tarde con la compu o brinda al atardecer.</p>
+  <p>Esta bajada ordena cómo contarlo para que lo produzca el equipo de la marca: la miniserie de Pili, el feed con un objeto propio, los dos locales como uno solo y un método para que los productos nuevos queden asociados a Rotondo aunque la competencia los copie.</p>
+</div></header>
+
+<section id="idea" class="gut"><div class="in">
+  <div class="kicker">La idea paraguas</div>
+  <h2 class="title">Rotondo es el <em>tercer lugar</em> de su gente</h2>
+  <p class="desc">El sociólogo Ray Oldenburg llamó así a los lugares que no son ni la casa ni el trabajo, donde uno vuelve por gusto y se siente parte. Rotondo ya lo dice en sus textos («hagan suyo nuestro espacio», «tu punto de encuentro»), pero lo dice con palabras. La bajada es mostrarlo.</p>
+  <div class="places">
+    <div class="place"><div class="n">Primer lugar</div><h3>Casa</h3><p>Donde arranca y termina el día. Aparece poco y de pasada: el mat que se enrolla, las llaves.</p></div>
+    <div class="place"><div class="n">Segundo lugar</div><h3>Trabajo</h3><p>La compu que se cierra, el mail que se manda antes de salir. Tampoco es protagonista.</p></div>
+    <div class="place"><div class="n">Tercer lugar</div><h3>Rotondo</h3><p>Donde pasa lo que vale la pena contar. Las dos esquinas, de 7 a 20, todos los días.</p></div>
+  </div>
+  <div class="vs">
+    <div><div class="vs-h">Hoy</div><ul>
+      <li>«Detrás de cada café, hay una historia, hay una familia.»</li>
+      <li>La palabra «familia» aparece en casi todos los textos y pierde peso.</li>
+      <li>Fotos lindas de producto, con textos que podría firmar cualquier café.</li>
+    </ul></div>
+    <div><div class="vs-h">Con la bajada</div><ul>
+      <li>Se ve a una persona real haciendo su día en Rotondo. El texto acompaña, no explica.</li>
+      <li>«Family blend» queda como firma, sin repetirlo en el texto.</li>
+      <li>Cada pieza dice una hora, un local o un nombre propio.</li>
+    </ul></div>
+  </div>
+  <div class="callout"><span class="lab">Firma de la campaña</span>«CASA · TRABAJO · ROTONDO», en mayúsculas espaciadas como el resto de la marca. Va en la placa final de los videos, en la bio y en la pauta. La frase «tercer lugar» casi no se escribe: se usa en la bio y en el lanzamiento de la serie, después se deja que lo cuenten las imágenes.</div>
+</div></section>
+
+<section id="pili" class="dark gut"><div class="in">
+  <div class="kicker">Miniserie · reels 9:16</div>
+  <h2 class="title">«Lo de siempre»: <em>Pili, sin palabras</em></h2>
+  <p class="desc">Una miniserie muda con Pili, la actriz de la marca. Cada capítulo es un momento de su día que termina en Rotondo. No habla nadie: se escucha el local (el molinillo, la leche, las tazas, la vereda). El nombre sale del texto que ya mejor funcionó en la cuenta, «¿Llevás lo de siempre?», y del gesto que se repite en cada capítulo.</p>
+
+  <h3 class="sub">Las reglas que hacen que sea una serie</h3>
+  <div class="rules">
+    <div class="rule"><b>Abre con la hora.</b> Placa o texto chico: «8:40». Es el título del capítulo.</div>
+    <div class="rule"><b>El gesto fijo.</b> Pili entra y el barista ya está preparando lo suyo antes de que pida. Una mirada, una sonrisa, nada más.</div>
+    <div class="rule"><b>Sin diálogo y sin música de moda.</b> Sonido ambiente grabado limpio; como mucho, una misma pista suave en todos los capítulos.</div>
+    <div class="rule"><b>Casa o trabajo, solo 2 o 3 segundos.</b> Lo que pasa antes de llegar se insinúa; el capítulo se queda en Rotondo.</div>
+    <div class="rule"><b>Cierra igual siempre.</b> Plano de la esquina + placa «CASA · TRABAJO · ROTONDO» y el local.</div>
+    <div class="rule"><b>De 20 a 35 segundos.</b> Texto en pantalla fuera de los 270 px de arriba y los 380 px de abajo, así sirve también para pauta.</div>
+  </div>
+
+  <h3 class="sub">Capítulos propuestos</h3>
+  <div class="eps">
+    <div class="ep"><div class="ep-top"><div class="ep-hour">8:40</div><div class="ep-loc">Cerviño · mañana</div></div>
+      <h4>Después de yoga</h4><p>Pelo atado, mat al hombro. Mesa de vereda al sol, flat white y un laminado del mostrador recién armado.</p>
+      <div class="meta"><span><b>Producto</b>laminados</span><span><b>Sonido</b>la vaporizadora, la silla en la vereda</span></div></div>
+    <div class="ep"><div class="ep-top"><div class="ep-hour">11:00</div><div class="ep-loc">Cerviño · piso de arriba</div></div>
+      <h4>La oficina de los martes</h4><p>Compu, auriculares, un cortado que se enfría. Le dejan un vaso de agua sin que lo pida. Cuando levanta la vista ya es mediodía.</p>
+      <div class="meta"><span><b>Producto</b>cortado, algo para picar</span><span><b>Sonido</b>teclado, murmullo de abajo</span></div></div>
+    <div class="ep"><div class="ep-top"><div class="ep-hour">13:15</div><div class="ep-loc">Libertador · mediodía</div></div>
+      <h4>Almuerzo de a dos</h4><p>Con una compañera de trabajo, una hora justa. Pollo crispy y papas Rotondo, dos limonadas, una mirada al reloj.</p>
+      <div class="meta"><span><b>Producto</b>almuerzo (carta a confirmar)</span><span><b>Sonido</b>cubiertos, risa</span></div></div>
+    <div class="ep"><div class="ep-top"><div class="ep-hour">19:10</div><div class="ep-loc">El local con mejor atardecer</div></div>
+      <h4>Después del trabajo</h4><p>Con amigos, un vino o un Aperol, la luz naranja sobre la mesa. El capítulo más lindo de la serie: conviene grabarlo con sol de verano.</p>
+      <div class="meta"><span><b>Producto</b>vino / Aperol (a confirmar)</span><span><b>Legal</b>leyenda de alcohol (ver abajo)</span></div></div>
+    <div class="ep"><div class="ep-top"><div class="ep-hour">10:30</div><div class="ep-loc">Domingo</div></div>
+      <h4>Con los suyos</h4><p>Pili con su familia o su perro. Mesa larga, medialunas al centro. Es el capítulo donde «Family blend» tiene sentido sin decirlo.</p>
+      <div class="meta"><span><b>Producto</b>medialunas, café para todos</span><span><b>Sonido</b>domingo tranquilo</span></div></div>
+    <div class="ep"><div class="ep-top"><div class="ep-hour">17:00</div><div class="ep-loc">Diciembre</div></div>
+      <h4>Rotondo se va a casa</h4><p>Pili pasa a buscar la caja que encargó y la abre en su casa con amigas. Es el único capítulo que termina afuera: el tercer lugar viaja. Sirve para las cajas de fiestas.</p>
+      <div class="meta"><span><b>Producto</b>caja de encargos</span><span><b>Objetivo</b>encargos por WhatsApp</span></div></div>
+  </div>
+  <p class="note" style="color:var(--on-dark-3)">Un capítulo cada 15 días alcanza para casi tres meses. El orden se puede cambiar; el de diciembre conviene dejarlo para la primera quincena.</p>
+
+  <h3 class="sub">Guion modelo · capítulo 8:40</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Seg.</th><th>Imagen</th><th>Texto / sonido</th></tr></thead>
+    <tbody>
+      <tr><td>0–2</td><td>Cenital: un mat de yoga que se enrolla.</td><td>Texto chico: <i>8:40</i>. Sonido del mat.</td></tr>
+      <tr><td>2–5</td><td>Pili sale a la vereda, mat al hombro, camina hacia cámara.</td><td>Calle, pasos.</td></tr>
+      <tr><td>5–8</td><td>Mostrador de Cerviño a primera hora, laminados en fila.</td><td>Puerta, campanita si hay.</td></tr>
+      <tr><td>8–12</td><td>El barista la ve y ya está moliendo. No hablan; ella sonríe.</td><td>Molinillo.</td></tr>
+      <tr><td>12–17</td><td>Manos: flat white servido, laminado en plato, mesa de vereda al sol.</td><td>Taza sobre el plato.</td></tr>
+      <tr><td>17–22</td><td>Pili se sienta, primer sorbo, cierra los ojos un segundo. Corte al crujido del laminado.</td><td>Crujido, pájaros.</td></tr>
+      <tr><td>22–26</td><td>Plano general de la esquina.</td><td>Placa: <i>CASA · TRABAJO · ROTONDO</i> / <i>Cerviño 3907</i>.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note" style="color:var(--on-dark-3)">Texto del posteo: corto, con la hora y el lugar. «Pili, 8:40. Lo de siempre, en Cerviño.»</p>
+
+  <h3 class="sub">Especial · «Un día en Rotondo» (time-lapse)</h3>
+  <div class="rules">
+    <div class="rule"><b>Un solo ángulo alto y fijo</b> que tome mostrador, algunas mesas y la ventana, para que se vea cambiar la luz.</div>
+    <div class="rule"><b>De la apertura al cierre.</b> El modo time-lapse del iPhone ajusta solo la exposición. Trípode fijado y celular enchufado todo el día.</div>
+    <div class="rule"><b>Pili es lo único que no cambia.</b> Llega a la mañana con la compu, almuerza, merienda y a las 19 se suman amigos. Esos momentos van a velocidad normal; el resto, acelerado.</div>
+    <div class="rule"><b>Clientes cuidados.</b> Cartel en la puerta avisando que se filma, ángulo que no muestre caras de cerca y amigos de la marca en las mesas próximas a Pili.</div>
+  </div>
+  <p class="note" style="color:var(--on-dark-3)">Editado a 30–45 segundos con un reloj chico en una esquina. Es el reel que mejor cuenta el «todo el día» y se puede reusar en pauta.</p>
+
+  <div class="callout"><span class="lab">Alcohol en redes y pauta</span>Toda pieza con vino o Aperol lleva la leyenda de la Ley 24.788: «Beber con moderación. Prohibida su venta a menores de 18 años.» En Meta, esos anuncios van solo a mayores de 18.</div>
+</div></section>
+
+<section id="dia" class="gut"><div class="in">
+  <div class="kicker">Dos locales, una sola casa</div>
+  <h2 class="title">Un Rotondo, dos esquinas, <em>todo el día</em></h2>
+  <p class="desc">La gente no tiene que elegir entre «Rotondo Cerviño» y «Rotondo Libertador»: es el mismo lugar con dos puertas. Y es un lugar para cualquier hora, no solo para el café de la mañana.</p>
+  <div class="day">
+    <div class="slot"><div class="h">7:00</div><div class="t">Abre Libertador</div><p>El primer café del barrio, para llevar camino al trabajo.</p></div>
+    <div class="slot"><div class="h">8 a 11</div><div class="t">Desayuno</div><p>El mostrador a primera hora: laminados, medialunas, Palmerón.</p></div>
+    <div class="slot"><div class="h">12 a 15</div><div class="t">Almuerzo</div><p>Platos y algo rápido para el mediodía de oficina.</p></div>
+    <div class="slot"><div class="h">16 a 18</div><div class="t">Merienda</div><p>Mini cakes, petites, matcha, Coconut Brew.</p></div>
+    <div class="slot"><div class="h">18 a 20</div><div class="t">Atardecer</div><p>La luz más linda del día y algo para brindar.</p></div>
+  </div>
+  <p class="note">Horarios de Google: Cerviño de 8 a 20 y Libertador de 7 a 20, todos los días. La carta por franja hay que confirmarla.</p>
+
+  <h3 class="sub">Ideas para contar los dos locales como uno</h3>
+  <div class="cards">
+    <div class="card"><h4>Desayuno acá, almuerzo allá</h4><p>Reel de un día partido: café de la mañana en Cerviño y almuerzo en Libertador. Puede ser un capítulo de Pili o un reel suelto.</p><div class="foot">Reel 9:16</div></div>
+    <div class="card"><h4>De esquina a esquina</h4><p>La caminata entre los dos locales en un solo plano secuencia, de taza a taza. Muestra que están cerca y que son lo mismo.</p><div class="foot">Reel o historia</div></div>
+    <div class="card"><h4>El mismo momento, dos veces</h4><p>Carrusel de dos fotos tomadas a la misma hora, con el mismo encuadre, en cada esquina. Mismo café, mismo mostrador.</p><div class="foot">Carrusel</div></div>
+    <div class="card"><h4>Ahora en Rotondo</h4><p>Una historia por franja con la hora en la placa: lo que sale del horno, la mesa que se libera, la luz de las 19. Arma una destacada «Todo el día».</p><div class="foot">Historias diarias</div></div>
+    <div class="card"><h4>La última luz</h4><p>Serie de los viernes a las 19: misma esquina, foto o video corto del atardecer, sin texto. En verano el sol baja cerca de las 20, justo al cierre.</p><div class="foot">Feed o historia, real time</div></div>
+    <div class="card"><h4>La firma con las dos esquinas</h4><p>Toda pieza cierra con «CERVIÑO · LIBERTADOR», aunque muestre uno solo. En los textos se escribe «Rotondo, en Cerviño», no «Rotondo Cerviño».</p><div class="foot">Regla de copy</div></div>
+  </div>
+  <div class="callout"><span class="lab">Antes de publicar</span>En Google figura Av. del Libertador 2277 y en los posteos de la cuenta, 2291. Hay que unificar la dirección en Instagram, Google y Linktree.</div>
+</div></section>
+
+<section id="objeto" class="alt gut"><div class="in">
+  <div class="kicker">El feed</div>
+  <h2 class="title">Encontrar <em>el objeto</em> de Rotondo</h2>
+  <p class="desc">Las marcas que eligió el equipo como referencia (La Cabra, Blue Bottle, Watch House) no muestran solo comida: muestran su taza, su bolsa, su luz, su barrio. Un objeto que se repite hace que una foto sin logo igual se reconozca. Para elegirlo, tiene que cumplir esto:</p>
+  <div class="crit">
+    <span>Ya existe en los dos locales</span><span>Se reconoce sin comida al lado</span><span>Puede salir del local</span><span>Es azul o manteca, o puede serlo</span><span>No hay que inventarlo para la foto</span>
+  </div>
+  <div class="objs">
+    <div class="obj pick"><div class="tag">Nuestra apuesta</div><h4>La taza y el vaso</h4><p>Es lo único que puede aparecer en los tres lugares: la taza en la mesa de Rotondo, el vaso para llevar en el escritorio, sobre el mat o en la mesa de casa. Cuenta el tercer lugar sin decirlo.</p><p>Si la vajilla es genérica, se puede pensar una taza propia (como la taza de Copenhague de La Cabra) o pasar al delantal.</p></div>
+    <div class="obj"><div class="tag">Alternativa</div><h4>El delantal azul</h4><p>El azul de la marca sale de ahí. Colgado en el gancho, el moño atado en la espalda, las manos que trabajan. Es el objeto del oficio y de las personas detrás del mostrador.</p></div>
+    <div class="obj"><div class="tag">Para fechas</div><h4>La caja</h4><p>La de encargos y degustación. Es la que llega a casa y a la oficina. Sirve para fiestas y cumpleaños, no para todo el año.</p></div>
+    <div class="obj"><div class="tag">Regla de foto</div><h4>Lo redondo</h4><p>Rotondo quiere decir redondo. No es un objeto sino una forma de mirar: cenitales donde todo es círculo (la taza, el plato, la mesa, la medialuna, el sol del atardecer). Sirve con cualquiera de los objetos de arriba.</p></div>
+  </div>
+
+  <h3 class="sub">Cómo se arma la grilla</h3>
+  <p style="max-width:720px;font-size:15px">De cada 9 posteos, un tercio para cada cosa. Hoy casi todo es producto; con esta mezcla la grilla empieza a parecerse a las referencias.</p>
+  <div class="mix">
+    <div class="p">Producto con nombre</div><div class="g">Lugar y gente</div><div class="o">Objeto</div>
+    <div class="g">Pili</div><div class="o">Barrio y luz</div><div class="p">Producto con nombre</div>
+    <div class="o">Objeto</div><div class="p">Producto con nombre</div><div class="g">Lugar y gente</div>
+  </div>
+</div></section>
+
+<section id="nombre" class="gut"><div class="in">
+  <div class="kicker">Contra la copia</div>
+  <h2 class="title">Que sea <em>el de Rotondo</em></h2>
+  <div class="lesson">
+    <div>
+      <p style="font-size:16px;margin-bottom:14px">La receta no se puede proteger: si un competidor bueno quiere hacer la misma cookie, la hace. Lo que sí se puede ganar es el nombre y la historia de origen.</p>
+      <p style="font-size:16px;margin-bottom:14px">El chocolate Dubái deja una lección para tener en cuenta. El nombre que pegó fue el de la ciudad, no el de la marca que lo inventó, y por eso hoy lo vende cualquiera como «chocolate Dubái».</p>
+      <p style="font-size:16px">Para Rotondo, el nombre tiene que llevar a la marca adentro. El lanzamiento del Palmerón («No es una palmerita, es el Palmerón Rotondo») ya va por ese camino. La idea es hacerlo con método.</p>
+    </div>
+    <div class="name-demo">
+      <div class="nm">Palmerón</div>
+      <div class="ap">Rotondo</div>
+      <div class="since">Desde noviembre 2026 · Cerviño · Libertador</div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div><h4>Un nombre inventado, nunca descriptivo</h4><p>«Cookie de pistacho» la hace cualquiera. Una palabra propia, fácil de pedir en voz alta en el mostrador. El tostón y la cookie de los que hablamos necesitan la suya.</p></div></div>
+    <div class="step"><div class="num">2</div><div><h4>Siempre con apellido</h4><p>«El Palmerón Rotondo», «el Tostón Rotondo». Igual en el texto del posteo, en el cartel de la vitrina, en la carta y en la boca del barista.</p></div></div>
+    <div class="step"><div class="num">3</div><div><h4>Una presentación con fecha</h4><p>Cada producto con nombre se presenta con el mismo formato: nombre en mayúsculas espaciadas, «desde [mes y año]», quién lo hace y qué tiene. Queda a la vista que nació en Rotondo; si después aparece en otro lado, la gente ya vio dónde estuvo primero.</p></div></div>
+    <div class="step"><div class="num">4</div><div><h4>Un momento que se pueda filmar</h4><p>El chocolate Dubái se hizo conocido por el corte con el relleno. Cada producto con nombre necesita su momento propio (el crujido del hojaldre, el corte, el relleno) y repetirlo en cada video.</p></div></div>
+    <div class="step"><div class="num">5</div><div><h4>Que la gente lo pida por el nombre</h4><p>Etiqueta en la vitrina, historias tipo «¿ya probaste el Palmerón?» y compartir a los clientes que lo nombran. El nombre se instala cuando lo dice otro.</p></div></div>
+    <div class="step"><div class="num">6</div><div><h4>Pocos y fijos</h4><p>Uno o dos productos por temporada son los de Rotondo. El resto son especiales sin tanta presentación. Si todo tiene nombre propio, ninguno pesa.</p></div></div>
+    <div class="step"><div class="num">7</div><div><h4>Registrar el nombre</h4><p>Lo que se registra en el INPI es la marca, no la receta. Antes de lanzar un nombre nuevo, conviene que un agente de marcas revise que esté libre y lo registre. Así nadie más lo puede usar.</p></div></div>
+    <div class="step"><div class="num">8</div><div><h4>Cuando lo copien, no se contesta</h4><p>Nada de «el original» en tono de pelea, que no va con la comunicación soft. Se sigue contando la historia propia: quién lo hace, cómo, desde cuándo.</p></div></div>
+  </div>
+</div></section>
+
+<section class="dark gut"><div class="in">
+  <div class="kicker">Ritmo sugerido</div>
+  <h2 class="title">Una semana <em>de Rotondo</em></h2>
+  <p class="desc">Para quien produzca. Es una base para arrancar; se ajusta con lo que se pueda grabar.</p>
+  <div class="week">
+    <div class="wk"><div class="q">3<small>posteos / semana</small></div><h4>Feed</h4><ul class="l"><li>Lunes: lugar y gente</li><li>Miércoles: producto con nombre</li><li>Viernes: objeto, barrio o «La última luz»</li></ul></div>
+    <div class="wk"><div class="q">1<small>reel / semana</small></div><h4>Reels</h4><ul class="l"><li>Semana A: capítulo de Pili</li><li>Semana B: producto con nombre y su momento</li><li>Una vez: el time-lapse «Un día en Rotondo»</li></ul></div>
+    <div class="wk"><div class="q">Todos<small>los días</small></div><h4>Historias</h4><ul class="l"><li>«Ahora en Rotondo» por franja horaria</li><li>Destacada «Todo el día»</li><li>Clientes que nombran los productos</li></ul></div>
+  </div>
+</div></section>
+
+<section id="confirmar" class="gut"><div class="in">
+  <div class="kicker">Pendientes</div>
+  <h2 class="title">A confirmar <em>con Rotondo</em></h2>
+  <div class="checks">
+    <div class="chk"><b>Atardecer:</b> qué local tiene la mejor luz y si ahí se sirve vino y Aperol (¿en los dos?).</div>
+    <div class="chk"><b>Carta por franja:</b> qué hay de almuerzo y merienda en cada local.</div>
+    <div class="chk"><b>Dirección de Libertador:</b> 2277 (Google) o 2291 (posteos).</div>
+    <div class="chk"><b>Vajilla y delantal:</b> si la taza es propia y si el delantal es igual en los dos locales, para elegir el objeto.</div>
+    <div class="chk"><b>Pili:</b> días de grabación y si su contrato de imagen incluye anuncios pagos.</div>
+    <div class="chk"><b>Nombres:</b> para la cookie y el tostón, y si quieren registrarlos en el INPI.</div>
+    <div class="chk"><b>Time-lapse:</b> permiso para filmar un día completo con clientes en el local.</div>
+    <div class="chk"><b>Horario de verano:</b> el sol baja cerca del cierre; ¿hay chance de estirar algún día?</div>
+  </div>
+</div></section>
+
+<footer class="gut"><div class="in"><span>Café Rotondo · Family blend</span><span>Bajadas de contenido · Dilema Creative · noviembre 2026</span></div></footer>
+
+</body>
+</html>
