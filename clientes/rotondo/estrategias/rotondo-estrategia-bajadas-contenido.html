@@ -187,6 +187,25 @@ section.alt .crit span{background:var(--paper)}
 footer{background:var(--ink-2);color:var(--on-dark-3);padding-block:40px;font-family:var(--mono);font-size:11px;letter-spacing:.08em}
 footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
+/* inspo */
+.board-desc{font-size:14.5px;color:var(--ash);max-width:720px;margin:-6px 0 18px}
+.board{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.tile{position:relative;display:block;aspect-ratio:4/5;max-width:100%;border-radius:4px;overflow:hidden;background:var(--paper-2);text-decoration:none}
+.tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.tile:hover img{transform:scale(1.03)}
+.tile .src{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;background:linear-gradient(to top,rgba(29,38,64,.72),rgba(29,38,64,0));color:#fff;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase}
+.tile .vid{position:absolute;top:8px;left:8px;background:rgba(29,38,64,.8);color:var(--butter);font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:3px 7px;border-radius:3px}
+.vids{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.vref{display:flex;flex-direction:column;gap:4px;padding:20px 22px;border:1px solid var(--line);border-radius:8px;background:var(--paper);text-decoration:none;min-width:0}
+.vref:hover{border-color:var(--butter-deep)}
+.vref .vk{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--butter-deep)}
+.vref b{font-family:var(--display);font-weight:500;font-size:19px;color:var(--ink)}
+.vref span:last-child{font-size:14px;color:var(--ash)}
+.shots{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.shots div{background:var(--paper);padding:18px 20px;font-size:14px;min-width:0}
+.shots b{display:block;font-family:var(--display);font-weight:500;font-size:17px;color:var(--ink);margin-bottom:4px}
+@media (max-width:900px){.board{grid-template-columns:repeat(2,1fr)}.vids,.shots{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.tile img{transition:none}}
 :focus-visible{outline:2px solid var(--butter);outline-offset:3px}
 @media (max-width:900px){
   .places,.cards,.week{grid-template-columns:1fr}
@@ -208,7 +227,7 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <nav class="gut"><div class="in">
   <div class="brand">Café <em>Rotondo</em></div>
   <div class="links">
-    <a href="#idea">Idea</a><a href="#pili">Pili</a><a href="#dia">Todo el día</a><a href="#objeto">Objeto</a><a href="#cocina">Cocina</a><a href="#nombre">Nombre propio</a><a href="#confirmar">A confirmar</a>
+    <a href="#idea">Idea</a><a href="#pili">Pili</a><a href="#dia">Todo el día</a><a href="#objeto">Objeto</a><a href="#cocina">Cocina</a><a href="#inspo">Inspo</a><a href="#nombre">Nombre propio</a><a href="#confirmar">A confirmar</a>
   </div>
 </div></nav>
 
@@ -240,6 +259,7 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
       <li>Cada pieza dice una hora, un local o un nombre propio.</li>
     </ul></div>
   </div>
+  <div class="callout"><span class="lab">El registro de toda la cuenta</span>Soft, formal y elegante, en todo: Pili, los locales, los productos y la cocina. Imagen cuidada y quieta, pocas palabras, sin emojis ni signos de exclamación, sin audios en tendencia. La cocina es el punto más alto de ese registro (ver «Antes de abrir» e «Inspo»).</div>
   <div class="callout"><span class="lab">Firma de la campaña</span>«CASA · TRABAJO · ROTONDO», en mayúsculas espaciadas como el resto de la marca. Va en la placa final de los videos, en la bio y en la pauta. La frase «tercer lugar» casi no se escribe: se usa en la bio y en el lanzamiento de la serie, después se deja que lo cuenten las imágenes.</div>
 </div></section>
 
@@ -359,38 +379,151 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <section id="cocina" class="dark gut"><div class="in">
   <div class="kicker">Contenido de autoridad</div>
   <h2 class="title">Antes de abrir: <em>la cocina de Rotondo</em></h2>
-  <p class="desc">Pili muestra por qué la gente vuelve; la cocina muestra por qué vale la pena. Producción propia, materia prima elegida, pasteleros y cocineros con oficio y un cuidado por cómo se ve y cómo sabe cada cosa. La regla es demostrarlo, no decirlo: «de primera calidad» o «los mejores» los puede escribir cualquiera. Un nombre, un origen, un tiempo o unas manos trabajando no.</p>
+  <p class="desc">Pili muestra por qué la gente vuelve; la cocina muestra por qué vale la pena. Esta línea es la más cuidada de la cuenta: soft, formal y elegante, con el registro de una casa de alta pastelería. Producción propia, materia prima elegida y un equipo con oficio, contados con calma, sin apuro y sin explicar de más. La calidad no se declara: se nota en la luz, en el silencio y en el detalle.</p>
 
-  <div class="callout" style="margin-top:0;margin-bottom:8px"><span class="lab">Firma de esta línea</span>«HECHO EN ROTONDO», en mayúsculas espaciadas. Convive con «CASA · TRABAJO · ROTONDO»: una cuenta el lugar y la otra, el oficio.</div>
+  <div class="callout" style="margin-top:0;margin-bottom:8px"><span class="lab">Firma de esta línea</span>«HECHO EN ROTONDO», en mayúsculas espaciadas y chicas. Convive con «CASA · TRABAJO · ROTONDO»: una cuenta el lugar y la otra, el oficio.</div>
+
+  <h3 class="sub">Cómo se ve, cómo se escribe, cómo suena</h3>
+  <div class="week">
+    <div class="wk"><h4 style="margin-top:0">La imagen</h4><ul class="l">
+      <li>Luz natural lateral, sombras suaves. Nada de flash ni luz de tubo.</li>
+      <li>Encuadres quietos y simétricos, mucho aire alrededor, un solo protagonista por plano.</li>
+      <li>Superficies nobles: mármol, acero, madera, harina. Paleta sobria con el azul y la manteca de la marca.</li>
+      <li>Movimientos lentos o cámara fija. Nada de cortes rápidos ni zooms.</li>
+      <li>Equipo impecable: chaqueta o delantal planchado, manos limpias, mesada ordenada.</li>
+    </ul></div>
+    <div class="wk"><h4 style="margin-top:0">El texto</h4><ul class="l">
+      <li>Pocas palabras, en tono sereno. Frases cortas, casi de ficha.</li>
+      <li>Sin emojis, sin signos de exclamación, sin preguntas tipo «¿cuál te tienta?».</li>
+      <li>Sin superlativos ni comparaciones con otros cafés.</li>
+      <li>En pantalla, como mucho una línea en mayúsculas espaciadas o en serif chica.</li>
+      <li>Hashtags fuera de esta línea.</li>
+    </ul></div>
+    <div class="wk"><h4 style="margin-top:0">El sonido</h4><ul class="l">
+      <li>El sonido real de la cocina, limpio y bajo: el papel, el palote, el horno.</li>
+      <li>Si hay música, una sola pieza de piano o cuerdas, siempre la misma.</li>
+      <li>Nunca audios en tendencia ni voces.</li>
+    </ul></div>
+  </div>
+
+  <div class="vs">
+    <div><div class="vs-h">Así no</div><ul>
+      <li>«¡Nuestros laminados son los mejores de Palermo! 🥐🔥»</li>
+      <li>«Materia prima de primera calidad, hecho con amor.»</li>
+      <li>Reel acelerado con música en tendencia y textos que aparecen.</li>
+    </ul></div>
+    <div><div class="vs-h">Así sí</div><ul>
+      <li>«Manteca, harina y tres días de reposo.»</li>
+      <li>«Laminado a mano, cada mañana, antes de abrir.»</li>
+      <li>Un plano quieto del corte, con el sonido del hojaldre y nada más.</li>
+    </ul></div>
+  </div>
+  <p class="note" style="color:var(--on-dark-3)">Los tiempos y procesos de los ejemplos son ilustrativos: cada dato que se publique lo confirma la cocina.</p>
 
   <h3 class="sub">Serie «Antes de las 7»</h3>
-  <p style="font-size:15px;color:var(--on-dark-2);max-width:720px;margin-bottom:22px">Misma gramática que la serie de Pili, para que se lean como hermanas: abre con la hora, sin diálogo, sonido de cocina grabado limpio, cierra con la placa. Pasa mientras el barrio duerme y termina cuando se abre la puerta.</p>
+  <p style="font-size:15px;color:var(--on-dark-2);max-width:720px;margin-bottom:22px">Hermana de la serie de Pili en la estructura (abre con la hora, cierra con la placa), pero más lenta y más formal. La cocina en penumbra mientras el barrio duerme, hasta que se abre la puerta.</p>
   <div class="eps">
     <div class="ep"><div class="ep-top"><div class="ep-hour">5:30</div><div class="ep-loc">Cocina</div></div>
-      <h4>La masa</h4><p>Se prende la luz, se abre la cámara, sale el bollo de laminado que descansó desde ayer. Palote, manteca, pliegues. Termina con el corte que muestra las capas.</p>
-      <div class="meta"><span><b>Prueba</b>tiempo de reposo, laminado a mano</span><span><b>Sonido</b>palote, papel manteca</span></div></div>
+      <h4>La masa</h4><p>Cámara fija sobre la mesada. La masa que descansó desde ayer, la manteca, los pliegues hechos con calma. Termina con un corte lento que muestra las capas.</p>
+      <div class="meta"><span><b>Plano</b>cenital, quieto</span><span><b>Sonido</b>palote, papel manteca</span></div></div>
     <div class="ep"><div class="ep-top"><div class="ep-hour">6:15</div><div class="ep-loc">Horno</div></div>
-      <h4>El horno</h4><p>Las bandejas entran crudas y salen doradas. Primer plano del vidrio del horno, el brillo del pintado, el crujido al apoyar la bandeja.</p>
-      <div class="meta"><span><b>Prueba</b>horneado del día</span><span><b>Sonido</b>puerta del horno, crujido</span></div></div>
+      <h4>El horno</h4><p>La luz del horno en la cocina todavía oscura. Las piezas que se doran detrás del vidrio y la bandeja que se apoya sin ruido.</p>
+      <div class="meta"><span><b>Plano</b>frontal, contraluz cálido</span><span><b>Sonido</b>puerta del horno, crujido</span></div></div>
     <div class="ep"><div class="ep-top"><div class="ep-hour">6:40</div><div class="ep-loc">Mostrador</div></div>
-      <h4>El armado</h4><p>Cómo se arma la vitrina pieza por pieza: el orden, las alturas, el último ajuste con la pinza. Cierra con la persiana que sube a las 7.</p>
-      <div class="meta"><span><b>Prueba</b>cuidado estético</span><span><b>Sonido</b>bandejas, persiana</span></div></div>
+      <h4>La vitrina</h4><p>Cada pieza ubicada con pinza, una por una, con la precisión de una joyería. Cierra con la vitrina completa y la persiana que sube.</p>
+      <div class="meta"><span><b>Plano</b>lateral, a la altura de la vitrina</span><span><b>Sonido</b>pinza, persiana</span></div></div>
     <div class="ep"><div class="ep-top"><div class="ep-hour">6:50</div><div class="ep-loc">Barra</div></div>
-      <h4>La calibración</h4><p>Antes del primer cliente el barista prueba el café: muele, extrae, mide, prueba, ajusta. Lo descarta y vuelve a empezar hasta que está.</p>
-      <div class="meta"><span><b>Prueba</b>café de especialidad, criterio</span><span><b>Sonido</b>molinillo, extracción</span></div></div>
+      <h4>La calibración</h4><p>El barista solo en la barra. Muele, extrae, prueba, ajusta. La primera taza del día no es para nadie: es para que la siguiente salga perfecta.</p>
+      <div class="meta"><span><b>Plano</b>detalle de la extracción</span><span><b>Sonido</b>molinillo, el café que cae</span></div></div>
   </div>
 
   <h3 class="sub">Otros formatos de autoridad</h3>
   <div class="rules">
-    <div class="rule"><b>Las manos de…</b> Retrato de cada pastelero o cocinero: quién es, dónde se formó o trabajó, qué producto de Rotondo es suyo. Uno por mes. Es el «quién lo hace» de los productos con nombre propio.</div>
-    <div class="rule"><b>De dónde viene.</b> Un ingrediente por posteo: la manteca, la harina, el grano de café, la fruta de estación. Foto del insumo solo, sin comida terminada, y una línea con su origen. Solo proveedores que la marca quiera nombrar.</div>
-    <div class="rule"><b>Un producto, de principio a fin.</b> Reel o carrusel del proceso completo de un producto con nombre, con el tiempo real que lleva (ejemplo: «tres días de laminado»). Cada número, confirmado por la cocina.</div>
-    <div class="rule"><b>La prueba de temporada.</b> El equipo probando los especiales antes de que salgan: lo que se ajustó, lo que se descartó. Muestra criterio y sirve de anticipo del lanzamiento.</div>
-    <div class="rule"><b>El plato antes que el plato.</b> Cómo se piensa cómo se ve: el emplatado, la taza que va con cada cosa, la vitrina. La experiencia visual también se trabaja.</div>
-    <div class="rule"><b>Lo que no sale.</b> Opcional: la pieza que no pasó el control y no va al mostrador. Muy creíble, pero solo si a la marca le gusta mostrarlo.</div>
+    <div class="rule"><b>Retratos del equipo.</b> Retrato formal, tipo revista: fondo neutro, chaqueta, mirada a cámara, luz de ventana. Abajo, una ficha breve: nombre, formación o trayectoria y la pieza de Rotondo que firma. Uno por mes.</div>
+    <div class="rule"><b>Naturalezas muertas.</b> Un ingrediente por posteo, fotografiado como un objeto de valor: la manteca, la harina, el grano de café, la fruta de estación, sobre piedra o lino. Una línea con su origen, solo si el proveedor se puede nombrar.</div>
+    <div class="rule"><b>La pieza, de principio a fin.</b> Carrusel en el orden real de la elaboración de un producto con nombre: insumo, masa, forma, horno, vitrina. Sin texto en las fotos; el proceso en el texto del posteo.</div>
+    <div class="rule"><b>La selección de temporada.</b> El jefe de pastelería eligiendo y ajustando los especiales antes de que salgan. Plano quieto, gestos precisos. Anticipa el lanzamiento con criterio, sin mostrar precio ni fecha.</div>
+    <div class="rule"><b>El detalle.</b> Macro de lo que casi nadie ve: el brillo del glaseado, el borde de una mini cake, la espuma de la leche. Pieza de feed sola, sin texto.</div>
+    <div class="rule"><b>La mesa puesta.</b> Cómo se piensa la experiencia completa: la taza que va con cada pieza, el plato, la servilleta. Cenital simétrico, como una foto de catálogo.</div>
   </div>
 
-  <div class="callout"><span class="lab">Tono</span>Seguro y tranquilo, como su «sabemos lo que hacemos». Nada de superlativos ni comparaciones con otros cafés. Los textos describen lo que se ve: «Laminado a mano, todos los días, desde las 5:30».</div>
+  <div class="callout"><span class="lab">Referencias de registro</span>El tono de las casas de alta pastelería y de las cafeterías de autor que eligió el equipo (La Cabra muestra su tostadero y su panadería con esta calma). Para inspirarse, no para copiar: la estética sigue siendo la de Rotondo.</div>
+</div></section>
+
+<section id="inspo" class="alt gut"><div class="in">
+  <div class="kicker">Inspo</div>
+  <h2 class="title">La estética, <em>en imágenes</em></h2>
+  <p class="desc">Referencias para bajar a lo visual el registro soft y elegante. Salen de las cuentas que eligió el equipo (La Cabra, Watch House) y de dos casas de pastelería que resuelven muy bien la cocina (Poilâne y Cédric Grolet). Son para inspirarse, no para copiar: los colores, la vajilla y la gente siguen siendo los de Rotondo. Cada imagen lleva al posteo original; las que dicen «Video» conviene verlas en movimiento.</p>
+  <h3 class="sub">Antes de las 7</h3>
+  <p class="board-desc">La cocina en penumbra, una sola fuente de luz (el horno, una ventana), manos y masa en primer plano. Para la serie de cocina y los retratos del equipo.</p>
+  <div class="board">
+    <a class="tile" href="https://www.instagram.com/reel/C6no_csse8m/" target="_blank" rel="noopener"><img src="img/inspo-cocina-poilane-23.jpg" alt="Referencia de Poilâne · París" loading="lazy"><span class="vid">Video</span><span class="src">Poilâne · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/C1ucwm7Me95/" target="_blank" rel="noopener"><img src="img/inspo-cocina-poilane-34.jpg" alt="Referencia de Poilâne · París" loading="lazy"><span class="vid">Video</span><span class="src">Poilâne · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/CWWJD_1lFiQ/" target="_blank" rel="noopener"><img src="img/inspo-cocina-poilane-55.jpg" alt="Referencia de Poilâne · París" loading="lazy"><span class="vid">Video</span><span class="src">Poilâne · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/CIIp1LclYn_/" target="_blank" rel="noopener"><img src="img/inspo-cocina-poilane-72.jpg" alt="Referencia de Poilâne · París" loading="lazy"><span class="vid">Video</span><span class="src">Poilâne · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/CmhCxpSugCU/" target="_blank" rel="noopener"><img src="img/inspo-cocina-poilane-50.jpg" alt="Referencia de Poilâne · París" loading="lazy"><span class="vid">Video</span><span class="src">Poilâne · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/C81d3cTM1m8/" target="_blank" rel="noopener"><img src="img/inspo-cocina-poilane-14.jpg" alt="Referencia de Poilâne · París" loading="lazy"><span class="vid">Video</span><span class="src">Poilâne · París</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DdozAIlgE3R/" target="_blank" rel="noopener"><img src="img/inspo-cocina-watchhouse-23.jpg" alt="Referencia de Watch House · Londres" loading="lazy"><span class="src">Watch House · Londres</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DQrcGIkjcW3/" target="_blank" rel="noopener"><img src="img/inspo-cocina-lacabracoffee-44.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+  </div>
+  <h3 class="sub">Manos y pieza</h3>
+  <p class="board-desc">Alta pastelería contada desde las manos: el gesto preciso, la pieza sostenida, el corte. Fondo limpio y nada que distraiga.</p>
+  <div class="board">
+    <a class="tile" href="https://www.instagram.com/reel/Dawqtf0JyIe/" target="_blank" rel="noopener"><img src="img/inspo-manos-cedricgrolet-18.jpg" alt="Referencia de Cédric Grolet · París" loading="lazy"><span class="vid">Video</span><span class="src">Cédric Grolet · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/DMDYNwOo5uX/" target="_blank" rel="noopener"><img src="img/inspo-manos-cedricgrolet-70.jpg" alt="Referencia de Cédric Grolet · París" loading="lazy"><span class="vid">Video</span><span class="src">Cédric Grolet · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/DK7TFeZIQzo/" target="_blank" rel="noopener"><img src="img/inspo-manos-cedricgrolet-74.jpg" alt="Referencia de Cédric Grolet · París" loading="lazy"><span class="vid">Video</span><span class="src">Cédric Grolet · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/DKXPzjoInU8/" target="_blank" rel="noopener"><img src="img/inspo-manos-cedricgrolet-76.jpg" alt="Referencia de Cédric Grolet · París" loading="lazy"><span class="vid">Video</span><span class="src">Cédric Grolet · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/DfM8E1Hg7um/" target="_blank" rel="noopener"><img src="img/inspo-manos-cedricgrolet-04.jpg" alt="Referencia de Cédric Grolet · París" loading="lazy"><span class="vid">Video</span><span class="src">Cédric Grolet · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/DOlrVFXjLMD/" target="_blank" rel="noopener"><img src="img/inspo-manos-cedricgrolet-62.jpg" alt="Referencia de Cédric Grolet · París" loading="lazy"><span class="vid">Video</span><span class="src">Cédric Grolet · París</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/DfWxGFlIcBr/" target="_blank" rel="noopener"><img src="img/inspo-manos-watchhouse-05.jpg" alt="Referencia de Watch House · Londres" loading="lazy"><span class="vid">Video</span><span class="src">Watch House · Londres</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DdW83IhgJBY/" target="_blank" rel="noopener"><img src="img/inspo-manos-watchhouse-25.jpg" alt="Referencia de Watch House · Londres" loading="lazy"><span class="src">Watch House · Londres</span></a>
+  </div>
+  <h3 class="sub">El tercer lugar y la luz</h3>
+  <p class="board-desc">Gente en el lugar sin posar, luz de ventana y sombras largas. El registro de la serie de Pili y de «La última luz».</p>
+  <div class="board">
+    <a class="tile" href="https://www.instagram.com/reel/Dcs0ouNj-8M/" target="_blank" rel="noopener"><img src="img/inspo-lugar-lacabracoffee-05.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="vid">Video</span><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DL93uYKtW5T/" target="_blank" rel="noopener"><img src="img/inspo-lugar-lacabracoffee-63.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DRwca0pD7kO/" target="_blank" rel="noopener"><img src="img/inspo-lugar-lacabracoffee-41.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DePZ48ngHUB/" target="_blank" rel="noopener"><img src="img/inspo-lugar-watchhouse-16.jpg" alt="Referencia de Watch House · Londres" loading="lazy"><span class="src">Watch House · Londres</span></a>
+    <a class="tile" href="https://www.instagram.com/reel/DejcyuvAjhw/" target="_blank" rel="noopener"><img src="img/inspo-lugar-watchhouse-12.jpg" alt="Referencia de Watch House · Londres" loading="lazy"><span class="vid">Video</span><span class="src">Watch House · Londres</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DXEjGewkjjA/" target="_blank" rel="noopener"><img src="img/inspo-lugar-lacabracoffee-19.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DNgJeiHT1rc/" target="_blank" rel="noopener"><img src="img/inspo-lugar-lacabracoffee-56.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DZxlAeigDOb/" target="_blank" rel="noopener"><img src="img/inspo-lugar-watchhouse-65.jpg" alt="Referencia de Watch House · Londres" loading="lazy"><span class="src">Watch House · Londres</span></a>
+  </div>
+  <h3 class="sub">Objeto y lo redondo</h3>
+  <p class="board-desc">La taza, el vaso, la bandeja: objetos que se reconocen solos. Cenitales donde todo es círculo.</p>
+  <div class="board">
+    <a class="tile" href="https://www.instagram.com/p/DbbEf43k-dI/" target="_blank" rel="noopener"><img src="img/inspo-objeto-lacabracoffee-08.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DTsk-GxkRRZ/" target="_blank" rel="noopener"><img src="img/inspo-objeto-lacabracoffee-32.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DO830nADeOX/" target="_blank" rel="noopener"><img src="img/inspo-objeto-lacabracoffee-53.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DJ_YL20AfuI/" target="_blank" rel="noopener"><img src="img/inspo-objeto-lacabracoffee-71.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DWlitvloKff/" target="_blank" rel="noopener"><img src="img/inspo-objeto-lacabracoffee-21.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DdtFxmtDE7k/" target="_blank" rel="noopener"><img src="img/inspo-objeto-watchhouse-22.jpg" alt="Referencia de Watch House · Londres" loading="lazy"><span class="src">Watch House · Londres</span></a>
+    <a class="tile" href="https://www.instagram.com/p/DT7mOY1EqGL/" target="_blank" rel="noopener"><img src="img/inspo-objeto-lacabracoffee-31.jpg" alt="Referencia de La Cabra · Copenhague" loading="lazy"><span class="src">La Cabra · Copenhague</span></a>
+    <a class="tile" href="https://www.instagram.com/p/Df4MdlggBQ_/" target="_blank" rel="noopener"><img src="img/inspo-objeto-watchhouse-00.jpg" alt="Referencia de Watch House · Londres" loading="lazy"><span class="src">Watch House · Londres</span></a>
+  </div>
+
+  <h3 class="sub">Videos de referencia para la cocina</h3>
+  <p class="board-desc">Los que pasó el equipo. Tienen en común la comida filmada como cine: fondo oscuro, una sola luz, sonido real muy presente y montaje al ritmo de ese sonido.</p>
+  <div class="vids">
+    <a class="vref" href="https://vt.tiktok.com/ZSp3tekSP/" target="_blank" rel="noopener"><span class="vk">TikTok · tendencia «Hannibal»</span><b>Emplatado preciso y música clásica</b><span>El registro más cercano al que buscamos: elegante, lento, cada gesto medido.</span></a>
+    <a class="vref" href="https://vt.tiktok.com/ZSp3GEwVN/" target="_blank" rel="noopener"><span class="vk">TikTok · AL Dante</span><b>Comida filmada como cine</b><span>Fondo negro, luz de recorte sobre el producto, cámara que se mueve lento.</span></a>
+    <a class="vref" href="https://vt.tiktok.com/ZSp3GWt6d/" target="_blank" rel="noopener"><span class="vk">TikTok · Wei T</span><b>Montaje al ritmo del sonido</b><span>ASMR de cocina con cortes marcados por el sonido. Para Rotondo, en una versión más calma.</span></a>
+    <a class="vref" href="https://vt.tiktok.com/ZSp3GoV6g/" target="_blank" rel="noopener"><span class="vk">TikTok · Kaitlin</span><b>Luz cálida y ambiente</b><span>Una cocina iluminada solo con luces bajas y cálidas. Sirve para la penumbra de las 5:30.</span></a>
+  </div>
+
+  <h3 class="sub">Lista de planos para el día de cocina</h3>
+  <div class="shots">
+    <div><b>La manteca</b>El bloque frío que se corta con cuchillo, primer plano del filo. La placa de manteca que se golpea con el palote.</div>
+    <div><b>El amasado</b>Manos que estiran y pliegan, harina que cae, el palote en cenital. Macro de las capas al cortar.</div>
+    <div><b>El horno</b>La perilla que gira, la luz del horno que se prende en la cocina oscura, la puerta que se abre con el vapor.</div>
+    <div><b>El dorado</b>Detrás del vidrio, las piezas que crecen. Un time-lapse corto del horneado.</div>
+    <div><b>El pintado y el glaseado</b>El pincel con huevo, el brillo que cae sobre la pieza, la manga con la crema.</div>
+    <div><b>El corte final</b>El cuchillo que atraviesa un laminado, el crujido, las capas en primer plano.</div>
+    <div><b>La pinza</b>Cada pieza que se ubica en la vitrina, filmada a la altura del vidrio.</div>
+    <div><b>El café</b>La molienda, la extracción en macro, la leche que se texturiza. Siempre con el sonido real.</div>
+  </div>
+  <p class="note">Para que se vea como las referencias: luces de la cocina apagadas y una sola fuente lateral (ventana o un panel con difusor), cámara en trípode o con movimientos lentos, 4K a 60 cuadros para poder ralentizar y un micrófono cerca de la mesada.</p>
 </div></section>
 
 <section id="nombre" class="gut"><div class="in">
@@ -427,7 +560,7 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   <p class="desc">Para quien produzca. Es una base para arrancar; se ajusta con lo que se pueda grabar.</p>
   <div class="week">
     <div class="wk"><div class="q">3<small>posteos / semana</small></div><h4>Feed</h4><ul class="l"><li>Lunes: lugar y gente</li><li>Miércoles: producto con nombre o cocina, una semana cada uno</li><li>Viernes: objeto, barrio o «La última luz»</li></ul></div>
-    <div class="wk"><div class="q">1<small>reel / semana</small></div><h4>Reels</h4><ul class="l"><li>Semana A: capítulo de Pili</li><li>Semana B: «Antes de las 7» o «Las manos de…»</li><li>Semana C: producto con nombre y su momento</li><li>Una vez: el time-lapse «Un día en Rotondo»</li></ul></div>
+    <div class="wk"><div class="q">1<small>reel / semana</small></div><h4>Reels</h4><ul class="l"><li>Semana A: capítulo de Pili</li><li>Semana B: «Antes de las 7» o un retrato del equipo</li><li>Semana C: producto con nombre y su momento</li><li>Una vez: el time-lapse «Un día en Rotondo»</li></ul></div>
     <div class="wk"><div class="q">Todos<small>los días</small></div><h4>Historias</h4><ul class="l"><li>«Ahora en Rotondo» por franja horaria</li><li>Destacada «Todo el día»</li><li>Clientes que nombran los productos</li></ul></div>
   </div>
 </div></section>
