@@ -4,320 +4,277 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="theme-color" content="#0F2236">
 <title>Vulcano · Propuesta de contenido y publicidad · Dilema creative</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="img/smart-power.webp">
 <style>
+  /* Diseño v4 · Dilema para Vulcano */
   :root {
     color-scheme: dark;
-    --bg: #081726;
-    --panel: #0C2238;
-    --panel-2: #102a45;
-    --line: rgba(250,246,238,0.12);
-    --line-strong: rgba(250,246,238,0.22);
+    --bg: #0F2236;
+    --bg-2: #132A41;
+    --surface: #18324D;
+    --surface-2: #1D3B5A;
+    --line: rgba(244,241,234,0.12);
+    --line-2: rgba(244,241,234,0.22);
+    --text: #F4F1EA;
+    --muted: rgba(244,241,234,0.74);
+    --soft: rgba(244,241,234,0.56);
+    --accent: #6FC1E2;
     --paper: #FAF6EE;
-    --muted: rgba(250,246,238,0.66);
-    --soft: rgba(250,246,238,0.5);
-    --sky: #5BB4D6;
-    --sage: #4FA27E;
-    --sage-text: #6CC39C;
-    --r: 4px;
+    --navy: #0E2A47;
+    --navy-muted: #3B5674;
+    --green: #2B7356;
+    --r: 14px;
+    --display: 'Geist', system-ui, sans-serif;
+    --body: 'Geist', system-ui, sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
-  body {
-    background: var(--bg);
-    color: var(--paper);
-    font-family: 'Inter', system-ui, sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-  }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 32px; }
-  em.ac { font-style: italic; color: var(--sky); font-weight: 400; }
+  body { background: var(--bg); color: var(--text); font-family: var(--body); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  img { display: block; max-width: 100%; height: auto; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
   .num { font-variant-numeric: tabular-nums; }
 
-  /* Lockup */
-  .lockup { font-family: 'Fraunces', serif; font-weight: 700; letter-spacing: -0.02em; color: var(--paper); white-space: nowrap; }
-  .lockup em { font-style: italic; font-weight: 500; color: var(--sage-text); }
-  .lockup sup { color: var(--sky); font-size: 0.6em; margin-left: 1px; }
+  .d { font-family: var(--display); font-stretch: 78%; font-weight: 800; letter-spacing: -0.015em; line-height: 1.02; }
+  .d em { font-style: italic; color: var(--accent); padding-right: 0.06em; }
+  h2.d { font-size: clamp(34px, 4.6vw, 58px); margin-bottom: 18px; max-width: 20ch; padding-bottom: 2px; }
+  .lead { font-size: 17px; color: var(--muted); max-width: 58ch; }
+  .eyebrow { font-family: var(--display); font-stretch: 90%; font-weight: 700; font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+
+  .lockup { font-family: 'Fraunces', serif; font-weight: 700; letter-spacing: -0.02em; color: var(--text); white-space: nowrap; }
+  .lockup em { font-style: italic; font-weight: 500; color: #7FD1AA; }
+  .lockup sup { color: var(--accent); font-size: 0.6em; margin-left: 1px; }
 
   /* Nav */
-  nav {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(8,23,38,0.94);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--line);
-  }
-  nav .wrap { height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  nav { position: sticky; top: 0; z-index: 20; background: rgba(15,34,54,0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  nav .wrap { height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
   nav .lockup { font-size: 21px; }
-  .nav-tag {
-    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--soft); text-align: right;
-  }
+  .nav-right { font-family: var(--display); font-stretch: 90%; font-weight: 600; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--soft); }
+  .nav-right b { color: var(--text); font-weight: 700; }
 
   /* Hero */
-  .hero { padding: 88px 0 72px; position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
-  .hero::before {
-    content: ''; position: absolute; top: -200px; right: -160px; width: 640px; height: 640px;
-    background: radial-gradient(circle, rgba(91,180,214,0.16) 0%, transparent 68%); pointer-events: none;
-  }
-  .hero-grid { display: grid; grid-template-columns: minmax(0,1.35fr) minmax(0,1fr); gap: 56px; align-items: end; position: relative; }
-  .hero-mark { display: flex; align-items: center; gap: 14px; margin-bottom: 30px; flex-wrap: wrap; }
-  .hero-mark .lockup { font-size: 26px; }
-  .hero-mark .bar { width: 40px; height: 1px; background: var(--line-strong); }
-  .hero-mark .tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--soft); }
-  h1 {
-    font-family: 'Fraunces', serif; font-weight: 500;
-    font-size: clamp(38px, 5.4vw, 66px); line-height: 1.04; letter-spacing: -0.03em;
-    margin-bottom: 24px;
-  }
-  .hero-sub { font-size: 17px; font-weight: 300; color: var(--muted); max-width: 600px; margin-bottom: 32px; }
-  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
-  .pill {
-    font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--muted); border: 1px solid var(--line-strong); border-radius: var(--r); padding: 6px 12px;
-  }
-  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 20px 18px; min-width: 0; }
-  .stat-n { font-family: 'Fraunces', serif; font-weight: 500; font-size: 34px; line-height: 1; letter-spacing: -0.02em; color: var(--paper); }
-  .stat-n small { font-size: 0.5em; color: var(--muted); font-weight: 500; }
-  .stat-l { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--soft); margin-top: 10px; line-height: 1.45; }
+  .hero { position: relative; padding: 72px 0 0; background:
+      radial-gradient(900px 520px at 85% 20%, rgba(91,180,214,0.18), transparent 65%),
+      linear-gradient(180deg, #12283F 0%, var(--bg) 100%); }
+  .hero-grid { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,0.95fr); gap: 56px; align-items: center; }
+  .hero h1 { font-size: clamp(44px, 6.4vw, 84px); line-height: 0.98; margin-bottom: 26px; padding-bottom: 4px; }
+  .hero-sub { font-size: 19px; color: var(--muted); max-width: 30ch; }
+  .hero-for { display: flex; align-items: center; gap: 12px; margin-bottom: 26px; }
+  .hero-for .lockup { font-size: 24px; }
+  .hero-for .x { width: 28px; height: 1px; background: var(--line-2); }
+  .hero-for .eyebrow { margin: 0; }
+  .hero-fig img { width: 100%; aspect-ratio: 6/5; max-height: 500px; object-fit: cover; object-position: 50% 55%; border-radius: var(--r); box-shadow: 0 40px 90px rgba(3,12,22,0.55); }
+  .hero-fig figcaption { margin-top: 12px; font-size: 13px; color: var(--soft); }
 
-  /* Sections */
-  section { padding: 84px 0; border-bottom: 1px solid var(--line); }
-  section:nth-of-type(even) { background: #0A1C2F; }
-  .kicker { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--sky); margin-bottom: 14px; }
-  h2 { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(30px, 3.8vw, 46px); line-height: 1.08; letter-spacing: -0.025em; max-width: 820px; margin-bottom: 14px; }
-  .lead { font-size: 16px; font-weight: 300; color: var(--muted); max-width: 720px; margin-bottom: 44px; }
+  .facts { margin-top: 64px; border-top: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); }
+  .fact { padding: 28px 24px 34px 0; }
+  .fact + .fact { padding-left: 24px; border-left: 1px solid var(--line); }
+  .fact-n { font-family: var(--display); font-stretch: 78%; font-weight: 800; font-size: 52px; line-height: 1; color: var(--accent); }
+  .fact-n small { font-size: 0.42em; font-weight: 700; color: var(--muted); margin-left: 4px; }
+  .fact-l { margin-top: 10px; font-size: 14px; color: var(--muted); line-height: 1.45; max-width: 26ch; }
 
-  .grid { display: grid; gap: 16px; }
-  .g4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
-  .g3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
-  .g2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r); padding: 26px 24px; min-width: 0; display: flex; flex-direction: column; }
-  .card-tag { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--sky); margin-bottom: 12px; }
-  .card h3 { font-family: 'Fraunces', serif; font-weight: 500; font-size: 21px; line-height: 1.2; letter-spacing: -0.015em; margin-bottom: 10px; }
-  .card p { font-size: 14.5px; color: var(--muted); }
-  .card p + p { margin-top: 10px; }
-  .card strong { color: var(--paper); font-weight: 600; }
+  section { padding: 104px 0; }
+  .band { background: var(--bg-2); }
 
-  /* Fortalezas */
-  .strength .big { font-family: 'Fraunces', serif; font-weight: 500; font-size: 30px; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 10px; }
-  .strength { border-top: 3px solid var(--sage); }
+  /* Fortalezas: bento */
+  .bento { margin-top: 44px; display: grid; grid-template-columns: 1.25fr 1fr 1fr; grid-template-rows: auto auto; gap: 16px; }
+  .tile { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; min-width: 0; display: flex; flex-direction: column; }
+  .tile h3 { font-family: var(--display); font-stretch: 82%; font-weight: 800; font-size: 26px; line-height: 1.1; margin-bottom: 8px; }
+  .tile p { font-size: 15px; color: var(--muted); }
+  .tile-body { padding: 24px 24px 26px; }
+  .t-clubs { grid-row: 1 / 3; }
+  .t-clubs img.ph { width: 100%; flex: 1 1 auto; min-height: 300px; height: 100%; object-fit: cover; }
+  .crests { display: flex; gap: 10px; margin-top: 18px; }
+  .crests img { width: 56px; height: 56px; border-radius: 12px; background: #fff; object-fit: cover; }
+  .t-atletas { grid-column: 2 / 4; display: grid; grid-template-columns: minmax(0,0.95fr) minmax(0,1.05fr); }
+  .t-atletas img { width: 100%; height: 100%; min-height: 280px; object-fit: cover; object-position: 30% 30%; }
+  .t-atletas .tile-body { align-self: center; }
+  .t-fabrica img { width: 100%; aspect-ratio: 16/10; object-fit: cover; object-position: 50% 62%; }
+  .t-rating { background: linear-gradient(160deg, rgba(91,180,214,0.22), rgba(91,180,214,0.04) 60%), var(--surface); justify-content: space-between; }
+  .rating-n { font-family: var(--display); font-stretch: 78%; font-weight: 800; font-size: 96px; line-height: 0.9; color: var(--text); padding: 26px 24px 0; }
+  .rating-n span { color: var(--accent); }
 
-  /* Hallazgos */
-  .finding .dato {
-    font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.6; color: var(--paper);
-    background: rgba(91,180,214,0.08); border: 1px solid rgba(91,180,214,0.22); border-radius: var(--r);
-    padding: 12px 14px; margin: 4px 0 14px;
-  }
-  .finding .dato span { display: block; }
-  .finding .dato span + span { margin-top: 6px; }
-  .finding .why { margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--line-strong); font-size: 14px; color: var(--muted); }
-  .finding .why b { color: var(--sage-text); font-weight: 600; }
-
-  .note { font-size: 13px; color: var(--soft); margin-top: 20px; max-width: 820px; }
+  /* Hallazgos: filas editoriales */
+  .rows { margin-top: 48px; }
+  .row { display: grid; grid-template-columns: 200px minmax(0,1.15fr) minmax(0,0.85fr); gap: 40px; padding: 40px 0; border-top: 1px solid var(--line-2); }
+  .row:last-child { border-bottom: 1px solid var(--line-2); }
+  .row-n { font-family: var(--display); font-stretch: 75%; font-weight: 900; font-size: 88px; line-height: 0.9; color: var(--accent); }
+  .row-n small { display: block; font-size: 13px; font-weight: 700; font-stretch: 90%; letter-spacing: 0.14em; text-transform: uppercase; color: var(--soft); margin-top: 12px; }
+  .row h3 { font-family: var(--display); font-stretch: 82%; font-weight: 800; font-size: 30px; line-height: 1.08; margin-bottom: 12px; }
+  .row p { color: var(--muted); font-size: 16px; }
+  .row .opp { margin-top: 16px; color: var(--text); }
+  .row .opp b { color: var(--accent); font-weight: 600; }
+  .evidence { background: var(--surface); border-radius: var(--r); padding: 22px; align-self: start; }
+  .evidence li { list-style: none; font-size: 14.5px; color: var(--text); line-height: 1.5; padding-left: 16px; position: relative; }
+  .evidence li + li { margin-top: 12px; }
+  .evidence li::before { content: ''; position: absolute; left: 0; top: 0.62em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .footnote { margin-top: 22px; font-size: 13.5px; color: var(--soft); max-width: 80ch; }
 
   /* Competencia */
-  .comp h3 { font-size: 19px; }
-  .comp .who { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--soft); letter-spacing: 0.04em; margin-bottom: 12px; }
-  .quote-panel {
-    margin-top: 24px; background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--sky);
-    border-radius: var(--r); padding: 24px 28px;
-    font-family: 'Fraunces', serif; font-size: clamp(20px, 2.4vw, 26px); line-height: 1.3; letter-spacing: -0.015em;
-  }
+  .comp-grid { margin-top: 44px; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0 56px; }
+  .comp { padding: 26px 0; border-top: 1px solid var(--line); }
+  .comp h3 { font-family: var(--display); font-stretch: 85%; font-weight: 800; font-size: 22px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .comp h3 span { font-family: var(--body); font-size: 13px; font-weight: 500; color: var(--accent); }
+  .comp p { margin-top: 6px; color: var(--muted); font-size: 15px; }
+  .pull { margin-top: 72px; font-family: var(--display); font-stretch: 80%; font-weight: 800; font-size: clamp(30px, 4vw, 50px); line-height: 1.08; max-width: 24ch; padding-bottom: 4px; }
+  .pull em { font-style: italic; color: var(--accent); }
 
-  /* Servicio */
-  .svc { border-top: 3px solid var(--sky); }
-  .svc:nth-child(2) { border-top-color: var(--sage); }
-  .svc:nth-child(3) { border-top-color: var(--paper); }
-  .svc .goal { font-size: 14.5px; color: var(--muted); margin-bottom: 18px; min-height: 70px; }
-  .checks { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-  .checks li { position: relative; padding-left: 24px; font-size: 14.5px; color: var(--paper); line-height: 1.5; }
-  .checks li::before { content: '✓'; position: absolute; left: 0; top: 0; color: var(--sage-text); font-weight: 700; }
+  /* Propuesta */
+  .svc-grid { margin-top: 48px; display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); grid-template-rows: auto auto; gap: 16px; }
+  .svc { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; min-width: 0; }
+  .svc-main { grid-row: 1 / 3; display: flex; flex-direction: column; }
+  .svc-main img { width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: 50% 40%; }
+  .svc-body { padding: 28px 28px 30px; }
+  .svc-tag { font-family: var(--display); font-stretch: 90%; font-weight: 700; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .svc h3 { font-family: var(--display); font-stretch: 82%; font-weight: 800; font-size: 30px; line-height: 1.08; margin-bottom: 10px; }
+  .svc .goal { color: var(--muted); font-size: 15.5px; margin-bottom: 20px; max-width: 46ch; }
+  .checks { list-style: none; display: grid; gap: 10px; }
+  .checks li { position: relative; padding-left: 26px; font-size: 15px; line-height: 1.45; }
+  .checks li::before { content: ''; position: absolute; left: 0; top: 0.3em; width: 14px; height: 8px; border-left: 2px solid var(--accent); border-bottom: 2px solid var(--accent); transform: rotate(-45deg); }
+  .svc-main .checks { grid-template-columns: 1fr 1fr; gap: 12px 24px; }
+  .work { margin-top: 40px; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); border-top: 1px solid var(--line); }
+  .work div { padding: 22px 22px 0 0; }
+  .work div + div { padding-left: 22px; border-left: 1px solid var(--line); }
+  .work b { display: block; font-family: var(--display); font-stretch: 85%; font-weight: 800; font-size: 18px; margin-bottom: 4px; }
+  .work span { font-size: 14px; color: var(--muted); }
 
-  .how { margin-top: 16px; }
-  .how .card { padding: 20px 20px; }
-  .how .card h3 { font-size: 17px; margin-bottom: 6px; }
-  .how .card p { font-size: 13.5px; }
+  /* Casos */
+  .cases { margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); }
+  .case { padding: 4px 32px 8px 0; }
+  .case + .case { padding-left: 32px; border-left: 1px solid var(--line-2); }
+  .case-who { font-size: 14px; color: var(--soft); }
+  .case-who b { display: block; font-family: var(--display); font-stretch: 85%; font-weight: 800; font-size: 22px; color: var(--text); }
+  .case-n { font-family: var(--display); font-stretch: 75%; font-weight: 900; font-size: 92px; line-height: 0.95; color: var(--accent); margin: 18px 0 10px; }
+  .case p { color: var(--muted); font-size: 15px; max-width: 30ch; }
 
-  /* Recos */
-  .reco-flag {
-    display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase;
-    color: var(--paper); border: 1px solid var(--line-strong); border-radius: var(--r); padding: 6px 12px; margin-bottom: 28px;
-  }
-  .reco .n { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--sky); margin-bottom: 10px; }
+  /* Tienda */
+  .flag { display: inline-block; margin: 4px 0 8px; font-size: 13.5px; color: var(--text); border: 1px solid var(--line-2); border-radius: 999px; padding: 6px 14px; }
+  .recos { margin-top: 36px; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 28px 56px; }
+  .reco { display: grid; grid-template-columns: 52px minmax(0,1fr); gap: 4px 16px; }
+  .reco .n { grid-row: 1 / 3; font-family: var(--display); font-stretch: 75%; font-weight: 900; font-size: 44px; line-height: 1; color: var(--accent); }
+  .reco h3 { font-family: var(--display); font-stretch: 85%; font-weight: 800; font-size: 21px; line-height: 1.15; }
+  .reco p { color: var(--muted); font-size: 15px; }
 
-  /* Precio */
-  .price-card {
-    background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--r);
-    padding: 40px; display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); gap: 48px;
-  }
-  .price-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 22px; }
-  .price-name { font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
-  .badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bg); background: var(--sage); border-radius: var(--r); padding: 5px 10px; font-weight: 500; }
-  .antes { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--soft); margin-bottom: 6px; }
-  .antes s { color: var(--muted); }
-  .price { font-family: 'Fraunces', serif; font-weight: 500; font-size: clamp(56px, 7vw, 84px); line-height: 1; letter-spacing: -0.035em; }
-  .price small { font-size: 0.3em; color: var(--muted); letter-spacing: 0; margin-left: 6px; font-family: 'Inter', sans-serif; font-weight: 400; }
-  .per-day { margin-top: 14px; font-size: 15px; color: var(--muted); }
-  .per-day b { color: var(--paper); font-weight: 600; }
-  .anchor {
-    margin-top: 24px; background: rgba(79,162,126,0.1); border: 1px solid rgba(79,162,126,0.35);
-    border-left: 4px solid var(--sage); border-radius: var(--r); padding: 16px 18px; font-size: 14.5px; color: var(--paper);
-  }
-  .price-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 24px; list-style: none; }
-  .price-checks li { position: relative; padding-left: 24px; font-size: 14.5px; line-height: 1.5; }
-  .price-checks li::before { content: '✓'; position: absolute; left: 0; color: var(--sage-text); font-weight: 700; }
-  .conds { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
-  .conds p { font-size: 14px; color: var(--muted); padding-left: 24px; position: relative; }
-  .conds p::before { content: '→'; position: absolute; left: 0; color: var(--sky); }
-  .conds strong { color: var(--paper); font-weight: 600; }
+  /* Precio: bloque papel */
+  .price { background: var(--paper); color: var(--navy); }
+  .price .eyebrow { color: var(--green); }
+  .price h2.d { color: var(--navy); }
+  .price h2.d em { color: #2A7FA6; }
+  .price .lead { color: var(--navy-muted); }
+  .price-grid { margin-top: 44px; display: grid; grid-template-columns: minmax(0,0.95fr) minmax(0,1.05fr); gap: 64px; align-items: start; }
+  .price-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+  .price-name { font-family: var(--display); font-stretch: 90%; font-weight: 700; font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--navy-muted); }
+  .badge { font-size: 12.5px; font-weight: 600; color: #fff; background: var(--green); border-radius: 999px; padding: 5px 12px; }
+  .was { font-size: 15px; color: var(--navy-muted); }
+  .was s { white-space: nowrap; }
+  .amount { font-family: var(--display); font-stretch: 75%; font-weight: 900; font-size: clamp(64px, 7.6vw, 104px); line-height: 0.9; letter-spacing: -0.02em; margin: 6px 0 14px; white-space: nowrap; }
+  .amount small { font-family: var(--body); font-size: 18px; font-weight: 500; letter-spacing: 0; color: var(--navy-muted); margin-left: 8px; }
+  .per-day { font-size: 17px; color: var(--navy-muted); }
+  .per-day b { color: var(--navy); }
+  .anchor { margin-top: 26px; background: #EAF2EC; border-left: 4px solid var(--green); border-radius: 0 var(--r) var(--r) 0; padding: 18px 20px; font-size: 16px; }
+  .price .checks li { color: var(--navy); }
+  .price .checks li::before { border-color: var(--green); }
+  .price .checks { grid-template-columns: 1fr 1fr; gap: 14px 24px; }
+  .conds { margin-top: 30px; padding-top: 24px; border-top: 1px solid #E2D9C9; display: grid; gap: 12px; }
+  .conds p { font-size: 14.5px; color: var(--navy-muted); }
+  .conds b { color: var(--navy); font-weight: 600; }
 
   /* Pasos */
-  .steps { counter-reset: s; }
-  .step .sn { font-family: 'Fraunces', serif; font-size: 40px; line-height: 1; color: var(--sky); margin-bottom: 14px; font-weight: 500; }
+  .steps { margin-top: 52px; display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 28px; position: relative; }
+  .steps::before { content: ''; position: absolute; left: 0; right: 0; top: 23px; height: 2px; background: linear-gradient(90deg, var(--accent), rgba(111,193,226,0.15)); }
+  .step-n { position: relative; width: 48px; height: 48px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); display: grid; place-items: center; font-family: var(--display); font-stretch: 80%; font-weight: 900; font-size: 22px; color: var(--accent); margin-bottom: 22px; }
+  .step h3 { font-family: var(--display); font-stretch: 85%; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
+  .step p { color: var(--muted); font-size: 15px; }
 
-  .case { border-top: 3px solid var(--sage); }
-  .case .big { font-family: 'Fraunces', serif; font-weight: 500; font-size: 44px; line-height: 1; letter-spacing: -0.03em; color: var(--sage-text); margin: 6px 0 12px; }
-  .case .who { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--soft); letter-spacing: 0.04em; margin-bottom: 4px; }
-
-  footer { padding: 56px 0 64px; }
+  footer { background: #0C1D2F; border-top: 1px solid var(--line); padding: 56px 0 64px; }
   footer .wrap { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
   footer .lockup { font-size: 30px; }
-  .foot-txt { font-size: 14px; color: var(--muted); margin-top: 10px; max-width: 420px; }
-  .foot-contact { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); text-align: right; line-height: 1.9; }
-  .foot-contact a { color: var(--paper); text-decoration: none; }
+  .foot-txt { margin-top: 10px; color: var(--muted); font-size: 15px; }
+  .foot-links { text-align: right; font-size: 15px; line-height: 1.9; }
+  .foot-links a { color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line-2); }
+
+  /* Entrada suave al hacer scroll */
+  @media (prefers-reduced-motion: no-preference) {
+    .js .rv { opacity: 0; transform: translateY(18px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+    .js .rv.in { opacity: 1; transform: none; }
+  }
 
   @media (max-width: 1000px) {
-    .g4 { grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .g3 { grid-template-columns: minmax(0,1fr); }
     .hero-grid { grid-template-columns: minmax(0,1fr); gap: 40px; }
-    .price-card { grid-template-columns: minmax(0,1fr); gap: 32px; }
-    .svc .goal { min-height: 0; }
+    .hero-fig { max-width: 560px; }
+    .facts { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .fact:nth-child(3) { padding-left: 0; border-left: none; }
+    .fact:nth-child(n+3) { border-top: 1px solid var(--line); }
+    .bento { grid-template-columns: 1fr 1fr; }
+    .t-clubs { grid-row: auto; grid-column: 1 / 3; }
+    .t-atletas { grid-column: 1 / 3; }
+    .row { grid-template-columns: 140px minmax(0,1fr); }
+    .row .evidence { grid-column: 2 / 3; }
+    .svc-grid { grid-template-columns: minmax(0,1fr); }
+    .svc-main { grid-row: auto; }
+    .work { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .work div:nth-child(3) { padding-left: 0; border-left: none; }
+    .price-grid { grid-template-columns: minmax(0,1fr); gap: 40px; }
+    .steps { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .steps::before { display: none; }
   }
   @media (max-width: 640px) {
-    .wrap { padding: 0 16px; }
-    .g4, .g2 { grid-template-columns: minmax(0,1fr); }
-    .stats { grid-template-columns: 1fr 1fr; }
-    .hero { padding: 56px 0 52px; }
-    section { padding: 60px 0; }
-    .price-card { padding: 26px 20px; }
-    .price-checks { grid-template-columns: minmax(0,1fr); }
-    .nav-tag { display: none; }
-    .hero-mark .bar { display: none; }
-    .hero-mark { gap: 8px; flex-direction: column; align-items: flex-start; }
-    .foot-contact { text-align: left; }
-    .stat-n { font-size: 28px; }
+    .wrap { padding: 0 18px; }
+    section { padding: 72px 0; }
+    .hero { padding-top: 44px; }
+    .hero-sub { font-size: 17px; }
+    .nav-right { display: none; }
+    .facts { margin-top: 44px; }
+    .fact, .fact + .fact { padding: 22px 14px 24px 0; }
+    .fact:nth-child(2n) { padding-left: 14px; }
+    .fact-n { font-size: 40px; }
+    .bento { grid-template-columns: minmax(0,1fr); }
+    .t-clubs, .t-atletas { grid-column: auto; }
+    .t-atletas { grid-template-columns: minmax(0,1fr); }
+    .t-atletas img { aspect-ratio: 4/3; height: auto; min-height: 0; }
+    .t-clubs img.ph { aspect-ratio: 795/556; height: auto; min-height: 0; flex: none; }
+    .row { grid-template-columns: minmax(0,1fr); gap: 18px; padding: 32px 0; }
+    .row .evidence { grid-column: auto; }
+    .row-n { font-size: 68px; }
+    .comp-grid { grid-template-columns: minmax(0,1fr); }
+    .svc-main .checks, .price .checks { grid-template-columns: minmax(0,1fr); }
+    .svc-body { padding: 24px 20px 26px; }
+    .work { grid-template-columns: minmax(0,1fr); }
+    .work div, .work div + div { padding: 18px 0 0; border-left: none; }
+    .cases { grid-template-columns: minmax(0,1fr); gap: 32px; }
+    .case, .case + .case { padding: 0; border-left: none; }
+    .case + .case { padding-top: 32px; border-top: 1px solid var(--line-2); }
+    .case-n { font-size: 76px; }
+    .recos { grid-template-columns: minmax(0,1fr); }
+    .steps { grid-template-columns: minmax(0,1fr); }
+    .foot-links { text-align: left; }
+    .amount { font-size: 64px; white-space: normal; }
+    .amount small { display: block; margin: 8px 0 0; }
   }
 
-  /* ===== Paleta v3: Dilema (navy, celeste, verde, papel) ===== */
-  :root {
-    --bg: #0E2A47;
-    --bg-2: #0B2440;
-    --bg-3: #09203A;
-    --panel: #15395F;
-    --panel-2: #1A4370;
-    --line: rgba(250,246,238,0.14);
-    --line-strong: rgba(250,246,238,0.26);
-    --muted: rgba(250,246,238,0.76);
-    --soft: rgba(250,246,238,0.6);
-    --sky: #6FC3E3;
-    --sage-text: #7FD1AA;
-    --sky-wash: rgba(91,180,214,0.14); --sky-line: rgba(111,195,227,0.45);
-    --sage-wash: rgba(79,162,126,0.16); --sage-line: rgba(127,209,170,0.45);
-    --paper-wash: rgba(250,246,238,0.07);
+  /* Tipografía corporativa: Geist, pesos medios, sin condensada */
+  .d, h3, .row-n, .case-n, .fact-n, .amount, .reco .n, .step-n, .rating-n, .eyebrow, .svc-tag, .price-name, .nav-right, .work b, .case-who b, .pull { font-stretch: normal; }
+  .d { font-weight: 600; letter-spacing: -0.035em; line-height: 1.06; }
+  .d em { font-style: normal; }
+  .hero h1 { font-size: clamp(40px, 5.2vw, 66px); line-height: 1.04; }
+  h2.d { font-size: clamp(30px, 3.6vw, 44px); max-width: 22ch; }
+  .tile h3, .row h3, .svc h3, .comp h3, .reco h3, .step h3, .work b, .case-who b { font-weight: 600; letter-spacing: -0.02em; }
+  .tile h3 { font-size: 22px; } .row h3 { font-size: 24px; } .svc h3 { font-size: 24px; } .comp h3 { font-size: 19px; } .reco h3 { font-size: 18px; } .step h3 { font-size: 19px; } .work b { font-size: 16px; } .case-who b { font-size: 19px; }
+  .fact-n, .row-n, .case-n, .amount, .rating-n, .reco .n, .step-n { font-weight: 500; letter-spacing: -0.04em; }
+  .fact-n { font-size: 44px; } .row-n { font-size: 64px; } .case-n { font-size: 68px; } .rating-n { font-size: 76px; } .reco .n { font-size: 32px; } .step-n { font-size: 18px; font-weight: 600; letter-spacing: 0; }
+  .amount { font-size: clamp(56px, 6.4vw, 88px); }
+  .fact-n small, .row-n small { letter-spacing: 0.12em; font-weight: 600; }
+  .fact-n small { letter-spacing: 0; font-weight: 500; }
+  .eyebrow, .svc-tag, .price-name, .nav-right { font-weight: 600; font-size: 12px; letter-spacing: 0.14em; }
+  .pull { font-weight: 500; letter-spacing: -0.03em; font-size: clamp(26px, 3.2vw, 38px); line-height: 1.2; max-width: 30ch; }
+  .pull em { font-style: normal; }
+  @media (max-width: 640px) {
+    .row-n { font-size: 52px; } .case-n { font-size: 56px; } .fact-n { font-size: 36px; } .amount { font-size: 56px; }
   }
-  body { background: var(--bg); }
-  nav { background: rgba(11,36,64,0.92); border-bottom-color: var(--line); }
-
-  .hero { background:
-      radial-gradient(760px 460px at 95% 0%, rgba(91,180,214,0.26), transparent 70%),
-      radial-gradient(640px 420px at 0% 100%, rgba(79,162,126,0.20), transparent 70%),
-      linear-gradient(180deg, #11304F 0%, var(--bg) 100%); }
-  .hero::before { display: none; }
-  .hero-mark .tag { color: var(--sky); }
-  h1 em.ac, h2 em.ac, em.ac { color: var(--sky); }
-  .pill { border-color: var(--line-strong); color: var(--paper); background: var(--paper-wash); }
-
-  .stat { background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--sky); }
-  .stat:nth-child(2), .stat:nth-child(3) { border-top-color: var(--sage); }
-  .stat:nth-child(1) .stat-n, .stat:nth-child(4) .stat-n { color: var(--sky); }
-  .stat:nth-child(2) .stat-n, .stat:nth-child(3) .stat-n { color: var(--sage-text); }
-  .stat-l { color: var(--muted); }
-
-  section { background: var(--bg); border-bottom: none; }
-  section:nth-of-type(even) { background: var(--bg-2); }
-  .kicker { color: var(--sky); }
-  .lead { color: var(--muted); }
-
-  .card { background: var(--panel); border-color: var(--line); box-shadow: 0 10px 30px rgba(4,16,30,0.28); }
-  .card p { color: var(--muted); }
-
-  /* 01 Fortalezas */
-  .strength { border-top: 3px solid var(--sage); background: linear-gradient(180deg, var(--sage-wash), transparent 70%), var(--panel); }
-
-  /* 02 Hallazgos */
-  .finding .card-tag { color: var(--sky); }
-  .finding .dato { background: rgba(9,32,58,0.55); border: 1px solid var(--sky-line); color: var(--paper); }
-  .finding .why { border-top-color: var(--line-strong); }
-
-  /* 03 Competencia */
-  .comp { background: var(--paper-wash); box-shadow: none; }
-  .comp .who { color: var(--sky); }
-  .quote-panel { background: linear-gradient(90deg, var(--sky-wash), transparent 85%), var(--panel); border-color: var(--line); border-left: 4px solid var(--sky); }
-
-  /* 04 Propuesta */
-  .svc { border-top-width: 3px; }
-  .svc:nth-child(1) { border-top-color: var(--paper); background: linear-gradient(180deg, var(--paper-wash), transparent 45%), var(--panel); }
-  .svc:nth-child(1) .card-tag { color: var(--paper); }
-  .svc:nth-child(2) { border-top-color: var(--sky); background: linear-gradient(180deg, var(--sky-wash), transparent 45%), var(--panel); }
-  .svc:nth-child(3) { border-top-color: var(--sage); background: linear-gradient(180deg, var(--sage-wash), transparent 45%), var(--panel); }
-  .svc:nth-child(3) .card-tag { color: var(--sage-text); }
-  .svc:nth-child(2) .checks li::before { color: var(--sky); }
-  .svc .checks li { color: var(--paper); }
-  .how .card { background: var(--paper-wash); box-shadow: none; }
-  .how .card h3 { color: var(--paper); }
-
-  /* 05 Casos */
-  section:nth-of-type(5) .kicker, section:nth-of-type(5) h2 em.ac { color: var(--sage-text); }
-  .case { border-top: 3px solid var(--sage); background: linear-gradient(180deg, var(--sage-wash), transparent 60%), var(--panel); }
-  .case .who { color: var(--soft); }
-
-  /* 06 Tienda */
-  .reco { background: var(--paper-wash); box-shadow: none; }
-  .reco-flag { background: var(--paper-wash); }
-  .reco .n { display: inline-flex; width: 30px; height: 30px; align-items: center; justify-content: center; border: 1px solid var(--sky-line); border-radius: 50%; background: var(--sky-wash); color: var(--sky); }
-
-  /* 07 Precio: panel papel, el foco del documento */
-  section:nth-of-type(7) { background:
-      radial-gradient(800px 380px at 50% 30%, rgba(91,180,214,0.18), transparent 70%), var(--bg-2); }
-  .price-card { background: var(--paper); color: #0E2A47; border: none; box-shadow: 0 30px 80px rgba(4,16,30,0.45); }
-  .price-card .price-name { color: #3D5876; }
-  .price-card .badge { background: #2B7356; color: #FAF6EE; }
-  .price-card .antes { color: #5B7088; }
-  .price-card .antes s { color: #5B7088; }
-  .price-card .price { color: #0E2A47; }
-  .price-card .price small { color: #3D5876; }
-  .price-card .per-day { color: #3D5876; }
-  .price-card .per-day b { color: #0E2A47; }
-  .price-card .anchor { background: #E9F2EC; border: 1px solid #BFD9C9; border-left: 4px solid #2B7356; color: #0E2A47; }
-  .price-card .price-checks li { color: #0E2A47; }
-  .price-card .price-checks li::before { color: #2B7356; }
-  .price-card .conds { border-top-color: #E3DACB; }
-  .price-card .conds p { color: #3D5876; }
-  .price-card .conds p::before { color: #2B7356; }
-  .price-card .conds strong { color: #0E2A47; }
-
-  /* 08 Pasos */
-  .step { background: var(--paper-wash); box-shadow: none; }
-  .step .sn { color: var(--sky); }
-  .step:nth-child(4) .sn { color: var(--sage-text); }
-
-  .antes s { white-space: nowrap; }
-  footer { background: var(--bg-3); border-top: 1px solid var(--line); }
 </style>
 </head>
 <body>
@@ -325,247 +282,238 @@
 <nav>
   <div class="wrap">
     <span class="lockup">Dilema <em>creative</em><sup>*</sup></span>
-    <span class="nav-tag">Propuesta · Vulcano</span>
+    <span class="nav-right">Propuesta para <b>Vulcano</b></span>
   </div>
 </nav>
 
 <header class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="hero-mark">
-        <span class="lockup">Dilema <em>creative</em><sup>*</sup></span>
-        <span class="bar"></span>
-        <span class="tag">para Vulcano®</span>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-for">
+          <span class="lockup">Dilema <em>creative</em><sup>*</sup></span>
+          <span class="x"></span>
+          <span class="eyebrow">para Vulcano</span>
+        </div>
+        <h1 class="d">Propuesta de contenido y <em>publicidad</em></h1>
+        <p class="hero-sub">Miramos su Instagram, la tienda, sus anuncios y Google. Esto es lo que vimos y cómo lo resolvemos.</p>
       </div>
-      <h1>Propuesta de contenido y <em class="ac">publicidad</em></h1>
-      <p class="hero-sub">El 18 de noviembre miramos su Instagram, la tienda, los anuncios que tienen hoy en Facebook, Instagram y Google, y qué aparece cuando alguien busca equipar un gimnasio. Esto es lo que vimos y cómo lo resolvemos.</p>
-      <div class="pills">
-        <span class="pill">Grabación</span>
-        <span class="pill">Edición</span>
-        <span class="pill">Facebook e Instagram</span>
-        <span class="pill">Google</span>
-      </div>
+      <figure class="hero-fig">
+        <img src="img/smart-power.webp" alt="Smart Power Doble de Vulcano en estudio" width="1000" height="1000">
+        <figcaption>Smart Power Doble, fabricado por Vulcano.</figcaption>
+      </figure>
     </div>
-    <div class="stats">
-      <div class="stat"><div class="stat-n num">40<small> veces</small></div><div class="stat-l">Más caro un Smart Power Doble que un Hook Iso Push: dos compradores distintos</div></div>
-      <div class="stat"><div class="stat-n num">3</div><div class="stat-l">Promociones distintas a la vista hoy entre anuncios y tienda</div></div>
-      <div class="stat"><div class="stat-n num">0</div><div class="stat-l">Anuncios de Vulcano en nuestra búsqueda de "equipamiento para gimnasio"</div></div>
-      <div class="stat"><div class="stat-n num">5,0</div><div class="stat-l">En Google, en una ficha que figura sin reclamar</div></div>
+    <div class="facts">
+      <div class="fact"><div class="fact-n num">40<small>veces</small></div><div class="fact-l">Más caro un Smart Power Doble que un Hook Iso Push: dos compradores distintos.</div></div>
+      <div class="fact"><div class="fact-n num">3</div><div class="fact-l">Promociones distintas a la vista hoy entre anuncios y tienda.</div></div>
+      <div class="fact"><div class="fact-n num">0</div><div class="fact-l">Anuncios de Vulcano en nuestra búsqueda de "equipamiento para gimnasio".</div></div>
+      <div class="fact"><div class="fact-n num">5,0</div><div class="fact-l">En Google, en una ficha que figura sin reclamar.</div></div>
     </div>
   </div>
 </header>
 
 <section>
   <div class="wrap">
-    <div class="kicker">01 · Lo que ya tienen</div>
-    <h2>Una marca que pocos en el rubro <em class="ac">pueden mostrar</em></h2>
-    <p class="lead">Vulcano tiene material que en este rubro casi nadie tiene. La propuesta está pensada para que eso se vea donde se decide la compra.</p>
-    <div class="grid g4">
-      <div class="card strength">
-        <div class="big">Clubes de primera</div>
-        <p>Boca Básquet, Huracán, Lanús, Banfield y el CAB entrenan con equipamiento Vulcano.</p>
-      </div>
-      <div class="card strength">
-        <div class="big">Atletas con nombre</div>
-        <p>Paula Pedrozo, Tomás Olivera y otros deportistas usan y recomiendan los equipos.</p>
-      </div>
-      <div class="card strength">
-        <div class="big">Fábrica propia</div>
-        <p>Más de diez años diseñando y fabricando en Argentina, con una línea nueva médico deportiva.</p>
-      </div>
-      <div class="card strength">
-        <div class="big">Clientes que vuelven</div>
-        <p>5,0 en Google y dueños de gimnasios que les compran desde 2019.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kicker">02 · Lo que vimos</div>
-    <h2>Dónde hay ventas <em class="ac">para sumar</em></h2>
-    <p class="lead">Todo esto se ve desde afuera, sin entrar a sus cuentas. Con acceso lo confirmamos con sus números: cuánto invierten, cuánto cuesta cada venta y qué productos salen.</p>
-    <div class="grid g2">
-
-      <div class="card finding">
-        <div class="card-tag">El cliente grande</div>
-        <h3>Dos compradores, un mismo anuncio</h3>
-        <div class="dato num"><span>Hook Iso Push: $224.219.</span><span>Smart Power Doble: $9.117.350.</span></div>
-        <p>El dueño de un gimnasio o un club decide con asesoramiento y financiación. El que arma su gimnasio en casa compra un producto en la tienda. Hoy los anuncios hablan de cuotas y descuentos para todos por igual, y la financiación para gimnasios que ofrece la web no aparece en ningún anuncio.</p>
-        <p class="why"><b>La oportunidad:</b> darle a la venta grande, la del gimnasio completo, su propio camino.</p>
-      </div>
-
-      <div class="card finding">
-        <div class="card-tag">Google</div>
-        <h3>Ausentes cuando buscan armar un gimnasio</h3>
-        <div class="dato num"><span>"rack de sentadillas": aparecen con foto y precio.</span><span>"equipamiento para gimnasio" y "fábrica de máquinas de gimnasio": en nuestras búsquedas no aparecieron, ni pagando ni sin pagar.</span><span>"vulcano wod": apareció un anuncio de La Casa del Fitness.</span></div>
-        <p class="why"><b>La oportunidad:</b> estar arriba cuando alguien busca equipar un gimnasio entero, y primeros cuando buscan la marca.</p>
-      </div>
-
-      <div class="card finding">
-        <div class="card-tag">Facebook e Instagram</div>
-        <h3>Un solo mensaje comercial</h3>
-        <div class="dato num"><span>Un anuncio activo desde mayo: 6 cuotas y 25% en efectivo.</span><span>Los de noviembre: 9 cuotas, 35% en efectivo, 20% por transferencia.</span><span>La tienda: 35% en efectivo, presencial.</span></div>
-        <p class="why"><b>La oportunidad:</b> que el cliente encuentre la misma promoción en el anuncio y en la tienda, y compre sin tener que preguntar.</p>
-      </div>
-
-      <div class="card finding">
-        <div class="card-tag">Ficha de Google</div>
-        <h3>Un 5,0 que hoy no administra nadie</h3>
-        <div class="dato num"><span>"VULCANO, Equipamiento para Gimnasios", Hurlingham.</span><span>Google la muestra con el aviso "¿Eres propietario de esta empresa?".</span></div>
-        <p>Así nadie puede responder opiniones, subir fotos ni elegir cómo se presenta la fábrica.</p>
-        <p class="why"><b>La oportunidad:</b> es lo primero que ve quien busca la marca o una fábrica cerca.</p>
-      </div>
-
-    </div>
-    <p class="note">Búsquedas hechas el 18/11/2026 desde Buenos Aires. Google muestra resultados distintos según la persona y el momento: lo confirmamos con los datos de sus cuentas.</p>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kicker">03 · La competencia</div>
-    <h2>Pelean por <em class="ac">la misma búsqueda</em></h2>
-    <p class="lead">Lo que vimos el mismo día en Facebook, Instagram y Google.</p>
-    <div class="grid g4">
-      <div class="card comp">
-        <h3>G-Fitness</h3>
-        <div class="who">108,6 mil seguidores</div>
-        <p>8 anuncios activos en Facebook e Instagram y primera página de Google en "equipamiento para gimnasio".</p>
-      </div>
-      <div class="card comp">
-        <h3>La Casa del Fitness</h3>
-        <div class="who">4 sucursales en CABA</div>
-        <p>Anuncios en Google en "equipamiento para gimnasio" y también cuando alguien busca "vulcano wod".</p>
-      </div>
-      <div class="card comp">
-        <h3>Sonnos, Fitnesas, Randers</h3>
-        <div class="who">Productos con precio</div>
-        <p>Racks, bancos y poleas con foto y precio en los primeros resultados de "equipamiento para gimnasio".</p>
-      </div>
-      <div class="card comp">
-        <h3>GMP, FOX, Gorilla</h3>
-        <div class="who">Fábricas</div>
-        <p>Primera página de Google, sin pagar, presentándose como fábricas de equipamiento para gimnasios.</p>
-      </div>
-    </div>
-    <div class="quote-panel">Pocos en el rubro pueden mostrar clubes de primera entrenando con sus equipos. Vulcano sí: falta <em class="ac">que se vea</em> donde se decide la compra.</div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kicker">04 · La propuesta</div>
-    <h2>Grabamos, editamos y <em class="ac">lo ponemos a vender</em></h2>
-    <p class="lead">Un solo equipo para el contenido y la publicidad, con un camino para gimnasios y clubes y otro para la tienda. Lo que se graba sale directo a los anuncios.</p>
-    <div class="grid g3">
-      <div class="card svc">
-        <div class="card-tag">Contenido</div>
-        <h3>Grabación y edición</h3>
-        <p class="goal">Material nuevo todos los meses, con la fábrica, los gimnasios que equiparon y sus atletas.</p>
-        <ul class="checks">
-          <li>Una jornada de grabación por mes, de hasta 4 horas</li>
-          <li>Guiones antes de cada jornada</li>
-          <li>8 videos editados por mes, de hasta 60 segundos</li>
-          <li>Versiones para anuncios y para Instagram</li>
-          <li>Subtítulos, cortes y placas de producto</li>
-        </ul>
-      </div>
-      <div class="card svc">
-        <div class="card-tag">Facebook e Instagram</div>
-        <h3>Anuncios por comprador</h3>
-        <p class="goal">Un mensaje para quien equipa un gimnasio y otro para quien compra en la tienda.</p>
-        <ul class="checks">
-          <li>Anuncios para dueños de gimnasios y clubes</li>
-          <li>Anuncios para quien compra en la tienda</li>
-          <li>Una sola promoción en todos los anuncios</li>
-          <li>Anuncios nuevos cada mes con lo grabado</li>
-          <li>Medición de ventas y consultas por WhatsApp</li>
-        </ul>
-      </div>
-      <div class="card svc">
-        <div class="card-tag">Google</div>
-        <h3>Búsquedas, productos y ficha</h3>
-        <p class="goal">Estar arriba cuando buscan equipar un gimnasio, un producto puntual o la marca.</p>
-        <ul class="checks">
-          <li>Anuncios en las búsquedas de gimnasios</li>
-          <li>Productos con foto y precio, ordenados</li>
-          <li>Primeros cuando buscan "Vulcano"</li>
-          <li>Ficha de Google a nombre de Vulcano</li>
-          <li>Control de en qué búsquedas se invierte</li>
-        </ul>
-      </div>
-    </div>
-    <div class="grid g4 how">
-      <div class="card"><h3>Portal propio</h3><p>Los resultados de Facebook, Instagram y Google en un solo lugar.</p></div>
-      <div class="card"><h3>Reporte mensual</h3><p>Qué se vendió, cuánto costó cada venta o consulta y qué cambiamos.</p></div>
-      <div class="card"><h3>Reunión mensual</h3><p>Repasamos números y definimos juntos qué productos empujar.</p></div>
-      <div class="card"><h3>Grupo de WhatsApp</h3><p>Contacto directo con el equipo, en horario laboral.</p></div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kicker">05 · Lo que ya hicimos</div>
-    <h2>Resultados con <em class="ac">marcas como Vulcano</em></h2>
-    <p class="lead">Clientes actuales de Dilema, con datos de sus cuentas.</p>
-    <div class="grid g3">
-      <div class="card case">
-        <h3>Friotex</h3>
-        <div class="who">Fábrica de equipamiento gastronómico</div>
-        <div class="big num">1.508</div>
-        <p>consultas en un mes desde Facebook, Instagram y Google, con el costo por consulta 19% más bajo que el mes anterior.</p>
-      </div>
-      <div class="card case">
-        <h3>Tres Mares</h3>
-        <div class="who">Tienda de tecnología</div>
-        <div class="big num">19,8x</div>
-        <p>de retorno en Google en octubre: por cada peso invertido volvieron casi 20 en ventas.</p>
-      </div>
-      <div class="card case">
-        <h3>Click It Care</h3>
-        <div class="who">Marca nueva, tienda propia</div>
-        <div class="big num">12,8x</div>
-        <p>de retorno en su mejor semana, arrancando de cero, sin historial ni audiencia.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kicker">06 · Para la tienda</div>
-    <h2>Cuatro ajustes que suman a <em class="ac">la publicidad</em></h2>
-    <span class="reco-flag">Fuera del fee · los puede hacer quien les maneja la tienda</span>
-    <div class="grid g2">
-      <div class="card reco"><div class="n">01</div><h3>Los videos en la página del producto</h3><p>Las reviews de cada producto están en Instagram y en el PDF. En la página del producto, donde se decide una compra de $2,5 millones, no están.</p></div>
-      <div class="card reco"><div class="n">02</div><h3>Lista de precios a cambio de un contacto</h3><p>Hoy el PDF se descarga sin dejar datos. Cada descarga es un gimnasio interesado que no queda registrado.</p></div>
-      <div class="card reco"><div class="n">03</div><h3>Financiación para gimnasios a la vista</h3><p>Las tasas preferenciales para equipar un gimnasio son un argumento fuerte y hoy están al fondo de la página de inicio.</p></div>
-      <div class="card reco"><div class="n">04</div><h3>Que Google sepa qué venden</h3><p>Para Google, la página de inicio se llama solo "Vulcano". Sumar "fábrica de equipamiento para gimnasios" ayuda a aparecer en esas búsquedas.</p></div>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="kicker">07 · Inversión</div>
-    <h2>Un solo fee, <em class="ac">todo adentro</em></h2>
-    <p class="lead">Sin adicionales por grabación ni por edición.</p>
-    <div class="price-card">
-      <div>
-        <div class="price-head">
-          <span class="price-name">Contenido + Facebook e Instagram + Google</span>
-          <span class="badge">Todo incluido</span>
+    <h2 class="d rv">Una marca que pocos en el rubro <em>pueden mostrar</em></h2>
+    <p class="lead rv">La propuesta está pensada para que esto se vea donde se decide la compra.</p>
+    <div class="bento">
+      <article class="tile t-clubs rv">
+        <img class="ph" src="img/boca-rack.webp" alt="Rack Vulcano con el escudo de Boca Juniors" width="795" height="556" loading="lazy">
+        <div class="tile-body">
+          <h3>Clubes de primera</h3>
+          <p>Boca Básquet, Huracán, Lanús, Banfield y el CAB entrenan con equipamiento Vulcano.</p>
+          <div class="crests">
+            <img src="img/club-boca.webp" alt="Boca Juniors" width="56" height="56" loading="lazy">
+            <img src="img/club-huracan.webp" alt="Huracán" width="56" height="56" loading="lazy">
+            <img src="img/club-lanus.webp" alt="Lanús" width="56" height="56" loading="lazy">
+          </div>
         </div>
-        <div class="antes num">Contratados por separado: <s>USD 950 por mes</s></div>
-        <div class="price num">USD 650<small>por mes</small></div>
+      </article>
+      <article class="tile t-atletas rv">
+        <img src="img/pedrozo.webp" alt="Paula Pedrozo en un banco Vulcano" width="796" height="597" loading="lazy">
+        <div class="tile-body">
+          <h3>Atletas con nombre</h3>
+          <p>Paula Pedrozo, Tomás Olivera y otros deportistas usan y recomiendan los equipos.</p>
+        </div>
+      </article>
+      <article class="tile t-fabrica rv">
+        <img src="img/banco-inclinado.webp" alt="Banco inclinado con plataforma de Vulcano" width="900" height="900" loading="lazy">
+        <div class="tile-body">
+          <h3>Fábrica propia</h3>
+          <p>Más de diez años diseñando y fabricando en Argentina.</p>
+        </div>
+      </article>
+      <article class="tile t-rating rv">
+        <div class="rating-n num">5,0<span>.</span></div>
+        <div class="tile-body">
+          <h3>Clientes que vuelven</h3>
+          <p>Puntaje en Google y dueños de gimnasios que les compran desde 2019.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <div class="eyebrow rv">Lo que vimos</div>
+    <h2 class="d rv">Dónde hay ventas <em>para sumar</em></h2>
+    <p class="lead rv">Todo esto se ve desde afuera. Con acceso a sus cuentas lo confirmamos con sus números: cuánto invierten, cuánto cuesta cada venta y qué productos salen.</p>
+    <div class="rows">
+      <div class="row rv">
+        <div class="row-n num">40x<small>El cliente grande</small></div>
+        <div>
+          <h3>Dos compradores, un mismo anuncio</h3>
+          <p>El dueño de un gimnasio o un club decide con asesoramiento y financiación. El que arma su gimnasio en casa compra un producto en la tienda. Hoy los anuncios hablan de cuotas y descuentos para todos por igual, y la financiación para gimnasios no aparece en ningún anuncio.</p>
+          <p class="opp"><b>La oportunidad:</b> darle a la venta grande, la del gimnasio completo, su propio camino.</p>
+        </div>
+        <ul class="evidence num"><li>Hook Iso Push: $224.219.</li><li>Smart Power Doble: $9.117.350.</li></ul>
+      </div>
+      <div class="row rv">
+        <div class="row-n num">0<small>Google</small></div>
+        <div>
+          <h3>Ausentes cuando buscan armar un gimnasio</h3>
+          <p>Con los productos sueltos aparecen. Con la búsqueda de quien está por equipar un gimnasio entero, no.</p>
+          <p class="opp"><b>La oportunidad:</b> estar arriba en esas búsquedas, y primeros cuando buscan la marca.</p>
+        </div>
+        <ul class="evidence"><li>"rack de sentadillas": aparecen con foto y precio.</li><li>"equipamiento para gimnasio" y "fábrica de máquinas de gimnasio": no aparecieron, ni pagando ni sin pagar.</li><li>"vulcano wod": apareció un anuncio de La Casa del Fitness.</li></ul>
+      </div>
+      <div class="row rv">
+        <div class="row-n num">3<small>Facebook e Instagram</small></div>
+        <div>
+          <h3>Un solo mensaje comercial</h3>
+          <p>Conviven promociones distintas entre los anuncios y la tienda.</p>
+          <p class="opp"><b>La oportunidad:</b> que el cliente encuentre la misma promoción en el anuncio y en la tienda, y compre sin tener que preguntar.</p>
+        </div>
+        <ul class="evidence"><li>Un anuncio activo desde mayo: 6 cuotas y 25% en efectivo.</li><li>Los de noviembre: 9 cuotas, 35% en efectivo, 20% por transferencia.</li><li>La tienda: 35% en efectivo, presencial.</li></ul>
+      </div>
+      <div class="row rv">
+        <div class="row-n num">5,0<small>Ficha de Google</small></div>
+        <div>
+          <h3>Un 5,0 que hoy no administra nadie</h3>
+          <p>Así nadie puede responder opiniones, subir fotos ni elegir cómo se presenta la fábrica.</p>
+          <p class="opp"><b>La oportunidad:</b> es lo primero que ve quien busca la marca o una fábrica cerca.</p>
+        </div>
+        <ul class="evidence"><li>"VULCANO, Equipamiento para Gimnasios", Hurlingham.</li><li>Google la muestra con el aviso "¿Eres propietario de esta empresa?".</li></ul>
+      </div>
+    </div>
+    <p class="footnote">Búsquedas hechas el 18/11/2026 desde Buenos Aires. Google muestra resultados distintos según la persona y el momento: lo confirmamos con los datos de sus cuentas.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="d rv">Pelean por <em>la misma búsqueda</em></h2>
+    <p class="lead rv">Lo que vimos el mismo día en Facebook, Instagram y Google.</p>
+    <div class="comp-grid">
+      <div class="comp rv"><h3>G-Fitness <span>108,6 mil seguidores</span></h3><p>8 anuncios activos en Facebook e Instagram y primera página de Google en "equipamiento para gimnasio".</p></div>
+      <div class="comp rv"><h3>La Casa del Fitness <span>4 sucursales en CABA</span></h3><p>Anuncios en Google en "equipamiento para gimnasio" y también cuando alguien busca "vulcano wod".</p></div>
+      <div class="comp rv"><h3>Sonnos, Fitnesas, Randers <span>Productos con precio</span></h3><p>Racks, bancos y poleas con foto y precio en los primeros resultados de "equipamiento para gimnasio".</p></div>
+      <div class="comp rv"><h3>GMP, FOX, Gorilla <span>Fábricas</span></h3><p>Primera página de Google, sin pagar, presentándose como fábricas de equipamiento para gimnasios.</p></div>
+    </div>
+    <p class="pull rv">Pocos en el rubro pueden mostrar clubes de primera entrenando con sus equipos. Vulcano sí: falta <em>que se vea</em> donde se decide la compra.</p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <h2 class="d rv">Grabamos, editamos y <em>lo ponemos a vender</em></h2>
+    <p class="lead rv">Un solo equipo para el contenido y la publicidad, con un camino para gimnasios y clubes y otro para la tienda. Lo que se graba sale directo a los anuncios.</p>
+    <div class="svc-grid">
+      <article class="svc svc-main rv">
+        <img src="img/isoinercial.webp" alt="Polea isoinercial Vulcano montada en un rack" width="900" height="900" loading="lazy">
+        <div class="svc-body">
+          <div class="svc-tag">Contenido</div>
+          <h3>Grabación y edición</h3>
+          <p class="goal">Material nuevo todos los meses, con la fábrica, los gimnasios que equiparon y sus atletas.</p>
+          <ul class="checks">
+            <li>Una jornada de grabación por mes, de hasta 4 horas</li>
+            <li>Guiones antes de cada jornada</li>
+            <li>8 videos editados por mes, de hasta 60 segundos</li>
+            <li>Versiones para anuncios y para Instagram</li>
+            <li>Subtítulos, cortes y placas de producto</li>
+            <li>Todo el material queda para Vulcano</li>
+          </ul>
+        </div>
+      </article>
+      <article class="svc rv">
+        <div class="svc-body">
+          <div class="svc-tag">Facebook e Instagram</div>
+          <h3>Anuncios por comprador</h3>
+          <p class="goal">Un mensaje para quien equipa un gimnasio y otro para quien compra en la tienda.</p>
+          <ul class="checks">
+            <li>Anuncios para dueños de gimnasios y clubes</li>
+            <li>Anuncios para quien compra en la tienda</li>
+            <li>Una sola promoción en todos los anuncios</li>
+            <li>Anuncios nuevos cada mes con lo grabado</li>
+            <li>Medición de ventas y consultas por WhatsApp</li>
+          </ul>
+        </div>
+      </article>
+      <article class="svc rv">
+        <div class="svc-body">
+          <div class="svc-tag">Google</div>
+          <h3>Búsquedas, productos y ficha</h3>
+          <p class="goal">Estar arriba cuando buscan equipar un gimnasio, un producto puntual o la marca.</p>
+          <ul class="checks">
+            <li>Anuncios en las búsquedas de gimnasios</li>
+            <li>Productos con foto y precio, ordenados</li>
+            <li>Primeros cuando buscan "Vulcano"</li>
+            <li>Ficha de Google a nombre de Vulcano</li>
+            <li>Control de en qué búsquedas se invierte</li>
+          </ul>
+        </div>
+      </article>
+    </div>
+    <div class="work">
+      <div class="rv"><b>Portal propio</b><span>Los resultados de Facebook, Instagram y Google en un solo lugar.</span></div>
+      <div class="rv"><b>Reporte mensual</b><span>Qué se vendió, cuánto costó cada venta o consulta y qué cambiamos.</span></div>
+      <div class="rv"><b>Reunión mensual</b><span>Repasamos números y definimos juntos qué productos empujar.</span></div>
+      <div class="rv"><b>Grupo de WhatsApp</b><span>Contacto directo con el equipo, en horario laboral.</span></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2 class="d rv">Resultados con <em>marcas como Vulcano</em></h2>
+    <p class="lead rv">Clientes actuales de Dilema, con datos de sus cuentas.</p>
+    <div class="cases">
+      <div class="case rv"><div class="case-who"><b>Friotex</b>Fábrica de equipamiento gastronómico</div><div class="case-n num">1.508</div><p>consultas en un mes desde Facebook, Instagram y Google, con el costo por consulta 19% más bajo que el mes anterior.</p></div>
+      <div class="case rv"><div class="case-who"><b>Tres Mares</b>Tienda de tecnología</div><div class="case-n num">19,8x</div><p>de retorno en Google en octubre: por cada peso invertido volvieron casi 20 en ventas.</p></div>
+      <div class="case rv"><div class="case-who"><b>Click It Care</b>Marca nueva, tienda propia</div><div class="case-n num">12,8x</div><p>de retorno en su mejor semana, arrancando de cero, sin historial ni audiencia.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <h2 class="d rv">Cuatro ajustes en la tienda que <em>suman a la publicidad</em></h2>
+    <span class="flag rv">Fuera del fee: los puede hacer quien les maneja la tienda</span>
+    <div class="recos">
+      <div class="reco rv"><div class="n">1</div><h3>Los videos en la página del producto</h3><p>Las reviews de cada producto están en Instagram y en el PDF. En la página del producto, donde se decide una compra de $2,5 millones, no están.</p></div>
+      <div class="reco rv"><div class="n">2</div><h3>Lista de precios a cambio de un contacto</h3><p>Hoy el PDF se descarga sin dejar datos. Cada descarga es un gimnasio interesado que no queda registrado.</p></div>
+      <div class="reco rv"><div class="n">3</div><h3>Financiación para gimnasios a la vista</h3><p>Las tasas preferenciales para equipar un gimnasio son un argumento fuerte y hoy están al fondo de la página de inicio.</p></div>
+      <div class="reco rv"><div class="n">4</div><h3>Que Google sepa qué venden</h3><p>Para Google, la página de inicio se llama solo "Vulcano". Sumar "fábrica de equipamiento para gimnasios" ayuda a aparecer en esas búsquedas.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="price">
+  <div class="wrap">
+    <div class="eyebrow rv">Inversión</div>
+    <h2 class="d rv">Un solo fee, <em>todo adentro</em></h2>
+    <p class="lead rv">Sin adicionales por grabación ni por edición.</p>
+    <div class="price-grid">
+      <div class="rv">
+        <div class="price-top"><span class="price-name">Contenido + Facebook e Instagram + Google</span><span class="badge">Todo incluido</span></div>
+        <div class="was num">Contratados por separado: <s>USD 950 por mes</s></div>
+        <div class="amount num">USD 650<small>por mes</small></div>
         <p class="per-day">Son unos <b>USD 21 por día</b> por el contenido y la publicidad en dos plataformas.</p>
         <div class="anchor">Una sola consulta de un gimnasio que se equipa completo cubre muchos meses de servicio.</div>
       </div>
-      <div>
-        <ul class="price-checks">
+      <div class="rv">
+        <ul class="checks">
           <li>Jornada de grabación mensual</li>
           <li>8 videos editados por mes</li>
           <li>Publicidad en Facebook e Instagram</li>
@@ -574,12 +522,12 @@
           <li>Portal, reporte y reunión mensual</li>
         </ul>
         <div class="conds">
-          <p><strong>Por separado:</strong> contenido con jornada USD 450 y publicidad en Meta y Google USD 500.</p>
-          <p><strong>La inversión en publicidad va aparte</strong> y la pagan directo a Meta y a Google. La definimos con ustedes cuando veamos los números de las cuentas.</p>
-          <p><strong>Sin permanencia mínima.</strong> El fee se abona por mes adelantado.</p>
-          <p><strong>Grabamos en AMBA.</strong> Fuera de AMBA, los viáticos van aparte.</p>
-          <p><strong>Los videos se entregan listos para publicar.</strong> La publicación en Instagram y las respuestas a comentarios quedan de su lado.</p>
-          <p><strong>Las cuentas, el historial y el material grabado son de Vulcano.</strong></p>
+          <p><b>Por separado:</b> contenido con jornada USD 450 y publicidad en Meta y Google USD 500.</p>
+          <p><b>La inversión en publicidad va aparte</b> y la pagan directo a Meta y a Google. La definimos con ustedes cuando veamos los números de las cuentas.</p>
+          <p><b>Sin permanencia mínima.</b> El fee se abona por mes adelantado.</p>
+          <p><b>Grabamos en AMBA.</b> Fuera de AMBA, los viáticos van aparte.</p>
+          <p><b>Los videos se entregan listos para publicar.</b> La publicación en Instagram y las respuestas a comentarios quedan de su lado.</p>
+          <p><b>Las cuentas, el historial y el material grabado son de Vulcano.</b></p>
         </div>
       </div>
     </div>
@@ -588,14 +536,13 @@
 
 <section>
   <div class="wrap">
-    <div class="kicker">08 · Cómo arrancamos</div>
-    <h2>Cuatro pasos para <em class="ac">empezar</em></h2>
-    <p class="lead">Coordinamos el traspaso con su equipo actual para que nada se corte.</p>
-    <div class="grid g4 steps">
-      <div class="card step"><div class="sn">1</div><h3>Accesos</h3><p>Nos suman a las cuentas de Meta, Google y la tienda. Si alguna está a nombre de otro, la pasamos a nombre de Vulcano.</p></div>
-      <div class="card step"><div class="sn">2</div><h3>Sus números</h3><p>Revisamos cuánto invierten, cuánto cuesta cada venta y qué productos salen, y definimos la inversión.</p></div>
-      <div class="card step"><div class="sn">3</div><h3>Primera jornada</h3><p>Grabamos en la fábrica y, cuando se pueda coordinar, en gimnasios y clubes que equiparon.</p></div>
-      <div class="card step"><div class="sn">4</div><h3>Lanzamiento</h3><p>Salen los anuncios nuevos, con una sola promoción y el material de la jornada.</p></div>
+    <h2 class="d rv">Cuatro pasos para <em>empezar</em></h2>
+    <p class="lead rv">Coordinamos el traspaso con su equipo actual para que nada se corte.</p>
+    <div class="steps">
+      <div class="step rv"><div class="step-n">1</div><h3>Accesos</h3><p>Nos suman a las cuentas de Meta, Google y la tienda. Si alguna está a nombre de otro, la pasamos a nombre de Vulcano.</p></div>
+      <div class="step rv"><div class="step-n">2</div><h3>Sus números</h3><p>Revisamos cuánto invierten, cuánto cuesta cada venta y qué productos salen, y definimos la inversión.</p></div>
+      <div class="step rv"><div class="step-n">3</div><h3>Primera jornada</h3><p>Grabamos en la fábrica y, cuando se pueda coordinar, en gimnasios y clubes que equiparon.</p></div>
+      <div class="step rv"><div class="step-n">4</div><h3>Lanzamiento</h3><p>Salen los anuncios nuevos, con una sola promoción y el material de la jornada.</p></div>
     </div>
   </div>
 </section>
@@ -606,12 +553,23 @@
       <span class="lockup">Dilema <em>creative</em><sup>*</sup></span>
       <p class="foot-txt">Nacho · Contenido y publicidad para marcas que fabrican.</p>
     </div>
-    <div class="foot-contact">
+    <div class="foot-links">
       <a href="https://www.instagram.com/dilema.creative/" target="_blank" rel="noopener">@dilema.creative</a><br>
       <a href="https://dilemacreative.ar" target="_blank" rel="noopener">dilemacreative.ar</a>
     </div>
   </div>
 </footer>
 
+<script>
+  (function () {
+    var root = document.documentElement;
+    if (!('IntersectionObserver' in window)) return;
+    root.classList.add('js');
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    document.querySelectorAll('.rv').forEach(function (el) { io.observe(el); });
+  })();
+</script>
 </body>
 </html>
