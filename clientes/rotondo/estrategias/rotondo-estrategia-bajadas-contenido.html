@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Rotondo, el tercer lugar</title>
+<title>Rotondo, Family blend</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -230,6 +230,54 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   .hero{padding-block:60px 52px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+/* Family blend */
+.shotlist{display:grid;border-top:1px solid rgba(255,255,255,.14)}
+.shot{display:grid;grid-template-columns:96px minmax(0,1fr) minmax(0,1fr);gap:22px;padding:22px 0;border-bottom:1px solid rgba(255,255,255,.14)}
+.shot .h{font-family:var(--display);font-size:28px;font-weight:500;color:var(--butter);line-height:1;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.shot .h small{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-3);margin-top:6px}
+.shot h4{font-family:var(--display);font-weight:500;font-size:19px;color:var(--on-dark);margin-bottom:6px;letter-spacing:-.01em}
+.shot p{font-size:14px;color:var(--on-dark-2)}
+.shot .how{font-size:13.5px;color:var(--on-dark-2);border-left:1px dashed rgba(255,255,255,.22);padding-left:18px}
+.shot .how b{display:block;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-3);margin-bottom:4px}
+.shot.key{background:rgba(224,174,92,.08);margin:0 -20px;padding:22px 20px;border-radius:6px;border-bottom-color:transparent}
+.blur-demo{position:relative;border-radius:8px;overflow:hidden;background:var(--ink-2);aspect-ratio:16/7;margin-top:8px}
+.blur-demo .st{position:absolute;bottom:18%;height:38%;border-radius:40px;background:linear-gradient(90deg,rgba(224,174,92,0),rgba(224,174,92,.45),rgba(243,241,236,.35),rgba(224,174,92,0));filter:blur(10px)}
+.blur-demo .p{position:absolute;bottom:18%;left:56%;width:34px;height:44%;border-radius:17px 17px 4px 4px;background:var(--butter);box-shadow:0 0 0 2px var(--ink-2)}
+.blur-demo .bar{position:absolute;left:0;right:0;bottom:0;height:18%;background:#151C30}
+.blur-demo .lab2{position:absolute;top:14px;left:16px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-3)}
+.blur-demo .lab3{position:absolute;top:calc(38% - 26px);left:calc(56% - 30px);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--butter)}
+@media (max-width:900px){
+  .shot{grid-template-columns:72px minmax(0,1fr)}
+  .shot .how{grid-column:2;border-left:0;padding-left:0;border-top:1px dashed rgba(255,255,255,.22);padding-top:10px}
+}
+@media (prefers-reduced-motion:no-preference){
+  .blur-demo .st{animation:drift 9s linear infinite}
+  .blur-demo .st:nth-child(2){animation-duration:12s;animation-delay:-4s}
+  .blur-demo .st:nth-child(3){animation-duration:7s;animation-delay:-2s}
+  @keyframes drift{from{transform:translateX(-60%)}to{transform:translateX(260%)}}
+}
+/* La web */
+.webnav{display:flex;flex-wrap:wrap;gap:6px 22px;background:var(--ink-2);border-radius:8px;padding:14px 20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--on-dark-2)}
+.wp{background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:22px 24px;min-width:0}
+.wp.pick{background:var(--ink);border-color:var(--ink);color:var(--on-dark)}
+.wp-lab{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);margin-bottom:10px}
+.wp.pick .wp-lab{color:var(--butter)}
+.wp h4{font-family:var(--display);font-weight:500;font-size:21px;color:var(--ink);margin-bottom:8px;letter-spacing:-.015em}
+.wp.pick h4{color:var(--on-dark)}
+.wp p{font-size:14.5px;line-height:1.7}
+.wp.pick p{color:var(--on-dark-2)}
+.wp-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.wp-btns span{font-size:12.5px;border:1px solid var(--ink);color:var(--ink);border-radius:999px;padding:6px 14px}
+.hero-wp{margin-top:22px;background:linear-gradient(100deg,rgba(29,38,64,.92),rgba(43,55,84,.78)),var(--ink);color:var(--on-dark);border:0;padding:40px 28px}
+.hero-wp .wp-lab{color:var(--on-dark-3)}
+.wp-eyebrow{font-weight:600;font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--butter);margin-bottom:10px}
+.wp-h{font-family:var(--display);font-weight:500;font-size:clamp(28px,4.4vw,48px);line-height:1.05;letter-spacing:-.025em;margin-bottom:12px}
+.hero-wp p{color:var(--on-dark-2)}
+.hero-wp .wp-btns span{border-color:var(--butter);color:var(--on-dark)}
+.wgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.webfoot{margin-top:16px;background:var(--ink-2);color:var(--on-dark-2);border-radius:8px;padding:16px 20px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.webfoot span{color:var(--on-dark-3)}
+@media (max-width:900px){.wgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -237,15 +285,16 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 <nav class="gut"><div class="in">
   <div class="brand">Café <em>Rotondo</em></div>
   <div class="links">
-    <a href="#idea">Idea</a><a href="#pili">Pili</a><a href="#dia">Todo el día</a><a href="#objeto">Objeto</a><a href="#cocina">Cocina</a><a href="#inspo">Inspo</a><a href="#nombre">Nombre propio</a><a href="#checklist">Checklist</a>
+    <a href="#idea">Idea</a><a href="#blend">Family blend</a><a href="#undia">Un día en Rotondo</a><a href="#pili">Pili</a><a href="#dia">Dos esquinas</a><a href="#objeto">Objeto</a><a href="#cocina">Cocina</a><a href="#inspo">Inspo</a><a href="#nombre">Nombre propio</a><a href="#clientes">Clientes</a><a href="#web">Web</a><a href="#checklist">Checklist</a>
   </div>
 </div></nav>
 
 <header class="hero gut"><div class="in">
-  <div class="eyebrow">Bajadas de contenido · noviembre 2026</div>
+  <div class="eyebrow">Bajadas de contenido · Family blend · noviembre 2026</div>
   <div class="trio">Casa. <span>Trabajo.</span> <em>Rotondo.</em></div>
   <p>La gente vive en su casa y trabaja en el trabajo. Rotondo es el tercer lugar: donde desayuna después de yoga, almuerza de a dos, se queda una tarde con la compu o brinda al atardecer.</p>
-  <p>Esta bajada ordena cómo contarlo para que lo produzca el equipo de la marca: la miniserie de Pili, la cocina y el oficio detrás de cada producto, el feed con un objeto propio, los dos locales como uno solo y un método para que los productos nuevos queden asociados a Rotondo aunque la competencia los copie.</p>
+  <p>Y el tercer lugar lo hace su gente: Rotondo no existe sin quienes entran todos los días. Por eso Family blend deja de ser solo la firma y pasa a nombrar lo que pasa adentro: la mezcla la ponen los clientes.</p>
+  <p>Esta bajada ordena cómo contarlo para que lo produzca el equipo de la marca: la pieza central filmada por Licha, la miniserie de Pili, la cocina y el oficio detrás de cada producto, el feed con un objeto propio, los clientes con nombre, los dos locales como uno solo, un método contra la copia y los textos de la web.</p>
 </div></header>
 
 <section id="idea" class="gut"><div class="in">
@@ -271,6 +320,77 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   </div>
   <div class="callout"><span class="lab">El registro de toda la cuenta</span>Soft, formal y elegante, en todo: Pili, los locales, los productos y la cocina. Imagen cuidada y quieta, pocas palabras, sin emojis ni signos de exclamación, sin audios en tendencia. La cocina es el punto más alto de ese registro (ver «Antes de abrir» e «Inspo»).</div>
   <div class="callout"><span class="lab">Firma de la campaña</span>«CASA · TRABAJO · ROTONDO», en mayúsculas espaciadas como el resto de la marca. Va en la placa final de los videos, en la bio y en la pauta. La frase «tercer lugar» casi no se escribe: se usa en la bio y en el lanzamiento de la serie, después se deja que lo cuenten las imágenes.</div>
+</div></section>
+
+<section id="blend" class="alt gut"><div class="in">
+  <div class="kicker">Family blend</div>
+  <h2 class="title">El blend son <em>ustedes</em></h2>
+  <p class="desc">Un blend es una mezcla de orígenes que, juntos, dan algo que ninguno tiene por separado. En Rotondo la mezcla es la gente: el que pasa a las 7 antes de la oficina, la que trabaja toda la tarde arriba, la mesa del domingo. Ser fanáticos de los clientes se muestra mejor de lo que se dice: el pedido que ya está listo, el nombre que se sabe, el producto que nació de una sugerencia.</p>
+  <div class="vs">
+    <div><div class="vs-h">Decirlo</div><ul>
+      <li>«Somos fanáticos de nuestros clientes» en cada texto.</li>
+      <li>«Sin ustedes no somos nada», «gracias por elegirnos».</li>
+      <li>Fotos de gente sonriendo a cámara con la taza.</li>
+    </ul></div>
+    <div><div class="vs-h">Mostrarlo</div><ul>
+      <li>La frase aparece una sola vez, en la web, como el porqué de la marca.</li>
+      <li>El barista prepara lo de siempre antes de que lo pidan.</li>
+      <li>El día pasa, la gente se mezcla, y Rotondo queda quieto para recibirla.</li>
+    </ul></div>
+  </div>
+  <div class="endcard">
+    <div class="big">Family <span>blend</span></div>
+    <div class="sm">La mezcla la ponen ustedes.</div>
+  </div>
+  <p class="note">Firma para el cierre de la pieza central, la web y las piezas de pauta. Sigue conviviendo con «CASA · TRABAJO · ROTONDO» y «HECHO EN ROTONDO»: una cuenta el lugar, otra la cocina y esta la gente.</p>
+</div></section>
+
+<section id="undia" class="gut dark"><div class="in">
+  <div class="kicker">La pieza central · dirige Licha</div>
+  <h2 class="title">Un día en <em>Rotondo</em></h2>
+  <p class="desc">Entre 60 y 90 segundos, de la madrugada al cierre. El recurso que lo une es un time-lapse en larga exposición: cámara fija y obturación lenta en cada cuadro. Lo quieto (la barra, la vitrina, la esquina) queda nítido y la gente se vuelve trazos de luz que se mezclan entre sí. Es el blend, literal.</p>
+
+  <div class="blur-demo" role="img" aria-label="Esquema del plano: trazos de gente en movimiento y una figura nítida y quieta en el centro">
+    <div class="st" style="width:38%"></div><div class="st" style="width:30%"></div><div class="st" style="width:46%"></div>
+    <div class="p"></div><div class="bar"></div>
+    <div class="lab2">El día pasa, borroso</div><div class="lab3">Pili, nítida</div>
+  </div>
+
+  <h3 class="sub">Guion de planos</h3>
+  <div class="shotlist">
+    <div class="shot"><div class="h">5:30<small>Afuera</small></div><div><h4>La esquina vacía</h4><p>Drone cenital sobre la esquina de Cerviño con la calle todavía oscura. La forma redonda del lugar desde arriba.</p></div><div class="how"><b>Cómo</b>Drone, plano fijo o descenso muy lento. Sin gente.</div></div>
+    <div class="shot"><div class="h">5:45<small>Cocina</small></div><div><h4>Antes de las 7</h4><p>Masa, horno, vitrina que se arma, la primera calibración del café. Nítido y lento: es lo que se prepara para quienes todavía no llegaron.</p></div><div class="how"><b>Cómo</b>Tiempo real o cámara lenta, luz de la propia cocina. Mismos planos de la serie «Antes de las 7».</div></div>
+    <div class="shot"><div class="h">7:00<small>Puerta</small></div><div><h4>Se abre</h4><p>La llave, la puerta, la primera persona que entra. Desde acá arranca el time-lapse.</p></div><div class="how"><b>Cómo</b>Plano fijo frente a la puerta; empalma con el primer cuadro del time-lapse.</div></div>
+    <div class="shot"><div class="h">7–19<small>Salón</small></div><div><h4>La mezcla</h4><p>Mañana, oficina, almuerzo, tarde. La luz cambia, la gente pasa en trazos, la barra queda quieta.</p></div><div class="how"><b>Cómo</b>Time-lapse en larga exposición desde dos o tres posiciones fijas (ver «Para Licha»).</div></div>
+    <div class="shot key"><div class="h">11:00<small>Plano clave</small></div><div><h4>Pili, nítida</h4><p>Todo se mueve alrededor y ella queda quieta en su mesa, con lo de siempre. El lugar se detiene para su gente. Es «fanáticos de nuestros clientes» sin decirlo.</p></div><div class="how"><b>Cómo</b>Pili se mantiene quieta durante una serie de cuadros mientras el salón sigue. Ensayar la duración con Licha.</div></div>
+    <div class="shot"><div class="h">19:30<small>Cierre</small></div><div><h4>La última luz</h4><p>Se va la gente, se apagan las luces de a una, queda la barra.</p></div><div class="how"><b>Cómo</b>El time-lapse se desacelera hasta tiempo real.</div></div>
+    <div class="shot"><div class="h">20:00<small>Afuera</small></div><div><h4>La esquina, otra vez</h4><p>El drone sube desde la puerta hasta ver la esquina entera iluminada. Cierra con la placa.</p></div><div class="how"><b>Cómo</b>Ascenso lento en vertical. Placa: FAMILY BLEND · La mezcla la ponen ustedes.</div></div>
+  </div>
+  <p class="note" style="color:var(--on-dark-3)">Los horarios de cocina son de ejemplo y se ajustan a los reales. Si se filma también en Libertador, el time-lapse puede alternar los dos salones y el cierre mostrar las dos esquinas: CERVIÑO · LIBERTADOR.</p>
+</div></section>
+
+<section id="licha" class="gut alt"><div class="in">
+  <div class="kicker">Para Licha</div>
+  <h2 class="title">Un punto de partida, <em>no una receta</em></h2>
+  <p class="desc">La mirada cinematográfica es de Licha. Esto deja por escrito lo que el concepto necesita para que funcione; los valores técnicos los define Licha en la prueba.</p>
+  <div class="cards">
+    <div class="card"><h4>Lo que tiene que pasar</h4><p>Gente en trazos, lugar nítido. El movimiento tiene que leerse como mezcla, no como prisa: más fluido que acelerado.</p><div class="foot">Cámara fija con trípode, filtro ND para poder bajar la obturación de día, exposición y balance de blancos en manual.</div></div>
+    <div class="card"><h4>Posiciones de cámara</h4><p>Desde el piso de arriba de Cerviño mirando la barra; desde la vereda de enfrente hacia la esquina; en Libertador, a la altura de la barra.</p><div class="foot">Cuadros con algo quieto y reconocible en primer plano: la barra, la vitrina, la máquina.</div></div>
+    <div class="card"><h4>Luz y sonido</h4><p>Luz natural y la del propio local, sin reflectores a la vista. Sonido real: la máquina, la vajilla, la puerta, el murmullo.</p><div class="foot">Sin audios en tendencia. Si lleva música, que sea instrumental y suave, sin voz.</div></div>
+  </div>
+  <div class="callout"><span class="lab">Antes del día de rodaje</span>Una prueba corta en un horario de movimiento (el almuerzo) para definir obturación, intervalo y cuánto tiempo tiene que quedarse quieta Pili para salir nítida. Con eso se arma el día completo.</div>
+</div></section>
+
+<section id="drone" class="gut"><div class="in">
+  <div class="kicker">Drone</div>
+  <h2 class="title">La esquina <em>desde arriba</em></h2>
+  <p class="desc">Pocos planos y lentos: el drone abre y cierra, no protagoniza. Desde arriba la esquina se vuelve una forma, y esa forma es lo redondo de Rotondo.</p>
+  <div class="cards">
+    <div class="card"><h4>Cenital al amanecer</h4><p>La esquina vacía, la calle oscura, la luz del local recién prendida.</p><div class="foot">Abre la pieza central.</div></div>
+    <div class="card"><h4>Órbita lenta</h4><p>Un giro completo alrededor de la esquina a media mañana, con la gente entrando y saliendo.</p><div class="foot">Sirve suelto como reel corto y como portada de la web.</div></div>
+    <div class="card"><h4>Ascenso al cierre</h4><p>Sube desde la puerta hasta ver la esquina iluminada en la noche.</p><div class="foot">Cierra la pieza central.</div></div>
+  </div>
+  <div class="callout"><span class="lab">Antes de prometer los planos</span>Los dos locales están en una zona cercana a Aeroparque, con restricciones de vuelo. Licha tiene que confirmar con ANAC si se puede volar ahí y con qué permiso. Si no se puede, el plano cenital se reemplaza por uno desde un balcón o terraza de enfrente.</div>
 </div></section>
 
 <section id="pili" class="dark gut"><div class="in">
@@ -326,14 +446,7 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   </table></div>
   <p class="note" style="color:var(--on-dark-3)">Texto del posteo: corto, con la hora y el lugar. «Pili, 8:40. Lo de siempre, en Cerviño.»</p>
 
-  <h3 class="sub">Especial · «Un día en Rotondo» (time-lapse)</h3>
-  <div class="rules">
-    <div class="rule"><b>Un solo ángulo alto y fijo</b> que tome mostrador, algunas mesas y la ventana, para que se vea cambiar la luz.</div>
-    <div class="rule"><b>De la apertura al cierre.</b> El modo time-lapse del iPhone ajusta solo la exposición. Trípode fijado y celular enchufado todo el día.</div>
-    <div class="rule"><b>Pili es lo único que no cambia.</b> Llega a la mañana con la compu, almuerza, merienda y a las 19 se suman amigos. Esos momentos van a velocidad normal; el resto, acelerado.</div>
-    <div class="rule"><b>Clientes cuidados.</b> Cartel en la puerta avisando que se filma, ángulo que no muestre caras de cerca y amigos de la marca en las mesas próximas a Pili.</div>
-  </div>
-  <p class="note" style="color:var(--on-dark-3)">Editado a 30–45 segundos con un reloj chico en una esquina. Es el reel que mejor cuenta el «todo el día» y se puede reusar en pauta.</p>
+  <div class="callout"><span class="lab">Pili en «Un día en Rotondo»</span>El time-lapse que estaba pensado para el celular pasa a ser la pieza central filmada por Licha (ver <a href="#undia">Un día en Rotondo</a>). Pili es su plano clave: quieta y nítida en su mesa mientras el día pasa alrededor.</div>
 
   <div class="callout"><span class="lab">Alcohol en redes y pauta</span>Toda pieza con vino o Aperol lleva la leyenda de la Ley 24.788: «Beber con moderación. Prohibida su venta a menores de 18 años.» En Meta, esos anuncios van solo a mayores de 18.</div>
 </div></section>
@@ -482,7 +595,23 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
   <div class="callout" style="margin-top:0;margin-bottom:28px"><span class="lab">Ojo con La Cabra</span>Es una referencia muy vista en Buenos Aires: Blanca, la competencia directa, ya trabaja con ese look. De La Cabra tomamos solo la calma, el encuadre y el aire alrededor de cada cosa. La paleta, la vajilla y el tono quedan afuera: si una foto de Rotondo se podría confundir con una de Blanca, no va.</div>
 
-  <h3 class="sub" style="margin-top:0">Cómo no parecernos a nadie</h3>
+    <h3 class="sub" style="margin-top:0">Lo nórdico, en azul y manteca</h3>
+  <p class="board-desc">La pastelería nórdica cuenta con calma: luz fría de mañana, planos largos, manos que trabajan, sonido real. Es una muy buena escuela para Rotondo, siempre que se tome el ritmo y no la decoración: varias cafeterías de la zona ya usan ese mundo en tonos tierra y madera, y ahí Rotondo se confundiría.</p>
+  <div class="vs">
+    <div><div class="vs-h">No tomamos</div><ul>
+      <li>Madera clara, tonos tierra, cerámica rústica.</li>
+      <li>Textos y títulos en inglés.</li>
+      <li>La estética de una cuenta puntual, copiada plano por plano.</li>
+    </ul></div>
+    <div><div class="vs-h">Sí tomamos</div><ul>
+      <li>La luz fría de la mañana, que con el azul de Rotondo queda propia.</li>
+      <li>El ritmo: planos largos y quietos, sin cortes rápidos.</li>
+      <li>El sonido de la cocina: la corteza, el cuchillo, la máquina.</li>
+      <li>Cenitales de manos, masa y emplatado.</li>
+    </ul></div>
+  </div>
+  <p class="note">Para afinar la referencia: que nos pasen las cuentas o los videos nórdicos que más les gustan, así marcamos qué se toma de cada uno.</p>
+  <h3 class="sub">Cómo no parecernos a nadie</h3>
   <p class="board-desc">Comparado con Blanca y con el resto de los cafés que miramos en el análisis (Oli, Lharmonie, Rita). Antes de publicar, cada pieza se mira al lado de sus grillas.</p>
   <div class="table-wrap" style="margin-bottom:12px"><table>
     <thead><tr><th>Tema</th><th>Lo que ya se ve en la zona</th><th>Lo que es solo de Rotondo</th></tr></thead>
@@ -602,15 +731,87 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   </div>
 </div></section>
 
+<section id="clientes" class="alt gut"><div class="in">
+  <div class="kicker">Dos series nuevas</div>
+  <h2 class="title">Los clientes, <em>con nombre</em></h2>
+  <p class="desc">La pieza central instala la idea una vez. Estas dos series la sostienen en el feed, con gente real de Rotondo.</p>
+  <div class="objs">
+    <div class="obj pick"><div class="tag">Serie · retrato</div><h4>Los de siempre</h4><p>Retratos mudos y cinematográficos de clientes habituales en su mesa, con lo suyo. Placa con su nombre, su pedido y desde cuándo vienen.</p><p>Hermana de «Lo de siempre» de Pili: ella es el personaje; ellos son la gente real.</p></div>
+    <div class="obj"><div class="tag">Serie · producto</div><h4>Salió de la barra</h4><p>Productos y detalles que nacieron de una sugerencia de un cliente. Se presentan con su nombre propio y con el de quien lo propuso, si quiere aparecer.</p><p>Es la prueba más concreta de que la mezcla la ponen ellos.</p></div>
+  </div>
+  <div class="name-demo" style="margin-top:22px">
+    <div class="nm">Marta</div>
+    <div class="ap">Cortado en jarrito y medialuna</div>
+    <div class="since">Viene desde 2023 · Cerviño</div>
+  </div>
+  <p class="note">Ejemplo de placa con un nombre inventado: en las piezas reales van solo clientes reales, con su autorización.</p>
+</div></section>
+
 <section class="dark gut"><div class="in">
   <div class="kicker">Ritmo sugerido</div>
   <h2 class="title">Una semana <em>de Rotondo</em></h2>
   <p class="desc">Para quien produzca. Es una base para arrancar; se ajusta con lo que se pueda grabar.</p>
   <div class="week">
-    <div class="wk"><div class="q">3<small>posteos / semana</small></div><h4>Feed</h4><ul class="l"><li>Lunes: lugar y gente</li><li>Miércoles: producto con nombre o cocina, una semana cada uno</li><li>Viernes: objeto, barrio o «La última luz»</li></ul></div>
-    <div class="wk"><div class="q">1<small>reel / semana</small></div><h4>Reels</h4><ul class="l"><li>Semana A: capítulo de Pili</li><li>Semana B: «El último toque», «Antes de las 7» o un retrato del equipo</li><li>Semana C: producto con nombre y su momento</li><li>Una vez: el time-lapse «Un día en Rotondo»</li></ul></div>
-    <div class="wk"><div class="q">Todos<small>los días</small></div><h4>Historias</h4><ul class="l"><li>«Ahora en Rotondo» por franja horaria</li><li>Destacada «Todo el día»</li><li>Clientes que nombran los productos</li></ul></div>
+    <div class="wk"><div class="q">3<small>posteos / semana</small></div><h4>Feed</h4><ul class="l"><li>Lunes: lugar y gente</li><li>Miércoles: producto con nombre o cocina, una semana cada uno</li><li>Viernes: objeto, barrio o «La última luz»</li><li>Una vez por mes: «Los de siempre»</li></ul></div>
+    <div class="wk"><div class="q">1<small>reel / semana</small></div><h4>Reels</h4><ul class="l"><li>Semana A: capítulo de Pili</li><li>Semana B: «El último toque», «Antes de las 7» o un retrato del equipo</li><li>Semana C: producto con nombre y su momento</li><li>Una vez: «Un día en Rotondo», fijado en el perfil</li></ul></div>
+    <div class="wk"><div class="q">Todos<small>los días</small></div><h4>Historias</h4><ul class="l"><li>«Ahora en Rotondo» por franja horaria, con el time-lapse</li><li>Destacada «Todo el día»</li><li>Clientes que nombran los productos</li></ul></div>
   </div>
+
+  <h3 class="sub">Del rodaje de Licha, todo el mes</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Pieza</th><th>Formato</th><th>Dónde</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Un día en Rotondo</td><td>60–90 s, vertical y horizontal</td><td>Reel fijado en el perfil · portada de la web · pauta de Barrio</td></tr>
+      <tr><td class="k">Las franjas</td><td>15–20 s por momento del día</td><td>Reels y pauta: mañana, oficina, almuerzo, tarde, última luz</td></tr>
+      <tr><td class="k">Ahora en Rotondo</td><td>Time-lapse de 5–8 s</td><td>Historias, con el horario como único texto</td></tr>
+      <tr><td class="k">La esquina</td><td>Órbita de drone, 10 s en loop</td><td>Reel corto · fondo de la web</td></tr>
+      <tr><td class="k">Los de siempre</td><td>Retrato mudo de 10–15 s</td><td>Feed, un cliente por mes</td></tr>
+      <tr><td class="k">Salió de la barra</td><td>Producto con su nombre</td><td>Feed y lanzamientos</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section id="web" class="alt gut"><div class="in">
+  <div class="kicker">La web</div>
+  <h2 class="title">La misma historia, <em>en la web</em></h2>
+  <p class="desc">Los textos de la web, ordenados como los pidieron: quiénes somos, qué hacemos, cómo lo hacemos y por qué. El porqué va al final porque ahí entra «Somos fanáticos de nuestros clientes», y es la única vez que la frase se dice con todas las letras.</p>
+
+  <div class="webnav"><span>Carta</span><span>Nosotros</span><span>Locales</span><span>Encargos</span><span>Trabajá con nosotros</span></div>
+  <p class="note" style="margin-top:8px">Barra superior. «Contacto» pasa al pie de página. «Encargos» es opcional, para las cajas de fiestas por WhatsApp.</p>
+
+  <div class="wp hero-wp">
+    <div class="wp-lab">Portada · fondo: el time-lapse «Un día en Rotondo» en loop, sin sonido</div>
+    <div class="wp-eyebrow">Family blend</div>
+    <div class="wp-h">La mezcla la ponen ustedes.</div>
+    <p>Café, panes y pastelería hechos en casa. Cerviño y Libertador, todos los días.</p>
+    <div class="wp-btns"><span>Ver la carta</span><span>Cómo llegar</span></div>
+  </div>
+
+  <h3 class="sub">Nosotros</h3>
+  <div class="wgrid">
+    <div class="wp"><div class="wp-lab">Quiénes somos · foto: el equipo</div><h4>Un proyecto de familia</h4><p>Rotondo es un proyecto de familia: miradas y oficios distintos alrededor de una misma barra. Hay lugares que te quedan de paso y lugares que elegís. Entre tu casa y tu trabajo existe otro espacio, el tercero, donde te sentás sin mirar el reloj y volvés sin pensarlo demasiado. Rotondo nació con esa idea.</p></div>
+    <div class="wp"><div class="wp-lab">Qué hacemos · foto: el salón, con Pili</div><h4>Todo el día</h4><p>Café de especialidad, panes, pastelería y platos para cada momento del día, de las 7 a las 20. El primer café antes de la oficina, una mesa para trabajar en el piso de arriba de Cerviño, el almuerzo, algo rico a media tarde o un rato para frenar.</p></div>
+    <div class="wp"><div class="wp-lab">Cómo lo hacemos · foto: cocina y emplatado</div><h4>Hecho en Rotondo</h4><p>Todo lo que servimos sale de nuestra cocina: los panes, las masas laminadas, cada pieza de pastelería. El trabajo empieza antes de que se abra la puerta, con café de especialidad, ingredientes frescos y proveedores que trabajan con nuestra misma exigencia. Cada receta tiene detrás una dirección propia y un equipo que se anima a probar.</p></div>
+    <div class="wp pick"><div class="wp-lab">Por qué lo hacemos · foto: «Los de siempre»</div><h4>Somos fanáticos de nuestros clientes</h4><p>Rotondo no existiría sin la gente que entra todos los días. Conocemos tu pedido, tu mesa y tus horarios. Muchas de nuestras ideas salieron de una charla en la barra, y cada persona que vuelve le da forma a lo que somos. Por eso nuestra firma es Family blend: la mezcla la ponen ustedes.</p></div>
+  </div>
+
+  <h3 class="sub">Locales, encargos y equipo</h3>
+  <div class="wgrid">
+    <div class="wp"><div class="wp-lab">Locales</div><h4>Cerviño</h4><p>Av. Cerviño 3907, esquina Lafinur<br>Todos los días, de 8 a 20. Piso de arriba para trabajar.</p><div class="wp-btns"><span>Cómo llegar</span></div></div>
+    <div class="wp"><div class="wp-lab">Locales</div><h4>Libertador</h4><p>Av. del Libertador 2277, esquina Coronel Díaz<br>Todos los días, de 7 a 20.</p><div class="wp-btns"><span>Cómo llegar</span></div></div>
+    <div class="wp"><div class="wp-lab">Encargos · opcional</div><h4>Para compartir</h4><p>Cajas para compartir, mesas dulces y pedidos especiales. Escribinos y armamos lo tuyo.</p><div class="wp-btns"><span>Escribinos por WhatsApp</span></div></div>
+    <div class="wp"><div class="wp-lab">Trabajá con nosotros</div><h4>Sumate al blend</h4><p>Siempre buscamos personas curiosas, con ganas de aprender y de hacer las cosas bien. Si te gusta el café, la cocina o atender al público, y te imaginás creciendo en un equipo que se toma en serio lo que hace, este puede ser tu lugar.</p><div class="wp-btns"><span>Enviá tu CV</span></div></div>
+  </div>
+  <div class="webfoot">Café Rotondo · Family blend <span>Cerviño · Libertador · Instagram · Contacto</span></div>
+
+  <h3 class="sub">Qué cambió respecto del borrador</h3>
+  <ul class="l">
+    <li>«Familia» aparece una vez, en Quiénes somos, y explica la firma. No se repite en cada sección.</li>
+    <li>Sin superlativos ni jerga: afuera «excelencia», «lo mejor», «los mejores profesionales», «difícil de imitar», «diferenciales», «100 %» y «all day». Lo que se cuenta son hechos: qué se hace, dónde y cuándo.</li>
+    <li>La idea de «ya saben cómo tomás el café» queda en un solo lugar (el porqué), para que no se repita.</li>
+    <li>Voseo parejo en botones y títulos: «Trabajá», «Enviá», «Escribinos».</li>
+    <li>Cada sección se ilustra con lo que sale del rodaje: equipo, salón con Pili, cocina y emplatado, retratos de «Los de siempre».</li>
+  </ul>
 </div></section>
 
 <section id="checklist" class="gut"><div class="in">
@@ -622,10 +823,14 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   <div class="checks">
     <div class="chk"><b>Pili:</b> días de grabación y si su contrato de imagen incluye anuncios pagos.</div>
     <div class="chk"><b>Clientes en cámara:</b> cartel en la puerta avisando que se filma; pedir permiso a quien aparezca de cerca.</div>
-    <div class="chk"><b>Time-lapse:</b> elegir el día, el ángulo y el permiso para filmar de la apertura al cierre.</div>
+    <div class="chk"><b>Los de siempre:</b> autorización firmada de cada cliente que aparezca con nombre.</div>
+    <div class="chk"><b>Un día en Rotondo:</b> con Licha, un día de semana con movimiento en todas las franjas y una prueba previa en el almuerzo.</div>
+    <div class="chk"><b>Drone:</b> confirmación de ANAC para volar en la zona (cerca de Aeroparque) antes de cerrar el guion.</div>
     <div class="chk"><b>Cocina:</b> dónde se produce (cada local u obrador), a qué hora arranca y si se puede filmar de madrugada.</div>
     <div class="chk"><b>Equipo:</b> qué pasteleros y cocineros quieren aparecer, con su nombre y trayectoria.</div>
-    <div class="chk"><b>Proveedores:</b> cuáles se pueden nombrar en «De dónde viene».</div>
+    <div class="chk"><b>Proveedores:</b> cuáles se pueden nombrar en «De dónde viene» y en la web.</div>
+    <div class="chk"><b>Salió de la barra:</b> productos o detalles que nacieron de una sugerencia, y si el cliente quiere aparecer.</div>
+    <div class="chk"><b>Referencia nórdica:</b> las cuentas y videos que les gustan, para marcar qué tomar de cada uno.</div>
   </div>
 
   <h3 class="sub">Por línea de contenido</h3>
@@ -640,14 +845,15 @@ footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
   <h3 class="sub">Antes de publicar</h3>
   <div class="checks">
-    <div class="chk"><b>Dirección de Libertador:</b> unificar 2277 (Google) o 2291 (posteos) en Instagram, Google y Linktree.</div>
+    <div class="chk"><b>Dirección de Libertador:</b> unificar 2277 (Google) o 2291 (posteos) en Instagram, Google, Linktree y la web.</div>
+    <div class="chk"><b>Web:</b> si Libertador abre todos los días, si va la sección Encargos (qué ofrecen y qué WhatsApp) y qué mail recibe los CV.</div>
     <div class="chk"><b>Alcohol:</b> leyenda «Beber con moderación. Prohibida su venta a menores de 18 años.» en toda pieza con vino o Aperol.</div>
     <div class="chk"><b>Datos:</b> tiempos, horarios y procesos que se mencionen, confirmados por la cocina.</div>
     <div class="chk"><b>Al lado de la competencia:</b> mirar la pieza junto a las grillas de Blanca, Oli, Lharmonie y Rita. Si se confunde con alguna, no va.</div>
   </div>
 </div></section>
 
-<footer class="gut"><div class="in"><span>Café Rotondo · Family blend</span><span>Bajadas de contenido · Dilema Creative · noviembre 2026</span></div></footer>
+<footer class="gut"><div class="in"><span>Café Rotondo · Family blend</span><span>Bajadas de contenido y web · Dilema Creative · noviembre 2026</span></div></footer>
 
 </body>
 </html>
