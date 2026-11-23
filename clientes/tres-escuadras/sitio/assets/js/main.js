@@ -101,6 +101,37 @@
     show(0);
   })();
 
+  /* ---------- Home: las posturas contadas con scroll (desktop con movimiento) ---------- */
+  var story = document.querySelector("[data-story]");
+  var storyMq = window.matchMedia("(min-width: 960px)");
+  if (story && !reduce && "IntersectionObserver" in window && storyMq.matches) (function () {
+    story.classList.add("is-on");
+    var esc = story.querySelector(".escuadras");
+    if (esc) esc.removeAttribute("data-moment"); // en este modo el foco lo marca el paso activo
+    var steps = story.querySelectorAll(".escuadra");
+    var imgs = story.querySelectorAll(".story__img");
+    var ticks = story.querySelectorAll(".story__tick");
+    var num = story.querySelector("[data-story-num]");
+    var angle = story.querySelector(".story__angle");
+    var cur = -1;
+    var set = function (i) {
+      if (i < 0 || i === cur) return;
+      cur = i;
+      steps.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
+      imgs.forEach(function (s, k) { s.classList.toggle("is-active", k === i); });
+      ticks.forEach(function (s, k) { s.classList.toggle("is-active", k <= i); });
+      if (num) num.textContent = (i < 9 ? "0" : "") + (i + 1);
+      if (angle) { angle.classList.remove("is-drawing"); angle.getBoundingClientRect(); angle.classList.add("is-drawing"); }
+    };
+    var so = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) set(Array.prototype.indexOf.call(steps, en.target)); });
+    }, { rootMargin: "-45% 0px -45% 0px" });
+    steps.forEach(function (s) { so.observe(s); });
+    set(0);
+    var off = function (e) { if (!e.matches) { story.classList.remove("is-on"); so.disconnect(); } };
+    if (storyMq.addEventListener) storyMq.addEventListener("change", off);
+  })();
+
   /* ---------- Momento de autor: escuadras y fases ---------- */
   var moments = document.querySelectorAll("[data-moment]");
   if (!reduce && "IntersectionObserver" in window) {
@@ -118,7 +149,11 @@
   if (!reduce && "IntersectionObserver" in window) {
     var ro = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (en.isIntersecting) { en.target.classList.add("is-in"); ro.unobserve(en.target); }
+        if (en.isIntersecting) {
+          var t = en.target;
+          t.classList.add("is-in"); ro.unobserve(t);
+          setTimeout(function () { t.style.removeProperty("--d"); }, 900);
+        }
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
     var reveal = function (node, cls, d) {
@@ -132,7 +167,6 @@
     };
     var singles = ".history__head,.escuadras__head,.section-head,.finder,.course,.cta-band>div,.quote,.faq-grid>div,.index-grid>div,.split>div,.callout,.bio,.pub-group,.lt-prose>h2,.lt-prose>.lt-sign,.lt-fr";
     document.querySelectorAll(singles).forEach(function (n) { reveal(n, null, 0); });
-    document.querySelectorAll(".lt-portrait").forEach(function (n) { reveal(n, "reveal--scale", 0); });
     var groups = ".index-list,.facts-list,.evidence,.team-list,.steps,.timeline,.two-col,.people,.figure-row,.channels,.tags,.memoriam";
     document.querySelectorAll(groups).forEach(function (container) {
       Array.prototype.forEach.call(container.children, function (k, i) {
@@ -150,14 +184,14 @@
           if (!en.isIntersecting) return;
           co.unobserve(en.target);
           var node = en.target, full = node.textContent;
-          var m = full.match(/^\s*(\d[\d.]*)/);
+          var m = full.match(/^\s*(\d{1,4})(?![\d.,])/);
           if (!m) return;
-          var target = parseInt(m[1].replace(/\./g, ""), 10);
+          var target = parseInt(m[1], 10);
           var suffix = full.slice(m[0].length), t0 = null, dur = 1000;
           var step = function (ts) {
             if (t0 === null) t0 = ts;
             var p = Math.min((ts - t0) / dur, 1), e = 1 - Math.pow(1 - p, 3);
-            node.textContent = Math.round(e * target).toLocaleString("es-AR") + suffix;
+            node.textContent = String(Math.round(e * target)) + suffix;
             if (p < 1) requestAnimationFrame(step);
           };
           requestAnimationFrame(step);
@@ -171,6 +205,7 @@
   if (!reduce) {
     document.querySelectorAll("[data-split]").forEach(function (h) {
       var n = 0;
+      h.setAttribute("aria-label", h.textContent.replace(/\s+/g, " ").trim());
       var walk = function (node) {
         Array.prototype.slice.call(node.childNodes).forEach(function (c) {
           if (c.nodeType === 3) {
@@ -180,6 +215,7 @@
               if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
               var s = document.createElement("span");
               s.className = "split-w"; s.style.setProperty("--wi", n++); s.textContent = part;
+              s.setAttribute("aria-hidden", "true");
               frag.appendChild(s);
             });
             node.replaceChild(frag, c);
@@ -196,20 +232,50 @@
     var slides = slideBox.querySelectorAll(".hero__slide");
     var dots = slideBox.querySelectorAll(".hero__dotbtn");
     var label = slideBox.querySelector("[data-slide-label]");
+    var pause = slideBox.querySelector("[data-pause]");
     var cur = 0;
     var go = function (i) {
-      cur = (i + slides.length) % slides.length;
-      slides.forEach(function (s, k) { s.classList.toggle("is-active", k === cur); });
+      var next = (i + slides.length) % slides.length;
+      if (next === cur) return;
+      slides.forEach(function (s, k) {
+        s.classList.toggle("is-prev", k === cur);
+        s.classList.toggle("is-active", k === next);
+        if (k === next) s.removeAttribute("aria-hidden"); else s.setAttribute("aria-hidden", "true");
+      });
+      cur = next;
       dots.forEach(function (d, k) { if (k === cur) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
-      if (label) label.textContent = slides[cur].getAttribute("data-label");
+      // el nombre cambia cuando la foto nueva ya está entrando
+      setTimeout(function () { if (label) label.textContent = slides[cur].getAttribute("data-label"); }, 180);
     };
     dots.forEach(function (d) {
-      d.addEventListener("click", function () { go(parseInt(d.getAttribute("data-go"), 10)); });
+      d.addEventListener("click", function () {
+        if (label) label.setAttribute("aria-live", "polite"); // se anuncia solo si la persona eligió
+        go(parseInt(d.getAttribute("data-go"), 10));
+      });
       var bar = d.querySelector("i");
       // La barrita del punto activo marca el tiempo; al completarse pasa a la siguiente (se pausa con el mouse encima).
       if (bar) bar.addEventListener("animationend", function () { if (d.getAttribute("aria-current")) go(cur + 1); });
     });
+    if (pause) {
+      if (reduce) pause.hidden = true; // con movimiento reducido no avanza solo
+      pause.addEventListener("click", function () {
+        var on = pause.getAttribute("aria-pressed") !== "true";
+        pause.setAttribute("aria-pressed", on ? "true" : "false");
+        pause.setAttribute("aria-label", on ? "Reanudar el carrusel" : "Pausar el carrusel");
+        slideBox.classList.toggle("is-paused", on);
+      });
+    }
   })();
+
+  /* Hero fuera de pantalla: se frena el carrusel y el parallax */
+  var heroEl = document.querySelector("[data-hero]");
+  var heroOn = true;
+  if (heroEl && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (en) {
+      heroOn = en[0].isIntersecting;
+      heroEl.classList.toggle("is-off", !heroOn);
+    }).observe(heroEl);
+  }
 
   /* ---------- Hero: parallax suave del fondo ---------- */
   var heroBg = document.querySelector(".hero__bg img");
@@ -219,41 +285,73 @@
       if (pTick) return;
       pTick = requestAnimationFrame(function () {
         pTick = 0;
-        var y = window.scrollY;
-        if (y < window.innerHeight * 1.2) heroBg.style.setProperty("--py", (y * 0.28).toFixed(1) + "px");
+        if (!heroOn) return;
+        heroBg.style.setProperty("--py", (window.scrollY * 0.28).toFixed(1) + "px");
       });
     }, { passive: true });
   }
 
   /* ---------- Efecto dock (macOS): agranda lo que está bajo el cursor y un poco los vecinos ---------- */
   if (!reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    [[".dir-grid", 0.045, -6], [".gallery", 0.16, -4], [".mosaic", 0.035, -4], [".escuadras", 0.03, -6], [".figure-row--4", 0.07, -4]]
+    [[".dir-grid", 0.025, -5], [".gallery", 0.08, -4], [".mosaic", 0.03, -4], [".story:not(.is-on) .escuadras", 0.03, -6], [".figure-row--4", 0.05, -4]]
       .forEach(function (cfg) {
         document.querySelectorAll(cfg[0]).forEach(function (grid) {
           grid.classList.add("is-dock");
           grid.style.setProperty("--k", cfg[1]);
           grid.style.setProperty("--lift", cfg[2] + "px");
-          var items = grid.children, px = 0, py = 0, raf = 0;
-          var paint = function () {
-            raf = 0;
+          var items = grid.children, px = 0, py = 0, raf = 0, boxes = null, last = [];
+          // Medidas en coordenadas de la página, tomadas sin el aumento aplicado (offset*), y válidas hasta scroll/resize.
+          var measure = function () {
+            boxes = [];
             for (var i = 0; i < items.length; i++) {
               var it = items[i];
-              if (!it.offsetParent) continue;
-              var r = it.getBoundingClientRect();
-              var inside = px >= r.left && px <= r.right && py >= r.top && py <= r.bottom;
-              var R = Math.max(r.width, r.height) * 1.25;
-              var mc = Math.max(0, 1 - Math.hypot(px - (r.left + r.width / 2), py - (r.top + r.height / 2)) / R);
-              var m = inside ? Math.max(0.85, mc) : mc * mc * 0.55;
-              it.style.setProperty("--m", m.toFixed(3));
-              it.style.setProperty("--z", inside ? 3 : (m > 0.05 ? 2 : 0));
-              if (inside) { it.style.setProperty("--mx", (px - r.left) + "px"); it.style.setProperty("--my", (py - r.top) + "px"); }
+              if (!it.offsetParent) { boxes.push(null); continue; }
+              var r = it.getBoundingClientRect(), sx = window.scrollX, sy = window.scrollY;
+              var w = it.offsetWidth, h = it.offsetHeight;
+              var cx = r.left + r.width / 2 + sx, cy = r.top + r.height / 2 + sy;
+              boxes.push({ l: cx - w / 2, t: cy - h / 2, w: w, h: h });
             }
           };
-          grid.addEventListener("pointermove", function (e) { px = e.clientX; py = e.clientY; if (!raf) raf = requestAnimationFrame(paint); });
-          grid.addEventListener("pointerleave", function () {
+          var paint = function () {
+            raf = 0;
+            if (!boxes) measure();
+            var gx = px + window.scrollX, gy = py + window.scrollY, out = [];
+            for (var i = 0; i < boxes.length; i++) {
+              var b = boxes[i];
+              if (!b) { out.push(null); continue; }
+              var inside = gx >= b.l && gx <= b.l + b.w && gy >= b.t && gy <= b.t + b.h;
+              var R = Math.max(b.w, b.h) * 1.25;
+              var mc = Math.max(0, 1 - Math.hypot(gx - (b.l + b.w / 2), gy - (b.t + b.h / 2)) / R);
+              var m = inside ? Math.max(0.85, mc) : mc * mc * 0.55;
+              out.push({ m: Math.round(m * 100) / 100, inside: inside, mx: gx - b.l, my: gy - b.t });
+            }
+            for (var j = 0; j < out.length; j++) {
+              var o = out[j];
+              if (!o) continue;
+              var it2 = items[j];
+              if (last[j] !== o.m) {
+                it2.style.setProperty("--m", o.m);
+                it2.style.setProperty("--z", o.inside ? 3 : (o.m > 0.05 ? 2 : 0));
+                last[j] = o.m;
+              }
+              if (o.inside) { it2.style.setProperty("--mx", o.mx + "px"); it2.style.setProperty("--my", o.my + "px"); }
+            }
+          };
+          var reset = function () {
             if (raf) { cancelAnimationFrame(raf); raf = 0; }
             for (var i = 0; i < items.length; i++) { items[i].style.setProperty("--m", 0); items[i].style.setProperty("--z", 0); }
+            last = [];
+          };
+          grid.addEventListener("pointerenter", function () { boxes = null; });
+          grid.addEventListener("pointermove", function (e) {
+            if (e.pointerType && e.pointerType !== "mouse") return;
+            px = e.clientX; py = e.clientY;
+            if (!raf) raf = requestAnimationFrame(paint);
           });
+          grid.addEventListener("pointerleave", reset);
+          window.addEventListener("resize", function () { boxes = null; }, { passive: true });
+          // si cambia el filtro o se muestran más fotos, se vuelve a medir
+          new MutationObserver(function () { boxes = null; }).observe(grid, { attributes: true, subtree: true, attributeFilter: ["class", "hidden"] });
         });
       });
   }
@@ -327,15 +425,31 @@
       activeRegion = slug;
       chips.forEach(function (ch) { ch.setAttribute("aria-pressed", ch.getAttribute("data-region") === slug ? "true" : "false"); });
     };
+    // Al filtrar con los chips, las fichas se reacomodan con View Transitions en vez de saltar.
+    // (No se usa al tipear en el buscador: congelaría el campo durante la transición.)
+    var vtItems = [];
+    cards.forEach(function (c, i) { vtItems.push([c, "pro-" + i]); });
+    regionsEls.forEach(function (r, i) { var h = r.querySelector("h2"); if (h) vtItems.push([h, "reg-" + i]); });
+    if (empty) vtItems.push([empty, "dir-empty"]);
+    var nameAll = function (on) { vtItems.forEach(function (p) { p[0].style.viewTransitionName = on ? p[1] : ""; }); };
+    var animated = function (fn) {
+      if (reduce || !document.startViewTransition) { fn(); return; }
+      nameAll(true);
+      doc.classList.add("vt-filter");
+      var done = function () { nameAll(false); doc.classList.remove("vt-filter"); };
+      document.startViewTransition(fn).finished.then(done, done);
+    };
     chips.forEach(function (ch) {
-      ch.addEventListener("click", function () { setRegion(ch.getAttribute("data-region")); apply(); });
+      ch.addEventListener("click", function () { animated(function () { setRegion(ch.getAttribute("data-region")); apply(); }); });
     });
     tagBtns.forEach(function (b) {
       b.addEventListener("click", function () {
-        var t = b.getAttribute("data-tag"), i = activeTags.indexOf(t);
-        if (i === -1) activeTags.push(t); else activeTags.splice(i, 1);
-        b.setAttribute("aria-pressed", i === -1 ? "true" : "false");
-        apply();
+        animated(function () {
+          var t = b.getAttribute("data-tag"), i = activeTags.indexOf(t);
+          if (i === -1) activeTags.push(t); else activeTags.splice(i, 1);
+          b.setAttribute("aria-pressed", i === -1 ? "true" : "false");
+          apply();
+        });
       });
     });
     var timer;
@@ -370,11 +484,11 @@
     document.body.appendChild(lb);
     var items = [], idx = 0, lastFocus = null;
 
-    var show = function (i) {
+    var show = function (i, instant) {
       idx = (i + items.length) % items.length;
       var a = items[idx];
       var next = a.getAttribute("href");
-      if (lbImg.getAttribute("src") && lbImg.getAttribute("src") !== next && !reduce) {
+      if (!instant && lbImg.getAttribute("src") && lbImg.getAttribute("src") !== next && !reduce) {
         lbImg.classList.add("is-swapping");
         lbImg.addEventListener("load", function () { lbImg.classList.remove("is-swapping"); }, { once: true });
       }
@@ -384,16 +498,44 @@
       var nxt = items[(idx + 1) % items.length];
       if (nxt) { var pre = new Image(); pre.src = nxt.getAttribute("href"); }
     };
+    // La foto crece desde la miniatura que se tocó y vuelve a ella al cerrar (View Transitions).
+    var canMorph = function (img) {
+      if (reduce || !document.startViewTransition || !img) return false;
+      var r = img.getBoundingClientRect();
+      return r.width > 0 && r.bottom > 0 && r.top < window.innerHeight;
+    };
+    var morph = function (from, to, update) {
+      doc.classList.add("vt-lb");
+      from.style.viewTransitionName = "lb-photo";
+      var t = document.startViewTransition(function () {
+        from.style.viewTransitionName = "";
+        update();
+        to.style.viewTransitionName = "lb-photo";
+        if (to === lbImg && lbImg.decode) {
+          return Promise.race([lbImg.decode().catch(function () {}), new Promise(function (r) { setTimeout(r, 450); })]);
+        }
+      });
+      var clean = function () { to.style.viewTransitionName = ""; doc.classList.remove("vt-lb"); };
+      t.finished.then(clean, clean);
+    };
     var open = function (list, i) {
       items = list; lastFocus = document.activeElement;
-      show(i);
-      lb.classList.add("is-open");
-      document.body.classList.add("menu-open");
+      var thumb = list[i] && list[i].querySelector("img");
+      var doOpen = function () {
+        show(i, true);
+        lb.classList.add("is-open");
+        document.body.classList.add("menu-open");
+      };
+      if (canMorph(thumb)) morph(thumb, lbImg, doOpen); else doOpen();
       closeBtn.focus();
     };
     var close = function () {
-      lb.classList.remove("is-open");
-      document.body.classList.remove("menu-open");
+      var thumb = items[idx] && items[idx].querySelector("img");
+      var doClose = function () {
+        lb.classList.remove("is-open");
+        document.body.classList.remove("menu-open");
+      };
+      if (canMorph(thumb)) morph(lbImg, thumb, doClose); else doClose();
       if (lastFocus) lastFocus.focus();
     };
     galleries.forEach(function (g) {
@@ -491,4 +633,5 @@
       }
     });
   }
+  window.__mte = 1;
 })();
