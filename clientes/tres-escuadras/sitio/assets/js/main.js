@@ -167,6 +167,97 @@
     }
   }
 
+  /* ---------- Hero: título palabra por palabra ---------- */
+  if (!reduce) {
+    document.querySelectorAll("[data-split]").forEach(function (h) {
+      var n = 0;
+      var walk = function (node) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (c) {
+          if (c.nodeType === 3) {
+            var frag = document.createDocumentFragment();
+            c.textContent.split(/(\s+)/).forEach(function (part) {
+              if (!part) return;
+              if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+              var s = document.createElement("span");
+              s.className = "split-w"; s.style.setProperty("--wi", n++); s.textContent = part;
+              frag.appendChild(s);
+            });
+            node.replaceChild(frag, c);
+          } else if (c.nodeType === 1) { walk(c); }
+        });
+      };
+      walk(h);
+    });
+  }
+
+  /* ---------- Hero: carrusel de las posturas ---------- */
+  var slideBox = document.querySelector("[data-slides]");
+  if (slideBox) (function () {
+    var slides = slideBox.querySelectorAll(".hero__slide");
+    var dots = slideBox.querySelectorAll(".hero__dotbtn");
+    var label = slideBox.querySelector("[data-slide-label]");
+    var cur = 0;
+    var go = function (i) {
+      cur = (i + slides.length) % slides.length;
+      slides.forEach(function (s, k) { s.classList.toggle("is-active", k === cur); });
+      dots.forEach(function (d, k) { if (k === cur) d.setAttribute("aria-current", "true"); else d.removeAttribute("aria-current"); });
+      if (label) label.textContent = slides[cur].getAttribute("data-label");
+    };
+    dots.forEach(function (d) {
+      d.addEventListener("click", function () { go(parseInt(d.getAttribute("data-go"), 10)); });
+      var bar = d.querySelector("i");
+      // La barrita del punto activo marca el tiempo; al completarse pasa a la siguiente (se pausa con el mouse encima).
+      if (bar) bar.addEventListener("animationend", function () { if (d.getAttribute("aria-current")) go(cur + 1); });
+    });
+  })();
+
+  /* ---------- Hero: parallax suave del fondo ---------- */
+  var heroBg = document.querySelector(".hero__bg img");
+  if (heroBg && !reduce) {
+    var pTick = 0;
+    window.addEventListener("scroll", function () {
+      if (pTick) return;
+      pTick = requestAnimationFrame(function () {
+        pTick = 0;
+        var y = window.scrollY;
+        if (y < window.innerHeight * 1.2) heroBg.style.setProperty("--py", (y * 0.28).toFixed(1) + "px");
+      });
+    }, { passive: true });
+  }
+
+  /* ---------- Efecto dock (macOS): agranda lo que está bajo el cursor y un poco los vecinos ---------- */
+  if (!reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
+    [[".dir-grid", 0.045, -6], [".gallery", 0.16, -4], [".mosaic", 0.035, -4], [".escuadras", 0.03, -6], [".figure-row--4", 0.07, -4]]
+      .forEach(function (cfg) {
+        document.querySelectorAll(cfg[0]).forEach(function (grid) {
+          grid.classList.add("is-dock");
+          grid.style.setProperty("--k", cfg[1]);
+          grid.style.setProperty("--lift", cfg[2] + "px");
+          var items = grid.children, px = 0, py = 0, raf = 0;
+          var paint = function () {
+            raf = 0;
+            for (var i = 0; i < items.length; i++) {
+              var it = items[i];
+              if (!it.offsetParent) continue;
+              var r = it.getBoundingClientRect();
+              var inside = px >= r.left && px <= r.right && py >= r.top && py <= r.bottom;
+              var R = Math.max(r.width, r.height) * 1.25;
+              var mc = Math.max(0, 1 - Math.hypot(px - (r.left + r.width / 2), py - (r.top + r.height / 2)) / R);
+              var m = inside ? Math.max(0.85, mc) : mc * mc * 0.55;
+              it.style.setProperty("--m", m.toFixed(3));
+              it.style.setProperty("--z", inside ? 3 : (m > 0.05 ? 2 : 0));
+              if (inside) { it.style.setProperty("--mx", (px - r.left) + "px"); it.style.setProperty("--my", (py - r.top) + "px"); }
+            }
+          };
+          grid.addEventListener("pointermove", function (e) { px = e.clientX; py = e.clientY; if (!raf) raf = requestAnimationFrame(paint); });
+          grid.addEventListener("pointerleave", function () {
+            if (raf) { cancelAnimationFrame(raf); raf = 0; }
+            for (var i = 0; i < items.length; i++) { items[i].style.setProperty("--m", 0); items[i].style.setProperty("--z", 0); }
+          });
+        });
+      });
+  }
+
   /* ---------- Fotos: fundido al terminar de cargar ---------- */
   document.querySelectorAll(".gallery img, .mosaic img").forEach(function (im) {
     var done = function () { im.classList.add("is-loaded"); };
