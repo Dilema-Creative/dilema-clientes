@@ -633,5 +633,23 @@
       }
     });
   }
+  /* ---------- Fotos que pasan solas ---------- */
+  if (!reduce) {
+    document.querySelectorAll("[data-rotator]").forEach(function (box) {
+      var imgs = box.querySelectorAll("img");
+      if (imgs.length < 2) return;
+      var i = 0, visible = true;
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (es) { visible = es[0].isIntersecting; }).observe(box);
+      }
+      setInterval(function () {
+        if (!visible || document.hidden) return;
+        imgs[i].classList.remove("is-on");
+        i = (i + 1) % imgs.length;
+        imgs[i].classList.add("is-on");
+      }, 4500);
+    });
+  }
+
   window.__mte = 1;
 })();

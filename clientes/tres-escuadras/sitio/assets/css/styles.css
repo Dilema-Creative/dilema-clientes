@@ -1171,3 +1171,8 @@ html.vt-lb::view-transition-old(root), html.vt-lb::view-transition-new(root) { a
 .lt-prose ul { margin: 12px 0 0; padding-left: 22px; color: var(--ink-2); line-height: 1.75; }
 .lt-prose li + li { margin-top: 4px; }
 
+
+/* Fotos que pasan solas (data-rotator) */
+.rotator { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--surface-3); }
+.rotator img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1200ms var(--ease-out); }
+.rotator img.is-on { opacity: 1; }
