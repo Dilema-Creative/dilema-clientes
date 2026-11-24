@@ -1145,3 +1145,10 @@ html.vt-lb::view-transition-old(root), html.vt-lb::view-transition-new(root) { a
 
 /* Directorio: título profesional como prefijo del nombre */
 .pro h3 .pro__t { font-weight: 450; color: var(--ink-3); font-size: 0.82em; letter-spacing: 0; }
+
+/* Posturas: 3 escuadras en Técnica + cierre de pie contra la pared (corrección de Carmen 24/11) */
+.figure-row--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 480px) { .figure-row--3 { grid-template-columns: 1fr; } }
+.fases .fase.fase--cierre::before { background: var(--sky); }
+.fases-cierre { position: relative; margin: 36px 0 0; padding: 18px 0 0 30px; border-top: 1px solid var(--line-strong); font-weight: 550; color: var(--ink); max-width: 62ch; }
+.fases-cierre::before { content: ""; position: absolute; left: 0; top: 22px; width: 14px; height: 14px; background: var(--sky); }

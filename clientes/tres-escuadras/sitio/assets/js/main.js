@@ -293,7 +293,7 @@
 
   /* ---------- Efecto dock (macOS): agranda lo que está bajo el cursor y un poco los vecinos ---------- */
   if (!reduce && window.matchMedia("(hover: hover) and (pointer: fine)").matches) {
-    [[".dir-grid", 0.025, -5], [".gallery", 0.08, -4], [".mosaic", 0.03, -4], [".story:not(.is-on) .escuadras", 0.03, -6], [".figure-row--4", 0.05, -4]]
+    [[".dir-grid", 0.025, -5], [".gallery", 0.08, -4], [".mosaic", 0.03, -4], [".story:not(.is-on) .escuadras", 0.03, -6], [".figure-row--3", 0.05, -4]]
       .forEach(function (cfg) {
         document.querySelectorAll(cfg[0]).forEach(function (grid) {
           grid.classList.add("is-dock");
