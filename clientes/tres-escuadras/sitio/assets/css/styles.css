@@ -1142,3 +1142,6 @@ html.vt-lb::view-transition-old(root), html.vt-lb::view-transition-new(root) { a
 }
 /* Estadísticas de Técnica: número con peso (contraste fino/negrita de la marca) */
 .evidence dt { font-weight: 700; letter-spacing: -0.02em; }
+
+/* Directorio: título profesional como prefijo del nombre */
+.pro h3 .pro__t { font-weight: 450; color: var(--ink-3); font-size: 0.82em; letter-spacing: 0; }
