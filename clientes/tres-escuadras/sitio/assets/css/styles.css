@@ -1166,3 +1166,8 @@ html.vt-lb::view-transition-old(root), html.vt-lb::view-transition-new(root) { a
 @media (max-width: 520px) { .pie-pared { grid-template-columns: 110px minmax(0, 1fr); gap: 16px; } }
 /* Hero: la foto elegida por Carmen se ve nítida (sin difuminar); el velo navy queda solo detrás del texto */
 .hero__bg img { filter: none; object-position: 50% 58%; }
+
+/* Le Toucher: listas del texto original de Nicole (Método Tres Escuadras) */
+.lt-prose ul { margin: 12px 0 0; padding-left: 22px; color: var(--ink-2); line-height: 1.75; }
+.lt-prose li + li { margin-top: 4px; }
+
