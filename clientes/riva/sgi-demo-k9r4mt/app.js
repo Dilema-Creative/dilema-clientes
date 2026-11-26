@@ -54,7 +54,7 @@
   function bar(p, cls) { p = Math.max(0, Math.min(100, p)); return '<div class="bar-row"><div class="bar ' + (cls || '') + '"><span style="width:' + p + '%"></span></div><span class="pct">' + Math.round(p) + '%</span></div>'; }
   function ava(n) { const i = n.replace(/[^A-Za-zÀ-ÿ. ]/g, '').split(/[ .]/).filter(Boolean).slice(0, 2).map(x => x[0]).join('').toUpperCase(); return '<span class="ava">' + esc(i) + '</span>'; }
   function resp(n) { return '<span class="resp">' + ava(n) + '<span>' + esc(n) + '</span></span>'; }
-  function kpi(o) { return '<div class="kpi ' + (o.tono || '') + '"><div class="k-top"><span class="k-ic"><i class="ph ' + o.ic + '"></i></span><span class="k-lb">' + esc(o.lb) + '</span></div><div class="k-val">' + o.val + (o.u ? '<small>' + o.u + '</small>' : '') + '</div>' + (o.foot ? '<div class="k-foot">' + o.foot + '</div>' : '') + '</div>'; }
+  function kpi(o) { const v = typeof o.val === 'number' ? '<span class="kv-n" data-count="' + o.val + '">' + o.val + '</span>' : o.val; return '<div class="kpi ' + (o.tono || '') + '"><div class="k-top"><span class="k-ic"><i class="ph ' + o.ic + '"></i></span><span class="k-lb">' + esc(o.lb) + '</span></div><div class="k-val">' + v + (o.u ? '<small>' + o.u + '</small>' : '') + '</div>' + (o.foot ? '<div class="k-foot">' + o.foot + '</div>' : '') + '</div>'; }
   function vacio(txt, ic) { return '<div class="vacio"><i class="ph ' + (ic || 'ph-tray') + '"></i>' + esc(txt) + '</div>'; }
   function kpiInline(lb, val) { return '<div style="text-align:right"><div style="font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-faint);font-weight:600">' + esc(lb) + '</div><div class="num" style="font-family:var(--fd);font-weight:800;font-size:20px">' + esc(val) + '</div></div>'; }
 
@@ -87,6 +87,22 @@
     }).join(''));
   }
 
+  /* ---------- Animación de entrada ---------- */
+  const REDUCIDO = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  function countUp(el) {
+    const target = parseFloat(el.dataset.count); if (isNaN(target)) return;
+    const suf = el.dataset.suffix || '';
+    if (REDUCIDO || target === 0) { el.textContent = target + suf; return; }
+    const dur = 680, t0 = performance.now(), isInt = Number.isInteger(target);
+    el.textContent = '0' + suf;
+    (function step(t) { const p = Math.min(1, (t - t0) / dur); const e = 1 - Math.pow(1 - p, 3); const v = target * e; el.textContent = (isInt ? Math.round(v) : v.toFixed(1)) + suf; if (p < 1) requestAnimationFrame(step); })(performance.now());
+  }
+  function animarVista() {
+    const cont = $('#vista');
+    if (!REDUCIDO) { let i = 0; Array.prototype.forEach.call(cont.children, el => { el.classList.add('rv'); el.style.setProperty('--d', Math.min(i * 52, 420) + 'ms'); i++; }); }
+    $$('[data-count]', cont).forEach(countUp);
+  }
+
   /* ---------- Router ---------- */
   const VISTAS = {};
   function render() {
@@ -97,7 +113,7 @@
     cerrarDrawer(); cerrarModal();
     setH(cont, v(parts.slice(1)));
     cont.focus(); cont.scrollTop = 0; window.scrollTo(0, 0);
-    pintarNav(); cerrarMenu();
+    pintarNav(); cerrarMenu(); animarVista();
   }
 
   /* ============================================================ VISTA · PANEL ============================================================ */
@@ -148,7 +164,7 @@
       '</div>' +
       '<div class="grid g-1-2" style="margin-bottom:22px">' +
       '<div class="card card-pad" style="display:flex;flex-direction:column;align-items:center;gap:14px;justify-content:center">' +
-      '<div class="ring" style="--p:' + cumpl + ';--c:' + (cumpl >= 90 ? 'var(--ok)' : 'var(--brand)') + '"><div class="ring-in"><b class="num">' + cumpl + '%</b><span>SGI</span></div></div>' +
+      '<div class="ring" style="--p:' + cumpl + ';--c:' + (cumpl >= 90 ? 'var(--ok)' : 'var(--brand)') + '"><div class="ring-in"><b class="num" data-count="' + cumpl + '" data-suffix="%">' + cumpl + '%</b><span>SGI</span></div></div>' +
       '<div style="text-align:center"><div style="font-weight:700">Estado general del sistema</div><div class="nota">Próxima auditoría IRAM: <b>' + fFecha(S.proximaAuditoriaExterna.fecha) + '</b></div></div></div>' +
       '<div class="card"><div class="card-h"><h3>Vencimientos</h3><span class="mini">documentos · calibraciones · capacitaciones · auditorías</span></div><div class="lista-v">' + listaV + '</div></div>' +
       '</div>' +
@@ -470,7 +486,7 @@
       '<div class="card" style="margin-bottom:22px"><div class="card-h"><h3>Objetivos del sistema</h3><span class="mini">meta vs. real</span></div><div class="tabla-wrap"><table class="tabla"><thead><tr><th>Norma</th><th>Sector</th><th>Indicador</th><th class="c">Meta</th><th class="c">Real</th><th>Avance</th><th>Estado</th></tr></thead><tbody>' + filas + '</tbody></table></div></div>' +
       '<div class="grid g-2">' +
       '<div class="card"><div class="card-h"><h3>Satisfacción de clientes</h3><span class="mini">GC-04-F1 · promedio ' + satProm + '%</span></div><div class="card-pad"><div class="data-lista">' + sat + '</div></div></div>' +
-      '<div class="card card-pad" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px"><div class="ring" style="--p:' + satProm + ';--c:var(--iso9)"><div class="ring-in"><b class="num">' + satProm + '%</b><span>Satisf.</span></div></div><p class="nota" style="text-align:center">Promedio de satisfacción de las últimas ' + S.satisfaccion.length + ' obras encuestadas. Objetivo: 85%.</p></div>' +
+      '<div class="card card-pad" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px"><div class="ring" style="--p:' + satProm + ';--c:var(--iso9)"><div class="ring-in"><b class="num" data-count="' + satProm + '" data-suffix="%">' + satProm + '%</b><span>Satisf.</span></div></div><p class="nota" style="text-align:center">Promedio de satisfacción de las últimas ' + S.satisfaccion.length + ' obras encuestadas. Objetivo: 85%.</p></div>' +
       '</div>';
   };
 
