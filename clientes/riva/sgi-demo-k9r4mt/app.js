@@ -60,6 +60,8 @@
 
   /* ---------- Navegación ---------- */
   const NAV = [
+    { g: 'Para empezar' },
+    { r: 'como', t: 'Cómo te simplifica', i: 'ph-sparkle' },
     { g: 'Gestión' },
     { r: 'panel', t: 'Panel SGI', i: 'ph-gauge' },
     { r: 'documentos', t: 'Documentos', i: 'ph-folders', c: () => S.documentos.length },
@@ -151,6 +153,7 @@
     return '' +
       '<div class="pg-head"><div class="tt"><h1>Panel del Sistema de Gestión Integrada</h1><div class="sub">' + esc(emp.razon) + ' · CUIT ' + esc(emp.cuit) + ' · ' + esc(emp.manualRev) + '</div></div>' +
       '<div class="acc"><button class="btn sm" data-accion="reiniciar"><i class="ph ph-arrow-counter-clockwise"></i>Reiniciar datos</button><button class="btn primary" data-accion="nueva-fua"><i class="ph ph-plus"></i>Nueva acción</button></div></div>' +
+      '<div class="panel-cta" data-ir="como"><div class="pc-ic"><i class="ph ph-sparkle"></i></div><div class="pc-t"><b>¿Cómo te simplifica el día a día?</b><span>Antes y ahora, y dónde se carga cada cosa en el sistema.</span></div><div class="pc-go">Ver<i class="ph ph-arrow-right"></i></div></div>' +
       '<div class="grid g-3" style="margin-bottom:22px">' + certs + '</div>' +
       '<div class="kpis g-4" style="display:grid;margin-bottom:22px">' +
       kpi({ ic: 'ph-clipboard-text', lb: 'Acciones abiertas (FUA)', val: fuaAbiertas().length, tono: venc ? 'warn' : '', foot: venc ? '<i class="ph ph-warning-circle" style="color:var(--danger-ink)"></i><span style="color:var(--danger-ink)">' + venc + ' vencida' + (venc > 1 ? 's' : '') + '</span>' : '<i class="ph ph-check-circle" style="color:var(--ok-ink)"></i><span>todas en plazo</span>' }) +
@@ -191,7 +194,7 @@
       '<td><span class="cod">' + esc(d.cod) + '</span></td><td><div class="t-prim">' + esc(d.nombre) + '</div></td><td>' + badge(d.tipo, tipoColor(d.tipo)) + '</td><td class="c mono">Rev. ' + esc(d.rev) + '</td><td>' + estadoB(d.estado) + '</td><td class="t-sec">' + fFecha(d.emision) + '</td><td>' + (d.estado === 'Obsoleto' ? '<span class="t-sec">—</span>' : badge(venceTxt(d.prox), dias(d.prox) < 0 ? 'b-danger' : dias(d.prox) <= 90 ? 'b-warn' : 'b-neutral')) + '</td></tr>').join('');
     return '' +
       '<div class="pg-head"><div class="tt"><h1>Documentos del sistema</h1><div class="sub">Procedimientos, formularios, instructivos y anexos · reemplaza las carpetas de ' + esc(S.empresa.nube) + '</div></div>' +
-      '<div class="acc"><span class="badge b-ok"><i class="ph ph-check-circle"></i>' + docsVigentes().length + ' vigentes</span><span class="badge b-warn"><i class="ph ph-arrows-clockwise"></i>' + docsRevision().length + ' en revisión</span></div></div>' +
+      '<div class="acc"><span class="badge b-ok"><i class="ph ph-check-circle"></i>' + docsVigentes().length + ' vigentes</span><span class="badge b-warn"><i class="ph ph-arrows-clockwise"></i>' + docsRevision().length + ' en revisión</span><button class="btn primary" data-accion="cargar-doc"><i class="ph ph-upload-simple"></i>Cargar documento</button></div></div>' +
       '<div class="doc-layout"><div class="doc-arbol">' + arbol + '</div>' +
       '<div class="card"><div class="tabla-wrap"><table class="tabla"><thead><tr><th>Código</th><th>Documento</th><th>Tipo</th><th class="c">Revisión</th><th>Estado</th><th>Emisión</th><th>Próx. revisión</th></tr></thead><tbody>' + filas + '</tbody></table></div></div></div>';
   };
@@ -207,7 +210,7 @@
     const estadoB = obsol ? badge('Obsoleto', 'b-neutral') : d.estado === 'En revisión' ? badge('En revisión', 'b-warn') : badge('Vigente', 'b-ok');
     return '' +
       '<div class="crumb"><a href="#/documentos">Documentos</a><i class="ph ph-caret-right"></i><span class="mono">' + esc(d.cod) + '</span></div>' +
-      '<div class="pg-head"><div class="tt"><h1>' + esc(d.nombre) + '</h1><div class="sub mono">' + esc(d.cod) + ' · Rev. ' + esc(d.rev) + ' · ' + esc(secNom(d.sec)) + '</div></div><div class="acc">' + estadoB + '<button class="btn" data-accion="demo"><i class="ph ph-download-simple"></i>Descargar PDF</button></div></div>' +
+      '<div class="pg-head"><div class="tt"><h1>' + esc(d.nombre) + '</h1><div class="sub mono">' + esc(d.cod) + ' · Rev. ' + esc(d.rev) + ' · ' + esc(secNom(d.sec)) + '</div></div><div class="acc">' + estadoB + (obsol ? '' : '<button class="btn" data-accion="nueva-rev" data-cod="' + esc(d.cod) + '" data-rev="' + esc(d.rev) + '"><i class="ph ph-pencil-simple"></i>Nueva revisión</button>') + '<button class="btn" data-accion="demo"><i class="ph ph-download-simple"></i>Descargar PDF</button></div></div>' +
       (obsol ? '<div class="card card-pad" style="margin-bottom:16px;border-color:color-mix(in srgb,var(--warn) 40%,transparent);background:var(--warn-soft)"><div style="display:flex;gap:10px;align-items:center;color:var(--warn-ink);font-weight:600"><i class="ph ph-warning-circle" style="font-size:18px"></i>Versión obsoleta. Reemplazada por una revisión vigente. Conservada como copia no vigente.</div></div>' : '') +
       '<div class="grid g-2-1">' +
       '<div class="card card-pad"><div class="ficha">' +
@@ -313,7 +316,7 @@
     const ext = S.proximaAuditoriaExterna; const d = dias(ext.fecha); const prog = Math.max(5, Math.min(100, 100 - (d / 120 * 100)));
     return '' +
       '<div class="pg-head"><div class="tt"><h1>Auditorías</h1><div class="sub">Programa anual de auditorías internas (GC-02) y auditoría de certificación IRAM</div></div>' +
-      '<div class="acc"><button class="btn" data-accion="demo"><i class="ph ph-calendar-plus"></i>Programar auditoría</button></div></div>' +
+      '<div class="acc"><button class="btn" data-accion="aud-nueva"><i class="ph ph-calendar-plus"></i>Programar auditoría</button></div></div>' +
       '<div class="grid g-2-1" style="margin-bottom:22px">' +
       '<div class="card card-pad" style="background:linear-gradient(135deg,var(--navy),var(--navy-700));color:#fff;border:none">' +
       '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px"><i class="ph-fill ph-seal-check" style="font-size:24px;color:#8fd0f3"></i><span style="font-weight:700;font-size:15px">Próxima auditoría de certificación</span></div>' +
@@ -339,20 +342,14 @@
       '<div style="display:flex;gap:16px;font-size:12px;color:var(--ink-soft)"><span><b class="num" style="color:var(--ink)">' + o.planCal + '%</b> plan de calidad</span><span><b class="num" style="color:var(--ink)">' + o.inspAprob + '/' + o.inspTotal + '</b> inspecciones</span>' + (o.reclamos ? '<span style="color:var(--warn-ink)"><b class="num">' + o.reclamos + '</b> reclamo' + (o.reclamos > 1 ? 's' : '') + '</span>' : '') + '</div></div></div>').join('');
     return '' +
       '<div class="pg-head"><div class="tt"><h1>Obras</h1><div class="sub">Construcciones (CN-01) · plan de calidad, inspecciones, entrega y posventa por obra</div></div>' +
-      '<div class="acc"><button class="btn" data-accion="demo"><i class="ph ph-plus"></i>Nueva obra</button></div></div>' +
+      '<div class="acc"><button class="btn primary" data-accion="obra-nueva"><i class="ph ph-plus"></i>Nueva obra</button></div></div>' +
       '<div class="grid g-3">' + cards + '</div>';
   };
 
   VISTAS.obra = function (p) {
     const o = S.obras.find(x => x.cod === p[0]);
     if (!o) return vacio('Obra no encontrada');
-    const insp = [
-      { et: 'Recepción de materiales', ap: 'Aprobada', pt: 'recepción' },
-      { et: 'Armaduras y encofrado N3', ap: 'Aprobada', pt: 'proceso' },
-      { et: 'Hormigonado de losa N3', ap: 'Con observación', pt: 'proceso' },
-      { et: 'Instalación sanitaria', ap: 'Pendiente', pt: 'proceso' },
-      { et: 'Terminaciones unidad tipo', ap: 'Pendiente', pt: 'final' },
-    ];
+    const insp = o.insp && o.insp.length ? o.insp : DEFAULT_INSP;
     const inspB = (e) => e === 'Aprobada' ? badge('Aprobada', 'b-ok') : e === 'Con observación' ? badge('Con observación', 'b-warn') : badge('Pendiente', 'b-neutral');
     const fuasObra = S.fuas.filter(f => f.origen.indexOf(o.nombre) >= 0);
     return '' +
@@ -365,7 +362,7 @@
       kpi({ ic: 'ph-chat-circle-dots', lb: 'Reclamos posventa', val: o.reclamos, tono: o.reclamos ? 'warn' : 'ok' }) +
       '</div>' +
       '<div class="grid g-2-1">' +
-      '<div class="card"><div class="card-h"><h3>Puntos de inspección (ITP)</h3><span class="mini">CN-04 · recepción, proceso y final</span></div><div class="tabla-wrap"><table class="tabla"><thead><tr><th>Etapa</th><th>Instancia</th><th>Estado</th></tr></thead><tbody>' +
+      '<div class="card"><div class="card-h"><h3>Puntos de inspección (ITP)</h3><span class="mini">CN-04 · recepción, proceso y final</span><div class="acc"><button class="btn sm primary" data-accion="insp-nueva" data-cod="' + esc(o.cod) + '"><i class="ph ph-plus"></i>Registrar inspección</button></div></div><div class="tabla-wrap"><table class="tabla"><thead><tr><th>Etapa</th><th>Instancia</th><th>Estado</th></tr></thead><tbody>' +
       insp.map(i => '<tr><td class="t-prim">' + esc(i.et) + '</td><td class="t-sec">' + esc(i.pt) + '</td><td>' + inspB(i.ap) + '</td></tr>').join('') +
       '</tbody></table></div></div>' +
       '<div class="card"><div class="card-h"><h3>Datos de obra</h3></div><div class="card-pad"><div class="ficha">' +
@@ -388,7 +385,7 @@
     const filas = S.proveedores.map(p => '<tr><td><div class="t-prim">' + esc(p.nombre) + '</div><div class="t-sec mono">CUIT ' + esc(p.cuit) + '</div></td><td class="t-sec">' + esc(p.rubro) + '</td><td style="width:140px">' + bar(p.puntaje, p.puntaje >= 80 ? 'ok' : p.puntaje >= 60 ? 'warn' : 'danger') + '</td><td>' + estadoB(p.estado) + '</td><td>' + polB(p.poliza) + '</td><td class="t-sec">' + fFecha(p.ultEval) + '</td></tr>').join('');
     return '' +
       '<div class="pg-head"><div class="tt"><h1>Compras y proveedores</h1><div class="sub">Circuito de compras (CO-01) y evaluación de proveedores (CO-02-F1)</div></div>' +
-      '<div class="acc"><button class="btn" data-accion="demo"><i class="ph ph-file-plus"></i>Pedido de obra</button><button class="btn primary" data-accion="demo"><i class="ph ph-plus"></i>Evaluar proveedor</button></div></div>' +
+      '<div class="acc"><button class="btn" data-accion="demo"><i class="ph ph-file-plus"></i>Pedido de obra</button><button class="btn primary" data-accion="prov-eval"><i class="ph ph-plus"></i>Evaluar proveedor</button></div></div>' +
       '<div class="kpis g-4" style="display:grid;margin-bottom:20px">' +
       kpi({ ic: 'ph-handshake', lb: 'Proveedores', val: S.proveedores.length }) +
       kpi({ ic: 'ph-check-circle', lb: 'Aprobados', val: apr, tono: 'ok', foot: '<span>objetivo 80%</span>' }) +
@@ -424,7 +421,7 @@
     const capB = (e) => e === 'Realizada' ? badge('Realizada', 'b-ok') : badge('Programada', 'b-warn');
     const capFilas = S.capacitaciones.map(c => '<tr><td class="t-prim">' + esc(c.tema) + '</td><td><span class="tag-sector">' + esc(c.sector) + '</span></td><td class="t-sec">' + fFecha(c.fecha) + '</td><td class="c">' + (c.asist || '—') + '</td><td>' + capB(c.estado) + '</td></tr>').join('');
     return '' +
-      '<div class="pg-head"><div class="tt"><h1>Personal y capacitación</h1><div class="sub">Competencias (PE-01), matriz de competencias y plan anual de capacitación (PE-01-F4)</div></div></div>' +
+      '<div class="pg-head"><div class="tt"><h1>Personal y capacitación</h1><div class="sub">Competencias (PE-01), matriz de competencias y plan anual de capacitación (PE-01-F4)</div></div><div class="acc"><button class="btn primary" data-accion="cap-nueva"><i class="ph ph-plus"></i>Registrar capacitación</button></div></div>' +
       '<div class="kpis g-4" style="display:grid;margin-bottom:20px">' +
       kpi({ ic: 'ph-users', lb: 'Personas en el sistema', val: S.personal.length }) +
       kpi({ ic: 'ph-graduation-cap', lb: 'Capacitación promedio', val: capacitacionGlobal(), u: '%', tono: capacitacionGlobal() >= 85 ? 'ok' : '' }) +
@@ -443,7 +440,7 @@
     const inc = S.incidentes.map(i => '<tr><td class="t-sec">' + fFecha(i.fecha) + '</td><td class="t-prim">' + esc(i.tipo) + '</td><td class="t-sec">' + esc(i.obra) + '</td><td>' + badge(i.gravedad, 'b-warn') + '</td><td>' + badge(i.estado, 'b-ok') + '</td></tr>').join('');
     return '' +
       '<div class="pg-head"><div class="tt"><h1>Seguridad y ambiente</h1><div class="sub">ISO 45001 (SSTyA) e ISO 14001 (ambiente): matriz IPER, aspectos ambientales e incidentes</div></div>' +
-      '<div class="acc"><span class="iso-tag iso45"><i class="ph-fill ph-shield-check"></i>45001</span><span class="iso-tag iso14"><i class="ph-fill ph-leaf"></i>14001</span></div></div>' +
+      '<div class="acc"><span class="iso-tag iso45"><i class="ph-fill ph-shield-check"></i>45001</span><span class="iso-tag iso14"><i class="ph-fill ph-leaf"></i>14001</span><button class="btn primary" data-accion="inc-nuevo"><i class="ph ph-plus"></i>Registrar incidente</button></div></div>' +
       '<div class="kpis g-4" style="display:grid;margin-bottom:20px">' +
       kpi({ ic: 'ph-shield-warning', lb: 'Riesgos altos', val: S.riesgos.filter(r => r.nivel === 'Alto').length, tono: 'warn', foot: '<span>todos con control</span>' }) +
       kpi({ ic: 'ph-first-aid', lb: 'Accidentes con días perdidos', val: 0, tono: 'ok', foot: '<span>en el año</span>' }) +
@@ -502,6 +499,59 @@
       kpi({ ic: 'ph-clock', lb: 'En seguimiento', val: S.legales.filter(l => l.estado !== 'Cumple').length, tono: 'warn' }) +
       '</div>' +
       '<div class="card"><div class="card-h"><h3>Matriz de requisitos legales</h3><span class="mini">RL-01 · seguridad · ambiente · general</span></div><div class="tabla-wrap"><table class="tabla"><thead><tr><th>Requisito</th><th>Tipo</th><th class="c">Aplica</th><th>Estado</th><th>Última verif.</th><th>Próxima</th></tr></thead><tbody>' + filas + '</tbody></table></div></div>';
+  };
+
+  /* ============================================================ VISTA · CÓMO TE SIMPLIFICA ============================================================ */
+  VISTAS.como = function () {
+    const comp = [
+      ['ph-folders', 'Documentos', 'Carpetas en la nube; nadie sabe quién tiene la última versión.', 'Se cargan acá, versionados, con firma y aviso antes de vencer.'],
+      ['ph-clipboard-text', 'No conformes y reclamos', 'Formulario en papel o un Excel suelto que no se sigue.', 'Flujo guiado: descripción → causa → acción → cierre, con seguimiento.'],
+      ['ph-buildings', 'Inspecciones de obra', 'Planillas que quedan en la obra y después no aparecen.', 'Se cargan desde la obra, con estado y trazabilidad por punto.'],
+      ['ph-graduation-cap', 'Capacitaciones', 'Una lista en Excel que se desactualiza sola.', 'Plan anual con registro de asistencia y avisos de vencimiento.'],
+      ['ph-handshake', 'Proveedores', 'Evaluaciones sueltas, difíciles de consultar.', 'Padrón con puntaje; el sistema no deja comprarle a un "No apto".'],
+      ['ph-ruler', 'Calibraciones', 'Se olvidan hasta que las pide el auditor.', 'Cronograma con aviso de vencimiento por instrumento.'],
+      ['ph-bell', 'Vencimientos', 'Avisos manuales que se escapan (su propia debilidad hoy).', 'El sistema avisa solo: documentos, certificados y calibraciones.'],
+      ['ph-seal-check', 'Auditorías', 'Hallazgos anotados en papel, sin seguimiento.', 'Cada hallazgo abre una acción y se sigue hasta cerrarla.'],
+    ];
+    const aa = comp.map(c => '<div class="aa-row"><div class="aa-area"><i class="ph ' + c[0] + '"></i>' + esc(c[1]) + '</div>' +
+      '<div class="aa-hoy"><span class="lb">Hoy</span>' + esc(c[2]) + '</div>' +
+      '<div class="aa-ahora"><span class="lb"><i class="ph-fill ph-check-circle"></i>Con Argos</span>' + esc(c[3]) + '</div></div>').join('');
+
+    const cargas = [
+      ['ph-upload-simple', 'Un documento o una nueva revisión', 'cargar-doc', ''],
+      ['ph-clipboard-text', 'Una no conformidad o reclamo (FUA)', 'nueva-fua', ''],
+      ['ph-buildings', 'Una inspección en obra', '', 'obras'],
+      ['ph-graduation-cap', 'Una capacitación', 'cap-nueva', ''],
+      ['ph-handshake', 'La evaluación de un proveedor', 'prov-eval', ''],
+      ['ph-shield-warning', 'Un incidente de seguridad', 'inc-nuevo', ''],
+      ['ph-calendar-plus', 'Una auditoría interna', 'aud-nueva', ''],
+      ['ph-plus', 'Una obra nueva', 'obra-nueva', ''],
+    ];
+    const cg = cargas.map(c => '<div class="carga"><div class="ci"><i class="ph ' + c[0] + '"></i></div><div class="ct">' + esc(c[1]) + '</div>' +
+      (c[2] ? '<button class="btn sm primary cb" data-accion="' + c[2] + '"><i class="ph ph-plus"></i>Cargar</button>' : '<button class="btn sm cb" data-ir="' + c[3] + '"><i class="ph ph-arrow-right"></i>Ir a la obra</button>') + '</div>').join('');
+
+    const flujo = [
+      ['1', 'En obra', 'El jefe de obra carga la inspección de la losa.'],
+      ['2', 'Queda una observación', 'El punto sale "con observación".'],
+      ['3', 'Se abre una acción', 'Se genera una FUA y se asigna responsable.'],
+      ['4', 'Calidad la sigue', 'Causa, acción y verificación quedan registradas.'],
+      ['5', 'Lista para la auditoría', 'El panel la muestra cerrada antes de IRAM.'],
+    ].map(f => '<div class="fp"><div class="fn">' + f[0] + '</div><b>' + esc(f[1]) + '</b><span>' + esc(f[2]) + '</span></div>').join('');
+
+    return '' +
+      '<div class="como-hero"><h1>Todo el día a día de tu gestión, en un solo lugar.</h1>' +
+      '<p>Hoy tu sistema vive en carpetas de nube, planillas y papel. Argos lo reúne: cada cosa se carga una vez, queda trazable y el sistema avisa solo. Menos "¿quién tiene la última versión?", y la auditoría de IRAM se prepara sola.</p>' +
+      '<div class="cta"><button class="btn blanco" data-ir="panel"><i class="ph ph-gauge"></i>Ver el panel</button><button class="btn" data-accion="nueva-fua"><i class="ph ph-plus"></i>Probar: cargar una acción</button></div></div>' +
+
+      '<div class="section-t" style="margin-top:0">Cómo te simplifica · antes y ahora</div>' +
+      '<div class="aa">' + aa + '</div>' +
+
+      '<div class="section-t">Dónde se carga cada cosa</div>' +
+      '<p class="nota" style="margin:-4px 0 14px">Todo el trabajo diario entra por el sistema. Probá cualquiera —son datos de ejemplo.</p>' +
+      '<div class="cargas">' + cg + '</div>' +
+
+      '<div class="section-t">Un día con Argos</div>' +
+      '<div class="flujo">' + flujo + '</div>';
   };
 
   /* ============================================================ Drawer / Modal / Toast / Paleta ============================================================ */
@@ -565,6 +615,109 @@
     guardar(); cerrarDrawer(); render(); toast('Acción ' + cod + ' cerrada');
   }
 
+  /* ---------- Motor de formularios de carga (el día a día se carga acá) ---------- */
+  function secOpts() { return window.SEED.sectores.map(s => [s.sc, s.sc + ' · ' + s.nombre]); }
+  function obraOpts() { return S.obras.map(o => [o.nombre, o.nombre]); }
+  function formModal(titulo, campos, onOk, okLabel) {
+    const body = campos.map(c => {
+      const id = 'fm-' + c.k;
+      let input;
+      if (c.type === 'textarea') input = '<textarea class="input" id="' + id + '"' + (c.ph ? ' placeholder="' + esc(c.ph) + '"' : '') + '>' + esc(c.value || '') + '</textarea>';
+      else if (c.type === 'select') input = '<select class="input" id="' + id + '">' + c.opts.map(o => { const val = Array.isArray(o) ? o[0] : o, lab = Array.isArray(o) ? o[1] : o; return '<option value="' + esc(val) + '"' + (c.value === val ? ' selected' : '') + '>' + esc(lab) + '</option>'; }).join('') + '</select>';
+      else input = '<input class="input" type="' + (c.type || 'text') + '" id="' + id + '"' + (c.ph ? ' placeholder="' + esc(c.ph) + '"' : '') + (c.value != null ? ' value="' + esc(c.value) + '"' : '') + '>';
+      return '<div class="campo' + (c.half ? ' fm-half' : '') + '"><label for="' + id + '">' + esc(c.label) + (c.req ? ' <span style="color:var(--danger-ink)">*</span>' : '') + '</label>' + input + (c.ayuda ? '<div class="ayuda">' + esc(c.ayuda) + '</div>' : '') + '</div>';
+    }).join('');
+    modal(titulo, '<div class="fm-grid">' + body + '</div>', '<button class="btn" data-accion="cerrar-modal">Cancelar</button><button class="btn primary" id="fm-ok"><i class="ph ph-check"></i>' + esc(okLabel || 'Guardar') + '</button>');
+    $('#fm-ok').addEventListener('click', function () {
+      const vals = {}; let bad = null;
+      campos.forEach(c => { const el = $('#fm-' + c.k); const v = (el.value || '').trim(); vals[c.k] = v; if (c.req && !v && !bad) bad = el; });
+      if (bad) { bad.focus(); bad.style.borderColor = 'var(--danger)'; toast('Completá los campos obligatorios'); return; }
+      onOk(vals);
+    });
+  }
+  function irYrender(hash) { if (location.hash !== hash) location.hash = hash; else render(); }
+
+  function cargarDocumento() {
+    formModal('Cargar documento', [
+      { k: 'cod', label: 'Código', req: true, ph: 'Ej.: CN-07', half: true },
+      { k: 'rev', label: 'Revisión', value: '01', half: true },
+      { k: 'nombre', label: 'Nombre del documento', req: true, ph: 'Ej.: Control de hormigón en obra' },
+      { k: 'tipo', label: 'Tipo', type: 'select', opts: ['Procedimiento', 'Formulario', 'Instructivo', 'Anexo'], half: true },
+      { k: 'sec', label: 'Sector', type: 'select', opts: secOpts(), half: true },
+      { k: 'resp', label: 'Responsable', ph: 'Ej.: Resp. Construcciones', half: true },
+      { k: 'prox', label: 'Próxima revisión', type: 'date', value: proxFecha(365), half: true },
+    ], v => { S.documentos.unshift({ cod: v.cod, nombre: v.nombre, tipo: v.tipo, sec: v.sec, rev: v.rev || '01', estado: 'Vigente', emision: HOY, prox: v.prox || proxFecha(365), resp: v.resp || 'Sin asignar' }); guardar(); cerrarModal(); docSec = 'TODOS'; irYrender('#/documentos'); toast('Documento ' + v.cod + ' cargado'); }, 'Cargar documento');
+  }
+  function nuevaRevision(cod, revQ) {
+    const d = S.documentos.find(x => x.cod === cod && (!revQ || x.rev === revQ)); if (!d) return;
+    formModal('Nueva revisión · ' + d.cod, [
+      { k: 'rev', label: 'Nueva revisión', value: String(+d.rev + 1).padStart(2, '0'), req: true, half: true },
+      { k: 'prox', label: 'Próxima revisión', type: 'date', value: proxFecha(365), half: true },
+      { k: 'motivo', label: 'Motivo del cambio', type: 'textarea', ph: 'Qué cambió en esta revisión' },
+    ], v => { d.rev = v.rev; d.emision = HOY; d.prox = v.prox || proxFecha(365); d.estado = 'Vigente'; guardar(); cerrarModal(); render(); toast(d.cod + ' actualizado a Rev. ' + v.rev); }, 'Emitir revisión');
+  }
+  function registrarCapacitacion() {
+    formModal('Registrar capacitación', [
+      { k: 'tema', label: 'Tema', req: true, ph: 'Ej.: Uso de EPP en altura' },
+      { k: 'sector', label: 'Sector', type: 'select', opts: window.SEED.sectores.map(s => s.sc), half: true },
+      { k: 'fecha', label: 'Fecha', type: 'date', value: proxFecha(14), half: true },
+      { k: 'estado', label: 'Estado', type: 'select', opts: ['Programada', 'Realizada'], half: true },
+      { k: 'asist', label: 'Asistentes', type: 'number', value: '0', half: true },
+    ], v => { S.capacitaciones.unshift({ tema: v.tema, sector: v.sector, fecha: v.fecha || HOY, estado: v.estado, asist: +v.asist || 0 }); guardar(); cerrarModal(); irYrender('#/personal'); toast('Capacitación registrada'); }, 'Registrar');
+  }
+  function evaluarProveedor() {
+    formModal('Evaluar proveedor', [
+      { k: 'nombre', label: 'Proveedor', req: true, ph: 'Ej.: Hierros del Sur S.A.' },
+      { k: 'rubro', label: 'Rubro', ph: 'Ej.: Acero / hierro', half: true },
+      { k: 'cuit', label: 'CUIT', ph: '30-........-.', half: true },
+      { k: 'puntaje', label: 'Puntaje (0-100)', type: 'number', value: '80', half: true },
+      { k: 'estado', label: 'Resultado', type: 'select', opts: ['Aprobado', 'Condicionado', 'No apto'], half: true },
+      { k: 'poliza', label: 'Póliza', type: 'select', opts: ['Vigente', 'Por vencer', 'Vencida'], half: true },
+    ], v => { S.proveedores.unshift({ nombre: v.nombre, rubro: v.rubro || '—', cuit: v.cuit || '—', estado: v.estado, puntaje: +v.puntaje || 0, ultEval: HOY, poliza: v.poliza }); guardar(); cerrarModal(); irYrender('#/compras'); toast('Proveedor evaluado'); }, 'Guardar evaluación');
+  }
+  function registrarIncidente() {
+    formModal('Registrar incidente', [
+      { k: 'tipo', label: 'Tipo', type: 'select', opts: ['Cuasi-accidente', 'Primeros auxilios', 'Accidente', 'Incidente ambiental'], half: true },
+      { k: 'gravedad', label: 'Gravedad', type: 'select', opts: ['Leve', 'Moderada', 'Grave'], half: true },
+      { k: 'obra', label: 'Obra', type: 'select', opts: obraOpts() },
+      { k: 'fecha', label: 'Fecha', type: 'date', value: HOY, half: true },
+      { k: 'desc', label: 'Descripción', type: 'textarea', req: true, ph: 'Qué pasó' },
+    ], v => { S.incidentes.unshift({ fecha: v.fecha || HOY, obra: v.obra, tipo: v.tipo, gravedad: v.gravedad, estado: 'Abierto', desc: v.desc }); guardar(); cerrarModal(); irYrender('#/sstya'); toast('Incidente registrado'); }, 'Registrar');
+  }
+  function nuevaObra() {
+    const n = S.obras.length + 1;
+    formModal('Nueva obra', [
+      { k: 'nombre', label: 'Nombre de la obra', req: true, ph: 'Ej.: Edificio Catalinas' },
+      { k: 'cliente', label: 'Cliente / comitente', req: true, ph: 'Ej.: Desarrolladora del Plata' },
+      { k: 'ubic', label: 'Ubicación', ph: 'Ej.: CABA', half: true },
+      { k: 'tipo', label: 'Tipo', value: 'Obra civil', half: true },
+      { k: 'inicio', label: 'Inicio', type: 'date', value: HOY, half: true },
+      { k: 'fin', label: 'Fin previsto', type: 'date', value: proxFecha(540), half: true },
+    ], v => { const cod = 'OB-26-' + String(n).padStart(2, '0'); S.obras.push({ cod: cod, nombre: v.nombre, cliente: v.cliente, ubic: v.ubic || '—', tipo: v.tipo || 'Obra civil', avance: 0, inicio: v.inicio || HOY, fin: v.fin || proxFecha(540), estado: 'En ejecución', planCal: 0, inspTotal: 0, inspAprob: 0, inspPend: 0, inspObs: 0, reclamos: 0, insp: [] }); guardar(); cerrarModal(); irYrender('#/obra/' + cod); toast('Obra ' + cod + ' creada'); }, 'Crear obra');
+  }
+  function nuevaInspeccion(cod) {
+    const o = S.obras.find(x => x.cod === cod); if (!o) return;
+    formModal('Registrar inspección · ' + o.nombre, [
+      { k: 'et', label: 'Etapa / tarea', req: true, ph: 'Ej.: Hormigonado de losa N4' },
+      { k: 'pt', label: 'Instancia', type: 'select', opts: ['recepción', 'proceso', 'final'], half: true },
+      { k: 'ap', label: 'Resultado', type: 'select', opts: ['Aprobada', 'Con observación', 'Pendiente'], half: true },
+    ], v => { if (!o.insp) o.insp = DEFAULT_INSP.slice(); o.insp.unshift({ et: v.et, pt: v.pt, ap: v.ap }); o.inspTotal++; if (v.ap === 'Aprobada') o.inspAprob++; else if (v.ap === 'Con observación') o.inspObs++; else o.inspPend++; guardar(); cerrarModal(); render(); toast('Inspección registrada'); }, 'Registrar inspección');
+  }
+  function programarAuditoria() {
+    formModal('Programar auditoría interna', [
+      { k: 'sector', label: 'Alcance / sector', req: true, ph: 'Ej.: Compras y Depósito' },
+      { k: 'fecha', label: 'Fecha', type: 'date', value: proxFecha(30), half: true },
+      { k: 'auditor', label: 'Auditor', ph: 'Ej.: A. Ferrer', half: true },
+    ], v => { const n = S.auditorias.filter(a => a.tipo === 'Interna').length + 1; S.auditorias.push({ cod: 'AI-2026-' + String(n).padStart(2, '0'), sector: v.sector, tipo: 'Interna', fecha: v.fecha || proxFecha(30), estado: 'Programada', auditor: v.auditor || 'Sin asignar', nc: null, obs: null, om: null }); guardar(); cerrarModal(); irYrender('#/auditorias'); toast('Auditoría programada'); }, 'Programar');
+  }
+  const DEFAULT_INSP = [
+    { et: 'Recepción de materiales', ap: 'Aprobada', pt: 'recepción' },
+    { et: 'Armaduras y encofrado', ap: 'Aprobada', pt: 'proceso' },
+    { et: 'Hormigonado de losa', ap: 'Con observación', pt: 'proceso' },
+    { et: 'Instalación sanitaria', ap: 'Pendiente', pt: 'proceso' },
+    { et: 'Terminaciones unidad tipo', ap: 'Pendiente', pt: 'final' },
+  ];
+
   /* ---------- Paleta de búsqueda ---------- */
   let palRes = [], palSel = 0;
   function abrirPaleta() { $('#paleta-wrap').classList.add('on'); $('#paleta-wrap').setAttribute('aria-hidden', 'false'); const i = $('#busqueda-global'); i.value = ''; buscar(''); setTimeout(() => i.focus(), 20); }
@@ -614,6 +767,14 @@
     else if (acc === 'cerrar-paleta') cerrarPaleta();
     else if (acc === 'cerrar-drawer') cerrarDrawerUser();
     else if (acc === 'cerrar-modal') cerrarModal();
+    else if (acc === 'cargar-doc') cargarDocumento();
+    else if (acc === 'nueva-rev') nuevaRevision(cod, a.getAttribute('data-rev'));
+    else if (acc === 'cap-nueva') registrarCapacitacion();
+    else if (acc === 'prov-eval') evaluarProveedor();
+    else if (acc === 'inc-nuevo') registrarIncidente();
+    else if (acc === 'obra-nueva') nuevaObra();
+    else if (acc === 'insp-nueva') nuevaInspeccion(cod);
+    else if (acc === 'aud-nueva') programarAuditoria();
     else if (acc === 'demo') toast('Disponible en el sistema final');
     else if (acc === 'reiniciar-ok') { reiniciar(); cerrarModal(); render(); toast('Datos de ejemplo restablecidos'); }
     else if (acc === 'nueva-fua') modalNuevaFua();
